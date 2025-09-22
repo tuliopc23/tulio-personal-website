@@ -1,0 +1,14 @@
+---
+const { href = '#', title = 'Card title', body = '', tint = 'blue', cta = 'Read more →' } = Astro.props;
+import IconTile from './IconTile.astro';
+---
+<a class="card" href={href}>
+  <div style="display:flex;gap:12px;align-items:flex-start">
+    <IconTile tint={tint} label={title} />
+    <div style="flex:1">
+      <div class="card-title">{title}</div>
+      <p class="card-body">{body}</p>
+      <span style="color:var(--link);font-weight:500;font-size:var(--fs--1)">{cta}</span>
+    </div>
+  </div>
+</a>

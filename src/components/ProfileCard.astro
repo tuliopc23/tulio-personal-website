@@ -1,0 +1,11 @@
+---
+const { name = 'Your Name', title = 'Software Developer', location = 'City, Country', avatar = '/avatar.svg' } = Astro.props;
+---
+<div class="card" style="display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center">
+  <img src={avatar} alt={name} style="width:96px;height:96px;border-radius:12px;border:1px solid var(--hairline);object-fit:cover;"/>
+  <div>
+    <div class="card-title" style="font-size:20px">{name}</div>
+    <p class="card-body" style="margin:4px 0">{title}</p>
+    <p class="card-body" style="margin:0;opacity:.9">📍 {location}</p>
+  </div>
+</div>

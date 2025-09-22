@@ -1,0 +1,17 @@
+---
+title: Sidebar UX like Apple Docs
+summary: Sticky left navigation with a quick filter and a responsive mobile drawer.
+date: 2025-09-15
+tags: [ux, astro]
+---
+
+The docs vibe relies on a **sticky sidebar** that keeps context visible and scannable. Combine alphabetical groups, compact rows, and a bottom **Filter** field with `/` to focus.
+
+```js
+window.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.querySelector('#sidebarFilter')?.focus();
+  }
+});
+```

@@ -1,0 +1,14 @@
+---
+title: System font stacks done right
+summary: Use the system fonts so your site looks native on each platform (SF on Apple devices).
+date: 2025-09-15
+tags: [typography, css]
+---
+
+On Apple devices, the `-apple-system` face maps to the **San Francisco** family. Prefer the system stack instead of self-hosting SF—it's consistent with platform typography and avoids licensing pitfalls.
+
+```css
+:root {
+  --font-sans: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+```

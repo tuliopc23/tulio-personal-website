@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(({ slug }) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const post = (await getCollection('blog')).find((p) => p.slug === slug);
+
+if (!post) throw new Error('Post not found');
+
+const { Content } = await post.render();
+---
+<Base title={post.data.title} sidebar={true}>
+  <article class="container prose">
+    <h1>{post.data.title}</h1>
+    <p style="color:var(--muted)">{new Date(post.data.date).toLocaleDateString()} • {post.data.tags?.join(' · ')}</p>
+    <Content />
+  </article>
+</Base>

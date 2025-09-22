@@ -1,0 +1,8 @@
+---
+const { tint = 'blue', label = '' } = Astro.props;
+---
+<span class={"symbol symbol--" + tint} aria-hidden="true">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" role="img" aria-label={label}>
+    <circle cx="12" cy="12" r="9" />
+  </svg>
+</span>

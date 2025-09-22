@@ -1,0 +1,113 @@
+Love this brief. I put together a high‑fidelity, Apple‑docs‑style Astro template for a personal, content‑driven developer website—complete with a glassy navbar, sticky left sidebar (with filter + mobile drawer), “symbol‑tile” cards, an Apple‑like type hierarchy, light/dark modes, and a blog powered by MDX.
+
+⸻
+
+📦 Grab the template
+	•	Download: apple-personal-site.zip
+Unzip, run npm i, then npm run dev.
+
+What’s inside
+
+apple-personal-site/
+├─ package.json                 # astro + mdx
+├─ astro.config.mjs
+├─ public/
+│  ├─ avatar.svg                # replace with your photo
+│  └─ favicon.svg
+├─ src/
+│  ├─ styles/theme.css          # Apple-like tokens + components (cards, tiles, hero)
+│  ├─ scripts/
+│  │  ├─ theme.js               # dark/light (prefers-color-scheme + toggle)
+│  │  └─ sidebar.js             # quick filter ("/") + mobile drawer
+│  ├─ layouts/Base.astro        # glass navbar + sticky sidebar layout
+│  ├─ components/
+│  │  ├─ Navbar.astro           # Apple-like top bar (glass)
+│  │  ├─ IconTile.astro         # small Apple-like “symbol tile”
+│  │  ├─ Card.astro             # docs-style card (hairline, hover lift)
+│  │  ├─ ProfileCard.astro      # photo + brief info in a card
+│  │  ├─ PostCard.astro         # blog list cards
+│  │  └─ Footer.astro
+│  ├─ pages/
+│  │  ├─ index.astro            # presentation + tech stack (icon tiles) + featured writing
+│  │  ├─ blog/index.astro       # blog list (cards)
+│  │  ├─ blog/[slug].astro      # MDX post renderer
+│  │  ├─ about.astro | projects.astro | uses.astro | now.astro
+│  └─ content/
+│     ├─ config.ts              # Astro content collections
+│     └─ blog/
+│        ├─ liquid-glass.mdx    # sample posts
+│        ├─ sidebar-ux.mdx
+│        └─ system-fonts.mdx
+└─ README.md
+
+
+⸻
+
+Why this matches the Apple docs aesthetic
+
+Typography (SF on Apple devices, system stack elsewhere).
+We use the system font stack (-apple-system, system-ui, etc.), so San Francisco renders on Apple devices without bundling fonts—matching HIG guidance to use system fonts for legibility and dynamic behavior; custom fonts should match system behaviors if used.
+
+Color (semantic + light/dark).
+Tokens follow Apple’s approach: semantic system colors that adapt to light/dark rather than hard‑coding hex values. In CSS we provide approximations (--blue, --indigo, etc.) but keep them semantic so you can tune later.
+
+Materials (blur, translucency, hairlines).
+Navbar and some surfaces use translucent backgrounds with backdrop blur and hairline borders to create depth and context separation—exactly what Apple’s Materials guidance describes.
+
+Icons (symbol tiles).
+We include symbol‑tile containers that look like SF Symbols tiles, but we don’t embed SF Symbols because Apple’s license restricts them to Apple‑platform apps (not general websites). You can drop in your own SVGs or use an open set (e.g., Lucide) styled to the tile.
+
+⸻
+
+Key design tokens (edit in src/styles/theme.css)
+
+:root {
+  --sidebar-width: 320px;            /* docs-like left rail */
+  --content-max: 1100px;
+  --radius: 14px;                    /* card corners */
+  --fs-hero: clamp(36px,2.5vw+20px,56px);
+  --fs-h2: clamp(24px,1vw+16px,32px);
+
+  /* dynamic-ish palette; keep semantic */
+  --blue:#0a84ff; --green:#34c759; --indigo:#5e5ce6;
+  --teal:#64d2ff; --orange:#ff9f0a; --pink:#ff375f;
+
+  /* dark defaults (light tokens included too) */
+  --bg:#111214; --surface:#1a1b1e; --subtle:#0f1012;
+  --hairline:#2a2b2e; --text:#e7e7ea; --muted:#a7aab0;
+}
+
+	•	Cards: .card = surface + 1px hairline + hover lift
+	•	Symbol tiles: .symbol.symbol--blue|indigo|teal = rounded tiles behind mini icons
+	•	Hero: .badge glass pill + “dot” accent
+	•	Sidebar: sticky, independently scrollable; filter with / key; mobile drawer
+
+⸻
+
+Astro wiring (already done)
+	•	MDX enabled via @astrojs/mdx in astro.config.mjs.
+	•	Blog routes: collection defined in src/content/config.ts, list page reads MDX frontmatter, detail uses [slug].astro.
+
+⸻
+
+Replace with your content
+	•	Name & links: update in src/layouts/Base.astro (brand + sidebar links).
+	•	Avatar/photo: replace public/avatar.svg with your image.
+	•	Tech stack tiles: edit the cards in src/pages/index.astro (“Tech stack” section).
+	•	Blog: add MDX under src/content/blog/.
+
+⸻
+
+Friendly legal & design notes
+	•	Fonts: Don’t self‑host San Francisco on the web; use the system stack to get SF on Apple OSs and similar fonts elsewhere. Apple’s guidance emphasizes system fonts and dynamic behaviors.
+	•	SF Symbols: Licensed for Apple platforms; not for general web use—so keep the stylistic tiles and use non‑Apple SVGs you own.
+
+⸻
+
+Next additions I can help wire in
+	•	RSS feed for the blog and a sitemap.
+	•	Algolia DocSearch on the blog/docs content.
+	•	Animated liquid glass shapes (subtle, low‑motion) behind the hero.
+	•	Projects page with filterable categories in the left rail.
+
+If you want me to prefill the site with your real name, photo, bio, and stack details, just share them and I’ll drop them in. ￼*‌*

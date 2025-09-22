@@ -1,0 +1,69 @@
+---
+const { title = 'Home', sidebar = true } = Astro.props;
+---
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} • Your Name</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/theme.css" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to content</a>
+    <header class="topbar">
+      <button class="topbar__toggle" aria-label="Toggle sidebar">☰</button>
+      <div class="topbar__brand">Your Name</div>
+      <nav class="topbar__nav" aria-label="Global">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/projects">Projects</a>
+        <a href="/about">About</a>
+        <button data-theme-toggle class="topbar__toggle">Theme</button>
+      </nav>
+    </header>
+
+    <main class="layout">
+      {sidebar && (
+        <aside class="sidebar" aria-label="Sidebar">
+          <div class="sidebar__inner">
+            <div class="sidebar__header">Navigation</div>
+            <nav class="sidebar__nav" role="navigation" aria-label="Sections">
+              <div class="sidebar__group">
+                <div class="sidebar__groupLabel">Site</div>
+                <a class="sidebar__link" href="/"><span class="icon-tile"></span>Home</a>
+                <a class="sidebar__link" href="/blog/"><span class="icon-tile"></span>Blog</a>
+                <a class="sidebar__link" href="/projects"><span class="icon-tile"></span>Projects</a>
+                <a class="sidebar__link" href="/uses"><span class="icon-tile"></span>Uses</a>
+                <a class="sidebar__link" href="/now"><span class="icon-tile"></span>Now</a>
+                <a class="sidebar__link" href="/about"><span class="icon-tile"></span>About</a>
+              </div>
+              <div class="sidebar__group">
+                <div class="sidebar__groupLabel">Social</div>
+                <a class="sidebar__link" href="https://github.com/yourname"><span class="icon-tile"></span>GitHub</a>
+                <a class="sidebar__link" href="https://x.com/yourname"><span class="icon-tile"></span>Twitter / X</a>
+                <a class="sidebar__link" href="mailto:you@example.com"><span class="icon-tile"></span>Email</a>
+              </div>
+            </nav>
+            <div class="sidebar__filter">
+              <input id="sidebarFilter" type="search" placeholder="Filter" aria-label="Filter sidebar" />
+              <kbd class="slash">/</kbd>
+            </div>
+          </div>
+        </aside>
+      )}
+
+      <section class="content">
+        <div id="main">
+          <slot />
+        </div>
+        <footer class="footer">
+          <p>© {new Date().getFullYear()} Your Name. Built with Astro.</p>
+        </footer>
+      </section>
+    </main>
+
+    <script src="/src/scripts/theme.js" type="module"></script>
+    <script src="/src/scripts/sidebar.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+---
+<Base title="Home" sidebar={true}>
+  <section class="hero container">
+    <div style="margin-bottom:14px">
+      <span class="badge"><span class="badge__dot"></span> Now exploring Apple Intelligence & web UI</span>
+    </div>
+    <h1 class="hero__title">Hi, I’m Your Name.</h1>
+    <p class="hero__subtitle">A software developer focused on <strong>design systems</strong>, <strong>web performance</strong>, and Apple‑like UX on the web.</p>
+  </section>
+
+  <section class="container" style="margin-top:28px">
+    <div class="cardGrid">
+      <ProfileCard name="Your Name" title="Software Developer" location="Somewhere" />
+      <Card title="Blog" body="Writing on UI engineering, Astro, and Apple‑like design for the web." href="/blog/" tint="indigo" cta="Read articles →" />
+      <Card title="Projects" body="Open‑source components and experiments around liquid glass and motion." href="/projects" tint="teal" cta="See projects →" />
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Tech stack</h2>
+    <div class="cardGrid">
+      <Card title="TypeScript" body="Strong typing, excellent tooling." href="#" tint="blue" cta=""/>
+      <Card title="Astro" body="Island architecture and content‑first DX." href="#" tint="indigo" cta=""/>
+      <Card title="React" body="Component model & ecosystem." href="#" tint="teal" cta=""/>
+      <Card title="Node.js" body="APIs and tooling." href="#" tint="green" cta=""/>
+      <Card title="CSS" body="Modern CSS: container queries, cascade layers, oklch." href="#" tint="orange" cta=""/>
+      <Card title="Testing" body="Playwright, Vitest." href="#" tint="pink" cta=""/>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="section-title">Featured writing</h2>
+    <div class="cardGrid">
+      <Card title="Liquid glass on the web" body="How to recreate Apple’s materials with CSS blur, transparency, and borders." href="/blog/liquid-glass" />
+      <Card title="Sidebar UX like Apple Docs" body="Sticky sections, quick filter, and semantics." href="/blog/sidebar-ux" />
+      <Card title="System font stacks" body="Use -apple-system and friends correctly." href="/blog/system-fonts" />
+    </div>
+  </section>
+</Base>
