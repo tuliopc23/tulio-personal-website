@@ -1,10 +1,10 @@
-Love this brief. I put together a high‑fidelity, Apple‑docs‑style Astro template for a personal, content‑driven developer website—complete with a glassy navbar, sticky left sidebar (with filter + mobile drawer), “symbol‑tile” cards, an Apple‑like type hierarchy, light/dark modes, and a blog powered by MDX.
+Love this brief. I put together a high‑fidelity, Apple‑docs‑style Astro template for a personal, content‑driven developer website—complete with a glassy navbar, a right-side navigation rail card (with quick filter), “symbol‑tile” cards, an Apple‑like type hierarchy, light/dark modes, and a blog powered by MDX.
 
 ⸻
 
 📦 Grab the template
 	•	Download: apple-personal-site.zip
-Unzip, run npm i, then npm run dev.
+Unzip, run bun install, then bun run dev.
 
 What’s inside
 
@@ -18,8 +18,8 @@ apple-personal-site/
 │  ├─ styles/theme.css          # Apple-like tokens + components (cards, tiles, hero)
 │  ├─ scripts/
 │  │  ├─ theme.js               # dark/light (prefers-color-scheme + toggle)
-│  │  └─ sidebar.js             # quick filter ("/") + mobile drawer
-│  ├─ layouts/Base.astro        # glass navbar + sticky sidebar layout
+│  │  └─ rail.js                # navigation card quick filter ("/")
+│  ├─ layouts/Base.astro        # glass navbar + navigation rail layout
 │  ├─ components/
 │  │  ├─ Navbar.astro           # Apple-like top bar (glass)
 │  │  ├─ IconTile.astro         # small Apple-like “symbol tile”
@@ -62,11 +62,11 @@ We include symbol‑tile containers that look like SF Symbols tiles, but we don�
 Key design tokens (edit in src/styles/theme.css)
 
 :root {
-  --sidebar-width: 320px;            /* docs-like left rail */
   --content-max: 1100px;
-  --radius: 14px;                    /* card corners */
-  --fs-hero: clamp(36px,2.5vw+20px,56px);
-  --fs-h2: clamp(24px,1vw+16px,32px);
+  --radius: 14px;                    /* legacy card corners */
+  --fs-hero: clamp(44px,3vw+28px,68px);
+  --fs-h1: clamp(34px,2.4vw+20px,48px);
+  --fs-h2: clamp(26px,1.6vw+18px,34px);
 
   /* dynamic-ish palette; keep semantic */
   --blue:#0a84ff; --green:#34c759; --indigo:#5e5ce6;

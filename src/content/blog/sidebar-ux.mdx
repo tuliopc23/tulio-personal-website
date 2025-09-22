@@ -8,10 +8,10 @@ tags: [ux, astro]
 The docs vibe relies on a **sticky sidebar** that keeps context visible and scannable. Combine alphabetical groups, compact rows, and a bottom **Filter** field with `/` to focus.
 
 ```js
-window.addEventListener('keydown', (e) => {
-  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+window.addEventListener("keydown", (e) => {
+  if (e.key === "/" && document.activeElement.tagName !== "INPUT") {
     e.preventDefault();
-    document.querySelector('#sidebarFilter')?.focus();
+    document.querySelector("#sidebarFilter")?.focus();
   }
 });
 ```

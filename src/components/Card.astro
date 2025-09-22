@@ -1,14 +1,28 @@
 ---
-const { href = '#', title = 'Card title', body = '', tint = 'blue', cta = 'Read more →' } = Astro.props;
-import IconTile from './IconTile.astro';
+const {
+  href = "#",
+  title = "Card title",
+  body = "",
+  tint = "blue",
+  cta = "Read more →",
+  icon = null,
+} = Astro.props;
+import IconTile from "./IconTile.astro";
 ---
+
 <a class="card" href={href}>
   <div style="display:flex;gap:12px;align-items:flex-start">
-    <IconTile tint={tint} label={title} />
+    <IconTile tint={tint} label={title} icon={icon} />
     <div style="flex:1">
       <div class="card-title">{title}</div>
       <p class="card-body">{body}</p>
-      <span style="color:var(--link);font-weight:500;font-size:var(--fs--1)">{cta}</span>
+      {
+        cta && (
+          <span style="color:var(--link);font-weight:600;font-size:var(--fs--2);letter-spacing:0.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px">
+            {cta}
+          </span>
+        )
+      }
     </div>
   </div>
 </a>

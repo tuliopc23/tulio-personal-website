@@ -1,16 +1,32 @@
 ---
-import Base from '../layouts/Base.astro';
-import Card from '../components/Card.astro';
+import Base from "../layouts/Base.astro";
+import Card from "../components/Card.astro";
 ---
+
 <Base title="Projects" sidebar={true}>
   <section class="container">
-    <h1 class="hero__title" style="font-size:clamp(32px,2vw+18px,44px)">Projects</h1>
+    <h1 class="hero__title">Projects</h1>
   </section>
-  <section class="container" style="margin-top:20px">
+  <section class="container">
     <div class="cardGrid">
-      <Card title="Liquidify" body="Apple‑style component library for the web." href="#" tint="blue" />
-      <Card title="Design tokens" body="Systemized colors, type, and elevation." href="#" tint="indigo" />
-      <Card title="Astro starter" body="The site you are viewing—clean and fast." href="#" tint="teal" />
+      <Card
+        title="Liquidify"
+        body="Apple‑style component library for the web."
+        href="#"
+        tint="blue"
+      />
+      <Card
+        title="Design tokens"
+        body="Systemized colors, type, and elevation."
+        href="#"
+        tint="indigo"
+      />
+      <Card
+        title="Astro starter"
+        body="The site you are viewing—clean and fast."
+        href="#"
+        tint="teal"
+      />
     </div>
   </section>
 </Base>

@@ -1,69 +1,154 @@
 ---
-const { title = 'Home', sidebar = true } = Astro.props;
+import themeCssHref from "../styles/theme.css?url";
+import themeScriptSrc from "../scripts/theme.js?url";
+import sidebarScriptSrc from "../scripts/sidebar.js?url";
+const { title = "Home", sidebar = true } = Astro.props;
 ---
+
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} • Your Name</title>
+    <title>{title} • Tulio Cunha</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/src/styles/theme.css" />
+    <link rel="stylesheet" href={themeCssHref} />
   </head>
   <body>
     <a href="#main" class="sr-only">Skip to content</a>
     <header class="topbar">
-      <button class="topbar__toggle" aria-label="Toggle sidebar">☰</button>
-      <div class="topbar__brand">Your Name</div>
-      <nav class="topbar__nav" aria-label="Global">
-        <a href="/">Home</a>
-        <a href="/blog/">Blog</a>
-        <a href="/projects">Projects</a>
-        <a href="/about">About</a>
-        <button data-theme-toggle class="topbar__toggle">Theme</button>
-      </nav>
+      <div class="topbar__inner">
+        <div class="topbar__brandGroup">
+          <button class="topbar__menu" aria-label="Toggle sidebar">☰</button>
+          <div class="topbar__brand">
+            <span class="topbar__brandName">Tulio Cunha</span>
+            <span class="topbar__brandSubtitle">Full Stack Developer</span>
+          </div>
+        </div>
+        <nav class="topbar__nav" aria-label="Global">
+          <a href="/">Home</a>
+          <a href="/blog/">Blog</a>
+          <a href="/projects">Projects</a>
+        </nav>
+        <div class="topbar__actions">
+          <div class="themeToggle">
+            <input
+              id="theme-toggle"
+              type="checkbox"
+              class="themeToggle__control"
+              data-theme-toggle
+              aria-label="Toggle theme"
+            />
+            <label class="themeToggle__label" for="theme-toggle">
+              <span class="sr-only">Toggle theme</span>
+            </label>
+          </div>
+        </div>
+      </div>
     </header>
 
     <main class="layout">
-      {sidebar && (
-        <aside class="sidebar" aria-label="Sidebar">
-          <div class="sidebar__inner">
-            <div class="sidebar__header">Navigation</div>
-            <nav class="sidebar__nav" role="navigation" aria-label="Sections">
-              <div class="sidebar__group">
-                <div class="sidebar__groupLabel">Site</div>
-                <a class="sidebar__link" href="/"><span class="icon-tile"></span>Home</a>
-                <a class="sidebar__link" href="/blog/"><span class="icon-tile"></span>Blog</a>
-                <a class="sidebar__link" href="/projects"><span class="icon-tile"></span>Projects</a>
-                <a class="sidebar__link" href="/uses"><span class="icon-tile"></span>Uses</a>
-                <a class="sidebar__link" href="/now"><span class="icon-tile"></span>Now</a>
-                <a class="sidebar__link" href="/about"><span class="icon-tile"></span>About</a>
+      {
+        sidebar && (
+          <aside class="sidebar" aria-label="Sidebar">
+            <div class="sidebar__inner">
+              <div class="sidebar__header">Navigation</div>
+              <nav class="sidebar__nav" role="navigation" aria-label="Sections">
+                <div class="sidebar__group">
+                  <div class="sidebar__groupLabel">Site</div>
+                  <a class="sidebar__link" href="/">
+                    <span class="icon-tile" />
+                    Home
+                  </a>
+                  <a class="sidebar__link" href="/blog/">
+                    <span class="icon-tile" />
+                    Blog
+                  </a>
+                  <a class="sidebar__link" href="/projects">
+                    <span class="icon-tile" />
+                    Projects
+                  </a>
+                </div>
+                <div class="sidebar__group">
+                  <div class="sidebar__groupLabel">Social</div>
+                  <a
+                    class="sidebar__link"
+                    href="https://github.com/tuliopc23"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span class="icon-tile" />
+                    GitHub
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="https://instagram.com/tuliopinheirocunha"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span class="icon-tile" />
+                    Instagram
+                  </a>
+                  <a class="sidebar__link" href="mailto:contact@tuliocunha.dev">
+                    <span class="icon-tile" />
+                    Email
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="https://linkedin.com/in/tuliocunha"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span class="icon-tile" />
+                    LinkedIn
+                  </a>
+                </div>
+              </nav>
+              <div class="sidebar__filter">
+                <input
+                  id="sidebarFilter"
+                  type="search"
+                  placeholder="Filter"
+                  aria-label="Filter sidebar"
+                />
+                <kbd class="slash">/</kbd>
               </div>
-              <div class="sidebar__group">
-                <div class="sidebar__groupLabel">Social</div>
-                <a class="sidebar__link" href="https://github.com/yourname"><span class="icon-tile"></span>GitHub</a>
-                <a class="sidebar__link" href="https://x.com/yourname"><span class="icon-tile"></span>Twitter / X</a>
-                <a class="sidebar__link" href="mailto:you@example.com"><span class="icon-tile"></span>Email</a>
-              </div>
-            </nav>
-            <div class="sidebar__filter">
-              <input id="sidebarFilter" type="search" placeholder="Filter" aria-label="Filter sidebar" />
-              <kbd class="slash">/</kbd>
             </div>
-          </div>
-        </aside>
-      )}
+          </aside>
+        )
+      }
 
       <section class="content">
         <div id="main">
           <slot />
         </div>
         <footer class="footer">
-          <p>© {new Date().getFullYear()} Your Name. Built with Astro.</p>
+          <div class="footer__inner">
+            <div class="footer__about">
+              <p class="footer__title">Tulio Cunha</p>
+              <p class="footer__copy">
+                Full stack developer building native and web experiences through precise
+                tooling and considerate interfaces.
+              </p>
+            </div>
+            <div class="footer__links" aria-label="Footer links">
+              <a href="/projects">Projects</a>
+              <a href="/blog/">Blog</a>
+              <a
+                href="https://www.tuliocunha.dev"
+                target="_blank"
+                rel="noreferrer noopener">Portfolio</a
+              >
+              <a href="mailto:contact@tuliocunha.dev">Email</a>
+            </div>
+            <p class="footer__legal">
+              © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
+            </p>
+          </div>
         </footer>
       </section>
     </main>
 
-    <script src="/src/scripts/theme.js" type="module"></script>
-    <script src="/src/scripts/sidebar.js" type="module"></script>
+    <script src={themeScriptSrc} type="module"></script>
+    <script src={sidebarScriptSrc} type="module"></script>
   </body>
 </html>

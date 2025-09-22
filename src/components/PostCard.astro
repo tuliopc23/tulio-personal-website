@@ -1,7 +1,14 @@
 ---
-const { href = '#', title = 'Post', summary = 'Summary', date = '', tint = 'indigo' } = Astro.props;
-import IconTile from './IconTile.astro';
+const {
+  href = "#",
+  title = "Post",
+  summary = "Summary",
+  date = "",
+  tint = "indigo",
+} = Astro.props;
+import IconTile from "./IconTile.astro";
 ---
+
 <a class="card" href={href}>
   <div style="display:flex;gap:12px;align-items:flex-start">
     <IconTile tint={tint} label={title} />
