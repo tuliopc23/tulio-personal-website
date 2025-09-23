@@ -17,7 +17,7 @@
   --lh: 1.6;
   --fs-hero: clamp(36px, 2.5vw + 20px, 56px);
   --fs-h2: clamp(24px, 1vw + 16px, 32px);
-  --fs-h3: 18px;
+  --fs-h3: 19px;
 
   /* Colors (Dark default) */
   --bg: #111214;
@@ -162,13 +162,14 @@ pre {
   outline: none;
   box-shadow: var(--focus-ring);
 }
-.topbar__nav {
+ .topbar__nav {
   display: none;
   align-items: center;
-  justify-content: center;
-  gap: 22px;
-  flex: 1 1 auto;
-}
+  justify-content: flex-end;
+  gap: 20px;
+  flex: 0 0 auto;
+  margin-left: auto;
+ }
 .topbar__nav a {
   color: color-mix(in oklch, var(--muted) 90%, transparent);
   font-size: var(--fs--1);
@@ -269,6 +270,9 @@ pre {
   }
   .topbar__menu {
     display: none;
+  }
+  .topbar__actions {
+    margin-left: 8px;
   }
 }
 
@@ -487,7 +491,7 @@ kbd.slash {
   border-radius: var(--radius);
   border: 1px solid var(--hairline);
   background: var(--card-bg);
-  padding: 14px;
+  padding: 20px;
   transition:
     transform 0.15s ease,
     border-color 0.15s ease,
@@ -551,9 +555,9 @@ kbd.slash {
 
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 /* ======= Prose ======= */
@@ -588,6 +592,17 @@ kbd.slash {
 }
 
 /* ======= Utilities ======= */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .container {
   max-width: var(--content-max);
   margin-inline: auto;
@@ -603,8 +618,8 @@ kbd.slash {
 }
 .home__quickLinks {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
 }
 .btn {
   border-radius: 11px;
@@ -629,9 +644,9 @@ input:focus-visible {
 .footer {
   margin-top: 40px;
   border-top: 1px solid var(--hairline);
-  background: color-mix(in oklch, var(--surface) 90%, transparent);
-  backdrop-filter: blur(18px);
-  padding: 24px;
+  background: color-mix(in oklch, var(--surface) 92%, transparent);
+  backdrop-filter: blur(14px);
+  padding: 20px 24px;
   color: var(--muted);
 }
 .footer__inner {
