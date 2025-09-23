@@ -16,10 +16,10 @@ import IconTile from "./IconTile.astro";
     <div style="flex:1">
       <div class="card-title">{title}</div>
       <p class="card-body">{body}</p>
-      {
+{
         cta && (
-          <span style="color:var(--link);font-weight:600;font-size:var(--fs--2);letter-spacing:0.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px">
-            {cta}
+          <span style="color:var(--link);font-weight:600;font-size:var(--fs--2);letter-spacing:0.04em;text-transform:uppercase;">
+            {cta.replace(' →', '')}
           </span>
         )
       }

@@ -10,7 +10,7 @@ const { title = "Home", sidebar = true } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} • Tulio Cunha</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/terminal-favicon.svg" />
     <link rel="stylesheet" href={themeCssHref} />
   </head>
   <body>
@@ -55,15 +55,15 @@ const { title = "Home", sidebar = true } = Astro.props;
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
                 <div class="sidebar__group">
                   <div class="sidebar__groupLabel">Site</div>
-                  <a class="sidebar__link" href="/">
+                  <a class="sidebar__link" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>
                     <span class="icon-tile" />
                     Home
                   </a>
-                  <a class="sidebar__link" href="/blog/">
+                  <a class="sidebar__link" href="/blog/" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>
                     <span class="icon-tile" />
                     Blog
                   </a>
-                  <a class="sidebar__link" href="/projects">
+                  <a class="sidebar__link" href="/projects" aria-current={Astro.url.pathname === '/projects' ? 'page' : undefined}>
                     <span class="icon-tile" />
                     Projects
                   </a>
@@ -100,6 +100,15 @@ const { title = "Home", sidebar = true } = Astro.props;
                   >
                     <span class="icon-tile" />
                     LinkedIn
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="https://fantastical.app/tuliopinheirocunha"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <span class="icon-tile" />
+                    Book Time
                   </a>
                 </div>
               </nav>

@@ -1,0 +1,6 @@
+.section-title {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  margin: 48px 0 24px;
+  letter-spacing: -0.015em;
+}
