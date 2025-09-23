@@ -1,7 +1,7 @@
 ---
 import themeCssHref from "../styles/theme.css?url";
-import themeScriptSrc from "../scripts/theme.js?url";
-import sidebarScriptSrc from "../scripts/sidebar.js?url";
+import themeScriptSrc from "../scripts/theme.ts?url";
+import sidebarScriptSrc from "../scripts/sidebar.ts?url";
 const { title = "Home", sidebar = true } = Astro.props;
 ---
 
@@ -18,16 +18,36 @@ const { title = "Home", sidebar = true } = Astro.props;
     <header class="topbar">
       <div class="topbar__inner">
         <div class="topbar__brandGroup">
-          <button class="topbar__menu" aria-label="Toggle sidebar">☰</button>
+          <button
+            type="button"
+            class="topbar__menu"
+            aria-label="Toggle sidebar"
+            aria-expanded="false"
+            aria-controls={sidebar ? "site-sidebar" : undefined}
+          >
+            ☰
+          </button>
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
             <span class="topbar__brandSubtitle">Full Stack Developer</span>
           </div>
         </div>
         <nav class="topbar__nav" aria-label="Global">
-          <a href="/">Home</a>
-          <a href="/blog/">Blog</a>
-          <a href="/projects">Projects</a>
+          <a href="/" aria-current={Astro.url.pathname === "/" ? "page" : undefined}
+            >Home</a
+          >
+          <a
+            href="/blog/"
+            aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}
+          >
+            Blog
+          </a>
+          <a
+            href="/projects"
+            aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
+          >
+            Projects
+          </a>
         </nav>
         <div class="topbar__actions">
           <div class="themeToggle">
@@ -49,23 +69,38 @@ const { title = "Home", sidebar = true } = Astro.props;
     <main class="layout">
       {
         sidebar && (
-          <aside class="sidebar" aria-label="Sidebar">
+          <aside id="site-sidebar" class="sidebar" aria-label="Sidebar">
             <div class="sidebar__inner">
               <div class="sidebar__header">Navigation</div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
                 <div class="sidebar__group">
                   <div class="sidebar__groupLabel">Site</div>
-                  <a class="sidebar__link" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>
+                  <a
+                    class="sidebar__link"
+                    href="/"
+                    aria-current={Astro.url.pathname === "/" ? "page" : undefined}
+                  >
                     <span class="icon-tile" />
                     Home
                   </a>
-                  <a class="sidebar__link" href="/blog/" aria-current={Astro.url.pathname.startsWith('/blog') ? 'page' : undefined}>
+                  <a
+                    class="sidebar__link"
+                    href="/blog/"
+                    aria-current={
+                      Astro.url.pathname.startsWith("/blog") ? "page" : undefined
+                    }
+                  >
                     <span class="icon-tile" />
                     Blog
                   </a>
-                  <a class="sidebar__link" href="/projects" aria-current={Astro.url.pathname === '/projects' ? 'page' : undefined}>
+                  <a
+                    class="sidebar__link"
+                    href="https://www.tuliocunha.dev/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
                     <span class="icon-tile" />
-                    Projects
+                    Portfolio
                   </a>
                 </div>
                 <div class="sidebar__group">

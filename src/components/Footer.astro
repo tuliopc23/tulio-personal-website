@@ -1,7 +1,60 @@
 ---
+import BrandIcon from "./BrandIcon.astro";
+import SFIcon from "./SFIcon.astro";
+import { getBrandIcon } from "./brand-icons";
 
+const email = "contact@tuliocunha.dev";
+const socials = [
+  {
+    label: "GitHub",
+    href: "https://github.com/tuliopc23",
+    icon: "github",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/tuliopinheirocunha",
+    icon: "linkedin",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/tuliopinheirocunha",
+    icon: "instagram",
+  },
+  {
+    label: "Email",
+    href: `mailto:${email}`,
+    icon: "mail",
+  },
+];
 ---
 
 <footer class="footer">
-  <p>© {new Date().getFullYear()} Your Name. Built with Astro.</p>
+  <div class="footer__inner">
+    <div class="footer__info">
+      <h2 class="footer__title">Tulio Cunha</h2>
+      <p class="footer__copy">
+        Building Apple-inspired digital tools and interfaces with a calm, detail-oriented
+        approach. Always down to collaborate on meaningful work.
+      </p>
+      <p class="footer__legal">
+        © {new Date().getFullYear()} Tulio Cunha. Crafted with Astro.
+      </p>
+    </div>
+    <nav class="footer__links" aria-label="Social links">
+      {
+        socials.map((entry) => (
+          <a href={entry.href} target="_blank" rel="noreferrer noopener">
+            <span class="footer__icon" aria-hidden="true">
+              {getBrandIcon(entry.icon) ? (
+                <BrandIcon name={entry.icon} size={18} />
+              ) : (
+                <SFIcon name={entry.icon} size={18} stroke={1.6} />
+              )}
+            </span>
+            {entry.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
 </footer>

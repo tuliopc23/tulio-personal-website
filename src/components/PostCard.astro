@@ -10,12 +10,12 @@ import IconTile from "./IconTile.astro";
 ---
 
 <a class="card" href={href}>
-  <div style="display:flex;gap:12px;align-items:flex-start">
+  <div class="card__inner">
     <IconTile tint={tint} label={title} />
-    <div style="flex:1">
+    <div class="card__content">
       <div class="card-title">{title}</div>
       <p class="card-body">{summary}</p>
-      {date && <span style="color:var(--muted);font-size:var(--fs--2)">{date}</span>}
+      {date && <span class="card__meta">{date}</span>}
     </div>
   </div>
 </a>

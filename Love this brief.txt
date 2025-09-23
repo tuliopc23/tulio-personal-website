@@ -17,8 +17,8 @@ apple-personal-site/
 ├─ src/
 │  ├─ styles/theme.css          # Apple-like tokens + components (cards, tiles, hero)
 │  ├─ scripts/
-│  │  ├─ theme.js               # dark/light (prefers-color-scheme + toggle)
-│  │  └─ rail.js                # navigation card quick filter ("/")
+│  │  ├─ theme.ts               # dark/light (prefers-color-scheme + toggle)
+│  │  └─ sidebar.ts                # navigation card quick filter ("/")
 │  ├─ layouts/Base.astro        # glass navbar + navigation rail layout
 │  ├─ components/
 │  │  ├─ Navbar.astro           # Apple-like top bar (glass)

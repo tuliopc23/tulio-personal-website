@@ -1,0 +1,61 @@
+---
+import logos from "@iconify-json/logos/icons.json";
+import simpleIcons from "@iconify-json/simple-icons/icons.json";
+import { getBrandIcon } from "./brand-icons";
+
+const {
+  name,
+  size = 24,
+}: {
+  name: string;
+  size?: number;
+} = Astro.props;
+
+const entry = getBrandIcon(name);
+
+const iconSets: Record<string, typeof logos> = {
+  logos,
+  "simple-icons": simpleIcons,
+};
+
+type ResolvedGlyph = {
+  body: string;
+  width: number;
+  height: number;
+  prefix: string;
+};
+
+const resolveGlyph = (identifier?: string | null): ResolvedGlyph | null => {
+  if (!identifier) return null;
+  const [prefix, iconName] = identifier.split(":");
+  const set = iconSets[prefix];
+  if (!set) return null;
+  const glyph = set.icons?.[iconName];
+  if (!glyph) return null;
+  const width = glyph.width ?? set.width ?? 24;
+  const height = glyph.height ?? set.height ?? width;
+  return { body: glyph.body, width, height, prefix };
+};
+
+let resolved = resolveGlyph(entry?.icon);
+if (!resolved) {
+  resolved = resolveGlyph(entry?.fallback);
+}
+
+const glyph = resolved ?? resolveGlyph("simple-icons:sparkle");
+const viewBox = glyph ? `0 0 ${glyph.width} ${glyph.height}` : "0 0 24 24";
+const useCurrentColor = glyph?.prefix === "simple-icons";
+const body = glyph?.body ?? "";
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox={viewBox}
+  role="img"
+  aria-hidden="true"
+  {...useCurrentColor ? { fill: "currentColor" } : {}}
+>
+  <Fragment set:html={body} />
+</svg>

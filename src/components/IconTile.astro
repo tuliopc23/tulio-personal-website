@@ -1,5 +1,7 @@
 ---
 import SFIcon from "./SFIcon.astro";
+import BrandIcon from "./BrandIcon.astro";
+import { getBrandIcon } from "./brand-icons";
 
 const { tint = "blue", label = "", icon = null } = Astro.props;
 
@@ -8,18 +10,27 @@ const symbolMap: Record<string, string> = {
   projects: "cube",
   home: "home",
   link: "link",
+  portfolio: "briefcase",
+  sparkle: "sparkle",
+  globe: "globe",
+  code: "code",
 };
 
-const sfIcon = icon ? symbolMap[icon] : null;
+const brandEntry = icon ? getBrandIcon(icon) : null;
+const sfIcon = !brandEntry && icon ? symbolMap[icon] : null;
+const symbolStyle = brandEntry
+  ? ({
+      ...(brandEntry.ink ? { "--symbol-ink": brandEntry.ink } : {}),
+      ...(brandEntry.accent ? { "--symbol-accent": brandEntry.accent } : {}),
+    } as Record<string, string>)
+  : undefined;
 ---
 
-<span
-  class={"symbol symbol--" + tint}
-  aria-hidden="true"
-  style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;">
->
+<span class={"symbol symbol--" + tint} aria-hidden="true" style={symbolStyle}>
   {
-    sfIcon ? (
+    brandEntry ? (
+      <BrandIcon name={icon} size={24} />
+    ) : sfIcon ? (
       <SFIcon name={sfIcon} size={24} stroke={1.8} />
     ) : icon ? (
       <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;">

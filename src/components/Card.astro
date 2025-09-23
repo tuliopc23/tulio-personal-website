@@ -8,21 +8,17 @@ const {
   icon = null,
 } = Astro.props;
 import IconTile from "./IconTile.astro";
+
+const ctaLabel = cta ? cta.replace(/\s*→$/, "") : null;
 ---
 
 <a class="card" href={href}>
-  <div style="display:flex;gap:12px;align-items:flex-start">
+  <div class="card__inner">
     <IconTile tint={tint} label={title} icon={icon} />
-    <div style="flex:1">
+    <div class="card__content">
       <div class="card-title">{title}</div>
       <p class="card-body">{body}</p>
-{
-        cta && (
-          <span style="color:var(--link);font-weight:600;font-size:var(--fs--2);letter-spacing:0.04em;text-transform:uppercase;">
-            {cta.replace(' →', '')}
-          </span>
-        )
-      }
+      {ctaLabel && <span class="card__cta">{ctaLabel}</span>}
     </div>
   </div>
 </a>
