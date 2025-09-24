@@ -109,7 +109,10 @@ const meta = [
       programming to solve my problems—and yours if you let me.
     </p>
 
-    <ul class="profileCard__contacts" aria-label="Ways to reach Tulio">
+    <ul
+      class="profileCard__contacts profileCard__contactsDesktop"
+      aria-label="Ways to reach Tulio"
+    >
       {
         contacts.map((entry) => (
           <li>
@@ -139,6 +142,35 @@ const meta = [
     </ul>
   </div>
 </section>
+
+<ul class="profileCardContactsMobile cardRail" aria-label="Ways to reach Tulio">
+  {
+    contacts.map((entry) => (
+      <li>
+        <a
+          class="profileCard__chip"
+          href={entry.href}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {entry.icon && (
+            <span class="profileCard__chipIcon" aria-hidden="true">
+              {getBrandIcon(entry.icon) ? (
+                <BrandIcon name={entry.icon} size={18} />
+              ) : (
+                <SFIcon name={entry.icon} size={18} stroke={1.6} />
+              )}
+            </span>
+          )}
+          <span class="profileCard__chipContent">
+            <span class="profileCard__chipLabel">{entry.label}</span>
+            <span class="profileCard__chipValue">{entry.value}</span>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
 
 <style>
   .profileCard {
@@ -326,6 +358,17 @@ const meta = [
     padding: 0;
   }
 
+  .profileCardContactsMobile {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: var(--space-lg) 0 0;
+  }
+
+  .profileCardContactsMobile li {
+    display: flex;
+  }
+
   .profileCard__chip {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -434,6 +477,31 @@ const meta = [
       width: 112px;
       height: 112px;
       border-radius: 22px;
+    }
+
+    .profileCard__meta {
+      grid-template-columns: 1fr;
+    }
+
+    .profileCard__contactsDesktop {
+      display: none;
+    }
+
+    .profileCardContactsMobile {
+      display: flex;
+      gap: var(--space-sm);
+      overflow-x: auto;
+      padding: 0 var(--space-sm) var(--space-md);
+      margin-inline: calc(-1 * var(--space-sm));
+      scrollbar-width: none;
+    }
+
+    .profileCardContactsMobile::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profileCardContactsMobile li {
+      flex: 0 0 min(74vw, 240px);
     }
   }
 </style>

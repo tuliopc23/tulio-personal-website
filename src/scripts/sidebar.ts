@@ -29,6 +29,9 @@
 
   const sidebar = document.querySelector<HTMLElement>(".sidebar");
   const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
+  if (sidebar) {
+    sidebar.setAttribute("aria-hidden", "true");
+  }
   let backdrop: HTMLDivElement | null = null;
 
   if (toggle) {
@@ -40,12 +43,15 @@
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
     document.body.classList.remove("is-locked");
+    sidebar?.setAttribute("aria-hidden", "true");
+    backdrop?.setAttribute("aria-hidden", "true");
   };
 
   const ensureBackdrop = (): HTMLDivElement => {
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.className = "backdrop";
+      backdrop.setAttribute("aria-hidden", "true");
       backdrop.addEventListener("click", close);
       document.body.appendChild(backdrop);
     }
@@ -59,6 +65,8 @@
     nextBackdrop.classList.add("is-open");
     toggle?.setAttribute("aria-expanded", "true");
     document.body.classList.add("is-locked");
+    sidebar?.setAttribute("aria-hidden", "false");
+    nextBackdrop.setAttribute("aria-hidden", "false");
   };
 
   toggle?.addEventListener("click", () => {
