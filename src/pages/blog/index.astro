@@ -1,11 +1,10 @@
 ---
 import Base from "../../layouts/Base.astro";
 import PostCard from "../../components/PostCard.astro";
+import { getCollection } from "astro:content";
 
-const posts = await Astro.glob("../../content/blog/*.mdx");
-const sorted = posts.sort(
-  (a, b) => new Date(b.frontmatter.date) - new Date(a.frontmatter.date)
-);
+const posts = await getCollection("blog");
+const sorted = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base title="Blog" sidebar={true}>
@@ -21,10 +20,10 @@ const sorted = posts.sort(
       {
         sorted.map((p) => (
           <PostCard
-            href={p.url}
-            title={p.frontmatter.title}
-            summary={p.frontmatter.summary}
-            date={new Date(p.frontmatter.date).toLocaleDateString()}
+            href={`/blog/${p.slug}/`}
+            title={p.data.title}
+            summary={p.data.summary}
+            date={p.data.date.toLocaleDateString()}
           />
         ))
       }
