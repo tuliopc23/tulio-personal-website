@@ -4,3 +4,5 @@ dist/
 .astro/
 bun.lockb
 *.log
+.env
+.env.local
