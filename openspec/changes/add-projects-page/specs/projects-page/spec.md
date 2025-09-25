@@ -10,6 +10,13 @@ The site SHALL provide a dedicated projects page that showcases recent work usin
 - **WHEN** a visitor opens `/projects`
 - **THEN** the page renders cards sorted by newest first and arranged in a responsive grid/rail that matches the rest of the site’s spacing tokens
 - **AND** each card displays its title, short summary (≤160 characters), tech stack tags, and a primary link that opens in a new tab
+- **AND** each card surfaces contextual metadata such as release timeframe and project origin, accompanied by card hover affordances that mirror the site’s icon tilting and glow motion
+
+#### Scenario: Projects hero overview
+
+- **WHEN** a visitor arrives on `/projects`
+- **THEN** the header introduces the page with an Apple-inspired eyebrow label, gradient title, and descriptive lede
+- **AND** the hero surfaces quick stats (e.g., featured build count and focus areas) inside pill-shaped badges matching the homepage polish
 
 #### Scenario: Empty state
 
@@ -27,4 +34,3 @@ The site SHALL provide a dedicated projects page that showcases recent work usin
 
 - **WHEN** crawlers inspect the `/projects` page
 - **THEN** the page includes descriptive `<title>`, meta description, and Open Graph/Twitter tags referencing the latest highlighted projects
-

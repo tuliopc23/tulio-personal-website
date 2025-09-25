@@ -1,0 +1,56 @@
+---
+import SFIcon from "./SFIcon.astro";
+
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  dateISO: string;
+  dateLabel: string;
+  tags?: string[];
+  featured?: boolean;
+}
+
+const {
+  href,
+  title,
+  summary,
+  dateISO,
+  dateLabel,
+  tags = [],
+  featured = false,
+}: Props = Astro.props;
+const tagLabel = tags.join(" · ");
+---
+
+<article class={`articleCard${featured ? " articleCard--featured" : ""}`}>
+  <a class="articleCard__link" href={href}>
+    <header class="articleCard__header">
+      <div class="articleCard__meta" aria-label="Post metadata">
+        <time datetime={dateISO}>{dateLabel}</time>
+        {
+          tagLabel && (
+            <span class="articleCard__metaTags" aria-label="Tags">
+              {tagLabel}
+            </span>
+          )
+        }
+      </div>
+      <h3 class="articleCard__title">{title}</h3>
+    </header>
+    <p class="articleCard__summary">{summary}</p>
+    {
+      tags.length > 0 && (
+        <ul class="articleCard__tags" aria-label="Tags">
+          {tags.map((tag) => (
+            <li class="articleCard__tag">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+    <span class="articleCard__cta">
+      <span>Read article</span>
+      <SFIcon name="arrow-up-right" size={18} stroke={1.6} />
+    </span>
+  </a>
+</article>

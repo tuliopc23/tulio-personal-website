@@ -1,11 +1,9 @@
 (() => {
   const root = document.documentElement;
-  const control = document.querySelector<HTMLInputElement>("[data-theme-toggle]");
+  const control = document.querySelector("[data-theme-toggle]");
   const media = window.matchMedia("(prefers-color-scheme: light)");
 
-  type Theme = "light" | "dark";
-
-  const readStoredTheme = (): Theme | null => {
+  const readStoredTheme = () => {
     try {
       const value = localStorage.getItem("theme");
       return value === "light" || value === "dark" ? value : null;
@@ -14,16 +12,14 @@
     }
   };
 
-  let stored: Theme | null = readStoredTheme();
+  /** @type {"light" | "dark" | null} */
+  let stored = readStoredTheme();
 
-  const applyTheme = (
-    theme: Theme | string | null | undefined,
-    persist = false
-  ): void => {
-    const next: Theme = theme === "light" ? "light" : "dark";
+  const applyTheme = (theme, persist = false) => {
+    const next = theme === "light" ? "light" : "dark";
     root.setAttribute("data-theme", next);
 
-    if (control) {
+    if (control instanceof HTMLInputElement) {
       control.checked = next === "light";
     }
 
@@ -37,8 +33,8 @@
     }
   };
 
-  const resolveTheme = (): Theme => {
-    if (stored) {
+  const resolveTheme = () => {
+    if (stored === "light" || stored === "dark") {
       return stored;
     }
 
@@ -47,16 +43,16 @@
 
   applyTheme(resolveTheme());
 
-  control?.addEventListener("change", (event: Event) => {
-    const target = event.currentTarget as HTMLInputElement | null;
-    if (!target) {
+  control?.addEventListener("change", (event) => {
+    const target = event.currentTarget;
+    if (!(target instanceof HTMLInputElement)) {
       return;
     }
 
     applyTheme(target.checked ? "light" : "dark", true);
   });
 
-  const handleMediaChange = (event: MediaQueryListEvent): void => {
+  const handleMediaChange = (event) => {
     if (stored) {
       return;
     }

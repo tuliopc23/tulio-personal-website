@@ -1,32 +1,63 @@
 ---
 import Base from "../layouts/Base.astro";
-import Card from "../components/Card.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projectsSorted } from "../data/projects";
+
+const description =
+  "Apple-inspired gallery of Tulio Cunha's latest work including LiqUIdify, Hackerfolio, Switchify, Cockpit, and Swiftget CLI.";
+const canonicalUrl = new URL("/projects", Astro.site ?? "https://example.com").toString();
+const hasProjects = projectsSorted.length > 0;
+const projectCount = projectsSorted.length;
+const focusSummary = "Design systems • Native apps • Developer tooling";
 ---
 
-<Base title="Projects" sidebar={true}>
-  <section class="container">
-    <h1 class="hero__title">Projects</h1>
-  </section>
-  <section class="container">
-    <div class="cardGrid cardRail">
-      <Card
-        title="Liquidify"
-        body="Apple‑style component library for the web."
-        href="#"
-        tint="blue"
-      />
-      <Card
-        title="Design tokens"
-        body="Systemized colors, type, and elevation."
-        href="#"
-        tint="indigo"
-      />
-      <Card
-        title="Astro starter"
-        body="The site you are viewing—clean and fast."
-        href="#"
-        tint="teal"
-      />
+<Base title="Projects">
+  <Fragment slot="head">
+    <meta name="description" content={description} />
+    <meta property="og:title" content="Projects • Tulio Cunha" />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Projects • Tulio Cunha" />
+    <meta name="twitter:description" content={description} />
+  </Fragment>
+
+  <section class="container projects__intro">
+    <div class="projects__hero">
+      <span class="projects__eyebrow">Recent work</span>
+      <h1 class="projects__title">Projects</h1>
+      <p class="projects__lede">
+        Thoughtfully crafted tools spanning native and web platforms, each embracing
+        Apple's design language while solving real workflows for developers and creatives.
+      </p>
     </div>
+    <div class="projects__meta" role="list">
+      <span class="projects__metaItem" role="listitem"
+        >{projectCount} featured builds</span
+      >
+      <span class="projects__metaItem" role="listitem">{focusSummary}</span>
+    </div>
+  </section>
+
+  <section class="container">
+    {
+      hasProjects ? (
+        <div class="cardGrid cardRail projects__grid">
+          {projectsSorted.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <div class="projects__empty card">
+          <h2>Projects coming soon</h2>
+          <p>
+            I'm polishing case studies. In the meantime, reach out at
+            <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> if you'd
+            like to collaborate.
+          </p>
+        </div>
+      )
+    }
   </section>
 </Base>

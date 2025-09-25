@@ -1,0 +1,124 @@
+---
+import { Image } from "astro:assets";
+import BrandIcon from "./BrandIcon.astro";
+import SFIcon from "./SFIcon.astro";
+import type { Project } from "../data/projects";
+
+const { project }: { project: Project } = Astro.props;
+
+const badgeToneToAccent: Record<string, string> = {
+  blue: "var(--blue)",
+  teal: "var(--teal)",
+  pink: "var(--pink)",
+  indigo: "var(--indigo)",
+  orange: "var(--orange)",
+};
+
+const badgeStyle = project.badge?.tone
+  ? ({ "--badge-accent": badgeToneToAccent[project.badge.tone] } as Record<
+      string,
+      string
+    >)
+  : undefined;
+const mediaTint = project.media.type === "icon" ? (project.media.tint ?? "blue") : null;
+const hasImage = project.media.type === "image";
+
+const releaseDate = project.releaseDate ? new Date(project.releaseDate) : null;
+const releaseLabel =
+  releaseDate && !Number.isNaN(releaseDate.getTime())
+    ? new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(
+        releaseDate
+      )
+    : null;
+
+let originLabel: string | null = null;
+try {
+  const url = new URL(project.href);
+  originLabel = url.hostname.replace(/^www\./, "");
+} catch {
+  originLabel = null;
+}
+
+const stackPrimary = project.stack.slice(0, 3);
+const stackOverflow = project.stack.length - stackPrimary.length;
+const stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
+---
+
+<a
+  class="card projectCard"
+  href={project.href}
+  target="_blank"
+  rel="noreferrer noopener"
+  data-analytics-event={`project:${project.id}`}
+>
+  <div class="projectCard__media" data-kind={hasImage ? "image" : "icon"}>
+    {
+      hasImage ? (
+        <Image
+          src={project.media.src}
+          alt={project.media.alt}
+          widths={[320, 480, 640]}
+          sizes="(max-width: 720px) 84vw, (max-width: 1040px) 50vw, 360px"
+          formats={["avif", "webp"]}
+          class="projectCard__image"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div
+          class={`projectCard__icon symbol symbol--${mediaTint ?? "blue"}`}
+          aria-hidden="true"
+        >
+          <BrandIcon name={project.media.icon} size={36} />
+        </div>
+      )
+    }
+    <span class="projectCard__mediaGlow" aria-hidden="true"></span>
+  </div>
+
+  <div class="projectCard__body">
+    <header class="projectCard__header">
+      <div class="projectCard__heading">
+        <p class="projectCard__eyebrow">{project.role}</p>
+        <h3 class="projectCard__title">{project.title}</h3>
+      </div>
+      {
+        project.badge && (
+          <span class="badge" style={badgeStyle}>
+            <span class="badge__dot" />
+            {project.badge.label}
+          </span>
+        )
+      }
+    </header>
+
+    {
+      (releaseLabel || originLabel) && (
+        <div class="projectCard__metaRow">
+          {releaseLabel && <span class="projectCard__meta">{releaseLabel}</span>}
+          {originLabel && (
+            <span class="projectCard__meta projectCard__meta--origin">{originLabel}</span>
+          )}
+        </div>
+      )
+    }
+
+    <p class="projectCard__summary">{project.summary}</p>
+
+    <div class="projectCard__divider" aria-hidden="true"></div>
+
+    <ul class="projectCard__stack" aria-label="Technology stack">
+      {stackPrimary.map((tech) => <li class="projectCard__tag">{tech}</li>)}
+      {
+        stackOverflowLabel && (
+          <li class="projectCard__tag projectCard__tag--muted">{stackOverflowLabel}</li>
+        )
+      }
+    </ul>
+
+    <span class="projectCard__cta">
+      <span>{project.cta}</span>
+      <SFIcon name="arrow-up-right" size={18} stroke={1.6} />
+    </span>
+  </div>
+</a>

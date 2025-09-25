@@ -1,7 +1,7 @@
 ---
 import themeCssHref from "../styles/theme.css?url";
-import themeScriptSrc from "../scripts/theme.ts?url";
-import sidebarScriptSrc from "../scripts/sidebar.ts?url";
+import themeScriptSrc from "../scripts/theme.js?url";
+import sidebarScriptSrc from "../scripts/sidebar.js?url";
 const { title = "Home", sidebar = true } = Astro.props;
 ---
 
@@ -12,6 +12,7 @@ const { title = "Home", sidebar = true } = Astro.props;
     <title>{title} • Tulio Cunha</title>
     <link rel="icon" type="image/svg+xml" href="/terminal-favicon.svg" />
     <link rel="stylesheet" href={themeCssHref} />
+    <slot name="head" />
   </head>
   <body>
     <a href="#main" class="sr-only">Skip to content</a>
@@ -95,12 +96,11 @@ const { title = "Home", sidebar = true } = Astro.props;
                   </a>
                   <a
                     class="sidebar__link"
-                    href="https://www.tuliocunha.dev/"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                    href="/projects"
+                    aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
                   >
                     <span class="icon-tile" />
-                    Portfolio
+                    Projects
                   </a>
                 </div>
                 <div class="sidebar__group">

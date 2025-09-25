@@ -39,4 +39,3 @@ The blog SHALL expose machine-readable feeds and SEO enhancements so readers can
 
 - **WHEN** a post is marked as draft in Sanity
 - **THEN** it is excluded from production builds and feeds while still available via preview tokens for authenticated review
-

@@ -1,11 +1,9 @@
 (() => {
-  const filter = document.querySelector<HTMLInputElement>("#sidebarFilter");
-  const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>(".sidebar__link")
-  );
-  const groups = Array.from(document.querySelectorAll<HTMLElement>(".sidebar__group"));
+  const filter = document.querySelector("#sidebarFilter");
+  const links = Array.from(document.querySelectorAll(".sidebar__link"));
+  const groups = Array.from(document.querySelectorAll(".sidebar__group"));
 
-  const apply = (query: string | null | undefined): void => {
+  const apply = (query) => {
     const needle = (query ?? "").trim().toLowerCase();
 
     links.forEach((anchor) => {
@@ -15,30 +13,30 @@
     });
 
     groups.forEach((groupEl) => {
-      const hasVisible = Array.from(
-        groupEl.querySelectorAll<HTMLAnchorElement>(".sidebar__link")
-      ).some((anchor) => anchor.style.display !== "none");
+      const hasVisible = Array.from(groupEl.querySelectorAll(".sidebar__link")).some(
+        (anchor) => anchor.style.display !== "none"
+      );
       groupEl.style.display = hasVisible ? "block" : "none";
     });
   };
 
-  filter?.addEventListener("input", (event: Event) => {
-    const target = event.target as HTMLInputElement | null;
+  filter?.addEventListener("input", (event) => {
+    const target = event.target;
     apply(target?.value ?? null);
   });
 
-  const sidebar = document.querySelector<HTMLElement>(".sidebar");
-  const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
+  const sidebar = document.querySelector(".sidebar");
+  const toggle = document.querySelector(".topbar__menu");
   if (sidebar) {
     sidebar.setAttribute("aria-hidden", "true");
   }
-  let backdrop: HTMLDivElement | null = null;
+  let backdrop = null;
 
   if (toggle) {
     toggle.setAttribute("aria-expanded", "false");
   }
 
-  const close = (): void => {
+  const close = () => {
     sidebar?.classList.remove("is-open");
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
@@ -47,7 +45,7 @@
     backdrop?.setAttribute("aria-hidden", "true");
   };
 
-  const ensureBackdrop = (): HTMLDivElement => {
+  const ensureBackdrop = () => {
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.className = "backdrop";
@@ -59,7 +57,7 @@
     return backdrop;
   };
 
-  const open = (): void => {
+  const open = () => {
     const nextBackdrop = ensureBackdrop();
     sidebar?.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
@@ -81,7 +79,7 @@
     }
   });
 
-  window.addEventListener("keydown", (event: KeyboardEvent) => {
+  window.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       close();
     }
