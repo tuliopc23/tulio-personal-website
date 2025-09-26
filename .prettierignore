@@ -3,6 +3,7 @@ node_modules
 *.log
 .DS_Store
 .astro
+.sanity
 
 Astrodocs.md
 astrodocslite.md

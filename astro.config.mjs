@@ -8,6 +8,12 @@ const mode = process.env.NODE_ENV ?? "development";
 const env = loadEnv(mode, process.cwd(), "");
 const projectId = env.PUBLIC_SANITY_PROJECT_ID ?? process.env.PUBLIC_SANITY_PROJECT_ID;
 const dataset = env.PUBLIC_SANITY_DATASET ?? process.env.PUBLIC_SANITY_DATASET;
+const token = env.SANITY_API_READ_TOKEN ?? process.env.SANITY_API_READ_TOKEN;
+const hostedStudioUrl =
+  env.PUBLIC_SANITY_STUDIO_URL ?? process.env.PUBLIC_SANITY_STUDIO_URL ?? "/studio";
+const visualEditingEnabled =
+  (env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED ??
+    process.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED) === "true";
 const isDev = mode !== "production";
 
 const sanityOptions = {
@@ -17,10 +23,17 @@ const sanityOptions = {
   apiVersion: "2025-01-01",
 };
 
+if (token) {
+  sanityOptions.token = token;
+}
+
 if (isDev) {
   sanityOptions.studioBasePath = "/studio";
+}
+
+if (visualEditingEnabled || isDev) {
   sanityOptions.stega = {
-    studioUrl: "/studio",
+    studioUrl: hostedStudioUrl,
   };
 }
 
