@@ -65,7 +65,7 @@ const placeholders = [
 ---
 
 <Base title="Blog" sidebar={true}>
-  <section class="container blogHero">
+  <section class="container blogHero" data-reveal data-reveal-type="scale" data-reveal-group="blog-hero">
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">Blog</span>
       <h1 class="blogHero__title">
@@ -88,6 +88,8 @@ const placeholders = [
             dateLabel={featured.dateLabel}
             tags={featured.tags}
             featured={true}
+            revealGroup="blog-hero"
+            revealOrder={0}
           />
         </div>
       ) : (
@@ -104,7 +106,7 @@ const placeholders = [
 
   {
     featured && rest.length > 0 && (
-      <section class="container blogSurface">
+      <section class="container blogSurface" data-reveal data-reveal-group="blog-list">
         <div class="blogFilters" role="toolbar" aria-label="Filter posts by tag">
           <button
             class="blogFilters__link is-active"
@@ -151,6 +153,8 @@ const placeholders = [
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
                   tags={post.tags}
+                  revealGroup="blog-list"
+                  revealOrder={index}
                 />
               </li>
             ))}

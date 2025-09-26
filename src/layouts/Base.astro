@@ -1,7 +1,9 @@
 ---
 import themeCssHref from "../styles/theme.css?url";
+import motionCssHref from "../styles/motion.css?url";
 import themeScriptSrc from "../scripts/theme.js?url";
 import sidebarScriptSrc from "../scripts/sidebar.js?url";
+import motionScriptSrc from "../scripts/motion.js?url";
 const { title = "Home", sidebar = true } = Astro.props;
 ---
 
@@ -12,9 +14,10 @@ const { title = "Home", sidebar = true } = Astro.props;
     <title>{title} • Tulio Cunha</title>
     <link rel="icon" type="image/svg+xml" href="/terminal-favicon.svg" />
     <link rel="stylesheet" href={themeCssHref} />
+    <link rel="stylesheet" href={motionCssHref} />
     <slot name="head" />
   </head>
-  <body>
+  <body data-page-state="entering" data-glass-state="rest">
     <a href="#main" class="sr-only">Skip to content</a>
     <header class="topbar">
       <div class="topbar__inner">
@@ -192,6 +195,7 @@ const { title = "Home", sidebar = true } = Astro.props;
       </section>
     </main>
 
+    <script src={motionScriptSrc} type="module"></script>
     <script src={themeScriptSrc} type="module"></script>
     <script src={sidebarScriptSrc} type="module"></script>
   </body>

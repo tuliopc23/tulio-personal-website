@@ -60,7 +60,13 @@ const meta = [
 ];
 ---
 
-<section class="profileCard" aria-label={`Profile information for ${name}`}>
+<section
+  class="profileCard"
+  aria-label={`Profile information for ${name}`}
+  data-reveal
+  data-reveal-group="profile-card"
+  data-reveal-order="0"
+>
   <div class="profileCard__media">
     <figure class="profileCard__photo">
       <Image
@@ -143,7 +149,13 @@ const meta = [
   </div>
 </section>
 
-<ul class="profileCardContactsMobile cardRail" aria-label="Ways to reach Tulio">
+<ul
+  class="profileCardContactsMobile cardRail"
+  aria-label="Ways to reach Tulio"
+  data-reveal
+  data-reveal-group="profile-card"
+  data-reveal-order="1"
+>
   {
     contacts.map((entry) => (
       <li>

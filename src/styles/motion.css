@@ -1,0 +1,69 @@
+:root {
+  --reveal-delay-step: 50ms;
+}
+
+body.motion-enabled [data-reveal] {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translateY(var(--motion-distance-sm));
+  transition:
+    opacity var(--motion-duration-md) var(--motion-ease-out) var(--reveal-delay),
+    transform var(--motion-duration-md) var(--motion-ease-out) var(--reveal-delay);
+  will-change: opacity, transform;
+}
+
+body.motion-enabled [data-reveal][data-reveal-type="scale"] {
+  transform: scale(0.98);
+}
+
+body.motion-enabled [data-reveal][data-reveal-type="slide-left"] {
+  transform: translateX(var(--motion-distance-md));
+}
+
+body.motion-enabled [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+body.motion-enabled[data-page-state="entering"] .content {
+  opacity: 0;
+  transform: translateY(var(--motion-distance-sm));
+}
+
+body.motion-enabled[data-page-state="ready"] .content {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--motion-duration-lg) var(--motion-ease-out),
+    transform var(--motion-duration-lg) var(--motion-ease-out);
+}
+
+body.motion-enabled[data-page-state="leaving"] .content {
+  opacity: 0;
+  transform: translateY(calc(var(--motion-distance-sm) * -0.5));
+  transition:
+    opacity var(--motion-duration-sm) var(--motion-ease-in),
+    transform var(--motion-duration-sm) var(--motion-ease-in);
+}
+
+body.motion-enabled[data-page-state="leaving"] {
+  pointer-events: none;
+}
+
+body.motion-reduce [data-reveal],
+body.motion-reduce [data-reveal].is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+body.motion-reduce[data-page-state] .content {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    scroll-behavior: auto;
+  }
+}

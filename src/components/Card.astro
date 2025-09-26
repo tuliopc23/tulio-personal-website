@@ -1,4 +1,16 @@
 ---
+interface Props {
+  href?: string;
+  title?: string;
+  body?: string;
+  tint?: string;
+  cta?: string;
+  icon?: string | null;
+  revealGroup?: string;
+  revealOrder?: number | string;
+  revealDelay?: string;
+}
+
 const {
   href = "#",
   title = "Card title",
@@ -6,13 +18,25 @@ const {
   tint = "blue",
   cta = "Read more →",
   icon = null,
-} = Astro.props;
+  revealGroup,
+  revealOrder,
+  revealDelay,
+} = Astro.props as Props;
 import IconTile from "./IconTile.astro";
 
 const ctaLabel = cta ? cta.replace(/\s*→$/, "") : null;
+const revealOrderAttr =
+  revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
 ---
 
-<a class="card" href={href}>
+<a
+  class="card"
+  href={href}
+  data-reveal
+  data-reveal-group={revealGroup ?? undefined}
+  data-reveal-order={revealOrderAttr}
+  data-reveal-delay={revealDelay ?? undefined}
+>
   <div class="card__inner">
     <IconTile tint={tint} label={title} icon={icon} />
     <div class="card__content">

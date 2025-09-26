@@ -9,6 +9,9 @@ interface Props {
   dateLabel: string;
   tags?: string[];
   featured?: boolean;
+  revealGroup?: string;
+  revealOrder?: number | string;
+  revealDelay?: string;
 }
 
 const {
@@ -19,11 +22,22 @@ const {
   dateLabel,
   tags = [],
   featured = false,
+  revealGroup = "articles",
+  revealOrder,
+  revealDelay,
 }: Props = Astro.props;
 const tagLabel = tags.join(" · ");
+const revealOrderAttr =
+  revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
 ---
 
-<article class={`articleCard${featured ? " articleCard--featured" : ""}`}>
+<article
+  class={`articleCard${featured ? " articleCard--featured" : ""}`}
+  data-reveal
+  data-reveal-group={revealGroup}
+  data-reveal-order={revealOrderAttr}
+  data-reveal-delay={revealDelay ?? undefined}
+>
   <a class="articleCard__link" href={href}>
     <header class="articleCard__header">
       <div class="articleCard__meta" aria-label="Post metadata">

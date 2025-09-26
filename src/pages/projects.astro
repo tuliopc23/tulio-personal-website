@@ -23,7 +23,12 @@ const focusSummary = "Design systems • Native apps • Developer tooling";
     <meta name="twitter:description" content={description} />
   </Fragment>
 
-  <section class="container projects__intro">
+  <section
+    class="container projects__intro"
+    data-reveal
+    data-reveal-type="scale"
+    data-reveal-group="projects-intro"
+  >
     <div class="projects__hero">
       <span class="projects__eyebrow">Recent work</span>
       <h1 class="projects__title">Projects</h1>
@@ -40,16 +45,16 @@ const focusSummary = "Design systems • Native apps • Developer tooling";
     </div>
   </section>
 
-  <section class="container">
+  <section class="container" data-reveal data-reveal-group="projects-list">
     {
       hasProjects ? (
         <div class="cardGrid cardRail projects__grid">
-          {projectsSorted.map((project) => (
-            <ProjectCard project={project} />
+          {projectsSorted.map((project, index) => (
+            <ProjectCard project={project} revealOrder={index} />
           ))}
         </div>
       ) : (
-        <div class="projects__empty card">
+        <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
           <h2>Projects coming soon</h2>
           <p>
             I'm polishing case studies. In the meantime, reach out at

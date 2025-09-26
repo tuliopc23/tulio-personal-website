@@ -1,6 +1,8 @@
+import "dotenv/config";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
+import { codeInput } from "@sanity/code-input";
 
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { resolve } from "./src/sanity/lib/resolve";
@@ -8,7 +10,10 @@ import { resolve } from "./src/sanity/lib/resolve";
 const defaultPreviewUrl =
   process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321";
 
-if (!process.env.PUBLIC_SANITY_PROJECT_ID || !process.env.PUBLIC_SANITY_DATASET) {
+const projectId = process.env.PUBLIC_SANITY_PROJECT_ID || "61249gtj";
+const dataset = process.env.PUBLIC_SANITY_DATASET || "production";
+
+if (!projectId || !dataset) {
   console.warn(
     "Sanity environment variables PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET are not set. Studio may fail to load."
   );
@@ -17,8 +22,8 @@ if (!process.env.PUBLIC_SANITY_PROJECT_ID || !process.env.PUBLIC_SANITY_DATASET)
 export default defineConfig({
   name: "tulio-personal-website",
   title: "Tulio Personal Website Studio",
-  projectId: process.env.PUBLIC_SANITY_PROJECT_ID ?? "",
-  dataset: process.env.PUBLIC_SANITY_DATASET ?? "",
+  projectId,
+  dataset,
   basePath: "/studio",
   plugins: [
     structureTool(),
@@ -29,6 +34,7 @@ export default defineConfig({
           ? defaultPreviewUrl
           : location.origin,
     }),
+    codeInput(),
   ],
   schema: {
     types: schemaTypes,

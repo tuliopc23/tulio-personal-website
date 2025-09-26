@@ -4,7 +4,15 @@ import BrandIcon from "./BrandIcon.astro";
 import SFIcon from "./SFIcon.astro";
 import type { Project } from "../data/projects";
 
-const { project }: { project: Project } = Astro.props;
+interface Props {
+  project: Project;
+  revealGroup?: string;
+  revealOrder?: number | string;
+  revealDelay?: string;
+}
+
+const { project, revealGroup = "projects-grid", revealOrder, revealDelay }: Props =
+  Astro.props as Props;
 
 const badgeToneToAccent: Record<string, string> = {
   blue: "var(--blue)",
@@ -50,6 +58,12 @@ const stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
   target="_blank"
   rel="noreferrer noopener"
   data-analytics-event={`project:${project.id}`}
+  data-reveal
+  data-reveal-group={revealGroup}
+  data-reveal-order={
+    revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder)
+  }
+  data-reveal-delay={revealDelay ?? undefined}
 >
   <div class="projectCard__media" data-kind={hasImage ? "image" : "icon"}>
     {
