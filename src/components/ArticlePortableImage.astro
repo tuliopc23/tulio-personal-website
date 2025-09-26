@@ -1,0 +1,45 @@
+---
+interface Props {
+  value: {
+    url?: string;
+    alt?: string | null;
+    caption?: string | null;
+    lqip?: string | null;
+    width?: number;
+    height?: number;
+  };
+}
+
+const { value }: Props = Astro.props;
+const hasAsset = Boolean(value?.url);
+
+const alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
+const loading = "lazy";
+const decoding = "async";
+const src = value.url.includes("?")
+  ? `${value.url}&auto=format`
+  : `${value.url}?auto=format`;
+---
+
+{
+  hasAsset && (
+    <figure class="articlePortable__figure">
+      <img
+        src={src}
+        alt={alt}
+        loading={loading}
+        decoding={decoding}
+        width={value.width}
+        height={value.height}
+        style={
+          value.width && value.height
+            ? `aspect-ratio: ${value.width} / ${value.height};`
+            : undefined
+        }
+      />
+      {value.caption && (
+        <figcaption class="articlePortable__caption">{value.caption}</figcaption>
+      )}
+    </figure>
+  )
+}

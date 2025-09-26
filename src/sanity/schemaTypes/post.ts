@@ -72,7 +72,8 @@ export default defineType({
               name: "alt",
               title: "Alt text",
               type: "string",
-              validation: (rule) => rule.required().error("Accessibility requires alt text."),
+              validation: (rule) =>
+                rule.required().error("Accessibility requires alt text."),
             }),
             defineField({
               name: "caption",

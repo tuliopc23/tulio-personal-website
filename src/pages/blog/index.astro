@@ -1,47 +1,44 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
-import { getCollection } from "astro:content";
+import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
-type PostEntry = {
-  title: string;
-  summary: string;
-  href: string;
-  tags: string[];
-  date: Date;
-  dateISO: string;
-  dateLabel: string;
-};
-
-const entries = await getCollection("blog");
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
   year: "numeric",
 });
 
-const posts: PostEntry[] = entries
-  .map((entry) => {
-    const tags = Array.isArray(entry.data.tags) ? entry.data.tags : [];
-    const date =
-      entry.data.date instanceof Date ? entry.data.date : new Date(entry.data.date);
-    return {
-      title: entry.data.title,
-      summary: entry.data.summary,
-      href: `/blog/${entry.slug}/`,
-      tags,
-      date,
-      dateISO: date.toISOString(),
-      dateLabel: formatter.format(date),
-    } satisfies PostEntry;
-  })
-  .sort((a, b) => b.date.valueOf() - a.date.valueOf());
+const postEntries: Array<
+  PostSummary & {
+    href: string;
+    dateISO: string;
+    dateLabel: string;
+  }
+> = (await getAllPosts()).map((post) => {
+  const date = new Date(post.publishedAt);
+  return {
+    ...post,
+    href: `/blog/${post.slug}/`,
+    dateISO: date.toISOString(),
+    dateLabel: formatter.format(date),
+  };
+});
 
-const [featured, ...rest] = posts;
+const [featured, ...rest] = postEntries;
 const spotlightTags = ["projects", "tools", "open source", "opinion"];
-const tagSet = new Set(spotlightTags);
-const uniqueTags = Array.from(tagSet);
-const initialDisplayCount = 6;
+const tagSet = new Set<string>(spotlightTags);
+
+postEntries.forEach((entry) => {
+  entry.tags?.forEach((tag) => {
+    if (tag) {
+      tagSet.add(tag);
+    }
+  });
+});
+
+const uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
+const initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
 const placeholders = [
   {
     title: "Fresh case study in flight",

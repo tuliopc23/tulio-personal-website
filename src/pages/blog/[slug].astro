@@ -1,26 +1,154 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { getCollection } from "astro:content";
+import ArticleCard from "../../components/ArticleCard.astro";
+import ArticlePortableText from "../../components/ArticlePortableText.astro";
+import SFIcon from "../../components/SFIcon.astro";
+import {
+  getAllPostSlugs,
+  getPostBySlug,
+  getRecentPosts,
+  type PostDetail,
+  type PostSummary,
+} from "../../sanity/lib/posts";
+
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map(({ slug }) => ({ params: { slug } }));
+  const slugs = await getAllPostSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
-const { slug } = Astro.params;
-const post = (await getCollection("blog")).find((p) => p.slug === slug);
+const { slug = "" } = Astro.params;
+const post: PostDetail | null = await getPostBySlug(slug);
 
-if (!post) throw new Error("Post not found");
+if (!post) {
+  Astro.response.status = 404;
+}
 
-const { Content } = await post.render();
+const related: PostSummary[] = post ? await getRecentPosts(post.slug, 3) : [];
+const dateISO = post ? new Date(post.publishedAt).toISOString() : "";
+const dateLabel = post ? formatter.format(new Date(post.publishedAt)) : "";
+const readingLabel = post ? `${post.readingTimeMinutes} min read` : "";
+const defaultOrigin = Astro.url?.origin ?? "https://example.com";
+const siteOrigin = Astro.site?.origin ?? "";
+const shareOrigin = siteOrigin || defaultOrigin;
+const shareUrl = `${shareOrigin}/blog/${slug}/`;
+const shareText = post ? encodeURIComponent(post.title) : "";
+const heroImage = post?.heroImage;
+const tags = post?.tags ?? [];
+const pageTitle = post ? `${post.title} — Tulio Cunha` : "Article not found";
+const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.";
 ---
 
-<Base title={post.data.title} sidebar={true}>
-  <article class="container prose">
-    <h1>{post.data.title}</h1>
-    <p style="color:var(--muted)">
-      {new Date(post.data.date).toLocaleDateString()} • {post.data.tags?.join(" · ")}
-    </p>
-    <Content />
+<Base title={pageTitle} description={metaDescription} sidebar={true}>
+  <article class="container article">
+    {
+      post ? (
+        <>
+          <header class="article__header">
+            <a class="article__backLink" href="/blog">
+              <SFIcon name="arrow-left" size={18} stroke={1.6} />
+              <span>Back to articles</span>
+            </a>
+            <h1 class="article__title">{post.title}</h1>
+            {post.summary && <p class="article__summary">{post.summary}</p>}
+            {(dateISO || readingLabel) && (
+              <div class="article__meta">
+                {dateISO && <time datetime={dateISO}>{dateLabel}</time>}
+                {dateISO && readingLabel && <span aria-hidden="true">•</span>}
+                {readingLabel && <span>{readingLabel}</span>}
+              </div>
+            )}
+            {tags.length > 0 && (
+              <ul class="article__tags">
+                {tags.map((tag) => (
+                  <li class="article__tag">{tag}</li>
+                ))}
+              </ul>
+            )}
+          </header>
+
+          {heroImage?.url && (
+            <div class="article__hero">
+              <img
+                src={heroImage.url}
+                alt={heroImage.alt ?? ""}
+                loading="lazy"
+                decoding="async"
+                width={heroImage.width}
+                height={heroImage.height}
+              />
+            </div>
+          )}
+
+          <section class="article__body">
+            <ArticlePortableText blocks={post.content} />
+          </section>
+
+          <footer class="article__footer" aria-label="Article footer">
+            <section>
+              <h2 class="article__relatedTitle">Share</h2>
+              <div class="article__meta" role="group" aria-label="Share article">
+                <a
+                  class="articlePortable__link"
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${shareText}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Share on X (Twitter)
+                </a>
+                <a
+                  class="articlePortable__link"
+                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${shareText}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Share on LinkedIn
+                </a>
+              </div>
+            </section>
+
+            {related.length > 0 && (
+              <section aria-label="Related posts">
+                <h2 class="article__relatedTitle">Related reading</h2>
+                <div class="article__relatedGrid">
+                  {related.map((entry) => {
+                    const relatedISO = new Date(entry.publishedAt).toISOString();
+                    const relatedLabel = formatter.format(new Date(entry.publishedAt));
+                    return (
+                      <ArticleCard
+                        href={`/blog/${entry.slug}/`}
+                        title={entry.title}
+                        summary={entry.summary}
+                        dateISO={relatedISO}
+                        dateLabel={relatedLabel}
+                        tags={entry.tags}
+                      />
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+          </footer>
+        </>
+      ) : (
+        <section class="article__body">
+          <h1 class="article__title">Article not found</h1>
+          <p class="article__summary">
+            The article you’re looking for may have been unpublished or renamed. Return to
+            the
+            <a class="articlePortable__link" href="/blog">
+              {" "}
+              blog overview
+            </a>{" "}
+            to see the latest posts.
+          </p>
+        </section>
+      )
+    }
   </article>
 </Base>

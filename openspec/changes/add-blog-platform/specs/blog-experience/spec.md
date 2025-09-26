@@ -34,6 +34,25 @@ The blog SHALL render post detail content through a reusable Astro template that
 - **WHEN** editors update content in Sanity Studio
 - **THEN** the published view ignores Sanity visual builder theme classes and relies solely on the custom article template so the front-end remains visually consistent
 
+### Requirement: Article Reader Layout With Portable Text Enhancements
+
+Post detail pages SHALL provide a bespoke reader layout that renders Sanity Portable Text using custom typography, handles embedded media, and surfaces contextual navigation.
+
+#### Scenario: Portable Text mapping
+
+- **WHEN** a post includes headings, lists, quotes, inline marks, code blocks, or images in Portable Text
+- **THEN** each block is rendered via dedicated Astro components using `src/styles/theme.css` tokens, and images include responsive sources plus required alt text from Sanity metadata
+
+#### Scenario: Meta header and footer
+
+- **WHEN** the article template renders Sanity data
+- **THEN** it displays publish date, reading time, and tag chips ahead of the content and provides footer navigation for related posts and share links, matching the site’s Apple-inspired styling
+
+#### Scenario: Missing or draft content
+
+- **WHEN** a slug is unpublished, missing, or marked as draft without preview context
+- **THEN** the route returns a not-found response with a styled fallback page while logging for observability, ensuring drafts only surface through token-authenticated preview sessions
+
 ### Requirement: Feeds and SEO for Blog Platform
 
 The blog SHALL expose machine-readable feeds and SEO enhancements so readers can subscribe and search engines can index posts effectively.
@@ -53,6 +72,11 @@ The blog SHALL expose machine-readable feeds and SEO enhancements so readers can
 
 - **WHEN** a post is marked as draft in Sanity
 - **THEN** it is excluded from production builds and feeds while still available via preview tokens for authenticated review
+
+#### Scenario: Sitemap publishing
+
+- **WHEN** the site is built for deployment
+- **THEN** a `sitemap.xml` file is generated listing core site routes and current Sanity blog post URLs with last-modified timestamps so search engines can discover new articles quickly
 
 ### Requirement: Embedded Sanity Studio with Stable Tooling
 

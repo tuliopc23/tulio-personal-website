@@ -1,0 +1,26 @@
+---
+import config from "../../../sanity.config";
+
+const isDev = import.meta.env.DEV;
+const STUDIO_MODULE_ID = "sanity:studio";
+let SanityStudioComponent = null;
+
+if (isDev) {
+  const mod = await import(/* @vite-ignore */ STUDIO_MODULE_ID);
+  SanityStudioComponent = mod.SanityStudio;
+}
+---
+
+{
+  isDev && SanityStudioComponent ? (
+    <SanityStudioComponent config={config} />
+  ) : (
+    <div class="container studioPlaceholder">
+      <h1>Sanity Studio</h1>
+      <p>
+        The embedded Sanity Studio is only available during local development. Deploy the
+        Studio separately if you require production editing.
+      </p>
+    </div>
+  )
+}

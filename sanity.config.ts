@@ -5,11 +5,12 @@ import { presentationTool } from "sanity/presentation";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { resolve } from "./src/sanity/lib/resolve";
 
-const defaultPreviewUrl = process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321";
+const defaultPreviewUrl =
+  process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321";
 
 if (!process.env.PUBLIC_SANITY_PROJECT_ID || !process.env.PUBLIC_SANITY_DATASET) {
   console.warn(
-    "Sanity environment variables PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET are not set. Studio may fail to load.",
+    "Sanity environment variables PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET are not set. Studio may fail to load."
   );
 }
 

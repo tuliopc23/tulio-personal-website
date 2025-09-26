@@ -1,0 +1,35 @@
+---
+import type { PortableTextBlock } from "@portabletext/types";
+import { PortableText } from "astro-portabletext";
+
+import ArticlePortableCode from "./ArticleCodeBlock.astro";
+import ArticlePortableImage from "./ArticlePortableImage.astro";
+import ArticlePortableLink from "./ArticlePortableLink.astro";
+
+interface Props {
+  blocks?: PortableTextBlock[];
+}
+
+const { blocks = [] }: Props = Astro.props;
+const hasContent = Array.isArray(blocks) && blocks.length > 0;
+
+const components = {
+  type: {
+    image: ArticlePortableImage,
+    code: ArticlePortableCode,
+  },
+  mark: {
+    link: ArticlePortableLink,
+  },
+};
+---
+
+{
+  hasContent ? (
+    <div class="articlePortable">
+      <PortableText value={blocks} components={components} />
+    </div>
+  ) : (
+    <div class="articlePortable articlePortable--empty">Article content coming soon.</div>
+  )
+}

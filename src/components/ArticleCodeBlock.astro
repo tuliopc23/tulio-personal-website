@@ -1,0 +1,26 @@
+---
+interface Props {
+  value: {
+    code?: string;
+    language?: string;
+    filename?: string;
+  };
+}
+
+const { value }: Props = Astro.props;
+const code = value.code ?? "";
+const language = value.language?.toLowerCase();
+---
+
+{
+  code && (
+    <figure class="articlePortable__codeBlock" data-language={language}>
+      {value.filename && (
+        <figcaption class="articlePortable__codeCaption">{value.filename}</figcaption>
+      )}
+      <pre class="articlePortable__pre">
+        <code class={`language-${language ?? "plain"}`}>{code}</code>
+      </pre>
+    </figure>
+  )
+}

@@ -3,8 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "bundler",
-    "types": ["astro/client"]
+    "types": ["astro/client"],
+    "skipLibCheck": true,
+    "paths": {
+      "astro-portabletext": ["types/astro-portabletext"]
+    }
   },
-  "include": ["src", "astro.config.mjs", "*.config.*", "tsconfig.json"],
+  "include": ["src", "types", "astro.config.mjs", "*.config.*", "tsconfig.json"],
   "exclude": ["dist", "node_modules"]
 }
