@@ -12,6 +12,7 @@ interface Props {
   revealGroup?: string;
   revealOrder?: number | string;
   revealDelay?: string;
+  readingTimeMinutes?: number;
 }
 
 const {
@@ -25,10 +26,15 @@ const {
   revealGroup = "articles",
   revealOrder,
   revealDelay,
+  readingTimeMinutes,
 }: Props = Astro.props;
 const tagLabel = tags.join(" · ");
 const revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
+const readingTimeLabel =
+  typeof readingTimeMinutes === "number" && Number.isFinite(readingTimeMinutes)
+    ? `${Math.max(1, Math.round(readingTimeMinutes))} min read`
+    : null;
 ---
 
 <article
@@ -41,10 +47,17 @@ const revealOrderAttr =
   <a class="articleCard__link" href={href}>
     <header class="articleCard__header">
       <div class="articleCard__meta" aria-label="Post metadata">
-        <time datetime={dateISO}>{dateLabel}</time>
+        <span class="articleCard__metaItem">
+          <time datetime={dateISO}>{dateLabel}</time>
+        </span>
+        {
+          readingTimeLabel && (
+            <span class="articleCard__metaItem">{readingTimeLabel}</span>
+          )
+        }
         {
           tagLabel && (
-            <span class="articleCard__metaTags" aria-label="Tags">
+            <span class="articleCard__metaItem articleCard__metaTags" aria-label="Tags">
               {tagLabel}
             </span>
           )

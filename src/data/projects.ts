@@ -5,6 +5,8 @@ import LiquidifyImage from "../assets/liquidify.png";
 
 type BadgeTone = "blue" | "teal" | "pink" | "indigo" | "orange";
 
+type ProjectCategory = "native" | "web" | "tooling" | "design-system" | "experience";
+
 type ProjectBadge = {
   label: string;
   tone?: BadgeTone;
@@ -32,6 +34,8 @@ export type Project = {
   cta: string;
   releaseDate: string;
   badge?: ProjectBadge;
+  status?: ProjectBadge;
+  categories: ProjectCategory[];
   media: ProjectMedia;
 };
 
@@ -50,6 +54,11 @@ export const projects: Project[] = [
       label: "Design system",
       tone: "teal",
     },
+    status: {
+      label: "Live",
+      tone: "blue",
+    },
+    categories: ["web", "design-system"],
     media: {
       type: "image",
       src: LiquidifyImage,
@@ -66,6 +75,11 @@ export const projects: Project[] = [
     href: "https://portfolio.tuliocunha.dev",
     cta: "Visit Hackerfolio",
     releaseDate: "2024-02-01",
+    status: {
+      label: "Case study",
+      tone: "indigo",
+    },
+    categories: ["web", "experience"],
     media: {
       type: "image",
       src: HackerfolioImage,
@@ -86,6 +100,11 @@ export const projects: Project[] = [
       label: "macOS app",
       tone: "indigo",
     },
+    status: {
+      label: "In beta",
+      tone: "orange",
+    },
+    categories: ["native", "tooling"],
     media: {
       type: "icon",
       icon: "github",
@@ -106,6 +125,11 @@ export const projects: Project[] = [
       label: "Safari extension",
       tone: "pink",
     },
+    status: {
+      label: "Prototype",
+      tone: "pink",
+    },
+    categories: ["native", "experience"],
     media: {
       type: "icon",
       icon: "github",
@@ -126,6 +150,11 @@ export const projects: Project[] = [
       label: "CLI tooling",
       tone: "orange",
     },
+    status: {
+      label: "Open source",
+      tone: "teal",
+    },
+    categories: ["tooling", "native"],
     media: {
       type: "icon",
       icon: "github",

@@ -20,6 +20,7 @@ export interface PostSummary {
   publishedAt: string;
   tags: string[];
   heroImage?: SanityImageWithMetadata | null;
+  readingTimeMinutes?: number;
 }
 
 export interface PostDetail extends PostSummary {

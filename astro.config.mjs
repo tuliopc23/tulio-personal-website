@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
@@ -45,5 +46,22 @@ export default defineConfig({
   integrations: [mdx(), react(), sanity(sanityOptions)],
   vite: {
     css: { devSourcemap: true },
+    resolve: {
+      alias: {
+        "styled-components$": fileURLToPath(
+          new URL("./src/utils/styled-components-shim.ts", import.meta.url)
+        ),
+      },
+    },
+    ssr: {
+      noExternal: ["@sanity/code-input", "styled-components"],
+      resolve: {
+        alias: {
+          "styled-components$": fileURLToPath(
+            new URL("./src/utils/styled-components-shim.ts", import.meta.url)
+          ),
+        },
+      },
+    },
   },
 });

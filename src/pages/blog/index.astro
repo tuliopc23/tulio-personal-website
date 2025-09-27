@@ -14,14 +14,18 @@ const postEntries: Array<
     href: string;
     dateISO: string;
     dateLabel: string;
+    readingTimeMinutes: number;
   }
 > = (await getAllPosts()).map((post) => {
   const date = new Date(post.publishedAt);
+  const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
+  const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
   return {
     ...post,
     href: `/blog/${post.slug}/`,
     dateISO: date.toISOString(),
     dateLabel: formatter.format(date),
+    readingTimeMinutes: post.readingTimeMinutes ?? estimatedReadingTime,
   };
 });
 
@@ -85,6 +89,7 @@ const placeholders = [
     {
       featured ? (
         <div class="blogHero__featured">
+          <div class="blogHero__halo" aria-hidden="true"></div>
           <ArticleCard
             href={featured.href}
             title={featured.title}
@@ -92,6 +97,7 @@ const placeholders = [
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
             tags={featured.tags}
+            readingTimeMinutes={featured.readingTimeMinutes}
             featured={true}
             revealGroup="blog-hero"
             revealOrder={0}
@@ -158,6 +164,7 @@ const placeholders = [
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
                   tags={post.tags}
+                  readingTimeMinutes={post.readingTimeMinutes}
                   revealGroup="blog-list"
                   revealOrder={index}
                 />

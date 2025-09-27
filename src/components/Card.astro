@@ -12,7 +12,7 @@ interface Props {
 }
 
 const {
-  href = "#",
+  href,
   title = "Card title",
   body = "",
   tint = "blue",
@@ -27,22 +27,46 @@ import IconTile from "./IconTile.astro";
 const ctaLabel = cta ? cta.replace(/\s*→$/, "") : null;
 const revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
+const isInteractive = typeof href === "string" && href.trim().length > 0;
+const cardClasses = ["card", !isInteractive ? "card--static" : null]
+  .filter(Boolean)
+  .join(" ");
+const showCTA = isInteractive && Boolean(ctaLabel);
 ---
 
-<a
-  class="card"
-  href={href}
-  data-reveal
-  data-reveal-group={revealGroup ?? undefined}
-  data-reveal-order={revealOrderAttr}
-  data-reveal-delay={revealDelay ?? undefined}
->
-  <div class="card__inner">
-    <IconTile tint={tint} label={title} icon={icon} />
-    <div class="card__content">
-      <div class="card-title">{title}</div>
-      <p class="card-body">{body}</p>
-      {ctaLabel && <span class="card__cta">{ctaLabel}</span>}
+{isInteractive ? (
+  <a
+    class={cardClasses}
+    href={href}
+    data-reveal
+    data-reveal-group={revealGroup ?? undefined}
+    data-reveal-order={revealOrderAttr}
+    data-reveal-delay={revealDelay ?? undefined}
+  >
+    <div class="card__inner">
+      <IconTile tint={tint} label={title} icon={icon} />
+      <div class="card__content">
+        <div class="card-title">{title}</div>
+        <p class="card-body">{body}</p>
+        {showCTA && <span class="card__cta">{ctaLabel}</span>}
+      </div>
+    </div>
+  </a>
+) : (
+  <div
+    class={cardClasses}
+    data-reveal
+    data-reveal-group={revealGroup ?? undefined}
+    data-reveal-order={revealOrderAttr}
+    data-reveal-delay={revealDelay ?? undefined}
+    role="presentation"
+  >
+    <div class="card__inner">
+      <IconTile tint={tint} label={title} icon={icon} />
+      <div class="card__content">
+        <div class="card-title">{title}</div>
+        <p class="card-body">{body}</p>
+      </div>
     </div>
   </div>
-</a>
+)}

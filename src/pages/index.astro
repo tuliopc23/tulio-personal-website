@@ -61,6 +61,63 @@ const writingCards =
           tint: tagTint ?? fallbackTint,
         };
       });
+
+const techStack = [
+  {
+    title: "Swift",
+    body: "Native macOS and iOS development.",
+    tint: "orange",
+    icon: "swift",
+  },
+  {
+    title: "TypeScript",
+    body: "Structured web applications.",
+    tint: "blue",
+    icon: "typescript",
+  },
+  {
+    title: "Rust",
+    body: "Systems programming with safety.",
+    tint: "brown",
+    icon: "rust",
+  },
+  {
+    title: "Zig",
+    body: "Low-level ergonomics and performance.",
+    tint: "yellow",
+    icon: "zig",
+  },
+  {
+    title: "Go",
+    body: "Backend services and tooling.",
+    tint: "cyan",
+    icon: "go",
+  },
+  {
+    title: "React",
+    body: "Component-driven UI.",
+    tint: "cyan",
+    icon: "react",
+  },
+  {
+    title: "Svelte",
+    body: "Motion-forward, compiled interfaces.",
+    tint: "orange",
+    icon: "svelte",
+  },
+  {
+    title: "Vue",
+    body: "Progressive web app craftsmanship.",
+    tint: "green",
+    icon: "vue",
+  },
+  {
+    title: "Docker",
+    body: "Portable environments and deployment pipelines.",
+    tint: "indigo",
+    icon: "docker",
+  },
+];
 ---
 
 <Base title="Home" sidebar={true}>
@@ -118,96 +175,16 @@ const writingCards =
       Tech stack
     </h2>
     <div class="cardGrid cardRail">
-      <Card
-        title="Swift"
-        body="Native macOS and iOS development."
-        href="#"
-        tint="orange"
-        icon="swift"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={1}
-      />
-      <Card
-        title="TypeScript"
-        body="Structured web applications."
-        href="#"
-        tint="blue"
-        icon="typescript"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={2}
-      />
-      <Card
-        title="Rust"
-        body="Systems programming with safety."
-        href="#"
-        tint="brown"
-        icon="rust"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={3}
-      />
-      <Card
-        title="Zig"
-        body="Low-level ergonomics and performance."
-        href="#"
-        tint="yellow"
-        icon="zig"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={4}
-      />
-      <Card
-        title="Go"
-        body="Backend services and tooling."
-        href="#"
-        tint="cyan"
-        icon="go"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={5}
-      />
-      <Card
-        title="React"
-        body="Component-driven UI."
-        href="#"
-        tint="cyan"
-        icon="react"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={6}
-      />
-      <Card
-        title="Svelte"
-        body="Motion-forward, compiled interfaces."
-        href="#"
-        tint="orange"
-        icon="svelte"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={7}
-      />
-      <Card
-        title="Vue"
-        body="Progressive web app craftsmanship."
-        href="#"
-        tint="green"
-        icon="vue"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={8}
-      />
-      <Card
-        title="Docker"
-        body="Portable environments and deployment pipelines."
-        href="#"
-        tint="indigo"
-        icon="docker"
-        cta=""
-        revealGroup="home-tech"
-        revealOrder={9}
-      />
+      {techStack.map((entry, index) => (
+        <Card
+          title={entry.title}
+          body={entry.body}
+          tint={entry.tint}
+          icon={entry.icon}
+          revealGroup="home-tech"
+          revealOrder={index + 1}
+        />
+      ))}
     </div>
   </section>
 
