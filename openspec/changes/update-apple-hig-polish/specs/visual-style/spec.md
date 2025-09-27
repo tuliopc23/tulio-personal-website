@@ -52,6 +52,7 @@ Typography, spacing, and iconography SHALL align to a consistent baseline grid a
 
 - **WHEN** icon tiles, badges, or status pills appear
 - **THEN** icons sit within 8px padding frames, share consistent corner radii, and receive lighting accents sourced from the token palette
+- **AND** primary navigation and feature glyphs reuse the curated SF vectors (journal, constellation, triple-spark) with Apple system tint tokens (blue, teal, green, orange, yellow) replacing ad-hoc purples or pinks
 - **AND** hover/focus states include high-contrast rings or glows that pass WCAG contrast checks
 
 #### Scenario: QA checklist

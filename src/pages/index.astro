@@ -14,30 +14,31 @@ const fallbackWriting = [
     title: "Liquid glass on the web",
     summary:
       "How to recreate Apple's materials with CSS blur, transparency, and borders.",
-    tint: "pink" as const,
+    tint: "blue" as const,
   },
   {
     slug: "sidebar-ux",
     title: "Sidebar UX like Apple Docs",
     summary: "Sticky sections, quick filter, and semantics.",
-    tint: "indigo" as const,
+    tint: "teal" as const,
   },
   {
     slug: "system-fonts",
     title: "System font stacks",
     summary: "Use -apple-system and friends correctly.",
-    tint: "teal" as const,
+    tint: "orange" as const,
   },
 ];
 
 const tintByTag: Record<string, string> = {
-  design: "pink",
+  design: "orange",
   accessibility: "teal",
-  tooling: "indigo",
+  tooling: "blue",
   engineering: "blue",
   swift: "orange",
-  frontend: "indigo",
-  ux: "pink",
+  frontend: "teal",
+  ux: "blue",
+  writing: "yellow",
 };
 
 const writingCards =
@@ -88,7 +89,7 @@ const writingCards =
         title="Projects"
         body="Apple-inspired work across native and web—design systems, terminal interfaces, and tooling."
         href="/projects"
-        tint="indigo"
+        tint="orange"
         icon="projects"
         cta="Browse projects →"
         revealGroup="home-links"
@@ -98,7 +99,7 @@ const writingCards =
         title="Blog"
         body="Notes on engineering, experiences, products, tastes, and tips worth sharing."
         href="/blog/"
-        tint="indigo"
+        tint="blue"
         icon="blog"
         cta="Browse the journal →"
         revealGroup="home-links"
@@ -227,7 +228,7 @@ const writingCards =
             body={entry.summary}
             href={entry.href}
             tint={entry.tint}
-            icon="sparkle"
+            icon="writing"
             cta="Read article →"
             revealGroup="home-writing"
             revealOrder={index + 1}
