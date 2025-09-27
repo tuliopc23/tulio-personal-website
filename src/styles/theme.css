@@ -568,7 +568,11 @@ body[data-glass-state="scrolled"] .topbar {
   border-right: 1px solid var(--glass-border);
   position: relative;
   box-shadow: var(--shadow-sidebar);
-  background: color-mix(in oklch, var(--surface-elevated) var(--glass-opacity-base), transparent);
+  background: color-mix(
+    in oklch,
+    var(--surface-elevated) var(--glass-opacity-base),
+    transparent
+  );
   backdrop-filter: saturate(1.6) blur(var(--glass-blur-base));
   -webkit-backdrop-filter: saturate(1.6) blur(var(--glass-blur-base));
   transition:
@@ -593,7 +597,9 @@ body[data-glass-state="scrolled"] .sidebar {
   backdrop-filter: saturate(1.9) blur(var(--glass-blur-active));
   -webkit-backdrop-filter: saturate(1.9) blur(var(--glass-blur-active));
   border-right-color: var(--glass-border-strong);
-  box-shadow: var(--shadow-sidebar), inset -1px 0 0 rgba(255, 255, 255, 0.06);
+  box-shadow:
+    var(--shadow-sidebar),
+    inset -1px 0 0 rgba(255, 255, 255, 0.06);
 }
 .sidebar__header {
   padding: var(--space-sm);

@@ -45,11 +45,21 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
 ---
 
 <Base title={pageTitle} description={metaDescription} sidebar={true}>
-  <article class="container article">
+  <article
+    class="container article"
+    data-reveal
+    data-reveal-type="scale"
+    data-reveal-group="post-shell"
+  >
     {
       post ? (
         <>
-          <header class="article__header">
+          <header
+            class="article__header"
+            data-reveal
+            data-reveal-group="post-shell"
+            data-reveal-order={0}
+          >
             <a class="article__backLink" href="/blog">
               <SFIcon name="arrow-left" size={18} stroke={1.6} />
               <span>Back to articles</span>
@@ -73,7 +83,12 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
           </header>
 
           {heroImage?.url && (
-            <div class="article__hero">
+            <div
+              class="article__hero"
+              data-reveal
+              data-reveal-group="post-shell"
+              data-reveal-order={1}
+            >
               <img
                 src={heroImage.url}
                 alt={heroImage.alt ?? ""}
@@ -85,12 +100,17 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
             </div>
           )}
 
-          <section class="article__body">
+          <section
+            class="article__body"
+            data-reveal
+            data-reveal-group="post-shell"
+            data-reveal-order={2}
+          >
             <ArticlePortableText blocks={post.content} />
           </section>
 
           <footer class="article__footer" aria-label="Article footer">
-            <section>
+            <section data-reveal data-reveal-group="post-shell" data-reveal-order={3}>
               <h2 class="article__relatedTitle">Share</h2>
               <div class="article__meta" role="group" aria-label="Share article">
                 <a
@@ -113,10 +133,15 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
             </section>
 
             {related.length > 0 && (
-              <section aria-label="Related posts">
+              <section
+                aria-label="Related posts"
+                data-reveal
+                data-reveal-group="post-shell"
+                data-reveal-order={4}
+              >
                 <h2 class="article__relatedTitle">Related reading</h2>
                 <div class="article__relatedGrid">
-                  {related.map((entry) => {
+                  {related.map((entry, index) => {
                     const relatedISO = new Date(entry.publishedAt).toISOString();
                     const relatedLabel = formatter.format(new Date(entry.publishedAt));
                     return (
@@ -127,6 +152,8 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
                         dateISO={relatedISO}
                         dateLabel={relatedLabel}
                         tags={entry.tags}
+                        revealGroup="related-posts"
+                        revealOrder={index}
                       />
                     );
                   })}
@@ -136,7 +163,7 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
           </footer>
         </>
       ) : (
-        <section class="article__body">
+        <section class="article__body" data-reveal data-reveal-group="post-shell">
           <h1 class="article__title">Article not found</h1>
           <p class="article__summary">
             The article you’re looking for may have been unpublished or renamed. Return to
