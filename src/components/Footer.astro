@@ -26,6 +26,14 @@ const socials = [
     icon: "mail",
   },
 ];
+
+const decoratedSocials = socials.map((entry) => {
+  const brand = entry.icon ? getBrandIcon(entry.icon) : null;
+  return {
+    ...entry,
+    accent: brand?.accent ?? null,
+  };
+});
 ---
 
 <footer class="footer">
@@ -42,9 +50,13 @@ const socials = [
     </div>
     <nav class="footer__links" aria-label="Social links">
       {
-        socials.map((entry) => (
+        decoratedSocials.map((entry) => (
           <a href={entry.href} target="_blank" rel="noreferrer noopener">
-            <span class="footer__icon" aria-hidden="true">
+            <span
+              class="footer__icon"
+              aria-hidden="true"
+              style={entry.accent ? { "--footer-icon-accent": entry.accent } : undefined}
+            >
               {getBrandIcon(entry.icon) ? (
                 <BrandIcon name={entry.icon} size={18} />
               ) : (

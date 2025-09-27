@@ -13,4 +13,4 @@
 ## 3. Verification
 
 - [ ] 3.1 Validate light/dark themes, reduced motion, and responsive breakpoints manually; capture screenshots/video for review.
-- [ ] 3.2 Run `bun run check` and update docs/specs with the finalized tokens and behaviors. _(Attempted; currently blocked by pre-existing formatting issues in `AGENTS.md`.)_
+- [ ] 3.2 Run `bun run check` and update docs/specs with the finalized tokens and behaviors. _(Attempted; blocked by `@sanity/code-input` throwing `styled is not a function` during `astro build`.)_

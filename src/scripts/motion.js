@@ -9,6 +9,7 @@
   const hasReduced = prefersReduced.matches;
 
   const revealSelector = "[data-reveal]";
+  const MAX_REVEAL_DELAY = 180;
 
   if (hasReduced) {
     body.classList.add("motion-reduce");
@@ -72,11 +73,13 @@
       } else if (revealOrder !== undefined) {
         const numericOrder = Number(revealOrder);
         if (!Number.isNaN(numericOrder)) {
-          element.style.setProperty("--reveal-delay", `${numericOrder * 50}ms`);
+          const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
+          element.style.setProperty("--reveal-delay", `${computed}ms`);
         }
       } else if (revealGroup) {
         const nextIndex = groups.get(revealGroup) ?? 0;
-        element.style.setProperty("--reveal-delay", `${nextIndex * 60}ms`);
+        const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
+        element.style.setProperty("--reveal-delay", `${computed}ms`);
         groups.set(revealGroup, nextIndex + 1);
       }
 

@@ -4,6 +4,8 @@ import motionCssHref from "../styles/motion.css?url";
 import themeScriptSrc from "../scripts/theme.js?url";
 import sidebarScriptSrc from "../scripts/sidebar.js?url";
 import motionScriptSrc from "../scripts/motion.js?url";
+import BrandIcon from "../components/BrandIcon.astro";
+import SFIcon from "../components/SFIcon.astro";
 const { title = "Home", sidebar = true } = Astro.props;
 ---
 
@@ -84,7 +86,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                     href="/"
                     aria-current={Astro.url.pathname === "/" ? "page" : undefined}
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <SFIcon name="sparkle" size={22} stroke={1.4} />
+                    </span>
                     Home
                   </a>
                   <a
@@ -94,7 +98,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                       Astro.url.pathname.startsWith("/blog") ? "page" : undefined
                     }
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <SFIcon name="book" size={22} stroke={1.4} />
+                    </span>
                     Blog
                   </a>
                   <a
@@ -102,7 +108,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                     href="/projects"
                     aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <SFIcon name="cube" size={22} stroke={1.4} />
+                    </span>
                     Projects
                   </a>
                 </div>
@@ -114,7 +122,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <BrandIcon name="github" size={22} />
+                    </span>
                     GitHub
                   </a>
                   <a
@@ -123,11 +133,15 @@ const { title = "Home", sidebar = true } = Astro.props;
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <BrandIcon name="instagram" size={22} />
+                    </span>
                     Instagram
                   </a>
                   <a class="sidebar__link" href="mailto:contact@tuliocunha.dev">
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <SFIcon name="mail" size={22} stroke={1.4} />
+                    </span>
                     Email
                   </a>
                   <a
@@ -136,7 +150,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <BrandIcon name="linkedin" size={22} />
+                    </span>
                     LinkedIn
                   </a>
                   <a
@@ -145,7 +161,9 @@ const { title = "Home", sidebar = true } = Astro.props;
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    <span class="icon-tile" />
+                    <span class="icon-tile" aria-hidden="true">
+                      <SFIcon name="calendar" size={22} stroke={1.4} />
+                    </span>
                     Book Time
                   </a>
                 </div>
@@ -181,7 +199,7 @@ const { title = "Home", sidebar = true } = Astro.props;
               <a href="/projects">Projects</a>
               <a href="/blog/">Blog</a>
               <a
-                href="https://www.tuliocunha.dev"
+                href="https://portfolio.tuliocunha.dev"
                 target="_blank"
                 rel="noreferrer noopener">Portfolio</a
               >

@@ -3,6 +3,63 @@ import Base from "../layouts/Base.astro";
 import "../styles/section.css";
 import Card from "../components/Card.astro";
 import ProfileCard from "../components/ProfileCard.astro";
+import { getAllPosts } from "../sanity/lib/posts";
+
+const posts = await getAllPosts();
+const featuredWriting = posts.slice(0, 3);
+
+const fallbackWriting = [
+  {
+    slug: "liquid-glass",
+    title: "Liquid glass on the web",
+    summary:
+      "How to recreate Apple's materials with CSS blur, transparency, and borders.",
+    tint: "pink" as const,
+  },
+  {
+    slug: "sidebar-ux",
+    title: "Sidebar UX like Apple Docs",
+    summary: "Sticky sections, quick filter, and semantics.",
+    tint: "indigo" as const,
+  },
+  {
+    slug: "system-fonts",
+    title: "System font stacks",
+    summary: "Use -apple-system and friends correctly.",
+    tint: "teal" as const,
+  },
+];
+
+const tintByTag: Record<string, string> = {
+  design: "pink",
+  accessibility: "teal",
+  tooling: "indigo",
+  engineering: "blue",
+  swift: "orange",
+  frontend: "indigo",
+  ux: "pink",
+};
+
+const writingCards =
+  featuredWriting.length === 0
+    ? fallbackWriting.map((item) => ({
+        title: item.title,
+        summary: item.summary,
+        href: `/blog/${item.slug}/`,
+        tint: item.tint,
+      }))
+    : featuredWriting.map((post, index) => {
+        const fallbackTint = fallbackWriting[index]?.tint ?? "indigo";
+        const tagTint = post.tags
+          .map((tag) => tintByTag[tag.toLowerCase()])
+          .find(Boolean);
+        return {
+          title: post.title,
+          summary: post.summary,
+          href: `/blog/${post.slug}/`,
+          tint: tagTint ?? fallbackTint,
+        };
+      });
 ---
 
 <Base title="Home" sidebar={true}>
@@ -163,33 +220,20 @@ import ProfileCard from "../components/ProfileCard.astro";
       Featured writing
     </h2>
     <div class="cardGrid cardRail">
-      <Card
-        title="Liquid glass on the web"
-        body="How to recreate Apple’s materials with CSS blur, transparency, and borders."
-        href="/blog/liquid-glass"
-        tint="pink"
-        icon="sparkle"
-        revealGroup="home-writing"
-        revealOrder={1}
-      />
-      <Card
-        title="Sidebar UX like Apple Docs"
-        body="Sticky sections, quick filter, and semantics."
-        href="/blog/sidebar-ux"
-        tint="indigo"
-        icon="projects"
-        revealGroup="home-writing"
-        revealOrder={2}
-      />
-      <Card
-        title="System font stacks"
-        body="Use -apple-system and friends correctly."
-        href="/blog/system-fonts"
-        tint="teal"
-        icon="globe"
-        revealGroup="home-writing"
-        revealOrder={3}
-      />
+      {
+        writingCards.map((entry, index) => (
+          <Card
+            title={entry.title}
+            body={entry.summary}
+            href={entry.href}
+            tint={entry.tint}
+            icon="sparkle"
+            cta="Read article →"
+            revealGroup="home-writing"
+            revealOrder={index + 1}
+          />
+        ))
+      }
     </div>
   </section>
 </Base>

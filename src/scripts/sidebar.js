@@ -1,7 +1,12 @@
 (() => {
+  const body = document.body;
   const filter = document.querySelector("#sidebarFilter");
   const links = Array.from(document.querySelectorAll(".sidebar__link"));
   const groups = Array.from(document.querySelectorAll(".sidebar__group"));
+
+  if (body && body.dataset && !body.dataset.sidebarState) {
+    body.dataset.sidebarState = "closed";
+  }
 
   const apply = (query) => {
     const needle = (query ?? "").trim().toLowerCase();
@@ -40,9 +45,12 @@
     sidebar?.classList.remove("is-open");
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
-    document.body.classList.remove("is-locked");
+    body?.classList.remove("is-locked");
     sidebar?.setAttribute("aria-hidden", "true");
     backdrop?.setAttribute("aria-hidden", "true");
+    if (body?.dataset) {
+      body.dataset.sidebarState = "closed";
+    }
   };
 
   const ensureBackdrop = () => {
@@ -62,9 +70,12 @@
     sidebar?.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
     toggle?.setAttribute("aria-expanded", "true");
-    document.body.classList.add("is-locked");
+    body?.classList.add("is-locked");
     sidebar?.setAttribute("aria-hidden", "false");
     nextBackdrop.setAttribute("aria-hidden", "false");
+    if (body?.dataset) {
+      body.dataset.sidebarState = "open";
+    }
   };
 
   toggle?.addEventListener("click", () => {

@@ -67,3 +67,19 @@ body.motion-reduce[data-page-state] .content {
     scroll-behavior: auto;
   }
 }
+
+@media (max-width: 1023px) {
+  body.motion-enabled .sidebar {
+    transition:
+      transform var(--motion-duration-md) var(--motion-ease-out),
+      opacity var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  body.motion-enabled[data-sidebar-state="closed"] .sidebar {
+    transition-timing-function: var(--motion-ease-in);
+  }
+
+  body.motion-enabled .backdrop {
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+  }
+}

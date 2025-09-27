@@ -63,7 +63,7 @@ export const projects: Project[] = [
       "Terminal-inspired personal site that accepts commands like ls, grep, and whoami while revealing my story as output.",
     role: "Designer & Full Stack Developer",
     stack: ["Bun", "Elysia", "Tailwind v4", "TanStack Query", "TanStack Router"],
-    href: "https://www.tuliocunha.dev",
+    href: "https://portfolio.tuliocunha.dev",
     cta: "Visit Hackerfolio",
     releaseDate: "2024-02-01",
     media: {

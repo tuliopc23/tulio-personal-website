@@ -21,8 +21,8 @@ const contacts = [
   },
   {
     label: "Portfolio",
-    value: "tuliocunha.dev",
-    href: "https://www.tuliocunha.dev",
+    value: "portfolio.tuliocunha.dev",
+    href: "https://portfolio.tuliocunha.dev",
     icon: "globe",
   },
   {
@@ -120,30 +120,42 @@ const meta = [
       aria-label="Ways to reach Tulio"
     >
       {
-        contacts.map((entry) => (
-          <li>
-            <a
-              class="profileCard__chip"
-              href={entry.href}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {entry.icon && (
-                <span class="profileCard__chipIcon" aria-hidden="true">
-                  {getBrandIcon(entry.icon) ? (
-                    <BrandIcon name={entry.icon} size={18} />
-                  ) : (
-                    <SFIcon name={entry.icon} size={18} stroke={1.6} />
-                  )}
+        contacts.map((entry) => {
+          const brand = entry.icon ? getBrandIcon(entry.icon) : null;
+          const iconColor = brand?.ink;
+          return (
+            <li>
+              <a
+                class="profileCard__chip"
+                href={entry.href}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {entry.icon && (
+                  <span
+                    class="profileCard__chipIcon"
+                    aria-hidden="true"
+                    style={iconColor ? { color: iconColor } : undefined}
+                  >
+                    {brand ? (
+                      <BrandIcon name={entry.icon} size={20} />
+                    ) : (
+                      <SFIcon
+                        name={entry.icon}
+                        size={20}
+                        stroke={entry.icon === "calendar" ? 1.4 : 1.6}
+                      />
+                    )}
+                  </span>
+                )}
+                <span class="profileCard__chipContent">
+                  <span class="profileCard__chipLabel">{entry.label}</span>
+                  <span class="profileCard__chipValue">{entry.value}</span>
                 </span>
-              )}
-              <span class="profileCard__chipContent">
-                <span class="profileCard__chipLabel">{entry.label}</span>
-                <span class="profileCard__chipValue">{entry.value}</span>
-              </span>
-            </a>
-          </li>
-        ))
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
   </div>
@@ -157,30 +169,42 @@ const meta = [
   data-reveal-order="1"
 >
   {
-    contacts.map((entry) => (
-      <li>
-        <a
-          class="profileCard__chip"
-          href={entry.href}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {entry.icon && (
-            <span class="profileCard__chipIcon" aria-hidden="true">
-              {getBrandIcon(entry.icon) ? (
-                <BrandIcon name={entry.icon} size={18} />
-              ) : (
-                <SFIcon name={entry.icon} size={18} stroke={1.6} />
-              )}
+    contacts.map((entry) => {
+      const brand = entry.icon ? getBrandIcon(entry.icon) : null;
+      const iconColor = brand?.ink;
+      return (
+        <li>
+          <a
+            class="profileCard__chip"
+            href={entry.href}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {entry.icon && (
+              <span
+                class="profileCard__chipIcon"
+                aria-hidden="true"
+                style={iconColor ? { color: iconColor } : undefined}
+              >
+                {brand ? (
+                  <BrandIcon name={entry.icon} size={20} />
+                ) : (
+                  <SFIcon
+                    name={entry.icon}
+                    size={20}
+                    stroke={entry.icon === "calendar" ? 1.4 : 1.6}
+                  />
+                )}
+              </span>
+            )}
+            <span class="profileCard__chipContent">
+              <span class="profileCard__chipLabel">{entry.label}</span>
+              <span class="profileCard__chipValue">{entry.value}</span>
             </span>
-          )}
-          <span class="profileCard__chipContent">
-            <span class="profileCard__chipLabel">{entry.label}</span>
-            <span class="profileCard__chipValue">{entry.value}</span>
-          </span>
-        </a>
-      </li>
-    ))
+          </a>
+        </li>
+      );
+    })
   }
 </ul>
 
@@ -417,7 +441,7 @@ const meta = [
     height: 34px;
     border-radius: 14px;
     border: 1px solid var(--panel-border);
-    background: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
+    background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
       0 8px 16px rgba(0, 0, 0, 0.16);
@@ -425,8 +449,8 @@ const meta = [
   }
 
   .profileCard__chipIcon :global(svg) {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 
   .profileCard__chipContent {
@@ -437,7 +461,7 @@ const meta = [
   .profileCard__chipLabel {
     font-size: var(--fs--2);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     color: color-mix(in oklch, var(--text) 60%, transparent);
   }
 
