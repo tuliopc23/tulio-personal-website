@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
@@ -7,11 +6,33 @@ import { codeInput } from "@sanity/code-input";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { resolve } from "./src/sanity/lib/resolve";
 
-const defaultPreviewUrl =
-  process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321";
+type ProcessLike = {
+  env?: Record<string, string | undefined>;
+  versions?: { node?: string };
+};
 
-const projectId = process.env.PUBLIC_SANITY_PROJECT_ID || "61249gtj";
-const dataset = process.env.PUBLIC_SANITY_DATASET || "production";
+const processLike =
+  typeof globalThis === "object"
+    ? (globalThis as typeof globalThis & { process?: ProcessLike })
+    : { process: undefined };
+
+if (processLike.process?.versions?.node) {
+  await import("dotenv/config");
+}
+
+const env = processLike.process?.env ?? {};
+
+const defaultPreviewUrl =
+  env.SANITY_STUDIO_PREVIEW_URL ??
+  env.PUBLIC_SANITY_PREVIEW_URL ??
+  "http://localhost:4321";
+
+const projectId =
+  env.SANITY_STUDIO_PROJECT_ID ??
+  env.PUBLIC_SANITY_PROJECT_ID ??
+  "61249gtj";
+const dataset =
+  env.SANITY_STUDIO_DATASET ?? env.PUBLIC_SANITY_DATASET ?? "production";
 
 if (!projectId || !dataset) {
   console.warn(
