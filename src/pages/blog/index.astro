@@ -1,7 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -79,7 +78,6 @@ const placeholders = [
     data-reveal-type="scale"
     data-reveal-group="blog-hero"
   >
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">Blog</span>
       <h1 class="blogHero__title">
