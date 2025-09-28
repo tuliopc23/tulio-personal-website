@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { projectsSorted } from "../data/projects";
 
 const description =
@@ -36,6 +37,7 @@ const projectFilters = [
     data-reveal-type="scale"
     data-reveal-group="projects-intro"
   >
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
     <div class="projects__hero">
       <span class="projects__eyebrow">Recent work</span>
       <h1 class="projects__title">Projects</h1>
@@ -105,17 +107,14 @@ const projectFilters = [
     const emptyState = document.querySelector("[data-project-empty]");
 
     if (grid && filters.length > 0 && cards.length > 0) {
-      // Get initial filter from URL or default to "all"
       const urlParams = new URLSearchParams(window.location.search);
       let activeFilter = urlParams.get("filter") || "all";
 
-      // Ensure the filter exists, fallback to "all"
       const validFilters = filters.map((f) => f.dataset.projectFilter).filter(Boolean);
       if (!validFilters.includes(activeFilter)) {
         activeFilter = "all";
       }
 
-      // Set initial active state
       filters.forEach((filter) => {
         filter.classList.toggle(
           "is-active",
@@ -123,6 +122,7 @@ const projectFilters = [
         );
       });
 
+      const fadeDuration = 200;
       const applyFilters = () => {
         let matches = 0;
         cards.forEach((card) => {
@@ -131,10 +131,25 @@ const projectFilters = [
             .filter(Boolean);
           const shouldShow = activeFilter === "all" || categories.includes(activeFilter);
 
-          card.toggleAttribute("hidden", !shouldShow);
-          card.dataset.state = shouldShow ? "visible" : "filtered";
           if (shouldShow) {
             matches += 1;
+            if (card.hidden) {
+              card.hidden = false;
+              card.dataset.state = "showing";
+              requestAnimationFrame(() => {
+                card.dataset.state = "visible";
+              });
+            } else {
+              card.dataset.state = "visible";
+            }
+          } else if (!card.hidden) {
+            card.dataset.state = "hiding";
+            setTimeout(() => {
+              card.hidden = true;
+              card.dataset.state = "filtered";
+            }, fadeDuration);
+          } else {
+            card.dataset.state = "filtered";
           }
         });
 
@@ -156,7 +171,6 @@ const projectFilters = [
         activeFilter = nextFilter;
         filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
 
-        // Update URL without page reload
         const url = new URL(window.location);
         if (nextFilter === "all") {
           url.searchParams.delete("filter");
@@ -171,7 +185,6 @@ const projectFilters = [
       filters.forEach((button, index) => {
         button.addEventListener("click", () => selectProjectFilter(button));
 
-        // Keyboard navigation
         button.addEventListener("keydown", (e) => {
           let targetIndex = index;
 
@@ -191,7 +204,7 @@ const projectFilters = [
               return;
             case "Escape":
               e.preventDefault();
-              filters[0].focus(); // Focus "All" filter
+              filters[0].focus();
               return;
           }
 

@@ -173,15 +173,15 @@ const categoriesAttr = project.categories.join(",");
 
 <script>
   // Handle image loading transitions
-  const image = document.querySelector('[data-image-loading]');
+  const image = document.querySelector("[data-image-loading]");
   if (image) {
-    image.addEventListener('load', () => {
-      image.setAttribute('data-loaded', 'true');
+    image.addEventListener("load", () => {
+      image.setAttribute("data-loaded", "true");
     });
-    
+
     // If image is already loaded (cached), show it immediately
     if (image.complete) {
-      image.setAttribute('data-loaded', 'true');
+      image.setAttribute("data-loaded", "true");
     }
   }
 </script>

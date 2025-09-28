@@ -36,6 +36,7 @@ const src = value.url.includes("?")
             ? `aspect-ratio: ${value.width} / ${value.height};`
             : undefined
         }
+        data-image-loading
       />
       {value.caption && (
         <figcaption class="articlePortable__caption">{value.caption}</figcaption>
@@ -43,3 +44,12 @@ const src = value.url.includes("?")
     </figure>
   )
 }
+
+<script>
+  const images = Array.from(document.querySelectorAll("[data-image-loading]"));
+  images.forEach((img) => {
+    const show = () => img.setAttribute("data-loaded", "true");
+    if (img.complete) show();
+    else img.addEventListener("load", show, { once: true });
+  });
+</script>

@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -78,6 +79,7 @@ const placeholders = [
     data-reveal-type="scale"
     data-reveal-group="blog-hero"
   >
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Blog" }]} />
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">Blog</span>
       <h1 class="blogHero__title">
@@ -212,6 +214,7 @@ const placeholders = [
       let visibleLimit = initial;
       let activeTag = "all";
 
+      const fadeDuration = 200;
       const applyFilters = () => {
         let shown = 0;
         let matches = 0;
@@ -221,16 +224,31 @@ const placeholders = [
           const matchesTag = activeTag === "all" || tags.includes(activeTag);
 
           if (!matchesTag) {
-            card.hidden = true;
-            card.dataset.state = "filtered";
+            if (!card.hidden) {
+              card.dataset.state = "hiding";
+              setTimeout(() => {
+                card.hidden = true;
+                card.dataset.state = "filtered";
+              }, fadeDuration);
+            } else {
+              card.hidden = true;
+              card.dataset.state = "filtered";
+            }
             return;
           }
 
           matches += 1;
 
           if (shown < visibleLimit) {
-            card.hidden = false;
-            card.dataset.state = "visible";
+            if (card.hidden) {
+              card.hidden = false;
+              card.dataset.state = "showing";
+              requestAnimationFrame(() => {
+                card.dataset.state = "visible";
+              });
+            } else {
+              card.dataset.state = "visible";
+            }
             shown += 1;
           } else {
             card.hidden = true;

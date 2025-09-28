@@ -57,11 +57,11 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
     {
       post ? (
         <>
-          <Breadcrumbs 
+          <Breadcrumbs
             items={[
               { label: "Home", href: "/" },
               { label: "Blog", href: "/blog/" },
-              { label: post.title }
+              { label: post.title },
             ]}
           />
           <header
@@ -106,6 +106,8 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
                 decoding="async"
                 width={heroImage.width}
                 height={heroImage.height}
+                data-image-loading
+                onload="this.setAttribute('data-loaded','true')"
               />
             </div>
           )}

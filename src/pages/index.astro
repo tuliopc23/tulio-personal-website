@@ -3,7 +3,7 @@ import Base from "../layouts/Base.astro";
 import "../styles/section.css";
 import Card from "../components/Card.astro";
 import ProfileCard from "../components/ProfileCard.astro";
-import SkeletonCard from "../components/SkeletonCard.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { getAllPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
@@ -128,6 +128,7 @@ const techStack = [
     data-reveal-type="scale"
     data-reveal-group="home-hero"
   >
+    <Breadcrumbs items={[{ label: "Home" }]} />
     <h1 class="hero__title">Hi, I'm Tulio Cunha.</h1>
     <p class="hero__subtitle">
       Full stack developer crafting native and web tools with calm detail and reliable

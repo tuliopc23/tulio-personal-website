@@ -938,6 +938,12 @@ kbd.slash {
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .card[data-loading="true"] {
+    animation: none;
+  }
+}
+
 .card[data-loading="true"] .card-title,
 .card[data-loading="true"] .card-body,
 .card[data-loading="true"] .card__cta {
@@ -947,7 +953,8 @@ kbd.slash {
 }
 
 @keyframes skeleton-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -1136,7 +1143,7 @@ kbd.slash {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 
+  transition:
     transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
     opacity 0.3s ease-out;
   opacity: 0;
@@ -1144,6 +1151,22 @@ kbd.slash {
 
 .projectCard__image[data-loaded="true"] {
   opacity: 1;
+}
+
+img[data-image-loading] {
+  opacity: 0;
+  transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+}
+
+img[data-image-loading][data-loaded="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img[data-image-loading] {
+    transition: none;
+    opacity: 1;
+  }
 }
 
 .projectCard__badges {
@@ -1961,6 +1984,37 @@ kbd.slash {
   grid-auto-rows: 1fr;
 }
 
+.projects__grid [data-project-card] {
+  transition:
+    opacity 200ms var(--motion-ease-out),
+    transform 200ms var(--motion-ease-out);
+}
+
+.projects__grid [data-project-card][hidden] {
+  display: none !important;
+}
+
+.projects__grid [data-project-card][data-state="showing"] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.projects__grid [data-project-card][data-state="visible"] {
+  opacity: 1;
+  transform: none;
+}
+
+.projects__grid [data-project-card][data-state="hiding"] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects__grid [data-project-card] {
+    transition: none !important;
+  }
+}
+
 .projects__empty,
 .projects__filterEmpty {
   display: grid;
@@ -2193,6 +2247,30 @@ kbd.slash {
   list-style: none;
   flex: 0 0 clamp(280px, 30vw, 360px);
   scroll-snap-align: start;
+  transition:
+    opacity 200ms var(--motion-ease-out),
+    transform 200ms var(--motion-ease-out);
+}
+
+.articleGrid__item[data-state="showing"] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.articleGrid__item[data-state="visible"] {
+  opacity: 1;
+  transform: none;
+}
+
+.articleGrid__item[data-state="hidden"],
+.articleGrid__item[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .articleGrid__item {
+    transition: none !important;
+  }
 }
 
 @media (min-width: 1280px) {
