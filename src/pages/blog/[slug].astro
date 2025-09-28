@@ -2,6 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
+import ReadingProgress from "../../components/ReadingProgress.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SFIcon from "../../components/SFIcon.astro";
 import {
   getAllPostSlugs,
@@ -45,6 +47,7 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
 ---
 
 <Base title={pageTitle} description={metaDescription} sidebar={true}>
+  <ReadingProgress />
   <article
     class="container article"
     data-reveal
@@ -54,6 +57,13 @@ const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.
     {
       post ? (
         <>
+          <Breadcrumbs 
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Blog", href: "/blog/" },
+              { label: post.title }
+            ]}
+          />
           <header
             class="article__header"
             data-reveal

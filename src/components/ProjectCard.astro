@@ -82,9 +82,9 @@ const categoriesAttr = project.categories.join(",");
   <div class="projectCard__media" data-kind={hasImage ? "image" : "icon"}>
     <div class="projectCard__frame" data-kind={hasImage ? "image" : "icon"}>
       <div class="projectCard__chrome" aria-hidden="true">
-        <span class="projectCard__chromeDot" data-variant="close" />
-        <span class="projectCard__chromeDot" data-variant="minimize" />
-        <span class="projectCard__chromeDot" data-variant="zoom" />
+        <span class="projectCard__chromeDot" data-variant="close"></span>
+        <span class="projectCard__chromeDot" data-variant="minimize"></span>
+        <span class="projectCard__chromeDot" data-variant="zoom"></span>
       </div>
       <div class="projectCard__viewport">
         {
@@ -98,6 +98,7 @@ const categoriesAttr = project.categories.join(",");
               class="projectCard__image"
               loading="lazy"
               decoding="async"
+              data-image-loading
             />
           ) : (
             <div
@@ -122,22 +123,18 @@ const categoriesAttr = project.categories.join(",");
       {
         (project.badge || project.status) && (
           <div class="projectCard__badges">
-            {
-              project.badge && (
-                <span class="badge" style={badgeStyle}>
-                  <span class="badge__dot" />
-                  {project.badge.label}
-                </span>
-              )
-            }
-            {
-              project.status && (
-                <span class="badge badge--soft" style={statusStyle}>
-                  <span class="badge__dot" />
-                  {project.status.label}
-                </span>
-              )
-            }
+            {project.badge && (
+              <span class="badge" style={badgeStyle}>
+                <span class="badge__dot" />
+                {project.badge.label}
+              </span>
+            )}
+            {project.status && (
+              <span class="badge badge--soft" style={statusStyle}>
+                <span class="badge__dot" />
+                {project.status.label}
+              </span>
+            )}
           </div>
         )
       }
@@ -173,3 +170,18 @@ const categoriesAttr = project.categories.join(",");
     </span>
   </div>
 </a>
+
+<script>
+  // Handle image loading transitions
+  const image = document.querySelector('[data-image-loading]');
+  if (image) {
+    image.addEventListener('load', () => {
+      image.setAttribute('data-loaded', 'true');
+    });
+    
+    // If image is already loaded (cached), show it immediately
+    if (image.complete) {
+      image.setAttribute('data-loaded', 'true');
+    }
+  }
+</script>

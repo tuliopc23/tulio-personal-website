@@ -6,6 +6,7 @@ import sidebarScriptSrc from "../scripts/sidebar.js?url";
 import motionScriptSrc from "../scripts/motion.js?url";
 import BrandIcon from "../components/BrandIcon.astro";
 import SFIcon from "../components/SFIcon.astro";
+import ScrollToTop from "../components/ScrollToTop.astro";
 const { title = "Home", sidebar = true } = Astro.props;
 ---
 
@@ -213,6 +214,7 @@ const { title = "Home", sidebar = true } = Astro.props;
       </section>
     </main>
 
+    <ScrollToTop />
     <script src={motionScriptSrc} type="module"></script>
     <script src={themeScriptSrc} type="module"></script>
     <script src={sidebarScriptSrc} type="module"></script>

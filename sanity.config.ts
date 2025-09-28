@@ -28,11 +28,8 @@ const defaultPreviewUrl =
   "http://localhost:4321";
 
 const projectId =
-  env.SANITY_STUDIO_PROJECT_ID ??
-  env.PUBLIC_SANITY_PROJECT_ID ??
-  "61249gtj";
-const dataset =
-  env.SANITY_STUDIO_DATASET ?? env.PUBLIC_SANITY_DATASET ?? "production";
+  env.SANITY_STUDIO_PROJECT_ID ?? env.PUBLIC_SANITY_PROJECT_ID ?? "61249gtj";
+const dataset = env.SANITY_STUDIO_DATASET ?? env.PUBLIC_SANITY_DATASET ?? "production";
 
 if (!projectId || !dataset) {
   console.warn(

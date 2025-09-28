@@ -226,7 +226,9 @@
 }
 html {
   color-scheme: dark light;
+  scroll-behavior: smooth;
 }
+
 html,
 body {
   height: 100%;
@@ -925,11 +927,32 @@ kbd.slash {
   backdrop-filter: saturate(1.8) blur(22px);
   -webkit-backdrop-filter: saturate(1.8) blur(22px);
   transition:
-    transform var(--motion-duration-sm) var(--motion-spring-out),
-    border-color var(--motion-duration-sm) var(--motion-ease-out),
-    box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-    background var(--motion-duration-sm) var(--motion-ease-out);
+    transform 200ms var(--motion-ease-out),
+    border-color 200ms var(--motion-ease-out),
+    box-shadow 200ms var(--motion-ease-out),
+    background 200ms var(--motion-ease-out);
   will-change: transform, box-shadow, border-color, background;
+}
+
+.card[data-loading="true"] {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.card[data-loading="true"] .card-title,
+.card[data-loading="true"] .card-body,
+.card[data-loading="true"] .card__cta {
+  background: color-mix(in oklch, var(--surface-elevated) 80%, transparent);
+  border-radius: 4px;
+  color: transparent;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 .card--static {
@@ -970,7 +993,7 @@ kbd.slash {
 
 .card:hover,
 .card:focus-visible {
-  transform: translateY(-4px);
+  transform: translateY(-2px) scale(1.02);
   border-color: var(--panel-border-strong);
   text-decoration: none;
   background: color-mix(in oklch, var(--card-bg) 92%, rgba(255, 255, 255, 0.05));
@@ -1113,20 +1136,29 @@ kbd.slash {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: 
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.3s ease-out;
+  opacity: 0;
+}
+
+.projectCard__image[data-loaded="true"] {
+  opacity: 1;
 }
 
 .projectCard__badges {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  align-items: center;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .projectCard__body {
   display: grid;
   gap: var(--space-sm);
   align-content: start;
+  min-height: 0;
 }
 
 .projectCard__header {
@@ -1134,6 +1166,7 @@ kbd.slash {
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-md);
+  min-height: 60px;
 }
 
 .projectCard__heading {
@@ -1382,6 +1415,12 @@ kbd.slash {
 .projectCard__icon.symbol svg {
   width: 36px;
   height: 36px;
+}
+
+.projectCard:hover,
+.projectCard:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  border-color: var(--panel-border-strong);
 }
 
 .cardGrid {
@@ -2170,9 +2209,9 @@ kbd.slash {
   box-shadow: var(--shadow-card-soft);
   overflow: hidden;
   transition:
-    transform var(--motion-duration-md) var(--motion-spring-out),
-    box-shadow var(--motion-duration-md) var(--motion-ease-out),
-    border-color var(--motion-duration-md) var(--motion-ease-out);
+    transform 200ms var(--motion-ease-out),
+    box-shadow 200ms var(--motion-ease-out),
+    border-color 200ms var(--motion-ease-out);
   will-change: transform, box-shadow, border-color;
 }
 
@@ -2236,6 +2275,17 @@ kbd.slash {
   color: color-mix(in oklch, var(--muted) 70%, transparent);
 }
 
+.articleCard__newBadge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--blue) 20%, transparent);
+  color: var(--blue);
+  font-size: var(--fs--2);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .articleCard__title {
   margin: 0;
   font-size: clamp(22px, 1.5vw + 18px, 30px);
@@ -2289,7 +2339,7 @@ kbd.slash {
 
 .articleCard:hover,
 .articleCard:focus-within {
-  transform: translateY(-8px) scale(1.01);
+  transform: translateY(-2px) scale(1.02);
   border-color: color-mix(in oklch, var(--panel-border-strong) 88%, transparent);
   box-shadow:
     var(--shadow-card-hover),

@@ -1,0 +1,120 @@
+---
+import SFIcon from "./SFIcon.astro";
+// Scroll to top button with progress indicator
+---
+
+<button class="scroll-to-top" aria-label="Scroll to top" data-scroll-to-top hidden>
+  <div class="scroll-to-top__progress" data-scroll-progress></div>
+  <SFIcon name="arrow-up" size={20} stroke={1.5} />
+</button>
+
+<script>
+  const scrollButton = document.querySelector("[data-scroll-to-top]");
+  const progressBar = document.querySelector("[data-scroll-progress]");
+
+  if (scrollButton && progressBar) {
+    const updateScrollState = () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min(scrollTop / docHeight, 1);
+
+      // Show/hide button
+      scrollButton.hidden = scrollTop < 300;
+
+      // Update progress
+      progressBar.style.transform = `scaleY(${scrollPercent})`;
+    };
+
+    // Throttled scroll handler
+    let ticking = false;
+    const throttledUpdate = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateScrollState();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Scroll to top handler
+    scrollButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    // Listen for scroll
+    window.addEventListener("scroll", throttledUpdate);
+    updateScrollState(); // Initial update
+  }
+</script>
+
+<style>
+  .scroll-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--panel-border-strong);
+    background: var(--surface-elevated);
+    color: var(--text);
+    cursor: pointer;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+      border-color var(--motion-duration-sm) var(--motion-ease-out);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .scroll-to-top:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--panel-border-strong);
+  }
+
+  .scroll-to-top__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--blue);
+    transform-origin: bottom;
+    transform: scaleY(0);
+    transition: transform 0.1s ease-out;
+    opacity: 0.2;
+  }
+
+  .scroll-to-top:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring), var(--shadow-card-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-to-top {
+      transition: none;
+    }
+
+    .scroll-to-top__progress {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .scroll-to-top {
+      bottom: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import "../styles/section.css";
 import Card from "../components/Card.astro";
 import ProfileCard from "../components/ProfileCard.astro";
+import SkeletonCard from "../components/SkeletonCard.astro";
 import { getAllPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
@@ -175,16 +176,18 @@ const techStack = [
       Tech stack
     </h2>
     <div class="cardGrid cardRail">
-      {techStack.map((entry, index) => (
-        <Card
-          title={entry.title}
-          body={entry.body}
-          tint={entry.tint}
-          icon={entry.icon}
-          revealGroup="home-tech"
-          revealOrder={index + 1}
-        />
-      ))}
+      {
+        techStack.map((entry, index) => (
+          <Card
+            title={entry.title}
+            body={entry.body}
+            tint={entry.tint}
+            icon={entry.icon}
+            revealGroup="home-tech"
+            revealOrder={index + 1}
+          />
+        ))
+      }
     </div>
   </section>
 

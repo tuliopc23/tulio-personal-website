@@ -13,6 +13,7 @@ interface Props {
   revealOrder?: number | string;
   revealDelay?: string;
   readingTimeMinutes?: number;
+  isNew?: boolean;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   revealOrder,
   revealDelay,
   readingTimeMinutes,
+  isNew = false,
 }: Props = Astro.props;
 const tagLabel = tags.join(" · ");
 const revealOrderAttr =
@@ -55,6 +57,7 @@ const readingTimeLabel =
             <span class="articleCard__metaItem">{readingTimeLabel}</span>
           )
         }
+        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
         {
           tagLabel && (
             <span class="articleCard__metaItem articleCard__metaTags" aria-label="Tags">

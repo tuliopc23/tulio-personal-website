@@ -1,0 +1,74 @@
+---
+// Reading progress indicator component
+---
+
+<div class="reading-progress" aria-hidden="true">
+  <div class="reading-progress__bar" data-reading-progress></div>
+</div>
+
+<script>
+  const progressBar = document.querySelector("[data-reading-progress]");
+
+  if (progressBar) {
+    const updateProgress = () => {
+      const article =
+        document.querySelector("article") || document.querySelector(".articlePortable");
+      if (!article) return;
+
+      const articleTop = article.offsetTop;
+      const articleHeight = article.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const scrollTop = window.pageYOffset;
+
+      const windowBottom = scrollTop + windowHeight;
+
+      const progress = Math.min(
+        Math.max((windowBottom - articleTop) / articleHeight, 0),
+        1
+      );
+
+      progressBar.style.width = `${progress * 100}%`;
+    };
+
+    // Update on scroll with throttling
+    let ticking = false;
+    const throttledUpdate = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", throttledUpdate);
+    updateProgress(); // Initial update
+  }
+</script>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .reading-progress__bar {
+    height: 100%;
+    width: 0%;
+    background: var(--blue);
+    transition: width 0.1s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reading-progress__bar {
+      transition: none;
+    }
+  }
+</style>

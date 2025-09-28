@@ -105,7 +105,23 @@ const projectFilters = [
     const emptyState = document.querySelector("[data-project-empty]");
 
     if (grid && filters.length > 0 && cards.length > 0) {
-      let activeFilter = "all";
+      // Get initial filter from URL or default to "all"
+      const urlParams = new URLSearchParams(window.location.search);
+      let activeFilter = urlParams.get("filter") || "all";
+
+      // Ensure the filter exists, fallback to "all"
+      const validFilters = filters.map((f) => f.dataset.projectFilter).filter(Boolean);
+      if (!validFilters.includes(activeFilter)) {
+        activeFilter = "all";
+      }
+
+      // Set initial active state
+      filters.forEach((filter) => {
+        filter.classList.toggle(
+          "is-active",
+          filter.dataset.projectFilter === activeFilter
+        );
+      });
 
       const applyFilters = () => {
         let matches = 0;
@@ -134,15 +150,54 @@ const projectFilters = [
         }
       };
 
-      filters.forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextFilter = button.dataset.projectFilter ?? "all";
-          if (nextFilter === activeFilter) return;
-          activeFilter = nextFilter;
-          filters.forEach((chip) =>
-            chip.classList.toggle("is-active", chip === button)
-          );
-          applyFilters();
+      const selectProjectFilter = (button) => {
+        const nextFilter = button.dataset.projectFilter ?? "all";
+        if (nextFilter === activeFilter) return;
+        activeFilter = nextFilter;
+        filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
+
+        // Update URL without page reload
+        const url = new URL(window.location);
+        if (nextFilter === "all") {
+          url.searchParams.delete("filter");
+        } else {
+          url.searchParams.set("filter", nextFilter);
+        }
+        window.history.pushState({}, "", url);
+
+        applyFilters();
+      };
+
+      filters.forEach((button, index) => {
+        button.addEventListener("click", () => selectProjectFilter(button));
+
+        // Keyboard navigation
+        button.addEventListener("keydown", (e) => {
+          let targetIndex = index;
+
+          switch (e.key) {
+            case "ArrowLeft":
+              e.preventDefault();
+              targetIndex = index > 0 ? index - 1 : filters.length - 1;
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              targetIndex = index < filters.length - 1 ? index + 1 : 0;
+              break;
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              selectProjectFilter(button);
+              return;
+            case "Escape":
+              e.preventDefault();
+              filters[0].focus(); // Focus "All" filter
+              return;
+          }
+
+          if (targetIndex !== index) {
+            filters[targetIndex].focus();
+          }
         });
       });
 

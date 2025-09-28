@@ -15,17 +15,20 @@ const postEntries: Array<
     dateISO: string;
     dateLabel: string;
     readingTimeMinutes: number;
+    isNew: boolean;
   }
 > = (await getAllPosts()).map((post) => {
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
+  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000; // 7 days
   return {
     ...post,
     href: `/blog/${post.slug}/`,
     dateISO: date.toISOString(),
     dateLabel: formatter.format(date),
     readingTimeMinutes: post.readingTimeMinutes ?? estimatedReadingTime,
+    isNew,
   };
 });
 
@@ -89,7 +92,7 @@ const placeholders = [
     {
       featured ? (
         <div class="blogHero__featured">
-          <div class="blogHero__halo" aria-hidden="true"></div>
+          <div class="blogHero__halo" aria-hidden="true" />
           <ArticleCard
             href={featured.href}
             title={featured.title}
@@ -98,6 +101,7 @@ const placeholders = [
             dateLabel={featured.dateLabel}
             tags={featured.tags}
             readingTimeMinutes={featured.readingTimeMinutes}
+            isNew={featured.isNew}
             featured={true}
             revealGroup="blog-hero"
             revealOrder={0}
@@ -165,6 +169,7 @@ const placeholders = [
                   dateLabel={post.dateLabel}
                   tags={post.tags}
                   readingTimeMinutes={post.readingTimeMinutes}
+                  isNew={post.isNew}
                   revealGroup="blog-list"
                   revealOrder={index}
                 />
@@ -250,15 +255,46 @@ const placeholders = [
         visibleLimit = initial;
       };
 
-      filters.forEach((button) => {
-        button.addEventListener("click", () => {
-          const tag = button.dataset.blogFilter ?? "all";
-          if (activeTag === tag) return;
-          activeTag = tag;
-          resetLimit();
-          filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
-          applyFilters();
-          list.scrollTo({ left: 0, behavior: "smooth" });
+      const selectFilter = (button) => {
+        const tag = button.dataset.blogFilter ?? "all";
+        if (activeTag === tag) return;
+        activeTag = tag;
+        resetLimit();
+        filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
+        applyFilters();
+        list.scrollTo({ left: 0, behavior: "smooth" });
+      };
+
+      filters.forEach((button, index) => {
+        button.addEventListener("click", () => selectFilter(button));
+
+        // Keyboard navigation
+        button.addEventListener("keydown", (e) => {
+          let targetIndex = index;
+
+          switch (e.key) {
+            case "ArrowLeft":
+              e.preventDefault();
+              targetIndex = index > 0 ? index - 1 : filters.length - 1;
+              break;
+            case "ArrowRight":
+              e.preventDefault();
+              targetIndex = index < filters.length - 1 ? index + 1 : 0;
+              break;
+            case "Enter":
+            case " ":
+              e.preventDefault();
+              selectFilter(button);
+              return;
+            case "Escape":
+              e.preventDefault();
+              filters[0].focus(); // Focus "All" filter
+              return;
+          }
+
+          if (targetIndex !== index) {
+            filters[targetIndex].focus();
+          }
         });
       });
 
