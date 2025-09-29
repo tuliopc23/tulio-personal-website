@@ -43,8 +43,6 @@ export const projects: Project[] = [
     href: "https://www.useliquidify.dev",
     cta: "Explore LiqUIdify",
     releaseDate: "2024-08-01",
-    badge: undefined,
-    status: undefined,
     categories: ["web", "design-system"],
     media: {
       type: "image",
@@ -62,7 +60,6 @@ export const projects: Project[] = [
     href: "https://portfolio.tuliocunha.dev",
     cta: "Visit Hackerfolio",
     releaseDate: "2024-02-01",
-    status: undefined,
     categories: ["web", "experience"],
     media: {
       type: "image",
@@ -80,8 +77,6 @@ export const projects: Project[] = [
     href: "https://github.com/tuliopc23/Switchify",
     cta: "View Switchify on GitHub",
     releaseDate: "2023-06-15",
-    badge: undefined,
-    status: undefined,
     categories: ["native", "tooling"],
     media: {
       type: "icon",
@@ -99,8 +94,6 @@ export const projects: Project[] = [
     href: "https://github.com/tuliopc23/Cockpit.app",
     cta: "View Cockpit repo",
     releaseDate: "2023-01-20",
-    badge: undefined,
-    status: undefined,
     categories: ["native", "experience"],
     media: {
       type: "icon",
@@ -118,8 +111,6 @@ export const projects: Project[] = [
     href: "https://github.com/tuliopc23/swiftgetcli",
     cta: "View Swiftget CLI repo",
     releaseDate: "2022-07-10",
-    badge: undefined,
-    status: undefined,
     categories: ["tooling", "native"],
     media: {
       type: "icon",
