@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { presentationTool } from "sanity/presentation";
@@ -6,21 +7,7 @@ import { codeInput } from "@sanity/code-input";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { resolve } from "./src/sanity/lib/resolve";
 
-type ProcessLike = {
-  env?: Record<string, string | undefined>;
-  versions?: { node?: string };
-};
-
-const processLike =
-  typeof globalThis === "object"
-    ? (globalThis as typeof globalThis & { process?: ProcessLike })
-    : { process: undefined };
-
-if (processLike.process?.versions?.node) {
-  await import("dotenv/config");
-}
-
-const env = processLike.process?.env ?? {};
+const env = typeof process !== "undefined" && process?.env ? process.env : {};
 
 const defaultPreviewUrl =
   env.SANITY_STUDIO_PREVIEW_URL ??
