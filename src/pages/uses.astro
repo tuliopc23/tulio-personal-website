@@ -1,8 +1,29 @@
 ---
 import Base from "../layouts/Base.astro";
+
+const siteOrigin =
+  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/uses/", siteOrigin).toString();
+const description =
+  "Tulio Cunha's everyday setup for building and designing polished experiences.";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Uses — Tulio Cunha",
+  description,
+  url: canonical,
+};
 ---
 
-<Base title="Uses" sidebar={true}>
+<Base
+  title="Uses"
+  description={description}
+  canonical={canonical}
+  ogDescription={description}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Tools and apps Tulio Cunha uses" }}
+  structuredData={structuredData}
+  sidebar={true}
+>
   <section class="container prose">
     <h1>Uses</h1>
     <ul>

@@ -31,7 +31,17 @@ export default defineConfig({
   dataset,
   basePath: "/studio",
   plugins: [
-    structureTool(),
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title("Content")
+          .items([
+            S.listItem()
+              .title("Posts")
+              .schemaType("post")
+              .child(S.documentTypeList("post").title("Posts")),
+          ]),
+    }),
     presentationTool({
       resolve,
       previewUrl:

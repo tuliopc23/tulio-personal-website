@@ -7,17 +7,101 @@ import motionScriptSrc from "../scripts/motion.js?url";
 import BrandIcon from "../components/BrandIcon.astro";
 import SFIcon from "../components/SFIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
-const { title = "Home", sidebar = true } = Astro.props;
+
+interface OgImageMeta {
+  url: string;
+  alt?: string | null;
+  width?: number;
+  height?: number;
+}
+
+interface BaseProps {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogType?: string;
+  ogImage?: OgImageMeta | null;
+  noIndex?: boolean;
+  structuredData?: Record<string, unknown> | string | null;
+  sidebar?: boolean;
+}
+
+const {
+  title = "Home",
+  description,
+  canonical,
+  ogTitle,
+  ogDescription,
+  ogType = "website",
+  ogImage,
+  noIndex = false,
+  structuredData,
+  sidebar = true,
+} = Astro.props as BaseProps;
+
+const fullTitle = `${title} • Tulio Cunha`;
+const computedOgTitle = ogTitle ?? fullTitle;
+const computedOgDescription = ogDescription ?? description;
+const canonicalUrl =
+  canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
+const robotsValue = noIndex ? "noindex,nofollow" : "index,follow";
+const structuredDataJson =
+  typeof structuredData === "string"
+    ? structuredData
+    : structuredData
+      ? JSON.stringify(structuredData)
+      : null;
 ---
 
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} • Tulio Cunha</title>
+    <title>{fullTitle}</title>
+    <meta name="robots" content={robotsValue} />
+    {description && <meta name="description" content={description} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/terminal-favicon.svg" />
     <link rel="stylesheet" href={themeCssHref} />
     <link rel="stylesheet" href={motionCssHref} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={computedOgTitle} />
+    {
+      computedOgDescription && (
+        <meta property="og:description" content={computedOgDescription} />
+      )
+    }
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {ogImage?.url && <meta property="og:image" content={ogImage.url} />}
+    {ogImage?.alt && <meta property="og:image:alt" content={ogImage.alt} />}
+    {
+      typeof ogImage?.width === "number" && (
+        <meta property="og:image:width" content={String(ogImage.width)} />
+      )
+    }
+    {
+      typeof ogImage?.height === "number" && (
+        <meta property="og:image:height" content={String(ogImage.height)} />
+      )
+    }
+    <meta
+      name="twitter:card"
+      content={ogImage?.url ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={computedOgTitle} />
+    {
+      computedOgDescription && (
+        <meta name="twitter:description" content={computedOgDescription} />
+      )
+    }
+    {ogImage?.url && <meta name="twitter:image" content={ogImage.url} />}
+    {
+      structuredDataJson && (
+        <script type="application/ld+json" set:html={structuredDataJson} />
+      )
+    }
     <slot name="head" />
   </head>
   <body data-page-state="entering" data-glass-state="rest">

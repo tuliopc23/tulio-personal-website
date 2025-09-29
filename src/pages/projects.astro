@@ -4,9 +4,11 @@ import ProjectCard from "../components/ProjectCard.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { projectsSorted } from "../data/projects";
 
+const siteOrigin =
+  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const description =
   "Apple-inspired gallery of Tulio Cunha's latest work including LiqUIdify, Hackerfolio, Switchify, Cockpit, and Swiftget CLI.";
-const canonicalUrl = new URL("/projects", Astro.site ?? "https://example.com").toString();
+const canonicalUrl = new URL("/projects/", siteOrigin).toString();
 const hasProjects = projectsSorted.length > 0;
 const projectCount = projectsSorted.length;
 const focusSummary = "Design systems • Native apps • Developer tooling";
@@ -17,20 +19,24 @@ const projectFilters = [
   { id: "tooling", label: "Tooling" },
   { id: "design-system", label: "Design systems" },
 ];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Tulio Cunha Projects",
+  description,
+  url: canonicalUrl,
+};
 ---
 
-<Base title="Projects">
-  <Fragment slot="head">
-    <meta name="description" content={description} />
-    <meta property="og:title" content="Projects • Tulio Cunha" />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Projects • Tulio Cunha" />
-    <meta name="twitter:description" content={description} />
-  </Fragment>
-
+<Base
+  title="Projects"
+  description={description}
+  canonical={canonicalUrl}
+  ogDescription={description}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Projects preview" }}
+  structuredData={structuredData}
+>
   <section
     class="container projects__intro"
     data-reveal

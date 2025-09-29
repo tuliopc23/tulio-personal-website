@@ -36,6 +36,42 @@ const [featured, ...rest] = postEntries;
 const spotlightTags = ["projects", "tools", "open source", "opinion"];
 const tagSet = new Set<string>(spotlightTags);
 
+const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
+const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
+const canonical = new URL("/blog/", siteOrigin).toString();
+const pageDescription =
+  "Notes on engineering, design rigor, and Apple-inspired interfaces by Tulio Cunha.";
+const featuredSocial = featured?.seo?.socialImage?.url
+  ? featured.seo.socialImage
+  : (featured?.heroImage ?? null);
+const ogImage = featuredSocial?.url
+  ? {
+      url: featuredSocial.url,
+      alt: featuredSocial.alt ?? null,
+      width: featuredSocial.width,
+      height: featuredSocial.height,
+    }
+  : null;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Tulio Cunha Blog",
+  description: pageDescription,
+  url: canonical,
+  inLanguage: "en",
+  publisher: {
+    "@type": "Organization",
+    name: "Tulio Cunha",
+    url: siteOrigin,
+  },
+  sameAs: [
+    "https://github.com/tuliopc23",
+    "https://linkedin.com/in/tuliocunha",
+    "https://instagram.com/tuliopinheirocunha",
+  ],
+  image: ogImage?.url ? [ogImage.url] : undefined,
+};
+
 postEntries.forEach((entry) => {
   entry.tags?.forEach((tag) => {
     if (tag) {
@@ -71,7 +107,29 @@ const placeholders = [
 ];
 ---
 
-<Base title="Blog" sidebar={true}>
+<Base
+  title="Blog"
+  description={pageDescription}
+  canonical={canonical}
+  ogDescription={pageDescription}
+  ogImage={ogImage}
+  structuredData={structuredData}
+  sidebar={true}
+>
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/rss+xml"
+    title="Tulio Cunha — Blog RSS"
+    href="/blog/feed.xml"
+  />
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/atom+xml"
+    title="Tulio Cunha — Blog Atom"
+    href="/blog/atom.xml"
+  />
   <section
     class="container blogHero"
     data-reveal

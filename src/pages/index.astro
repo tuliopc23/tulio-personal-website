@@ -119,9 +119,37 @@ const techStack = [
     icon: "docker",
   },
 ];
+
+const siteOrigin =
+  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/", siteOrigin).toString();
+const description =
+  "Tulio Cunha is a full stack developer crafting native and web experiences with Apple-inspired precision.";
+const heroImage = "/terminal-favicon.svg";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Tulio Cunha",
+  url: siteOrigin,
+  jobTitle: "Full Stack Developer",
+  description,
+  sameAs: [
+    "https://github.com/tuliopc23",
+    "https://linkedin.com/in/tuliocunha",
+    "https://instagram.com/tuliopinheirocunha",
+  ],
+};
 ---
 
-<Base title="Home" sidebar={true}>
+<Base
+  title="Home"
+  description={description}
+  canonical={canonical}
+  ogDescription={description}
+  ogImage={{ url: heroImage, alt: "Tulio Cunha portfolio hero" }}
+  structuredData={structuredData}
+  sidebar={true}
+>
   <section
     class="hero container"
     data-reveal

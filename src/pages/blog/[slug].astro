@@ -42,11 +42,84 @@ const shareUrl = `${shareOrigin}/blog/${slug}/`;
 const shareText = post ? encodeURIComponent(post.title) : "";
 const heroImage = post?.heroImage;
 const tags = post?.tags ?? [];
-const pageTitle = post ? `${post.title} — Tulio Cunha` : "Article not found";
-const metaDescription = post?.summary ?? "Thoughts and updates from Tulio Cunha.";
+const seo = post?.seo ?? null;
+const baseTitle = post?.title ?? "Article not found";
+const seoTitle = seo?.metaTitle ?? baseTitle;
+const seoDescription =
+  seo?.metaDescription ?? post?.summary ?? "Thoughts and updates from Tulio Cunha.";
+const canonical = seo?.canonicalUrl ?? shareUrl;
+const noIndex = Boolean(seo?.noIndex);
+const preferredSocialImage = seo?.socialImage?.url
+  ? seo.socialImage
+  : (heroImage ?? null);
+const ogImage = preferredSocialImage?.url
+  ? {
+      url: preferredSocialImage.url,
+      alt: preferredSocialImage.alt ?? null,
+      width: preferredSocialImage.width,
+      height: preferredSocialImage.height,
+    }
+  : null;
+const customJsonLd =
+  typeof seo?.jsonLd === "string" && seo.jsonLd.trim().length > 0 ? seo.jsonLd : null;
+const structuredData =
+  customJsonLd ??
+  (post
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: seoTitle,
+        description: seoDescription,
+        datePublished: post.publishedAt,
+        dateModified: post.publishedAt,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": canonical,
+        },
+        author: {
+          "@type": "Person",
+          name: "Tulio Cunha",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Tulio Cunha",
+          url: shareOrigin,
+          logo: {
+            "@type": "ImageObject",
+            url: `${shareOrigin}/terminal-favicon.svg`,
+          },
+        },
+        image: ogImage?.url ? [ogImage.url] : undefined,
+      }
+    : null);
 ---
 
-<Base title={pageTitle} description={metaDescription} sidebar={true}>
+<Base
+  title={seoTitle}
+  description={seoDescription}
+  canonical={canonical}
+  ogTitle={seoTitle}
+  ogDescription={seoDescription}
+  ogType="article"
+  ogImage={ogImage}
+  noIndex={noIndex}
+  structuredData={structuredData}
+  sidebar={true}
+>
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/rss+xml"
+    title="Tulio Cunha — Blog RSS"
+    href="/blog/feed.xml"
+  />
+  <link
+    slot="head"
+    rel="alternate"
+    type="application/atom+xml"
+    title="Tulio Cunha — Blog Atom"
+    href="/blog/atom.xml"
+  />
   <ReadingProgress />
   <article
     class="container article"

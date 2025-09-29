@@ -42,7 +42,7 @@ if (visualEditingEnabled || isDev) {
 
 // https://docs.astro.build
 export default defineConfig({
-  site: "https://example.com",
+  site: "https://www.tuliocunha.dev",
   integrations: [mdx(), react(), sanity(sanityOptions)],
   vite: {
     css: { devSourcemap: true },

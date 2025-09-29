@@ -12,6 +12,15 @@ export interface SanityImageWithMetadata {
   caption?: string | null;
 }
 
+export interface PostSeoMeta {
+  metaTitle?: string | null;
+  metaDescription?: string | null;
+  canonicalUrl?: string | null;
+  noIndex?: boolean;
+  jsonLd?: string | null;
+  socialImage?: SanityImageWithMetadata | null;
+}
+
 export interface PostSummary {
   _id: string;
   title: string;
@@ -21,6 +30,7 @@ export interface PostSummary {
   tags: string[];
   heroImage?: SanityImageWithMetadata | null;
   readingTimeMinutes?: number;
+  seo?: PostSeoMeta | null;
 }
 
 export interface PostDetail extends PostSummary {
@@ -44,6 +54,23 @@ const HERO_IMAGE_PROJECTION = `
   }
 `;
 
+const SEO_PROJECTION = `
+  "seo": seo{
+    metaTitle,
+    metaDescription,
+    canonicalUrl,
+    "noIndex": coalesce(noIndex, false),
+    "jsonLd": jsonLd.code,
+    "socialImage": socialImage{
+      alt,
+      "url": asset->url,
+      "lqip": asset->metadata.lqip,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
+    }
+  }
+`;
+
 const SUMMARY_PROJECTION = `{
   _id,
   title,
@@ -51,7 +78,8 @@ const SUMMARY_PROJECTION = `{
   "slug": slug.current,
   publishedAt,
   tags,
-  ${HERO_IMAGE_PROJECTION}
+  ${HERO_IMAGE_PROJECTION},
+  ${SEO_PROJECTION}
 }`;
 
 const DETAIL_PROJECTION = `{
@@ -73,19 +101,20 @@ const DETAIL_PROJECTION = `{
       caption,
     }
   },
-  ${HERO_IMAGE_PROJECTION}
+  ${HERO_IMAGE_PROJECTION},
+  ${SEO_PROJECTION}
 }`;
 
 export async function getAllPostSlugs(): Promise<string[]> {
   const { data } = await loadQuery<Array<{ slug: string }>>({
-    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now()]{ "slug": slug.current }`,
+    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)]{ "slug": slug.current }`,
   });
   return data?.map((entry) => entry.slug) ?? [];
 }
 
 export async function getAllPostLocators(): Promise<PostLocator[]> {
   const { data } = await loadQuery<PostLocator[]>({
-    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc){ "slug": slug.current, "publishedAt": coalesce(_updatedAt, publishedAt) }`,
+    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc){ "slug": slug.current, "publishedAt": coalesce(_updatedAt, publishedAt) }`,
   });
 
   return data ?? [];
@@ -93,7 +122,7 @@ export async function getAllPostLocators(): Promise<PostLocator[]> {
 
 export async function getAllPosts(): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
-    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
+    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
   });
 
   return data ?? [];
@@ -101,7 +130,7 @@ export async function getAllPosts(): Promise<PostSummary[]> {
 
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
   const { data } = await loadQuery<PostDetail | null>({
-    query: `*[_type == "post" && slug.current == $slug][0]${DETAIL_PROJECTION}`,
+    query: `*[_type == "post" && slug.current == $slug && !coalesce(seo.noIndex, false)][0]${DETAIL_PROJECTION}`,
     params: { slug },
   });
 
@@ -120,7 +149,7 @@ export async function getRecentPosts(
   limit = 3
 ): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
-    query: `*[_type == "post" && defined(slug.current) && slug.current != $slug] | order(publishedAt desc)[0...$limit]${SUMMARY_PROJECTION}`,
+    query: `*[_type == "post" && defined(slug.current) && slug.current != $slug && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)[0...$limit]${SUMMARY_PROJECTION}`,
     params: { slug: excludeSlug, limit },
   });
 
