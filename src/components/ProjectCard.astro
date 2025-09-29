@@ -18,26 +18,6 @@ const {
   revealDelay,
 }: Props = Astro.props as Props;
 
-const badgeToneToAccent: Record<string, string> = {
-  blue: "var(--blue)",
-  teal: "var(--teal)",
-  pink: "var(--pink)",
-  indigo: "var(--indigo)",
-  orange: "var(--orange)",
-};
-
-const badgeStyle = project.badge?.tone
-  ? ({ "--badge-accent": badgeToneToAccent[project.badge.tone] } as Record<
-      string,
-      string
-    >)
-  : undefined;
-const statusStyle = project.status?.tone
-  ? ({ "--badge-accent": badgeToneToAccent[project.status.tone] } as Record<
-      string,
-      string
-    >)
-  : undefined;
 const mediaTint = project.media.type === "icon" ? (project.media.tint ?? "blue") : null;
 const hasImage = project.media.type === "image";
 
@@ -120,24 +100,6 @@ const categoriesAttr = project.categories.join(",");
         <p class="projectCard__eyebrow">{project.role}</p>
         <h3 class="projectCard__title">{project.title}</h3>
       </div>
-      {
-        (project.badge || project.status) && (
-          <div class="projectCard__badges">
-            {project.badge && (
-              <span class="badge" style={badgeStyle}>
-                <span class="badge__dot" />
-                {project.badge.label}
-              </span>
-            )}
-            {project.status && (
-              <span class="badge badge--soft" style={statusStyle}>
-                <span class="badge__dot" />
-                {project.status.label}
-              </span>
-            )}
-          </div>
-        )
-      }
     </header>
 
     {
@@ -170,18 +132,3 @@ const categoriesAttr = project.categories.join(",");
     </span>
   </div>
 </a>
-
-<script>
-  // Handle image loading transitions
-  const image = document.querySelector("[data-image-loading]");
-  if (image) {
-    image.addEventListener("load", () => {
-      image.setAttribute("data-loaded", "true");
-    });
-
-    // If image is already loaded (cached), show it immediately
-    if (image.complete) {
-      image.setAttribute("data-loaded", "true");
-    }
-  }
-</script>
