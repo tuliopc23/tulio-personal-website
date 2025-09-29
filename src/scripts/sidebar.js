@@ -3,18 +3,26 @@
   const filter = document.querySelector("#sidebarFilter");
   const links = Array.from(document.querySelectorAll(".sidebar__link"));
   const groups = Array.from(document.querySelectorAll(".sidebar__group"));
+  const status = document.querySelector("[data-sidebar-status]");
+  const totalLinks = links.length;
 
   if (body && body.dataset && !body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
   }
 
   const apply = (query) => {
-    const needle = (query ?? "").trim().toLowerCase();
+    const rawQuery = query ?? "";
+    const trimmedQuery = rawQuery.trim();
+    const needle = trimmedQuery.toLowerCase();
+    let visibleCount = 0;
 
     links.forEach((anchor) => {
       const label = anchor.textContent?.toLowerCase() ?? "";
       const matches = needle.length === 0 || label.includes(needle);
       anchor.style.display = matches ? "flex" : "none";
+      if (matches) {
+        visibleCount += 1;
+      }
     });
 
     groups.forEach((groupEl) => {
@@ -23,6 +31,18 @@
       );
       groupEl.style.display = hasVisible ? "block" : "none";
     });
+
+    if (status) {
+      if (needle.length === 0) {
+        status.textContent = `Showing all ${totalLinks} sidebar links.`;
+      } else if (visibleCount === 0) {
+        status.textContent = `No sidebar links match "${trimmedQuery}".`;
+      } else if (visibleCount === 1) {
+        status.textContent = `Showing 1 sidebar link for "${trimmedQuery}".`;
+      } else {
+        status.textContent = `Showing ${visibleCount} sidebar links for "${trimmedQuery}".`;
+      }
+    }
   };
 
   filter?.addEventListener("input", (event) => {

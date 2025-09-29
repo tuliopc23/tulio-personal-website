@@ -32,7 +32,7 @@ const { title = "Home", sidebar = true } = Astro.props;
             aria-expanded="false"
             aria-controls={sidebar ? "site-sidebar" : undefined}
           >
-            ☰
+            <SFIcon name="sidebar-left" size={22} stroke={1.4} />
           </button>
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
@@ -177,6 +177,12 @@ const { title = "Home", sidebar = true } = Astro.props;
                   aria-label="Filter sidebar"
                 />
                 <kbd class="slash">/</kbd>
+                <span
+                  class="sr-only"
+                  data-sidebar-status
+                  aria-live="polite"
+                  role="status"
+                />
               </div>
             </div>
           </aside>
