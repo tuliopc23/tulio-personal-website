@@ -1,8 +1,11 @@
 # site-language Specification
 
 ## Purpose
+
 TBD - created by archiving change add-language-toggle. Update Purpose after archive.
+
 ## Requirements
+
 ### Requirement: Language Segmented Toggle
 
 The site SHALL provide an Apple HIG–styled segmented control that lets visitors switch between English (default) and Portuguese (Brazil) without reloading the page.
@@ -19,4 +22,3 @@ The site SHALL provide an Apple HIG–styled segmented control that lets visitor
 - **GIVEN** a first-time visitor with no stored language preference
 - **WHEN** the page renders
 - **THEN** English remains the active segment and copy is shown in English
-

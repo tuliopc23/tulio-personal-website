@@ -11,6 +11,7 @@ import {
   getAllPostSlugs,
   getPostBySlug,
   getRecentPosts,
+  calculateReadingTimeMinutes,
   type PostDetail,
   type PostSummary,
 } from "../../sanity/lib/posts";
@@ -54,46 +55,95 @@ const noIndex = Boolean(seo?.noIndex);
 const preferredSocialImage = seo?.socialImage?.url
   ? seo.socialImage
   : (heroImage ?? null);
+// Optimize OG images (1200x630 for optimal social sharing)
 const ogImage = preferredSocialImage?.url
   ? {
-      url: preferredSocialImage.url,
+      url: urlFor(preferredSocialImage.url)
+        .width(1200)
+        .height(630)
+        .fit("crop")
+        .auto("format")
+        .quality(85)
+        .url(),
       alt: preferredSocialImage.alt ?? null,
-      width: preferredSocialImage.width,
-      height: preferredSocialImage.height,
+      width: 1200,
+      height: 630,
     }
   : null;
 const customJsonLd =
   typeof seo?.jsonLd === "string" && seo.jsonLd.trim().length > 0 ? seo.jsonLd : null;
-const structuredData =
-  customJsonLd ??
-  (post
-    ? {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: seoTitle,
-        description: seoDescription,
-        datePublished: post.publishedAt,
-        dateModified: post.publishedAt,
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": canonical,
+const articleStructuredData = post
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: seoTitle,
+      description: seoDescription,
+      datePublished: post.publishedAt,
+      dateModified: post.publishedAt,
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": canonical,
+      },
+      author: {
+        "@type": "Person",
+        name: post.author?.name ?? "Tulio Cunha",
+        url: `${shareOrigin}/`,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Tulio Cunha",
+        url: shareOrigin,
+        logo: {
+          "@type": "ImageObject",
+          url: `${shareOrigin}/terminal-favicon.svg`,
         },
-        author: {
-          "@type": "Person",
-          name: "Tulio Cunha",
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Tulio Cunha",
-          url: shareOrigin,
-          logo: {
-            "@type": "ImageObject",
-            url: `${shareOrigin}/terminal-favicon.svg`,
+      },
+      image: ogImage?.url ? ogImage.url : undefined,
+      keywords: post.tags?.join(", "),
+      articleSection: post.categories?.[0]?.title,
+      wordCount: post.content
+        ? calculateReadingTimeMinutes(post.content) * 225
+        : undefined,
+      inLanguage: "en",
+    }
+  : null;
+
+const breadcrumbStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: shareOrigin,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: `${shareOrigin}/blog/`,
+    },
+    ...(post.categories?.[0]
+      ? [
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: post.categories[0].title,
+            item: `${shareOrigin}/blog/category/${post.categories[0].slug}/`,
           },
-        },
-        image: ogImage?.url ? [ogImage.url] : undefined,
-      }
-    : null);
+        ]
+      : []),
+    {
+      "@type": "ListItem",
+      position: post.categories?.[0] ? 4 : 3,
+      name: post.title,
+      item: shareUrl,
+    },
+  ],
+};
+
+const structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStructuredData];
 ---
 
 <Base
@@ -161,7 +211,9 @@ const structuredData =
                   </>
                 )}
                 {dateISO && <time datetime={dateISO}>{dateLabel}</time>}
-                {(dateISO || post.author) && readingLabel && <span aria-hidden="true">•</span>}
+                {(dateISO || post.author) && readingLabel && (
+                  <span aria-hidden="true">•</span>
+                )}
                 {readingLabel && <span>{readingLabel}</span>}
               </div>
             )}
@@ -190,6 +242,7 @@ const structuredData =
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1920px"
                 alt={heroImage.alt ?? ""}
                 loading="eager"
+                fetchpriority="high"
                 decoding="async"
                 width={heroImage.width}
                 height={heroImage.width}
@@ -251,6 +304,7 @@ const structuredData =
                         dateISO={relatedISO}
                         dateLabel={relatedLabel}
                         tags={entry.tags}
+                        categories={entry.categories}
                         revealGroup="related-posts"
                         revealOrder={index}
                       />

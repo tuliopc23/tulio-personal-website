@@ -10,41 +10,48 @@ The site currently uses only MDX for local content, limiting content management 
 ## What Changes
 
 ### Core Integration
+
 - Install and configure Sanity v4 with `@sanity/astro`, `@sanity/client`, and `astro-portabletext` packages
 - Set up environment variables for project ID (61249gtj), production dataset, API tokens, and studio URL
 - Embed Sanity Studio at `/admin` route with authentication and deployment workflows
 
 ### Content Schemas
+
 - Define blog post schema with title, slug, summary, publishedAt, author reference, categories, tags, hero image, and Portable Text body
 - Create author schema with name, bio, avatar, and social links
 - Create category schema for content organization
 - Design schemas with future marketplace extensibility (services, pricing, transactions)
 
 ### Content Rendering
+
 - Build custom Astro article template using repository CSS tokens (`src/styles/theme.css`) exclusively
 - Map Portable Text blocks to custom components for paragraphs, headings, lists, quotes, code blocks, and images
 - Implement responsive image optimization with Sanity's image pipeline (srcset, WebP/AVIF, lazy loading)
 - Configure visual editing with `VisualEditing` component, stega encoding, and content source maps
 
 ### Data Fetching
+
 - Create GROQ queries for blog listing, detail pages, and related posts with proper filtering and pagination
 - Implement `loadQuery` helper to switch between `published` and `previewDrafts` perspectives
 - Configure Sanity client with CDN endpoint for published content and live API for drafts
 - Set up type-safe query results using generated TypeScript types
 
 ### Studio Configuration
+
 - Configure Presentation tool for live preview of draft content using custom article template
 - Add desk structure for organized content management (posts, authors, categories)
 - Include field validation, help text, and required alt text for images
 - Deploy studio to hosted URL (`bunx sanity@latest deploy`)
 
 ### SEO and Discovery
+
 - Generate RSS and Atom feeds from Sanity content at `/blog/feed.xml` and `/blog/atom.xml`
 - Add Open Graph and Twitter Card metadata using Sanity fields
 - Include JSON-LD Article structured data for search engines
 - Update sitemap generation to include Sanity post URLs
 
 ### Development Workflow
+
 - Add `.env.example` with required Sanity environment variables
 - Update `README.md` with Sanity setup instructions and Studio access
 - Create `SANITY_DOCUMENTATION.md` with comprehensive integration reference
@@ -53,10 +60,12 @@ The site currently uses only MDX for local content, limiting content management 
 ## Impact
 
 ### Affected Specs
+
 - **ADDED**: `sanity-cms-integration` (complete new specification)
 - **MODIFIED**: `blog-experience` (extends with Sanity-powered content management and visual editing)
 
 ### Affected Code
+
 - `astro.config.mjs` → Add Sanity integration configuration
 - `src/pages/admin/[...index].astro` → Embed Sanity Studio
 - `src/lib/sanity/` → New directory for client, queries, and utilities
@@ -71,6 +80,7 @@ The site currently uses only MDX for local content, limiting content management 
 - `SANITY_DOCUMENTATION.md` → Create comprehensive integration reference
 
 ### Documentation Updates
+
 - Project README with Sanity onboarding steps
 - Environment variable configuration guide
 - Studio deployment workflow
@@ -99,30 +109,35 @@ The site currently uses only MDX for local content, limiting content management 
 ## Rollout Plan
 
 ### Phase 1: Foundation (Week 1)
+
 - Install Sanity packages and configure environment
 - Embed Studio at `/admin` with authentication
 - Define initial blog post, author, and category schemas
 - Verify Studio access and content creation
 
 ### Phase 2: Rendering Pipeline (Week 2)
+
 - Build custom Astro article template with repository CSS
 - Map Portable Text blocks to custom components
 - Implement image optimization with Sanity image API
 - Configure GROQ queries for blog listing and detail pages
 
 ### Phase 3: Visual Editing (Week 3)
+
 - Set up `VisualEditing` component with stega encoding
 - Configure Presentation tool for live preview
 - Implement perspective switching (published vs. previewDrafts)
 - Test editor workflow with draft content
 
 ### Phase 4: SEO and Polish (Week 4)
+
 - Generate RSS/Atom feeds from Sanity content
 - Add Open Graph, Twitter Card, and JSON-LD metadata
 - Update sitemap with Sanity post URLs
 - Document editor workflows and Studio usage
 
 ### Phase 5: Validation and Launch
+
 - Run `bun run check` and fix any issues
 - Verify Lighthouse scores remain ≥90
 - Test responsive behavior on mobile and desktop

@@ -1,0 +1,65 @@
+---
+import type { Category } from "../sanity/lib/posts";
+
+interface Props {
+  categories?: Category[] | null;
+  limit?: number;
+}
+
+const { categories = [], limit } = Astro.props;
+const validCategories = Array.isArray(categories) ? categories : [];
+const displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
+---
+
+{
+  displayCategories.length > 0 && (
+    <div class="categoryBadges">
+      {displayCategories.map((category) => (
+        <a href={`/blog/category/${category.slug}/`} class="categoryBadge">
+          {category.title}
+        </a>
+      ))}
+    </div>
+  )
+}
+
+<style>
+  .categoryBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .categoryBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2xs) var(--space-sm);
+    font-size: var(--fs--2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: var(--accent-surface);
+    border: 1px solid var(--accent-hairline);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .categoryBadge:hover {
+    color: var(--accent-bright);
+    background: var(--accent-surface-hover);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .categoryBadge {
+      transition: none;
+    }
+
+    .categoryBadge:hover {
+      transform: none;
+    }
+  }
+</style>

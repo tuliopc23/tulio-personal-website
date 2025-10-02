@@ -1,5 +1,7 @@
 ---
 import SFIcon from "./SFIcon.astro";
+import CategoryBadges from "./CategoryBadges.astro";
+import type { Category } from "../sanity/lib/posts";
 
 interface Props {
   href: string;
@@ -8,6 +10,7 @@ interface Props {
   dateISO: string;
   dateLabel: string;
   tags?: string[];
+  categories?: Category[] | null;
   featured?: boolean;
   revealGroup?: string;
   revealOrder?: number | string;
@@ -23,6 +26,7 @@ const {
   dateISO,
   dateLabel,
   tags = [],
+  categories = [],
   featured = false,
   revealGroup = "articles",
   revealOrder,
@@ -69,18 +73,29 @@ const readingTimeLabel =
       <h3 class="articleCard__title">{title}</h3>
     </header>
     <p class="articleCard__summary">{summary}</p>
-    {
-      tags.length > 0 && (
-        <ul class="articleCard__tags" aria-label="Tags">
-          {tags.map((tag) => (
-            <li class="articleCard__tag">{tag}</li>
-          ))}
-        </ul>
-      )
-    }
+    <div class="articleCard__taxonomy">
+      <CategoryBadges categories={categories} limit={2} />
+      {
+        tags.length > 0 && (
+          <ul class="articleCard__tags" aria-label="Tags">
+            {tags.map((tag) => (
+              <li class="articleCard__tag">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
     <span class="articleCard__cta">
       <span>Read article</span>
       <SFIcon name="arrow-up-right" size={18} stroke={1.6} />
     </span>
   </a>
 </article>
+
+<style>
+  .articleCard__taxonomy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+</style>

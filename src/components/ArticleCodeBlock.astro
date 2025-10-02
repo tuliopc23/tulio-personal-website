@@ -1,4 +1,6 @@
 ---
+import { highlightCode } from "../lib/shiki";
+
 interface Props {
   value: {
     code?: string;
@@ -9,18 +11,243 @@ interface Props {
 
 const { value }: Props = Astro.props;
 const code = value.code ?? "";
-const language = value.language?.toLowerCase();
+const language = value.language?.toLowerCase() ?? "plaintext";
+const filename = value.filename;
+
+// Generate syntax-highlighted HTML
+const highlightedHtml = code ? await highlightCode(code, language) : "";
 ---
 
 {
   code && (
     <figure class="articlePortable__codeBlock" data-language={language}>
-      {value.filename && (
-        <figcaption class="articlePortable__codeCaption">{value.filename}</figcaption>
-      )}
-      <pre class="articlePortable__pre">
-        <code class={`language-${language ?? "plain"}`}>{code}</code>
-      </pre>
+      <div class="codeBlock__header">
+        {filename && <span class="codeBlock__filename">{filename}</span>}
+        <button
+          class="codeBlock__copy"
+          data-code={code}
+          type="button"
+          aria-label="Copy code to clipboard"
+        >
+          <svg
+            class="codeBlock__copyIcon codeBlock__copyIcon--default"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="5"
+              y="5"
+              width="9"
+              height="9"
+              rx="1.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M3 11V3a1 1 0 0 1 1-1h8"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <svg
+            class="codeBlock__copyIcon codeBlock__copyIcon--success"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 8l3 3 7-7"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="codeBlock__copyText">Copy</span>
+        </button>
+      </div>
+      <div class="codeBlock__content" set:html={highlightedHtml} />
     </figure>
   )
 }
+
+<style>
+  .articlePortable__codeBlock {
+    margin: var(--space-lg) 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+  }
+
+  .codeBlock__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-elevated);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .codeBlock__filename {
+    font-family: var(--font-mono);
+    font-size: var(--fs--2);
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .codeBlock__copy {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--space-sm);
+    background: transparent;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    font-size: var(--fs--2);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .codeBlock__copy:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent-hairline);
+    color: var(--accent);
+  }
+
+  .codeBlock__copyIcon {
+    width: 16px;
+    height: 16px;
+    transition: all 0.2s;
+  }
+
+  .codeBlock__copyIcon--success {
+    position: absolute;
+    left: 6px;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .codeBlock__copy[data-copied="true"] .codeBlock__copyIcon--default {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .codeBlock__copy[data-copied="true"] .codeBlock__copyIcon--success {
+    opacity: 1;
+    transform: scale(1);
+    color: var(--success-text);
+  }
+
+  .codeBlock__content {
+    overflow-x: auto;
+  }
+
+  /* Shiki output styling */
+  .codeBlock__content :global(pre) {
+    margin: 0;
+    padding: var(--space-md);
+    background: transparent !important;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs--1);
+    line-height: 1.6;
+  }
+
+  .codeBlock__content :global(code) {
+    font-family: var(--font-mono);
+    background: transparent;
+  }
+
+  .codeBlock__content :global(.line) {
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Theme support */
+  :global(.light) .codeBlock__content :global([data-theme="dark"]) {
+    display: none;
+  }
+
+  :global(.dark) .codeBlock__content :global([data-theme="light"]) {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .codeBlock__content :global([data-theme="dark"]) {
+      display: none;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .codeBlock__content :global([data-theme="light"]) {
+      display: none;
+    }
+  }
+
+  /* Scrollbar styling */
+  .codeBlock__content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+
+  .codeBlock__content::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .codeBlock__content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .codeBlock__content::-webkit-scrollbar-thumb {
+    background: var(--hairline);
+    border-radius: var(--radius-full);
+  }
+
+  .codeBlock__content::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
+</style>
+
+<script>
+  // Copy to clipboard functionality
+  document.addEventListener("astro:page-load", () => {
+    const copyButtons = document.querySelectorAll(".codeBlock__copy");
+
+    copyButtons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) return;
+
+      button.addEventListener("click", async () => {
+        const code = button.dataset.code;
+        if (!code) return;
+
+        try {
+          await navigator.clipboard.writeText(code);
+
+          // Show success state
+          button.dataset.copied = "true";
+          const textElement = button.querySelector(".codeBlock__copyText");
+          const originalText = textElement?.textContent;
+          if (textElement) textElement.textContent = "Copied!";
+
+          // Reset after 2 seconds
+          setTimeout(() => {
+            button.dataset.copied = "false";
+            if (textElement && originalText) textElement.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error("Failed to copy code:", err);
+        }
+      });
+    });
+  });
+</script>

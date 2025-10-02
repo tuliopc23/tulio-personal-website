@@ -20,7 +20,10 @@ export function generateSrcset(
   widths: number[] = [320, 640, 768, 1024, 1280, 1920]
 ): string {
   return widths
-    .map((width) => `${urlFor(source).width(width).auto("format").url()} ${width}w`)
+    .map(
+      (width) =>
+        `${urlFor(source).width(width).auto("format").quality(80).url()} ${width}w`
+    )
     .join(", ");
 }
 

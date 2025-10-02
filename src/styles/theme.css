@@ -1,10 +1,10 @@
 /* ======= SF Mono Font ======= */
 @font-face {
-  font-family: 'SF Mono';
+  font-family: "SF Mono";
   src:
-    url('/fonts/SF-Mono-Powerline-Regular.woff2') format('woff2'),
-    url('/fonts/SF-Mono-Powerline-Regular.woff') format('woff'),
-    url('/fonts/SF-Mono-Powerline-Regular.otf') format('opentype');
+    url("/fonts/SF-Mono-Powerline-Regular.woff2") format("woff2"),
+    url("/fonts/SF-Mono-Powerline-Regular.woff") format("woff"),
+    url("/fonts/SF-Mono-Powerline-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -34,8 +34,8 @@
     -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial,
     "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono:
-    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono",
-    Consolas, "Liberation Mono", "Courier New", monospace;
+    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", "Courier New", monospace;
   --fs-0: clamp(1rem, 1vw + 0.95rem, 1.2rem);
   --fs--1: clamp(0.875rem, 0.8vw + 0.75rem, 1rem);
   --fs--2: clamp(0.75rem, 0.6vw + 0.6875rem, 0.875rem);

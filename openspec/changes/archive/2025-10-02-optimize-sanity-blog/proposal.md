@@ -12,6 +12,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 ## What Changes
 
 ### 1. Image Optimization Pipeline
+
 - Update `ArticlePortableImage.astro` to use Sanity's image URL builder
 - Generate responsive srcset (320w, 640w, 768w, 1024w, 1280w, 1920w)
 - Auto-convert to WebP/AVIF with JPEG fallback
@@ -20,6 +21,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Optimize hero image rendering in blog detail pages
 
 ### 2. Homepage Recent Posts Section
+
 - Create `src/components/RecentPosts.astro` component
 - Fetch 3 most recent posts from Sanity
 - Display with card layout matching site aesthetic
@@ -27,6 +29,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Integrate into `src/pages/index.astro`
 
 ### 3. Automated Type Generation
+
 - Install `sanity-codegen` for schema-to-TypeScript generation
 - Add `npm run sanity:typegen` script
 - Generate `src/types/sanity.generated.ts` from schemas
@@ -34,6 +37,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Add git pre-commit hook to regenerate types on schema changes
 
 ### 4. Enhanced Portable Text Components
+
 - **Callout block**: Info, warning, success, error variants with icons
 - **Video embed**: YouTube, Vimeo support with responsive aspect ratios
 - **Image gallery**: Multi-image carousel with lightbox
@@ -43,6 +47,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - All styled with Apple-inspired design tokens
 
 ### 5. Category & Tag Pages
+
 - Create `src/pages/blog/category/[slug].astro` for category archives
 - Create `src/pages/blog/tag/[slug].astro` for tag archives
 - Add category/tag metadata pages with descriptions
@@ -50,6 +55,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Add breadcrumbs for navigation context
 
 ### 6. Syntax Highlighting
+
 - Install `shiki` for server-side syntax highlighting
 - Configure with Apple-inspired theme (SF Mono, Apple colors)
 - Support 20+ languages (JS, TS, Python, Swift, Go, etc.)
@@ -57,6 +63,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Include copy-to-clipboard button
 
 ### 7. Performance Optimizations
+
 - Code-split Sanity visual editing (only load in preview mode)
 - Optimize GROQ queries (limit projections to needed fields)
 - Add caching headers for static blog pages
@@ -64,6 +71,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Reduce bundle size (<50KB for blog pages)
 
 ### 8. SEO & Discovery Enhancements
+
 - Generate sitemap with Sanity post URLs and priority
 - Add JSON-LD BreadcrumbList for category/tag pages
 - Implement Open Graph image generation from hero images
@@ -73,10 +81,12 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 ## Impact
 
 ### Affected Specs
+
 - **MODIFIED**: `sanity-cms-integration` (image optimization, type generation)
 - **ADDED**: `blog-enhancements` (new spec for advanced features)
 
 ### Affected Code
+
 - `src/components/ArticlePortableImage.astro` → Add Sanity image URL builder
 - `src/components/RecentPosts.astro` → New component for homepage
 - `src/components/portable-text/` → New callout, video, gallery, table components
@@ -89,6 +99,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - `sanity.config.ts` → Add custom input components for new block types
 
 ### Performance Impact
+
 - **Image sizes**: 60-80% reduction with WebP/AVIF
 - **LCP improvement**: 40-60% faster with responsive images
 - **Bundle size**: 15-20KB reduction with code splitting
@@ -118,6 +129,7 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 ## Rollout Plan
 
 ### Phase 1: Image Optimization (Priority: High, 2-3 hours)
+
 - Implement Sanity image URL builder in ArticlePortableImage
 - Add responsive srcset generation
 - Configure WebP/AVIF with fallbacks
@@ -125,18 +137,21 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Test across different device sizes
 
 ### Phase 2: Homepage Integration (Priority: High, 1 hour)
+
 - Create RecentPosts component
 - Integrate with homepage
 - Style with existing card components
 - Add loading states
 
 ### Phase 3: Type Generation (Priority: Medium, 1 hour)
+
 - Install and configure sanity-codegen
 - Generate initial types
 - Update posts.ts imports
 - Add npm script and documentation
 
 ### Phase 4: Enhanced Blocks (Priority: Medium, 3-4 hours)
+
 - Design and implement callout schema/component
 - Add video embed support
 - Create image gallery component
@@ -144,18 +159,21 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 - Style all with Apple-inspired tokens
 
 ### Phase 5: Category/Tag Pages (Priority: Medium, 2-3 hours)
+
 - Create category archive page
 - Create tag archive page
 - Add category/tag metadata
 - Update breadcrumbs and navigation
 
 ### Phase 6: Syntax Highlighting (Priority: Low, 1-2 hours)
+
 - Install and configure Shiki
 - Apply Apple-inspired theme
 - Add line numbers and copy button
 - Test with various languages
 
 ### Phase 7: Performance Polish (Priority: Low, 2 hours)
+
 - Code-split visual editing
 - Optimize GROQ queries
 - Add caching headers
@@ -172,14 +190,17 @@ The Sanity CMS integration is functional, but key optimizations will dramaticall
 ## Alternative Approaches
 
 ### Image Optimization Alternative
+
 - Use Astro's built-in image optimization instead of Sanity's CDN
 - **Rejected**: Sanity's CDN is faster and purpose-built for their images
 
 ### Type Generation Alternative
+
 - Continue manual TypeScript interfaces
 - **Rejected**: Error-prone and doesn't scale with schema complexity
 
 ### Content Blocks Alternative
+
 - Use MDX components instead of Portable Text blocks
 - **Rejected**: Sanity's Portable Text is platform-agnostic and more flexible
 

@@ -73,18 +73,20 @@ In your Astro templates:
 ---
 import { sanityClient } from "sanity:client";
 
-const posts = await sanityClient.fetch(`*[_type == "post" && defined(slug)] | order(publishedAt desc)`);
+const posts = await sanityClient.fetch(
+  `*[_type == "post" && defined(slug)] | order(publishedAt desc)`
+);
 ---
 
 <h1>Blog</h1>
 <ul>
-  {posts.map((post) => (
-    <li>
-      <a href={'/posts/' + post.slug.current}>
-        {post.title}
-      </a>
-    </li>
-  ))}
+  {
+    posts.map((post) => (
+      <li>
+        <a href={"/posts/" + post.slug.current}>{post.title}</a>
+      </li>
+    ))
+  }
 </ul>
 ```
 
@@ -137,21 +139,25 @@ GROQ (Graph-Relational Object Queries) is Sanity's query language for working wi
 ### Basic Syntax
 
 **Get everything:**
+
 ```groq
 *
 ```
 
 **Filter by type:**
+
 ```groq
 *[_type == "post"]
 ```
 
 **Array slicing:**
+
 ```groq
 *[_type == "post"][0...3]
 ```
 
 **Projections (select specific fields):**
+
 ```groq
 *[_type == "post"][0...3]{
   title,
@@ -161,6 +167,7 @@ GROQ (Graph-Relational Object Queries) is Sanity's query language for working wi
 ```
 
 **Ordering:**
+
 ```groq
 *[_type == "post"] | order(publishedAt desc)
 ```
@@ -168,6 +175,7 @@ GROQ (Graph-Relational Object Queries) is Sanity's query language for working wi
 ### Advanced Queries
 
 **Resolving references:**
+
 ```groq
 *[_type == "post"]{
   title,
@@ -179,6 +187,7 @@ GROQ (Graph-Relational Object Queries) is Sanity's query language for working wi
 ```
 
 **Conditional values with coalesce:**
+
 ```groq
 *[_type == "post"]{
   title,
@@ -187,6 +196,7 @@ GROQ (Graph-Relational Object Queries) is Sanity's query language for working wi
 ```
 
 **Custom functions:**
+
 ```groq
 fn::reference($doc) = $doc->{name};
 
@@ -202,6 +212,7 @@ fn::reference($doc) = $doc->{name};
 ```
 
 Used with:
+
 ```typescript
 await sanityClient.fetch(query, { slug: "hello-world" });
 ```
@@ -213,6 +224,7 @@ await sanityClient.fetch(query, { slug: "hello-world" });
 ### Overview
 
 Visual Editing provides:
+
 - **Overlays**: Clickable content that links directly to Studio editor
 - **Live Mode**: Real-time preview of edits in Studio
 
@@ -246,6 +258,7 @@ const visualEditingEnabled =
 2. **Environment Variables**
 
 Add to `.env.local`:
+
 ```
 PUBLIC_SANITY_VISUAL_EDITING_ENABLED="true"
 SANITY_API_READ_TOKEN="your_viewer_token"
@@ -284,9 +297,7 @@ export async function loadQuery<QueryResponse>({
   params?: QueryParams;
 }) {
   if (visualEditingEnabled && !token) {
-    throw new Error(
-      "SANITY_API_READ_TOKEN required for Visual Editing"
-    );
+    throw new Error("SANITY_API_READ_TOKEN required for Visual Editing");
   }
 
   const perspective = visualEditingEnabled ? "previewDrafts" : "published";
@@ -337,6 +348,7 @@ export default defineConfig({
 ### What is Portable Text?
 
 Portable Text is an open specification for rich text and block content stored as JSON. It's:
+
 - Platform/framework agnostic
 - Queryable (e.g., find posts with specific code blocks)
 - Flexible for rendering to any output format
@@ -353,7 +365,7 @@ npm install astro-portabletext
 
 ```astro
 ---
-import { PortableText } from 'astro-portabletext';
+import { PortableText } from "astro-portabletext";
 
 const { portableText } = Astro.props;
 ---
@@ -385,7 +397,7 @@ const webpUrl = urlForImage(asset).format("webp").url();
 
 ```astro
 ---
-import { PortableText } from 'astro-portabletext';
+import { PortableText } from "astro-portabletext";
 import PortableTextImage from "./PortableTextImage.astro";
 
 const { portableText } = Astro.props;
@@ -393,7 +405,7 @@ const { portableText } = Astro.props;
 const components = {
   type: {
     image: PortableTextImage,
-  }
+  },
 };
 ---
 
@@ -473,6 +485,7 @@ Structured content is information broken into its smallest reasonable pieces, ex
 ### Content Modeling
 
 **Entity-based thinking:**
+
 - Think about "things" not "pages"
 - Examples: Post, Author, Category, Project
 
@@ -491,7 +504,7 @@ export const postType = defineType({
     defineField({
       name: "categories",
       type: "array",
-      of: [{ type: "reference", to: { type: "category" } }]
+      of: [{ type: "reference", to: { type: "category" } }],
     }),
   ],
 });
@@ -511,7 +524,7 @@ defineField({
   title: "Published At",
   description: "When this post should be made public",
   type: "datetime",
-})
+});
 ```
 
 **Validation:**
@@ -521,7 +534,7 @@ defineField({
   name: "title",
   type: "string",
   validation: (Rule) => Rule.required().min(10).max(80),
-})
+});
 ```
 
 **Conditional Fields:**
@@ -531,7 +544,7 @@ defineField({
   name: "externalUrl",
   type: "url",
   hidden: ({ document }) => !document?.isExternal,
-})
+});
 ```
 
 **Field Groups:**
@@ -641,12 +654,14 @@ const posts = await loadQuery<POSTS_QUERYResult>({
 ## Project Information
 
 **Your Sanity Project:**
+
 - Project ID: `61249gtj`
 - Organization: Tulio Cunha Full Stack Dev
 - Dataset: `production` (public)
 - Created: 2025-09-13
 
 **Key Integration Points:**
+
 - Astro frontend with custom Apple-like CSS
 - Blog content managed in Sanity
 - Visual editing for content preview
@@ -655,6 +670,6 @@ const posts = await loadQuery<POSTS_QUERYResult>({
 
 ---
 
-*Documentation compiled for Astro blog integration*
-*Last updated: 2025-10-01*
-*Source: Sanity Learn (https://sanity.io/learn) + Official Sanity Astro Integration*
+_Documentation compiled for Astro blog integration_
+_Last updated: 2025-10-01_
+_Source: Sanity Learn (https://sanity.io/learn) + Official Sanity Astro Integration_

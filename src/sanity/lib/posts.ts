@@ -207,3 +207,29 @@ export function calculateReadingTimeMinutes(blocks: PortableTextBlock[]): number
   const minutes = Math.max(1, Math.round(words.length / 225));
   return minutes;
 }
+
+export async function getAllCategories(): Promise<Category[]> {
+  const { data } = await loadQuery<Category[]>({
+    query: `*[_type == "category"] | order(title asc){ _id, title, "slug": slug.current, description }`,
+  });
+
+  return data ?? [];
+}
+
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  const { data } = await loadQuery<Category | null>({
+    query: `*[_type == "category" && slug.current == $slug][0]{ _id, title, "slug": slug.current, description }`,
+    params: { slug },
+  });
+
+  return data ?? null;
+}
+
+export async function getPostsByCategory(categorySlug: string): Promise<PostSummary[]> {
+  const { data } = await loadQuery<PostSummary[]>({
+    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && $categorySlug in categories[]->slug.current] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
+    params: { categorySlug },
+  });
+
+  return data ?? [];
+}

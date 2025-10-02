@@ -1,18 +1,18 @@
 /* Global definitions */
 
 @font-face {
-  font-family: 'Nunito';
-  src: url('../fonts/Nunito-Regular.eot');
+  font-family: "Nunito";
+  src: url("../fonts/Nunito-Regular.eot");
   src:
-    url('../fonts/Nunito-Regular.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/Nunito-Regular.woff2') format('woff2'),
-    url('../fonts/Nunito-Regular.woff') format('woff'),
-    url('../fonts/Nunito-Regular.ttf') format('truetype'),
-    url('../fonts/Nunito-Regular.svg#Nunito') format('svg');
+    url("../fonts/Nunito-Regular.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Nunito-Regular.woff2") format("woff2"),
+    url("../fonts/Nunito-Regular.woff") format("woff"),
+    url("../fonts/Nunito-Regular.ttf") format("truetype"),
+    url("../fonts/Nunito-Regular.svg#Nunito") format("svg");
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   margin: 0;
 }
 
@@ -216,7 +216,7 @@ body {
 }
 
 .keep-page-font {
-  font-family: 'Nunito', sans-serif !important;
+  font-family: "Nunito", sans-serif !important;
 }
 
 /* Cover section */
@@ -228,7 +228,7 @@ body {
   padding: 60px;
 }
 .cover-section::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -80px;
   left: 0;
@@ -365,7 +365,7 @@ body {
 }
 
 .top-navigation .responsive-menu .nav-component .menu-list li a::after {
-  content: '';
+  content: "";
   display: block;
   height: 4px;
   width: auto;

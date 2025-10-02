@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
+import CategoryList from "../../components/CategoryList.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -158,6 +159,7 @@ const placeholders = [
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
             tags={featured.tags}
+            categories={featured.categories}
             readingTimeMinutes={featured.readingTimeMinutes}
             isNew={featured.isNew}
             featured={true}
@@ -175,6 +177,10 @@ const placeholders = [
         </div>
       )
     }
+  </section>
+
+  <section class="container">
+    <CategoryList />
   </section>
 
   {
@@ -226,6 +232,7 @@ const placeholders = [
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
                   tags={post.tags}
+                  categories={post.categories}
                   readingTimeMinutes={post.readingTimeMinutes}
                   isNew={post.isNew}
                   revealGroup="blog-list"

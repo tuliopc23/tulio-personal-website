@@ -64,6 +64,20 @@ const structuredDataJson =
     {description && <meta name="description" content={description} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="icon" type="image/svg+xml" href="/terminal-favicon.svg" />
+
+    <!-- Performance: Resource hints for external domains -->
+    <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+
+    <!-- Performance: Preload critical fonts -->
+    <link
+      rel="preload"
+      href="/fonts/SF-Mono-Powerline-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <link rel="stylesheet" href={themeCssHref} />
     <link rel="stylesheet" href={motionCssHref} />
     <meta property="og:type" content={ogType} />
@@ -102,6 +116,10 @@ const structuredDataJson =
         <script type="application/ld+json" set:html={structuredDataJson} />
       )
     }
+
+    <!-- Performance: Web Vitals monitoring (dev only) -->
+    <script src="/web-vitals.js" async></script>
+
     <slot name="head" />
   </head>
   <body data-page-state="entering" data-glass-state="rest">
