@@ -1,0 +1,46 @@
+---
+interface Props {
+  value: {
+    style: "line" | "dots" | "asterisks" | "space";
+  };
+}
+
+const { value } = Astro.props;
+const style = value.style || "line";
+---
+
+<div class={`divider divider--${style}`} role="separator" aria-hidden="true">
+  {style === "line" && <hr class="divider__line" />}
+  {style === "dots" && <div class="divider__dots">• • •</div>}
+  {style === "asterisks" && <div class="divider__asterisks">* * *</div>}
+  {style === "space" && <div class="divider__space"></div>}
+</div>
+
+<style>
+  .divider {
+    margin: var(--space-xl) auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .divider__line {
+    width: 100%;
+    height: 1px;
+    border: none;
+    background: var(--hairline);
+    opacity: 0.5;
+  }
+
+  .divider__dots,
+  .divider__asterisks {
+    color: var(--muted);
+    font-size: var(--fs-0);
+    letter-spacing: 0.5em;
+    text-align: center;
+  }
+
+  .divider--space {
+    height: var(--space-xl);
+  }
+</style>

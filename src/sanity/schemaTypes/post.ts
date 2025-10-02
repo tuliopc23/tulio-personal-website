@@ -48,6 +48,20 @@ export default defineType({
         rule.required().max(280).warning("Keep summaries concise (≤ 280 characters)."),
     }),
     defineField({
+      name: "author",
+      title: "Author",
+      type: "reference",
+      to: [{ type: "author" }],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+      validation: (rule) => rule.unique().max(3).warning("Use up to 3 categories."),
+    }),
+    defineField({
       name: "tags",
       title: "Tags",
       type: "array",

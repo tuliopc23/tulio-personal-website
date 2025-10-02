@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "check": "bun run lint && bun run format:check && bun run typecheck && bun run build"
+    "check": "bun run lint && bun run format:check && bun run typecheck && bun run build",
+    "sanity:typegen": "sanity-codegen"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.6",
@@ -23,6 +24,8 @@
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.11.2",
     "@sanity/code-input": "^6.0.1",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/visual-editing": "^3.0.5",
     "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
     "@types/react-is": "^19.0.0",
@@ -46,6 +49,7 @@
     "globals": "^16.4.0",
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
+    "sanity-codegen": "^0.9.8",
     "typescript": "^5.9.2"
   },
   "packageManager": "bun@1.2.22"

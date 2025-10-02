@@ -1,4 +1,6 @@
 ---
+import { urlFor, generateSrcset } from "../sanity/lib/image";
+
 interface Props {
   value: {
     url?: string;
@@ -7,6 +9,7 @@ interface Props {
     lqip?: string | null;
     width?: number;
     height?: number;
+    asset?: any; // Sanity image asset reference
   };
 }
 
@@ -16,16 +19,42 @@ const hasAsset = Boolean(value?.url);
 const alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
 const loading = "lazy";
 const decoding = "async";
-const src = value.url.includes("?")
-  ? `${value.url}&auto=format`
-  : `${value.url}?auto=format`;
+
+// Generate optimized image URLs with Sanity CDN
+const imageSource = value.asset || value.url;
+const src = imageSource
+  ? urlFor(imageSource).width(1280).auto("format").quality(80).url()
+  : value.url;
+
+// Generate responsive srcset for different viewport sizes
+const srcset = imageSource
+  ? generateSrcset(imageSource, [320, 640, 768, 1024, 1280, 1920])
+  : undefined;
+
+// Use LQIP (Low Quality Image Placeholder) for blur-up effect
+const placeholder = value.lqip;
 ---
 
 {
   hasAsset && (
     <figure class="articlePortable__figure">
+      {placeholder && (
+        <img
+          src={placeholder}
+          alt=""
+          aria-hidden="true"
+          class="articlePortable__placeholder"
+          style={
+            value.width && value.height
+              ? `aspect-ratio: ${value.width} / ${value.height};`
+              : undefined
+          }
+        />
+      )}
       <img
         src={src}
+        srcset={srcset}
+        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 768px, 1024px"
         alt={alt}
         loading={loading}
         decoding={decoding}

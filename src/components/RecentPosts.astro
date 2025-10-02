@@ -1,0 +1,195 @@
+---
+import { getAllPosts } from "../sanity/lib/posts";
+import ArticleCard from "./ArticleCard.astro";
+
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+// Fetch 3 most recent published posts
+const recentPosts = (await getAllPosts()).slice(0, 3).map((post) => {
+  const date = new Date(post.publishedAt);
+  const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
+  const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
+  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000; // 7 days
+
+  return {
+    ...post,
+    href: `/blog/${post.slug}/`,
+    dateISO: date.toISOString(),
+    dateLabel: formatter.format(date),
+    readingTimeMinutes: post.readingTimeMinutes ?? estimatedReadingTime,
+    isNew,
+  };
+});
+
+const hasPost = recentPosts.length > 0;
+---
+
+<section
+  class="container recentPosts"
+  data-reveal
+  data-reveal-type="scale"
+  data-reveal-group="recent-posts"
+>
+  <div class="recentPosts__header">
+    <h2 class="recentPosts__title">Latest Writing</h2>
+    <p class="recentPosts__subtitle">
+      Thoughts on engineering, design, and building products.
+    </p>
+  </div>
+
+  {
+    hasPost ? (
+      <div class="recentPosts__grid">
+        {recentPosts.map((post, index) => (
+          <ArticleCard
+            href={post.href}
+            title={post.title}
+            summary={post.summary}
+            dateISO={post.dateISO}
+            dateLabel={post.dateLabel}
+            tags={post.tags}
+            readingTimeMinutes={post.readingTimeMinutes}
+            isNew={post.isNew}
+            revealGroup="recent-posts"
+            revealOrder={index}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="recentPosts__empty card">
+        <h3>No posts yet</h3>
+        <p>
+          Articles are on the way. Subscribe via{" "}
+          <a href="/blog/feed.xml" class="recentPosts__link">
+            RSS
+          </a>{" "}
+          to be notified when the first story lands.
+        </p>
+      </div>
+    )
+  }
+
+  <div class="recentPosts__footer">
+    <a href="/blog" class="recentPosts__viewAll">
+      View all articles
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M6 12l4-4-4-4"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .recentPosts {
+    padding-block: var(--space-xl);
+  }
+
+  .recentPosts__header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .recentPosts__title {
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    line-height: var(--lh-tight);
+    color: var(--text);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .recentPosts__subtitle {
+    font-size: var(--fs-0);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .recentPosts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .recentPosts__empty {
+    text-align: center;
+    padding: var(--space-xl);
+    background: var(--surface-elevated);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--panel-border);
+  }
+
+  .recentPosts__empty h3 {
+    font-size: var(--fs-h3);
+    margin: 0 0 var(--space-sm);
+  }
+
+  .recentPosts__empty p {
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .recentPosts__link {
+    color: var(--link);
+    text-decoration: underline;
+  }
+
+  .recentPosts__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-lg);
+  }
+
+  .recentPosts__viewAll {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface-elevated);
+    color: var(--text);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--panel-border);
+    font-weight: 500;
+    transition:
+      background var(--motion-duration-sm) var(--motion-ease-out),
+      border-color var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .recentPosts__viewAll:hover {
+    background: var(--surface-raised);
+    border-color: var(--panel-border-strong);
+    transform: translateY(-2px);
+  }
+
+  .recentPosts__viewAll svg {
+    transition: transform var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .recentPosts__viewAll:hover svg {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    .recentPosts__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -21,6 +21,23 @@ export interface PostSeoMeta {
   socialImage?: SanityImageWithMetadata | null;
 }
 
+export interface Author {
+  _id: string;
+  name: string;
+  slug: string;
+  avatar?: {
+    url: string | null;
+    alt?: string | null;
+  } | null;
+}
+
+export interface Category {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+}
+
 export interface PostSummary {
   _id: string;
   title: string;
@@ -29,6 +46,8 @@ export interface PostSummary {
   publishedAt: string;
   tags: string[];
   heroImage?: SanityImageWithMetadata | null;
+  author?: Author | null;
+  categories?: Category[] | null;
   readingTimeMinutes?: number;
   seo?: PostSeoMeta | null;
 }
@@ -71,6 +90,27 @@ const SEO_PROJECTION = `
   }
 `;
 
+const AUTHOR_PROJECTION = `
+  "author": author->{
+    _id,
+    name,
+    "slug": slug.current,
+    "avatar": avatar{
+      alt,
+      "url": asset->url
+    }
+  }
+`;
+
+const CATEGORIES_PROJECTION = `
+  "categories": categories[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    description
+  }
+`;
+
 const SUMMARY_PROJECTION = `{
   _id,
   title,
@@ -79,6 +119,8 @@ const SUMMARY_PROJECTION = `{
   publishedAt,
   tags,
   ${HERO_IMAGE_PROJECTION},
+  ${AUTHOR_PROJECTION},
+  ${CATEGORIES_PROJECTION},
   ${SEO_PROJECTION}
 }`;
 
@@ -102,6 +144,8 @@ const DETAIL_PROJECTION = `{
     }
   },
   ${HERO_IMAGE_PROJECTION},
+  ${AUTHOR_PROJECTION},
+  ${CATEGORIES_PROJECTION},
   ${SEO_PROJECTION}
 }`;
 

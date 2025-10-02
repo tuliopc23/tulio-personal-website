@@ -5,6 +5,9 @@ import { PortableText } from "astro-portabletext";
 import ArticlePortableCode from "./ArticleCodeBlock.astro";
 import ArticlePortableImage from "./ArticlePortableImage.astro";
 import ArticlePortableLink from "./ArticlePortableLink.astro";
+import Callout from "./portable-text/Callout.astro";
+import VideoEmbed from "./portable-text/VideoEmbed.astro";
+import Divider from "./portable-text/Divider.astro";
 
 interface Props {
   blocks?: PortableTextBlock[];
@@ -17,6 +20,9 @@ const components = {
   type: {
     image: ArticlePortableImage,
     code: ArticlePortableCode,
+    callout: Callout,
+    videoEmbed: VideoEmbed,
+    divider: Divider,
   },
   mark: {
     link: ArticlePortableLink,

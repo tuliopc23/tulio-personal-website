@@ -5,6 +5,8 @@ import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SFIcon from "../../components/SFIcon.astro";
+import VisualEditing from "../../components/VisualEditing.astro";
+import { urlFor, generateSrcset } from "../../sanity/lib/image";
 import {
   getAllPostSlugs,
   getPostBySlug,
@@ -120,6 +122,7 @@ const structuredData =
     title="Tulio Cunha — Blog Atom"
     href="/blog/atom.xml"
   />
+  <VisualEditing />
   <ReadingProgress />
   <article
     class="container article"
@@ -149,15 +152,24 @@ const structuredData =
             </a>
             <h1 class="article__title">{post.title}</h1>
             {post.summary && <p class="article__summary">{post.summary}</p>}
-            {(dateISO || readingLabel) && (
+            {(dateISO || readingLabel || post.author) && (
               <div class="article__meta">
+                {post.author && (
+                  <>
+                    <span>By {post.author.name}</span>
+                    <span aria-hidden="true">•</span>
+                  </>
+                )}
                 {dateISO && <time datetime={dateISO}>{dateLabel}</time>}
-                {dateISO && readingLabel && <span aria-hidden="true">•</span>}
+                {(dateISO || post.author) && readingLabel && <span aria-hidden="true">•</span>}
                 {readingLabel && <span>{readingLabel}</span>}
               </div>
             )}
-            {tags.length > 0 && (
+            {(tags.length > 0 || (post.categories && post.categories.length > 0)) && (
               <ul class="article__tags">
+                {post.categories?.map((category) => (
+                  <li class="article__tag article__tag--category">{category.title}</li>
+                ))}
                 {tags.map((tag) => (
                   <li class="article__tag">{tag}</li>
                 ))}
@@ -173,12 +185,14 @@ const structuredData =
               data-reveal-order={1}
             >
               <img
-                src={heroImage.url}
+                src={urlFor(heroImage.url).width(1920).auto("format").quality(85).url()}
+                srcset={generateSrcset(heroImage.url, [640, 1024, 1280, 1920, 2560])}
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1920px"
                 alt={heroImage.alt ?? ""}
-                loading="lazy"
+                loading="eager"
                 decoding="async"
                 width={heroImage.width}
-                height={heroImage.height}
+                height={heroImage.width}
                 data-image-loading
                 onload="this.setAttribute('data-loaded','true')"
               />

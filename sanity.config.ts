@@ -40,6 +40,15 @@ export default defineConfig({
               .title("Posts")
               .schemaType("post")
               .child(S.documentTypeList("post").title("Posts")),
+            S.divider(),
+            S.listItem()
+              .title("Authors")
+              .schemaType("author")
+              .child(S.documentTypeList("author").title("Authors")),
+            S.listItem()
+              .title("Categories")
+              .schemaType("category")
+              .child(S.documentTypeList("category").title("Categories")),
           ]),
     }),
     presentationTool({
