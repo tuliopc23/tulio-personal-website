@@ -25,6 +25,7 @@ Deliver a polished, Apple Developer Documentation-inspired personal site for Tul
 - `bun run preview` → serve the built output for manual QA.
 - `bun run lint`, `bun run format:check`, `bun run typecheck` → individual quality checks.
 - `bun run check` → aggregated lint → format verification → types → build pipeline.
+- `bun run sanity:typegen` → generate Sanity types via `sanity-codegen`.
 
 ## Project Conventions
 
@@ -76,10 +77,29 @@ This site acts as Tulio Cunha's developer brand hub, combining portfolio highlig
 - Sanity v4 (`@sanity/astro`, `@sanity/client`, `@sanity/code-input`, Portable Text tooling)
 - Iconify icon sets for logomarks
 - React 19 + styled-components for selective interactive islands
+- Shiki 3 for code highlighting (`src/lib/shiki.ts`)
 
 ## Deployment Notes
 
 The project outputs a static bundle and can ship to Netlify, Vercel, Cloudflare Pages, or any static host. Ensure environment variables for Sanity are configured in the deployment platform. Run `bun run check` before publishing to catch lint, format, type, and build regressions.
+
+## Key Routes & Feeds
+
+- `/` Home
+- `/blog` Blog index
+- `/blog/[slug]` Blog post detail
+- `/blog/atom.xml` Atom feed, `/blog/feed.xml` RSS feed
+- `/sitemap.xml` Sitemap
+- `/projects` Projects index
+- `/now` Now page
+- `/uses` Uses page
+- `/studio` Sanity Studio (dev/hosted)
+
+## Content Sources
+
+- Local MDX: `src/content/blog/` for handwritten articles
+- Sanity dataset: `production` with schemas in `src/sanity/schemaTypes` (`post.ts`, `category.ts`, `author.ts`, `blockContent.ts`, etc.)
+- Visual Editing overlay via `@sanity/visual-editing` and `src/components/VisualEditing.astro`
 
 ## Collaboration & Spec Process
 

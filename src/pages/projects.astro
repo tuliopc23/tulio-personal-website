@@ -43,7 +43,12 @@ const structuredData = {
     data-reveal-type="scale"
     data-reveal-group="projects-intro"
   >
-    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Projects" }]} />
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/", icon: "home" },
+        { label: "Projects", icon: "cube" },
+      ]}
+    />
     <div class="projects__hero">
       <span class="projects__eyebrow">Recent work</span>
       <h1 class="projects__title">Projects</h1>

@@ -43,14 +43,16 @@ const displayCategories = limit ? validCategories.slice(0, limit) : validCategor
     border: 1px solid var(--accent-hairline);
     border-radius: var(--radius-full);
     text-decoration: none;
-    transition: all 0.2s;
+    transition:
+      color 0.2s ease,
+      background 0.2s ease,
+      border-color 0.2s ease;
   }
 
   .categoryBadge:hover {
     color: var(--accent-bright);
     background: var(--accent-surface-hover);
     border-color: var(--accent);
-    transform: translateY(-1px);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -59,7 +61,7 @@ const displayCategories = limit ? validCategories.slice(0, limit) : validCategor
     }
 
     .categoryBadge:hover {
-      transform: none;
+      color: var(--accent-bright);
     }
   }
 </style>

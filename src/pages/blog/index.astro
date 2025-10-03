@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import CategoryList from "../../components/CategoryList.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
@@ -137,6 +138,12 @@ const placeholders = [
     data-reveal-type="scale"
     data-reveal-group="blog-hero"
   >
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/", icon: "home" },
+        { label: "Blog", icon: "book" },
+      ]}
+    />
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">Blog</span>
       <h1 class="blogHero__title">

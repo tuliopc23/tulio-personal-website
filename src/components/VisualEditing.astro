@@ -5,6 +5,8 @@
  * Only loads when SANITY_API_READ_TOKEN is present and visual editing is enabled
  */
 
+import visualEditingScriptSrc from "../scripts/visual-editing.js?url";
+
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
 const hasToken = Boolean(import.meta.env.SANITY_API_READ_TOKEN);
@@ -12,19 +14,4 @@ const hasToken = Boolean(import.meta.env.SANITY_API_READ_TOKEN);
 const shouldLoad = visualEditingEnabled && hasToken;
 ---
 
-{
-  shouldLoad && (
-    <>
-      <script is:inline>
-        if (window.location !== window.parent.location) {
-          // We're in an iframe (likely Sanity Presentation tool)
-          import("@sanity/visual-editing").then(({ enableOverlays }) => {
-            enableOverlays({
-              zIndex: 999999,
-            });
-          });
-        }
-      </script>
-    </>
-  )
-}
+{shouldLoad && <script type="module" src={visualEditingScriptSrc} />}
