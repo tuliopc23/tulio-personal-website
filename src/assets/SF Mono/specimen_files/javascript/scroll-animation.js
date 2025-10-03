@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 function scrollToSection(section, e) {
   e.preventDefault();
   var distance = document.getElementsByClassName(section)[0].getBoundingClientRect().top;

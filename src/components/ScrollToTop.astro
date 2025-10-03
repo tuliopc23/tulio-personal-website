@@ -89,7 +89,7 @@ import SFIcon from "./SFIcon.astro";
     align-items: center;
     justify-content: center;
     transition:
-      transform var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-spring-out),
       box-shadow var(--motion-duration-sm) var(--motion-ease-out),
       border-color var(--motion-duration-sm) var(--motion-ease-out);
     box-shadow: var(--shadow-card);
@@ -97,9 +97,9 @@ import SFIcon from "./SFIcon.astro";
   }
 
   .scroll-to-top:hover {
-    transform: translateY(-2px) scale(1.05);
     box-shadow: var(--shadow-card-hover);
     border-color: var(--panel-border-strong);
+    transform: translateY(-6px) scale(var(--motion-scale-sm));
   }
 
   .scroll-to-top__progress {
@@ -127,6 +127,10 @@ import SFIcon from "./SFIcon.astro";
 
     .scroll-to-top__progress {
       transition: none;
+    }
+    .scroll-to-top,
+    .scroll-to-top:hover {
+      transform: none;
     }
   }
 

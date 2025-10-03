@@ -170,21 +170,33 @@ const hasPost = recentPosts.length > 0;
     transition:
       background var(--motion-duration-sm) var(--motion-ease-out),
       border-color var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out);
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-spring-out);
   }
 
   .recentPosts__viewAll:hover {
     background: var(--surface-raised);
     border-color: var(--panel-border-strong);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
+    transform: translateY(-4px);
   }
 
   .recentPosts__viewAll svg {
-    transition: transform var(--motion-duration-sm) var(--motion-ease-out);
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .recentPosts__viewAll:hover svg {
-    transform: translateX(2px);
+    opacity: 0.88;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .recentPosts__viewAll,
+    .recentPosts__viewAll:hover,
+    .recentPosts__viewAll:focus-visible {
+      transition: none;
+      transform: none;
+      box-shadow: var(--shadow-card);
+    }
   }
 
   @media (max-width: 768px) {

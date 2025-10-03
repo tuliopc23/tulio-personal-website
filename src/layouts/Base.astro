@@ -142,21 +142,44 @@ const structuredDataJson =
           </div>
         </div>
         <nav class="topbar__nav" aria-label="Global">
-          <a href="/" aria-current={Astro.url.pathname === "/" ? "page" : undefined}
-            >Home</a
+          <div
+            class="topbar__navMask"
+            data-topbar-mask
+            data-edge-start="true"
+            data-edge-end="true"
           >
-          <a
-            href="/blog/"
-            aria-current={Astro.url.pathname.startsWith("/blog") ? "page" : undefined}
-          >
-            Blog
-          </a>
-          <a
-            href="/projects"
-            aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
-          >
-            Projects
-          </a>
+            <ul class="topbar__navList" data-topbar-list>
+              <li class="topbar__navItem">
+                <a
+                  href="/"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname === "/" ? "page" : undefined}
+                >
+                  <span class="topbar__navLabel">Home</span>
+                </a>
+              </li>
+              <li class="topbar__navItem">
+                <a
+                  href="/blog/"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname.startsWith("/blog")
+                    ? "page"
+                    : undefined}
+                >
+                  <span class="topbar__navLabel">Blog</span>
+                </a>
+              </li>
+              <li class="topbar__navItem">
+                <a
+                  href="/projects"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
+                >
+                  <span class="topbar__navLabel">Projects</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </nav>
         <div class="topbar__actions">
           <div class="themeToggle">
@@ -326,5 +349,50 @@ const structuredDataJson =
     <script src={motionScriptSrc} type="module"></script>
     <script src={themeScriptSrc} type="module"></script>
     <script src={sidebarScriptSrc} type="module"></script>
+    <script is:inline>
+      if (typeof window !== "undefined") {
+        const mask = document.querySelector("[data-topbar-mask]");
+        const list = mask?.querySelector("[data-topbar-list]");
+
+        const updateEdges = () => {
+          if (!mask) return;
+          const atStart = mask.scrollLeft <= 1;
+          const atEnd = mask.scrollLeft + mask.clientWidth >= mask.scrollWidth - 1;
+          mask.dataset.edgeStart = atStart ? "true" : "false";
+          mask.dataset.edgeEnd = atEnd ? "true" : "false";
+        };
+
+        const centerActive = () => {
+          if (!mask || !list) return;
+          if (!window.matchMedia("(max-width: 1023px)").matches) return;
+          const active = list.querySelector('a[aria-current="page"]');
+          if (!active) return;
+          const reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          ).matches;
+          requestAnimationFrame(() => {
+            const activeRect = active.getBoundingClientRect();
+            const maskRect = mask.getBoundingClientRect();
+            const offset = activeRect.left - maskRect.left;
+            const scrollLeft =
+              mask.scrollLeft + offset - (mask.clientWidth - active.clientWidth) / 2;
+            mask.scrollTo({
+              left: Math.max(scrollLeft, 0),
+              behavior: reduceMotion ? "auto" : "smooth",
+            });
+          });
+        };
+
+        if (mask) {
+          updateEdges();
+          centerActive();
+          mask.addEventListener("scroll", updateEdges, { passive: true });
+          window.addEventListener("resize", () => {
+            updateEdges();
+            centerActive();
+          });
+        }
+      }
+    </script>
   </body>
 </html>
