@@ -13,9 +13,10 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 ```css
 /* SF Pro Display - Variable Font for headings */
 @font-face {
-  font-family: 'SF Pro Display';
-  src: url('/fonts/SF Pro/SF Pro.woff2') format('woff2'),
-       url('/fonts/SF Pro/SF Pro.woff') format('woff');
+  font-family: "SF Pro Display";
+  src:
+    url("/fonts/SF Pro/SF Pro.woff2") format("woff2"),
+    url("/fonts/SF Pro/SF Pro.woff") format("woff");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -23,9 +24,10 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 
 /* SF Pro Text - Variable Font for body text */
 @font-face {
-  font-family: 'SF Pro Text';
-  src: url('/fonts/SF Pro Text/SF Pro Text.woff2') format('woff2'),
-       url('/fonts/SF Pro Text/SF Pro Text.woff') format('woff');
+  font-family: "SF Pro Text";
+  src:
+    url("/fonts/SF Pro Text/SF Pro Text.woff2") format("woff2"),
+    url("/fonts/SF Pro Text/SF Pro Text.woff") format("woff");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -33,9 +35,10 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 
 /* SF Mono - Variable Font for code */
 @font-face {
-  font-family: 'SF Mono';
-  src: url('/fonts/SF Mono Medium/SF Mono Medium.woff2') format('woff2'),
-       url('/fonts/SF Mono Medium/SF Mono Medium.woff') format('woff');
+  font-family: "SF Mono";
+  src:
+    url("/fonts/SF Mono Medium/SF Mono Medium.woff2") format("woff2"),
+    url("/fonts/SF Mono Medium/SF Mono Medium.woff") format("woff");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -46,17 +49,20 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 
 ```css
 /* Fallback imports if local fonts fail */
-@import url('https://v1.fontapi.ir/css/SFProDisplay');
-@import url('https://v1.fontapi.ir/css/SFUIDisplay');
-@import url('https://v1.fontapi.ir/css/SFUIText');
-@import url('https://v1.fontapi.ir/css/SFMono');
+@import url("https://v1.fontapi.ir/css/SFProDisplay");
+@import url("https://v1.fontapi.ir/css/SFUIDisplay");
+@import url("https://v1.fontapi.ir/css/SFUIText");
+@import url("https://v1.fontapi.ir/css/SFMono");
 ```
 
 ### Font Stacks
 
 ```css
---primitive-font-system: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
---primitive-font-rounded: "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+--primitive-font-system:
+  -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui,
+  sans-serif;
+--primitive-font-rounded:
+  "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 --primitive-font-mono: "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", monospace;
 ```
 
@@ -67,16 +73,16 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 ### Primitive Font Sizes (Apple HIG Standard)
 
 ```css
---primitive-text-11: 11px;   /* Caption 2 */
---primitive-text-12: 12px;   /* Caption 1 */
---primitive-text-13: 13px;   /* Footnote */
---primitive-text-15: 15px;   /* Subhead, Body */
---primitive-text-16: 16px;   /* Callout */
---primitive-text-17: 17px;   /* Headline */
---primitive-text-20: 20px;   /* Title 3 */
---primitive-text-22: 22px;   /* Title 2 */
---primitive-text-28: 28px;   /* Title 1 */
---primitive-text-34: 34px;   /* Large Title */
+--primitive-text-11: 11px; /* Caption 2 */
+--primitive-text-12: 12px; /* Caption 1 */
+--primitive-text-13: 13px; /* Footnote */
+--primitive-text-15: 15px; /* Subhead, Body */
+--primitive-text-16: 16px; /* Callout */
+--primitive-text-17: 17px; /* Headline */
+--primitive-text-20: 20px; /* Title 3 */
+--primitive-text-22: 22px; /* Title 2 */
+--primitive-text-28: 28px; /* Title 1 */
+--primitive-text-34: 34px; /* Large Title */
 ```
 
 ### Line Heights
@@ -97,9 +103,9 @@ This guide provides pixel-perfect specifications for implementing Apple HIG comp
 ### Letter Spacing
 
 ```css
---primitive-tracking-tight: -0.41px;   /* For large text */
---primitive-tracking-normal: 0px;      /* For body text */
---primitive-tracking-wide: 0.07px;     /* For small text */
+--primitive-tracking-tight: -0.41px; /* For large text */
+--primitive-tracking-normal: 0px; /* For body text */
+--primitive-tracking-wide: 0.07px; /* For small text */
 ```
 
 ### Font Weights
@@ -134,28 +140,28 @@ p: 15px / 20px / -0.41px / 400
 
 ```css
 --primitive-space-0: 0px;
---primitive-space-1: 8px;    /* Base unit */
---primitive-space-2: 16px;   /* 2x */
---primitive-space-3: 24px;   /* 3x */
---primitive-space-4: 32px;   /* 4x */
---primitive-space-5: 40px;   /* 5x */
---primitive-space-6: 48px;   /* 6x */
---primitive-space-8: 64px;   /* 8x */
---primitive-space-10: 80px;  /* 10x */
---primitive-space-12: 96px;  /* 12x */
+--primitive-space-1: 8px; /* Base unit */
+--primitive-space-2: 16px; /* 2x */
+--primitive-space-3: 24px; /* 3x */
+--primitive-space-4: 32px; /* 4x */
+--primitive-space-5: 40px; /* 5x */
+--primitive-space-6: 48px; /* 6x */
+--primitive-space-8: 64px; /* 8x */
+--primitive-space-10: 80px; /* 10x */
+--primitive-space-12: 96px; /* 12x */
 ```
 
 ### Semantic Spacing
 
 ```css
 --spacing-0: var(--primitive-space-0);
---spacing-1: var(--primitive-space-1);  /* 8px */
---spacing-2: var(--primitive-space-2);  /* 16px */
---spacing-3: var(--primitive-space-3);  /* 24px */
---spacing-4: var(--primitive-space-4);  /* 32px */
---spacing-5: var(--primitive-space-5);  /* 40px */
---spacing-6: var(--primitive-space-6);  /* 48px */
---spacing-8: var(--primitive-space-8);  /* 64px */
+--spacing-1: var(--primitive-space-1); /* 8px */
+--spacing-2: var(--primitive-space-2); /* 16px */
+--spacing-3: var(--primitive-space-3); /* 24px */
+--spacing-4: var(--primitive-space-4); /* 32px */
+--spacing-5: var(--primitive-space-5); /* 40px */
+--spacing-6: var(--primitive-space-6); /* 48px */
+--spacing-8: var(--primitive-space-8); /* 64px */
 ```
 
 ---
@@ -171,18 +177,18 @@ p: 15px / 20px / -0.41px / 400
 --primitive-radius-12: 12px;
 --primitive-radius-16: 16px;
 --primitive-radius-20: 20px;
---primitive-radius-28: 28px;   /* macOS Tahoe 26 standard */
+--primitive-radius-28: 28px; /* macOS Tahoe 26 standard */
 --primitive-radius-full: 9999px;
 ```
 
 ### Semantic Radii
 
 ```css
---radius-xs: var(--primitive-radius-4);   /* Tags, badges */
---radius-sm: var(--primitive-radius-6);   /* Small buttons */
---radius-md: var(--primitive-radius-10);  /* Inputs, medium buttons */
---radius-lg: var(--primitive-radius-16);  /* Cards, panels */
---radius-xl: var(--primitive-radius-20);  /* Large cards */
+--radius-xs: var(--primitive-radius-4); /* Tags, badges */
+--radius-sm: var(--primitive-radius-6); /* Small buttons */
+--radius-md: var(--primitive-radius-10); /* Inputs, medium buttons */
+--radius-lg: var(--primitive-radius-16); /* Cards, panels */
+--radius-xl: var(--primitive-radius-20); /* Large cards */
 --radius-2xl: var(--primitive-radius-28); /* Hero sections */
 --radius-full: var(--primitive-radius-full);
 ```
@@ -304,9 +310,9 @@ p: 15px / 20px / -0.41px / 400
 
 ```css
 /* Glass Background & Stroke */
---color-glass-background: rgba(255, 255, 255, 0.72);  /* Light */
+--color-glass-background: rgba(255, 255, 255, 0.72); /* Light */
 --color-glass-stroke: rgba(255, 255, 255, 0.18);
---glass-blur-amount: var(--primitive-blur-20);        /* 20px */
+--glass-blur-amount: var(--primitive-blur-20); /* 20px */
 --glass-saturation: 180%;
 --glass-texture-opacity: 0.03;
 
@@ -326,12 +332,13 @@ p: 15px / 20px / -0.41px / 400
   background: var(--color-glass-background);
   border: 1px solid var(--color-glass-stroke);
   backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur-amount));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur-amount));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation))
+    blur(var(--glass-blur-amount));
 }
 
 /* Noise texture overlay */
 .glass::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
@@ -383,10 +390,10 @@ p: 15px / 20px / -0.41px / 400
 /* Card with 4-layer shadow */
 .card {
   box-shadow:
-    0 20px 48px var(--color-shadow-light),      /* Ambient */
-    0 8px 16px var(--color-shadow-medium),      /* Direct */
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),   /* Highlight */
-    0 0 0 1px rgba(255, 255, 255, 0.05);       /* Border */
+    0 20px 48px var(--color-shadow-light),
+    /* Ambient */ 0 8px 16px var(--color-shadow-medium),
+    /* Direct */ inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    /* Highlight */ 0 0 0 1px rgba(255, 255, 255, 0.05); /* Border */
 }
 
 /* Card hover state */
@@ -419,7 +426,7 @@ p: 15px / 20px / -0.41px / 400
 --primitive-ease-in: cubic-bezier(0.4, 0, 1, 1);
 --primitive-ease-out: cubic-bezier(0, 0, 0.2, 1);
 --primitive-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
---primitive-ease-spring: cubic-bezier(0.5, 1.5, 0.5, 1);  /* Spring bounce */
+--primitive-ease-spring: cubic-bezier(0.5, 1.5, 0.5, 1); /* Spring bounce */
 ```
 
 ### Semantic Transitions
@@ -435,7 +442,9 @@ p: 15px / 20px / -0.41px / 400
 
 ```css
 .card {
-  transition: transform var(--transition-spring), box-shadow var(--transition-normal);
+  transition:
+    transform var(--transition-spring),
+    box-shadow var(--transition-normal);
 }
 
 .card:hover {
@@ -527,7 +536,9 @@ p: 15px / 20px / -0.41px / 400
   color: var(--color-text-on-accent);
   border: none;
   cursor: pointer;
-  transition: transform var(--transition-spring), box-shadow var(--transition-normal);
+  transition:
+    transform var(--transition-spring),
+    box-shadow var(--transition-normal);
 }
 
 .button:hover {
@@ -553,7 +564,9 @@ p: 15px / 20px / -0.41px / 400
     0 20px 48px var(--color-shadow-light),
     0 8px 16px var(--color-shadow-medium),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: transform var(--transition-spring), box-shadow var(--transition-normal);
+  transition:
+    transform var(--transition-spring),
+    box-shadow var(--transition-normal);
 }
 
 .card:hover {
@@ -576,7 +589,9 @@ p: 15px / 20px / -0.41px / 400
   border: 1px solid var(--color-border-primary);
   background: var(--color-background-primary);
   color: var(--color-text-primary);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .input:focus {
@@ -591,6 +606,7 @@ p: 15px / 20px / -0.41px / 400
 ## 11. Implementation Checklist
 
 ### Phase 1: Design Tokens (4-6 hours)
+
 - [ ] Replace `src/styles/theme.css` with unified token system
 - [ ] Add font-face declarations for SF Pro Display, SF Pro Text, SF Mono
 - [ ] Add CDN fallbacks for font loading
@@ -602,6 +618,7 @@ p: 15px / 20px / -0.41px / 400
 - [ ] Add shadow tokens
 
 ### Phase 2: Component Updates (8-12 hours)
+
 - [ ] Update Card.astro with new radii, shadows, glass effects
 - [ ] Update ProjectCard.astro with hover animations
 - [ ] Update ArticleCard.astro with typography tokens
@@ -612,6 +629,7 @@ p: 15px / 20px / -0.41px / 400
 - [ ] Update all inputs with focus states
 
 ### Phase 3: Page Updates (4-6 hours)
+
 - [ ] Update index.astro hero section with glass effects
 - [ ] Update blog/index.astro (preserve layout, enhance styling)
 - [ ] Update projects.astro with filter animations
@@ -620,6 +638,7 @@ p: 15px / 20px / -0.41px / 400
 - [ ] Add scroll-linked parallax effects
 
 ### Phase 4: Accessibility (2-3 hours)
+
 - [ ] Add reduced motion support
 - [ ] Add high contrast support
 - [ ] Add reduced transparency support
@@ -628,6 +647,7 @@ p: 15px / 20px / -0.41px / 400
 - [ ] Run WCAG contrast checks
 
 ### Phase 5: Testing & QA (3-4 hours)
+
 - [ ] Test in Safari (primary browser for Apple HIG)
 - [ ] Test in Chrome
 - [ ] Test in Firefox
@@ -643,15 +663,18 @@ p: 15px / 20px / -0.41px / 400
 ## 12. Migration Notes
 
 ### Breaking Changes
+
 - None - all changes are design token refinements
 
 ### Non-Breaking Changes
+
 - Design tokens updated to match Apple HIG exactly
 - Animation curves enhanced with spring physics
 - Shadow system expanded to 4-layer composition
 - Glass materials enhanced with noise texture
 
 ### Preserved Elements
+
 - Blog page layout structure (title left, featured right, carousel below)
 - All component APIs remain unchanged
 - All functionality remains identical

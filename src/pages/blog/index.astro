@@ -216,8 +216,7 @@ const placeholders = [
           aria-live="polite"
           aria-atomic="true"
           data-blog-filter-status
-        >
-        </div>
+        ></div>
 
         {rest.length > 0 && (
           <div class="blogEmpty" data-blog-empty hidden>
@@ -349,7 +348,8 @@ const placeholders = [
         // Update ARIA live region for screen readers
         const statusEl = document.querySelector("[data-blog-filter-status]");
         if (statusEl) {
-          const filterLabel = activeTag === "all" ? "all articles" : activeTag.replace(/-/g, " ");
+          const filterLabel =
+            activeTag === "all" ? "all articles" : activeTag.replace(/-/g, " ");
           statusEl.textContent = `Showing ${matches} article${matches === 1 ? "" : "s"} for ${filterLabel}`;
         }
       };
