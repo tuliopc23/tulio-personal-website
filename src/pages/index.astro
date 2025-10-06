@@ -246,4 +246,35 @@ const structuredData = {
       }
     </div>
   </section>
+
+  <script is:inline>
+    // Scroll-linked parallax for hero gradient (0.3 velocity)
+    const hero = document.querySelector(".hero");
+    if (hero) {
+      const updateParallax = () => {
+        const scrollY = window.scrollY;
+        const parallaxOffset = scrollY * 0.3;
+        hero.style.setProperty("--parallax-offset", `${parallaxOffset}px`);
+      };
+
+      // Throttle scroll events for performance
+      let ticking = false;
+      const handleScroll = () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            updateParallax();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+
+      // Check for reduced motion preference
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!prefersReducedMotion) {
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        updateParallax(); // Initial position
+      }
+    }
+  </script>
 </Base>
