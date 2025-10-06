@@ -198,6 +198,64 @@ Icon symbols SHALL render with 3-layer depth using gradients, shadows, and gloss
   3. Gloss: `linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 48%)`
 - **AND** border SHALL be `1px solid` with `color-mix(in oklch, accent 60%, border 40%)`
 
+### Requirement: Dark Mode Color Treatment
+
+All interactive elements SHALL have theme-specific color treatments to maintain visual hierarchy and contrast in both light and dark modes.
+
+#### Scenario: Blog title gradient in dark mode
+
+- **WHEN** user is viewing the blog page in dark mode
+- **THEN** the blog hero title SHALL use gradient: `linear-gradient(130deg, color-mix(in oklch, var(--text) 98%, transparent), color-mix(in oklch, var(--text) 88%, var(--indigo) 12%))`
+- **AND** text SHALL remain clearly visible with high contrast
+- **WHEN** user is viewing in light mode
+- **THEN** the gradient SHALL be: `linear-gradient(130deg, color-mix(in oklch, var(--text) 100%, transparent), color-mix(in oklch, var(--text) 75%, var(--indigo) 25%))`
+
+#### Scenario: Article card CTA hover in dark mode
+
+- **WHEN** user hovers over an article card in dark mode
+- **THEN** the "Read article" link SHALL change from `color-mix(in oklch, var(--blue) 85%, transparent)` to `color-mix(in oklch, var(--blue) 98%, transparent)`
+- **AND** the blue accent SHALL be significantly brighter to indicate interactivity
+- **WHEN** in light mode
+- **THEN** hover SHALL change from `color-mix(in oklch, var(--blue) 90%, transparent)` to `color-mix(in oklch, var(--blue) 100%, transparent)`
+
+#### Scenario: Project card CTA hover in dark mode
+
+- **WHEN** user hovers over a project card CTA in dark mode
+- **THEN** color SHALL transition from `color-mix(in oklch, var(--blue) 84%, transparent)` to `color-mix(in oklch, var(--blue) 98%, transparent)`
+- **AND** transition SHALL complete in 180ms with ease-out timing
+
+#### Scenario: Generic card CTA hover in dark mode
+
+- **WHEN** user hovers over any card with CTA in dark mode
+- **THEN** CTA link color SHALL brighten from 82% to 96% opacity
+- **AND** visual feedback SHALL be immediately perceivable
+
+### Requirement: Blog Featured Card Proportions
+
+The featured article card SHALL maintain harmonious aspect ratio and spacing that matches the carousel article cards.
+
+#### Scenario: Featured card sizing at desktop
+
+- **WHEN** viewport width is ≥1024px
+- **THEN** featured card container SHALL have `max-width: clamp(380px, 38vw, 480px)`
+- **AND** featured card SHALL have `min-height: 460px`
+- **AND** padding SHALL be `clamp(var(--space-md), 3vw, var(--space-lg))` to match carousel cards
+
+#### Scenario: Featured card content distribution
+
+- **WHEN** rendering featured article card
+- **THEN** card SHALL use flexbox layout with `flex-direction: column`
+- **AND** inner link SHALL have `flex: 1` to distribute space evenly
+- **AND** gap between elements SHALL be `var(--space-sm)` (consistent with carousel)
+- **AND** card SHALL NOT appear cylindrical or overly rounded
+
+#### Scenario: Featured card aspect ratio at mobile
+
+- **WHEN** viewport width is ≤768px
+- **THEN** featured card SHALL have `min-height: 420px`
+- **AND** card SHALL maintain readable proportions without excessive vertical stretching
+- **AND** padding SHALL scale responsively with viewport
+
 #### Scenario: Icon tile on hover
 
 - **WHEN** user hovers over an icon tile

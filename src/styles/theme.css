@@ -1,47 +1,10 @@
-/* ======= SF Pro Display - Variable Font for headings ======= */
-@font-face {
-  font-family: "SF Pro Display";
-  src:
-    url("/fonts/SF Pro/SF Pro.woff2") format("woff2"),
-    url("/fonts/SF Pro/SF Pro.woff") format("woff");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ======= SF Pro Text - Variable Font for body text ======= */
-@font-face {
-  font-family: "SF Pro Text";
-  src:
-    url("/fonts/SF Pro Text/SF Pro Text.woff2") format("woff2"),
-    url("/fonts/SF Pro Text/SF Pro Text.woff") format("woff");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ======= SF Mono - Variable Font for code ======= */
-@font-face {
-  font-family: "SF Mono";
-  src:
-    url("/fonts/SF Mono Medium/SF Mono Medium.woff2") format("woff2"),
-    url("/fonts/SF Mono Medium/SF Mono Medium.woff") format("woff");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ======= Fallback: SF Mono Powerline ======= */
-@font-face {
-  font-family: "SF Mono Powerline";
-  src:
-    url("/fonts/SF-Mono-Powerline-Regular.woff2") format("woff2"),
-    url("/fonts/SF-Mono-Powerline-Regular.woff") format("woff"),
-    url("/fonts/SF-Mono-Powerline-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+/* ======= CDN Fonts from fontapi.ir ======= */
+/* Fonts loaded via <link> tags in Base.astro:
+ * - SF Pro Display (headings) 
+ * - SF UI Text (body text)
+ * - SF Mono (code)
+ * All fonts have variable weights and fallback to Apple system fonts
+ */
 
 /* ======= Apple-like Docs Aesthetic — design tokens ======= */
 :root {
@@ -74,14 +37,14 @@
   --space-golden-3: calc(var(--space-lg) * var(--golden-ratio)); /* ~52px */
   --space-golden-4: calc(var(--space-xl) * var(--golden-ratio)); /* ~78px */
 
-  /* Typography */
+  /* Typography - CDN fonts with system fallbacks */
   --font-sans:
-    "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui,
+    "SF Pro Display", "SF UI Text", -apple-system, BlinkMacSystemFont, system-ui,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
     sans-serif;
   --font-mono:
-    "SF Mono", "SF Mono Powerline", ui-monospace, Menlo, Monaco, "Cascadia Code",
-    "Roboto Mono", Consolas, "Liberation Mono", "Courier New", monospace;
+    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", "Courier New", monospace;
   --fs-0: clamp(1rem, 1vw + 0.95rem, 1.2rem);
   --fs--1: clamp(0.875rem, 0.8vw + 0.75rem, 1rem);
   --fs--2: clamp(0.75rem, 0.6vw + 0.6875rem, 0.875rem);
@@ -711,6 +674,10 @@ pre {
   z-index: 2;
 }
 
+[data-theme="dark"] .topbar {
+  box-shadow: var(--shadow-topbar);
+}
+
 [data-theme="light"] .topbar {
   box-shadow: var(--shadow-topbar);
 }
@@ -857,6 +824,22 @@ body[data-glass-state="scrolled"] .topbar::before {
   );
 }
 
+[data-theme="dark"] .topbar__navMask::before {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bg) 92%, transparent),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+[data-theme="dark"] .topbar__navMask::after {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--bg) 92%, transparent),
+    rgba(0, 0, 0, 0)
+  );
+}
+
 [data-theme="light"] .topbar__navMask::before {
   background: linear-gradient(
     90deg,
@@ -940,13 +923,14 @@ body[data-glass-state="scrolled"] .topbar::before {
   position: relative;
   transition: color var(--motion-duration-sm) var(--motion-ease-out);
 }
-.topbar__navLink:hover {
-  color: color-mix(
-    in oklch,
-    var(--text) 95%,
-    var(--link) 5%
-  ); /* Subtle link color hint */
+[data-theme="dark"] .topbar__navLink:hover {
+  color: color-mix(in oklch, var(--text) 95%, var(--blue) 5%);
 }
+
+[data-theme="light"] .topbar__navLink:hover {
+  color: color-mix(in oklch, var(--text) 92%, var(--blue) 8%);
+}
+
 .topbar__navLink:active {
   color: var(--text);
 }
@@ -966,9 +950,15 @@ body[data-glass-state="scrolled"] .topbar::before {
     background var(--motion-duration-sm) var(--motion-ease-out);
   transform: scaleX(0.65);
 }
-.topbar__navLink:hover::after {
-  background: color-mix(in oklch, var(--link) 92%, transparent);
-  opacity: 0.8;
+[data-theme="dark"] .topbar__navLink:hover::after {
+  background: color-mix(in oklch, var(--blue) 90%, transparent);
+  opacity: 0.85;
+  transform: scaleX(1.03);
+}
+
+[data-theme="light"] .topbar__navLink:hover::after {
+  background: color-mix(in oklch, var(--blue) 75%, transparent);
+  opacity: 0.75;
   transform: scaleX(1.03);
 }
 .topbar__navLink:focus-visible {
@@ -1233,12 +1223,12 @@ body[data-glass-state="scrolled"] .sidebar {
   box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--panel-border) 90%, transparent);
 }
 [data-theme="dark"] .sidebar__link:hover {
-  background: rgba(0, 122, 255, 0.15);
+  background: color-mix(in oklch, var(--blue) 15%, transparent);
   text-decoration: none;
 }
 
 [data-theme="light"] .sidebar__link:hover {
-  background: rgba(0, 122, 255, 0.08);
+  background: color-mix(in oklch, var(--blue) 8%, transparent);
   text-decoration: none;
 }
 
@@ -1248,21 +1238,37 @@ body[data-glass-state="scrolled"] .sidebar {
 }
 
 [data-theme="dark"] .sidebar__link[aria-current="page"] {
-  background: rgba(0, 122, 255, 0.2);
+  background: color-mix(in oklch, var(--blue) 20%, transparent);
   color: var(--blue);
   font-weight: 500;
 }
 
 [data-theme="light"] .sidebar__link[aria-current="page"] {
-  background: rgba(0, 122, 255, 0.12);
+  background: color-mix(in oklch, var(--blue) 12%, transparent);
   color: var(--blue);
   font-weight: 600;
 }
 
+[data-theme="dark"] .sidebar__link[aria-current="page"] .icon-tile {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--blue) 85%, transparent),
+    color-mix(in oklch, var(--blue) 65%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--blue) 35%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 8px color-mix(in oklch, var(--blue) 40%, rgba(0, 0, 0, 0.3));
+}
+
 [data-theme="light"] .sidebar__link[aria-current="page"] .icon-tile {
-  background: linear-gradient(180deg, rgba(0, 122, 255, 0.9), rgba(0, 122, 255, 0.7));
-  border-color: rgba(0, 122, 255, 0.3);
-  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--blue) 90%, transparent),
+    color-mix(in oklch, var(--blue) 70%, transparent)
+  );
+  border-color: color-mix(in oklch, var(--blue) 30%, transparent);
+  box-shadow: 0 1px 3px color-mix(in oklch, var(--blue) 30%, rgba(0, 0, 0, 0.2));
 }
 
 .icon-tile {
@@ -1624,13 +1630,17 @@ kbd.slash {
   }
 }
 .hero__subtitle {
-  color: var(--muted);
   margin: 0;
   font-size: clamp(18px, 1vw + 16px, 20px);
   font-weight: 400;
   max-width: var(--measure-reading); /* 58ch - refined reading measure */
   line-height: var(--lh-base); /* 1.65 - enhanced readability */
 }
+
+[data-theme="dark"] .hero__subtitle {
+  color: rgba(235, 235, 245, 0.78);
+}
+
 [data-theme="light"] .hero__subtitle {
   color: color-mix(in oklch, var(--text) 82%, transparent);
 }
@@ -1804,8 +1814,24 @@ kbd.slash {
   transition: color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
-.card:hover .card__cta {
-  color: color-mix(in oklch, var(--link) 95%, transparent);
+/* Dark mode: bright blue accent */
+[data-theme="dark"] .card__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="dark"] .card:hover .card__cta,
+[data-theme="dark"] .card:focus-visible .card__cta {
+  color: color-mix(in oklch, var(--blue) 100%, white 15%) !important;
+}
+
+/* Light mode: standard blue */
+[data-theme="light"] .card__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="light"] .card:hover .card__cta,
+[data-theme="light"] .card:focus-visible .card__cta {
+  color: color-mix(in oklch, var(--blue) 85%, black 15%) !important;
 }
 
 .card__cta::after {
@@ -2204,8 +2230,24 @@ kbd.slash {
   transition: color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
-.projectCard:hover .projectCard__cta {
-  color: color-mix(in oklch, var(--link) 96%, transparent);
+/* Dark mode: bright blue accent */
+[data-theme="dark"] .projectCard__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="dark"] .projectCard:hover .projectCard__cta,
+[data-theme="dark"] .projectCard:focus-visible .projectCard__cta {
+  color: color-mix(in oklch, var(--blue) 100%, white 15%) !important;
+}
+
+/* Light mode: standard blue */
+[data-theme="light"] .projectCard__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="light"] .projectCard:hover .projectCard__cta,
+[data-theme="light"] .projectCard:focus-visible .projectCard__cta {
+  color: color-mix(in oklch, var(--blue) 85%, black 15%) !important;
 }
 
 .projectCard__cta svg {
@@ -3129,11 +3171,42 @@ kbd.slash {
   background-clip: text;
 }
 
+/* Dark mode: ensure title is visible - use solid gradient without transparency issues */
+[data-theme="dark"] .blogHero__title {
+  background: linear-gradient(
+    130deg,
+    var(--text),
+    color-mix(in oklch, var(--text) 90%, var(--indigo) 10%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Light mode: slightly darker gradient for contrast */
+[data-theme="light"] .blogHero__title {
+  background: linear-gradient(
+    130deg,
+    var(--text),
+    color-mix(in oklch, var(--text) 70%, var(--indigo) 30%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .blogHero__lede {
   margin: 0;
   font-size: clamp(19px, 1.1vw + 17px, 22px);
-  color: color-mix(in oklch, var(--muted) 92%, transparent);
   line-height: var(--lh-base); /* 1.65 */
+}
+
+[data-theme="dark"] .blogHero__lede {
+  color: var(--muted);
+}
+
+[data-theme="light"] .blogHero__lede {
+  color: color-mix(in oklch, var(--text) 80%, transparent);
 }
 
 .blogHero__featured {
@@ -3151,8 +3224,13 @@ kbd.slash {
   }
   .blogHero__featured {
     align-self: stretch;
-    max-width: clamp(420px, 42vw, 560px);
+    /* Adjusted sizing to better match carousel cards aspect ratio */
+    max-width: clamp(380px, 38vw, 480px);
     margin-left: auto;
+  }
+  .articleCard--featured {
+    /* Ensure featured card maintains good proportions */
+    min-height: 460px;
   }
 }
 
@@ -3175,6 +3253,11 @@ kbd.slash {
   filter: blur(48px);
   z-index: -1;
   pointer-events: none;
+}
+
+[data-theme="dark"] .blogHero__halo {
+  opacity: 0.75;
+  filter: blur(56px);
 }
 
 [data-theme="light"] .blogHero__halo {
@@ -3408,13 +3491,17 @@ kbd.slash {
 }
 
 .articleCard--featured {
-  padding: clamp(var(--space-lg), 4vw, 48px);
+  padding: clamp(var(--space-md), 3vw, var(--space-lg)); /* Match carousel cards */
   border-left: 3px solid var(--link);
   box-shadow:
     var(--shadow-card-hover),
     inset 3px 0 0 color-mix(in oklch, var(--link) 20%, transparent);
   position: relative;
   isolation: isolate;
+  /* Better aspect ratio to match carousel cards */
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
 }
 
 .articleCard__halo {
@@ -3441,6 +3528,11 @@ kbd.slash {
     filter var(--motion-duration-normal) var(--motion-ease-out);
 }
 
+[data-theme="dark"] .articleCard__halo {
+  opacity: 0.72;
+  filter: blur(50px);
+}
+
 [data-theme="light"] .articleCard__halo {
   opacity: 0.58;
   filter: blur(46px);
@@ -3461,7 +3553,10 @@ kbd.slash {
 }
 
 .articleCard--featured .articleCard__link {
-  gap: clamp(var(--space-sm), 2vw, var(--space-md));
+  gap: var(--space-sm); /* Consistent with carousel cards */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .articleCard__header {
@@ -3578,8 +3673,24 @@ kbd.slash {
   transition: color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
-.articleCard:hover .articleCard__cta {
-  color: color-mix(in oklch, var(--link) 98%, transparent);
+/* Dark mode: brighter blue accent - higher specificity */
+[data-theme="dark"] .articleCard__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="dark"] .articleCard:hover .articleCard__cta,
+[data-theme="dark"] .articleCard:focus-within .articleCard__cta {
+  color: color-mix(in oklch, var(--blue) 100%, white 15%) !important;
+}
+
+/* Light mode: standard blue link color */
+[data-theme="light"] .articleCard__cta {
+  color: var(--blue) !important;
+}
+
+[data-theme="light"] .articleCard:hover .articleCard__cta,
+[data-theme="light"] .articleCard:focus-within .articleCard__cta {
+  color: color-mix(in oklch, var(--blue) 85%, black 15%) !important;
 }
 
 .articleCard__cta svg {
