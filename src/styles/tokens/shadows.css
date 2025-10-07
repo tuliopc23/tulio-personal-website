@@ -1,0 +1,60 @@
+/* ======= Shadow Tokens ======= */
+/* All shadow values extracted from theme.css - exact 4-layer systems preserved */
+
+:root {
+  /* Card elevation system - 4 layers for depth */
+  --shadow-card:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.02);
+
+  --shadow-card-hover:
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 8px 16px rgba(0, 0, 0, 0.05),
+    0 16px 32px rgba(0, 0, 0, 0.04);
+
+  /* Symbol/Icon tile shadows - Enhanced 4-layer for 3D effect */
+  --shadow-symbol-dark:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 2px 4px rgba(0, 0, 0, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.12),
+    0 16px 32px rgba(0, 0, 0, 0.08);
+
+  --shadow-symbol-dark-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.2),
+    0 24px 48px rgba(0, 0, 0, 0.15);
+
+  --shadow-symbol-light:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(31, 35, 53, 0.12),
+    0 8px 16px rgba(31, 35, 53, 0.15),
+    0 18px 36px rgba(31, 35, 53, 0.18);
+
+  --shadow-symbol-light-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 2px 4px rgba(31, 35, 53, 0.12),
+    0 8px 16px rgba(31, 35, 53, 0.15),
+    0 18px 36px rgba(31, 35, 53, 0.18);
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px rgba(10, 132, 255, 0.48);
+
+  /* Glass surface shadows */
+  --shadow-glass:
+    0 0.5px 0 rgba(255, 255, 255, 0.24),
+    0 1px 2px rgba(0, 0, 0, 0.10);
+
+  /* Project card frame shadows */
+  --shadow-frame:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 24px 48px rgba(0, 0, 0, 0.32);
+
+  /* Chrome decorator shadows */
+  --shadow-chrome:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.10);
+}
