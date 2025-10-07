@@ -1,15 +1,15 @@
 # Implementation Tasks
 
 ## 1. Preparation
-- [ ] 1.1 Take visual regression screenshots (all pages, both themes)
-- [ ] 1.2 Document all current shadow values
-- [ ] 1.3 Document all current color values
-- [ ] 1.4 Create new directory structure in `src/styles/`
+- [x] 1.1 Take visual regression screenshots (all pages, both themes)
+- [x] 1.2 Document all current shadow values
+- [x] 1.3 Document all current color values
+- [x] 1.4 Create new directory structure in `src/styles/`
 
 ## 2. Extract Tokens
-- [ ] 2.1 Create `tokens/colors.css` with all 750+ rgba() values as variables
-- [ ] 2.2 Create `tokens/shadows.css` with all shadow systems
-- [ ] 2.3 Verify no color/shadow values lost
+- [x] 2.1 Create `tokens/colors.css` with all 750+ rgba() values as variables
+- [x] 2.2 Create `tokens/shadows.css` with all shadow systems
+- [x] 2.3 Verify no color/shadow values lost
 
 ## 3. Split Components
 - [ ] 3.1 Extract card styles to `components/cards.css`

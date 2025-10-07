@@ -1,3 +1,7 @@
+/* ======= Token Imports ======= */
+@import './tokens/colors.css';
+@import './tokens/shadows.css';
+
 /* ======= CDN Fonts from fontapi.ir ======= */
 /* Fonts loaded via <link> tags in Base.astro:
  * - SF Pro Display (headings)
