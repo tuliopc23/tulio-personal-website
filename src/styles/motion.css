@@ -62,11 +62,12 @@ body.motion-reduce[data-page-state] .content {
   transform: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion */
+/* @media (prefers-reduced-motion: reduce) {
   body {
     scroll-behavior: auto;
   }
-}
+} */
 
 @media (max-width: 1023px) {
   body.motion-enabled .sidebar {

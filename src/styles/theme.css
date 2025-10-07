@@ -423,14 +423,15 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) and (min-width: 1280px) {
+/* DISABLED: Accessibility - Remove motion optimizations */
+/* @media (prefers-reduced-motion: no-preference) and (min-width: 1280px) {
   :root {
     --motion-duration-xs: 100ms;
     --motion-duration-sm: 140ms;
     --motion-duration-md: 180ms;
     --motion-duration-lg: 240ms;
   }
-}
+} */
 
 @media (min-width: 1680px) {
   :root {
@@ -1698,6 +1699,7 @@ kbd.slash {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent !important; /* Override generic h1 color */
 }
 
 @media (max-width: 720px) {
@@ -1811,7 +1813,8 @@ kbd.slash {
   animation: skeleton-pulse 1200ms ease-in-out infinite; /* 1200ms cycle */
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion overrides */
+/* @media (prefers-reduced-motion: reduce) {
   .card[data-loading="true"] {
     animation: none;
   }
@@ -1848,7 +1851,7 @@ kbd.slash {
   .backdrop {
     transition: none;
   }
-}
+} */
 
 .card[data-loading="true"] .card-title,
 .card[data-loading="true"] .card-body,
@@ -1986,11 +1989,8 @@ kbd.slash {
   transform: scale(var(--motion-scale-active)); /* 0.984 - press-down effect */
 }
 
-@media (prefers-contrast: more) {
-  .hero__title {
-    background: none;
-    -webkit-text-fill-color: var(--text);
-  }
+/* DISABLED: Accessibility - High contrast overrides */
+/* @media (prefers-contrast: more) {
   .card,
   .profileCard {
     backdrop-filter: none;
@@ -1998,7 +1998,7 @@ kbd.slash {
     background: color-mix(in oklch, var(--surface-elevated) 98%, transparent);
     border-color: color-mix(in oklch, var(--panel-border) 85%, transparent);
   }
-}
+} */
 
 @media (hover: none) {
   .card {
@@ -3147,11 +3147,12 @@ kbd.slash {
   transform: translateY(6px);
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion for projects */
+/* @media (prefers-reduced-motion: reduce) {
   .projects__grid [data-project-card] {
     transition: none;
   }
-}
+} */
 
 .projects__empty,
 .projects__filterEmpty {
@@ -3530,11 +3531,12 @@ kbd.slash {
   display: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion for articles */
+/* @media (prefers-reduced-motion: reduce) {
   .articleGrid__item {
     transition: none;
   }
-}
+} */
 
 @media (min-width: 1280px) {
   .articleGrid__item {
@@ -3821,25 +3823,24 @@ kbd.slash {
   font-size: clamp(26px, 2vw + 22px, 34px);
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Global reduced motion */
+/* @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   *,
   *::before,
   *::after {
-    /* Disable all transform and opacity animations */
     transition-duration: 0.001ms;
     animation-duration: 0.001ms;
     animation-iteration-count: 1;
     transform: none;
   }
-  /* Limit opacity transitions to 50ms for subtle feedback */
   * {
     transition-property: opacity;
     transition-duration: 50ms;
   }
-}
+} */
 
 .blogActions {
   display: flex;
@@ -4024,7 +4025,8 @@ kbd.slash {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion for components */
+/* @media (prefers-reduced-motion: reduce) {
   .card,
   .profileCard__chip,
   .btn,
@@ -4046,9 +4048,10 @@ kbd.slash {
   .card:hover .symbol {
     transform: none;
   }
-}
+} */
 
-@media (prefers-reduced-motion: reduce) {
+/* DISABLED: Accessibility - Reduced motion backdrop filters */
+/* @media (prefers-reduced-motion: reduce) {
   .topbar,
   .sidebar,
   .card,
@@ -4083,9 +4086,10 @@ kbd.slash {
     opacity: 0.28;
     filter: blur(30px);
   }
-}
+} */
 
-@media (prefers-contrast: more) {
+/* DISABLED: Accessibility - High contrast mode overrides */
+/* @media (prefers-contrast: more) {
   .topbar,
   .sidebar,
   .card,
@@ -4094,10 +4098,8 @@ kbd.slash {
   .blogFilters,
   .footer,
   .articleCard {
-    /* Increase border opacity to 90% for better contrast */
     border-color: color-mix(in oklch, var(--panel-border-strong) 90%, transparent);
     box-shadow: none;
-    /* Use solid backgrounds */
     background: var(--surface-elevated);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -4108,16 +4110,14 @@ kbd.slash {
   .blogHero::after,
   .blogHero__halo,
   .profileCard__media::before {
-    /* Disable decorative gradients in high contrast mode */
     opacity: 0;
   }
 
-  /* Enhance focus indicators for high contrast */
   *:focus-visible {
     outline: 2.5px solid var(--blue);
     outline-offset: 4px;
   }
-}
+} */
 .btn {
   position: relative;
   display: inline-flex;
