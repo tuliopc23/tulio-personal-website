@@ -226,8 +226,9 @@ const _meta = [
     will-change: transform, box-shadow, border-color;
   }
 
-  [data-theme="dark"] .profileCard {
-    background: rgba(28, 28, 30, 0.92);
+[data-theme="dark"] .profileCard {
+    background: rgba(29, 29, 32, 1) !important;
+    background-image: none !important;
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
@@ -236,8 +237,13 @@ const _meta = [
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
-  /* Inset highlight for depth */
-  .profileCard::before {
+  /* Inset highlight for depth - disabled in dark mode for brand consistency */
+  [data-theme="dark"] .profileCard::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  [data-theme="light"] .profileCard::before {
     content: "";
     position: absolute;
     top: 0;
@@ -274,7 +280,14 @@ const _meta = [
     position: relative;
   }
 
-  .profileCard__media::before {
+  /* Gradient disabled in dark mode for brand consistency with ArticleCard */
+  [data-theme="dark"] .profileCard__media::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Light mode: subtle top-only gradient */
+  [data-theme="light"] .profileCard__media::before {
     content: "";
     position: absolute;
     inset: clamp(-32px, -6vw, -18px);
@@ -283,24 +296,6 @@ const _meta = [
     filter: blur(42px);
     z-index: 0;
     pointer-events: none;
-  }
-
-  [data-theme="dark"] .profileCard__media::before {
-    background:
-      radial-gradient(
-        circle at 25% 20%,
-        rgba(77, 166, 255, 0.36) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        circle at 70% 80%,
-        rgba(94, 196, 204, 0.28) 0%,
-        transparent 70%
-      );
-    opacity: 0.5;
-  }
-
-  [data-theme="light"] .profileCard__media::before {
     background:
       radial-gradient(
         circle at 25% 20%,
@@ -329,7 +324,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__photo {
-    background: rgba(48, 48, 52, 0.95);
+    background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
@@ -338,7 +333,13 @@ const _meta = [
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
-  .profileCard__photo::after {
+  /* Photo overlay - disabled in dark mode for flat elevated surface */
+  [data-theme="dark"] .profileCard__photo::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  [data-theme="light"] .profileCard__photo::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -468,7 +469,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__metaIcon {
-    background: rgba(48, 48, 52, 0.95);
+    background: rgba(29, 29, 32, 0.95);
     color: rgba(235, 235, 245, 0.78);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
@@ -523,7 +524,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCardContactsMobile {
-    background: rgba(29, 29, 32, 1);
+    background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
@@ -532,9 +533,10 @@ const _meta = [
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
-  /* Remove cardRail gradient overlay */
+  /* Remove cardRail gradient overlay - force disable with !important */
   .profileCardContactsMobile::after {
-    display: none;
+    display: none !important;
+    content: none !important;
   }
 
   .profileCardContactsMobile li {
@@ -563,7 +565,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chip {
-    background: rgba(28, 28, 30, 0.92);
+    background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
@@ -572,7 +574,12 @@ const _meta = [
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
-  .profileCard__chip::after {
+  /* Chip gradient overlay - only appears on hover in dark mode */
+  [data-theme="dark"] .profileCard__chip::after {
+    content: none;
+  }
+
+  [data-theme="light"] .profileCard__chip::after {
     content: "";
     position: absolute;
     inset: 2px;
@@ -581,23 +588,13 @@ const _meta = [
     transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
     pointer-events: none;
     z-index: 0;
-  }
-
-  [data-theme="dark"] .profileCard__chip::after {
-    background: linear-gradient(
-      140deg,
-      rgba(77, 166, 255, 0.28) 0%,
-      transparent 70%
-    );
-  }
-
-  [data-theme="light"] .profileCard__chip::after {
     background: linear-gradient(
       140deg,
       rgba(0, 113, 227, 0.28) 0%,
       transparent 70%
     );
   }
+
 
   [data-theme="dark"] .profileCard__chip:hover {
     background: rgba(29, 29, 32, 0.96);
@@ -617,7 +614,8 @@ const _meta = [
     transform: translateY(-4px) scale(var(--motion-scale-sm));
   }
 
-  .profileCard__chip:hover::after {
+  /* Chip gradient hover effect - light mode only */
+  [data-theme="light"] .profileCard__chip:hover::after {
     opacity: 0.85;
   }
 
@@ -641,7 +639,7 @@ const _meta = [
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
-  .profileCard__chip:focus-visible::after {
+  [data-theme="light"] .profileCard__chip:focus-visible::after {
     opacity: 0.9;
   }
 
@@ -658,7 +656,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chipIcon {
-    background: rgba(48, 48, 52, 0.95);
+    background: rgba(29, 29, 32, 0.95);
     color: rgba(235, 235, 245, 0.82);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
