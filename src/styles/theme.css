@@ -2916,6 +2916,26 @@ kbd.slash {
   transition: opacity 0.2s ease;
 }
 
+/* ======= ProfileCard Theme Overrides ======= */
+[data-theme="dark"] .profileCard {
+  background: rgba(29, 29, 32, 1) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.106);
+}
+
+[data-theme="light"] .profileCard {
+  background: rgba(248, 248, 251, 0.96);
+  border: 1px solid rgba(60, 60, 67, 0.106);
+}
+
+[data-theme="dark"] .profileCard:hover {
+  border-color: rgba(255, 255, 255, 0.158);
+}
+
+[data-theme="light"] .profileCard:hover {
+  border-color: rgba(60, 60, 67, 0.158);
+}
+
 /* ======= Prose ======= */
 .prose {
   padding: 8px 0;

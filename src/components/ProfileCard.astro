@@ -43,6 +43,12 @@ const _contacts = [
     href: "https://fantastical.app/tuliopinheirocunha",
     icon: "calendar",
   },
+  {
+    label: "Fiverr",
+    value: "https://fiverr.com/placeholder",
+    href: "https://fiverr.com/placeholder",
+    icon: "fiverr",
+  },
 ];
 
 const _meta = [
@@ -226,24 +232,24 @@ const _meta = [
     will-change: transform, box-shadow, border-color;
   }
 
-[data-theme="dark"] .profileCard {
+:global(:global([data-theme="dark"])) .profileCard {
     background: rgba(29, 29, 32, 1) !important;
     background-image: none !important;
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
-  [data-theme="light"] .profileCard {
+  :global(:global([data-theme="light"])) .profileCard {
     background: rgba(248, 248, 251, 0.96);
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
   /* Inset highlight for depth - disabled in dark mode for brand consistency */
-  [data-theme="dark"] .profileCard::before {
+  :global(:global([data-theme="dark"])) .profileCard::before {
     content: none !important;
     display: none !important;
   }
 
-  [data-theme="light"] .profileCard::before {
+  :global(:global([data-theme="light"])) .profileCard::before {
     content: "";
     position: absolute;
     top: 0;
@@ -265,11 +271,11 @@ const _meta = [
     box-shadow: var(--shadow-card-hover);
   }
 
-  [data-theme="dark"] .profileCard:hover {
+  :global(:global([data-theme="dark"])) .profileCard:hover {
     border-color: rgba(255, 255, 255, 0.158);
   }
 
-  [data-theme="light"] .profileCard:hover {
+  :global(:global([data-theme="light"])) .profileCard:hover {
     border-color: rgba(60, 60, 67, 0.158);
   }
 
@@ -281,13 +287,13 @@ const _meta = [
   }
 
   /* Gradient disabled in dark mode for brand consistency with ArticleCard */
-  [data-theme="dark"] .profileCard__media::before {
+  :global([data-theme="dark"]) .profileCard__media::before {
     content: none !important;
     display: none !important;
   }
 
   /* Light mode: subtle top-only gradient */
-  [data-theme="light"] .profileCard__media::before {
+  :global([data-theme="light"]) .profileCard__media::before {
     content: "";
     position: absolute;
     inset: clamp(-32px, -6vw, -18px);
@@ -323,23 +329,23 @@ const _meta = [
     box-shadow: var(--shadow-card);
   }
 
-  [data-theme="dark"] .profileCard__photo {
+  :global([data-theme="dark"]) .profileCard__photo {
     background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  [data-theme="light"] .profileCard__photo {
+  :global([data-theme="light"]) .profileCard__photo {
     background: rgba(248, 248, 251, 0.95);
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
   /* Photo overlay - disabled in dark mode for flat elevated surface */
-  [data-theme="dark"] .profileCard__photo::after {
+  :global([data-theme="dark"]) .profileCard__photo::after {
     content: none !important;
     display: none !important;
   }
 
-  [data-theme="light"] .profileCard__photo::after {
+  :global([data-theme="light"]) .profileCard__photo::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -374,11 +380,11 @@ const _meta = [
     text-transform: uppercase;
   }
 
-  [data-theme="dark"] .profileCard__eyebrow {
+  :global([data-theme="dark"]) .profileCard__eyebrow {
     color: rgba(235, 235, 245, 0.58);
   }
 
-  [data-theme="light"] .profileCard__eyebrow {
+  :global([data-theme="light"]) .profileCard__eyebrow {
     color: rgba(60, 60, 67, 0.58);
   }
 
@@ -396,11 +402,11 @@ const _meta = [
     font-weight: 500;
   }
 
-  [data-theme="dark"] .profileCard__title {
+  :global([data-theme="dark"]) .profileCard__title {
     color: rgba(235, 235, 245, 0.75);
   }
 
-  [data-theme="light"] .profileCard__title {
+  :global([data-theme="light"]) .profileCard__title {
     color: rgba(60, 60, 67, 0.75);
   }
 
@@ -426,11 +432,11 @@ const _meta = [
     letter-spacing: 0.08em;
   }
 
-  [data-theme="dark"] .profileCard__metaItem dt {
+  :global([data-theme="dark"]) .profileCard__metaItem dt {
     color: rgba(235, 235, 245, 0.65);
   }
 
-  [data-theme="light"] .profileCard__metaItem dt {
+  :global([data-theme="light"]) .profileCard__metaItem dt {
     color: rgba(60, 60, 67, 0.65);
   }
 
@@ -468,13 +474,13 @@ const _meta = [
     box-shadow: var(--shadow-card);
   }
 
-  [data-theme="dark"] .profileCard__metaIcon {
+  :global([data-theme="dark"]) .profileCard__metaIcon {
     background: rgba(29, 29, 32, 0.95);
     color: rgba(235, 235, 245, 0.78);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  [data-theme="light"] .profileCard__metaIcon {
+  :global([data-theme="light"]) .profileCard__metaIcon {
     background: rgba(248, 248, 251, 0.95);
     color: rgba(60, 60, 67, 0.78);
     border: 1px solid rgba(60, 60, 67, 0.106);
@@ -492,11 +498,11 @@ const _meta = [
     max-width: 56ch;
   }
 
-  [data-theme="dark"] .profileCard__summary {
+  :global([data-theme="dark"]) .profileCard__summary {
     color: rgba(235, 235, 245, 0.85);
   }
 
-  [data-theme="light"] .profileCard__summary {
+  :global([data-theme="light"]) .profileCard__summary {
     color: rgba(60, 60, 67, 0.85);
   }
 
@@ -523,12 +529,12 @@ const _meta = [
     will-change: transform, box-shadow, border-color;
   }
 
-  [data-theme="dark"] .profileCardContactsMobile {
+  :global([data-theme="dark"]) .profileCardContactsMobile {
     background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
-  [data-theme="light"] .profileCardContactsMobile {
+  :global([data-theme="light"]) .profileCardContactsMobile {
     background: rgba(248, 248, 251, 1);
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
@@ -564,22 +570,22 @@ const _meta = [
     box-shadow: var(--shadow-card);
   }
 
-  [data-theme="dark"] .profileCard__chip {
+  :global([data-theme="dark"]) .profileCard__chip {
     background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.106);
   }
 
-  [data-theme="light"] .profileCard__chip {
+  :global([data-theme="light"]) .profileCard__chip {
     background: rgba(248, 248, 251, 0.96);
     border: 1px solid rgba(60, 60, 67, 0.106);
   }
 
   /* Chip gradient overlay - only appears on hover in dark mode */
-  [data-theme="dark"] .profileCard__chip::after {
+  :global([data-theme="dark"]) .profileCard__chip::after {
     content: none;
   }
 
-  [data-theme="light"] .profileCard__chip::after {
+  :global([data-theme="light"]) .profileCard__chip::after {
     content: "";
     position: absolute;
     inset: 2px;
@@ -596,7 +602,7 @@ const _meta = [
   }
 
 
-  [data-theme="dark"] .profileCard__chip:hover {
+  :global([data-theme="dark"]) .profileCard__chip:hover {
     background: rgba(29, 29, 32, 0.96);
     border-color: rgba(255, 255, 255, 0.158);
     box-shadow:
@@ -605,7 +611,7 @@ const _meta = [
     transform: translateY(-4px) scale(var(--motion-scale-sm));
   }
 
-  [data-theme="light"] .profileCard__chip:hover {
+  :global([data-theme="light"]) .profileCard__chip:hover {
     background: rgba(255, 255, 255, 0.98);
     border-color: rgba(60, 60, 67, 0.158);
     box-shadow:
@@ -615,11 +621,11 @@ const _meta = [
   }
 
   /* Chip gradient hover effect - light mode only */
-  [data-theme="light"] .profileCard__chip:hover::after {
+  :global([data-theme="light"]) .profileCard__chip:hover::after {
     opacity: 0.85;
   }
 
-  [data-theme="dark"] .profileCard__chip:focus-visible {
+  :global([data-theme="dark"]) .profileCard__chip:focus-visible {
     outline: none;
     border-color: rgba(255, 255, 255, 0.158);
     box-shadow:
@@ -629,7 +635,7 @@ const _meta = [
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
-  [data-theme="light"] .profileCard__chip:focus-visible {
+  :global([data-theme="light"]) .profileCard__chip:focus-visible {
     outline: none;
     border-color: rgba(60, 60, 67, 0.158);
     box-shadow:
@@ -639,7 +645,7 @@ const _meta = [
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
-  [data-theme="light"] .profileCard__chip:focus-visible::after {
+  :global([data-theme="light"]) .profileCard__chip:focus-visible::after {
     opacity: 0.9;
   }
 
@@ -655,13 +661,13 @@ const _meta = [
     z-index: 1;
   }
 
-  [data-theme="dark"] .profileCard__chipIcon {
+  :global([data-theme="dark"]) .profileCard__chipIcon {
     background: rgba(29, 29, 32, 0.95);
     color: rgba(235, 235, 245, 0.82);
     border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
-  [data-theme="light"] .profileCard__chipIcon {
+  :global([data-theme="light"]) .profileCard__chipIcon {
     background: rgba(248, 248, 251, 0.95);
     color: rgba(60, 60, 67, 0.82);
     border: 1px solid rgba(60, 60, 67, 0.106);
@@ -681,11 +687,11 @@ const _meta = [
     }
   }
 
-  [data-theme="dark"] .profileCard__chipIcon[data-brand] {
+  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand] {
     color: rgba(255, 255, 255, 0.9);
   }
 
-  [data-theme="light"] .profileCard__chipIcon[data-brand] {
+  :global([data-theme="light"]) .profileCard__chipIcon[data-brand] {
     color: rgba(60, 60, 67, 0.85);
   }
 
@@ -702,11 +708,11 @@ const _meta = [
     letter-spacing: 0.06em;
   }
 
-  [data-theme="dark"] .profileCard__chipLabel {
+  :global([data-theme="dark"]) .profileCard__chipLabel {
     color: rgba(235, 235, 245, 0.6);
   }
 
-  [data-theme="light"] .profileCard__chipLabel {
+  :global([data-theme="light"]) .profileCard__chipLabel {
     color: rgba(60, 60, 67, 0.6);
   }
 

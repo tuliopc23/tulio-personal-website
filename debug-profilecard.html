@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ProfileCard Debug</title>
+</head>
+<body>
+  <h1>ProfileCard Debug</h1>
+  <p>Open browser console and run this on localhost:4321:</p>
+  <pre>
+// Check ProfileCard computed styles
+const card = document.querySelector('.profileCard');
+const computed = window.getComputedStyle(card);
+console.log('ProfileCard Background:', computed.background);
+console.log('ProfileCard Z-Index:', computed.zIndex);
+console.log('ProfileCard Position:', computed.position);
+console.log('ProfileCard Isolation:', computed.isolation);
+
+// Check for overlays
+const before = window.getComputedStyle(card, '::before');
+const after = window.getComputedStyle(card, '::after');
+console.log('::before display:', before.display, 'content:', before.content);
+console.log('::after display:', after.display, 'content:', after.content);
+
+// Check hero gradient
+const hero = document.querySelector('.hero');
+const heroAfter = window.getComputedStyle(hero, '::after');
+console.log('Hero::after height:', heroAfter.height);
+console.log('Hero::after top:', heroAfter.top);
+console.log('Hero::after zIndex:', heroAfter.zIndex);
+  </pre>
+</body>
+</html>

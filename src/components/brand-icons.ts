@@ -2,6 +2,7 @@ export type BrandIconKey =
   | "astro"
   | "bun"
   | "docker"
+  | "fiverr"
   | "github"
   | "instagram"
   | "linkedin"
@@ -41,6 +42,12 @@ const registry: Record<BrandIconKey, BrandEntry> = {
     fallback: "simple-icons:docker",
     accent: "#2496ED",
     ink: "#2496ED",
+  },
+  fiverr: {
+    icon: "logos:fiverr",
+    fallback: "simple-icons:fiverr",
+    accent: "#1DBF73",
+    ink: "#1DBF73",
   },
   github: {
     icon: "logos:github-icon",
