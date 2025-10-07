@@ -169,7 +169,7 @@ const icons = new Map<string, string>([
   ],
 ]);
 
-const markup = icons.get(name) ?? icons.get("sparkle");
+const _markup = icons.get(name) ?? icons.get("sparkle");
 ---
 
 <svg
@@ -184,5 +184,5 @@ const markup = icons.get(name) ?? icons.get("sparkle");
   stroke-linejoin="round"
   aria-hidden="true"
 >
-  <Fragment set:html={markup} />
+  <Fragment set:html={_markup} />
 </svg>

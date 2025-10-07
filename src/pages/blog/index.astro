@@ -1,8 +1,4 @@
 ---
-import Base from "../../layouts/Base.astro";
-import ArticleCard from "../../components/ArticleCard.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import CategoryList from "../../components/CategoryList.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -54,7 +50,7 @@ const ogImage = featuredSocial?.url
       height: featuredSocial.height,
     }
   : null;
-const structuredData = {
+const _structuredData = {
   "@context": "https://schema.org",
   "@type": "Blog",
   name: "Tulio Cunha Blog",
@@ -82,9 +78,9 @@ postEntries.forEach((entry) => {
   });
 });
 
-const uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
-const initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
-const placeholders = [
+const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
+const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
+const _placeholders = [
   {
     title: "Fresh case study in flight",
     summary:

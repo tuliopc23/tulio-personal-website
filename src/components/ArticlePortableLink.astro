@@ -7,7 +7,7 @@ interface Props {
 
 const { value }: Props = Astro.props;
 const href = value?.href ?? "";
-const isExternal = /^https?:\/\//i.test(href);
+const _isExternal = /^https?:\/\//i.test(href);
 ---
 
 <a

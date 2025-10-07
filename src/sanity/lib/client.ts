@@ -7,7 +7,7 @@ const useCdn = import.meta.env.PROD;
 
 if (!projectId || !dataset) {
   throw new Error(
-    "Missing required Sanity environment variables: PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET"
+    "Missing required Sanity environment variables: PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET",
   );
 }
 

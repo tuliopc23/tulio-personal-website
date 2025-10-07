@@ -111,12 +111,8 @@ export default defineType({
             return "Meta title is required.";
           }
 
-          const metaDescription = (value as { metaDescription?: unknown })
-            .metaDescription;
-          if (
-            typeof metaDescription !== "string" ||
-            metaDescription.trim().length === 0
-          ) {
+          const metaDescription = (value as { metaDescription?: unknown }).metaDescription;
+          if (typeof metaDescription !== "string" || metaDescription.trim().length === 0) {
             return "Meta description is required.";
           }
 

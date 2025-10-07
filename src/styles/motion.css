@@ -52,14 +52,14 @@ body.motion-enabled[data-page-state="leaving"] {
 
 body.motion-reduce [data-reveal],
 body.motion-reduce [data-reveal].is-visible {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 body.motion-reduce[data-page-state] .content {
-  opacity: 1 !important;
-  transform: none !important;
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -12,22 +12,14 @@ const escapeXml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
-export async function GET({
-  site,
-  request,
-}: {
-  site: URL | undefined;
-  request: Request;
-}) {
+export async function GET({ site, request }: { site: URL | undefined; request: Request }) {
   const origin = site?.origin ?? new URL(request.url).origin ?? DEFAULT_ORIGIN;
   const feedUrl = new URL("/blog/atom.xml", origin).toString();
   const blogUrl = new URL("/blog/", origin).toString();
 
   const posts = (await getAllPosts())
     .filter((post) => !post.seo?.noIndex)
-    .sort(
-      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    );
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   const updated = posts[0]
     ? new Date(posts[0].publishedAt).toISOString()
@@ -37,14 +29,11 @@ export async function GET({
     .map((post) => {
       const title = post.seo?.metaTitle ?? post.title;
       const description = post.seo?.metaDescription ?? post.summary;
-      const link =
-        post.seo?.canonicalUrl && post.seo.canonicalUrl.startsWith("http")
-          ? post.seo.canonicalUrl
-          : new URL(`/blog/${post.slug}/`, origin).toString();
+      const link = post.seo?.canonicalUrl?.startsWith("http")
+        ? post.seo.canonicalUrl
+        : new URL(`/blog/${post.slug}/`, origin).toString();
       const published = new Date(post.publishedAt).toISOString();
-      const categories = post.tags
-        .map((tag) => `<category term="${escapeXml(tag)}" />`)
-        .join("\n");
+      const categories = post.tags.map((tag) => `<category term="${escapeXml(tag)}" />`).join("\n");
 
       const summary = escapeXml(description);
 

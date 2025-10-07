@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { value } = Astro.props;
-const style = value.style || "line";
+const _style = value.style || "line";
 ---
 
 <div class={`divider divider--${style}`} role="separator" aria-hidden="true">

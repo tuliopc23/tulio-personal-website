@@ -1,7 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import BrandIcon from "./BrandIcon.astro";
-import SFIcon from "./SFIcon.astro";
 import type { Project } from "../data/projects";
 
 interface Props {
@@ -18,29 +15,27 @@ const {
   revealDelay,
 }: Props = Astro.props as Props;
 
-const mediaTint = project.media.type === "icon" ? (project.media.tint ?? "blue") : null;
-const hasImage = project.media.type === "image";
+const _mediaTint = project.media.type === "icon" ? (project.media.tint ?? "blue") : null;
+const _hasImage = project.media.type === "image";
 
 const releaseDate = project.releaseDate ? new Date(project.releaseDate) : null;
-const releaseLabel =
+const _releaseLabel =
   releaseDate && !Number.isNaN(releaseDate.getTime())
-    ? new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(
-        releaseDate
-      )
+    ? new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(releaseDate)
     : null;
 
-let originLabel: string | null = null;
+let _originLabel: string | null = null;
 try {
   const url = new URL(project.href);
-  originLabel = url.hostname.replace(/^www\./, "");
+  _originLabel = url.hostname.replace(/^www\./, "");
 } catch {
-  originLabel = null;
+  _originLabel = null;
 }
 
 const stackPrimary = project.stack.slice(0, 3);
 const stackOverflow = project.stack.length - stackPrimary.length;
-const stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
-const categoriesAttr = project.categories.join(",");
+const _stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
+const _categoriesAttr = project.categories.join(",");
 ---
 
 <a

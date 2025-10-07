@@ -1,5 +1,5 @@
 ---
-import { urlFor, generateSrcset } from "../sanity/lib/image";
+import { generateSrcset, urlFor } from "../sanity/lib/image";
 
 interface Props {
   value: {
@@ -14,25 +14,25 @@ interface Props {
 }
 
 const { value }: Props = Astro.props;
-const hasAsset = Boolean(value?.url);
+const _hasAsset = Boolean(value?.url);
 
-const alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
-const loading = "lazy";
-const decoding = "async";
+const _alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
+const _loading = "lazy";
+const _decoding = "async";
 
 // Generate optimized image URLs with Sanity CDN
 const imageSource = value.asset || value.url;
-const src = imageSource
+const _src = imageSource
   ? urlFor(imageSource).width(1280).auto("format").quality(80).url()
   : value.url;
 
 // Generate responsive srcset for different viewport sizes
-const srcset = imageSource
+const _srcset = imageSource
   ? generateSrcset(imageSource, [320, 640, 768, 1024, 1280, 1920])
   : undefined;
 
 // Use LQIP (Low Quality Image Placeholder) for blur-up effect
-const placeholder = value.lqip;
+const _placeholder = value.lqip;
 ---
 
 {

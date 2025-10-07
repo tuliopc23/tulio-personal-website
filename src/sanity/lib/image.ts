@@ -17,13 +17,10 @@ export function urlFor(source: SanityImageSource) {
  */
 export function generateSrcset(
   source: SanityImageSource,
-  widths: number[] = [320, 640, 768, 1024, 1280, 1920]
+  widths: number[] = [320, 640, 768, 1024, 1280, 1920],
 ): string {
   return widths
-    .map(
-      (width) =>
-        `${urlFor(source).width(width).auto("format").quality(80).url()} ${width}w`
-    )
+    .map((width) => `${urlFor(source).width(width).auto("format").quality(80).url()} ${width}w`)
     .join(", ");
 }
 
@@ -37,7 +34,7 @@ export function generateSrcset(
 export function optimizedImageUrl(
   source: SanityImageSource,
   width?: number,
-  height?: number
+  height?: number,
 ): string {
   let imageBuilder = urlFor(source).auto("format").quality(80);
 

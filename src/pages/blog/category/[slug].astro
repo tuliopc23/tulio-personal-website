@@ -1,6 +1,4 @@
 ---
-import Base from "../../../layouts/Base.astro";
-import ArticleCard from "../../../components/ArticleCard.astro";
 import {
   getAllCategories,
   getCategoryBySlug,
@@ -31,7 +29,7 @@ const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
 });
 
-const postEntries: Array<
+const _postEntries: Array<
   PostSummary & {
     href: string;
     dateISO: string;
@@ -58,10 +56,9 @@ const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL(`/blog/category/${slug}/`, siteOrigin).toString();
 const pageTitle = `${category.title} Articles`;
-const pageDescription =
-  category.description || `Articles about ${category.title} by Tulio Cunha`;
+const pageDescription = category.description || `Articles about ${category.title} by Tulio Cunha`;
 
-const structuredData = {
+const _structuredData = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: pageTitle,

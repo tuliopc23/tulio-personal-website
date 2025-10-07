@@ -8,7 +8,7 @@ interface Props {
 
 const { categories = [], limit } = Astro.props;
 const validCategories = Array.isArray(categories) ? categories : [];
-const displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
+const _displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
 ---
 
 {

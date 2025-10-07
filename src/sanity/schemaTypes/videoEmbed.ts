@@ -16,8 +16,7 @@ export default defineType({
           .uri({ scheme: ["https"] })
           .custom((url) => {
             if (!url) return true;
-            const isYouTube =
-              url.includes("youtube.com/watch") || url.includes("youtu.be/");
+            const isYouTube = url.includes("youtube.com/watch") || url.includes("youtu.be/");
             const isVimeo = url.includes("vimeo.com/");
             return isYouTube || isVimeo ? true : "URL must be from YouTube or Vimeo";
           }),

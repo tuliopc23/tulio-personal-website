@@ -22,16 +22,13 @@ const {
   revealOrder,
   revealDelay,
 } = Astro.props as Props;
-import IconTile from "./IconTile.astro";
 
 const ctaLabel = cta ? cta.replace(/\s*→$/, "") : null;
-const revealOrderAttr =
+const _revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
 const isInteractive = typeof href === "string" && href.trim().length > 0;
-const cardClasses = ["card", !isInteractive ? "card--static" : null]
-  .filter(Boolean)
-  .join(" ");
-const showCTA = isInteractive && Boolean(ctaLabel);
+const _cardClasses = ["card", !isInteractive ? "card--static" : null].filter(Boolean).join(" ");
+const _showCTA = isInteractive && Boolean(ctaLabel);
 ---
 
 {

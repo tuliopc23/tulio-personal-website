@@ -1,10 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import AvatarSrc from "../assets/avatar.png";
-import BrandIcon from "./BrandIcon.astro";
-import SFIcon from "./SFIcon.astro";
-import { getBrandIcon } from "./brand-icons";
-
 const {
   name = "Tulio Cunha",
   title = "Full Stack Developer",
@@ -12,7 +6,7 @@ const {
   email = "contact@tuliocunha.dev",
 } = Astro.props;
 
-const contacts = [
+const _contacts = [
   {
     label: "GitHub",
     value: "@tuliopc23",
@@ -45,7 +39,7 @@ const contacts = [
   },
 ];
 
-const meta = [
+const _meta = [
   {
     label: "Location",
     value: location,

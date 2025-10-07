@@ -1,18 +1,15 @@
 ---
 import Base from "../layouts/Base.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
 import { projectsSorted } from "../data/projects";
 
-const siteOrigin =
-  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const description =
   "Apple-inspired gallery of Tulio Cunha's latest work including LiqUIdify, Hackerfolio, Switchify, Cockpit, and Swiftget CLI.";
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
-const hasProjects = projectsSorted.length > 0;
-const projectCount = projectsSorted.length;
-const focusSummary = "Design systems • Native apps • Developer tooling";
-const projectFilters = [
+const _hasProjects = projectsSorted.length > 0;
+const _projectCount = projectsSorted.length;
+const _focusSummary = "Design systems • Native apps • Developer tooling";
+const _projectFilters = [
   { id: "all", label: "All" },
   { id: "native", label: "Native" },
   { id: "web", label: "Web" },
@@ -20,7 +17,7 @@ const projectFilters = [
   { id: "design-system", label: "Design systems" },
 ];
 
-const structuredData = {
+const _structuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Tulio Cunha Projects",
@@ -35,7 +32,7 @@ const structuredData = {
   canonical={canonicalUrl}
   ogDescription={description}
   ogImage={{ url: "/terminal-favicon.svg", alt: "Projects preview" }}
-  structuredData={structuredData}
+  structuredData={_structuredData}
 >
   <section
     class="container projects__intro"

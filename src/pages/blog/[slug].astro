@@ -1,17 +1,13 @@
 ---
 import Base from "../../layouts/Base.astro";
-import ArticleCard from "../../components/ArticleCard.astro";
-import ArticlePortableText from "../../components/ArticlePortableText.astro";
-import ReadingProgress from "../../components/ReadingProgress.astro";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import SFIcon from "../../components/SFIcon.astro";
 import VisualEditing from "../../components/VisualEditing.astro";
-import { urlFor, generateSrcset } from "../../sanity/lib/image";
+import ReadingProgress from "../../components/ReadingProgress.astro";
+import { urlFor } from "../../sanity/lib/image";
 import {
+  calculateReadingTimeMinutes,
   getAllPostSlugs,
   getPostBySlug,
   getRecentPosts,
-  calculateReadingTimeMinutes,
   type PostDetail,
   type PostSummary,
 } from "../../sanity/lib/posts";
@@ -34,27 +30,25 @@ if (!post) {
   Astro.response.status = 404;
 }
 
-const related: PostSummary[] = post ? await getRecentPosts(post.slug, 3) : [];
-const dateISO = post ? new Date(post.publishedAt).toISOString() : "";
-const dateLabel = post ? formatter.format(new Date(post.publishedAt)) : "";
-const readingLabel = post ? `${post.readingTimeMinutes} min read` : "";
+const _related: PostSummary[] = post ? await getRecentPosts(post.slug, 3) : [];
+const _dateISO = post ? new Date(post.publishedAt).toISOString() : "";
+const _dateLabel = post ? formatter.format(new Date(post.publishedAt)) : "";
+const _readingLabel = post ? `${post.readingTimeMinutes} min read` : "";
 const defaultOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? "";
 const shareOrigin = siteOrigin || defaultOrigin;
 const shareUrl = `${shareOrigin}/blog/${slug}/`;
-const shareText = post ? encodeURIComponent(post.title) : "";
+const _shareText = post ? encodeURIComponent(post.title) : "";
 const heroImage = post?.heroImage;
-const tags = post?.tags ?? [];
+const _tags = post?.tags ?? [];
 const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
 const seoDescription =
   seo?.metaDescription ?? post?.summary ?? "Thoughts and updates from Tulio Cunha.";
 const canonical = seo?.canonicalUrl ?? shareUrl;
-const noIndex = Boolean(seo?.noIndex);
-const preferredSocialImage = seo?.socialImage?.url
-  ? seo.socialImage
-  : (heroImage ?? null);
+const _noIndex = Boolean(seo?.noIndex);
+const preferredSocialImage = seo?.socialImage?.url ? seo.socialImage : (heroImage ?? null);
 // Optimize OG images (1200x630 for optimal social sharing)
 const ogImage = preferredSocialImage?.url
   ? {
@@ -101,9 +95,7 @@ const articleStructuredData = post
       image: ogImage?.url ? ogImage.url : undefined,
       keywords: post.tags?.join(", "),
       articleSection: post.categories?.[0]?.title,
-      wordCount: post.content
-        ? calculateReadingTimeMinutes(post.content) * 225
-        : undefined,
+      wordCount: post.content ? calculateReadingTimeMinutes(post.content) * 225 : undefined,
       inLanguage: "en",
     }
   : null;
@@ -143,7 +135,7 @@ const breadcrumbStructuredData = {
   ],
 };
 
-const structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStructuredData];
+const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStructuredData];
 ---
 
 <Base
@@ -154,8 +146,8 @@ const structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStructu
   ogDescription={seoDescription}
   ogType="article"
   ogImage={ogImage}
-  noIndex={noIndex}
-  structuredData={structuredData}
+  noIndex={_noIndex}
+  structuredData={_structuredData}
   sidebar={true}
 >
   <link

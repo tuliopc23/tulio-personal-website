@@ -19,6 +19,15 @@
     const next = theme === "light" ? "light" : "dark";
     root.setAttribute("data-theme", next);
 
+    // Add class for Shiki code block theme switching
+    if (next === "light") {
+      root.classList.remove("dark");
+      root.classList.add("light");
+    } else {
+      root.classList.remove("light");
+      root.classList.add("dark");
+    }
+
     if (control instanceof HTMLInputElement) {
       control.checked = next === "light";
     }
@@ -34,14 +43,21 @@
   };
 
   const resolveTheme = () => {
+    // If user has explicitly chosen a theme, use it
     if (stored === "light" || stored === "dark") {
+      console.log("[Theme] Using stored theme:", stored);
       return stored;
     }
 
-    return media.matches ? "light" : "dark";
+    // Otherwise, respect the HTML's initial data-theme attribute (defaults to dark)
+    const htmlTheme = root.getAttribute("data-theme");
+    console.log("[Theme] No stored theme, using HTML default:", htmlTheme);
+    return htmlTheme === "light" ? "light" : "dark";
   };
 
-  applyTheme(resolveTheme());
+  const initialTheme = resolveTheme();
+  console.log("[Theme] Applying initial theme:", initialTheme);
+  applyTheme(initialTheme);
 
   control?.addEventListener("change", (event) => {
     const target = event.currentTarget;

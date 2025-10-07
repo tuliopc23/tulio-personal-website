@@ -1,12 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const siteOrigin =
-  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/about/", siteOrigin).toString();
 const description =
   "Tulio Cunha is a full stack developer blending native craft with web precision.";
-const structuredData = {
+const _structuredData = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
   name: "About Tulio Cunha",
@@ -21,7 +20,7 @@ const structuredData = {
   canonical={canonical}
   ogDescription={description}
   ogImage={{ url: "/terminal-favicon.svg", alt: "About Tulio Cunha" }}
-  structuredData={structuredData}
+  structuredData={_structuredData}
   sidebar={true}
 >
   <section class="container prose">

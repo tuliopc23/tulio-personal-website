@@ -97,7 +97,7 @@
           root: null,
           rootMargin: "0px 0px -10%",
           threshold: 0.15,
-        }
+        },
       );
 
       revealElements.forEach((element) => {
@@ -175,8 +175,7 @@
   applyMotionPreference(prefersReduced.matches);
 
   const handlePreferenceChange = (event) => {
-    const next =
-      typeof event?.matches === "boolean" ? event.matches : prefersReduced.matches;
+    const next = typeof event?.matches === "boolean" ? event.matches : prefersReduced.matches;
     applyMotionPreference(next);
   };
 

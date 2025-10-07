@@ -20,8 +20,7 @@ export default defineType({
       title: "Meta description",
       type: "text",
       rows: 3,
-      validation: (rule) =>
-        rule.max(160).warning("Keep descriptions under 160 characters."),
+      validation: (rule) => rule.max(160).warning("Keep descriptions under 160 characters."),
     }),
     defineField({
       name: "canonicalUrl",

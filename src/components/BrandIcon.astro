@@ -43,19 +43,19 @@ if (!resolved) {
 }
 
 const glyph = resolved ?? resolveGlyph("simple-icons:sparkle");
-const viewBox = glyph ? `0 0 ${glyph.width} ${glyph.height}` : "0 0 24 24";
-const useCurrentColor = glyph?.prefix === "simple-icons";
-const body = glyph?.body ?? "";
+const _viewBox = glyph ? `0 0 ${glyph.width} ${glyph.height}` : "0 0 24 24";
+const _useCurrentColor = glyph?.prefix === "simple-icons";
+const _body = glyph?.body ?? "";
 ---
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
   width={size}
   height={size}
-  viewBox={viewBox}
+  viewBox={_viewBox}
   role="img"
   aria-hidden="true"
-  {...useCurrentColor ? { fill: "currentColor" } : {}}
+  {..._useCurrentColor ? { fill: "currentColor" } : {}}
 >
-  <Fragment set:html={body} />
+  <Fragment set:html={_body} />
 </svg>

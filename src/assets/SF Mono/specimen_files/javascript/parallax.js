@@ -1,10 +1,7 @@
-(function () {
+(() => {
   function elementViewportOffset(element) {
     var rect = element.getBoundingClientRect();
-    var viewportHeight = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight
-    );
+    var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return 1 - rect.bottom / viewportHeight;
   }
 
@@ -31,7 +28,7 @@
           var element = parallaxElements[i];
           var maxTranslate = +element.getAttribute("data-parallax-translate");
           var initialTop = +element.getAttribute("data-initial-top");
-          element.style.top = initialTop - maxTranslate * offset + "px";
+          element.style.top = `${initialTop - maxTranslate * offset}px`;
         }
       }
     }

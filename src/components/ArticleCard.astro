@@ -1,6 +1,4 @@
 ---
-import SFIcon from "./SFIcon.astro";
-import CategoryBadges from "./CategoryBadges.astro";
 import type { Category } from "../sanity/lib/posts";
 
 interface Props {
@@ -34,10 +32,10 @@ const {
   readingTimeMinutes,
   isNew = false,
 }: Props = Astro.props;
-const tagLabel = tags.join(" · ");
-const revealOrderAttr =
+const _tagLabel = tags.join(" · ");
+const _revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
-const readingTimeLabel =
+const _readingTimeLabel =
   typeof readingTimeMinutes === "number" && Number.isFinite(readingTimeMinutes)
     ? `${Math.max(1, Math.round(readingTimeMinutes))} min read`
     : null;

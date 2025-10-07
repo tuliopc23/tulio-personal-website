@@ -4,10 +4,7 @@ import { codeToHtml } from "shiki";
  * Highlight code with Shiki using custom themes
  * Supports both light and dark themes with automatic switching
  */
-export async function highlightCode(
-  code: string,
-  lang: string = "plaintext"
-): Promise<string> {
+export async function highlightCode(code: string, lang = "plaintext"): Promise<string> {
   try {
     const html = await codeToHtml(code, {
       lang,

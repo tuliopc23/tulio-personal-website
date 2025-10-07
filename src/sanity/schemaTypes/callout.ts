@@ -51,8 +51,7 @@ export default defineType({
                   {
                     name: "href",
                     type: "url",
-                    validation: (rule) =>
-                      rule.required().uri({ scheme: ["http", "https"] }),
+                    validation: (rule) => rule.required().uri({ scheme: ["http", "https"] }),
                   },
                 ],
               },

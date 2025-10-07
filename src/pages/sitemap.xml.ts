@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getAllPostLocators, getAllCategories } from "../sanity/lib/posts";
+import { getAllCategories, getAllPostLocators } from "../sanity/lib/posts";
 
 export const prerender = true;
 
@@ -14,15 +14,11 @@ function formatDate(input: string): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = (
-    site ?? new URL(process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321")
-  ).origin;
+  const origin = (site ?? new URL(process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321"))
+    .origin;
   const cleanedOrigin = origin.replace(/\/$/, "");
 
-  const [postLocators, categories] = await Promise.all([
-    getAllPostLocators(),
-    getAllCategories(),
-  ]);
+  const [postLocators, categories] = await Promise.all([getAllPostLocators(), getAllCategories()]);
 
   const urls = [
     ...STATIC_ROUTES.map((route) => ({

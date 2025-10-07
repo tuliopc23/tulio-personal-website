@@ -1,12 +1,12 @@
 ---
-import themeCssHref from "../styles/theme.css?url";
-import motionCssHref from "../styles/motion.css?url";
-import themeScriptSrc from "../scripts/theme.js?url";
-import sidebarScriptSrc from "../scripts/sidebar.js?url";
-import motionScriptSrc from "../scripts/motion.js?url";
 import BrandIcon from "../components/BrandIcon.astro";
-import SFIcon from "../components/SFIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
+import SFIcon from "../components/SFIcon.astro";
+import motionScriptSrc from "../scripts/motion.js?url";
+import sidebarScriptSrc from "../scripts/sidebar.js?url";
+import themeScriptSrc from "../scripts/theme.js?url";
+import motionCssHref from "../styles/motion.css?url";
+import themeCssHref from "../styles/theme.css?url";
 
 interface OgImageMeta {
   url: string;
@@ -44,8 +44,7 @@ const {
 const fullTitle = `${title} • Tulio Cunha`;
 const computedOgTitle = ogTitle ?? fullTitle;
 const computedOgDescription = ogDescription ?? description;
-const canonicalUrl =
-  canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
+const canonicalUrl = canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
 const robotsValue = noIndex ? "noindex,nofollow" : "index,follow";
 const structuredDataJson =
   typeof structuredData === "string"
@@ -75,6 +74,41 @@ const structuredDataJson =
     <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet" />
     <link href="https://v1.fontapi.ir/css/SFUIText" rel="stylesheet" />
     <link href="https://v1.fontapi.ir/css/SFMono" rel="stylesheet" />
+
+    <!-- Theme script must run BEFORE CSS to prevent FOUC -->
+    <script is:inline>
+      (() => {
+        const readStoredTheme = () => {
+          try {
+            const value = localStorage.getItem("theme");
+            return value === "light" || value === "dark" ? value : null;
+          } catch {
+            return null;
+          }
+        };
+
+        const stored = readStoredTheme();
+        const root = document.documentElement;
+
+        // If user has explicitly chosen a theme, use it
+        if (stored === "light" || stored === "dark") {
+          root.setAttribute("data-theme", stored);
+          // Add class for Shiki code block theme switching
+          if (stored === "light") {
+            root.classList.remove("dark");
+            root.classList.add("light");
+          } else {
+            root.classList.remove("light");
+            root.classList.add("dark");
+          }
+        } else {
+          // Default is dark, add the class
+          root.classList.add("dark");
+        }
+        // Otherwise, respect the HTML's initial data-theme attribute (defaults to dark)
+        // No need to set it again as it's already in the HTML
+      })();
+    </script>
 
     <link rel="stylesheet" href={themeCssHref} />
     <link rel="stylesheet" href={motionCssHref} />

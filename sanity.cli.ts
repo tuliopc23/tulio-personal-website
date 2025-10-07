@@ -6,7 +6,7 @@ const dataset = process.env.PUBLIC_SANITY_DATASET || "production";
 
 if (!projectId) {
   console.warn(
-    "sanity.cli.ts: PUBLIC_SANITY_PROJECT_ID is not set. CLI commands will fail until it is configured in .env."
+    "sanity.cli.ts: PUBLIC_SANITY_PROJECT_ID is not set. CLI commands will fail until it is configured in .env.",
   );
 }
 

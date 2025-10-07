@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-function scrollToSection(section, e) {
+function _scrollToSection(section, e) {
   e.preventDefault();
   var distance = document.getElementsByClassName(section)[0].getBoundingClientRect().top;
   scrollTo(document.documentElement, distance, 1250);
@@ -12,7 +12,7 @@ function scrollTo(element, to, duration) {
     currentTime = 0,
     increment = 20;
 
-  var animateScroll = function () {
+  var animateScroll = () => {
     currentTime += increment;
     var val = Math.easeInOutQuad(currentTime, start, change, duration);
     element.scrollTop = val;
@@ -27,7 +27,7 @@ function scrollTo(element, to, duration) {
 //b = start value
 //c = change in value
 //d = duration
-Math.easeInOutQuad = function (t, b, c, d) {
+Math.easeInOutQuad = (t, b, c, d) => {
   t /= d / 2;
   if (t < 1) return (c / 2) * t * t + b;
   t--;

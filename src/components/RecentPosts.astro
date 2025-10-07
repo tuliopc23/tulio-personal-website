@@ -1,6 +1,5 @@
 ---
 import { getAllPosts } from "../sanity/lib/posts";
-import ArticleCard from "./ArticleCard.astro";
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -25,7 +24,7 @@ const recentPosts = (await getAllPosts()).slice(0, 3).map((post) => {
   };
 });
 
-const hasPost = recentPosts.length > 0;
+const _hasPost = recentPosts.length > 0;
 ---
 
 <section

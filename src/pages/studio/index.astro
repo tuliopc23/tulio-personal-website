@@ -1,14 +1,12 @@
 ---
-import config from "../../../sanity.config";
-
 const isDev = import.meta.env.DEV;
 const STUDIO_MODULE_ID = "sanity:studio";
-let SanityStudioComponent = null;
-const hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;
+let _SanityStudioComponent = null;
+const _hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;
 
 if (isDev) {
   const mod = await import(/* @vite-ignore */ STUDIO_MODULE_ID);
-  SanityStudioComponent = mod.SanityStudio;
+  _SanityStudioComponent = mod.SanityStudio;
 }
 ---
 

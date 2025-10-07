@@ -1,6 +1,4 @@
 ---
-import BrandIcon from "./BrandIcon.astro";
-import SFIcon from "./SFIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 
 const email = "contact@tuliocunha.dev";
@@ -27,7 +25,7 @@ const socials = [
   },
 ];
 
-const decoratedSocials = socials.map((entry) => {
+const _decoratedSocials = socials.map((entry) => {
   const brand = entry.icon ? getBrandIcon(entry.icon) : null;
   return {
     ...entry,

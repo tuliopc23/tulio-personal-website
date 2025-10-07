@@ -1,22 +1,21 @@
 ---
 import type { PortableTextBlock } from "@portabletext/types";
-import { PortableText } from "astro-portabletext";
 
 import ArticlePortableCode from "./ArticleCodeBlock.astro";
 import ArticlePortableImage from "./ArticlePortableImage.astro";
 import ArticlePortableLink from "./ArticlePortableLink.astro";
 import Callout from "./portable-text/Callout.astro";
-import VideoEmbed from "./portable-text/VideoEmbed.astro";
 import Divider from "./portable-text/Divider.astro";
+import VideoEmbed from "./portable-text/VideoEmbed.astro";
 
 interface Props {
   blocks?: PortableTextBlock[];
 }
 
 const { blocks = [] }: Props = Astro.props;
-const hasContent = Array.isArray(blocks) && blocks.length > 0;
+const _hasContent = Array.isArray(blocks) && blocks.length > 0;
 
-const components = {
+const _components = {
   type: {
     image: ArticlePortableImage,
     code: ArticlePortableCode,

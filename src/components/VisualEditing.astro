@@ -5,13 +5,10 @@
  * Only loads when SANITY_API_READ_TOKEN is present and visual editing is enabled
  */
 
-import visualEditingScriptSrc from "../scripts/visual-editing.js?url";
-
-const visualEditingEnabled =
-  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
+const visualEditingEnabled = import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
 const hasToken = Boolean(import.meta.env.SANITY_API_READ_TOKEN);
 
-const shouldLoad = visualEditingEnabled && hasToken;
+const _shouldLoad = visualEditingEnabled && hasToken;
 ---
 
 {shouldLoad && <script type="module" src={visualEditingScriptSrc} />}

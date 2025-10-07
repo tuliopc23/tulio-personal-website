@@ -6,7 +6,7 @@
   const status = document.querySelector("[data-sidebar-status]");
   const totalLinks = links.length;
 
-  if (body && body.dataset && !body.dataset.sidebarState) {
+  if (body?.dataset && !body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
   }
 
@@ -27,7 +27,7 @@
 
     groups.forEach((groupEl) => {
       const hasVisible = Array.from(groupEl.querySelectorAll(".sidebar__link")).some(
-        (anchor) => anchor.style.display !== "none"
+        (anchor) => anchor.style.display !== "none",
       );
       groupEl.style.display = hasVisible ? "block" : "none";
     });

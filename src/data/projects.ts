@@ -121,5 +121,5 @@ export const projects: Project[] = [
 ];
 
 export const projectsSorted = [...projects].sort((a, b) =>
-  a.releaseDate > b.releaseDate ? -1 : a.releaseDate < b.releaseDate ? 1 : 0
+  a.releaseDate > b.releaseDate ? -1 : a.releaseDate < b.releaseDate ? 1 : 0,
 );

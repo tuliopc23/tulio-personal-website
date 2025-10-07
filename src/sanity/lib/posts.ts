@@ -188,10 +188,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
   };
 }
 
-export async function getRecentPosts(
-  excludeSlug: string,
-  limit = 3
-): Promise<PostSummary[]> {
+export async function getRecentPosts(excludeSlug: string, limit = 3): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && slug.current != $slug && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)[0...$limit]${SUMMARY_PROJECTION}`,
     params: { slug: excludeSlug, limit },
