@@ -216,19 +216,18 @@ const _meta = [
     padding: clamp(var(--space-sm), 3vw, var(--space-lg));
     border-radius: var(--radius-lg);
     border: 1px solid var(--panel-border);
-    background: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
     backdrop-filter: saturate(1.8) blur(20px);
     max-width: 100%;
+  }
+
+  [data-theme="dark"] .profileCard {
+    background: rgba(29, 29, 32, 0.94);
     box-shadow: var(--shadow-card);
   }
 
   [data-theme="light"] .profileCard {
-    background: color-mix(in oklch, var(--surface-elevated) 96%, transparent);
+    background: rgba(248, 248, 251, 0.96);
     box-shadow: var(--shadow-card-hover);
-  }
-
-  [data-theme="dark"] .profileCard {
-    box-shadow: var(--shadow-card);
   }
 
   .profileCard__media {
@@ -243,24 +242,39 @@ const _meta = [
     position: absolute;
     inset: clamp(-32px, -6vw, -18px);
     border-radius: 48px;
-    background:
-      radial-gradient(
-        circle at 25% 20%,
-        color-mix(in oklch, var(--blue) 36%, transparent) 0%,
-        transparent 60%
-      ),
-      radial-gradient(
-        circle at 70% 80%,
-        color-mix(in oklch, var(--teal) 28%, transparent) 0%,
-        transparent 70%
-      );
     opacity: 0.5;
     filter: blur(42px);
     z-index: 0;
     pointer-events: none;
   }
 
+  [data-theme="dark"] .profileCard__media::before {
+    background:
+      radial-gradient(
+        circle at 25% 20%,
+        rgba(77, 166, 255, 0.36) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 70% 80%,
+        rgba(94, 196, 204, 0.28) 0%,
+        transparent 70%
+      );
+    opacity: 0.5;
+  }
+
   [data-theme="light"] .profileCard__media::before {
+    background:
+      radial-gradient(
+        circle at 25% 20%,
+        rgba(0, 113, 227, 0.36) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        circle at 70% 80%,
+        rgba(94, 196, 204, 0.28) 0%,
+        transparent 70%
+      );
     opacity: 0.6;
     filter: blur(48px);
   }
@@ -273,22 +287,21 @@ const _meta = [
     border: 1px solid var(--panel-border);
     overflow: hidden;
     margin: 0;
-    background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 16px 32px rgba(0, 0, 0, 0.24);
     z-index: 1;
   }
 
+  [data-theme="dark"] .profileCard__photo {
+    background: rgba(29, 29, 31, 0.88);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 16px 32px rgba(0, 0, 0, 0.24);
+  }
+
   [data-theme="light"] .profileCard__photo {
-    background: color-mix(in oklch, var(--surface-elevated) 96%, transparent);
+    background: rgba(248, 248, 251, 0.96);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.85),
       0 20px 36px rgba(31, 35, 53, 0.16);
-  }
-
-  [data-theme="dark"] .profileCard__photo {
-    background: color-mix(in oklch, var(--surface) 88%, transparent);
   }
 
   .profileCard__photo::after {
@@ -324,7 +337,14 @@ const _meta = [
     font-size: var(--fs--2);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: color-mix(in oklch, var(--text) 58%, transparent);
+  }
+
+  [data-theme="dark"] .profileCard__eyebrow {
+    color: rgba(235, 235, 245, 0.58);
+  }
+
+  [data-theme="light"] .profileCard__eyebrow {
+    color: rgba(60, 60, 67, 0.58);
   }
 
   .profileCard__name {
@@ -339,7 +359,14 @@ const _meta = [
     margin: 0;
     font-size: 17px;
     font-weight: 500;
-    color: color-mix(in oklch, var(--text) 75%, transparent);
+  }
+
+  [data-theme="dark"] .profileCard__title {
+    color: rgba(235, 235, 245, 0.75);
+  }
+
+  [data-theme="light"] .profileCard__title {
+    color: rgba(60, 60, 67, 0.75);
   }
 
   .profileCard__meta {
@@ -362,7 +389,14 @@ const _meta = [
     font-size: var(--fs--2);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: color-mix(in oklch, var(--text) 65%, transparent);
+  }
+
+  [data-theme="dark"] .profileCard__metaItem dt {
+    color: rgba(235, 235, 245, 0.65);
+  }
+
+  [data-theme="light"] .profileCard__metaItem dt {
+    color: rgba(60, 60, 67, 0.65);
   }
 
   .profileCard__metaLabel {
@@ -396,11 +430,19 @@ const _meta = [
     height: 28px;
     border-radius: 12px;
     border: 1px solid var(--panel-border);
-    background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.12),
       0 6px 12px rgba(0, 0, 0, 0.14);
-    color: color-mix(in oklch, var(--text) 78%, transparent);
+  }
+
+  [data-theme="dark"] .profileCard__metaIcon {
+    background: rgba(29, 29, 32, 0.92);
+    color: rgba(235, 235, 245, 0.78);
+  }
+
+  [data-theme="light"] .profileCard__metaIcon {
+    background: rgba(248, 248, 251, 0.92);
+    color: rgba(60, 60, 67, 0.78);
   }
 
   .profileCard__metaIcon :global(svg) {
@@ -412,8 +454,15 @@ const _meta = [
     margin: 0;
     font-size: 16px;
     line-height: 1.55;
-    color: color-mix(in oklch, var(--text) 85%, transparent);
     max-width: 56ch;
+  }
+
+  [data-theme="dark"] .profileCard__summary {
+    color: rgba(235, 235, 245, 0.85);
+  }
+
+  [data-theme="light"] .profileCard__summary {
+    color: rgba(60, 60, 67, 0.85);
   }
 
   .profileCard__contacts {
@@ -444,7 +493,6 @@ const _meta = [
     gap: clamp(var(--space-xs), 1.5vw, var(--space-sm));
     border-radius: var(--radius-md);
     border: 1px solid var(--panel-border);
-    background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
     padding: calc(var(--space-sm) - 2px) calc(var(--space-md) - 4px);
     color: var(--text);
     text-decoration: none;
@@ -457,28 +505,59 @@ const _meta = [
     will-change: transform, box-shadow, background;
   }
 
+  [data-theme="dark"] .profileCard__chip {
+    background: rgba(29, 29, 32, 0.92);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.34);
+  }
+
+  [data-theme="light"] .profileCard__chip {
+    background: rgba(248, 248, 251, 0.96);
+    box-shadow: 0 16px 32px rgba(31, 35, 53, 0.14);
+  }
+
   .profileCard__chip::after {
     content: "";
     position: absolute;
     inset: 2px;
     border-radius: calc(var(--radius-md) - 8px);
-    background: linear-gradient(
-      140deg,
-      color-mix(in oklch, var(--chip-icon-color, var(--blue)) 28%, transparent) 0%,
-      transparent 70%
-    );
     opacity: 0;
     transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
     pointer-events: none;
     z-index: 0;
   }
 
-  .profileCard__chip:hover {
-    background: color-mix(in oklch, var(--surface) 92%, transparent);
+  [data-theme="dark"] .profileCard__chip::after {
+    background: linear-gradient(
+      140deg,
+      rgba(77, 166, 255, 0.28) 0%,
+      transparent 70%
+    );
+  }
+
+  [data-theme="light"] .profileCard__chip::after {
+    background: linear-gradient(
+      140deg,
+      rgba(0, 113, 227, 0.28) 0%,
+      transparent 70%
+    );
+  }
+
+  [data-theme="dark"] .profileCard__chip:hover {
+    background: rgba(29, 29, 31, 0.92);
     border-color: var(--panel-border-strong);
     box-shadow:
-      0 18px 36px
-        color-mix(in oklch, var(--chip-icon-color, var(--blue)) 18%, rgba(0, 0, 0, 0.22)),
+      0 18px 36px rgba(77, 166, 255, 0.18),
+      0 18px 36px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    transform: translateY(-4px) scale(var(--motion-scale-sm));
+  }
+
+  [data-theme="light"] .profileCard__chip:hover {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: var(--panel-border-strong);
+    box-shadow:
+      0 18px 36px rgba(0, 113, 227, 0.18),
+      0 18px 36px rgba(31, 35, 53, 0.22),
       inset 0 1px 0 rgba(255, 255, 255, 0.16);
     transform: translateY(-4px) scale(var(--motion-scale-sm));
   }
@@ -487,13 +566,23 @@ const _meta = [
     opacity: 0.85;
   }
 
-  .profileCard__chip:focus-visible {
+  [data-theme="dark"] .profileCard__chip:focus-visible {
     outline: none;
     border-color: var(--panel-border-strong);
     box-shadow:
       var(--focus-ring),
-      0 16px 32px
-        color-mix(in oklch, var(--chip-icon-color, var(--blue)) 22%, rgba(0, 0, 0, 0.18));
+      0 16px 32px rgba(77, 166, 255, 0.22),
+      0 16px 32px rgba(0, 0, 0, 0.18);
+    transform: translateY(-2px) scale(var(--motion-scale-xs));
+  }
+
+  [data-theme="light"] .profileCard__chip:focus-visible {
+    outline: none;
+    border-color: var(--panel-border-strong);
+    box-shadow:
+      var(--focus-ring),
+      0 16px 32px rgba(0, 113, 227, 0.22),
+      0 16px 32px rgba(31, 35, 53, 0.18);
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
@@ -508,13 +597,21 @@ const _meta = [
     height: 34px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--panel-border);
-    background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.14),
       0 8px 16px rgba(0, 0, 0, 0.16);
-    color: color-mix(in oklch, var(--chip-icon-color, var(--text)) 60%, var(--text) 40%);
     position: relative;
     z-index: 1;
+  }
+
+  [data-theme="dark"] .profileCard__chipIcon {
+    background: rgba(29, 29, 32, 0.92);
+    color: rgba(235, 235, 245, 0.82);
+  }
+
+  [data-theme="light"] .profileCard__chipIcon {
+    background: rgba(248, 248, 251, 0.92);
+    color: rgba(60, 60, 67, 0.82);
   }
 
   .profileCard__chipIcon :global(svg) {
@@ -532,7 +629,11 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chipIcon[data-brand] {
-    color: color-mix(in oklch, white 86%, var(--chip-icon-color, white) 14%);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  [data-theme="light"] .profileCard__chipIcon[data-brand] {
+    color: rgba(60, 60, 67, 0.85);
   }
 
   .profileCard__chipContent {
@@ -546,7 +647,14 @@ const _meta = [
     font-size: var(--fs--2);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: color-mix(in oklch, var(--text) 60%, transparent);
+  }
+
+  [data-theme="dark"] .profileCard__chipLabel {
+    color: rgba(235, 235, 245, 0.6);
+  }
+
+  [data-theme="light"] .profileCard__chipLabel {
+    color: rgba(60, 60, 67, 0.6);
   }
 
   .profileCard__chipValue {
@@ -555,14 +663,6 @@ const _meta = [
     word-break: break-word;
   }
 
-  [data-theme="light"] .profileCard__chip {
-    background: color-mix(in oklch, var(--surface-elevated) 96%, transparent);
-    box-shadow: 0 16px 32px rgba(31, 35, 53, 0.14);
-  }
-
-  [data-theme="dark"] .profileCard__chip {
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.34);
-  }
 
   @media (max-width: 1100px) {
     .profileCard {
