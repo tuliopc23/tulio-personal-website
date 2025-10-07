@@ -64,7 +64,7 @@
   --ls-h3: -0.018em; /* For h3 */
   --ls-body: -0.008em; /* For body text */
   --ls-tight: -0.01em; /* General tight spacing */
-  --hero-highlight: rgba(94, 92, 230, 0.28);
+  --hero-highlight: color-mix(in oklch, var(--indigo) 28%, transparent);
 
   /* Font Variation Settings - SF Pro Display Optical Sizing */
   --font-variation-display-small: "opsz" 17; /* For 17px and below */
@@ -79,21 +79,21 @@
   --safe-area-left: env(safe-area-inset-left);
 
   /* State colors */
-  --neutral-bg: rgba(28, 28, 30, 0.92);
+  --neutral-bg: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   --neutral-border: rgba(255, 255, 255, 0.16);
-  --neutral-text: rgba(235, 235, 245, 0.96);
+  --neutral-text: color-mix(in oklch, var(--text) 96%, transparent);
   --info-bg: color-mix(in oklch, var(--teal) 24%, transparent);
   --info-border: color-mix(in oklch, var(--teal) 46%, transparent);
-  --info-text: rgba(100, 210, 255, 0.92);
+  --info-text: color-mix(in oklch, var(--teal) 72%, var(--text));
   --success-bg: color-mix(in oklch, var(--green) 24%, transparent);
   --success-border: color-mix(in oklch, var(--green) 52%, transparent);
-  --success-text: rgba(50, 215, 75, 0.92);
+  --success-text: color-mix(in oklch, var(--green) 80%, var(--text));
   --warning-bg: color-mix(in oklch, var(--yellow) 20%, transparent);
   --warning-border: color-mix(in oklch, var(--yellow) 48%, transparent);
-  --warning-text: rgba(255, 214, 10, 0.90);
+  --warning-text: color-mix(in oklch, var(--yellow) 70%, var(--text));
   --danger-bg: color-mix(in oklch, var(--red) 24%, transparent);
   --danger-border: color-mix(in oklch, var(--red) 52%, transparent);
-  --danger-text: rgba(255, 69, 58, 0.92);
+  --danger-text: color-mix(in oklch, var(--red) 78%, var(--text));
 
   /* Motion - Enhanced spring physics */
   --motion-duration-instant: 100ms;
@@ -168,137 +168,141 @@
   --muted: rgba(235, 235, 245, 0.65);
 
   /* Apple system colors - Dark mode with vibrancy boost (10% saturation increase) */
-  --blue: #0a84ff; /* Boosted from #0a84ff */
-  --green: #32d74b; /* Boosted from #32d74b */
-  --indigo: #5e5ce6; /* Boosted from #5e5ce6 */
-  --teal: #64d2ff; /* Boosted from #64d2ff */
-  --orange: #ff9f0a; /* Boosted from #ff9f0a */
-  --pink: #ff375f; /* Boosted from #ff375f */
-  --purple: #bf5af2; /* Boosted from #bf5af2 */
-  --red: #ff453a; /* Boosted from #ff453a */
-  --yellow: #ffd60a; /* Boosted from #ffd60a */
+  --blue: color-mix(in oklch, #0a84ff 110%, #007aff); /* Boosted from #0a84ff */
+  --green: color-mix(in oklch, #32d74b 110%, #30d158); /* Boosted from #32d74b */
+  --indigo: color-mix(in oklch, #5e5ce6 110%, #5856d6); /* Boosted from #5e5ce6 */
+  --teal: color-mix(in oklch, #64d2ff 110%, #5ac8fa); /* Boosted from #64d2ff */
+  --orange: color-mix(in oklch, #ff9f0a 110%, #ff9500); /* Boosted from #ff9f0a */
+  --pink: color-mix(in oklch, #ff375f 110%, #ff2d55); /* Boosted from #ff375f */
+  --purple: color-mix(in oklch, #bf5af2 110%, #af52de); /* Boosted from #bf5af2 */
+  --red: color-mix(in oklch, #ff453a 110%, #ff3b30); /* Boosted from #ff453a */
+  --yellow: color-mix(in oklch, #ffd60a 110%, #ffcc00); /* Boosted from #ffd60a */
 
   /* 9-Step Semantic Color Scales - oklch based */
   /* Blue Scale */
-  --blue-50: #e6f4ff;
-  --blue-100: #cce9ff;
-  --blue-200: #99d6ff;
-  --blue-300: #66c2ff;
-  --blue-400: #33aeff;
+  --blue-50: color-mix(in oklch, var(--blue) 10%, white 90%);
+  --blue-100: color-mix(in oklch, var(--blue) 20%, white 80%);
+  --blue-200: color-mix(in oklch, var(--blue) 35%, white 65%);
+  --blue-300: color-mix(in oklch, var(--blue) 50%, white 50%);
+  --blue-400: color-mix(in oklch, var(--blue) 70%, white 30%);
   --blue-500: var(--blue);
-  --blue-600: #0870d9;
-  --blue-700: #065cb3;
-  --blue-800: #05427f;
-  --blue-900: #032d59;
-  --blue-950: #021a33;
+  --blue-600: color-mix(in oklch, var(--blue) 85%, black 15%);
+  --blue-700: color-mix(in oklch, var(--blue) 70%, black 30%);
+  --blue-800: color-mix(in oklch, var(--blue) 50%, black 50%);
+  --blue-900: color-mix(in oklch, var(--blue) 35%, black 65%);
+  --blue-950: color-mix(in oklch, var(--blue) 20%, black 80%);
 
   /* Green Scale */
-  --green-50: #e6fbed;
-  --green-100: #ccf7db;
-  --green-200: #99efb7;
-  --green-300: #66e793;
-  --green-400: #33df6f;
+  --green-50: color-mix(in oklch, var(--green) 10%, white 90%);
+  --green-100: color-mix(in oklch, var(--green) 20%, white 80%);
+  --green-200: color-mix(in oklch, var(--green) 35%, white 65%);
+  --green-300: color-mix(in oklch, var(--green) 50%, white 50%);
+  --green-400: color-mix(in oklch, var(--green) 70%, white 30%);
   --green-500: var(--green);
-  --green-600: #2ab640;
-  --green-700: #229535;
-  --green-800: #196a25;
-  --green-900: #114a1a;
-  --green-950: #0a2b0f;
+  --green-600: color-mix(in oklch, var(--green) 85%, black 15%);
+  --green-700: color-mix(in oklch, var(--green) 70%, black 30%);
+  --green-800: color-mix(in oklch, var(--green) 50%, black 50%);
+  --green-900: color-mix(in oklch, var(--green) 35%, black 65%);
+  --green-950: color-mix(in oklch, var(--green) 20%, black 80%);
 
   /* Indigo Scale */
-  --indigo-50: #ededfb;
-  --indigo-100: #dbdbf7;
-  --indigo-200: #b7b7ef;
-  --indigo-300: #9393e7;
-  --indigo-400: #6f6fdf;
+  --indigo-50: color-mix(in oklch, var(--indigo) 10%, white 90%);
+  --indigo-100: color-mix(in oklch, var(--indigo) 20%, white 80%);
+  --indigo-200: color-mix(in oklch, var(--indigo) 35%, white 65%);
+  --indigo-300: color-mix(in oklch, var(--indigo) 50%, white 50%);
+  --indigo-400: color-mix(in oklch, var(--indigo) 70%, white 30%);
   --indigo-500: var(--indigo);
-  --indigo-600: #504ec4;
-  --indigo-700: #4240a1;
-  --indigo-800: #2f2e73;
-  --indigo-900: #212050;
-  --indigo-950: #13122e;
+  --indigo-600: color-mix(in oklch, var(--indigo) 85%, black 15%);
+  --indigo-700: color-mix(in oklch, var(--indigo) 70%, black 30%);
+  --indigo-800: color-mix(in oklch, var(--indigo) 50%, black 50%);
+  --indigo-900: color-mix(in oklch, var(--indigo) 35%, black 65%);
+  --indigo-950: color-mix(in oklch, var(--indigo) 20%, black 80%);
 
   /* Teal Scale */
-  --teal-50: #e6f8ff;
-  --teal-100: #ccf1ff;
-  --teal-200: #99e3ff;
-  --teal-300: #66d5ff;
-  --teal-400: #33c7ff;
+  --teal-50: color-mix(in oklch, var(--teal) 10%, white 90%);
+  --teal-100: color-mix(in oklch, var(--teal) 20%, white 80%);
+  --teal-200: color-mix(in oklch, var(--teal) 35%, white 65%);
+  --teal-300: color-mix(in oklch, var(--teal) 50%, white 50%);
+  --teal-400: color-mix(in oklch, var(--teal) 70%, white 30%);
   --teal-500: var(--teal);
-  --teal-600: #54b3d9;
-  --teal-700: #4493b3;
-  --teal-800: #32697f;
-  --teal-900: #224959;
-  --teal-950: #142a33;
+  --teal-600: color-mix(in oklch, var(--teal) 85%, black 15%);
+  --teal-700: color-mix(in oklch, var(--teal) 70%, black 30%);
+  --teal-800: color-mix(in oklch, var(--teal) 50%, black 50%);
+  --teal-900: color-mix(in oklch, var(--teal) 35%, black 65%);
+  --teal-950: color-mix(in oklch, var(--teal) 20%, black 80%);
 
   /* Orange Scale */
-  --orange-50: #fff3e6;
-  --orange-100: #ffe7cc;
-  --orange-200: #ffcf99;
-  --orange-300: #ffb766;
-  --orange-400: #ff9f33;
+  --orange-50: color-mix(in oklch, var(--orange) 10%, white 90%);
+  --orange-100: color-mix(in oklch, var(--orange) 20%, white 80%);
+  --orange-200: color-mix(in oklch, var(--orange) 35%, white 65%);
+  --orange-300: color-mix(in oklch, var(--orange) 50%, white 50%);
+  --orange-400: color-mix(in oklch, var(--orange) 70%, white 30%);
   --orange-500: var(--orange);
-  --orange-600: #d98708;
-  --orange-700: #b36f07;
-  --orange-800: #7f4f05;
-  --orange-900: #593703;
-  --orange-950: #332002;
+  --orange-600: color-mix(in oklch, var(--orange) 85%, black 15%);
+  --orange-700: color-mix(in oklch, var(--orange) 70%, black 30%);
+  --orange-800: color-mix(in oklch, var(--orange) 50%, black 50%);
+  --orange-900: color-mix(in oklch, var(--orange) 35%, black 65%);
+  --orange-950: color-mix(in oklch, var(--orange) 20%, black 80%);
 
   /* Pink Scale */
-  --pink-50: #ffe6ec;
-  --pink-100: #ffccd9;
-  --pink-200: #ff99b3;
-  --pink-300: #ff668d;
-  --pink-400: #ff3367;
+  --pink-50: color-mix(in oklch, var(--pink) 10%, white 90%);
+  --pink-100: color-mix(in oklch, var(--pink) 20%, white 80%);
+  --pink-200: color-mix(in oklch, var(--pink) 35%, white 65%);
+  --pink-300: color-mix(in oklch, var(--pink) 50%, white 50%);
+  --pink-400: color-mix(in oklch, var(--pink) 70%, white 30%);
   --pink-500: var(--pink);
-  --pink-600: #d92e51;
-  --pink-700: #b32642;
-  --pink-800: #7f1b2f;
-  --pink-900: #591321;
-  --pink-950: #330b13;
+  --pink-600: color-mix(in oklch, var(--pink) 85%, black 15%);
+  --pink-700: color-mix(in oklch, var(--pink) 70%, black 30%);
+  --pink-800: color-mix(in oklch, var(--pink) 50%, black 50%);
+  --pink-900: color-mix(in oklch, var(--pink) 35%, black 65%);
+  --pink-950: color-mix(in oklch, var(--pink) 20%, black 80%);
 
   /* Purple Scale */
-  --purple-50: #f7edfc;
-  --purple-100: #efdbf9;
-  --purple-200: #dfb7f3;
-  --purple-300: #cf93ed;
-  --purple-400: #bf6fe7;
+  --purple-50: color-mix(in oklch, var(--purple) 10%, white 90%);
+  --purple-100: color-mix(in oklch, var(--purple) 20%, white 80%);
+  --purple-200: color-mix(in oklch, var(--purple) 35%, white 65%);
+  --purple-300: color-mix(in oklch, var(--purple) 50%, white 50%);
+  --purple-400: color-mix(in oklch, var(--purple) 70%, white 30%);
   --purple-500: var(--purple);
-  --purple-600: #a24dce;
-  --purple-700: #853fa9;
-  --purple-800: #5f2d79;
-  --purple-900: #422054;
-  --purple-950: #261230;
+  --purple-600: color-mix(in oklch, var(--purple) 85%, black 15%);
+  --purple-700: color-mix(in oklch, var(--purple) 70%, black 30%);
+  --purple-800: color-mix(in oklch, var(--purple) 50%, black 50%);
+  --purple-900: color-mix(in oklch, var(--purple) 35%, black 65%);
+  --purple-950: color-mix(in oklch, var(--purple) 20%, black 80%);
 
   /* Red Scale */
-  --red-50: #ffe6e4;
-  --red-100: #ffccc9;
-  --red-200: #ff9993;
-  --red-300: #ff665d;
-  --red-400: #ff3327;
+  --red-50: color-mix(in oklch, var(--red) 10%, white 90%);
+  --red-100: color-mix(in oklch, var(--red) 20%, white 80%);
+  --red-200: color-mix(in oklch, var(--red) 35%, white 65%);
+  --red-300: color-mix(in oklch, var(--red) 50%, white 50%);
+  --red-400: color-mix(in oklch, var(--red) 70%, white 30%);
   --red-500: var(--red);
-  --red-600: #d93a31;
-  --red-700: #b33028;
-  --red-800: #7f221d;
-  --red-900: #591814;
-  --red-950: #330e0c;
+  --red-600: color-mix(in oklch, var(--red) 85%, black 15%);
+  --red-700: color-mix(in oklch, var(--red) 70%, black 30%);
+  --red-800: color-mix(in oklch, var(--red) 50%, black 50%);
+  --red-900: color-mix(in oklch, var(--red) 35%, black 65%);
+  --red-950: color-mix(in oklch, var(--red) 20%, black 80%);
 
   /* Yellow Scale */
-  --yellow-50: #fffbe6;
-  --yellow-100: #fff7cc;
-  --yellow-200: #ffef99;
-  --yellow-300: #ffe766;
-  --yellow-400: #ffdf33;
+  --yellow-50: color-mix(in oklch, var(--yellow) 10%, white 90%);
+  --yellow-100: color-mix(in oklch, var(--yellow) 20%, white 80%);
+  --yellow-200: color-mix(in oklch, var(--yellow) 35%, white 65%);
+  --yellow-300: color-mix(in oklch, var(--yellow) 50%, white 50%);
+  --yellow-400: color-mix(in oklch, var(--yellow) 70%, white 30%);
   --yellow-500: var(--yellow);
-  --yellow-600: #d9b608;
-  --yellow-700: #b39507;
-  --yellow-800: #7f6a05;
-  --yellow-900: #594a03;
-  --yellow-950: #332b02;
+  --yellow-600: color-mix(in oklch, var(--yellow) 85%, black 15%);
+  --yellow-700: color-mix(in oklch, var(--yellow) 70%, black 30%);
+  --yellow-800: color-mix(in oklch, var(--yellow) 50%, black 50%);
+  --yellow-900: color-mix(in oklch, var(--yellow) 35%, black 65%);
+  --yellow-950: color-mix(in oklch, var(--yellow) 20%, black 80%);
 
   --link: var(--blue);
-  --topbar-bg: rgba(22, 22, 24, 0.72);
-  --topbar-bg-active: rgba(22, 22, 24, 0.86);
+  --topbar-bg: color-mix(in oklch, var(--surface) var(--glass-opacity-base), transparent);
+  --topbar-bg-active: color-mix(
+    in oklch,
+    var(--surface) var(--glass-opacity-active),
+    transparent
+  );
   --toggle-track: rgba(28, 28, 30, 0.85);
   --toggle-thumb: #ffffff;
   --toggle-shadow:
@@ -348,38 +352,38 @@
 
   /* Colored Shadow Tokens for Interactive Elements */
   --shadow-blue:
-    0 2px 4px rgba(10, 132, 255, 0.20),
-    0 6px 12px rgba(10, 132, 255, 0.25),
-    0 12px 24px rgba(10, 132, 255, 0.30);
+    0 2px 4px color-mix(in oklch, var(--blue) 20%, rgba(0, 0, 0, 0.08)),
+    0 6px 12px color-mix(in oklch, var(--blue) 25%, rgba(0, 0, 0, 0.12)),
+    0 12px 24px color-mix(in oklch, var(--blue) 30%, rgba(0, 0, 0, 0.16));
   --shadow-green:
-    0 2px 4px rgba(50, 215, 75, 0.20),
-    0 6px 12px rgba(50, 215, 75, 0.25),
-    0 12px 24px rgba(50, 215, 75, 0.30);
+    0 2px 4px color-mix(in oklch, var(--green) 20%, rgba(0, 0, 0, 0.08)),
+    0 6px 12px color-mix(in oklch, var(--green) 25%, rgba(0, 0, 0, 0.12)),
+    0 12px 24px color-mix(in oklch, var(--green) 30%, rgba(0, 0, 0, 0.16));
   --shadow-indigo:
-    0 2px 4px rgba(94, 92, 230, 0.20),
-    0 6px 12px rgba(94, 92, 230, 0.25),
-    0 12px 24px rgba(94, 92, 230, 0.30);
+    0 2px 4px color-mix(in oklch, var(--indigo) 20%, rgba(0, 0, 0, 0.08)),
+    0 6px 12px color-mix(in oklch, var(--indigo) 25%, rgba(0, 0, 0, 0.12)),
+    0 12px 24px color-mix(in oklch, var(--indigo) 30%, rgba(0, 0, 0, 0.16));
   --shadow-teal:
-    0 2px 4px rgba(100, 210, 255, 0.20),
-    0 6px 12px rgba(100, 210, 255, 0.25),
-    0 12px 24px rgba(100, 210, 255, 0.30);
+    0 2px 4px color-mix(in oklch, var(--teal) 20%, rgba(0, 0, 0, 0.08)),
+    0 6px 12px color-mix(in oklch, var(--teal) 25%, rgba(0, 0, 0, 0.12)),
+    0 12px 24px color-mix(in oklch, var(--teal) 30%, rgba(0, 0, 0, 0.16));
   --shadow-orange:
-    0 2px 4px rgba(255, 159, 10, 0.20),
-    0 6px 12px rgba(255, 159, 10, 0.25),
-    0 12px 24px rgba(255, 159, 10, 0.30);
+    0 2px 4px color-mix(in oklch, var(--orange) 20%, rgba(0, 0, 0, 0.08)),
+    0 6px 12px color-mix(in oklch, var(--orange) 25%, rgba(0, 0, 0, 0.12)),
+    0 12px 24px color-mix(in oklch, var(--orange) 30%, rgba(0, 0, 0, 0.16));
 
   /* Focus Ring 2-Layer Composition */
   --focus-ring:
-    0 0 0 4px rgba(10, 132, 255, 0.36),
-    0 0 0 6px rgba(10, 132, 255, 0.12);
+    0 0 0 4px color-mix(in oklch, var(--blue) 36%, transparent),
+    0 0 0 6px color-mix(in oklch, var(--blue) 12%, transparent);
   --focus-ring-error:
-    0 0 0 4px rgba(255, 69, 58, 0.36),
-    0 0 0 6px rgba(255, 69, 58, 0.12);
+    0 0 0 4px color-mix(in oklch, var(--red) 36%, transparent),
+    0 0 0 6px color-mix(in oklch, var(--red) 12%, transparent);
   --focus-ring-success:
-    0 0 0 4px rgba(50, 215, 75, 0.36),
-    0 0 0 6px rgba(50, 215, 75, 0.12);
+    0 0 0 4px color-mix(in oklch, var(--green) 36%, transparent),
+    0 0 0 6px color-mix(in oklch, var(--green) 12%, transparent);
 
-  --symbol-surface: rgba(28, 28, 30, 0.92);
+  --symbol-surface: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   --card-bg: var(--surface-elevated);
 }
 
@@ -450,38 +454,38 @@
   --muted: rgba(235, 235, 245, 0.65);
 
   /* Apple system colors - Dark mode with vibrancy boost (10% saturation increase) */
-  --blue: #0a84ff;
-  --green: #32d74b;
-  --indigo: #5e5ce6;
-  --teal: #64d2ff;
-  --orange: #ff9f0a;
-  --pink: #ff375f;
-  --purple: #bf5af2;
-  --red: #ff453a;
-  --yellow: #ffd60a;
+  --blue: color-mix(in oklch, #0a84ff 110%, #007aff);
+  --green: color-mix(in oklch, #32d74b 110%, #30d158);
+  --indigo: color-mix(in oklch, #5e5ce6 110%, #5856d6);
+  --teal: color-mix(in oklch, #64d2ff 110%, #5ac8fa);
+  --orange: color-mix(in oklch, #ff9f0a 110%, #ff9500);
+  --pink: color-mix(in oklch, #ff375f 110%, #ff2d55);
+  --purple: color-mix(in oklch, #bf5af2 110%, #af52de);
+  --red: color-mix(in oklch, #ff453a 110%, #ff3b30);
+  --yellow: color-mix(in oklch, #ffd60a 110%, #ffcc00);
 
-  --topbar-bg: rgba(22, 22, 24, 0.72);
+  --topbar-bg: color-mix(in oklch, var(--surface) var(--glass-opacity-base), transparent);
   --topbar-bg-active: color-mix(
     in oklch,
     var(--surface) var(--glass-opacity-active),
     transparent
   );
-  --hero-highlight: rgba(94, 92, 230, 0.28);
-  --neutral-bg: rgba(28, 28, 30, 0.92);
+  --hero-highlight: color-mix(in oklch, var(--indigo) 28%, transparent);
+  --neutral-bg: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   --neutral-border: rgba(255, 255, 255, 0.16);
-  --neutral-text: rgba(235, 235, 245, 0.96);
+  --neutral-text: color-mix(in oklch, var(--text) 96%, transparent);
   --info-bg: color-mix(in oklch, var(--teal) 24%, transparent);
   --info-border: color-mix(in oklch, var(--teal) 46%, transparent);
-  --info-text: rgba(100, 210, 255, 0.92);
+  --info-text: color-mix(in oklch, var(--teal) 72%, var(--text));
   --success-bg: color-mix(in oklch, var(--green) 24%, transparent);
   --success-border: color-mix(in oklch, var(--green) 52%, transparent);
-  --success-text: rgba(50, 215, 75, 0.92);
+  --success-text: color-mix(in oklch, var(--green) 80%, var(--text));
   --warning-bg: color-mix(in oklch, var(--yellow) 20%, transparent);
   --warning-border: color-mix(in oklch, var(--yellow) 48%, transparent);
-  --warning-text: rgba(255, 214, 10, 0.90);
+  --warning-text: color-mix(in oklch, var(--yellow) 70%, var(--text));
   --danger-bg: color-mix(in oklch, var(--red) 24%, transparent);
   --danger-border: color-mix(in oklch, var(--red) 52%, transparent);
-  --danger-text: rgba(255, 69, 58, 0.92);
+  --danger-text: color-mix(in oklch, var(--red) 78%, var(--text));
 
   --toggle-track: rgba(28, 28, 30, 0.85);
   --toggle-thumb: #ffffff;
@@ -518,7 +522,7 @@
     0 -2px 4px rgba(0, 0, 0, 0.06), 0 -8px 16px rgba(0, 0, 0, 0.1),
     0 -18px 36px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  --symbol-surface: rgba(28, 28, 30, 0.92);
+  --symbol-surface: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   --card-bg: var(--surface-elevated);
 }
 
@@ -544,28 +548,28 @@
   --purple: #af52de;
   --red: #ff3b30;
   --yellow: #ffcc00;
-  --topbar-bg: rgba(22, 22, 24, 0.72);
+  --topbar-bg: color-mix(in oklch, var(--surface) var(--glass-opacity-base), transparent);
   --topbar-bg-active: color-mix(
     in oklch,
     var(--surface) var(--glass-opacity-active),
     transparent
   );
   --hero-highlight: color-mix(in oklch, var(--indigo) 20%, transparent);
-  --neutral-bg: rgba(28, 28, 30, 0.94);
+  --neutral-bg: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
   --neutral-border: rgba(60, 60, 67, 0.22);
-  --neutral-text: rgba(235, 235, 245, 0.94);
+  --neutral-text: color-mix(in oklch, var(--text) 94%, transparent);
   --info-bg: color-mix(in oklch, var(--teal) 18%, transparent);
   --info-border: color-mix(in oklch, var(--teal) 40%, transparent);
-  --info-text: rgba(100, 210, 255, 0.90);
+  --info-text: color-mix(in oklch, var(--teal) 70%, var(--text));
   --success-bg: color-mix(in oklch, var(--green) 18%, transparent);
   --success-border: color-mix(in oklch, var(--green) 42%, transparent);
-  --success-text: rgba(50, 215, 75, 0.88);
+  --success-text: color-mix(in oklch, var(--green) 62%, var(--text));
   --warning-bg: color-mix(in oklch, var(--yellow) 16%, transparent);
   --warning-border: color-mix(in oklch, var(--yellow) 40%, transparent);
-  --warning-text: rgba(255, 214, 10, 0.86);
+  --warning-text: color-mix(in oklch, var(--yellow) 60%, var(--text));
   --danger-bg: color-mix(in oklch, var(--red) 18%, transparent);
   --danger-border: color-mix(in oklch, var(--red) 42%, transparent);
-  --danger-text: rgba(255, 69, 58, 0.90);
+  --danger-text: color-mix(in oklch, var(--red) 68%, var(--text));
   --toggle-track: rgba(230, 230, 235, 0.6);
   --toggle-thumb: #ffffff;
   --toggle-shadow:
@@ -599,7 +603,7 @@
     0 18px 42px rgba(31, 35, 53, 0.12), inset -1px 0 0 rgba(255, 255, 255, 0.6);
   --shadow-footer:
     0 -18px 36px rgba(31, 35, 53, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  --symbol-surface: rgba(28, 28, 30, 0.94);
+  --symbol-surface: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
   --card-bg: var(--surface-elevated);
 }
 
@@ -944,7 +948,7 @@ body[data-glass-state="scrolled"] .topbar::before {
 [data-theme="light"] .topbar__navMask::before {
   background: linear-gradient(
     90deg,
-    rgba(22, 22, 24, 0.96),
+    color-mix(in srgb, var(--surface) 96%, transparent),
     rgba(255, 255, 255, 0)
   );
 }
@@ -952,7 +956,7 @@ body[data-glass-state="scrolled"] .topbar::before {
 [data-theme="light"] .topbar__navMask::after {
   background: linear-gradient(
     270deg,
-    rgba(22, 22, 24, 0.96),
+    color-mix(in srgb, var(--surface) 96%, transparent),
     rgba(255, 255, 255, 0)
   );
 }
@@ -1664,7 +1668,7 @@ body[data-glass-state="scrolled"] .topbar::before {
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--panel-border);
-  background: rgba(28, 28, 30, 0.90);
+  background: color-mix(in oklch, var(--surface-elevated) 90%, transparent);
   color: var(--text);
   font-size: var(--fs--1);
   min-height: 44px;
@@ -1681,7 +1685,7 @@ kbd.slash {
   padding: 0 var(--space-xs);
   border-radius: 8px;
   border: 1px solid var(--panel-border);
-  background: rgba(28, 28, 30, 0.90);
+  background: color-mix(in oklch, var(--surface-elevated) 90%, transparent);
   font-size: var(--fs--2);
   color: var(--muted);
 }
@@ -2010,7 +2014,7 @@ kbd.slash {
 .card[data-loading="true"] .card-title,
 .card[data-loading="true"] .card-body,
 .card[data-loading="true"] .card__cta {
-  background: rgba(28, 28, 30, 0.80);
+  background: color-mix(in oklch, var(--surface-elevated) 80%, transparent);
   border-radius: var(--radius-xs);
   color: transparent;
 }
@@ -2162,7 +2166,7 @@ kbd.slash {
   .profileCard {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(28, 28, 30, 0.98);
+    background: color-mix(in oklch, var(--surface-elevated) 98%, transparent);
     border-color: color-mix(in oklch, var(--panel-border) 85%, transparent);
   }
 } */
@@ -2219,8 +2223,8 @@ kbd.slash {
   border: 1px solid color-mix(in oklch, var(--panel-border) 75%, transparent);
   background: linear-gradient(
     145deg,
-    rgba(28, 28, 30, 0.88) 0%,
-    rgba(28, 28, 30, 0.96) 100%
+    color-mix(in oklch, var(--surface-elevated) 88%, transparent) 0%,
+    color-mix(in oklch, var(--surface-elevated) 96%, transparent) 100%
   );
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -2237,7 +2241,7 @@ kbd.slash {
   height: 100%;
   border-radius: calc(var(--radius-lg) - 10px);
   overflow: hidden;
-  background: rgba(22, 22, 24, 0.92);
+  background: color-mix(in oklch, var(--surface) 92%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     0 20px 38px rgba(0, 0, 0, 0.24);
@@ -2254,8 +2258,8 @@ kbd.slash {
   padding: clamp(10px, 2vw, 14px) clamp(14px, 2vw, 18px);
   background: linear-gradient(
     180deg,
-    rgba(28, 28, 30, 0.92),
-    rgba(28, 28, 30, 0.88)
+    color-mix(in oklch, var(--surface-elevated) 92%, transparent),
+    color-mix(in oklch, var(--surface-elevated) 88%, transparent)
   );
   border-bottom: 1px solid color-mix(in oklch, var(--panel-border) 75%, transparent);
   box-shadow:
@@ -2297,7 +2301,7 @@ kbd.slash {
   display: flex;
   align-items: stretch;
   justify-content: stretch;
-  background: rgba(28, 28, 30, 0.96);
+  background: color-mix(in oklch, var(--surface-elevated) 96%, transparent);
   overflow: hidden;
   padding: clamp(var(--space-sm), 3vw, var(--space-md));
 }
@@ -2418,7 +2422,7 @@ kbd.slash {
   padding: 4px 10px;
   border-radius: 999px;
   border: 1px solid color-mix(in oklch, var(--panel-border) 65%, transparent);
-  background: rgba(28, 28, 30, 0.92);
+  background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
@@ -2427,7 +2431,7 @@ kbd.slash {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: rgba(235, 235, 245, 0.65);
+  background: color-mix(in oklch, var(--muted) 90%, transparent);
 }
 
 .projectCard__summary {
@@ -2484,15 +2488,15 @@ kbd.slash {
   padding: 6px 12px;
   border-radius: var(--radius-sm); /* 12px - Tahoe 26 rounded chips */
   border: 1px solid color-mix(in oklch, var(--panel-border) 80%, transparent);
-  background: rgba(28, 28, 30, 0.90);
+  background: color-mix(in oklch, var(--surface-elevated) 90%, transparent);
   font-size: var(--fs--2);
   font-weight: 500;
   letter-spacing: -0.005em;
-  color: rgba(235, 235, 245, 0.56);
+  color: color-mix(in oklch, var(--muted) 78%, transparent);
 }
 
 .projectCard__tag--muted {
-  color: rgba(235, 235, 245, 0.50);
+  color: color-mix(in oklch, var(--muted) 68%, transparent);
   border-style: dashed;
 }
 
@@ -2639,8 +2643,8 @@ kbd.slash {
 .projectCard:focus-visible .projectCard__chrome {
   background: linear-gradient(
     180deg,
-    rgba(28, 28, 30, 0.96),
-    rgba(28, 28, 30, 0.90)
+    color-mix(in oklch, var(--surface-elevated) 96%, transparent),
+    color-mix(in oklch, var(--surface-elevated) 90%, transparent)
   );
 }
 .projectCard:hover .projectCard__mediaGlow,
@@ -2905,7 +2909,7 @@ kbd.slash {
   border-radius: 999px;
   font-size: var(--fs--2);
   letter-spacing: 0.01em;
-  background: rgba(28, 28, 30, 0.86);
+  background: color-mix(in oklch, var(--surface-elevated) 86%, transparent);
   border: 1px solid color-mix(in oklch, var(--panel-border) 90%, transparent);
   color: var(--muted);
 }
@@ -2967,7 +2971,7 @@ kbd.slash {
   border-radius: var(--radius-md);
   border: 1px solid color-mix(in oklch, var(--panel-border) 75%, transparent);
   border-left: 4px solid var(--link);
-  background: rgba(28, 28, 30, 0.88);
+  background: color-mix(in oklch, var(--surface-elevated) 88%, transparent);
   backdrop-filter: saturate(var(--glass-saturation-base))
     blur(calc(var(--glass-blur-base) * 0.5));
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
@@ -2975,7 +2979,7 @@ kbd.slash {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 8px 16px rgba(0, 0, 0, 0.12);
-  color: rgba(235, 235, 245, 0.65);
+  color: color-mix(in oklch, var(--muted) 92%, transparent);
   font-style: italic;
 }
 
@@ -2997,7 +3001,7 @@ kbd.slash {
 
 .articlePortable :where(code) {
   font-family: var(--font-mono);
-  background: rgba(35, 35, 39, 0.80);
+  background: color-mix(in oklch, var(--surface-raised) 80%, transparent);
   border-radius: var(--radius-sm);
   padding: 2px 6px;
   font-size: 0.95em;
@@ -3016,7 +3020,7 @@ kbd.slash {
   display: grid;
   gap: var(--space-xs);
   text-align: center;
-  background: rgba(28, 28, 30, 0.88);
+  background: color-mix(in oklch, var(--surface-elevated) 88%, transparent);
   border-radius: var(--radius-lg);
   border: 1px solid color-mix(in oklch, var(--panel-border) 80%, transparent);
   padding: clamp(var(--space-sm), 3vw, var(--space-md));
@@ -3058,7 +3062,7 @@ kbd.slash {
   margin: clamp(var(--space-lg), 4vw, 72px) 0;
   border-radius: var(--radius-md);
   border: 1px solid var(--panel-border-strong);
-  background: rgba(22, 22, 24, 0.88);
+  background: color-mix(in oklch, var(--surface) 88%, transparent);
   overflow: hidden;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
@@ -3072,7 +3076,7 @@ kbd.slash {
   text-transform: none;
   line-height: 1.45;
   color: var(--muted);
-  background: rgba(35, 35, 39, 0.82);
+  background: color-mix(in oklch, var(--surface-raised) 82%, transparent);
   border-bottom: 1px solid color-mix(in oklch, var(--panel-border) 80%, transparent);
 }
 
@@ -3344,14 +3348,14 @@ kbd.slash {
   padding: 8px 18px;
   border-radius: 999px;
   border: 1px solid color-mix(in oklch, var(--panel-border) 90%, transparent);
-  background: rgba(28, 28, 30, 0.92);
+  background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
     0 18px 34px rgba(0, 0, 0, 0.24);
   font-size: var(--fs--2);
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: rgba(235, 235, 245, 0.92);
+  color: color-mix(in oklch, var(--text) 92%, transparent);
 }
 
 .projects__metaItem::before {
@@ -3376,7 +3380,7 @@ kbd.slash {
   padding: 6px;
   border-radius: 999px;
   border: 1px solid color-mix(in oklch, var(--panel-border) 70%, transparent);
-  background: rgba(28, 28, 30, 0.92);
+  background: color-mix(in oklch, var(--surface-elevated) 92%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
     0 12px 24px rgba(0, 0, 0, 0.25);
@@ -3387,7 +3391,7 @@ kbd.slash {
   appearance: none;
   border: none;
   background: transparent;
-  color: rgba(235, 235, 245, 0.58);
+  color: color-mix(in oklch, var(--muted) 80%, transparent);
   font-size: var(--fs--2);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3403,17 +3407,17 @@ kbd.slash {
 }
 
 .projectsFilter__button:active {
-  background: rgba(22, 22, 24, 0.92);
+  background: color-mix(in oklch, var(--surface) 92%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--panel-border) 80%, transparent);
 }
 
 .projectsFilter__button:hover {
-  color: rgba(235, 235, 245, 0.85);
+  color: color-mix(in oklch, var(--text) 85%, transparent);
 }
 
 .projectsFilter__button.is-active {
-  background: rgba(22, 22, 24, 0.88);
-  color: rgba(235, 235, 245, 0.90);
+  background: color-mix(in oklch, var(--surface) 88%, transparent);
+  color: color-mix(in oklch, var(--text) 90%, transparent);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
@@ -3422,7 +3426,7 @@ kbd.slash {
   box-shadow:
     var(--focus-ring),
     inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  color: rgba(235, 235, 245, 0.95);
+  color: color-mix(in oklch, var(--text) 95%, transparent);
 }
 
 .projects__grid {
@@ -3482,7 +3486,7 @@ kbd.slash {
 .projects__empty p,
 .projects__filterEmpty p {
   margin: 0;
-  color: rgba(235, 235, 245, 0.65);
+  color: color-mix(in oklch, var(--muted) 92%, transparent);
   font-size: var(--fs--1);
   line-height: 1.6;
 }
@@ -3706,7 +3710,7 @@ kbd.slash {
   padding: 6px;
   border-radius: 999px;
   border: 1px solid color-mix(in oklch, var(--panel-border) 80%, transparent);
-  background: rgba(28, 28, 30, 0.90);
+  background: color-mix(in oklch, var(--surface-elevated) 90%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     0 14px 28px rgba(0, 0, 0, 0.28);
@@ -3726,7 +3730,7 @@ kbd.slash {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(235, 235, 245, 0.58);
+  color: color-mix(in oklch, var(--muted) 80%, transparent);
   cursor: pointer;
   min-height: 44px;
   display: inline-flex;
@@ -3744,12 +3748,12 @@ kbd.slash {
 }
 
 .blogFilters__link:active {
-  background: rgba(22, 22, 24, 0.90);
+  background: color-mix(in oklch, var(--surface) 90%, transparent);
   transform: scale(0.98);
 }
 
 .blogFilters__link:hover:not(:active) {
-  color: rgba(235, 235, 245, 0.90);
+  color: color-mix(in oklch, var(--text) 90%, transparent);
 }
 
 .blogFilters__link:focus-visible {
@@ -3757,12 +3761,12 @@ kbd.slash {
   box-shadow:
     var(--focus-ring),
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  color: rgba(235, 235, 245, 0.95);
+  color: color-mix(in oklch, var(--text) 95%, transparent);
 }
 
 .blogFilters__link.is-active {
-  background: rgba(22, 22, 24, 0.88);
-  color: rgba(235, 235, 245, 0.94);
+  background: color-mix(in oklch, var(--surface) 88%, transparent);
+  color: color-mix(in oklch, var(--text) 94%, transparent);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
@@ -3772,8 +3776,8 @@ kbd.slash {
   padding: clamp(var(--space-lg), 4vw, var(--space-xl));
   text-align: center;
   font-size: var(--fs--1);
-  color: rgba(235, 235, 245, 0.63);
-  background: rgba(28, 28, 30, 0.94);
+  color: color-mix(in oklch, var(--muted) 90%, transparent);
+  background: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 8px 16px rgba(0, 0, 0, 0.12);
@@ -4284,8 +4288,8 @@ kbd.slash {
   border: 1px solid color-mix(in oklch, var(--panel-border-strong) 92%, transparent);
   background: linear-gradient(
     130deg,
-    rgba(28, 28, 30, 0.95),
-    rgba(35, 35, 39, 0.90)
+    color-mix(in oklch, var(--surface-elevated) 95%, transparent),
+    color-mix(in oklch, var(--surface-raised) 90%, transparent)
   );
   color: var(--text);
   font-weight: 600;
@@ -4503,7 +4507,7 @@ kbd.slash {
   .cardRail {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(22, 22, 24, 0.96);
+    background: color-mix(in oklch, var(--surface) 96%, transparent);
   }
 
   .sidebar {
@@ -4558,7 +4562,7 @@ kbd.slash {
   gap: 8px;
   border-radius: 999px;
   border: 1px solid var(--panel-border-strong);
-  background: rgba(28, 28, 30, 0.94);
+  background: color-mix(in oklch, var(--surface-elevated) 94%, rgba(255, 255, 255, 0.04));
   color: var(--text);
   padding: 10px 22px;
   font-weight: 600;
@@ -4602,7 +4606,7 @@ kbd.slash {
 
 .btn--ghost:hover {
   border-color: var(--panel-border-strong);
-  background: rgba(22, 22, 24, 0.92);
+  background: color-mix(in oklch, var(--surface) 92%, transparent);
 }
 
 .btn:focus-visible {
@@ -4652,7 +4656,7 @@ input:focus {
 }
 
 .footer {
-  background: rgba(28, 28, 30, 0.94);
+  background: color-mix(in oklch, var(--surface-elevated) 94%, transparent);
 }
 .footer__inner {
   max-width: var(--content-max);
@@ -4722,7 +4726,7 @@ input:focus {
 .footer__legal {
   margin: 0;
   font-size: var(--fs--2);
-  color: rgba(235, 235, 245, 0.58);
+  color: color-mix(in oklch, var(--muted) 80%, transparent);
 }
 @media (min-width: 720px) {
   .footer__inner {

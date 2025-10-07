@@ -216,18 +216,31 @@ const _meta = [
     padding: clamp(var(--space-sm), 3vw, var(--space-lg));
     border-radius: var(--radius-lg);
     border: 1px solid var(--panel-border);
-    backdrop-filter: saturate(1.8) blur(20px);
     max-width: 100%;
   }
 
   [data-theme="dark"] .profileCard {
-    background: rgba(29, 29, 32, 0.94);
-    box-shadow: var(--shadow-card);
+    background: rgba(28, 28, 30, 0.94);
+    backdrop-filter: saturate(1.8) blur(20px);
+    -webkit-backdrop-filter: saturate(1.8) blur(20px);
+    /* 4-layer shadow system for dark mode - Enhanced visibility */
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.12),
+      0 8px 16px rgba(0, 0, 0, 0.16),
+      0 20px 48px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   [data-theme="light"] .profileCard {
     background: rgba(248, 248, 251, 0.96);
-    box-shadow: var(--shadow-card-hover);
+    backdrop-filter: saturate(1.8) blur(20px);
+    -webkit-backdrop-filter: saturate(1.8) blur(20px);
+    /* 4-layer shadow system for light mode */
+    box-shadow:
+      0 2px 4px rgba(31, 35, 53, 0.08),
+      0 8px 16px rgba(31, 35, 53, 0.1),
+      0 18px 36px rgba(31, 35, 53, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   .profileCard__media {
@@ -291,7 +304,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__photo {
-    background: rgba(29, 29, 31, 0.88);
+    background: rgba(28, 28, 30, 0.88);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.18),
       0 16px 32px rgba(0, 0, 0, 0.24);
@@ -436,7 +449,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__metaIcon {
-    background: rgba(29, 29, 32, 0.92);
+    background: rgba(28, 28, 30, 0.92);
     color: rgba(235, 235, 245, 0.78);
   }
 
@@ -506,13 +519,27 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chip {
-    background: rgba(29, 29, 32, 0.92);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.34);
+    background: rgba(28, 28, 30, 0.92);
+    backdrop-filter: saturate(1.6) blur(18px);
+    -webkit-backdrop-filter: saturate(1.6) blur(18px);
+    /* 4-layer shadow system for dark mode - Enhanced visibility */
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.12),
+      0 8px 16px rgba(0, 0, 0, 0.18),
+      0 20px 48px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   }
 
   [data-theme="light"] .profileCard__chip {
     background: rgba(248, 248, 251, 0.96);
-    box-shadow: 0 16px 32px rgba(31, 35, 53, 0.14);
+    backdrop-filter: saturate(1.6) blur(18px);
+    -webkit-backdrop-filter: saturate(1.6) blur(18px);
+    /* 4-layer shadow system for light mode */
+    box-shadow:
+      0 2px 4px rgba(31, 35, 53, 0.08),
+      0 8px 16px rgba(31, 35, 53, 0.1),
+      0 18px 36px rgba(31, 35, 53, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
   }
 
   .profileCard__chip::after {
@@ -543,22 +570,28 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chip:hover {
-    background: rgba(29, 29, 31, 0.92);
+    background: rgba(28, 28, 30, 0.95);
     border-color: var(--panel-border-strong);
+    /* 4-layer shadow system with blue accent on hover */
     box-shadow:
-      0 18px 36px rgba(77, 166, 255, 0.18),
-      0 18px 36px rgba(0, 0, 0, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      0 4px 8px rgba(0, 0, 0, 0.1),
+      0 12px 24px rgba(0, 0, 0, 0.16),
+      0 28px 56px rgba(0, 0, 0, 0.6),
+      0 0 40px rgba(77, 166, 255, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
     transform: translateY(-4px) scale(var(--motion-scale-sm));
   }
 
   [data-theme="light"] .profileCard__chip:hover {
     background: rgba(255, 255, 255, 0.92);
     border-color: var(--panel-border-strong);
+    /* 4-layer shadow system with blue accent on hover */
     box-shadow:
-      0 18px 36px rgba(0, 113, 227, 0.18),
-      0 18px 36px rgba(31, 35, 53, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      0 4px 8px rgba(31, 35, 53, 0.1),
+      0 12px 24px rgba(31, 35, 53, 0.12),
+      0 26px 48px rgba(31, 35, 53, 0.16),
+      0 0 30px rgba(0, 113, 227, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
     transform: translateY(-4px) scale(var(--motion-scale-sm));
   }
 
@@ -569,20 +602,28 @@ const _meta = [
   [data-theme="dark"] .profileCard__chip:focus-visible {
     outline: none;
     border-color: var(--panel-border-strong);
+    /* 4-layer shadow system with focus ring and blue accent */
     box-shadow:
       var(--focus-ring),
-      0 16px 32px rgba(77, 166, 255, 0.22),
-      0 16px 32px rgba(0, 0, 0, 0.18);
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 8px 16px rgba(0, 0, 0, 0.12),
+      0 20px 48px rgba(0, 0, 0, 0.55),
+      0 0 36px rgba(77, 166, 255, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
   [data-theme="light"] .profileCard__chip:focus-visible {
     outline: none;
     border-color: var(--panel-border-strong);
+    /* 4-layer shadow system with focus ring and blue accent */
     box-shadow:
       var(--focus-ring),
-      0 16px 32px rgba(0, 113, 227, 0.22),
-      0 16px 32px rgba(31, 35, 53, 0.18);
+      0 2px 4px rgba(31, 35, 53, 0.08),
+      0 8px 16px rgba(31, 35, 53, 0.1),
+      0 18px 36px rgba(31, 35, 53, 0.12),
+      0 0 30px rgba(0, 113, 227, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transform: translateY(-2px) scale(var(--motion-scale-xs));
   }
 
@@ -605,7 +646,7 @@ const _meta = [
   }
 
   [data-theme="dark"] .profileCard__chipIcon {
-    background: rgba(29, 29, 32, 0.92);
+    background: rgba(28, 28, 30, 0.92);
     color: rgba(235, 235, 245, 0.82);
   }
 
