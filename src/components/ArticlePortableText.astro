@@ -1,4 +1,5 @@
 ---
+import { PortableText } from "astro-portabletext";
 import type { PortableTextBlock } from "@portabletext/types";
 
 import ArticlePortableCode from "./ArticleCodeBlock.astro";
@@ -30,9 +31,9 @@ const _components = {
 ---
 
 {
-  hasContent ? (
+  _hasContent ? (
     <div class="articlePortable">
-      <PortableText value={blocks} components={components} />
+      <PortableText value={blocks} components={_components} />
     </div>
   ) : (
     <div class="articlePortable articlePortable--empty">Article content coming soon.</div>

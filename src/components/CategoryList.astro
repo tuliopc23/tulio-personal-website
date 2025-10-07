@@ -5,13 +5,13 @@ const _categories = await getAllCategories();
 ---
 
 {
-  categories.length > 0 && (
+  _categories.length > 0 && (
     <section class="categoryList" data-reveal data-reveal-group="categories">
       <div class="categoryList__header">
         <h2 class="categoryList__title">Browse by Category</h2>
       </div>
       <div class="categoryList__grid">
-        {categories.map((category) => (
+        {_categories.map((category) => (
           <a href={`/blog/category/${category.slug}/`} class="categoryCard">
             <h3 class="categoryCard__title">{category.title}</h3>
             {category.description && (

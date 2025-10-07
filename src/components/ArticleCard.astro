@@ -1,4 +1,6 @@
 ---
+import SFIcon from "./SFIcon.astro";
+import CategoryBadges from "./CategoryBadges.astro";
 import type { Category } from "../sanity/lib/posts";
 
 interface Props {
@@ -45,7 +47,7 @@ const _readingTimeLabel =
   class={`articleCard${featured ? " articleCard--featured" : ""}`}
   data-reveal
   data-reveal-group={revealGroup}
-  data-reveal-order={revealOrderAttr}
+  data-reveal-order={_revealOrderAttr}
   data-reveal-delay={revealDelay ?? undefined}
 >
   <a class="articleCard__link" href={href}>
@@ -55,15 +57,15 @@ const _readingTimeLabel =
           <time datetime={dateISO}>{dateLabel}</time>
         </span>
         {
-          readingTimeLabel && (
-            <span class="articleCard__metaItem">{readingTimeLabel}</span>
+          _readingTimeLabel && (
+            <span class="articleCard__metaItem">{_readingTimeLabel}</span>
           )
         }
         {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
         {
-          tagLabel && (
+          _tagLabel && (
             <span class="articleCard__metaItem articleCard__metaTags" aria-label="Tags">
-              {tagLabel}
+              {_tagLabel}
             </span>
           )
         }

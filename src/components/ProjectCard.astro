@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import BrandIcon from "./BrandIcon.astro";
+import SFIcon from "./SFIcon.astro";
 import type { Project } from "../data/projects";
 
 interface Props {
@@ -51,11 +54,11 @@ const _categoriesAttr = project.categories.join(",");
     : String(revealOrder)}
   data-reveal-delay={revealDelay ?? undefined}
   data-project-id={project.id}
-  data-project-categories={categoriesAttr}
+  data-project-categories={_categoriesAttr}
   data-project-card
 >
-  <div class="projectCard__media" data-kind={hasImage ? "image" : "icon"}>
-    <div class="projectCard__frame" data-kind={hasImage ? "image" : "icon"}>
+  <div class="projectCard__media" data-kind={_hasImage ? "image" : "icon"}>
+    <div class="projectCard__frame" data-kind={_hasImage ? "image" : "icon"}>
       <div class="projectCard__chrome" aria-hidden="true">
         <span class="projectCard__chromeDot" data-variant="close"></span>
         <span class="projectCard__chromeDot" data-variant="minimize"></span>
@@ -63,7 +66,7 @@ const _categoriesAttr = project.categories.join(",");
       </div>
       <div class="projectCard__viewport">
         {
-          hasImage ? (
+          _hasImage ? (
             <Image
               src={project.media.src}
               alt={project.media.alt}
@@ -77,7 +80,7 @@ const _categoriesAttr = project.categories.join(",");
             />
           ) : (
             <div
-              class={`projectCard__icon symbol symbol--${mediaTint ?? "blue"}`}
+              class={`projectCard__icon symbol symbol--${_mediaTint ?? "blue"}`}
               aria-hidden="true"
             >
               <BrandIcon name={project.media.icon} size={36} />
@@ -98,11 +101,11 @@ const _categoriesAttr = project.categories.join(",");
     </header>
 
     {
-      (releaseLabel || originLabel) && (
+      (_releaseLabel || _originLabel) && (
         <div class="projectCard__metaRow">
-          {releaseLabel && <span class="projectCard__meta">{releaseLabel}</span>}
-          {originLabel && (
-            <span class="projectCard__meta projectCard__meta--origin">{originLabel}</span>
+          {_releaseLabel && <span class="projectCard__meta">{_releaseLabel}</span>}
+          {_originLabel && (
+            <span class="projectCard__meta projectCard__meta--origin">{_originLabel}</span>
           )}
         </div>
       )
@@ -115,8 +118,8 @@ const _categoriesAttr = project.categories.join(",");
     <ul class="projectCard__stack" aria-label="Technology stack">
       {stackPrimary.map((tech) => <li class="projectCard__tag">{tech}</li>)}
       {
-        stackOverflowLabel && (
-          <li class="projectCard__tag projectCard__tag--muted">{stackOverflowLabel}</li>
+        _stackOverflowLabel && (
+          <li class="projectCard__tag projectCard__tag--muted">{_stackOverflowLabel}</li>
         )
       }
     </ul>

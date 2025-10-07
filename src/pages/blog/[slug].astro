@@ -2,7 +2,11 @@
 import Base from "../../layouts/Base.astro";
 import VisualEditing from "../../components/VisualEditing.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
-import { urlFor } from "../../sanity/lib/image";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import SFIcon from "../../components/SFIcon.astro";
+import ArticlePortableText from "../../components/ArticlePortableText.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { urlFor, generateSrcset } from "../../sanity/lib/image";
 import {
   calculateReadingTimeMinutes,
   getAllPostSlugs,
@@ -194,7 +198,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             </a>
             <h1 class="article__title">{post.title}</h1>
             {post.summary && <p class="article__summary">{post.summary}</p>}
-            {(dateISO || readingLabel || post.author) && (
+            {(_dateISO || _readingLabel || post.author) && (
               <div class="article__meta">
                 {post.author && (
                   <>
@@ -202,19 +206,19 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                     <span aria-hidden="true">•</span>
                   </>
                 )}
-                {dateISO && <time datetime={dateISO}>{dateLabel}</time>}
-                {(dateISO || post.author) && readingLabel && (
+                {_dateISO && <time datetime={_dateISO}>{_dateLabel}</time>}
+                {(_dateISO || post.author) && _readingLabel && (
                   <span aria-hidden="true">•</span>
                 )}
-                {readingLabel && <span>{readingLabel}</span>}
+                {_readingLabel && <span>{_readingLabel}</span>}
               </div>
             )}
-            {(tags.length > 0 || (post.categories && post.categories.length > 0)) && (
+            {(_tags.length > 0 || (post.categories && post.categories.length > 0)) && (
               <ul class="article__tags">
                 {post.categories?.map((category) => (
                   <li class="article__tag article__tag--category">{category.title}</li>
                 ))}
-                {tags.map((tag) => (
+                {_tags.map((tag) => (
                   <li class="article__tag">{tag}</li>
                 ))}
               </ul>
@@ -259,7 +263,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               <div class="article__meta" role="group" aria-label="Share article">
                 <a
                   class="articlePortable__link"
-                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${shareText}`}
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${_shareText}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -267,7 +271,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 </a>
                 <a
                   class="articlePortable__link"
-                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${shareText}`}
+                  href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${_shareText}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -276,7 +280,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               </div>
             </section>
 
-            {related.length > 0 && (
+            {_related.length > 0 && (
               <section
                 aria-label="Related posts"
                 data-reveal
@@ -285,7 +289,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               >
                 <h2 class="article__relatedTitle">Related reading</h2>
                 <div class="article__relatedGrid">
-                  {related.map((entry, index) => {
+                  {_related.map((entry, index) => {
                     const relatedISO = new Date(entry.publishedAt).toISOString();
                     const relatedLabel = formatter.format(new Date(entry.publishedAt));
                     return (

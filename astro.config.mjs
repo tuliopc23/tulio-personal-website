@@ -1,22 +1,21 @@
 import { fileURLToPath } from "node:url";
-import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sanity from "@sanity/astro";
+import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
 const mode = process.env.NODE_ENV ?? "development";
 const env = loadEnv(mode, process.cwd(), "");
 const projectId =
   env.PUBLIC_SANITY_PROJECT_ID ?? process.env.PUBLIC_SANITY_PROJECT_ID ?? "61249gtj";
-const dataset =
-  env.PUBLIC_SANITY_DATASET ?? process.env.PUBLIC_SANITY_DATASET ?? "production";
+const dataset = env.PUBLIC_SANITY_DATASET ?? process.env.PUBLIC_SANITY_DATASET ?? "production";
 const token = env.SANITY_API_READ_TOKEN ?? process.env.SANITY_API_READ_TOKEN;
 const hostedStudioUrl =
   env.PUBLIC_SANITY_STUDIO_URL ?? process.env.PUBLIC_SANITY_STUDIO_URL ?? "/studio";
 const visualEditingEnabled =
-  (env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED ??
-    process.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED) === "true";
+  (env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED ?? process.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED) ===
+  "true";
 const isDev = mode !== "production";
 
 const sanityOptions = {
@@ -49,7 +48,7 @@ export default defineConfig({
     resolve: {
       alias: {
         "styled-components$": fileURLToPath(
-          new URL("./src/utils/styled-components-shim.ts", import.meta.url)
+          new URL("./src/utils/styled-components-shim.ts", import.meta.url),
         ),
       },
     },
@@ -58,7 +57,7 @@ export default defineConfig({
       resolve: {
         alias: {
           "styled-components$": fileURLToPath(
-            new URL("./src/utils/styled-components-shim.ts", import.meta.url)
+            new URL("./src/utils/styled-components-shim.ts", import.meta.url),
           ),
         },
       },

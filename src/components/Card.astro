@@ -1,4 +1,6 @@
 ---
+import IconTile from "./IconTile.astro";
+
 interface Props {
   href?: string;
   title?: string;
@@ -34,11 +36,11 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
 {
   isInteractive ? (
     <a
-      class={cardClasses}
+      class={_cardClasses}
       href={href}
       data-reveal
       data-reveal-group={revealGroup ?? undefined}
-      data-reveal-order={revealOrderAttr}
+      data-reveal-order={_revealOrderAttr}
       data-reveal-delay={revealDelay ?? undefined}
     >
       <div class="card__inner">
@@ -46,16 +48,16 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
         <div class="card__content">
           <div class="card-title">{title}</div>
           <p class="card-body">{body}</p>
-          {showCTA && <span class="card__cta">{ctaLabel}</span>}
+          {_showCTA && <span class="card__cta">{ctaLabel}</span>}
         </div>
       </div>
     </a>
   ) : (
     <div
-      class={cardClasses}
+      class={_cardClasses}
       data-reveal
       data-reveal-group={revealGroup ?? undefined}
-      data-reveal-order={revealOrderAttr}
+      data-reveal-order={_revealOrderAttr}
       data-reveal-delay={revealDelay ?? undefined}
       role="presentation"
     >

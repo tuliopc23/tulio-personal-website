@@ -1,4 +1,9 @@
 ---
+import Base from "../layouts/Base.astro";
+import ProfileCard from "../components/ProfileCard.astro";
+import RecentPosts from "../components/RecentPosts.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import Card from "../components/Card.astro";
 import "../styles/section.css";
 import { getAllPosts } from "../sanity/lib/posts";
 
@@ -136,10 +141,10 @@ const _structuredData = {
 <Base
   title="Home"
   description={description}
-  canonical={canonical}
+  canonical={_canonical}
   ogDescription={description}
-  ogImage={{ url: heroImage, alt: "Tulio Cunha portfolio hero" }}
-  structuredData={structuredData}
+  ogImage={{ url: _heroImage, alt: "Tulio Cunha portfolio hero" }}
+  structuredData={_structuredData}
   sidebar={true}
 >
   <section
@@ -198,7 +203,7 @@ const _structuredData = {
     </h2>
     <div class="cardGrid cardRail">
       {
-        techStack.map((entry, index) => (
+        _techStack.map((entry, index) => (
           <Card
             title={entry.title}
             body={entry.body}
@@ -223,7 +228,7 @@ const _structuredData = {
     </h2>
     <div class="cardGrid cardRail">
       {
-        writingCards.map((entry, index) => (
+        _writingCards.map((entry, index) => (
           <Card
             title={entry.title}
             body={entry.summary}

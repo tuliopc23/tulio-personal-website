@@ -709,7 +709,7 @@ p + p {
 
 /* Selection colors */
 ::selection {
-  background-color: rgba(0, 122, 255, 0.2);
+  background-color: color-mix(in oklch, var(--blue) 20%, transparent);
   color: inherit;
 }
 img {
@@ -2912,7 +2912,7 @@ kbd.slash {
   font-size: var(--fs-0);
   box-shadow: var(--elevation-4);
   z-index: 10000;
-  outline: 2.5px solid white;
+  outline: 2.5px solid var(--text);
   outline-offset: 4px;
   text-decoration: none;
   transition: none;

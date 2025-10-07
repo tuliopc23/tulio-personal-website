@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import tseslint from "@typescript-eslint/eslint-plugin";
-import astro from "eslint-plugin-astro";
 import prettier from "eslint-config-prettier";
+import astro from "eslint-plugin-astro";
 import globals from "globals";
 
 export default [

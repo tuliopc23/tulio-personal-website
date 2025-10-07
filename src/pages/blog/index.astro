@@ -1,4 +1,8 @@
 ---
+import Base from "../../layouts/Base.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import CategoryList from "../../components/CategoryList.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -111,7 +115,7 @@ const _placeholders = [
   canonical={canonical}
   ogDescription={pageDescription}
   ogImage={ogImage}
-  structuredData={structuredData}
+  structuredData={_structuredData}
   sidebar={true}
 >
   <link
@@ -197,7 +201,7 @@ const _placeholders = [
           >
             All articles
           </button>
-          {uniqueTags.map((tag) => {
+          {_uniqueTags.map((tag) => {
             const slug = tag.toLowerCase().replace(/\s+/g, "-");
             return (
               <button class="blogFilters__link" data-blog-filter={slug} type="button">
@@ -224,7 +228,7 @@ const _placeholders = [
           <ul
             class="articleGrid"
             data-article-list
-            data-initial-count={initialDisplayCount}
+            data-initial-count={_initialDisplayCount}
           >
             {rest.map((post, index) => (
               <li
@@ -250,7 +254,7 @@ const _placeholders = [
                 />
               </li>
             ))}
-            {placeholders.map((placeholder) => (
+            {_placeholders.map((placeholder) => (
               <li class="articleGrid__item" aria-hidden="true">
                 <ArticleCard
                   href={placeholder.href}

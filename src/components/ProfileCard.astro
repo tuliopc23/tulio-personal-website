@@ -1,4 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import BrandIcon from "./BrandIcon.astro";
+import SFIcon from "./SFIcon.astro";
+import { getBrandIcon } from "./brand-icons";
+import AvatarSrc from "../assets/avatar.png";
+
 const {
   name = "Tulio Cunha",
   title = "Full Stack Developer",
@@ -66,10 +72,8 @@ const _meta = [
       <Image
         src={AvatarSrc}
         alt={name}
-        widths={[140, 168, 196]}
-        sizes="(max-width: 520px) 140px, (max-width: 820px) 168px, 196px"
-        formats={["avif", "webp"]}
-        fit="cover"
+        width={196}
+        height={196}
         loading="eager"
         decoding="async"
       />
@@ -84,7 +88,7 @@ const _meta = [
 
     <dl class="profileCard__meta" aria-label="Key details">
       {
-        meta.map((item) => (
+        _meta.map((item) => (
           <div class="profileCard__metaItem">
             <dt>
               {item.icon && (
@@ -114,7 +118,7 @@ const _meta = [
       aria-label="Ways to reach Tulio"
     >
       {
-        contacts.map((entry) => {
+        _contacts.map((entry) => {
           const brand = entry.icon ? getBrandIcon(entry.icon) : null;
           const iconStyle = brand?.ink ? { "--chip-icon-color": brand.ink } : undefined;
           return (
@@ -164,7 +168,7 @@ const _meta = [
   data-reveal-order="1"
 >
   {
-    contacts.map((entry) => {
+    _contacts.map((entry) => {
       const brand = entry.icon ? getBrandIcon(entry.icon) : null;
       const iconStyle = brand?.ink ? { "--chip-icon-color": brand.ink } : undefined;
       return (

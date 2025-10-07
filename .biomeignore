@@ -1,0 +1,38 @@
+# Build outputs
+dist
+.astro
+node_modules
+
+# Third-party assets and libraries
+src/assets/SF?Mono/**
+src/assets/**/*.min.css
+src/assets/**/*.min.js
+
+# Generated files
+**/*.generated.*
+.sanity
+
+# Public assets (static files)
+public
+
+# CSS files (Biome has limited CSS support)
+**/*.css
+
+# Lock files
+bun.lockb
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache directories
+.cache
+.temp
+.tmp
+
+# IDE and OS files
+.DS_Store
+.vscode
+.idea
+**/*.swp
+**/*.swo
+**/*~

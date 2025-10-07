@@ -1,18 +1,18 @@
 ---
 const isDev = import.meta.env.DEV;
 const STUDIO_MODULE_ID = "sanity:studio";
-let _SanityStudioComponent = null;
+let SanityStudioComponent = null;
 const _hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;
 
 if (isDev) {
   const mod = await import(/* @vite-ignore */ STUDIO_MODULE_ID);
-  _SanityStudioComponent = mod.SanityStudio;
+  SanityStudioComponent = mod.SanityStudio;
 }
 ---
 
 {
   isDev && SanityStudioComponent ? (
-    <SanityStudioComponent config={config} />
+    <SanityStudioComponent />
   ) : (
     <div class="container studioPlaceholder">
       <h1>Sanity Studio</h1>
@@ -20,9 +20,9 @@ if (isDev) {
         The embedded Sanity Studio is only available during local development. Deploy the
         Studio separately if you require production editing.
       </p>
-      {hostedStudioUrl && (
+      {_hostedStudioUrl && (
         <p>
-          <a href={hostedStudioUrl} target="_blank" rel="noopener noreferrer">
+          <a href={_hostedStudioUrl} target="_blank" rel="noopener noreferrer">
             Open the hosted Sanity Studio
           </a>{" "}
           to manage content on the web.

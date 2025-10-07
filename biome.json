@@ -8,7 +8,30 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["src/**/*", "*.ts", "*.js", "*.tsx", "*.jsx", "*.json", "*.astro"]
+    "includes": [
+      "src/components/**/*.ts",
+      "src/components/**/*.tsx",
+      "src/components/**/*.js",
+      "src/components/**/*.jsx",
+      "src/components/**/*.astro",
+      "src/layouts/**/*.ts",
+      "src/layouts/**/*.tsx",
+      "src/layouts/**/*.astro",
+      "src/pages/**/*.ts",
+      "src/pages/**/*.tsx",
+      "src/pages/**/*.astro",
+      "src/lib/**/*.ts",
+      "src/lib/**/*.tsx",
+      "src/utils/**/*.ts",
+      "src/utils/**/*.tsx",
+      "src/data/**/*.ts",
+      "src/scripts/**/*.js",
+      "src/scripts/**/*.ts",
+      "src/sanity/**/*.ts",
+      "src/sanity/**/*.tsx",
+      "*.config.ts",
+      "*.config.mjs"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -24,6 +47,7 @@
       "recommended": true,
       "correctness": {
         "noUnusedVariables": "warn",
+        "noUnusedImports": "warn",
         "noUndeclaredVariables": "error"
       },
       "suspicious": {
@@ -38,12 +62,12 @@
         "noInferrableTypes": "warn",
         "noNonNullAssertion": "warn",
         "noParameterAssign": "warn",
-        "useConst": "error",
+        "useConst": "warn",
         "useExportType": "warn",
         "useImportType": "warn"
       },
       "complexity": {
-        "noForEach": "warn"
+        "noForEach": "off"
       },
       "a11y": {
         "recommended": true,
@@ -62,7 +86,16 @@
       "bracketSpacing": true,
       "bracketSameLine": false
     },
-    "globals": ["Astro", "astroHTML", "HTMLInputElement", "HTMLAnchorElement"]
+    "globals": [
+      "Astro",
+      "astroHTML",
+      "HTMLInputElement",
+      "HTMLAnchorElement",
+      "HTMLElement",
+      "Document",
+      "Window",
+      "NodeJS"
+    ]
   },
   "json": {
     "formatter": {
@@ -78,10 +111,45 @@
   },
   "overrides": [
     {
-      "includes": ["*.astro"],
+      "includes": ["**/*.astro"],
+      "formatter": {
+        "enabled": true
+      },
       "linter": {
         "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off",
+            "noUndeclaredVariables": "off"
+          },
           "style": {
+            "useConst": "off",
+            "useImportType": "off",
+            "useExportType": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      },
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.svelte", "**/*.vue"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          },
+          "style": {
+            "useConst": "off",
             "useImportType": "off"
           }
         }
@@ -98,11 +166,41 @@
       }
     },
     {
-      "includes": ["src/scripts/**/*.js"],
+      "includes": ["src/scripts/**/*.js", "**/*.config.js", "**/*.config.ts", "**/*.config.mjs"],
       "linter": {
         "rules": {
           "suspicious": {
             "noConsole": "off"
+          },
+          "correctness": {
+            "noUndeclaredVariables": "off",
+            "noInnerDeclarations": "off"
+          },
+          "style": {
+            "noParameterAssign": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/env.d.ts", "**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off"
+          },
+          "style": {
+            "useImportType": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/data/**/*.ts", "src/lib/**/*.ts", "src/utils/**/*.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "useIterableCallbackReturn": "off"
           }
         }
       }

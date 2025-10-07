@@ -9,6 +9,7 @@ const visualEditingEnabled = import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLE
 const hasToken = Boolean(import.meta.env.SANITY_API_READ_TOKEN);
 
 const _shouldLoad = visualEditingEnabled && hasToken;
+const visualEditingScriptSrc = "https://cdn.sanity.io/visual-editing/v1/bundle.js";
 ---
 
-{shouldLoad && <script type="module" src={visualEditingScriptSrc} />}
+{_shouldLoad && <script type="module" src={visualEditingScriptSrc} />}

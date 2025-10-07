@@ -12,9 +12,9 @@ const _displayCategories = limit ? validCategories.slice(0, limit) : validCatego
 ---
 
 {
-  displayCategories.length > 0 && (
+  _displayCategories.length > 0 && (
     <div class="categoryBadges">
-      {displayCategories.map((category) => (
+      {_displayCategories.map((category) => (
         <a href={`/blog/category/${category.slug}/`} class="categoryBadge">
           {category.title}
         </a>

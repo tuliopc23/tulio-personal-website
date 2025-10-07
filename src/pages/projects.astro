@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import { projectsSorted } from "../data/projects";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
@@ -56,14 +58,14 @@ const _structuredData = {
     </div>
     <div class="projects__meta" role="list">
       <span class="projects__metaItem" role="listitem"
-        >{projectCount} featured builds</span
+        >{_projectCount} featured builds</span
       >
-      <span class="projects__metaItem" role="listitem">{focusSummary}</span>
+      <span class="projects__metaItem" role="listitem">{_focusSummary}</span>
     </div>
     {
-      hasProjects && (
+      _hasProjects && (
         <div class="projects__filters" role="toolbar" aria-label="Filter projects">
-          {projectFilters.map((filter, index) => (
+          {_projectFilters.map((filter, index) => (
             <button
               type="button"
               class={`projectsFilter__button${index === 0 ? " is-active" : ""}`}
@@ -79,7 +81,7 @@ const _structuredData = {
 
   <section class="container" data-reveal data-reveal-group="projects-list">
     {
-      hasProjects ? (
+      _hasProjects ? (
         <Fragment>
           <div class="projects__filterEmpty card" data-project-empty hidden>
             <h2>No projects match this view</h2>
