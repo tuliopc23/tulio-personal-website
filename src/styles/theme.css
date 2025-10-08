@@ -4760,12 +4760,16 @@ kbd.slash {
   .cardRail {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
     gap: var(--space-md);
     padding-inline: clamp(var(--space-sm), 6vw, var(--space-lg));
     margin-inline: calc(-1 * clamp(var(--space-sm), 6vw, var(--space-lg)));
     padding-bottom: var(--space-sm);
     scrollbar-width: none;
+    scroll-padding-inline: clamp(var(--space-sm), 6vw, var(--space-lg));
   }
   .cardRail::-webkit-scrollbar {
     display: none;

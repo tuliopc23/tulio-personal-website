@@ -894,6 +894,11 @@ const _meta = [
       display: flex;
       gap: var(--space-sm);
       overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--space-sm);
       padding: var(--space-sm);
       margin-inline: calc(-1 * var(--space-sm));
       scrollbar-width: none;
@@ -905,6 +910,7 @@ const _meta = [
 
     .profileCardContactsMobile li {
       flex: 0 0 min(74vw, 240px);
+      scroll-snap-align: start;
     }
   }
 </style>
