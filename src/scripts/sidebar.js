@@ -26,8 +26,17 @@
     });
 
     groups.forEach((groupEl) => {
+      // Never hide the site navigation group
+      if (groupEl.classList.contains('sidebar__group--site')) {
+        groupEl.style.display = 'block !important';
+        return;
+      }
+      
       const hasVisible = Array.from(groupEl.querySelectorAll(".sidebar__link")).some(
-        (anchor) => anchor.style.display !== "none",
+        (anchor) => {
+          const computed = getComputedStyle(anchor);
+          return computed.display !== "none" && anchor.style.display !== "none";
+        }
       );
       groupEl.style.display = hasVisible ? "block" : "none";
     });

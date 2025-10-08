@@ -1555,17 +1555,9 @@ body[data-glass-state="scrolled"] .topbar::before {
   padding: var(--space-xxs) var(--space-xs);
 }
 
-/* Hide Site section on mobile, show on desktop */
-@media (max-width: 1023px) {
-  .sidebar__group--site {
-    display: none !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .sidebar__group--site {
-    display: block;
-  }
+/* Site section visible on all screen sizes */
+.sidebar__group--site {
+  display: block;
 }
 
 .sidebar__groupLabel {
