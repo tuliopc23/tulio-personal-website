@@ -56,7 +56,7 @@ const registry: Record<BrandIconKey, BrandEntry> = {
     ink: "#24292F",
   },
   instagram: {
-    icon: "logos:instagram-icon",
+    icon: "logos:instagram",
     fallback: "simple-icons:instagram",
     accent: "#E4405F",
     ink: "#E4405F",

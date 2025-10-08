@@ -37,14 +37,23 @@ const resolveGlyph = (identifier?: string | null): ResolvedGlyph | null => {
   return { body: glyph.body, width, height, prefix };
 };
 
-let resolved = resolveGlyph(entry?.icon);
+// Use logos for colored icons, except GitHub and Instagram which stay monochrome
+let resolved;
+if (name === 'github' || name === 'instagram') {
+  // Keep GitHub and Instagram monochrome for theme switching
+  resolved = resolveGlyph(entry?.fallback);
+} else {
+  // Use colored logos for other icons
+  resolved = resolveGlyph(entry?.icon);
+}
+
 if (!resolved) {
   resolved = resolveGlyph(entry?.fallback);
 }
 
 const glyph = resolved ?? resolveGlyph("simple-icons:sparkle");
 const _viewBox = glyph ? `0 0 ${glyph.width} ${glyph.height}` : "0 0 24 24";
-const _useCurrentColor = glyph?.prefix === "simple-icons";
+const _useCurrentColor = true; // Always use currentColor for theme switching
 const _body = glyph?.body ?? "";
 ---
 

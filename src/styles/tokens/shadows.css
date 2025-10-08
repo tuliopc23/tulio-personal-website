@@ -1,60 +1,63 @@
 /* ======= Shadow Tokens ======= */
-/* All shadow values extracted from theme.css - exact 4-layer systems preserved */
+/* Enhanced 4-layer shadow system for better definition and depth */
 
 :root {
-  /* Card elevation system - 4 layers for depth */
+  /* Card elevation system - Enhanced 4 layers for more definition */
   --shadow-card:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.03),
-    0 8px 16px rgba(0, 0, 0, 0.02);
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.03);
 
   --shadow-card-hover:
-    0 2px 4px rgba(0, 0, 0, 0.08),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 8px 16px rgba(0, 0, 0, 0.05),
-    0 16px 32px rgba(0, 0, 0, 0.04);
+    0 2px 4px rgba(0, 0, 0, 0.10),
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(0, 0, 0, 0.05);
 
-  /* Symbol/Icon tile shadows - Enhanced 4-layer for 3D effect */
+  /* Symbol/Icon tile shadows - Enhanced for more definition and 3D pop */
   --shadow-symbol-dark:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 2px 4px rgba(0, 0, 0, 0.18),
-    0 8px 16px rgba(0, 0, 0, 0.12),
-    0 16px 32px rgba(0, 0, 0, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    0 2px 4px rgba(0, 0, 0, 0.22),
+    0 8px 16px rgba(0, 0, 0, 0.16),
+    0 16px 32px rgba(0, 0, 0, 0.12);
 
   --shadow-symbol-dark-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 4px 8px rgba(0, 0, 0, 0.25),
-    0 12px 24px rgba(0, 0, 0, 0.2),
-    0 24px 48px rgba(0, 0, 0, 0.15);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 4px 8px rgba(0, 0, 0, 0.28),
+    0 12px 24px rgba(0, 0, 0, 0.24),
+    0 24px 48px rgba(0, 0, 0, 0.18);
 
   --shadow-symbol-light:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 2px 4px rgba(31, 35, 53, 0.12),
-    0 8px 16px rgba(31, 35, 53, 0.15),
-    0 18px 36px rgba(31, 35, 53, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 2px 4px rgba(31, 35, 53, 0.14),
+    0 8px 16px rgba(31, 35, 53, 0.18),
+    0 18px 36px rgba(31, 35, 53, 0.22);
 
   --shadow-symbol-light-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    0 2px 4px rgba(31, 35, 53, 0.12),
-    0 8px 16px rgba(31, 35, 53, 0.15),
-    0 18px 36px rgba(31, 35, 53, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 6px rgba(31, 35, 53, 0.16),
+    0 10px 20px rgba(31, 35, 53, 0.20),
+    0 22px 40px rgba(31, 35, 53, 0.24);
 
-  /* Focus ring */
-  --focus-ring: 0 0 0 3px rgba(10, 132, 255, 0.48);
+  /* Focus ring - Enhanced 3-layer with glow */
+  --focus-ring: 
+    0 0 0 3px rgba(13, 138, 255, 0.48),
+    0 0 0 5px rgba(13, 138, 255, 0.24),
+    0 0 10px rgba(13, 138, 255, 0.18);
 
-  /* Glass surface shadows */
+  /* Glass surface shadows - Enhanced definition */
   --shadow-glass:
-    0 0.5px 0 rgba(255, 255, 255, 0.24),
-    0 1px 2px rgba(0, 0, 0, 0.10);
+    0 0.5px 0 rgba(255, 255, 255, 0.28),
+    0 1px 2px rgba(0, 0, 0, 0.12);
 
-  /* Project card frame shadows */
+  /* Project card frame shadows - Enhanced depth */
   --shadow-frame:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 24px 48px rgba(0, 0, 0, 0.32);
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 24px 48px rgba(0, 0, 0, 0.38);
 
-  /* Chrome decorator shadows */
+  /* Chrome decorator shadows - Enhanced contrast */
   --shadow-chrome:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.10);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 1px 2px rgba(0, 0, 0, 0.12);
 }
