@@ -732,26 +732,18 @@ h1 {
 
 h2 {
   font-size: var(--fs-h2);
-  font-weight: 700; /* Increased from 600 for better hierarchy */
+  font-weight: 600; /* Semibold - standard 100-point step from H1 (700) */
   line-height: 1.15; /* Improved from 1.1 */
   letter-spacing: var(--ls-h2); /* -0.025em - HIG precision */
-  font-variation-settings: var(--font-variation-display-medium);
-}
-
-/* Variable font weight for H2 with fallback */
-@supports (font-variation-settings: normal) {
-  h2 {
-    font-variation-settings: "wght" 650, var(--font-variation-display-medium);
-    font-weight: 700; /* Fallback */
-  }
+  font-variation-settings: "wght" 600, var(--font-variation-display-medium);
 }
 
 h3 {
   font-size: var(--fs-h3);
-  font-weight: 600;
+  font-weight: 500; /* Medium - separates from UI elements (cards/badges at 600) */
   line-height: 1.2;
   letter-spacing: var(--ls-h3); /* -0.015em - HIG precision */
-  font-variation-settings: var(--font-variation-display-small); /* Changed from display-medium */
+  font-variation-settings: "wght" 500, var(--font-variation-display-small);
 }
 
 p {
@@ -1613,6 +1605,7 @@ body[data-glass-state="scrolled"] .topbar::before {
   align-items: center;
   gap: var(--space-sm);
   font-size: var(--fs--1);
+  font-weight: 500; /* Medium - improves sidebar navigation hierarchy */
   color: var(--text);
   border-radius: var(--radius-sm);
   padding-inline: var(--space-sm);
@@ -1644,7 +1637,7 @@ body[data-glass-state="scrolled"] .topbar::before {
 [data-theme="dark"] .sidebar__link[aria-current="page"] {
   background: rgba(10, 132, 255, 0.2);
   color: #4da6ff;
-  font-weight: 500;
+  font-weight: 600; /* Semibold - consistent active state emphasis */
 }
 
 [data-theme="light"] .sidebar__link[aria-current="page"] {
@@ -2098,7 +2091,7 @@ kbd.slash {
 .hero__subtitle {
   margin: 0;
   font-size: clamp(18px, 1vw + 16px, 20px);
-  font-weight: 400;
+  font-weight: 500; /* Medium - strengthens pairing with hero H1 without competing */
   max-width: var(--measure-reading); /* 58ch - refined reading measure */
   line-height: var(--lh-base); /* 1.65 - enhanced readability */
 }
@@ -2677,7 +2670,7 @@ kbd.slash {
 .projectCard__eyebrow {
   margin: 0;
   font-size: var(--fs--2);
-  font-weight: 500; /* Better distinction */
+  font-weight: 600; /* Semibold - metadata label emphasis per Apple HIG */
   letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
   text-transform: uppercase;
 }
@@ -2839,7 +2832,7 @@ kbd.slash {
   color: rgba(235, 235, 245, 0.86);
   backdrop-filter: saturate(1.8) blur(10px);
   -webkit-backdrop-filter: saturate(1.8) blur(10px);
-  font-weight: 600;
+  /* Removed font-weight override - use base 500 */
 }
 
 [data-theme="light"] .projectCard__tag {
@@ -2857,7 +2850,7 @@ kbd.slash {
   color: rgba(60, 60, 67, 0.88);
   backdrop-filter: saturate(1.8) blur(10px);
   -webkit-backdrop-filter: saturate(1.8) blur(10px);
-  font-weight: 600;
+  /* Removed font-weight override - use base 500 */
 }
 
 .projectCard__tag--muted {
@@ -5486,6 +5479,7 @@ input:focus {
 .footer__copy {
   margin: 0;
   max-width: 44ch;
+  /* Body text weight (400 Regular) - keep as readable body content */
 }
 .footer__links {
   display: flex;
@@ -5498,6 +5492,7 @@ input:focus {
   align-items: center;
   gap: var(--space-xs);
   color: var(--text);
+  font-weight: 500; /* Medium - footer link emphasis */
   text-decoration: none;
 }
 .footer__links a:hover {

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__krieg-2065-firecrawl-mcp-server__firecrawl_scrape",
+      "Bash(openspec list --specs)",
+      "Bash(mkdir -p openspec/changes/enhance-apple-hig-compliance/specs/visual-design)",
+      "Bash(openspec validate enhance-apple-hig-compliance --strict)",
+      "Bash(bun run build)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
