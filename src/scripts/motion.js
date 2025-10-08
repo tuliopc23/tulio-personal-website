@@ -48,7 +48,9 @@
     }
 
     if (linkHandler) {
-      internalLinks.forEach((link) => link.removeEventListener("click", linkHandler));
+      internalLinks.forEach((link) => {
+        link.removeEventListener("click", linkHandler);
+      });
       linkHandler = null;
     }
   };
@@ -160,7 +162,9 @@
         event.preventDefault();
       };
 
-      internalLinks.forEach((link) => link.addEventListener("click", linkHandler));
+      internalLinks.forEach((link) => {
+        link.addEventListener("click", linkHandler);
+      });
     }
   };
 

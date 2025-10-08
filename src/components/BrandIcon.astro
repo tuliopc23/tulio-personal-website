@@ -38,8 +38,8 @@ const resolveGlyph = (identifier?: string | null): ResolvedGlyph | null => {
 };
 
 // Use logos for colored icons, except GitHub and Instagram which stay monochrome
-let resolved;
-if (name === 'github' || name === 'instagram') {
+let resolved: any;
+if (name === "github" || name === "instagram") {
   // Keep GitHub and Instagram monochrome for theme switching
   resolved = resolveGlyph(entry?.fallback);
 } else {

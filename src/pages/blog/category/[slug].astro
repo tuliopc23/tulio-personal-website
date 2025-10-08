@@ -15,13 +15,15 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const category = await getCategoryBySlug(slug!);
+if (!slug) return Astro.redirect("/404");
+
+const category = await getCategoryBySlug(slug);
 
 if (!category) {
   return Astro.redirect("/404");
 }
 
-const posts = await getPostsByCategory(slug!);
+const posts = await getPostsByCategory(slug);
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
