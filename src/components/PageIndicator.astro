@@ -1,0 +1,204 @@
+---
+interface Props {
+  containerSelector: string;
+  itemSelector?: string;
+  ariaLabel?: string;
+}
+
+const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } = Astro.props;
+---
+
+<div 
+  class="pageIndicator" 
+  data-page-indicator
+  data-container={containerSelector}
+  data-item={itemSelector}
+  role="tablist"
+  aria-label={ariaLabel}
+>
+  <div class="pageIndicator__track" data-page-indicator-track>
+    <!-- Dots will be generated dynamically -->
+  </div>
+</div>
+
+<style>
+  .pageIndicator {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md) 0;
+    pointer-events: none;
+  }
+
+  .pageIndicator__track {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(28, 28, 30, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+    pointer-events: auto;
+  }
+
+  [data-theme="light"] .pageIndicator__track {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.06),
+      inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+  }
+
+  .pageIndicator__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 100px;
+    background: rgba(235, 235, 245, 0.3);
+    transition: 
+      background 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+      transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+      width 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-theme="light"] .pageIndicator__dot {
+    background: rgba(60, 60, 67, 0.18);
+  }
+
+  .pageIndicator__dot:active {
+    transform: scale(0.9);
+  }
+
+  .pageIndicator__dot.is-active {
+    background: var(--blue);
+    width: 18px;
+  }
+
+  [data-theme="light"] .pageIndicator__dot.is-active {
+    background: var(--blue);
+  }
+
+  @media (max-width: 1023px) {
+    .pageIndicator {
+      display: flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pageIndicator__dot {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Initialize page indicators for horizontal scroll sections
+  const initPageIndicators = () => {
+    const indicators = document.querySelectorAll('[data-page-indicator]');
+    
+    indicators.forEach((indicator) => {
+      const containerSelector = indicator.getAttribute('data-container');
+      const itemSelector = indicator.getAttribute('data-item') || '> *';
+      
+      if (!containerSelector) return;
+      
+      const container = document.querySelector(containerSelector);
+      if (!container) return;
+      
+      const items = Array.from(container.querySelectorAll(itemSelector));
+      if (items.length <= 1) {
+        indicator.style.display = 'none';
+        return;
+      }
+      
+      const track = indicator.querySelector('[data-page-indicator-track]');
+      if (!track) return;
+      
+      // Create dots
+      track.innerHTML = '';
+      const dots: HTMLButtonElement[] = [];
+      
+      items.forEach((item, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'pageIndicator__dot';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', `Go to item ${index + 1}`);
+        dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+        dot.setAttribute('tabindex', index === 0 ? '0' : '-1');
+        
+        if (index === 0) {
+          dot.classList.add('is-active');
+        }
+        
+        dot.addEventListener('click', () => {
+          const itemElement = items[index] as HTMLElement;
+          itemElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest', 
+            inline: 'start' 
+          });
+        });
+        
+        track.appendChild(dot);
+        dots.push(dot);
+      });
+      
+      // Update active dot based on scroll position
+      let ticking = false;
+      const updateActiveDot = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const containerRect = container.getBoundingClientRect();
+            const containerCenter = containerRect.left + containerRect.width / 2;
+            
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+            
+            items.forEach((item, index) => {
+              const itemRect = (item as HTMLElement).getBoundingClientRect();
+              const itemCenter = itemRect.left + itemRect.width / 2;
+              const distance = Math.abs(itemCenter - containerCenter);
+              
+              if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+              }
+            });
+            
+            dots.forEach((dot, index) => {
+              const isActive = index === closestIndex;
+              dot.classList.toggle('is-active', isActive);
+              dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+              dot.setAttribute('tabindex', isActive ? '0' : '-1');
+            });
+            
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+      
+      container.addEventListener('scroll', updateActiveDot, { passive: true });
+      window.addEventListener('resize', updateActiveDot, { passive: true });
+      
+      // Initial update
+      updateActiveDot();
+    });
+  };
+  
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPageIndicators);
+  } else {
+    initPageIndicators();
+  }
+</script>
