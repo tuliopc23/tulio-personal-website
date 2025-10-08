@@ -67,6 +67,18 @@ const btn = document.querySelector<HTMLButtonElement>(".btn");
 element?.addEventListener("click", handler);
 ```
 
+### Biome Rules
+```typescript
+// Use import type for types
+import type { Theme } from "./types";
+
+// Use const over let
+const theme = "dark"; // ✅
+
+// Avoid explicit any
+function handle(event: Event) {} // ✅
+```
+
 See [design.md](./design.md) for complete type patterns and examples.
 
 ## Benefits
@@ -76,6 +88,9 @@ See [design.md](./design.md) for complete type patterns and examples.
 - ✅ Catch errors before runtime
 - ✅ Self-documenting code
 - ✅ 100% TypeScript coverage
+- ✅ Tight Biome linting rules (no unused vars, no `any`, etc.)
+- ✅ Consistent Biome formatting (quotes, semicolons, indentation)
+- ✅ Fast tooling with Biome
 
 ## Questions?
 

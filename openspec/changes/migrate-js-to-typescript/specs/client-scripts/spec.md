@@ -142,6 +142,98 @@ Migrating JavaScript files to TypeScript SHALL NOT introduce functional changes 
 - **AND** all interactive features SHALL work correctly
 - **AND** performance SHALL not degrade
 
+### Requirement: Biome Linting Compliance
+All TypeScript client scripts SHALL pass Biome linting rules with no errors or warnings.
+
+#### Scenario: Linting rules adherence
+- **WHEN** running `biome lint .` or `bun run lint`
+- **THEN** all migrated TypeScript files SHALL pass without errors
+- **AND** no unused variables SHALL remain (correctness.noUnusedVariables: warn)
+- **AND** no unused imports SHALL remain (correctness.noUnusedImports: warn)
+- **AND** no undeclared variables SHALL exist (correctness.noUndeclaredVariables: error)
+
+#### Scenario: Code quality rules
+- **WHEN** TypeScript code is written
+- **THEN** explicit `any` types SHALL be avoided (suspicious.noExplicitAny: warn)
+- **AND** debugger statements SHALL NOT be present (suspicious.noDebugger: error)
+- **AND** strict equality operators SHALL be used (suspicious.noDoubleEquals: error)
+- **AND** `const` SHALL be preferred over `let` where applicable (style.useConst: warn)
+
+#### Scenario: Type import optimization
+- **WHEN** importing types in TypeScript files
+- **THEN** type-only imports SHALL use `import type` syntax (style.useImportType: warn)
+- **AND** type-only exports SHALL use `export type` syntax (style.useExportType: warn)
+- **AND** inferrable types SHALL be omitted where obvious (style.noInferrableTypes: warn)
+
+#### Scenario: Script-specific overrides
+- **WHEN** linting client scripts in `src/scripts/`
+- **THEN** console statements SHALL be allowed (suspicious.noConsole: off)
+- **AND** parameter reassignment SHALL be allowed where needed (style.noParameterAssign: off)
+- **AND** inner declarations SHALL be allowed for IIFE patterns (correctness.noInnerDeclarations: off)
+
+### Requirement: Biome Formatting Compliance
+All TypeScript client scripts SHALL follow consistent Biome formatting rules.
+
+#### Scenario: Formatting consistency
+- **WHEN** running `biome format .` or `bun run format:check`
+- **THEN** all TypeScript files SHALL be formatted consistently
+- **AND** no formatting errors SHALL be present
+- **AND** the code SHALL match the project's style guide
+
+#### Scenario: JavaScript formatting rules
+- **WHEN** formatting TypeScript code
+- **THEN** double quotes SHALL be used for strings (quoteStyle: "double")
+- **AND** semicolons SHALL be required (semicolons: "always")
+- **AND** trailing commas SHALL be used where valid (trailingCommas: "all")
+- **AND** arrow function parentheses SHALL always be present (arrowParentheses: "always")
+- **AND** 2-space indentation SHALL be used (indentWidth: 2)
+- **AND** line width SHALL not exceed 100 characters (lineWidth: 100)
+
+#### Scenario: Formatting before commit
+- **WHEN** a developer commits TypeScript changes
+- **THEN** `biome format --write .` SHALL be run
+- **AND** all files SHALL be auto-formatted
+- **AND** formatting changes SHALL be included in the commit
+
+### Requirement: Biome Check Integration
+The full Biome check SHALL pass for all migrated TypeScript files before merging.
+
+#### Scenario: Pre-commit validation
+- **WHEN** preparing to commit TypeScript changes
+- **THEN** `biome check --write .` SHALL be run
+- **AND** both linting and formatting SHALL pass
+- **AND** auto-fixable issues SHALL be corrected automatically
+
+#### Scenario: CI pipeline validation
+- **WHEN** running CI checks with `bun run check:ci`
+- **THEN** `biome ci .` SHALL pass without errors
+- **AND** no linting violations SHALL exist
+- **AND** no formatting inconsistencies SHALL exist
+- **AND** TypeScript compilation SHALL succeed
+
+#### Scenario: Full quality check
+- **WHEN** running `bun run check`
+- **THEN** Biome check SHALL pass with auto-fixes applied
+- **AND** TypeScript type checking SHALL pass
+- **AND** build SHALL succeed
+- **AND** the codebase SHALL be ready for deployment
+
+### Requirement: Biome Configuration Updates
+The Biome configuration SHALL include all TypeScript files from the migration.
+
+#### Scenario: Include patterns
+- **WHEN** TypeScript files are added to `src/scripts/`
+- **THEN** they SHALL be included in Biome's file patterns
+- **AND** `src/scripts/**/*.ts` SHALL be in the includes array
+- **AND** config files SHALL be covered by `*.config.ts` pattern
+
+#### Scenario: Script-specific rules
+- **WHEN** Biome processes files in `src/scripts/`
+- **THEN** the override rules for scripts SHALL apply
+- **AND** console.log SHALL be allowed (for debugging)
+- **AND** IIFE patterns SHALL not trigger warnings
+- **AND** browser globals SHALL be recognized (Window, Document, HTMLElement)
+
 ## MODIFIED Requirements
 
 None. This is a new capability being added to the codebase.

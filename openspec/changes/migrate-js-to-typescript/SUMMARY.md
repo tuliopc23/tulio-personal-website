@@ -66,6 +66,9 @@ Exclude or remove (not production code, likely obsolete)
 3. **Consistency**: 100% TypeScript codebase (except temporary debug files)
 4. **Maintainability**: Self-documenting code with explicit types
 5. **Fewer Bugs**: Strict null checking catches common errors
+6. **Code Quality**: Tight Biome linting rules enforce best practices
+7. **Consistent Style**: Biome formatting ensures uniform code style
+8. **Fast Tooling**: Biome provides fast linting and formatting in one tool
 
 ## Implementation Approach
 
@@ -111,6 +114,21 @@ const filter = document.querySelector("#filter");
 filter?.addEventListener("input", handler); // Optional chaining
 ```
 
+#### 6. Biome Rules (Code Quality)
+```typescript
+// Use import type for type-only imports
+import type { Theme } from "./types";
+
+// Use const instead of let where possible
+const theme = "dark"; // ✅ not: let theme = "dark"
+
+// Avoid explicit any
+function handle(event: Event) {} // ✅ not: (event: any)
+
+// Use strict equality
+if (value === "dark") {} // ✅ not: value == "dark"
+```
+
 ## Technical Details
 
 ### TypeScript Configuration
@@ -129,9 +147,20 @@ No changes needed - Astro/Vite already handles TypeScript:
 
 1. **Type Checking**: `bun run typecheck` must pass
 2. **Build**: `bun run build` must succeed
-3. **Linting**: `bun run lint` must pass
-4. **Manual Testing**: All interactive features tested
-5. **Browser Testing**: Chrome, Safari, Firefox, mobile
+3. **Biome Linting**: `biome lint .` must pass with 0 errors
+4. **Biome Formatting**: `biome format .` must pass
+5. **Full Check**: `bun run check` must pass (Biome + typecheck + build)
+6. **CI Check**: `bun run check:ci` must pass
+7. **Manual Testing**: All interactive features tested
+8. **Browser Testing**: Chrome, Safari, Firefox, mobile
+
+### Key Biome Rules Enforced
+- No unused variables or imports
+- No explicit `any` types
+- Use `import type` for type-only imports
+- Use `const` over `let` where applicable
+- Use strict equality (`===`)
+- Consistent formatting (quotes, semicolons, indentation)
 
 ## Risk Assessment
 
@@ -163,6 +192,9 @@ No changes needed - Astro/Vite already handles TypeScript:
 ✅ Zero TypeScript errors (`bun run typecheck` passes)
 ✅ Build succeeds (`bun run build` passes)
 ✅ All manual tests pass (no regressions)
+✅ Biome linting passes with 0 errors
+✅ Biome formatting is consistent
+✅ Full check passes (`bun run check`)
 ✅ CI pipeline passes
 ✅ Code is self-documenting
 

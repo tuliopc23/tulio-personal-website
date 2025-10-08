@@ -12,6 +12,8 @@
 - [ ] Rename `src/scripts/visual-editing.js` → `visual-editing.ts`
 - [ ] Add types for Sanity visual editing imports
 - [ ] Add Window type extensions for iframe detection
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify no linting errors
 - [ ] Test in development mode with Sanity Studio
 - [ ] Verify visual editing overlays still work
 
@@ -21,6 +23,10 @@
 - [ ] Type all DOM query selectors with proper HTMLElement types
 - [ ] Add types for event handlers
 - [ ] Type dataset access with proper string literal types
+- [ ] Use `import type` for type-only imports (Biome rule)
+- [ ] Ensure no unused variables or imports (Biome rule)
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
 - [ ] Test mobile navigation toggle
 - [ ] Test filter functionality
 - [ ] Test keyboard shortcuts (Escape, /)
@@ -31,6 +37,10 @@
 - [ ] Type localStorage access with error handling
 - [ ] Add types for media query matching
 - [ ] Type HTMLInputElement for checkbox toggle
+- [ ] Use `const` instead of `let` where possible (Biome rule)
+- [ ] Avoid explicit `any` types (Biome rule)
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
 - [ ] Test theme switching in browser
 - [ ] Test localStorage persistence
 - [ ] Test light/dark mode classes on root element
@@ -42,6 +52,10 @@
 - [ ] Type IntersectionObserver callbacks
 - [ ] Add interface for reveal element dataset properties
 - [ ] Type Map for reveal groups
+- [ ] Use strict equality (`===`) instead of `==` (Biome rule)
+- [ ] Remove any unused variables or imports (Biome rule)
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
 - [ ] Test page transitions
 - [ ] Test reveal animations
 - [ ] Test reduced motion preference
@@ -51,6 +65,8 @@
 - [ ] Type scroll event handlers
 - [ ] Add types for edge fade state calculations
 - [ ] Type querySelector results with proper element types
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
 - [ ] Test article carousel edge fades
 - [ ] Test card rail scroll indicators
 
@@ -148,10 +164,17 @@
 - [ ] Test in Firefox
 - [ ] Test mobile responsive (iOS Safari, Chrome Android)
 
-### 7.5 Linting & Formatting
-- [ ] Run `bun run lint` - must pass
-- [ ] Run `bun run format:check` - must pass
+### 7.5 Biome Linting & Formatting
+- [ ] Run `biome lint .` or `bun run lint` - must pass with 0 errors
+- [ ] Run `biome format .` or `bun run format:check` - must pass
+- [ ] Run `biome check .` or `bun run biome:check` - must pass
+- [ ] Verify no unused variables (Biome correctness.noUnusedVariables)
+- [ ] Verify no unused imports (Biome correctness.noUnusedImports)
+- [ ] Verify no explicit `any` types (Biome suspicious.noExplicitAny)
+- [ ] Verify `import type` used for type-only imports (Biome style.useImportType)
+- [ ] Verify `const` used where applicable (Biome style.useConst)
 - [ ] Run full check: `bun run check` - must pass
+- [ ] Run CI check: `bun run check:ci` - must pass
 
 ## 8. Documentation
 

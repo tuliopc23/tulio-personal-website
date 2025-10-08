@@ -131,6 +131,54 @@ The Tulio Personal Website is built with Astro 5, React 19, and TypeScript in st
 ```
 Astro's Vite integration handles the rest.
 
+### Decision 6: Biome for Linting and Formatting (Strict Rules)
+
+**Chosen**: Enforce tight Biome linting and formatting rules for all TypeScript files
+
+**Why**:
+- **Project Standard**: Biome is already configured and used in the project
+- **Consistency**: Single tool for both linting and formatting
+- **Performance**: Biome is faster than ESLint + Prettier combination
+- **Auto-fix**: Most issues can be fixed automatically
+- **Type Safety**: Biome rules enforce TypeScript best practices
+
+**Alternatives Considered**:
+- **Keep ESLint + Prettier**: Use existing tools
+  - **Pros**: Already configured
+  - **Cons**: Slower, more complex, project is moving to Biome
+  - **Why Not**: Project has `biome.json` and uses Biome in scripts
+- **No Linting**: Just TypeScript compiler
+  - **Pros**: Faster, simpler
+  - **Cons**: Misses code quality issues, inconsistent style
+  - **Why Not**: Code quality matters
+
+**Key Biome Rules Enforced**:
+
+*Correctness:*
+- `noUnusedVariables: warn` - No unused variables
+- `noUnusedImports: warn` - No unused imports
+- `noUndeclaredVariables: error` - All variables must be declared
+
+*Suspicious:*
+- `noExplicitAny: warn` - Avoid `any` type
+- `noDebugger: error` - No debugger statements
+- `noDoubleEquals: error` - Use `===` instead of `==`
+- `noConsole: off` - Allow console.log in scripts (for debugging)
+
+*Style:*
+- `useConst: warn` - Prefer `const` over `let`
+- `useImportType: warn` - Use `import type` for type-only imports
+- `useExportType: warn` - Use `export type` for type-only exports
+- `noInferrableTypes: warn` - Omit obvious type annotations
+
+*Formatting:*
+- Double quotes for strings
+- Semicolons required
+- Trailing commas where valid
+- 2-space indentation
+- 100-character line width
+- Arrow functions always use parentheses
+
 ## Type Patterns
 
 ### Pattern 1: DOM Types (Explicit Casting)
@@ -213,6 +261,55 @@ if (filter) {
 }
 ```
 
+### Pattern 6: Type-only Imports (Biome Rule)
+
+```typescript
+// Biome enforces import type for type-only imports
+import type { Theme, PageState } from "./types";
+import { applyTheme } from "./theme-utils";
+
+// NOT:
+import { Theme, PageState, applyTheme } from "./theme-utils"; // ❌
+
+// Export types properly
+export type { Theme, PageState };
+export { applyTheme };
+```
+
+### Pattern 7: Const over Let (Biome Rule)
+
+```typescript
+// Before (JavaScript or loose TypeScript)
+let theme = "dark"; // ❌ Biome warning if never reassigned
+theme = "light";
+
+// After (TypeScript with Biome)
+const theme = "dark"; // ✅ If not reassigned
+let mutableTheme = "dark"; // ✅ If reassigned later
+mutableTheme = "light";
+```
+
+### Pattern 8: Avoid Explicit Any (Biome Rule)
+
+```typescript
+// BAD - Biome warns
+function handleEvent(event: any) { // ❌
+  console.log(event);
+}
+
+// GOOD - Proper typing
+function handleEvent(event: Event) { // ✅
+  console.log(event);
+}
+
+// GOOD - Use unknown if truly unknown
+function handleData(data: unknown) { // ✅
+  if (typeof data === "string") {
+    console.log(data.toUpperCase());
+  }
+}
+```
+
 ## Implementation Strategy
 
 ### Phase 1: Core Scripts (Days 1-2)
@@ -256,10 +353,20 @@ For each `.js` → `.ts` file:
    - Define string literal unions
    - Create interfaces for complex objects
    - Type dataset access
-5. **Test**:
+5. **Follow Biome Rules**:
+   - Use `import type` for type-only imports
+   - Use `const` instead of `let` where possible
+   - Avoid explicit `any` types
+   - Remove unused variables and imports
+   - Use strict equality (`===`)
+6. **Format**:
+   - Run `biome check --write .` to auto-fix
+   - Verify with `biome lint .`
+7. **Test**:
    - TypeScript compiles (`bun run typecheck`)
    - Build succeeds (`bun run build`)
    - Runtime works (manual testing)
+   - Biome passes (`bun run check`)
 
 ## Risks & Mitigations
 
@@ -300,6 +407,23 @@ bun run build      # Must succeed
 ls -lh dist/       # Check output size
 ```
 
+### Biome Validation
+```bash
+biome lint .           # Linting must pass
+biome format .         # Formatting check
+biome check --write .  # Fix all auto-fixable issues
+bun run check          # Full check (Biome + typecheck + build)
+bun run check:ci       # CI check (stricter, no auto-fix)
+```
+
+**Key Biome Checks**:
+- No unused variables or imports
+- No explicit `any` types
+- `import type` used for type-only imports
+- `const` used where applicable
+- Strict equality operators (`===`)
+- Consistent formatting (quotes, semicolons, indentation)
+
 ### Runtime Testing
 - **Theme Switcher**: Toggle light/dark, check persistence
 - **Sidebar**: Open/close, filter, keyboard shortcuts (Escape, /)
@@ -324,6 +448,9 @@ ls -lh dist/       # Check output size
 5. ✅ No runtime regressions
 6. ✅ CI pipeline passes
 7. ✅ Code is self-documenting with explicit types
+8. ✅ Biome linting passes with 0 errors (`biome lint .`)
+9. ✅ Biome formatting is consistent (`biome format .`)
+10. ✅ Full Biome check passes (`bun run check`)
 
 ## Future Considerations
 
