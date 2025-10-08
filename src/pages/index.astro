@@ -4,6 +4,7 @@ import ProfileCard from "../components/ProfileCard.astro";
 import RecentPosts from "../components/RecentPosts.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Card from "../components/Card.astro";
+import PageIndicator from "../components/PageIndicator.astro";
 import "../styles/section.css";
 import { getAllPosts } from "../sanity/lib/posts";
 
@@ -168,7 +169,7 @@ const _structuredData = {
       location="Brazil"
       email="contact@tuliocunha.dev"
     />
-    <div class="home__quickLinks cardRail">
+    <div class="home__quickLinks cardRail" data-quick-links-rail>
       <Card
         title="Projects"
         body="Projects spanning refined web UIs, full-stack builds, CLI tools, and systems programming."
@@ -190,6 +191,11 @@ const _structuredData = {
         revealOrder={1}
       />
     </div>
+    <PageIndicator 
+      containerSelector="[data-quick-links-rail]" 
+      itemSelector=".card"
+      ariaLabel="Quick links navigation"
+    />
   </section>
 
   <section class="container" data-reveal data-reveal-group="home-tech">
@@ -201,7 +207,7 @@ const _structuredData = {
     >
       Tech stack
     </h2>
-    <div class="cardGrid cardRail">
+    <div class="cardGrid cardRail" data-tech-stack-rail>
       {
         _techStack.map((entry, index) => (
           <Card
@@ -215,6 +221,11 @@ const _structuredData = {
         ))
       }
     </div>
+    <PageIndicator 
+      containerSelector="[data-tech-stack-rail]" 
+      itemSelector=".card"
+      ariaLabel="Tech stack navigation"
+    />
   </section>
 
   <section class="container" data-reveal data-reveal-group="home-writing">
@@ -226,7 +237,7 @@ const _structuredData = {
     >
       Featured writing
     </h2>
-    <div class="cardGrid cardRail">
+    <div class="cardGrid cardRail" data-featured-writing-rail>
       {
         _writingCards.map((entry, index) => (
           <Card
@@ -242,6 +253,11 @@ const _structuredData = {
         ))
       }
     </div>
+    <PageIndicator 
+      containerSelector="[data-featured-writing-rail]" 
+      itemSelector=".card"
+      ariaLabel="Featured writing navigation"
+    />
   </section>
 
   <script is:inline>

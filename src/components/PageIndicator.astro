@@ -22,7 +22,47 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
 </div>
 
 <style>
+  /*
+   * Apple Human Interface Guidelines-compliant Page Indicator
+   * 
+   * - iOS-style translucent material with backdrop blur and saturation
+   * - 7×7px inactive dots, 20×7px active pill (matches iOS page control)
+   * - Blue accent (#0d8aff) for active state
+   * - Smooth cubic-bezier transitions (0.25, 0.1, 0.25, 1)
+   * - 44×44px minimum touch targets for accessibility
+   * - Reduced motion support
+   */
+
   .pageIndicator {
+    /* HIG Design Tokens */
+    --pi-dot-size: 7px;
+    --pi-dot-active-width: 20px;
+    --pi-gap: 8px;
+    --pi-radius-pill: 100px;
+    
+    /* Motion */
+    --pi-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --pi-dur: 250ms;
+    --pi-press-scale: 0.85;
+    
+    /* Colors */
+    --pi-active: var(--blue, #0d8aff);
+    --pi-inactive-dark: rgba(235, 235, 245, 0.3);
+    --pi-inactive-light: rgba(60, 60, 67, 0.18);
+    --pi-bg-dark: rgba(28, 28, 30, 0.72);
+    --pi-bg-light: rgba(255, 255, 255, 0.88);
+    
+    /* Material */
+    --pi-saturation: 1.8;
+    --pi-blur: 20px;
+    
+    /* Shadows and borders */
+    --pi-border-light: rgba(255, 255, 255, 0.28);
+    --pi-border-dark: rgba(0, 0, 0, 0.12);
+    --pi-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --pi-shadow-2: 0 8px 20px rgba(0, 0, 0, 0.35);
+    --pi-inner-glow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), 0 0 12px rgba(13, 138, 255, 0.5);
+    
     display: none;
     justify-content: center;
     align-items: center;
@@ -31,60 +71,107 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
   }
 
   .pageIndicator__track {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 100px;
-    background: rgba(28, 28, 30, 0.72);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    gap: var(--pi-gap);
+    padding: 6px 12px;
+    border-radius: var(--pi-radius-pill);
+    background: var(--pi-bg-dark);
+    backdrop-filter: saturate(var(--pi-saturation)) blur(var(--pi-blur));
+    -webkit-backdrop-filter: saturate(var(--pi-saturation)) blur(var(--pi-blur));
     box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.15),
-      0 1px 3px rgba(0, 0, 0, 0.1),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+      var(--pi-shadow-1),
+      var(--pi-shadow-2),
+      inset 0 0 0 0.5px var(--pi-border-light);
     pointer-events: auto;
   }
 
   [data-theme="light"] .pageIndicator__track {
-    background: rgba(255, 255, 255, 0.88);
+    background: var(--pi-bg-light);
     box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.12),
       0 4px 12px rgba(0, 0, 0, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.06),
-      inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+      inset 0 0 0 0.5px var(--pi-border-dark);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .pageIndicator__track {
+      background: var(--pi-bg-light);
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 0 0 0.5px var(--pi-border-dark);
+    }
   }
 
   .pageIndicator__dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 100px;
-    background: rgba(235, 235, 245, 0.3);
-    transition: 
-      background 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
-      transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
-      width 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+    position: relative;
+    width: var(--pi-dot-size);
+    height: var(--pi-dot-size);
+    border-radius: var(--pi-radius-pill);
+    background: var(--pi-inactive-dark);
     cursor: pointer;
     border: none;
     padding: 0;
     appearance: none;
+    -webkit-appearance: none;
+    flex: 0 0 auto;
+    transition: 
+      width var(--pi-dur) var(--pi-ease),
+      background-color var(--pi-dur) var(--pi-ease),
+      transform var(--pi-dur) var(--pi-ease),
+      box-shadow var(--pi-dur) var(--pi-ease);
+    will-change: width, transform;
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Expand touch target to 44×44px for accessibility */
+  .pageIndicator__dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background: transparent;
+  }
+
   [data-theme="light"] .pageIndicator__dot {
-    background: rgba(60, 60, 67, 0.18);
+    background: var(--pi-inactive-light);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .pageIndicator__dot {
+      background: var(--pi-inactive-light);
+    }
   }
 
   .pageIndicator__dot:active {
-    transform: scale(0.9);
+    transform: scale(var(--pi-press-scale));
+  }
+
+  .pageIndicator__dot:focus-visible {
+    outline: 2px solid var(--pi-active);
+    outline-offset: 2px;
   }
 
   .pageIndicator__dot.is-active {
-    background: var(--blue);
-    width: 18px;
+    background: var(--pi-active);
+    width: var(--pi-dot-active-width);
+    box-shadow: var(--pi-inner-glow);
   }
 
   [data-theme="light"] .pageIndicator__dot.is-active {
-    background: var(--blue);
+    background: var(--pi-active);
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.9), 0 0 8px rgba(13, 138, 255, 0.4);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .pageIndicator__dot.is-active {
+      box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.9), 0 0 8px rgba(13, 138, 255, 0.4);
+    }
   }
 
   @media (max-width: 1023px) {
@@ -95,7 +182,12 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
 
   @media (prefers-reduced-motion: reduce) {
     .pageIndicator__dot {
-      transition: none;
+      transition-duration: 1ms;
+      will-change: auto;
+    }
+    
+    .pageIndicator__dot:active {
+      transform: none;
     }
   }
 </style>

@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import BrandIcon from "./BrandIcon.astro";
 import SFIcon from "./SFIcon.astro";
+import PageIndicator from "./PageIndicator.astro";
 import { getBrandIcon } from "./brand-icons";
 import AvatarSrc from "../assets/avatar.png";
 
@@ -215,6 +216,11 @@ const _meta = [
     })
   }
 </ul>
+<PageIndicator 
+  containerSelector=".profileCardContactsMobile" 
+  itemSelector="li"
+  ariaLabel="Social links navigation"
+/>
 
 <style>
   .profileCard {

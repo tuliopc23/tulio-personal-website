@@ -1,0 +1,231 @@
+---
+interface Props {
+  containerClass?: string;
+  ariaLabel?: string;
+}
+
+const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.props;
+---
+
+<div class={`scrollIndicator ${containerClass}`} data-scroll-indicator aria-label={ariaLabel}>
+  <button 
+    class="scrollIndicator__arrow scrollIndicator__arrow--left" 
+    data-scroll-arrow="left"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <button 
+    class="scrollIndicator__arrow scrollIndicator__arrow--right" 
+    data-scroll-arrow="right"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="scrollIndicator__hint" data-scroll-hint aria-live="polite" role="status">
+    <span>Scroll for more →</span>
+  </div>
+</div>
+
+<style>
+  .scrollIndicator {
+    position: relative;
+    pointer-events: none;
+  }
+
+  .scrollIndicator__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--panel-border);
+    background: var(--surface-elevated);
+    backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
+    -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: 
+      opacity var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out),
+      border-color var(--motion-duration-sm) var(--motion-ease-out);
+    z-index: 2;
+    box-shadow: var(--shadow-card-soft);
+  }
+
+  .scrollIndicator__arrow--left {
+    left: var(--space-sm);
+  }
+
+  .scrollIndicator__arrow--right {
+    right: var(--space-sm);
+  }
+
+  .scrollIndicator__arrow.is-visible {
+    opacity: 1;
+  }
+
+  .scrollIndicator__arrow:hover {
+    border-color: var(--panel-border-strong);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .scrollIndicator__arrow:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .scrollIndicator__hint {
+    position: absolute;
+    bottom: var(--space-md);
+    right: var(--space-md);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-sm);
+    background: var(--surface-elevated);
+    backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
+    -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
+    border: 1px solid var(--panel-border);
+    color: var(--muted);
+    font-size: var(--fs--2);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+    box-shadow: var(--shadow-card-soft);
+  }
+
+  .scrollIndicator__hint.is-visible {
+    opacity: 1;
+  }
+
+  /* Hide indicators on desktop */
+  @media (min-width: 1024px) {
+    .scrollIndicator__arrow,
+    .scrollIndicator__hint {
+      display: none;
+    }
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .scrollIndicator__arrow,
+    .scrollIndicator__hint {
+      transition: opacity 0.01ms;
+    }
+  }
+</style>
+
+<script>
+  // Initialize scroll indicators for horizontal carousels
+  const initScrollIndicators = () => {
+    const indicators = document.querySelectorAll('[data-scroll-indicator]');
+    
+    indicators.forEach((indicator) => {
+      // Find the scrollable container (parent with overflow-x: auto)
+      let scrollContainer = indicator.parentElement;
+      while (scrollContainer && scrollContainer !== document.body) {
+        const style = window.getComputedStyle(scrollContainer);
+        if (style.overflowX === 'auto' || style.overflowX === 'scroll') {
+          break;
+        }
+        scrollContainer = scrollContainer.parentElement;
+      }
+
+      if (!scrollContainer || scrollContainer === document.body) return;
+
+      const leftArrow = indicator.querySelector('[data-scroll-arrow="left"]');
+      const rightArrow = indicator.querySelector('[data-scroll-arrow="right"]');
+      const hint = indicator.querySelector('[data-scroll-hint]');
+      
+      let hasInteracted = sessionStorage.getItem('carousel-interacted') === 'true';
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Show hint on first load
+      if (!hasInteracted && hint && window.innerWidth < 1024) {
+        setTimeout(() => {
+          hint.classList.add('is-visible');
+          setTimeout(() => {
+            hint.classList.remove('is-visible');
+          }, 3000);
+        }, 500);
+      }
+
+      const updateArrows = () => {
+        if (window.innerWidth >= 1024) return; // Desktop doesn't need arrows
+
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+        const atStart = scrollLeft <= 10;
+        const atEnd = scrollLeft + clientWidth >= scrollWidth - 10;
+
+        if (leftArrow) {
+          leftArrow.classList.toggle('is-visible', !atStart);
+        }
+        if (rightArrow) {
+          rightArrow.classList.toggle('is-visible', !atEnd);
+        }
+      };
+
+      const markInteracted = () => {
+        if (!hasInteracted) {
+          hasInteracted = true;
+          sessionStorage.setItem('carousel-interacted', 'true');
+          hint?.classList.remove('is-visible');
+        }
+      };
+
+      // Arrow click handlers
+      if (leftArrow) {
+        leftArrow.addEventListener('click', () => {
+          const scrollAmount = scrollContainer.clientWidth * 0.8;
+          scrollContainer.scrollBy({ 
+            left: -scrollAmount, 
+            behavior: prefersReducedMotion ? 'auto' : 'smooth' 
+          });
+          markInteracted();
+        });
+      }
+
+      if (rightArrow) {
+        rightArrow.addEventListener('click', () => {
+          const scrollAmount = scrollContainer.clientWidth * 0.8;
+          scrollContainer.scrollBy({ 
+            left: scrollAmount, 
+            behavior: prefersReducedMotion ? 'auto' : 'smooth' 
+          });
+          markInteracted();
+        });
+      }
+
+      // Update arrow visibility on scroll
+      scrollContainer.addEventListener('scroll', () => {
+        updateArrows();
+        markInteracted();
+      }, { passive: true });
+
+      // Update on resize
+      window.addEventListener('resize', updateArrows, { passive: true });
+
+      // Initial update
+      updateArrows();
+    });
+  };
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollIndicators);
+  } else {
+    initScrollIndicators();
+  }
+</script>

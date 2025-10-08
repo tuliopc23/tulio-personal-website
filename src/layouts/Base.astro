@@ -237,7 +237,7 @@ const structuredDataJson =
             <div class="sidebar__inner">
               <div class="sidebar__header">Navigation</div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
-                <div class="sidebar__group">
+                <div class="sidebar__group sidebar__group--site">
                   <div class="sidebar__groupLabel">Site</div>
                   <a
                     class="sidebar__link"
@@ -272,7 +272,7 @@ const structuredDataJson =
                     Projects
                   </a>
                 </div>
-                <div class="sidebar__group">
+                <div class="sidebar__group sidebar__group--social">
                   <div class="sidebar__groupLabel">Social</div>
                   <a
                     class="sidebar__link"
@@ -381,6 +381,7 @@ const structuredDataJson =
     <script src={motionScriptSrc} type="module"></script>
     <script src={themeScriptSrc} type="module"></script>
     <script src={sidebarScriptSrc} type="module"></script>
+    <script src="/src/scripts/scroll-indicators.js" type="module"></script>
     <script is:inline>
       if (typeof window !== "undefined") {
         const mask = document.querySelector("[data-topbar-mask]");
