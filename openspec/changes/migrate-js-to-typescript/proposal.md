@@ -6,15 +6,22 @@
 
 ## Why
 
-The project currently has 19 JavaScript files (5 production scripts, 12 debug utilities, 2 config utilities) that lack type safety. The codebase already uses TypeScript with strict mode enabled for Astro components, React components, and utilities. Migrating remaining JavaScript files to TypeScript will provide compile-time type checking, better IDE support, and catch potential runtime errors during development.
+The project has **6 production JavaScript files** totaling 560 lines of code that lack type safety. Code audit reveals these scripts are well-structured with modern patterns (optional chaining, nullish coalescing, IIFE wrappers) but would benefit significantly from TypeScript's compile-time checks.
 
-The project already has full TypeScript infrastructure configured (tsconfig.json with strict mode, type checking in CI), making this a natural next step for consistency and improved maintainability.
+**Key Findings from Audit**:
+- **theme.js** already has JSDoc type hints showing TypeScript readiness
+- **sidebar.js** has a bug: inline `!important` style hack (line 31) that won't work
+- **motion.js** is the most complex with state management and IntersectionObserver
+- All files use modern ES patterns that TypeScript handles well
+- No major refactoring needed, just add types
+
+The codebase already uses TypeScript with strict mode for all Astro/React components. These remaining JavaScript files create inconsistency and miss opportunities to catch bugs during development. The project's TypeScript infrastructure is already configured, making this a natural next step.
 
 ## What Changes
 
-Migrate all JavaScript files to TypeScript with strict typing:
+Migrate all production JavaScript files to TypeScript with strict typing:
 
-### Production Scripts (Priority 1)
+### Production Scripts (Priority 1 - 560 lines total)
 - `src/scripts/visual-editing.js` → `src/scripts/visual-editing.ts`
 - `src/scripts/sidebar.js` → `src/scripts/sidebar.ts`
 - `src/scripts/theme.js` → `src/scripts/theme.ts`
@@ -37,9 +44,11 @@ Migrate all JavaScript files to TypeScript with strict typing:
 ### Changes
 - Add proper TypeScript types for DOM APIs, events, and browser globals
 - Add type annotations for function parameters and return types
-- Add interfaces for complex objects (e.g., theme state, sidebar state)
+- Add interfaces for complex objects (theme state, sidebar state, page state, glass state)
+- Fix bug in sidebar.js: `style.display = "block !important"` → `style.setProperty("display", "block", "important")`
 - Ensure strict null checking is satisfied
-- Update import statements where needed
+- Use `import type` for type-only imports (Biome rule)
+- Use `const` instead of `let` where variables aren't reassigned (Biome rule)
 - Update Astro config to handle TypeScript in scripts
 - Ensure build process compiles TypeScript scripts correctly
 

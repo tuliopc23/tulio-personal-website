@@ -387,7 +387,8 @@ const _meta = [
   .profileCard__eyebrow {
     margin: 0;
     font-size: var(--fs--2);
-    letter-spacing: 0.08em;
+    font-weight: 500; /* Better distinction */
+    letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
     text-transform: uppercase;
   }
 
@@ -401,9 +402,9 @@ const _meta = [
 
   .profileCard__name {
     margin: 0;
-    font-size: clamp(26px, 1.8vw + 16px, 38px);
+    font-size: clamp(26px, 1.8vw + 16px, 36px); /* Reduced max from 38px */
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.020em;
     color: var(--text);
   }
 
@@ -439,8 +440,9 @@ const _meta = [
     gap: var(--space-xs);
     margin: 0;
     font-size: var(--fs--2);
+    font-weight: 500; /* Better distinction */
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
   }
 
   :global([data-theme="dark"]) .profileCard__metaItem dt {

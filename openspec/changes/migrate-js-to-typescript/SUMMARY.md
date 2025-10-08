@@ -6,18 +6,19 @@ This OpenSpec change proposal provides a comprehensive plan to migrate all remai
 
 ## Current State
 
-The project currently has **19 JavaScript files**:
+The project currently has **6 production JavaScript files** (560 lines total):
 
-### Production Scripts (5 files)
-- `src/scripts/visual-editing.js` - Sanity visual editing loader (8 lines)
-- `src/scripts/sidebar.js` - Sidebar navigation logic (128 lines)
-- `src/scripts/theme.js` - Theme switcher (84 lines)
-- `src/scripts/motion.js` - Motion/animation system (191 lines)
-- `src/scripts/scroll-indicators.js` - Scroll position indicators (57 lines)
+### Production Scripts (6 files - 560 lines)
+- `src/scripts/visual-editing.js` - 8 lines - Sanity visual editing overlay loader
+- `src/scripts/sidebar.js` - 132 lines - Sidebar navigation, filter, toggle, backdrop **[HAS BUG]**
+- `src/scripts/theme.js` - 84 lines - Theme switcher with localStorage **[Has JSDoc types]**
+- `src/scripts/motion.js` - 191 lines - Page transitions, reveal animations, glass morphism
+- `src/scripts/scroll-indicators.js` - 57 lines - Horizontal scroll edge fade indicators
+- `public/web-vitals.js` - 88 lines - Performance monitoring (dev only)
 
 ### Utilities (2 files)
-- `public/web-vitals.js` - Performance monitoring for dev (88 lines)
-- `refresh.js` - Simple debug utility (2 lines) → will be removed
+- `public/web-vitals.js` - 88 lines - Performance monitoring for dev (to migrate)
+- `refresh.js` - 2 lines - Simple debug utility (to remove)
 
 ### Config Files (3 files)
 - `astro.config.mjs`
@@ -39,6 +40,30 @@ The project currently has **19 JavaScript files**:
 - `fix-sidebar-group.js`
 
 **Recommendation**: Debug files should be removed or excluded (temporary/obsolete code)
+
+## Code Audit Findings
+
+After analyzing all production JavaScript files:
+
+### Complexity Ratings
+- ⭐ **Simple** (Quick wins): visual-editing.js, scroll-indicators.js
+- ⭐⭐ **Medium** (Straightforward): theme.js (has JSDoc!), web-vitals.js
+- ⭐⭐⭐ **Complex** (Need care): sidebar.js (has bug), motion.js (most complex)
+
+### Key Discoveries
+1. **theme.js already TypeScript-ready**: Has JSDoc type hint `/** @type {"light" | "dark" | null} */`
+2. **Bug in sidebar.js line 31**: Uses `style.display = "block !important"` which doesn't work
+   - Fix: Use `style.setProperty("display", "block", "important")`
+3. **Modern code patterns**: All files use optional chaining, nullish coalescing, IIFE wrappers
+4. **No major refactoring needed**: Just add types and fix the one bug
+
+### Migration Order (by complexity)
+1. visual-editing.js (8 lines) - Simplest, good warm-up
+2. scroll-indicators.js (57 lines) - Clean, straightforward
+3. theme.js (84 lines) - Has JSDoc, easy conversion
+4. web-vitals.js (88 lines) - Structured, clear patterns
+5. sidebar.js (132 lines) - Fix bug while migrating
+6. motion.js (191 lines) - Most complex, save for last
 
 ## Proposed Changes
 

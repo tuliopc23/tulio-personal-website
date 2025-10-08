@@ -2,16 +2,39 @@
 
 ## Context
 
-The Tulio Personal Website is built with Astro 5, React 19, and TypeScript in strict mode. The codebase follows Apple HIG design principles with a focus on clean, maintainable code. Currently, 19 JavaScript files remain unmigrated, creating inconsistency in the type safety coverage.
+The Tulio Personal Website is built with Astro 5, React 19, and TypeScript in strict mode. The codebase follows Apple HIG design principles with a focus on clean, maintainable code. 
+
+### Code Audit Results
+
+After analyzing all 6 production JavaScript files (560 lines total), key findings:
+
+**File Complexity Ratings**:
+- ⭐ Simple: visual-editing.js (8 lines), scroll-indicators.js (57 lines)
+- ⭐⭐ Medium: theme.js (84 lines), web-vitals.js (88 lines)
+- ⭐⭐⭐ Complex: sidebar.js (132 lines), motion.js (191 lines)
+
+**Code Quality**:
+- All files use modern ES patterns (optional chaining, nullish coalescing, IIFE wrappers)
+- theme.js already has JSDoc type hint: `/** @type {"light" | "dark" | null} */`
+- All files demonstrate good null handling and defensive programming
+- One bug found: sidebar.js line 31 uses broken `!important` inline style hack
+
+**Migration Readiness**:
+- High: Modern code patterns map well to TypeScript
+- Zero dependency conflicts: All libraries have TypeScript support
+- Build infrastructure ready: Astro handles `.ts` files automatically
+- Estimated effort: 2-3 hours as planned
 
 ### Current State
 - **TypeScript Coverage**: ~95% (all .astro, .tsx, .ts files)
-- **JavaScript Files**: 19 total
-  - 5 production client scripts (`src/scripts/*.js`)
-  - 1 public utility (`public/web-vitals.js`)
-  - 1 trivial utility (`refresh.js`)
-  - 3 config files (`*.config.mjs`)
-  - 12 debug/fix scripts (root level)
+- **JavaScript Files**: 6 production scripts (560 lines)
+  - visual-editing.js (8 lines) - Sanity overlay loader
+  - sidebar.js (132 lines) - Nav toggle, filter, backdrop
+  - theme.js (84 lines) - Theme switcher with localStorage
+  - motion.js (191 lines) - Page transitions, reveal animations
+  - scroll-indicators.js (57 lines) - Horizontal scroll edge fades
+  - web-vitals.js (88 lines) - Performance monitoring (dev only)
+- **Debug Files**: 12 temporary scripts (will be removed/excluded)
 
 ### Constraints
 - Must maintain functional equivalence (no behavior changes)
@@ -310,14 +333,174 @@ function handleData(data: unknown) { // ✅
 }
 ```
 
+## Real Code Examples from Audit
+
+### Example 1: theme.js - Already Has JSDoc Types
+
+**Current JavaScript** (line 15):
+```javascript
+/** @type {"light" | "dark" | null} */
+let stored = readStoredTheme();
+```
+
+**Migrated TypeScript**:
+```typescript
+type Theme = "light" | "dark";
+type ThemeStorage = Theme | null;
+
+let stored: ThemeStorage = readStoredTheme();
+```
+
+### Example 2: sidebar.js - Bug Fix Required
+
+**Current JavaScript** (line 31) - **BROKEN**:
+```javascript
+// Never hide the site navigation group
+if (groupEl.classList.contains("sidebar__group--site")) {
+  groupEl.style.display = "block !important"; // ❌ Won't work!
+  return;
+}
+```
+
+**Fixed TypeScript**:
+```typescript
+// Never hide the site navigation group
+if (groupEl.classList.contains("sidebar__group--site")) {
+  groupEl.style.setProperty("display", "block", "important"); // ✅ Works!
+  return;
+}
+```
+
+**Explanation**: Setting `style.display = "block !important"` doesn't work because the `!important` is treated as part of the string value, not as a priority flag. Must use `setProperty()` with the third parameter.
+
+### Example 3: motion.js - Complex State Types
+
+**Current JavaScript** (lines 23-30, 62, 71):
+```javascript
+// Implicit state strings scattered throughout
+body.dataset.glassState = "rest";
+body.dataset.glassState = scrolled ? "scrolled" : "rest";
+body.dataset.pageState = "ready";
+body.dataset.pageState = "entering";
+body.dataset.pageState = "leaving";
+```
+
+**Migrated TypeScript**:
+```typescript
+type PageState = "entering" | "ready" | "leaving";
+type GlassState = "rest" | "scrolled";
+
+interface BodyDataset extends DOMStringMap {
+  pageState?: PageState;
+  glassState?: GlassState;
+  sidebarState?: "open" | "closed"; // Also used by sidebar.js
+}
+
+const body = document.body as HTMLElement & { dataset: BodyDataset };
+
+// Now type-safe assignments
+body.dataset.glassState = "rest"; // ✅
+body.dataset.pageState = "entering"; // ✅
+// body.dataset.pageState = "invalid"; // ❌ Type error!
+```
+
+### Example 4: visual-editing.js - Dynamic Imports
+
+**Current JavaScript**:
+```javascript
+if (window.location !== window.parent.location) {
+  const loadOverlays = async () => {
+    const { enableOverlays } = await import("@sanity/visual-editing");
+    enableOverlays({ zIndex: 999999 });
+  };
+  loadOverlays();
+}
+```
+
+**Migrated TypeScript**:
+```typescript
+if (window.location !== window.parent.location) {
+  const loadOverlays = async (): Promise<void> => {
+    const { enableOverlays } = await import("@sanity/visual-editing");
+    enableOverlays({ zIndex: 999999 });
+  };
+  void loadOverlays();
+}
+```
+
+**Improvements**:
+- Explicit `Promise<void>` return type
+- `void` operator to indicate intentional fire-and-forget
+
+### Example 5: web-vitals.js - PerformanceObserver Types
+
+**Current JavaScript** (lines 11-18):
+```javascript
+const lcpObserver = new PerformanceObserver((list) => {
+  const entries = list.getEntries();
+  const lastEntry = entries[entries.length - 1];
+  console.log(
+    `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime)}ms`,
+    "color: #0ea5e9; font-weight: bold"
+  );
+});
+```
+
+**Migrated TypeScript**:
+```typescript
+const lcpObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
+  const entries = list.getEntries();
+  const lastEntry = entries[entries.length - 1] as PerformancePaintTiming;
+  console.log(
+    `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime)}ms`,
+    "color: #0ea5e9; font-weight: bold",
+  );
+});
+lcpObserver.observe({ type: "largest-contentful-paint", buffered: true });
+```
+
+### Example 6: sidebar.js - Complex Event Handlers
+
+**Current JavaScript** (lines 55-58):
+```javascript
+filter?.addEventListener("input", (event) => {
+  const target = event.target;
+  apply(target?.value ?? null);
+});
+```
+
+**Migrated TypeScript**:
+```typescript
+filter?.addEventListener("input", (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  apply(target?.value ?? null);
+});
+
+// Or with proper type narrowing
+filter?.addEventListener("input", (event: Event) => {
+  if (!(event.target instanceof HTMLInputElement)) return;
+  apply(event.target.value ?? null);
+});
+```
+
 ## Implementation Strategy
 
-### Phase 1: Core Scripts (Days 1-2)
-1. Migrate `src/scripts/*.js` (5 files)
-2. Add proper DOM types
-3. Add state management types
-4. Test all interactive features
-5. Validate with `bun run typecheck`
+### Phase 1: Core Scripts (Prioritized by Complexity)
+
+**Day 1 - Easy Wins (Est: 45 min)**
+1. Migrate `visual-editing.js` (8 lines) - Simplest, good warm-up
+2. Migrate `scroll-indicators.js` (57 lines) - Clean, straightforward
+3. Test both files, ensure Biome passes
+
+**Day 1 - Medium Complexity (Est: 1 hour)**
+4. Migrate `theme.js` (84 lines) - Already has JSDoc types, easy conversion
+5. Migrate `web-vitals.js` (88 lines) - Structured, clear patterns
+6. Test both files, validate type safety
+
+**Day 2 - Complex Files (Est: 1.5 hours)**
+7. Migrate `sidebar.js` (132 lines) - **Fix the `!important` bug while migrating**
+8. Migrate `motion.js` (191 lines) - Most complex, comprehensive state management
+9. Thorough testing of interactive features
 
 ### Phase 2: Utilities & Config (Day 2)
 1. Migrate `public/web-vitals.js`

@@ -6,69 +6,119 @@
 - [ ] Create this change proposal
 - [ ] Validate proposal with `openspec validate migrate-js-to-typescript --strict`
 
-## 2. Phase 1: Production Scripts (Priority 1)
+## 2. Phase 1: Production Scripts (Priority 1 - Ordered by Complexity)
 
-### 2.1 Migrate visual-editing.js
+### 2.1 Migrate visual-editing.js (⭐ SIMPLEST - 8 lines)
 - [ ] Rename `src/scripts/visual-editing.js` → `visual-editing.ts`
-- [ ] Add types for Sanity visual editing imports
+- [ ] Add `Promise<void>` return type to async function
 - [ ] Add Window type extensions for iframe detection
+- [ ] Use `void` operator for fire-and-forget async call
 - [ ] Run `biome check --write .` to auto-fix formatting
 - [ ] Run `biome lint .` to verify no linting errors
 - [ ] Test in development mode with Sanity Studio
 - [ ] Verify visual editing overlays still work
 
-### 2.2 Migrate sidebar.js
+### 2.2 Migrate scroll-indicators.js (⭐ EASY - 57 lines)
+- [ ] Rename `src/scripts/scroll-indicators.js` → `scroll-indicators.ts`
+- [ ] Type scroll event handlers
+- [ ] Add types for edge fade state calculations (boolean)
+- [ ] Type querySelector results with proper HTMLElement types
+- [ ] Type destructured properties: `scrollLeft`, `scrollWidth`, `clientWidth`
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
+- [ ] Test article carousel edge fades
+- [ ] Test card rail scroll indicators
+
+### 2.3 Migrate theme.js (⭐⭐ MEDIUM - 84 lines)
+- [ ] Rename `src/scripts/theme.js` → `theme.ts`
+- [ ] Replace JSDoc with TypeScript: `type Theme = "light" | "dark"`
+- [ ] Add `type ThemeStorage = Theme | null`
+- [ ] Type `readStoredTheme()` return value
+- [ ] Type `applyTheme()` parameters and return
+- [ ] Type localStorage access with error handling
+- [ ] Add types for media query matching (`MediaQueryListEvent`)
+- [ ] Type HTMLInputElement for checkbox toggle (already uses `instanceof`)
+- [ ] Use `const` instead of `let` where possible (Biome rule)
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
+- [ ] Test theme switching in browser
+- [ ] Test localStorage persistence
+- [ ] Test light/dark mode classes on root element
+- [ ] Verify console logging still works
+
+### 2.4 Migrate web-vitals.js (⭐⭐ MEDIUM - 88 lines)
+- [ ] Rename `public/web-vitals.js` → `web-vitals.ts`
+- [ ] Add types for PerformanceObserver entries
+- [ ] Type `PerformanceObserverEntryList` in callbacks
+- [ ] Type performance navigation timing (`PerformanceNavigationTiming`)
+- [ ] Type cast entries: `as PerformancePaintTiming`, etc.
+- [ ] Add interface for custom performance metrics if needed
+- [ ] Run `biome check --write .` to auto-fix formatting
+- [ ] Run `biome lint .` to verify compliance
+- [ ] Test performance logging in development
+- [ ] Ensure it only runs on localhost
+
+### 2.5 Migrate sidebar.js (⭐⭐⭐ COMPLEX - 132 lines, HAS BUG)
 - [ ] Rename `src/scripts/sidebar.js` → `sidebar.ts`
-- [ ] Add interface for sidebar state (`SidebarState`)
-- [ ] Type all DOM query selectors with proper HTMLElement types
-- [ ] Add types for event handlers
+- [ ] **FIX BUG**: Line 31 - Change `style.display = "block !important"` to `style.setProperty("display", "block", "important")`
+- [ ] Add type: `type SidebarState = "open" | "closed"`
+- [ ] Type all DOM query selectors with proper HTMLElement types:
+  - [ ] `body` - HTMLBodyElement
+  - [ ] `filter` - HTMLInputElement
+  - [ ] `links` - HTMLAnchorElement[]
+  - [ ] `groups` - HTMLElement[]
+  - [ ] `sidebar` - HTMLElement
+  - [ ] `toggle` - HTMLButtonElement
+  - [ ] `backdrop` - HTMLDivElement (dynamically created)
+- [ ] Type `apply()` function parameter as `string | null`
+- [ ] Add types for event handlers:
+  - [ ] `InputEvent` for filter input
+  - [ ] `MouseEvent` for click events
+  - [ ] `KeyboardEvent` for keydown events
 - [ ] Type dataset access with proper string literal types
 - [ ] Use `import type` for type-only imports (Biome rule)
 - [ ] Ensure no unused variables or imports (Biome rule)
 - [ ] Run `biome check --write .` to auto-fix formatting
 - [ ] Run `biome lint .` to verify compliance
 - [ ] Test mobile navigation toggle
-- [ ] Test filter functionality
+- [ ] Test filter functionality (verify site group always visible)
 - [ ] Test keyboard shortcuts (Escape, /)
+- [ ] Test backdrop creation and removal
 
-### 2.3 Migrate theme.js
-- [ ] Rename `src/scripts/theme.js` → `theme.ts`
-- [ ] Add type for theme value: `type Theme = "light" | "dark"`
-- [ ] Type localStorage access with error handling
-- [ ] Add types for media query matching
-- [ ] Type HTMLInputElement for checkbox toggle
-- [ ] Use `const` instead of `let` where possible (Biome rule)
-- [ ] Avoid explicit `any` types (Biome rule)
-- [ ] Run `biome check --write .` to auto-fix formatting
-- [ ] Run `biome lint .` to verify compliance
-- [ ] Test theme switching in browser
-- [ ] Test localStorage persistence
-- [ ] Test light/dark mode classes on root element
-
-### 2.4 Migrate motion.js
+### 2.6 Migrate motion.js (⭐⭐⭐ MOST COMPLEX - 191 lines)
 - [ ] Rename `src/scripts/motion.js` → `motion.ts`
 - [ ] Add types for page state: `type PageState = "entering" | "ready" | "leaving"`
 - [ ] Add types for glass state: `type GlassState = "rest" | "scrolled"`
-- [ ] Type IntersectionObserver callbacks
-- [ ] Add interface for reveal element dataset properties
-- [ ] Type Map for reveal groups
+- [ ] Create interface for BodyDataset:
+  ```typescript
+  interface BodyDataset extends DOMStringMap {
+    pageState?: PageState;
+    glassState?: GlassState;
+  }
+  ```
+- [ ] Type IntersectionObserver callbacks (`IntersectionObserverEntry[]`)
+- [ ] Add interface for reveal element dataset properties:
+  ```typescript
+  interface RevealDataset extends DOMStringMap {
+    reveal?: string;
+    revealDelay?: string;
+    revealOrder?: string;
+    revealGroup?: string;
+  }
+  ```
+- [ ] Type Map for reveal groups: `Map<string, number>`
+- [ ] Type all function returns (most are `void`)
+- [ ] Type event handlers (scroll, load, change)
 - [ ] Use strict equality (`===`) instead of `==` (Biome rule)
 - [ ] Remove any unused variables or imports (Biome rule)
+- [ ] Use `const` for observer and linkHandler where appropriate
 - [ ] Run `biome check --write .` to auto-fix formatting
 - [ ] Run `biome lint .` to verify compliance
-- [ ] Test page transitions
-- [ ] Test reveal animations
+- [ ] Test page transitions (entering → ready → leaving)
+- [ ] Test reveal animations with IntersectionObserver
 - [ ] Test reduced motion preference
-
-### 2.5 Migrate scroll-indicators.js
-- [ ] Rename `src/scripts/scroll-indicators.js` → `scroll-indicators.ts`
-- [ ] Type scroll event handlers
-- [ ] Add types for edge fade state calculations
-- [ ] Type querySelector results with proper element types
-- [ ] Run `biome check --write .` to auto-fix formatting
-- [ ] Run `biome lint .` to verify compliance
-- [ ] Test article carousel edge fades
-- [ ] Test card rail scroll indicators
+- [ ] Test glass morphism state changes on scroll
+- [ ] Test internal link interception
 
 ## 3. Phase 2: Utilities (Priority 2)
 

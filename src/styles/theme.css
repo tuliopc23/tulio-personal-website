@@ -49,28 +49,29 @@
   --font-mono:
     "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
     "Liberation Mono", "Courier New", monospace;
-  --fs-0: clamp(1rem, 1vw + 0.95rem, 1.2rem);
+  --fs-0: clamp(1.0625rem, 1vw + 0.95rem, 1.2rem); /* iOS baseline 17px */
   --fs--1: clamp(0.875rem, 0.8vw + 0.75rem, 1rem);
   --fs--2: clamp(0.75rem, 0.6vw + 0.6875rem, 0.875rem);
   --lh: 1.65; /* Updated from 1.6 for better readability */
-  --fs-hero: clamp(2.4rem, 4.2vw + 1.3rem, 4.25rem);
+  --fs-hero: clamp(2.4rem, 4.2vw + 1.3rem, 3.25rem); /* Apple HIG Large Title cap: 52px */
   --fs-h2: clamp(1.75rem, 2.4vw + 1.15rem, 2.55rem);
   --fs-h3: clamp(1.24rem, 1.5vw + 0.98rem, 1.88rem);
   --measure-reading: 58ch;
   --measure-wide: 68ch;
   --lh-tight: 1.382; /* Golden ratio inverse */
-  --lh-base: 1.618; /* Golden ratio for body text */
-  --lh-hero: 1.06; /* Slightly more breathing room */
+  --lh-base: 1.65; /* Apple HIG long-form reading standard */
+  --lh-hero: 1.08; /* Enhanced breathing room for large display */
   --lh-heading: 1.2; /* Standard heading line height */
   --lh-compact: 1.45; /* Compact lists/UI text */
 
   /* Letter spacing - Apple HIG precision (WWDC 2020 specifications) */
   --ls-hero: -0.039em; /* Large display: tighter tracking */
-  --ls-h2: -0.027em; /* Medium display: balanced */
-  --ls-h3: -0.019em; /* Small display: slightly open */
-  --ls-body: -0.011em; /* Body text: subtle tightness */
+  --ls-h2: -0.025em; /* Medium display: balanced (refined from -0.027em) */
+  --ls-h3: -0.015em; /* Small display: slightly open (refined from -0.019em) */
+  --ls-body: -0.010em; /* Body text: subtle tightness (refined from -0.011em) */
   --ls-caption: -0.006em; /* Captions/small text */
   --ls-button: 0.004em; /* Button text (positive spacing) */
+  --ls-eyebrow: 0.06em; /* Uppercase labels/eyebrows (HIG standard) */
   --ls-tight: -0.01em; /* General tight spacing */
   --hero-highlight: rgba(94, 92, 230, 0.28);
 
@@ -435,9 +436,12 @@
     --space-xl: 48px;
     --sidebar-width: 0px;
     --content-max: 100%;
-    --fs-hero: clamp(30px, 6vw + 18px, 46px);
+    --fs-0: clamp(1.0625rem, 1.5vw + 0.95rem, 1.125rem); /* 17px min iOS baseline */
+    --fs-hero: clamp(32px, 6vw + 18px, 48px); /* Increased min from 30px */
     --fs-h2: clamp(22px, 3.4vw + 14px, 28px);
-    --fs-h3: clamp(17px, 2.2vw + 14px, 22px);
+    --fs-h3: clamp(18px, 2.2vw + 14px, 22px); /* Increased min from 17px */
+    --ls-h3: -0.008em; /* Reduce compression on small screens */
+    --ls-body: -0.005em; /* Nearly neutral on mobile */
     --container-padding: clamp(var(--space-sm), 6vw, var(--space-lg));
   }
 }
@@ -720,32 +724,41 @@ h4 {
 h1 {
   font-size: var(--fs-hero);
   font-weight: 700;
-  line-height: var(--lh-hero); /* 1.02 */
-  letter-spacing: var(--ls-hero); /* -0.032em - enhanced precision */
+  line-height: var(--lh-hero); /* 1.08 */
+  letter-spacing: var(--ls-hero); /* -0.039em - HIG precision */
   font-variation-settings: var(--font-variation-display-large);
+  margin: 0 0 var(--space-md); /* Enhanced separation: 24px */
 }
 
 h2 {
   font-size: var(--fs-h2);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: var(--ls-h2); /* -0.024em - enhanced precision */
+  font-weight: 700; /* Increased from 600 for better hierarchy */
+  line-height: 1.15; /* Improved from 1.1 */
+  letter-spacing: var(--ls-h2); /* -0.025em - HIG precision */
   font-variation-settings: var(--font-variation-display-medium);
+}
+
+/* Variable font weight for H2 with fallback */
+@supports (font-variation-settings: normal) {
+  h2 {
+    font-variation-settings: "wght" 650, var(--font-variation-display-medium);
+    font-weight: 700; /* Fallback */
+  }
 }
 
 h3 {
   font-size: var(--fs-h3);
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: var(--ls-h3); /* -0.018em - enhanced precision */
-  font-variation-settings: var(--font-variation-display-medium);
+  letter-spacing: var(--ls-h3); /* -0.015em - HIG precision */
+  font-variation-settings: var(--font-variation-display-small); /* Changed from display-medium */
 }
 
 p {
-  margin: 0 0 var(--space-sm);
+  margin: 0 0 var(--space-md); /* Enhanced rhythm: 24px */
   max-width: var(--measure-reading);
-  line-height: var(--lh-base); /* 1.65 - enhanced readability */
-  letter-spacing: var(--ls-body); /* -0.008em - enhanced precision */
+  line-height: var(--lh-base); /* 1.65 - Apple HIG standard */
+  letter-spacing: var(--ls-body); /* -0.010em - HIG precision */
   text-wrap: pretty;
 }
 
@@ -762,7 +775,7 @@ p:last-child {
 }
 
 p + p {
-  margin-top: var(--space-xs);
+  margin-top: 0; /* Remove compound spacing */
 }
 
 /* Enhanced focus states */
@@ -2074,7 +2087,12 @@ kbd.slash {
       max(var(--safe-area-left), var(--space-md));
   }
   .hero__subtitle {
-    font-size: clamp(17px, 2vw + 14px, 19px);
+    font-size: clamp(18px, 2vw + 14px, 20px); /* iOS baseline 18px */
+  }
+  
+  /* Mobile paragraph spacing */
+  p {
+    margin-bottom: var(--space-sm); /* 16px on mobile */
   }
 }
 .hero__subtitle {
@@ -2659,7 +2677,8 @@ kbd.slash {
 .projectCard__eyebrow {
   margin: 0;
   font-size: var(--fs--2);
-  letter-spacing: 0.08em;
+  font-weight: 500; /* Better distinction */
+  letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
   text-transform: uppercase;
 }
 
@@ -3259,9 +3278,9 @@ kbd.slash {
 }
 
 .article__title {
-  font-size: clamp(40px, 5vw + 16px, 68px);
-  line-height: var(--lh-hero); /* 1.02 */
-  letter-spacing: var(--ls-hero); /* -0.032em - precision */
+  font-size: clamp(40px, 5vw + 16px, 52px); /* Apple HIG cap: 52px */
+  line-height: var(--lh-hero); /* 1.08 */
+  letter-spacing: var(--ls-hero); /* -0.039em - HIG precision */
 }
 
 .article__summary {
@@ -3278,6 +3297,9 @@ kbd.slash {
   gap: 8px; /* Tightened from var(--space-xs) (12px) */
   color: var(--muted);
   font-size: var(--fs--1);
+  font-weight: 500; /* Better scannability */
+  letter-spacing: 0.005em; /* Slight positive tracking for small text */
+  font-variant-numeric: tabular-nums; /* Align numbers (dates, times) */
 }
 
 .article__meta time {
@@ -3294,7 +3316,10 @@ kbd.slash {
 }
 
 .article__tag {
-  padding: 6px 12px;
+  padding: 10px 16px; /* Touch target: 44px min */
+  min-height: 44px; /* Explicit minimum */
+  display: inline-flex; /* For vertical centering */
+  align-items: center; /* Center content */
   border-radius: 999px;
   font-size: var(--fs--2);
   letter-spacing: 0.01em;
@@ -3374,13 +3399,13 @@ kbd.slash {
 }
 
 .articlePortable :where(h2) {
-  margin: clamp(var(--space-lg), 4vw, 56px) 0 var(--space-sm);
+  margin: clamp(var(--space-lg), 4vw, 48px) 0 var(--space-sm); /* Cap at 48px */
   font-size: clamp(28px, 2.8vw + 18px, 46px);
-  font-weight: 650;
+  font-weight: 700; /* Match global H2 */
 }
 
 .articlePortable :where(h3) {
-  margin: clamp(var(--space-md), 3vw, 38px) 0 var(--space-xs);
+  margin: clamp(var(--space-md), 3vw, 32px) 0 var(--space-xs); /* Cap at 32px */
   font-size: clamp(22px, 2vw + 16px, 30px);
   font-weight: 600;
 }
@@ -3389,6 +3414,7 @@ kbd.slash {
   position: relative;
   margin: var(--space-lg) 0;
   padding: var(--space-md) var(--space-lg);
+  padding-inline-start: var(--space-xl); /* Enhanced emphasis: 48px */
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-left: 4px solid var(--link);
@@ -3400,8 +3426,9 @@ kbd.slash {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 8px 16px rgba(0, 0, 0, 0.12);
-  color: rgba(235, 235, 245, 0.65);
-  font-style: italic;
+  color: rgba(235, 235, 245, 0.75); /* Increased opacity from 0.65 */
+  font-style: normal; /* Apple HIG standard */
+  font-weight: 450; /* Subtle emphasis via weight instead of italic */
 }
 
 .articlePortable :where(ul),
@@ -3425,7 +3452,8 @@ kbd.slash {
   background: rgba(35, 35, 39, 0.80);
   border-radius: var(--radius-sm);
   padding: 2px 6px;
-  font-size: 0.95em;
+  font-size: 0.94em; /* Better optical balance */
+  line-height: inherit; /* Ensure proper line height */
 }
 
 .articlePortable__link,
@@ -4058,8 +4086,8 @@ kbd.slash {
   padding: 6px 16px;
   border-radius: 999px;
   font-size: var(--fs--2);
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-weight: 500; /* Better distinction */
+  letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
   text-transform: uppercase;
 }
 
@@ -4085,8 +4113,8 @@ kbd.slash {
   margin: 0;
   font-size: clamp(40px, 3vw + 24px, 56px);
   font-weight: 700;
-  letter-spacing: var(--ls-hero); /* -0.032em - precision */
-  line-height: var(--lh-hero); /* 1.02 */
+  letter-spacing: var(--ls-hero); /* -0.039em HIG precision */
+  line-height: var(--lh-hero); /* 1.08 */
 }
 
 /* Dark mode: light gradient (light text on dark bg) */
