@@ -58,22 +58,28 @@
   --fs-h3: clamp(1.24rem, 1.5vw + 0.98rem, 1.88rem);
   --measure-reading: 58ch;
   --measure-wide: 68ch;
-  --lh-tight: 1.35;
-  --lh-base: 1.65; /* Updated from 1.6 */
-  --lh-hero: 1.02; /* Tighter for hero text */
+  --lh-tight: 1.382; /* Golden ratio inverse */
+  --lh-base: 1.618; /* Golden ratio for body text */
+  --lh-hero: 1.06; /* Slightly more breathing room */
+  --lh-heading: 1.2; /* Standard heading line height */
+  --lh-compact: 1.45; /* Compact lists/UI text */
 
-  /* Letter spacing - Apple HIG precision */
-  --ls-hero: -0.032em; /* For h1/hero titles */
-  --ls-h2: -0.024em; /* For h2 */
-  --ls-h3: -0.018em; /* For h3 */
-  --ls-body: -0.008em; /* For body text */
+  /* Letter spacing - Apple HIG precision (WWDC 2020 specifications) */
+  --ls-hero: -0.039em; /* Large display: tighter tracking */
+  --ls-h2: -0.027em; /* Medium display: balanced */
+  --ls-h3: -0.019em; /* Small display: slightly open */
+  --ls-body: -0.011em; /* Body text: subtle tightness */
+  --ls-caption: -0.006em; /* Captions/small text */
+  --ls-button: 0.004em; /* Button text (positive spacing) */
   --ls-tight: -0.01em; /* General tight spacing */
   --hero-highlight: rgba(94, 92, 230, 0.28);
 
-  /* Font Variation Settings - SF Pro Display Optical Sizing */
-  --font-variation-display-small: "opsz" 17; /* For 17px and below */
-  --font-variation-display-medium: "opsz" 28; /* For 18-35px */
-  --font-variation-display-large: "opsz" 96; /* For 36px and above */
+  /* Font Variation Settings - SF Pro Display Optical Sizing (Apple exact thresholds) */
+  --font-variation-text: "opsz" 17; /* 11-19pt */
+  --font-variation-display-small: "opsz" 20; /* 20-27pt */
+  --font-variation-display-medium: "opsz" 28; /* 28-35pt */
+  --font-variation-display-large: "opsz" 40; /* 36-96pt */
+  --font-variation-display-xlarge: "opsz" 96; /* 96pt+ */
   --font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
 
   /* Safe area */
@@ -119,6 +125,19 @@
     0.28,
     1.32
   ); /* Enhanced from 0.18,0.89,0.32,1.28 */
+  
+  /* Spring-based animation system (WWDC 2023/2025) */
+  --spring-snappy: cubic-bezier(0.16, 1.04, 0.32, 0.98); /* Quick, minimal overshoot */
+  --spring-bouncy: cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Elastic bounce */
+  --spring-smooth: cubic-bezier(0.28, 0.88, 0.42, 1.08); /* Gentle spring */
+  --spring-responsive: cubic-bezier(0.22, 0.94, 0.38, 1.12); /* UI interactions */
+  
+  /* Spring durations (longer for natural physics) */
+  --motion-duration-spring-xs: 240ms;
+  --motion-duration-spring-sm: 320ms;
+  --motion-duration-spring-md: 420ms;
+  --motion-duration-spring-lg: 520ms;
+  
   --motion-distance-xs: 4px;
   --motion-distance-sm: 8px;
   --motion-distance-md: 16px;
@@ -158,6 +177,25 @@
   --glass-ultra-thick-blur: 48px;
   --glass-ultra-thick-opacity: 90%;
   --glass-ultra-thick-saturation: 2.5;
+
+  /* Advanced Glass Material Variants (Tahoe 26) */
+  --glass-adaptive-blur: var(--glass-regular-blur);
+  --glass-adaptive-opacity: var(--glass-regular-opacity);
+  --glass-adaptive-saturation: var(--glass-regular-saturation);
+  
+  --glass-frosted-blur: 64px;
+  --glass-frosted-opacity: 92%;
+  --glass-frosted-saturation: 2.8;
+  
+  --glass-crystal-blur: 18px;
+  --glass-crystal-opacity: 65%;
+  --glass-crystal-saturation: 2.6;
+  --glass-crystal-brightness: 1.08;
+  
+  /* Enhanced glass noise */
+  --glass-noise-opacity-base: 0.028;
+  --glass-noise-opacity-active: 0.042;
+  --glass-noise-scale: 1.2;
 
   /* Colors (Dark default) */
   --bg: #050505;
@@ -624,7 +662,7 @@ body {
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
   font-feature-settings: var(--font-feature-settings);
-  font-variation-settings: var(--font-variation-display-small);
+  font-variation-settings: var(--font-variation-text);
   text-rendering: optimizeLegibility;
   text-wrap: pretty;
 }
