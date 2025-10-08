@@ -10,9 +10,12 @@ if (window.location.hostname === "localhost") {
     try {
       const lcpObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1] as PerformancePaintTiming;
+        const lastEntry = entries[entries.length - 1] as PerformanceEntry & {
+          renderTime?: number;
+          loadTime?: number;
+        };
         console.log(
-          `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime)}ms`,
+          `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime || 0)}ms`,
           "color: #0ea5e9; font-weight: bold",
         );
       });
@@ -22,22 +25,25 @@ if (window.location.hostname === "localhost") {
       let clsValue = 0;
       const clsObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         for (const entry of list.getEntries()) {
-          const layoutShift = entry as PerformanceEntry & { hadRecentInput?: boolean; value: number };
+          const layoutShift = entry as PerformanceEntry & {
+            hadRecentInput?: boolean;
+            value: number;
+          };
           if (!layoutShift.hadRecentInput) {
             clsValue += layoutShift.value;
           }
         }
-        console.log(
-          `%c📐 CLS: ${clsValue.toFixed(3)}`,
-          "color: #f59e0b; font-weight: bold",
-        );
+        console.log(`%c📐 CLS: ${clsValue.toFixed(3)}`, "color: #f59e0b; font-weight: bold");
       });
       clsObserver.observe({ type: "layout-shift", buffered: true });
 
       // Track FID (First Input Delay)
       const fidObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         for (const entry of list.getEntries()) {
-          const fidEntry = entry as PerformanceEntry & { processingStart: number; startTime: number };
+          const fidEntry = entry as PerformanceEntry & {
+            processingStart: number;
+            startTime: number;
+          };
           console.log(
             `%c⌨️  FID: ${Math.round(fidEntry.processingStart - fidEntry.startTime)}ms`,
             "color: #10b981; font-weight: bold",
@@ -61,13 +67,12 @@ if (window.location.hostname === "localhost") {
 
       // Track TTFB (Time to First Byte)
       window.addEventListener("load", () => {
-        const navTiming = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
+        const navTiming = performance.getEntriesByType(
+          "navigation",
+        )[0] as PerformanceNavigationTiming;
         if (navTiming) {
           const ttfb = navTiming.responseStart - navTiming.requestStart;
-          console.log(
-            `%c🌐 TTFB: ${Math.round(ttfb)}ms`,
-            "color: #ec4899; font-weight: bold",
-          );
+          console.log(`%c🌐 TTFB: ${Math.round(ttfb)}ms`, "color: #ec4899; font-weight: bold");
         }
       });
     } catch {
