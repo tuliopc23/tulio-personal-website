@@ -35,9 +35,9 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
 
   .pageIndicator {
     /* HIG Design Tokens */
-    --pi-dot-size: 7px;
-    --pi-dot-active-width: 20px;
-    --pi-gap: 8px;
+    --pi-dot-size: 6px;
+    --pi-dot-active-size: 8px;
+    --pi-gap: 6px;
     --pi-radius-pill: 100px;
     
     /* Motion */
@@ -61,12 +61,11 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
     --pi-border-dark: rgba(0, 0, 0, 0.12);
     --pi-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.2);
     --pi-shadow-2: 0 8px 20px rgba(0, 0, 0, 0.35);
-    --pi-inner-glow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), 0 0 12px rgba(13, 138, 255, 0.5);
     
     display: none;
     justify-content: center;
     align-items: center;
-    padding: var(--space-md) 0;
+    padding: var(--space-sm) 0;
     pointer-events: none;
   }
 
@@ -74,33 +73,33 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
     display: inline-flex;
     align-items: center;
     gap: var(--pi-gap);
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: var(--pi-radius-pill);
-    background: var(--pi-bg-dark);
-    backdrop-filter: saturate(var(--pi-saturation)) blur(var(--pi-blur));
-    -webkit-backdrop-filter: saturate(var(--pi-saturation)) blur(var(--pi-blur));
+    background: rgba(28, 28, 30, 0.68);
+    backdrop-filter: saturate(1.8) blur(20px);
+    -webkit-backdrop-filter: saturate(1.8) blur(20px);
     box-shadow: 
-      var(--pi-shadow-1),
-      var(--pi-shadow-2),
-      inset 0 0 0 0.5px var(--pi-border-light);
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      0 4px 12px rgba(0, 0, 0, 0.16),
+      inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
     pointer-events: auto;
   }
 
   [data-theme="light"] .pageIndicator__track {
-    background: var(--pi-bg-light);
+    background: rgba(255, 255, 255, 0.84);
     box-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.12),
-      0 4px 12px rgba(0, 0, 0, 0.08),
-      inset 0 0 0 0.5px var(--pi-border-dark);
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
   }
 
   @media (prefers-color-scheme: light) {
     .pageIndicator__track {
-      background: var(--pi-bg-light);
+      background: rgba(255, 255, 255, 0.84);
       box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.12),
-        0 4px 12px rgba(0, 0, 0, 0.08),
-        inset 0 0 0 0.5px var(--pi-border-dark);
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.06),
+        inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
     }
   }
 
@@ -108,20 +107,25 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
     position: relative;
     width: var(--pi-dot-size);
     height: var(--pi-dot-size);
-    border-radius: var(--pi-radius-pill);
-    background: var(--pi-inactive-dark);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.3), rgba(235, 235, 245, 0.25));
     cursor: pointer;
     border: none;
     padding: 0;
     appearance: none;
     -webkit-appearance: none;
     flex: 0 0 auto;
+    box-shadow: 
+      inset 0 0.5px 1px rgba(255, 255, 255, 0.25),
+      inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.15);
     transition: 
       width var(--pi-dur) var(--pi-ease),
-      background-color var(--pi-dur) var(--pi-ease),
+      height var(--pi-dur) var(--pi-ease),
+      background var(--pi-dur) var(--pi-ease),
       transform var(--pi-dur) var(--pi-ease),
       box-shadow var(--pi-dur) var(--pi-ease);
-    will-change: width, transform;
+    will-change: width, height, transform;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -139,12 +143,20 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
   }
 
   [data-theme="light"] .pageIndicator__dot {
-    background: var(--pi-inactive-light);
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(60, 60, 67, 0.2));
+    box-shadow: 
+      inset 0 0.5px 1px rgba(255, 255, 255, 0.7),
+      inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.12),
+      0 1px 1.5px rgba(0, 0, 0, 0.08);
   }
 
   @media (prefers-color-scheme: light) {
     .pageIndicator__dot {
-      background: var(--pi-inactive-light);
+      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(60, 60, 67, 0.2));
+      box-shadow: 
+        inset 0 0.5px 1px rgba(255, 255, 255, 0.7),
+        inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.12),
+        0 1px 1.5px rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -158,19 +170,36 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
   }
 
   .pageIndicator__dot.is-active {
-    background: var(--pi-active);
-    width: var(--pi-dot-active-width);
-    box-shadow: var(--pi-inner-glow);
+    width: var(--pi-dot-active-size);
+    height: var(--pi-dot-active-size);
+    background: radial-gradient(circle at 35% 35%, rgba(120, 200, 255, 1), #0d8aff);
+    box-shadow: 
+      inset 0 0.5px 1.5px rgba(255, 255, 255, 0.7),
+      inset 0 -0.5px 1px rgba(0, 0, 0, 0.25),
+      0 0 0 1px rgba(13, 138, 255, 0.25),
+      0 0 8px rgba(13, 138, 255, 0.4),
+      0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   [data-theme="light"] .pageIndicator__dot.is-active {
-    background: var(--pi-active);
-    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.9), 0 0 8px rgba(13, 138, 255, 0.4);
+    background: radial-gradient(circle at 35% 35%, rgba(140, 210, 255, 1), #0d8aff);
+    box-shadow: 
+      inset 0 0.5px 1.5px rgba(255, 255, 255, 0.9),
+      inset 0 -0.5px 1px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(13, 138, 255, 0.2),
+      0 0 6px rgba(13, 138, 255, 0.35),
+      0 1px 2px rgba(0, 0, 0, 0.12);
   }
 
   @media (prefers-color-scheme: light) {
     .pageIndicator__dot.is-active {
-      box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.9), 0 0 8px rgba(13, 138, 255, 0.4);
+      background: radial-gradient(circle at 35% 35%, rgba(140, 210, 255, 1), #0d8aff);
+      box-shadow: 
+        inset 0 0.5px 1.5px rgba(255, 255, 255, 0.9),
+        inset 0 -0.5px 1px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(13, 138, 255, 0.2),
+        0 0 6px rgba(13, 138, 255, 0.35),
+        0 1px 2px rgba(0, 0, 0, 0.12);
     }
   }
 
