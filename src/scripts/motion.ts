@@ -1,6 +1,21 @@
 (() => {
+  type PageState = "entering" | "ready" | "leaving";
+  type GlassState = "rest" | "scrolled";
+
+  interface BodyDataset extends DOMStringMap {
+    pageState?: PageState;
+    glassState?: GlassState;
+  }
+
+  interface RevealDataset extends DOMStringMap {
+    reveal?: string;
+    revealDelay?: string;
+    revealOrder?: string;
+    revealGroup?: string;
+  }
+
   const doc = document;
-  const body = doc.body;
+  const body = doc.body as HTMLBodyElement & { dataset: BodyDataset };
   if (!body) {
     return;
   }
@@ -10,27 +25,27 @@
   const internalLinkSelector = 'a[href^="/"]:not([target]):not([download])';
   const MAX_REVEAL_DELAY = 180;
 
-  const revealElements = Array.from(doc.querySelectorAll(revealSelector));
-  const internalLinks = Array.from(doc.querySelectorAll(internalLinkSelector));
+  const revealElements = Array.from(doc.querySelectorAll<HTMLElement>(revealSelector));
+  const internalLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>(internalLinkSelector));
 
-  const showAllReveals = () => {
+  const showAllReveals = (): void => {
     revealElements.forEach((el) => {
       el.classList.add("is-visible");
     });
   };
 
-  const ensureGlassState = () => {
+  const ensureGlassState = (): void => {
     if (!body.dataset.glassState) {
       body.dataset.glassState = "rest";
     }
   };
 
-  const updateGlassState = () => {
+  const updateGlassState = (): void => {
     const scrolled = window.scrollY > 32;
     body.dataset.glassState = scrolled ? "scrolled" : "rest";
   };
 
-  const handleScroll = () => {
+  const handleScroll = (): void => {
     window.requestAnimationFrame(updateGlassState);
   };
 
@@ -38,10 +53,10 @@
   updateGlassState();
   window.addEventListener("scroll", handleScroll, { passive: true });
 
-  let observer = null;
-  let linkHandler = null;
+  let observer: IntersectionObserver | null = null;
+  let linkHandler: ((event: MouseEvent) => void) | null = null;
 
-  const cleanup = () => {
+  const cleanup = (): void => {
     if (observer) {
       observer.disconnect();
       observer = null;
@@ -49,13 +64,13 @@
 
     if (linkHandler) {
       internalLinks.forEach((link) => {
-        link.removeEventListener("click", linkHandler);
+        link.removeEventListener("click", linkHandler as EventListener);
       });
       linkHandler = null;
     }
   };
 
-  const activateReducedMotion = () => {
+  const activateReducedMotion = (): void => {
     cleanup();
     body.classList.remove("motion-enabled");
     body.classList.add("motion-reduce");
@@ -64,14 +79,14 @@
     showAllReveals();
   };
 
-  const activateStandardMotion = () => {
+  const activateStandardMotion = (): void => {
     cleanup();
     body.classList.remove("motion-reduce");
     body.classList.add("motion-enabled");
     body.dataset.pageState = "entering";
     ensureGlassState();
 
-    const onReady = () => {
+    const onReady = (): void => {
       requestAnimationFrame(() => {
         body.dataset.pageState = "ready";
       });
@@ -84,12 +99,12 @@
     }
 
     if (revealElements.length) {
-      const groups = new Map();
+      const groups = new Map<string, number>();
       observer = new IntersectionObserver(
-        (entries, obs) => {
+        (entries: IntersectionObserverEntry[], obs: IntersectionObserver) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const target = entry.target;
+              const target = entry.target as HTMLElement;
               target.classList.add("is-visible");
               obs.unobserve(target);
             }
@@ -103,7 +118,8 @@
       );
 
       revealElements.forEach((element) => {
-        const { revealDelay, revealOrder, revealGroup } = element.dataset;
+        const dataset = element.dataset as RevealDataset;
+        const { revealDelay, revealOrder, revealGroup } = dataset;
 
         if (revealDelay) {
           element.style.setProperty("--reveal-delay", revealDelay);
@@ -125,7 +141,7 @@
     }
 
     if (internalLinks.length) {
-      linkHandler = (event) => {
+      linkHandler = (event: MouseEvent): void => {
         if (event.defaultPrevented) {
           return;
         }
@@ -163,12 +179,12 @@
       };
 
       internalLinks.forEach((link) => {
-        link.addEventListener("click", linkHandler);
+        link.addEventListener("click", linkHandler as EventListener);
       });
     }
   };
 
-  const applyMotionPreference = (reduce) => {
+  const applyMotionPreference = (reduce: boolean): void => {
     if (reduce) {
       activateReducedMotion();
     } else {
@@ -178,7 +194,7 @@
 
   applyMotionPreference(prefersReduced.matches);
 
-  const handlePreferenceChange = (event) => {
+  const handlePreferenceChange = (event?: MediaQueryListEvent): void => {
     const next = typeof event?.matches === "boolean" ? event.matches : prefersReduced.matches;
     applyMotionPreference(next);
   };
@@ -186,6 +202,7 @@
   if (typeof prefersReduced.addEventListener === "function") {
     prefersReduced.addEventListener("change", handlePreferenceChange);
   } else if (typeof prefersReduced.addListener === "function") {
+    // Legacy API for older browsers
     prefersReduced.addListener(handlePreferenceChange);
   }
 })();

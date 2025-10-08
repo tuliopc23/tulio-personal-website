@@ -1,9 +1,12 @@
 (() => {
+  type Theme = "light" | "dark";
+  type ThemeStorage = Theme | null;
+
   const root = document.documentElement;
-  const control = document.querySelector("[data-theme-toggle]");
+  const control = document.querySelector<HTMLInputElement>("[data-theme-toggle]");
   const media = window.matchMedia("(prefers-color-scheme: light)");
 
-  const readStoredTheme = () => {
+  const readStoredTheme = (): ThemeStorage => {
     try {
       const value = localStorage.getItem("theme");
       return value === "light" || value === "dark" ? value : null;
@@ -12,11 +15,10 @@
     }
   };
 
-  /** @type {"light" | "dark" | null} */
-  let stored = readStoredTheme();
+  let stored: ThemeStorage = readStoredTheme();
 
-  const applyTheme = (theme, persist = false) => {
-    const next = theme === "light" ? "light" : "dark";
+  const applyTheme = (theme: Theme | string, persist = false): void => {
+    const next: Theme = theme === "light" ? "light" : "dark";
     root.setAttribute("data-theme", next);
 
     // Add class for Shiki code block theme switching
@@ -42,7 +44,7 @@
     }
   };
 
-  const resolveTheme = () => {
+  const resolveTheme = (): Theme => {
     // If user has explicitly chosen a theme, use it
     if (stored === "light" || stored === "dark") {
       console.log("[Theme] Using stored theme:", stored);
@@ -59,7 +61,7 @@
   console.log("[Theme] Applying initial theme:", initialTheme);
   applyTheme(initialTheme);
 
-  control?.addEventListener("change", (event) => {
+  control?.addEventListener("change", (event: Event) => {
     const target = event.currentTarget;
     if (!(target instanceof HTMLInputElement)) {
       return;
@@ -68,7 +70,7 @@
     applyTheme(target.checked ? "light" : "dark", true);
   });
 
-  const handleMediaChange = (event) => {
+  const handleMediaChange = (event: MediaQueryListEvent): void => {
     if (stored) {
       return;
     }
@@ -79,6 +81,7 @@
   if (typeof media.addEventListener === "function") {
     media.addEventListener("change", handleMediaChange);
   } else if (typeof media.addListener === "function") {
+    // Legacy API for older browsers
     media.addListener(handleMediaChange);
   }
 })();

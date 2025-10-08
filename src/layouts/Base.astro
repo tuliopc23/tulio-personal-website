@@ -2,9 +2,9 @@
 import BrandIcon from "../components/BrandIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import SFIcon from "../components/SFIcon.astro";
-import motionScriptSrc from "../scripts/motion.js?url";
-import sidebarScriptSrc from "../scripts/sidebar.js?url";
-import themeScriptSrc from "../scripts/theme.js?url";
+import motionScriptSrc from "../scripts/motion.ts?url";
+import sidebarScriptSrc from "../scripts/sidebar.ts?url";
+import themeScriptSrc from "../scripts/theme.ts?url";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 
@@ -382,7 +382,7 @@ const structuredDataJson =
     <script src={motionScriptSrc} type="module"></script>
     <script src={themeScriptSrc} type="module"></script>
     <script src={sidebarScriptSrc} type="module"></script>
-    <script src="/src/scripts/scroll-indicators.js" type="module"></script>
+    <script src="/src/scripts/scroll-indicators.ts" type="module"></script>
     <script is:inline>
       if (typeof window !== "undefined") {
         const mask = document.querySelector("[data-topbar-mask]");

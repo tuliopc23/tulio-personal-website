@@ -1,16 +1,16 @@
 (() => {
   const body = document.body;
-  const filter = document.querySelector("#sidebarFilter");
-  const links = Array.from(document.querySelectorAll(".sidebar__link"));
-  const groups = Array.from(document.querySelectorAll(".sidebar__group"));
-  const status = document.querySelector("[data-sidebar-status]");
+  const filter = document.querySelector<HTMLInputElement>("#sidebarFilter");
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".sidebar__link"));
+  const groups = Array.from(document.querySelectorAll<HTMLElement>(".sidebar__group"));
+  const status = document.querySelector<HTMLElement>("[data-sidebar-status]");
   const totalLinks = links.length;
 
   if (body?.dataset && !body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
   }
 
-  const apply = (query) => {
+  const apply = (query: string | null): void => {
     const rawQuery = query ?? "";
     const trimmedQuery = rawQuery.trim();
     const needle = trimmedQuery.toLowerCase();
@@ -28,11 +28,14 @@
     groups.forEach((groupEl) => {
       // Never hide the site navigation group
       if (groupEl.classList.contains("sidebar__group--site")) {
-        groupEl.style.display = "block !important";
+        // FIX: Use setProperty instead of direct assignment for !important
+        groupEl.style.setProperty("display", "block", "important");
         return;
       }
 
-      const hasVisible = Array.from(groupEl.querySelectorAll(".sidebar__link")).some((anchor) => {
+      const hasVisible = Array.from(
+        groupEl.querySelectorAll<HTMLAnchorElement>(".sidebar__link"),
+      ).some((anchor) => {
         const computed = getComputedStyle(anchor);
         return computed.display !== "none" && anchor.style.display !== "none";
       });
@@ -52,23 +55,24 @@
     }
   };
 
-  filter?.addEventListener("input", (event) => {
+  filter?.addEventListener("input", (event: Event) => {
     const target = event.target;
-    apply(target?.value ?? null);
+    if (!(target instanceof HTMLInputElement)) return;
+    apply(target.value ?? null);
   });
 
-  const sidebar = document.querySelector(".sidebar");
-  const toggle = document.querySelector(".topbar__menu");
+  const sidebar = document.querySelector<HTMLElement>(".sidebar");
+  const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
   if (sidebar) {
     sidebar.setAttribute("aria-hidden", "true");
   }
-  let backdrop = null;
+  let backdrop: HTMLDivElement | null = null;
 
   if (toggle) {
     toggle.setAttribute("aria-expanded", "false");
   }
 
-  const close = () => {
+  const close = (): void => {
     sidebar?.classList.remove("is-open");
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
@@ -80,7 +84,7 @@
     }
   };
 
-  const ensureBackdrop = () => {
+  const ensureBackdrop = (): HTMLDivElement => {
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.className = "backdrop";
@@ -92,7 +96,7 @@
     return backdrop;
   };
 
-  const open = () => {
+  const open = (): void => {
     const nextBackdrop = ensureBackdrop();
     sidebar?.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
@@ -117,7 +121,7 @@
     }
   });
 
-  window.addEventListener("keydown", (event) => {
+  window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       close();
     }

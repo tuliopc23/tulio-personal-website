@@ -8,50 +8,52 @@ if (window.location.hostname === "localhost") {
   // Track LCP (Largest Contentful Paint)
   if ("PerformanceObserver" in window) {
     try {
-      const lcpObserver = new PerformanceObserver((list) => {
+      const lcpObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         const entries = list.getEntries();
-        const lastEntry = entries[entries.length - 1];
+        const lastEntry = entries[entries.length - 1] as PerformancePaintTiming;
         console.log(
           `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime)}ms`,
-          "color: #0ea5e9; font-weight: bold"
+          "color: #0ea5e9; font-weight: bold",
         );
       });
       lcpObserver.observe({ type: "largest-contentful-paint", buffered: true });
 
       // Track CLS (Cumulative Layout Shift)
       let clsValue = 0;
-      const clsObserver = new PerformanceObserver((list) => {
+      const clsObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value;
+          const layoutShift = entry as PerformanceEntry & { hadRecentInput?: boolean; value: number };
+          if (!layoutShift.hadRecentInput) {
+            clsValue += layoutShift.value;
           }
         }
         console.log(
           `%c📐 CLS: ${clsValue.toFixed(3)}`,
-          "color: #f59e0b; font-weight: bold"
+          "color: #f59e0b; font-weight: bold",
         );
       });
       clsObserver.observe({ type: "layout-shift", buffered: true });
 
       // Track FID (First Input Delay)
-      const fidObserver = new PerformanceObserver((list) => {
+      const fidObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         for (const entry of list.getEntries()) {
+          const fidEntry = entry as PerformanceEntry & { processingStart: number; startTime: number };
           console.log(
-            `%c⌨️  FID: ${Math.round(entry.processingStart - entry.startTime)}ms`,
-            "color: #10b981; font-weight: bold"
+            `%c⌨️  FID: ${Math.round(fidEntry.processingStart - fidEntry.startTime)}ms`,
+            "color: #10b981; font-weight: bold",
           );
         }
       });
       fidObserver.observe({ type: "first-input", buffered: true });
 
       // Track FCP (First Contentful Paint)
-      const fcpObserver = new PerformanceObserver((list) => {
+      const fcpObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
         const entries = list.getEntries();
         const fcp = entries.find((entry) => entry.name === "first-contentful-paint");
         if (fcp) {
           console.log(
             `%c🎨 FCP: ${Math.round(fcp.startTime)}ms`,
-            "color: #8b5cf6; font-weight: bold"
+            "color: #8b5cf6; font-weight: bold",
           );
         }
       });
@@ -59,12 +61,12 @@ if (window.location.hostname === "localhost") {
 
       // Track TTFB (Time to First Byte)
       window.addEventListener("load", () => {
-        const navTiming = performance.getEntriesByType("navigation")[0];
+        const navTiming = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
         if (navTiming) {
           const ttfb = navTiming.responseStart - navTiming.requestStart;
           console.log(
             `%c🌐 TTFB: ${Math.round(ttfb)}ms`,
-            "color: #ec4899; font-weight: bold"
+            "color: #ec4899; font-weight: bold",
           );
         }
       });
@@ -76,11 +78,11 @@ if (window.location.hostname === "localhost") {
   // Overall page load time
   window.addEventListener("load", () => {
     setTimeout(() => {
-      const perfData = performance.getEntriesByType("navigation")[0];
+      const perfData = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
       if (perfData) {
         console.log(
           `%c⏱️  Page Load: ${Math.round(perfData.loadEventEnd - perfData.fetchStart)}ms`,
-          "color: #6366f1; font-weight: bold; font-size: 14px"
+          "color: #6366f1; font-weight: bold; font-size: 14px",
         );
       }
     }, 0);
