@@ -1,6 +1,6 @@
 .section-title {
   font-size: var(--fs-h2);
-  font-weight: 700; /* Match H2 */
+  font-weight: 700; /* Bold - section headings match H2 hierarchy */
   margin: var(--space-xl) 0 var(--space-md);
   letter-spacing: var(--ls-h2); /* -0.025em HIG precision */
 }

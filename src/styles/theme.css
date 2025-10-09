@@ -723,7 +723,7 @@ h4 {
 
 h1 {
   font-size: var(--fs-hero);
-  font-weight: 700;
+  font-weight: 800; /* Extrabold - maximum hero impact for short, punchy headlines */
   line-height: var(--lh-hero); /* 1.08 */
   letter-spacing: var(--ls-hero); /* -0.039em - HIG precision */
   font-variation-settings: var(--font-variation-display-large);
@@ -2040,7 +2040,7 @@ kbd.slash {
 }
 .hero__title {
   font-size: var(--fs-hero);
-  font-weight: 700;
+  font-weight: 800; /* Extrabold - commanding presence for homepage hero */
   letter-spacing: var(--ls-hero); /* -0.032em - enhanced precision */
   line-height: var(--lh-hero); /* 1.02 */
   margin: 0 0 12px;
@@ -2438,6 +2438,7 @@ kbd.slash {
 }
 .card-body {
   font-size: var(--fs--1);
+  font-weight: 500; /* Medium - card descriptions are lede text, not body copy */
   line-height: var(--lh-compact); /* 1.45 - Apple HIG compact text */
   margin: 0;
 }
@@ -2763,6 +2764,7 @@ kbd.slash {
 .projectCard__summary {
   margin: 0;
   font-size: var(--fs--1);
+  font-weight: 500; /* Medium - lede text that entices, not body copy */
   line-height: 1.6;
 }
 
@@ -3273,6 +3275,7 @@ kbd.slash {
 
 .article__title {
   font-size: clamp(40px, 5vw + 16px, 52px); /* Apple HIG cap: 52px */
+  font-weight: 800; /* Extrabold - article hero impact */
   line-height: var(--lh-hero); /* 1.08 */
   letter-spacing: var(--ls-hero); /* -0.039em - HIG precision */
 }
@@ -3282,6 +3285,7 @@ kbd.slash {
   max-width: var(--measure-reading);
   color: var(--muted);
   font-size: var(--fs-0);
+  font-weight: 500; /* Medium - article lede text prominence */
 }
 
 .article__meta {
@@ -3422,7 +3426,7 @@ kbd.slash {
     0 8px 16px rgba(0, 0, 0, 0.12);
   color: rgba(235, 235, 245, 0.75); /* Increased opacity from 0.65 */
   font-style: normal; /* Apple HIG standard */
-  font-weight: 450; /* Subtle emphasis via weight instead of italic */
+  font-weight: 500; /* Medium - emphasized quoted content, standard weight system */
 }
 
 .articlePortable :where(ul),
@@ -3701,6 +3705,7 @@ kbd.slash {
   align-items: center;
   gap: 8px;
   font-size: var(--fs--2);
+  font-weight: 500; /* Medium - eyebrow label hierarchy */
   text-transform: uppercase;
   letter-spacing: 0.16em;
 }
@@ -3733,7 +3738,7 @@ kbd.slash {
 .projects__title {
   margin: 0;
   font-size: clamp(36px, 2vw + 28px, 46px);
-  font-weight: 700;
+  font-weight: 800; /* Extrabold - page hero consistency */
   letter-spacing: var(--ls-hero); /* -0.032em - precision */
   line-height: 1.1;
 }
@@ -4107,7 +4112,7 @@ kbd.slash {
 .blogHero__title {
   margin: 0;
   font-size: clamp(40px, 3vw + 24px, 56px);
-  font-weight: 700;
+  font-weight: 800; /* Extrabold - page hero consistency */
   letter-spacing: var(--ls-hero); /* -0.039em HIG precision */
   line-height: var(--lh-hero); /* 1.08 */
 }
@@ -4795,6 +4800,7 @@ kbd.slash {
 .articleCard__summary {
   margin: 0;
   font-size: var(--fs--1);
+  font-weight: 500; /* Medium - card lede text that entices readers */
   line-height: 1.65;
 }
 
