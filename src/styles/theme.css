@@ -2715,6 +2715,7 @@ kbd.slash {
   gap: 8px;
   padding: 4px 10px;
   border-radius: 999px;
+  font-weight: 500; /* Medium - metadata badges need presence */
 }
 
 [data-theme="dark"] .projectCard__meta {
@@ -3889,6 +3890,7 @@ kbd.slash {
   border: none;
   background: transparent;
   font-size: var(--fs--2);
+  font-weight: 600; /* Semibold - UI filter labels need emphasis */
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 10px 18px;
@@ -4700,6 +4702,7 @@ kbd.slash {
   gap: 10px; /* Tightened from 12px */
   align-items: center;
   font-size: var(--fs--2);
+  font-weight: 500; /* Medium - metadata labels need presence */
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -4745,6 +4748,7 @@ kbd.slash {
 
 .articleCard__metaTags {
   font-size: var(--fs--2);
+  font-weight: 500; /* Medium - category tags need presence */
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -4783,8 +4787,8 @@ kbd.slash {
 .articleCard__title {
   margin: 0;
   font-size: clamp(22px, 1.5vw + 18px, 30px);
-  font-weight: 600;
-  letter-spacing: var(--ls-h3); /* -0.018em - precision */
+  font-weight: 700; /* Bold - article titles are hero content */
+  letter-spacing: var(--ls-h2); /* -0.025em - HIG precision for bold headings */
   line-height: 1.2;
 }
 
