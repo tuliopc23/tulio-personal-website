@@ -1,0 +1,48 @@
+name: Publish Scheduled Posts
+
+# Alternative to Cloudflare Cron Triggers
+# Use this if you prefer GitHub Actions for scheduled publishing
+
+on:
+  schedule:
+    # Runs every hour at minute 0
+    - cron: '0 * * * *'
+  workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  publish:
+    name: Publish Scheduled Posts
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Call Scheduled Publishing API
+        run: |
+          response=$(curl -X GET "${{ secrets.SITE_URL }}/api/publish-scheduled" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -w "\n%{http_code}" \
+            -s)
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+          
+          if [ "$http_code" -ne 200 ]; then
+            echo "❌ Failed to publish scheduled posts"
+            exit 1
+          fi
+          
+          echo "✅ Successfully published scheduled posts"
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "::warning::Scheduled publishing failed. Check the API endpoint and secrets."
+
+# Required GitHub Secrets:
+# - SITE_URL: Your production site URL (e.g., https://www.tuliocunha.dev)
+# - CRON_SECRET: Same secret used in CRON_SECRET environment variable
+#
+# To add secrets:
+# Repository Settings → Secrets and variables → Actions → New repository secret

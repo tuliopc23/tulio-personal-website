@@ -1,0 +1,28 @@
+# Cloudflare Workers Configuration
+# https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "tulio-personal-website"
+compatibility_date = "2025-01-10"
+
+# Scheduled Publishing Cron Trigger
+# Runs every hour to publish scheduled posts
+[triggers]
+crons = ["0 * * * *"]  # Every hour at minute 0
+
+# Environment variables (set via Cloudflare dashboard or wrangler)
+# Required:
+# - SANITY_API_WRITE_TOKEN (for publishing posts)
+# - CRON_SECRET (for securing the endpoint)
+# 
+# To deploy with wrangler:
+# wrangler secret put SANITY_API_WRITE_TOKEN
+# wrangler secret put CRON_SECRET
+
+# Build configuration
+[build]
+command = "bun run build"
+
+# Routes configuration (optional - configure in Cloudflare dashboard)
+# [routes]
+# pattern = "www.tuliocunha.dev/*"
+# zone_name = "tuliocunha.dev"

@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sanity from "@sanity/astro";
@@ -42,6 +43,8 @@ if (visualEditingEnabled || isDev) {
 // https://docs.astro.build
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
+  output: "server",
+  adapter: cloudflare({ mode: "directory" }),
   integrations: [mdx(), react(), sanity(sanityOptions)],
   vite: {
     css: { devSourcemap: true },

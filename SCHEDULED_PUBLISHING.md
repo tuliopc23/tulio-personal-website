@@ -1,16 +1,22 @@
 # Scheduled Publishing Setup Guide
 
-This document explains how to set up automated scheduled publishing for blog posts.
+This document explains how to set up automated scheduled publishing for blog posts with Cloudflare Workers.
 
 ## Overview
 
 Posts can be scheduled for future publication using the "Schedule Publish" action in Sanity Studio. A cron job automatically publishes scheduled posts at their designated time.
 
+**Architecture:**
+- **CMS**: Sanity Hosted Studio at `https://tulio-cunha-dev.sanity.studio`
+- **Website**: Cloudflare Workers (Astro hybrid mode)
+- **Scheduled Publishing**: Cloudflare Cron Triggers OR GitHub Actions
+
 ## Prerequisites
 
 1. **Sanity Write Token** - Required to update post status
-2. **Deployment Platform** - Vercel (configured) or similar with cron support
+2. **Deployment Platform** - Cloudflare Workers (configured)
 3. **Environment Variables** - Properly configured
+4. **Cron System** - Cloudflare Cron Triggers (recommended) OR GitHub Actions
 
 ## Setup Steps
 
@@ -42,23 +48,56 @@ CRON_SECRET=your_random_secret_here
 openssl rand -hex 32
 ```
 
-### 3. Deploy to Vercel
+### 3. Deploy to Cloudflare Workers
 
-Scheduled publishing only works in production (Vercel cron jobs don't run locally).
+Choose one of two approaches for scheduled publishing:
 
-1. **Add environment variables** in Vercel dashboard:
-   - Project Settings → Environment Variables
+#### Option A: Cloudflare Cron Triggers (Recommended)
+
+1. **Deploy to Cloudflare:**
+   ```bash
+   # Build locally
+   bun run build
+   
+   # Deploy with Wrangler
+   npx wrangler deploy
+   ```
+
+2. **Add environment variables via Wrangler:**
+   ```bash
+   npx wrangler secret put SANITY_API_WRITE_TOKEN
+   # Paste your token when prompted
+   
+   npx wrangler secret put CRON_SECRET
+   # Paste your secret when prompted
+   ```
+
+   OR add via Cloudflare Dashboard:
+   - Workers & Pages → Your site → Settings → Environment Variables
    - Add `SANITY_API_WRITE_TOKEN`
    - Add `CRON_SECRET`
 
-2. **Deploy:**
+3. **Verify cron is configured:**
+   - Check `wrangler.toml` has cron trigger: `crons = ["0 * * * *"]`
+   - Cron runs automatically on Cloudflare's infrastructure
+
+#### Option B: GitHub Actions (Alternative)
+
+1. **Deploy site to Cloudflare** (one-time):
    ```bash
-   git push origin main
+   bun run build
+   npx wrangler deploy
    ```
 
-3. **Verify cron configuration:**
-   - Vercel Dashboard → Settings → Cron Jobs
-   - Should show: `/api/publish-scheduled` runs hourly
+2. **Add GitHub Secrets:**
+   - Repository Settings → Secrets and variables → Actions
+   - Add `SITE_URL`: `https://www.tuliocunha.dev`
+   - Add `CRON_SECRET`: (same as your environment variable)
+
+3. **Enable GitHub Actions:**
+   - The workflow in `.github/workflows/publish-scheduled.yml` is already configured
+   - Runs hourly via GitHub's cron
+   - Monitor runs: Actions tab in GitHub
 
 ### 4. Test Scheduled Publishing
 
