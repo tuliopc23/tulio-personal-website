@@ -24,7 +24,7 @@ export const previewClient = createClient({
   dataset,
   apiVersion,
   useCdn: false,
-  perspective: "previewDrafts",
+  perspective: "drafts",
   token: import.meta.env.SANITY_API_READ_TOKEN,
 });
 

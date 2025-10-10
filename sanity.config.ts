@@ -5,6 +5,12 @@ import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { resolve } from "./src/sanity/lib/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
+import {
+  submitForReviewAction,
+  approveAndPublishAction,
+  schedulePublishAction,
+  unpublishAction,
+} from "./src/sanity/actions";
 
 const env = typeof process !== "undefined" && process?.env ? process.env : {};
 
@@ -32,17 +38,81 @@ export default defineConfig({
         S.list()
           .title("Content")
           .items([
+            // All Posts
             S.listItem()
-              .title("Posts")
-              .schemaType("post")
-              .child(S.documentTypeList("post").title("Posts")),
+              .title("All Posts")
+              .icon(() => "📄")
+              .child(S.documentTypeList("post").title("All Posts")),
+            
             S.divider(),
+            
+            // Posts by Workflow Status
+            S.listItem()
+              .title("📝 Drafts")
+              .icon(() => "📝")
+              .child(
+                S.documentList()
+                  .title("Draft Posts")
+                  .filter('_type == "post" && status == "draft"')
+              ),
+            
+            S.listItem()
+              .title("👀 In Review")
+              .icon(() => "👀")
+              .child(
+                S.documentList()
+                  .title("Posts In Review")
+                  .filter('_type == "post" && status == "in-review"')
+              ),
+            
+            S.listItem()
+              .title("✅ Approved")
+              .icon(() => "✅")
+              .child(
+                S.documentList()
+                  .title("Approved Posts")
+                  .filter('_type == "post" && status == "approved"')
+              ),
+            
+            S.listItem()
+              .title("🚀 Published")
+              .icon(() => "🚀")
+              .child(
+                S.documentList()
+                  .title("Published Posts")
+                  .filter('_type == "post" && status == "published"')
+              ),
+            
+            S.listItem()
+              .title("📅 Scheduled")
+              .icon(() => "📅")
+              .child(
+                S.documentList()
+                  .title("Scheduled Posts")
+                  .filter('_type == "post" && defined(scheduledPublishAt) && scheduledPublishAt > now()')
+              ),
+            
+            S.listItem()
+              .title("📦 Archived")
+              .icon(() => "📦")
+              .child(
+                S.documentList()
+                  .title("Archived Posts")
+                  .filter('_type == "post" && status == "archived"')
+              ),
+            
+            S.divider(),
+            
+            // Authors & Categories
             S.listItem()
               .title("Authors")
+              .icon(() => "👤")
               .schemaType("author")
               .child(S.documentTypeList("author").title("Authors")),
+            
             S.listItem()
               .title("Categories")
+              .icon(() => "🏷️")
               .schemaType("category")
               .child(S.documentTypeList("category").title("Categories")),
           ]),
@@ -58,5 +128,20 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, context) => {
+      // Only add custom actions for post documents
+      if (context.schemaType === "post") {
+        return [
+          submitForReviewAction,
+          approveAndPublishAction,
+          schedulePublishAction,
+          unpublishAction,
+          ...prev,
+        ];
+      }
+      return prev;
+    },
   },
 });
