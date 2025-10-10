@@ -22,6 +22,8 @@ const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
 });
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const slugs = await getAllPostSlugs();
   return slugs.map((slug) => ({ params: { slug } }));

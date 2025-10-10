@@ -14,8 +14,8 @@ const { size = 24, class: className = "" } = Astro.props;
   aria-label="Toggle theme"
   data-theme-toggle-icon
 >
-  <img src="/icons/IconDarkMode.svg" class="pi__dark" alt="" decoding="async" />
-  <img src="/icons/IconLightMode.svg" class="pi__light" alt="" decoding="async" />
+  <img src="/icons/icondarkoptimized.svg" class="pi__dark" alt="" decoding="async" />
+  <img src="/icons/ICONLIGHT.svg" class="pi__light" alt="" decoding="async" />
 </button>
 
 <style>
@@ -34,8 +34,11 @@ const { size = 24, class: className = "" } = Astro.props;
     height: var(--pi-size, 24px);
     border-radius: 20%;
     
-    /* Elevation - Apple HIG multi-layer shadows */
-    box-shadow: var(--pi-shadow);
+    /* Enhanced elevation - Apple HIG multi-layer shadows */
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.24),
+      0 2px 8px rgba(0, 0, 0, 0.08);
     
     /* Smooth animations */
     transition:
@@ -51,10 +54,13 @@ const { size = 24, class: className = "" } = Astro.props;
     isolation: isolate;
   }
 
-  /* Hover state - elevated shadow and subtle scale */
+  /* Enhanced hover state - more prominent shadow */
   .personal-icon:hover {
     transform: scale(1.03) translateZ(0);
-    box-shadow: var(--pi-shadow-hover);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.12),
+      0 8px 24px rgba(0, 0, 0, 0.1);
   }
 
   /* Active/pressed state - Apple-like press down */
@@ -78,6 +84,16 @@ const { size = 24, class: className = "" } = Astro.props;
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
+    
+    /* Remove all borders and frames */
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    
+    /* Perfect fit without distortion */
+    object-fit: contain;
+    object-position: center;
     
     /* Smooth cross-fade transition */
     opacity: 0;
