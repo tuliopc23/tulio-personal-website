@@ -19,7 +19,7 @@
     "biome:lint": "biome lint .",
     "biome:format": "biome format --write .",
     "biome:migrate": "biome migrate eslint --write && biome migrate prettier --write",
-    "sanity:typegen": "sanity-codegen",
+    "sanity:typegen": "sanity schema extract && sanity typegen generate",
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check ."
