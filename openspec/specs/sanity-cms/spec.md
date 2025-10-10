@@ -1,7 +1,8 @@
-# Sanity CMS Specification - Editorial Workflows
+# sanity-cms Specification
 
-## ADDED Requirements
-
+## Purpose
+TBD - created by archiving change optimize-sanity-integration. Update Purpose after archive.
+## Requirements
 ### Requirement: Editorial Workflow States
 The system SHALL provide a multi-stage editorial workflow for content management with distinct status states.
 
@@ -279,10 +280,8 @@ The system SHALL provide comprehensive documentation for the editorial team.
 - **AND** common issues SHALL be documented with solutions
 - **AND** the guide SHALL be easily searchable
 
-## MODIFIED Requirements
-
 ### Requirement: Content Querying
-The system SHALL query and retrieve content from Sanity with workflow status filtering. (Modified to add workflow filtering)
+The system SHALL query and retrieve content from Sanity with workflow status filtering.
 
 #### Scenario: Query published posts for site
 - **WHEN** the frontend requests blog posts
@@ -303,10 +302,3 @@ The system SHALL query and retrieve content from Sanity with workflow status fil
 - **AND** the query SHALL filter by status == "approved"
 - **AND** only posts ready to publish SHALL be returned
 
-## RENAMED Requirements
-
-(No requirements renamed in this change)
-
-## REMOVED Requirements
-
-(No requirements removed in this change)
