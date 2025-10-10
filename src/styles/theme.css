@@ -198,6 +198,26 @@
   --glass-noise-opacity-active: 0.042;
   --glass-noise-scale: 1.2;
 
+  /* Personal Brand Icon - Context-aware sizing and theming */
+  --pi-size-profile: 40px;
+  --pi-size-nav: 32px;
+  --pi-size-footer: 24px;
+  --pi-gap: 8px;
+  --pi-scale-hover: 1.03;
+  
+  /* Multi-layer shadow system (Apple HIG compliant) */
+  --pi-shadow:
+    0 0.5px 1px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.03);
+  
+  --pi-shadow-hover:
+    0 1px 1.5px rgba(0, 0, 0, 0.10),
+    0 2px 4px rgba(0, 0, 0, 0.08),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(0, 0, 0, 0.05);
+
   /* Colors (Dark default) */
   --bg: #050505;
   --surface: #161618;
@@ -582,6 +602,21 @@
 
   --symbol-surface: rgba(28, 28, 30, 0.92);
   --card-bg: var(--surface-elevated);
+
+  /* PersonalIcon - Dark mode: show light icon */
+  --pi-dark: 0;
+  --pi-light: 1;
+  --pi-focus-ring: rgba(13, 138, 255, 0.48);
+  --pi-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.20),
+    0 2px 4px rgba(0, 0, 0, 0.22),
+    0 8px 16px rgba(0, 0, 0, 0.16),
+    0 16px 32px rgba(0, 0, 0, 0.12);
+  --pi-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 4px 8px rgba(0, 0, 0, 0.28),
+    0 12px 24px rgba(0, 0, 0, 0.24),
+    0 24px 48px rgba(0, 0, 0, 0.18);
 }
 
 :root[data-theme="light"] {
@@ -659,6 +694,21 @@
     0 -18px 36px rgba(31, 35, 53, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   --symbol-surface: rgba(28, 28, 30, 0.94);
   --card-bg: var(--surface-elevated);
+
+  /* PersonalIcon - Light mode: show dark icon */
+  --pi-dark: 1;
+  --pi-light: 0;
+  --pi-focus-ring: rgba(0, 113, 227, 0.48);
+  --pi-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 2px 4px rgba(31, 35, 53, 0.14),
+    0 8px 16px rgba(31, 35, 53, 0.18),
+    0 18px 36px rgba(31, 35, 53, 0.22);
+  --pi-shadow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 3px 6px rgba(31, 35, 53, 0.16),
+    0 10px 20px rgba(31, 35, 53, 0.20),
+    0 22px 40px rgba(31, 35, 53, 0.24);
 }
 
 /* ======= Base ======= */
@@ -869,6 +919,10 @@ body[data-glass-state="scrolled"] .topbar::before {
   gap: clamp(var(--space-xs), 2vw, var(--space-sm));
   min-width: 0;
   flex: 0 0 auto;
+}
+
+.topbar__brandIcon {
+  flex-shrink: 0;
 }
 
 .topbar__brand {
@@ -5485,6 +5539,16 @@ input:focus {
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text);
+}
+
+.footer__titleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer__icon {
+  flex-shrink: 0;
 }
 .footer__copy {
   margin: 0;

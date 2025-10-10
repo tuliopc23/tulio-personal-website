@@ -2,6 +2,7 @@
 import BrandIcon from "../components/BrandIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import SFIcon from "../components/SFIcon.astro";
+import PersonalIcon from "../components/PersonalIcon.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 
@@ -165,6 +166,7 @@ const structuredDataJson =
           >
             <SFIcon name="sidebar-left" size={22} stroke={1.4} />
           </button>
+          <PersonalIcon size={28} class="topbar__brandIcon" />
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
             <span class="topbar__brandSubtitle">Full Stack Developer</span>
@@ -351,7 +353,12 @@ const structuredDataJson =
         <footer class="footer">
           <div class="footer__inner">
             <div class="footer__about">
-              <p class="footer__title">Tulio Cunha</p>
+              <p class="footer__title">
+                <span class="footer__titleRow">
+                  Tulio Cunha
+                  <PersonalIcon size={20} class="footer__icon" />
+                </span>
+              </p>
               <p class="footer__copy">
                 Full stack developer building native and web experiences through precise
                 tooling and considerate interfaces.

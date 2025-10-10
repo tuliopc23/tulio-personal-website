@@ -1,0 +1,139 @@
+/**
+ * Personal Icon Utilities
+ * Following Apple Human Interface Guidelines (Tahoe 26)
+ * 4-layer shadow composition for elevation and depth
+ */
+
+@layer utilities {
+  /* Base icon container with HIG-compliant shadows */
+  .icon-elevated {
+    /* 4-layer shadow system from HIG */
+    filter: drop-shadow(0 0.5px 1px rgba(0, 0, 0, 0.08))
+      drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06))
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.04))
+      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.03));
+  }
+
+  .icon-elevated-hover {
+    /* Enhanced elevation on hover */
+    filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.1))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08))
+      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.06))
+      drop-shadow(0 16px 32px rgba(0, 0, 0, 0.05));
+  }
+
+  /* Dark mode variants with inverted shadows */
+  .dark .icon-elevated-dark {
+    filter: drop-shadow(0 0.5px 1px rgba(255, 255, 255, 0.08))
+      drop-shadow(0 1px 2px rgba(255, 255, 255, 0.06))
+      drop-shadow(0 4px 8px rgba(255, 255, 255, 0.04))
+      drop-shadow(0 8px 16px rgba(255, 255, 255, 0.03));
+  }
+
+  .dark .icon-elevated-dark-hover {
+    filter: drop-shadow(0 1px 1.5px rgba(255, 255, 255, 0.1))
+      drop-shadow(0 2px 4px rgba(255, 255, 255, 0.08))
+      drop-shadow(0 8px 16px rgba(255, 255, 255, 0.06))
+      drop-shadow(0 16px 32px rgba(255, 255, 255, 0.05));
+  }
+
+  /* Size variants following HIG typography scale */
+  .icon-profile {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-nav {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-footer {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Interactive states with spring physics */
+  .icon-interactive {
+    transition-property: transform, filter;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.22, 0.94, 0.38, 1.12); /* Spring responsive */
+  }
+
+  .icon-interactive:hover {
+    transform: scale(1.03);
+  }
+
+  .icon-interactive:active {
+    transform: scale(0.96);
+    transition-duration: 100ms;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .icon-interactive {
+      transition: none;
+    }
+
+    .icon-interactive:hover {
+      transform: none;
+    }
+
+    .icon-interactive:active {
+      transform: none;
+    }
+  }
+
+  /* Theme-aware cross-fade */
+  .icon-light-mode {
+    opacity: 1;
+    transition: opacity 300ms cubic-bezier(0.2, 0.68, 0.32, 1);
+  }
+
+  .dark .icon-light-mode {
+    opacity: 0;
+  }
+
+  .icon-dark-mode {
+    opacity: 0;
+    transition: opacity 300ms cubic-bezier(0.2, 0.68, 0.32, 1);
+  }
+
+  .dark .icon-dark-mode {
+    opacity: 1;
+  }
+}
+
+/**
+ * Component-level styles for PersonalIcon
+ * Can be applied via className or used as base styles
+ */
+@layer components {
+  .personal-icon {
+    @apply relative inline-flex items-center justify-center;
+    @apply icon-interactive;
+    @apply focus-visible:outline-none;
+    @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:ring-offset-background;
+  }
+
+  .personal-icon-light {
+    @apply absolute inset-0 h-full w-full object-contain;
+    @apply icon-elevated icon-light-mode;
+    @apply pointer-events-none;
+  }
+
+  .personal-icon-light:hover {
+    @apply icon-elevated-hover;
+  }
+
+  .personal-icon-dark {
+    @apply absolute inset-0 h-full w-full object-contain;
+    @apply dark:icon-elevated-dark icon-dark-mode;
+    @apply pointer-events-none;
+  }
+
+  .personal-icon-dark:hover {
+    @apply dark:icon-elevated-dark-hover;
+  }
+}
