@@ -30,6 +30,12 @@
       root.classList.add("dark");
     }
 
+    // Update favicon based on theme
+    const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (favicon) {
+      favicon.href = next === "light" ? "/favicon-light.svg" : "/favicon-dark.svg";
+    }
+
     if (control instanceof HTMLInputElement) {
       control.checked = next === "light";
     }

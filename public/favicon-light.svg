@@ -1,0 +1,109 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <!-- Background Gradients -->
+  <linearGradient id="light-bg-gradient" x1="128" y1="2" x2="128" y2="254" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#404040"/>
+    <stop offset="40%" stop-color="#2D2D2D"/>
+    <stop offset="100%" stop-color="#1C1C1C"/>
+  </linearGradient>
+  
+  <!-- Border gradient for anti-aliasing guard -->
+  <linearGradient id="light-border-gradient" x1="128" y1="0" x2="128" y2="256" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="rgba(60, 60, 60, 0.6)"/>
+    <stop offset="100%" stop-color="rgba(28, 28, 28, 0.8)"/>
+  </linearGradient>
+  
+  <!-- Chevron Gradients -->
+  <linearGradient id="light-chevron-gradient" x1="110" y1="85" x2="110" y2="175" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#62BAFF"/>
+    <stop offset="35%" stop-color="#50A8F5"/>
+    <stop offset="70%" stop-color="#4096E6"/>
+    <stop offset="100%" stop-color="#3584D8"/>
+  </linearGradient>
+  
+  <linearGradient id="light-dash-gradient" x1="183" y1="160" x2="183" y2="178" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#62BAFF"/>
+    <stop offset="100%" stop-color="#4FA4F5"/>
+  </linearGradient>
+  
+  <!-- Glow Effects -->
+  <radialGradient id="light-glow" cx="128" cy="128" r="115" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="rgba(90, 180, 255, 0.18)"/>
+    <stop offset="60%" stop-color="rgba(90, 180, 255, 0.08)"/>
+    <stop offset="100%" stop-color="rgba(90, 180, 255, 0)"/>
+  </radialGradient>
+  
+  <!-- Enhanced Shadow Filter -->
+  <filter id="light-shadow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="5"/>
+    <feOffset dx="0" dy="4" result="offsetblur"/>
+    <feComponentTransfer>
+      <feFuncA type="linear" slope="0.4"/>
+    </feComponentTransfer>
+    <feMerge>
+      <feMergeNode/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+  
+  <!-- Shine Overlays -->
+  <linearGradient id="light-chevron-shine" x1="105" y1="85" x2="105" y2="175" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="rgba(255, 255, 255, 0.5)"/>
+    <stop offset="40%" stop-color="rgba(255, 255, 255, 0.25)"/>
+    <stop offset="100%" stop-color="rgba(255, 255, 255, 0)"/>
+  </linearGradient>
+  
+  <linearGradient id="light-inner-shadow" x1="128" y1="2" x2="128" y2="90" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="rgba(0, 0, 0, 0.3)"/>
+    <stop offset="100%" stop-color="rgba(0, 0, 0, 0)"/>
+  </linearGradient>
+  
+  <!-- Outer glow/border -->
+  <filter id="light-outer-glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+    <feOffset dx="0" dy="0" result="offsetblur"/>
+    <feComponentTransfer>
+      <feFuncA type="linear" slope="0.8"/>
+    </feComponentTransfer>
+    <feMerge>
+      <feMergeNode/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+
+<!-- Outer border guard to prevent white edge -->
+<rect x="1" y="1" width="254" height="254" rx="63" fill="url(#light-border-gradient)" filter="url(#light-outer-glow)"/>
+
+<!-- Main background with inset -->
+<rect x="2" y="2" width="252" height="252" rx="62" fill="url(#light-bg-gradient)"/>
+
+<!-- Inner shadow for depth -->
+<rect x="2" y="2" width="252" height="252" rx="62" fill="url(#light-inner-shadow)" opacity="0.2"/>
+
+<!-- Subtle glow -->
+<circle cx="128" cy="128" r="115" fill="url(#light-glow)"/>
+
+<!-- Chevron with enhanced shadow -->
+<g filter="url(#light-shadow)">
+  <path d="M 76 88 L 146 128 L 76 168" 
+        fill="none" 
+        stroke="url(#light-chevron-gradient)" 
+        stroke-width="26" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+  <path d="M 78 88 L 144 128 L 78 168" 
+        fill="none" 
+        stroke="url(#light-chevron-shine)" 
+        stroke-width="22" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        opacity="0.45"/>
+</g>
+
+<!-- Dash with enhanced shadow -->
+<g filter="url(#light-shadow)">
+  <rect x="154" y="159" width="58" height="20" rx="10" fill="url(#light-dash-gradient)"/>
+  <rect x="156" y="161" width="54" height="10" rx="5" fill="rgba(255, 255, 255, 0.35)"/>
+</g>
+</svg>
