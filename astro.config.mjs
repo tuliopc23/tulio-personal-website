@@ -3,7 +3,7 @@ import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sanity from "@sanity/astro";
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import { loadEnv } from "vite";
 
 const mode = process.env.NODE_ENV ?? "development";
@@ -45,6 +45,9 @@ export default defineConfig({
   site: "https://www.tuliocunha.dev",
   output: "server",
   adapter: cloudflare({ mode: "directory" }),
+  image: {
+    service: passthroughImageService(),
+  },
   integrations: [mdx(), react(), sanity(sanityOptions)],
   vite: {
     css: { devSourcemap: true },
