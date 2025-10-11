@@ -14,7 +14,10 @@ const { size = 24, class: className = "" } = Astro.props;
   aria-label="Toggle theme"
   data-theme-toggle-icon
 >
+  <!-- Dark mode shows the light icon -->
   <img src="/icons/IconLightMode.svg" class="pi__dark" alt="" decoding="async" />
+  
+  <!-- Light mode shows the dark icon -->
   <img src="/icons/icondarkoptimized.svg" class="pi__light" alt="" decoding="async" />
 </button>
 
@@ -34,11 +37,8 @@ const { size = 24, class: className = "" } = Astro.props;
     height: var(--pi-size, 24px);
     border-radius: 20%;
     
-    /* Enhanced elevation - Apple HIG multi-layer shadows */
-    box-shadow: 
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      0 1px 2px rgba(0, 0, 0, 0.24),
-      0 2px 8px rgba(0, 0, 0, 0.08);
+    /* No box-shadow on container to prevent white halo */
+    box-shadow: none;
     
     /* Smooth animations */
     transition:
@@ -54,13 +54,10 @@ const { size = 24, class: className = "" } = Astro.props;
     isolation: isolate;
   }
 
-  /* Enhanced hover state - more prominent shadow */
+  /* Enhanced hover state - scale only, no shadow */
   .personal-icon:hover {
     transform: scale(1.03) translateZ(0);
-    box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.15),
-      0 2px 4px rgba(0, 0, 0, 0.12),
-      0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
   }
 
   /* Active/pressed state - Apple-like press down */
@@ -75,8 +72,9 @@ const { size = 24, class: className = "" } = Astro.props;
     outline-offset: 3px;
   }
 
-  /* Stacked images with grid overlay */
-  .personal-icon img {
+  /* Stacked images and HTML icons with grid overlay */
+  .personal-icon img,
+  .personal-icon > div {
     grid-area: 1 / 1;
     width: 100%;
     height: 100%;
@@ -85,19 +83,22 @@ const { size = 24, class: className = "" } = Astro.props;
     user-select: none;
     -webkit-user-drag: none;
     
-    /* Remove all borders and frames */
+    /* Remove all borders, frames, and backgrounds */
     border: none !important;
     outline: none !important;
     background: transparent !important;
-    box-shadow: none !important;
-    
-    /* Perfect fit without distortion */
-    object-fit: contain;
-    object-position: center;
+    background-color: transparent !important;
     
     /* Smooth cross-fade transition */
     opacity: 0;
     transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  
+  .personal-icon img {
+    /* Image-specific styles */
+    box-shadow: none !important;
+    object-fit: contain;
+    object-position: center;
   }
 
   /* Theme-based visibility - controlled by global CSS variables */
