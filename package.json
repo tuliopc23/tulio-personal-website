@@ -20,6 +20,7 @@
     "biome:format": "biome format --write .",
     "biome:migrate": "biome migrate eslint --write && biome migrate prettier --write",
     "sanity:typegen": "sanity schema extract && sanity typegen generate",
+    "sanity:webhook": "node scripts/setup-webhook.js",
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check ."
@@ -43,6 +44,7 @@
     "dotenv": "^17.2.3",
     "sanity": "^4.10.2",
     "shiki": "^3.13.0",
+    "styled-components": "^6.1.15",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

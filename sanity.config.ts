@@ -8,7 +8,6 @@ import { schemaTypes } from "./src/sanity/schemaTypes";
 import {
   submitForReviewAction,
   approveAndPublishAction,
-  schedulePublishAction,
   unpublishAction,
 } from "./src/sanity/actions";
 
@@ -84,15 +83,6 @@ export default defineConfig({
               ),
             
             S.listItem()
-              .title("📅 Scheduled")
-              .icon(() => "📅")
-              .child(
-                S.documentList()
-                  .title("Scheduled Posts")
-                  .filter('_type == "post" && defined(scheduledPublishAt) && scheduledPublishAt > now()')
-              ),
-            
-            S.listItem()
               .title("📦 Archived")
               .icon(() => "📦")
               .child(
@@ -136,7 +126,6 @@ export default defineConfig({
         return [
           submitForReviewAction,
           approveAndPublishAction,
-          schedulePublishAction,
           unpublishAction,
           ...prev,
         ];

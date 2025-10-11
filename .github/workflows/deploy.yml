@@ -10,6 +10,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Log trigger info
+        run: |
+          echo "Workflow triggered by: ${{ github.event_name }}"
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "Event type: ${{ github.event.action }}"
+            echo "Triggered by: ${{ github.event.client_payload.triggered_by }}"
+            echo "Timestamp: ${{ github.event.client_payload.timestamp }}"
+          fi
+          
       - uses: actions/checkout@v4
       
       - uses: oven-sh/setup-bun@v1
