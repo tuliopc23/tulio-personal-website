@@ -44,7 +44,8 @@ export default defineConfig({
   integrations: [mdx(), sanity(sanityOptions)],
   vite: {
     define: {
-      'process.env': process.env,
+      'import.meta.env.PUBLIC_SANITY_PROJECT_ID': JSON.stringify(projectId),
+      'import.meta.env.PUBLIC_SANITY_DATASET': JSON.stringify(dataset),
     },
   },
 });
