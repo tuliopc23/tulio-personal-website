@@ -42,10 +42,4 @@ if (token) {
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
   integrations: [mdx(), sanity(sanityOptions)],
-  vite: {
-    define: {
-      'import.meta.env.PUBLIC_SANITY_PROJECT_ID': JSON.stringify(projectId),
-      'import.meta.env.PUBLIC_SANITY_DATASET': JSON.stringify(dataset),
-    },
-  },
 });
