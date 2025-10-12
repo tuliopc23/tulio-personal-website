@@ -42,4 +42,9 @@ if (token) {
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
   integrations: [mdx(), sanity(sanityOptions)],
+  vite: {
+    define: {
+      'process.env': process.env,
+    },
+  },
 });
