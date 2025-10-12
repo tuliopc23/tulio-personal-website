@@ -4,18 +4,10 @@ const DEFAULT_PROJECT_ID = "61249gtj";
 const DEFAULT_DATASET = "production";
 const isDevelopment = import.meta.env.DEV;
 
-const projectId =
-  import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? (isDevelopment ? DEFAULT_PROJECT_ID : undefined);
-const dataset =
-  import.meta.env.PUBLIC_SANITY_DATASET ?? (isDevelopment ? DEFAULT_DATASET : undefined);
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? DEFAULT_PROJECT_ID;
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? DEFAULT_DATASET;
 const apiVersion = "2025-01-01";
 const useCdn = import.meta.env.PROD;
-
-if (!projectId || !dataset) {
-  throw new Error(
-    "Missing required Sanity environment variables: set PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET. See README.md#environment-configuration.",
-  );
-}
 
 if (
   isDevelopment &&
