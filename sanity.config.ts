@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { codeInput } from "@sanity/code-input";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
@@ -11,35 +10,10 @@ import {
 import { resolve } from "./src/sanity/lib/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 
-const env = typeof process !== "undefined" && process?.env ? process.env : {};
-const isStudioDev = env.NODE_ENV !== "production";
-const DEFAULT_PROJECT_ID = "61249gtj";
-const DEFAULT_DATASET = "production";
-
-const defaultPreviewUrl =
-  env.SANITY_STUDIO_PREVIEW_URL ?? env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321";
-
-const projectIdFromEnv = env.SANITY_STUDIO_PROJECT_ID ?? env.PUBLIC_SANITY_PROJECT_ID;
-const datasetFromEnv = env.SANITY_STUDIO_DATASET ?? env.PUBLIC_SANITY_DATASET;
-
-const projectId = projectIdFromEnv ?? (isStudioDev ? DEFAULT_PROJECT_ID : undefined);
-const dataset = datasetFromEnv ?? (isStudioDev ? DEFAULT_DATASET : undefined);
-const missingEnvMessage =
-  "Sanity environment variables PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET are required. Set them (or SANITY_STUDIO_* overrides) and see README.md#environment-configuration for details.";
-
-if (!projectIdFromEnv || !datasetFromEnv) {
-  if (isStudioDev) {
-    console.warn(
-      `[sanity] ${missingEnvMessage} Falling back to defaults (${DEFAULT_PROJECT_ID}/${DEFAULT_DATASET}) for local Studio development.`,
-    );
-  } else {
-    throw new Error(`[sanity] ${missingEnvMessage}`);
-  }
-}
-
-if (!projectId || !dataset) {
-  throw new Error(`[sanity] ${missingEnvMessage}`);
-}
+// Use SANITY_STUDIO_ prefixed variables for hosted studio
+const projectId = "61249gtj";
+const dataset = "production";
+const previewUrl = "https://tulio-cunha-dev.vercel.app";
 
 export default defineConfig({
   name: "tulio-personal-website",
@@ -53,7 +27,6 @@ export default defineConfig({
         S.list()
           .title("Content")
           .items([
-            // All Posts
             S.listItem()
               .title("All Posts")
               .icon(() => "📄")
@@ -61,10 +34,8 @@ export default defineConfig({
 
             S.divider(),
 
-            // Posts by Workflow Status
             S.listItem()
               .title("📝 Drafts")
-              .icon(() => "📝")
               .child(
                 S.documentList()
                   .title("Draft Posts")
@@ -73,7 +44,6 @@ export default defineConfig({
 
             S.listItem()
               .title("👀 In Review")
-              .icon(() => "👀")
               .child(
                 S.documentList()
                   .title("Posts In Review")
@@ -82,7 +52,6 @@ export default defineConfig({
 
             S.listItem()
               .title("✅ Approved")
-              .icon(() => "✅")
               .child(
                 S.documentList()
                   .title("Approved Posts")
@@ -91,7 +60,6 @@ export default defineConfig({
 
             S.listItem()
               .title("🚀 Published")
-              .icon(() => "🚀")
               .child(
                 S.documentList()
                   .title("Published Posts")
@@ -100,7 +68,6 @@ export default defineConfig({
 
             S.listItem()
               .title("📦 Archived")
-              .icon(() => "📦")
               .child(
                 S.documentList()
                   .title("Archived Posts")
@@ -109,7 +76,6 @@ export default defineConfig({
 
             S.divider(),
 
-            // Authors & Categories
             S.listItem()
               .title("Authors")
               .icon(() => "👤")
@@ -125,10 +91,7 @@ export default defineConfig({
     }),
     presentationTool({
       resolve,
-      previewUrl:
-        typeof window === "undefined" || typeof location === "undefined"
-          ? defaultPreviewUrl
-          : location.origin,
+      previewUrl,
     }),
     codeInput(),
   ],
@@ -137,7 +100,6 @@ export default defineConfig({
   },
   document: {
     actions: (prev, context) => {
-      // Only add custom actions for post documents
       if (context.schemaType === "post") {
         return [submitForReviewAction, approveAndPublishAction, unpublishAction, ...prev];
       }

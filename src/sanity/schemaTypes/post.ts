@@ -67,7 +67,6 @@ export default defineType({
       type: "array",
       of: [{ type: "string" }],
       options: {
-        layout: "tags",
         list: TAG_OPTIONS,
       },
       validation: (rule) => rule.unique().max(6).warning("Use up to 6 tags."),

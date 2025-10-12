@@ -14,7 +14,7 @@ function formatDate(input: string): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = (site ?? new URL(process.env.PUBLIC_SANITY_PREVIEW_URL ?? "http://localhost:4321"))
+  const origin = (site ?? new URL("https://tulio-cunha-dev.vercel.app"))
     .origin;
   const cleanedOrigin = origin.replace(/\/$/, "");
 
