@@ -11,14 +11,8 @@ const DEFAULT_DATASET = "production";
 
 const envProjectId = env.PUBLIC_SANITY_PROJECT_ID ?? process.env.PUBLIC_SANITY_PROJECT_ID;
 const envDataset = env.PUBLIC_SANITY_DATASET ?? process.env.PUBLIC_SANITY_DATASET;
-const projectId = envProjectId ?? (isDevelopment ? DEFAULT_PROJECT_ID : undefined);
-const dataset = envDataset ?? (isDevelopment ? DEFAULT_DATASET : undefined);
-
-if (!projectId || !dataset) {
-  throw new Error(
-    "Sanity environment variables PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET must be set. Local development falls back to defaults, but non-development builds require explicit values. See README.md#environment-configuration.",
-  );
-}
+const projectId = envProjectId ?? DEFAULT_PROJECT_ID;
+const dataset = envDataset ?? DEFAULT_DATASET;
 
 if (!envProjectId && isDevelopment) {
   console.info(
