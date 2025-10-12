@@ -446,6 +446,20 @@
   --card-bg: var(--surface-elevated);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  :root.theme-transition,
+  :root.theme-transition body,
+  :root.theme-transition body * {
+    transition:
+      background-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+      color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+      border-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+      box-shadow var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+      fill var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+      stroke var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease);
+  }
+}
+
 @media (max-width: 720px) {
   :root {
     --space-xxs: 8px; /* Keep 8px grid even on mobile */

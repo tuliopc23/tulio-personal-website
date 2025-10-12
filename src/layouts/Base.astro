@@ -459,5 +459,413 @@ const structuredDataJson =
         }
       }
     </script>
+    <script type="module">
+      const isBrowser = typeof window !== "undefined";
+
+      class ThemeController {
+        constructor() {
+          this.initialized = false;
+          this.current = "dark";
+          this.stored = null;
+          this.listeners = new Set();
+          this.mediaQuery = null;
+          this.reduceMotionQuery = null;
+          this.transitionTimeoutId = null;
+        }
+
+        init() {
+          if (!isBrowser || this.initialized) {
+            return this.current;
+          }
+
+          this.initialized = true;
+          this.mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
+          this.reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+          this.stored = this.readStoredTheme();
+          const resolved = this.resolveInitialTheme();
+          this.applyTheme(resolved);
+
+          const handleMediaChange = (event) => {
+            if (this.stored) {
+              return;
+            }
+            this.applyTheme(event.matches ? "light" : "dark");
+          };
+
+          if (this.mediaQuery) {
+            if (typeof this.mediaQuery.addEventListener === "function") {
+              this.mediaQuery.addEventListener("change", handleMediaChange);
+            } else if (typeof this.mediaQuery.addListener === "function") {
+              this.mediaQuery.addListener(handleMediaChange);
+            }
+          }
+
+          return this.current;
+        }
+
+        getTheme() {
+          return this.current;
+        }
+
+        prefersReducedMotion() {
+          if (!isBrowser) {
+            return false;
+          }
+
+          if (!this.reduceMotionQuery) {
+            this.reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+          }
+
+          return this.reduceMotionQuery.matches;
+        }
+
+        subscribe(listener) {
+          if (!this.initialized) {
+            this.init();
+          }
+
+          this.listeners.add(listener);
+          listener(this.current);
+
+          return () => {
+            this.listeners.delete(listener);
+          };
+        }
+
+        toggleTheme(options = {}) {
+          const next = this.current === "light" ? "dark" : "light";
+          this.setTheme(next, options);
+        }
+
+        setTheme(theme, options = {}) {
+          const persist = options.persist ?? true;
+          if (!this.initialized) {
+            this.init();
+          }
+          this.applyTheme(theme, persist);
+        }
+
+        applyTheme(theme, persist = false) {
+          if (!isBrowser) {
+            return;
+          }
+
+          const root = document.documentElement;
+          const next = theme === "light" ? "light" : "dark";
+
+          root.setAttribute("data-theme", next);
+
+          if (next === "light") {
+            root.classList.remove("dark");
+            root.classList.add("light");
+          } else {
+            root.classList.remove("light");
+            root.classList.add("dark");
+          }
+
+          const favicon = document.querySelector('link[rel="icon"]');
+          if (favicon) {
+            favicon.href = next === "light" ? "/favicon-light.svg" : "/favicon-dark.svg";
+          }
+
+          this.current = next;
+
+          if (persist) {
+            this.stored = next;
+            this.persistTheme(next);
+          }
+
+          if (!this.prefersReducedMotion()) {
+            if (typeof window !== "undefined") {
+              if (this.transitionTimeoutId !== null) {
+                window.clearTimeout(this.transitionTimeoutId);
+              }
+              root.classList.add("theme-transition");
+              this.transitionTimeoutId = window.setTimeout(() => {
+                root.classList.remove("theme-transition");
+                this.transitionTimeoutId = null;
+              }, 400);
+            }
+          } else {
+            root.classList.remove("theme-transition");
+          }
+
+          this.listeners.forEach((listener) => {
+            listener(next);
+          });
+        }
+
+        resolveInitialTheme() {
+          const root = document.documentElement;
+
+          if (this.stored === "light" || this.stored === "dark") {
+            return this.stored;
+          }
+
+          const htmlTheme = root.getAttribute("data-theme");
+          if (htmlTheme === "light" || htmlTheme === "dark") {
+            return htmlTheme;
+          }
+
+          if (this.mediaQuery?.matches) {
+            return "light";
+          }
+
+          return "dark";
+        }
+
+        readStoredTheme() {
+          if (!isBrowser) {
+            return null;
+          }
+
+          try {
+            const value = window.localStorage.getItem("theme");
+            return value === "light" || value === "dark" ? value : null;
+          } catch {
+            return null;
+          }
+        }
+
+        persistTheme(theme) {
+          if (!isBrowser) {
+            return;
+          }
+
+          try {
+            window.localStorage.setItem("theme", theme);
+          } catch {
+            // ignore storage errors
+          }
+        }
+      }
+
+      const controllerKey = "__themeController";
+      let controller = window[controllerKey];
+      if (!(controller instanceof ThemeController)) {
+        controller = new ThemeController();
+        window[controllerKey] = controller;
+      }
+
+      window.themeController = {
+        init: () => controller.init(),
+        getTheme: () => controller.getTheme(),
+        toggleTheme: (options) => controller.toggleTheme(options ?? {}),
+        setTheme: (theme, options) => controller.setTheme(theme, options ?? {}),
+        subscribe: (listener) => controller.subscribe(listener),
+        prefersReducedMotion: () => controller.prefersReducedMotion(),
+      };
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      const initLiquidThemeToggle = (root) => {
+        if (!isBrowser || !root) {
+          return;
+        }
+
+        const button = root.matches("button") ? root : root.querySelector("button");
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        button.type = "button";
+
+        if (button.dataset.themeToggleBound === "true") {
+          return;
+        }
+        button.dataset.themeToggleBound = "true";
+
+        const getTheme = window.themeController.getTheme;
+        const setTheme = window.themeController.setTheme;
+        const toggleTheme = window.themeController.toggleTheme;
+        const prefersReducedMotion = window.themeController.prefersReducedMotion;
+        const subscribeToTheme = window.themeController.subscribe;
+
+        button.setAttribute("aria-pressed", getTheme() === "dark" ? "true" : "false");
+
+        let currentComplete = getTheme() === "dark" ? 100 : 0;
+        let pointerMode = "idle";
+        let pointerId = null;
+        let startX = 0;
+        let skipClick = false;
+
+        const updateMotionPreference = () => {
+          button.dataset.motion = prefersReducedMotion() ? "reduced" : "normal";
+        };
+
+        const setComplete = (value, instant = false) => {
+          currentComplete = clamp(value, 0, 100);
+          if (instant) {
+            button.dataset.instant = "true";
+          }
+          button.style.setProperty("--complete", currentComplete.toFixed(2));
+          if (instant) {
+            requestAnimationFrame(() => {
+              button.dataset.instant = "false";
+            });
+          }
+        };
+
+        const themeToComplete = (theme) => (theme === "dark" ? 100 : 0);
+
+        const updateFromTheme = (theme) => {
+          button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+          if (pointerMode === "drag") {
+            return;
+          }
+          setComplete(themeToComplete(theme), true);
+        };
+
+        const rectComplete = (clientX) => {
+          const rect = button.getBoundingClientRect();
+          const percent = ((clientX - rect.left) / rect.width) * 100;
+          return clamp(percent, 0, 100);
+        };
+
+        const releasePointer = () => {
+          if (pointerId !== null) {
+            try {
+              button.releasePointerCapture(pointerId);
+            } catch {
+              // ignore release errors
+            }
+          }
+          pointerId = null;
+          pointerMode = "idle";
+          button.dataset.dragging = "false";
+        };
+
+        const handlePointerDown = (event) => {
+          if (event.button !== 0) {
+            return;
+          }
+
+          pointerMode = "tap";
+          pointerId = event.pointerId;
+          startX = event.clientX;
+          skipClick = false;
+
+          button.dataset.dragging = "true";
+          button.setPointerCapture(event.pointerId);
+
+          if (prefersReducedMotion()) {
+            return;
+          }
+
+          const percent = rectComplete(event.clientX);
+          setComplete(percent);
+        };
+
+        const handlePointerMove = (event) => {
+          if (pointerMode === "idle" || event.pointerId !== pointerId) {
+            return;
+          }
+
+          const distance = Math.abs(event.clientX - startX);
+          if (pointerMode === "tap" && distance > 4) {
+            pointerMode = "drag";
+          }
+
+          if (pointerMode !== "drag") {
+            return;
+          }
+
+          const percent = rectComplete(event.clientX);
+          setComplete(percent);
+        };
+
+        const handlePointerUp = (event) => {
+          if (pointerMode === "idle" || event.pointerId !== pointerId) {
+            return;
+          }
+
+          const wasDrag = pointerMode === "drag";
+          const targetTheme = currentComplete >= 50 ? "dark" : "light";
+
+          releasePointer();
+
+          if (wasDrag) {
+            skipClick = true;
+            setTheme(targetTheme, { persist: true });
+            return;
+          }
+
+          setComplete(themeToComplete(getTheme()), true);
+        };
+
+        const handlePointerCancel = (event) => {
+          if (pointerMode === "idle" || event.pointerId !== pointerId) {
+            return;
+          }
+
+          releasePointer();
+          setComplete(themeToComplete(getTheme()), true);
+        };
+
+        const handleClick = (event) => {
+          if (skipClick) {
+            skipClick = false;
+            event.preventDefault();
+            return;
+          }
+
+          toggleTheme({ persist: true });
+        };
+
+        const handleKeyDown = (event) => {
+          if (event.key === " " || event.key === "Enter") {
+            event.preventDefault();
+          }
+        };
+
+        const handleKeyUp = (event) => {
+          if (event.key !== " " && event.key !== "Enter") {
+            return;
+          }
+          event.preventDefault();
+          skipClick = true;
+          toggleTheme({ persist: true });
+        };
+
+        updateMotionPreference();
+
+        const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const motionListener = () => updateMotionPreference();
+        if (typeof motionQuery.addEventListener === "function") {
+          motionQuery.addEventListener("change", motionListener);
+        } else if (typeof motionQuery.addListener === "function") {
+          motionQuery.addListener(motionListener);
+        }
+
+        button.addEventListener("pointerdown", handlePointerDown);
+        button.addEventListener("pointermove", handlePointerMove);
+        button.addEventListener("pointerup", handlePointerUp);
+        button.addEventListener("pointercancel", handlePointerCancel);
+        button.addEventListener("click", handleClick);
+        button.addEventListener("keydown", handleKeyDown);
+        button.addEventListener("keyup", handleKeyUp);
+
+        subscribeToTheme(updateFromTheme);
+
+        setComplete(themeToComplete(getTheme()), true);
+      };
+
+      window.initLiquidThemeToggle = initLiquidThemeToggle;
+
+      const initializeAllToggles = () => {
+        document.querySelectorAll("[data-theme-toggle-root]").forEach((element) => {
+          initLiquidThemeToggle(element);
+        });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeAllToggles, { once: true });
+      } else {
+        initializeAllToggles();
+      }
+
+      document.addEventListener("astro:page-load", initializeAllToggles);
+    </script>
   </body>
 </html>

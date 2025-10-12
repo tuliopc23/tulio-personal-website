@@ -5,12 +5,10 @@ interface Props {
 
 const { ariaLabel = "Toggle theme" } = Astro.props;
 
-const elementId = `liquid-toggle-${Math.random().toString(36).slice(2, 10)}`;
 ---
 
-<div class="themeToggle themeToggle--liquid">
+<div class="themeToggle themeToggle--liquid" data-theme-toggle-root>
   <button
-    id={elementId}
     class="liquidToggle"
     data-theme-toggle
     data-dragging="false"
@@ -35,11 +33,3 @@ const elementId = `liquid-toggle-${Math.random().toString(36).slice(2, 10)}`;
     </span>
   </button>
 </div>
-
-<script type="module">
-  void (async () => {
-    const { initLiquidThemeToggle } = await import("../scripts/liquid-theme-toggle.ts");
-    const root = document.getElementById(${JSON.stringify(elementId)});
-    initLiquidThemeToggle(root);
-  })();
-</script>

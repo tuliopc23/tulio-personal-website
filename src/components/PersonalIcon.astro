@@ -133,26 +133,34 @@ const { size = 24, class: className = "" } = Astro.props;
 </style>
 
 <script type="module">
-  void (async () => {
-    const { initThemeController, toggleTheme } = await import("../scripts/theme-controller.ts");
-
-    if (typeof window === "undefined") {
+  const bindThemeToggleIcons = () => {
+    if (typeof window === "undefined" || !window.themeController) {
       return;
     }
 
-    initThemeController();
+    window.themeController.init();
 
-    const iconButtons =
-      document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle-icon]");
+    const iconButtons = document.querySelectorAll("[data-theme-toggle-icon]");
 
     iconButtons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
       if (button.dataset.themeToggleBound === "true") {
         return;
       }
       button.dataset.themeToggleBound = "true";
       button.addEventListener("click", () => {
-        toggleTheme({ persist: true });
+        window.themeController.toggleTheme({ persist: true });
       });
     });
-  })();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindThemeToggleIcons, { once: true });
+  } else {
+    bindThemeToggleIcons();
+  }
+
+  document.addEventListener("astro:page-load", bindThemeToggleIcons);
 </script>
