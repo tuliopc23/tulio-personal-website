@@ -12,14 +12,14 @@ const TAG_OPTIONS = [
 
 export default defineType({
   name: "post",
-  title: "Post",
+  title: "Article",
   type: "document",
   fields: [
     defineField({
       name: "title",
       title: "Title",
       type: "string",
-      validation: (rule) => rule.required().min(4).warning("Keep titles descriptive."),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
@@ -28,14 +28,6 @@ export default defineType({
       options: {
         source: "title",
         maxLength: 96,
-        slugify: (input) =>
-          input
-            .toLowerCase()
-            .trim()
-            .replace(/[\s\u2014]+/g, "-")
-            .replace(/[^a-z0-9-]/g, "")
-            .replace(/-{2,}/g, "-")
-            .replace(/^-+|-+$/g, ""),
       },
       validation: (rule) => rule.required(),
     }),
@@ -44,8 +36,7 @@ export default defineType({
       title: "Summary",
       type: "text",
       rows: 3,
-      validation: (rule) =>
-        rule.required().max(280).warning("Keep summaries concise (≤ 280 characters)."),
+      validation: (rule) => rule.required().max(280),
     }),
     defineField({
       name: "author",
@@ -59,7 +50,7 @@ export default defineType({
       title: "Categories",
       type: "array",
       of: [{ type: "reference", to: [{ type: "category" }] }],
-      validation: (rule) => rule.unique().max(3).warning("Use up to 3 categories."),
+      validation: (rule) => rule.max(3),
     }),
     defineField({
       name: "tags",
@@ -69,11 +60,11 @@ export default defineType({
       options: {
         list: TAG_OPTIONS,
       },
-      validation: (rule) => rule.unique().max(6).warning("Use up to 6 tags."),
+      validation: (rule) => rule.max(6),
     }),
     defineField({
       name: "heroImage",
-      title: "Hero image",
+      title: "Hero Image",
       type: "image",
       options: { hotspot: true },
       fields: [
@@ -81,15 +72,10 @@ export default defineType({
           name: "alt",
           title: "Alt text",
           type: "string",
-          validation: (rule) => rule.required().max(160),
-        }),
-        defineField({
-          name: "caption",
-          title: "Caption",
-          type: "string",
+          validation: (rule) => rule.required(),
         }),
       ],
-      validation: (rule) => rule.required().error("Hero image is required."),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "seo",
@@ -99,99 +85,19 @@ export default defineType({
         collapsible: true,
         collapsed: true,
       },
-      validation: (rule) =>
-        rule.custom((value) => {
-          if (!value || typeof value !== "object") {
-            return "Populate SEO metadata before publishing.";
-          }
-
-          const metaTitle = (value as { metaTitle?: unknown }).metaTitle;
-          if (typeof metaTitle !== "string" || metaTitle.trim().length === 0) {
-            return "Meta title is required.";
-          }
-
-          const metaDescription = (value as { metaDescription?: unknown }).metaDescription;
-          if (typeof metaDescription !== "string" || metaDescription.trim().length === 0) {
-            return "Meta description is required.";
-          }
-
-          return true;
-        }),
     }),
     defineField({
       name: "publishedAt",
-      title: "Publish date",
+      title: "Published Date",
       type: "datetime",
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "status",
-      title: "Workflow Status",
-      type: "workflowStatus",
-      initialValue: "draft",
-      validation: (rule) => rule.required(),
-      description: "Current workflow status of the post",
-    }),
-    defineField({
-      name: "priority",
-      title: "Priority",
-      type: "string",
-      options: {
-        list: [
-          { title: "🔴 High", value: "high" },
-          { title: "🟡 Medium", value: "medium" },
-          { title: "🟢 Low", value: "low" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "medium",
-      description: "Editorial priority for planning",
-    }),
-    defineField({
       name: "featured",
-      title: "Featured",
+      title: "Featured Article",
       type: "boolean",
       initialValue: false,
-      description: "Feature this post on the homepage",
-    }),
-    defineField({
-      name: "scheduledPublishAt",
-      title: "Scheduled Publish Date",
-      type: "datetime",
-      description: "Schedule this post to publish automatically at a future date/time",
-    }),
-    defineField({
-      name: "lastReviewedBy",
-      title: "Last Reviewed By",
-      type: "reference",
-      to: [{ type: "author" }],
-      description: "Author who last reviewed this post",
-    }),
-    defineField({
-      name: "lastReviewedAt",
-      title: "Last Reviewed At",
-      type: "datetime",
-      description: "When this post was last reviewed",
-    }),
-    defineField({
-      name: "approvedBy",
-      title: "Approved By",
-      type: "reference",
-      to: [{ type: "author" }],
-      description: "Author who approved this post for publication",
-    }),
-    defineField({
-      name: "approvedAt",
-      title: "Approved At",
-      type: "datetime",
-      description: "When this post was approved",
-    }),
-    defineField({
-      name: "readingTime",
-      title: "Reading Time (minutes)",
-      type: "number",
-      description: "Estimated reading time in minutes (calculated from content)",
     }),
     defineField({
       name: "content",
@@ -226,8 +132,7 @@ export default defineType({
                     name: "href",
                     title: "URL",
                     type: "url",
-                    validation: (rule) =>
-                      rule.required().uri({ scheme: ["http", "https", "mailto"] }),
+                    validation: (rule) => rule.required(),
                   }),
                 ],
               },
@@ -242,13 +147,7 @@ export default defineType({
               name: "alt",
               title: "Alt text",
               type: "string",
-              validation: (rule) =>
-                rule.required().error("Accessibility requires descriptive alt text."),
-            }),
-            defineField({
-              name: "caption",
-              title: "Caption",
-              type: "string",
+              validation: (rule) => rule.required(),
             }),
           ],
         }),
@@ -259,7 +158,7 @@ export default defineType({
           },
         }),
       ],
-      validation: (rule) => rule.required().min(1),
+      validation: (rule) => rule.required(),
     }),
   ],
   preview: {
@@ -268,36 +167,16 @@ export default defineType({
       subtitle: "summary",
       media: "heroImage",
       date: "publishedAt",
-      status: "status",
-      priority: "priority",
+      featured: "featured",
     },
     prepare(selection) {
-      const { title, subtitle, media, date, status, priority } = selection;
-
-      const statusEmoji =
-        {
-          draft: "📝",
-          "in-review": "👀",
-          approved: "✅",
-          published: "🚀",
-          archived: "📦",
-        }[status as string] || "📝";
-
-      const priorityEmoji =
-        {
-          high: "🔴",
-          medium: "🟡",
-          low: "🟢",
-        }[priority as string] || "";
-
+      const { title, subtitle, media, date, featured } = selection;
+      const featuredEmoji = featured ? "⭐ " : "";
+      
       return {
-        title: `${statusEmoji} ${priorityEmoji} ${title ?? "Untitled post"}`.trim(),
+        title: `${featuredEmoji}${title ?? "Untitled"}`,
         subtitle: date
-          ? `${new Date(date).toLocaleDateString(undefined, {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })} — ${subtitle ?? ""}`
+          ? `${new Date(date).toLocaleDateString()} — ${subtitle ?? ""}`
           : subtitle,
         media,
       };

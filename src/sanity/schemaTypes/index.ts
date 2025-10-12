@@ -6,7 +6,6 @@ import divider from "./divider";
 import post from "./post";
 import seo from "./seo";
 import videoEmbed from "./videoEmbed";
-import workflowStatus from "./workflowStatus";
 
 export const schemaTypes = [
   author,
@@ -17,5 +16,4 @@ export const schemaTypes = [
   post,
   seo,
   videoEmbed,
-  workflowStatus,
 ];

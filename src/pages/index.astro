@@ -6,10 +6,11 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Card from "../components/Card.astro";
 import PageIndicator from "../components/PageIndicator.astro";
 import "../styles/section.css";
-import { getAllPosts } from "../sanity/lib/posts";
+import { getAllPosts, getFeaturedPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
-const featuredWriting = posts.slice(0, 3);
+const featuredPosts = await getFeaturedPosts();
+const featuredWriting = featuredPosts.length > 0 ? featuredPosts.slice(0, 3) : posts.slice(0, 3);
 
 const fallbackWriting = [
   {
