@@ -18,8 +18,8 @@ const visualEditingEnabled = import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLE
 const token = import.meta.env.SANITY_API_READ_TOKEN;
 
 if (visualEditingEnabled && !token) {
-  console.warn(
-    "Sanity visual editing is enabled but SANITY_API_READ_TOKEN is missing. Draft previews will fail.",
+  throw new Error(
+    "Sanity visual editing requires SANITY_API_READ_TOKEN. Set the token or disable PUBLIC_SANITY_VISUAL_EDITING_ENABLED.",
   );
 }
 
@@ -34,7 +34,7 @@ export async function loadQuery<QueryResponse>({
     perspective,
     resultSourceMap: visualEditingEnabled ? "withKeyArraySelector" : false,
     stega: visualEditingEnabled,
-    ...(visualEditingEnabled && token ? { token } : {}),
+    ...(visualEditingEnabled ? { token } : {}),
   });
 
   return {

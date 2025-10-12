@@ -1,0 +1,45 @@
+---
+interface Props {
+  ariaLabel?: string;
+}
+
+const { ariaLabel = "Toggle theme" } = Astro.props;
+
+const elementId = `liquid-toggle-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<div class="themeToggle themeToggle--liquid">
+  <button
+    id={elementId}
+    class="liquidToggle"
+    data-theme-toggle
+    data-dragging="false"
+    data-motion="normal"
+    data-instant="false"
+    aria-label={ariaLabel}
+    aria-pressed="false"
+    style="--complete: 0"
+  >
+    <span class="liquidToggle__sr">{ariaLabel}</span>
+    <span class="liquidToggle__knockout" aria-hidden="true">
+      <span class="liquidToggle__mask">
+        <span class="liquidToggle__maskCore"></span>
+      </span>
+    </span>
+    <span class="liquidToggle__thumb" aria-hidden="true">
+      <span class="liquidToggle__thumbShadow"></span>
+      <span class="liquidToggle__thumbInner">
+        <span class="liquidToggle__thumbLiquid"></span>
+        <span class="liquidToggle__thumbCover"></span>
+      </span>
+    </span>
+  </button>
+</div>
+
+<script type="module">
+  void (async () => {
+    const { initLiquidThemeToggle } = await import("../scripts/liquid-theme-toggle.ts");
+    const root = document.getElementById(${JSON.stringify(elementId)});
+    initLiquidThemeToggle(root);
+  })();
+</script>

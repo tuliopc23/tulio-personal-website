@@ -3,6 +3,7 @@ import BrandIcon from "../components/BrandIcon.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import SFIcon from "../components/SFIcon.astro";
 import PersonalIcon from "../components/PersonalIcon.astro";
+import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 
@@ -228,18 +229,7 @@ const structuredDataJson =
           </div>
         </nav>
         <div class="topbar__actions">
-          <div class="themeToggle">
-            <input
-              id="theme-toggle"
-              type="checkbox"
-              class="themeToggle__control"
-              data-theme-toggle
-              aria-label="Toggle theme"
-            />
-            <label class="themeToggle__label" for="theme-toggle">
-              <span class="sr-only">Toggle theme</span>
-            </label>
-          </div>
+          <LiquidThemeToggle />
         </div>
       </div>
     </header>

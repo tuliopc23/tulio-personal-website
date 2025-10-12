@@ -9,13 +9,14 @@ Apple-inspired personal developer website built with Astro, featuring a content-
 ## Tech Stack
 
 ### Core Framework
-- **Astro 5.14.1** - Static site generator with islands architecture
-- **TypeScript** - Strict type checking enabled
-- **Bun 1.2.22** - Package manager and runtime
+- **Astro 5.14.x** - Static site generator with islands architecture (currently 5.14.4)
+- **TypeScript 5.9** - Strict typing via `astro/tsconfigs/strict`
+- **Bun 1.2.22** - Package manager, task runner, and runtime
 
 ### UI & Styling
 - **React 19.2.0** - For interactive components
-- **Styled Components 6.1.19** - CSS-in-JS styling
+- **Styled Components 6.1.x** - CSS-in-JS styling with SSR shim
+- **clsx / tailwind-merge** - Utility class composition
 - **Apple HIG Design** - Glass morphism, system fonts (SF Pro on Apple devices)
 - **Custom CSS** - `apple-hig-liquid-glass-unified.css` for unified design system
 
@@ -25,14 +26,16 @@ Apple-inspired personal developer website built with Astro, featuring a content-
   - Dataset: `production`
   - Studio embedded at `/studio` (dev) and hosted separately (prod)
 - **Portable Text** - Rich text content format
-- **@sanity/astro 3.2.10** - Astro integration
-- **@sanity/visual-editing** - Visual editing overlays
+- **@sanity/astro 3.2.10** - Astro integration with Presentation tool wiring
+- **@sanity/visual-editing 3.0.5** - Visual editing overlays
 
 ### Development Tools
-- **ESLint** - Linting with TypeScript and Astro plugins
-- **Prettier** - Code formatting with Astro support
+- **Biome 2.2.5** - Primary formatter & linter (`bun run lint`, `bun run format`, `bun run check`)
+- **ESLint 9 / @typescript-eslint 8** - Supplemental lint rules when needed
+- **Prettier 3 + prettier-plugin-astro** - Legacy formatting compatibility
 - **MDX** - Markdown with JSX for blog posts
 - **Shiki** - Code syntax highlighting
+- **@spotlightjs/astro** - Local debugging overlay
 
 ## Project Structure
 
@@ -72,6 +75,7 @@ types/              # TypeScript type definitions
 - `CategoryBadges.astro` - Category/tag badges
 - `CategoryList.astro` - Filterable category list
 - `RecentPosts.astro` - Recent blog posts widget
+- `LiquidThemeToggle.astro` - Liquid glass theme toggle with drag/tap interactions
 
 ### Sanity-Specific Components
 - `ArticlePortableText.astro` - Renders Portable Text content
@@ -79,6 +83,8 @@ types/              # TypeScript type definitions
 - `ArticlePortableLink.astro` - Link rendering with routing
 - `ArticleCodeBlock.astro` - Code blocks with syntax highlighting
 - `VisualEditing.astro` - Visual editing overlay integration
+- `src/sanity/actions/*` - Custom document actions for editorial workflow
+- `src/sanity/lib/resolve.ts` - Presentation tool route resolver
 
 ## Coding Conventions
 
@@ -109,7 +115,7 @@ types/              # TypeScript type definitions
 ### Imports
 - Use absolute imports from `src/` where beneficial
 - Group imports: external → Astro/React → components → utils → types
-- No unused imports (ESLint enforces this)
+- No unused imports (Biome enforces this)
 
 ## Development Workflow
 
@@ -123,12 +129,12 @@ bun run preview          # Preview production build
 
 ### Quality Checks
 ```bash
-bun run lint             # Run ESLint
-bun run lint:fix         # Fix ESLint errors
-bun run format:check     # Check Prettier formatting
-bun run format           # Apply Prettier formatting
+bun run lint             # Run Biome linting (non-destructive)
+bun run lint:fix         # Apply Biome lint fixes
+bun run format:check     # Dry-run Biome formatter
+bun run format           # Format with Biome (writes)
 bun run typecheck        # Run TypeScript compiler
-bun run check            # Run all checks + build
+bun run check            # Biome check (writes), typecheck, then build
 ```
 
 **Always run `bun run check` before committing changes.**
@@ -145,9 +151,12 @@ bun run sanity:typegen   # Generate TypeScript types from schema
 ### Required
 - `PUBLIC_SANITY_PROJECT_ID` - Sanity project ID (default: `61249gtj`)
 - `PUBLIC_SANITY_DATASET` - Dataset name (default: `production`)
+- **Note:** Local dev falls back to the defaults above, but `bun run check` (production build) will fail if the variables are not explicitly set.
 
 ### Optional
 - `SANITY_API_READ_TOKEN` - Read token for private datasets or visual editing
+- `SANITY_STUDIO_PROJECT_ID` / `SANITY_STUDIO_DATASET` - Override Studio credentials when deploying
+- `SANITY_STUDIO_PREVIEW_URL` - Explicit preview URL for Presentation mode
 - `PUBLIC_SANITY_STUDIO_URL` - Hosted Studio URL (e.g., `https://project.sanity.studio`)
 - `PUBLIC_SANITY_PREVIEW_URL` - Deployed site URL for Presentation mode
 - `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` - Enable/disable visual editing overlays
@@ -193,9 +202,10 @@ Located in `src/sanity/` - defines content types:
 
 ### Key Version Requirements
 - React 19.2.0 - Latest stable, using new hooks
-- Astro 5.14.1 - Latest features and performance
+- Astro 5.14.x - Latest features and performance
 - Sanity 4.10.2 - Modern Studio with hosted deployment
-- Styled Components 6.1.19 - Latest stable with SSR fixes
+- Styled Components 6.1.x - Latest stable with SSR fixes
+- Biome 2.2.5 - Unified formatting/linting across Astro + TS files
 
 ### Custom Shims
 - `src/utils/styled-components-shim.ts` - Ensures SSR compatibility

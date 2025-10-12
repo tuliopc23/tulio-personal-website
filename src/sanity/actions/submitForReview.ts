@@ -3,7 +3,7 @@ import { type DocumentActionComponent, useClient } from "sanity";
 
 export const submitForReviewAction: DocumentActionComponent = (props) => {
   const client = useClient({ apiVersion: "2025-01-01" });
-  
+
   // Only show for draft posts
   const status = (props.draft || props.published)?.status;
   if (status !== "draft") {
@@ -12,7 +12,7 @@ export const submitForReviewAction: DocumentActionComponent = (props) => {
 
   const onHandle = useCallback(async () => {
     const docId = props.id.replace(/^drafts\./, "");
-    
+
     // Update status and timestamp
     await client
       .patch(docId)
@@ -21,7 +21,7 @@ export const submitForReviewAction: DocumentActionComponent = (props) => {
         lastReviewedAt: new Date().toISOString(),
       })
       .commit();
-    
+
     props.onComplete();
   }, [client, props]);
 

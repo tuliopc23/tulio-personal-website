@@ -17,12 +17,14 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-if (!slug) return Astro.redirect("/404");
+if (!slug) {
+  throw Astro.redirect("/404");
+}
 
 const category = await getCategoryBySlug(slug);
 
 if (!category) {
-  return Astro.redirect("/404");
+  throw Astro.redirect("/404");
 }
 
 const posts = await getPostsByCategory(slug);

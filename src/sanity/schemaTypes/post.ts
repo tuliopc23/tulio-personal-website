@@ -274,21 +274,23 @@ export default defineType({
     },
     prepare(selection) {
       const { title, subtitle, media, date, status, priority } = selection;
-      
-      const statusEmoji = {
-        draft: "📝",
-        "in-review": "👀",
-        approved: "✅",
-        published: "🚀",
-        archived: "📦",
-      }[status as string] || "📝";
-      
-      const priorityEmoji = {
-        high: "🔴",
-        medium: "🟡",
-        low: "🟢",
-      }[priority as string] || "";
-      
+
+      const statusEmoji =
+        {
+          draft: "📝",
+          "in-review": "👀",
+          approved: "✅",
+          published: "🚀",
+          archived: "📦",
+        }[status as string] || "📝";
+
+      const priorityEmoji =
+        {
+          high: "🔴",
+          medium: "🟡",
+          low: "🟢",
+        }[priority as string] || "";
+
       return {
         title: `${statusEmoji} ${priorityEmoji} ${title ?? "Untitled post"}`.trim(),
         subtitle: date

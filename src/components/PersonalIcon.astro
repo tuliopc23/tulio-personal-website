@@ -132,20 +132,27 @@ const { size = 24, class: className = "" } = Astro.props;
   }
 </style>
 
-<script>
-  // Connect personal icon buttons to theme system
-  document.addEventListener("DOMContentLoaded", () => {
-    const iconButtons = document.querySelectorAll("[data-theme-toggle-icon]");
-    
+<script type="module">
+  void (async () => {
+    const { initThemeController, toggleTheme } = await import("../scripts/theme-controller.ts");
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    initThemeController();
+
+    const iconButtons =
+      document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle-icon]");
+
     iconButtons.forEach((button) => {
+      if (button.dataset.themeToggleBound === "true") {
+        return;
+      }
+      button.dataset.themeToggleBound = "true";
       button.addEventListener("click", () => {
-        // Trigger theme toggle (this will be handled by existing theme.ts)
-        const themeToggle = document.querySelector("[data-theme-toggle]") as HTMLInputElement;
-        if (themeToggle) {
-          themeToggle.checked = !themeToggle.checked;
-          themeToggle.dispatchEvent(new Event("change", { bubbles: true }));
-        }
+        toggleTheme({ persist: true });
       });
     });
-  });
+  })();
 </script>

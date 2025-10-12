@@ -1295,57 +1295,222 @@ body[data-glass-state="scrolled"] .topbar::before {
   align-items: center;
   justify-content: center;
 }
-.themeToggle__control {
+.themeToggle--liquid {
+  min-width: 0;
+}
+.liquidToggle {
+  --liquid-width: 82px;
+  --liquid-height: 40px;
+  --liquid-border: 6px;
+  --liquid-radius: 999px;
+  --liquid-track-dark: color-mix(in srgb, rgba(56, 56, 62, 0.94) 78%, transparent);
+  --liquid-track-light: color-mix(in srgb, rgba(238, 238, 244, 0.75) 75%, transparent);
+  --liquid-thumb-bg: rgba(255, 255, 255, 0.96);
+  --liquid-thumb-shadow-dark: 0 12px 22px rgba(0, 0, 0, 0.35);
+  --liquid-thumb-shadow-light: 0 14px 26px rgba(38, 90, 170, 0.18);
+  --liquid-highlight-dark: rgba(77, 166, 255, 0.18);
+  --liquid-highlight-light: rgba(54, 129, 238, 0.24);
+  --thumb-scale: 1;
+  --thumb-translate: calc((var(--complete) / 100) * (100cqi - 100% - (2 * var(--liquid-border))));
+  --mask-translate: calc((var(--complete) / 100) * (100cqi - 58% - (2 * var(--liquid-border))));
+  appearance: none;
+  width: var(--liquid-width);
+  height: var(--liquid-height);
+  border-radius: var(--liquid-radius);
+  padding: 0;
+  border: none;
+  background: transparent;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  container-type: inline-size;
+  touch-action: pan-x;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter var(--motion-duration-md) var(--motion-ease-in-out);
+}
+.liquidToggle__sr {
   position: absolute;
-  opacity: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.liquidToggle__knockout {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(26px) saturate(1.85);
+  -webkit-backdrop-filter: blur(26px) saturate(1.85);
+}
+.liquidToggle__mask {
+  position: absolute;
+  inset: var(--liquid-border);
+  border-radius: calc(var(--liquid-radius) - var(--liquid-border));
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--liquid-track) 86%, transparent) 40%,
+    color-mix(in srgb, var(--liquid-highlight) 72%, transparent)
+  );
+  filter: blur(14px);
+  opacity: 0.95;
+  transform: translateZ(0);
+}
+.liquidToggle__maskCore {
+  position: absolute;
+  top: 50%;
+  left: var(--liquid-border);
+  width: calc(58% - (2 * var(--liquid-border)));
+  height: calc(100% - (2 * var(--liquid-border)));
+  border-radius: 999px;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.78),
+    color-mix(in srgb, var(--liquid-highlight) 68%, transparent) 68%,
+    rgba(255, 255, 255, 0.08)
+  );
+  transform: translateX(var(--mask-translate)) translateY(-50%);
+  transition:
+    transform var(--motion-duration-spring-sm) var(--spring-bouncy),
+    background var(--motion-duration-sm) var(--motion-ease-in-out);
+}
+.liquidToggle__thumb {
+  position: absolute;
+  top: var(--liquid-border);
+  left: var(--liquid-border);
+  width: calc(52% - var(--liquid-border));
+  height: calc(100% - (2 * var(--liquid-border)));
+  border-radius: 999px;
+  transform: translateX(var(--thumb-translate)) scale(var(--thumb-scale));
+  transition:
+    transform var(--motion-duration-spring-sm) var(--spring-bouncy),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-in-out);
+  display: grid;
+  place-items: center;
   pointer-events: none;
 }
-.themeToggle__label {
-  position: relative;
-  display: inline-block;
-  width: 51px;
-  height: 31px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+.liquidToggle__thumbShadow {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 60%, rgba(0, 0, 0, 0.28), transparent 70%);
+  opacity: 0.7;
+  filter: blur(6px);
+  pointer-events: none;
 }
-.themeToggle__label::before {
+.liquidToggle__thumbInner {
+  position: relative;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--liquid-thumb-bg);
+  box-shadow: var(--liquid-thumb-shadow);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.liquidToggle__thumbLiquid {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.05) 60%),
+    linear-gradient(120deg, rgba(77, 166, 255, 0.18), rgba(255, 255, 255, 0.02));
+  opacity: 0.8;
+  transform: translateX(calc((var(--complete) / 100) * 6px));
+  transition:
+    transform var(--motion-duration-sm) var(--motion-ease-in-out),
+    opacity var(--motion-duration-sm) var(--motion-ease-in-out);
+}
+.liquidToggle__thumbCover {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.06));
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+.liquidToggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.liquidToggle:active {
+  --thumb-scale: 1.05;
+}
+.liquidToggle[data-dragging="true"] {
+  --thumb-scale: 1.05;
+}
+.liquidToggle[data-dragging="true"] .liquidToggle__thumb,
+.liquidToggle[data-dragging="true"] .liquidToggle__maskCore,
+.liquidToggle[data-instant="true"] .liquidToggle__thumb,
+.liquidToggle[data-instant="true"] .liquidToggle__maskCore {
+  transition: none;
+}
+.liquidToggle[data-motion="reduced"] .liquidToggle__thumb,
+.liquidToggle[data-motion="reduced"] .liquidToggle__maskCore {
+  transition:
+    transform var(--motion-duration-sm) var(--motion-ease-in-out),
+    background-color var(--motion-duration-sm) var(--motion-ease-in-out);
+}
+.liquidToggle[data-motion="reduced"] {
+  --thumb-scale: 1;
+}
+.liquidToggle[aria-pressed="true"] {
+  --liquid-highlight: color-mix(in srgb, var(--green) 68%, rgba(255, 255, 255, 0.18));
+}
+.liquidToggle[aria-pressed="true"] .liquidToggle__maskCore {
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.88),
+    color-mix(in srgb, var(--green) 68%, transparent) 70%,
+    rgba(255, 255, 255, 0.08)
+  );
+}
+.liquidToggle[aria-pressed="true"] .liquidToggle__thumbLiquid {
+  opacity: 0.9;
+}
+:root[data-theme="dark"] .liquidToggle {
+  --liquid-track: var(--liquid-track-dark);
+  --liquid-thumb-shadow: var(--liquid-thumb-shadow-dark);
+  --liquid-highlight: var(--liquid-highlight-dark);
+}
+:root[data-theme="light"] .liquidToggle {
+  --liquid-track: var(--liquid-track-light);
+  --liquid-thumb-shadow: var(--liquid-thumb-shadow-light);
+  --liquid-highlight: var(--liquid-highlight-light);
+}
+:root[data-theme="light"] .liquidToggle__thumbLiquid {
+  background:
+    radial-gradient(110% 90% at 60% 0%, rgba(255, 255, 255, 0.88), rgba(200, 227, 255, 0.1) 70%),
+    linear-gradient(120deg, rgba(54, 129, 238, 0.25), rgba(90, 168, 255, 0.05));
+}
+.topbar__actions .themeToggle--liquid {
+  width: auto;
+}
+@media (max-width: 720px) {
+  .liquidToggle {
+    --liquid-width: 74px;
+    --liquid-height: 36px;
+  }
+}
+.liquidToggle__thumbInner::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 31px;
-  transition: background var(--motion-duration-md) var(--motion-ease-in-out);
-}
-
-[data-theme="dark"] .themeToggle__label::before {
-  background: rgba(99, 99, 102, 0.5);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="light"] .themeToggle__label::before {
-  background: rgba(230, 230, 230, 0.9);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
-}
-.themeToggle__label::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 27px;
-  height: 27px;
-  border-radius: 27px;
-  background: var(--toggle-thumb);
-  box-shadow: var(--toggle-shadow);
-  transition: transform var(--motion-duration-md) var(--motion-spring-out); /* Elastic bounce */
-  will-change: transform;
-}
-.themeToggle__control:focus-visible + .themeToggle__label::before {
-  box-shadow: var(--focus-ring);
-}
-.themeToggle__control:checked + .themeToggle__label::before {
-  background: var(--toggle-active);
-}
-.themeToggle__control:checked + .themeToggle__label::after {
-  transform: translateX(20px);
+  border-radius: inherit;
+  background: linear-gradient(200deg, rgba(255, 255, 255, 0.16), transparent 65%);
+  opacity: 0.8;
 }
 @media (min-width: 1024px) {
   .topbar__navMask {
@@ -1420,18 +1585,9 @@ body[data-glass-state="scrolled"] .topbar::before {
   }
 
   /* Increase touch target for theme toggle on mobile */
-  .themeToggle__label {
-    width: 52px;
-    height: 32px;
-  }
-  .themeToggle__label::after {
-    width: 26px;
-    height: 26px;
-    top: 3px;
-    left: 3px;
-  }
-  .themeToggle__control:checked + .themeToggle__label::after {
-    transform: translateX(20px);
+  .themeToggle--liquid .liquidToggle {
+    --liquid-width: 72px;
+    --liquid-height: 34px;
   }
 
   /* Ensure menu button meets 44x44px minimum */
