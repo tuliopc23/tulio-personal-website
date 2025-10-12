@@ -42,4 +42,11 @@ if (token) {
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
   integrations: [mdx(), sanity(sanityOptions)],
+  vite: {
+    define: {
+      'import.meta.env.PUBLIC_SANITY_PROJECT_ID': JSON.stringify('61249gtj'),
+      'import.meta.env.PUBLIC_SANITY_DATASET': JSON.stringify('production'),
+      'import.meta.env.SANITY_API_READ_TOKEN': JSON.stringify('skonmkNRCv4QcFFbUz8qpZevmOZ1nyKtLvaEVWjCus0DE7t4uWMTDvVFvCAvJYDXwJS33XZmEquiJgpFgUeomPSTwtFgPGjIPfJM1GVK5ts31YH4JtqEhacMVxTHscpauyQpPWF2bWo5GMMsc6Ny054N1L1DltLysHdkblGTAUOQuYUwWZ4n'),
+    },
+  },
 });
