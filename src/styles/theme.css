@@ -3171,11 +3171,11 @@ kbd.slash {
 
 /* Dark mode: vibrant filled icons with 4-layer iOS shadows */
 [data-theme="dark"] .symbol {
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: linear-gradient(
     135deg,
-    var(--symbol-bg-start) 0%,
-    var(--symbol-bg-end) 100%
+    var(--symbol-bg-start-dark, var(--symbol-bg-start)) 0%,
+    var(--symbol-bg-end-dark, var(--symbol-bg-end)) 100%
   );
   /* 4-layer shadow system */
   box-shadow:
@@ -3274,60 +3274,78 @@ kbd.slash {
 /* Symbol color variants - filled iOS-style with brand-accurate colors */
 .symbol--blue {
   --symbol-accent: #0a84ff;
-  --symbol-bg-start: rgba(10, 132, 255, 0.9);
-  --symbol-bg-end: rgba(10, 132, 255, 0.75);
+  --symbol-bg-start: rgba(35, 130, 255, 0.92);
+  --symbol-bg-end: rgba(5, 90, 210, 0.78);
+  --symbol-bg-start-dark: rgba(61, 146, 255, 0.82);
+  --symbol-bg-end-dark: rgba(20, 80, 190, 0.68);
 }
 
-/* Indigo - Docker blue */
+/* Indigo - tooling blue */
 .symbol--indigo {
   --symbol-accent: #2496ed;
-  --symbol-bg-start: rgba(36, 150, 237, 0.9);
-  --symbol-bg-end: rgba(36, 150, 237, 0.75);
+  --symbol-bg-start: rgba(36, 150, 237, 0.92);
+  --symbol-bg-end: rgba(20, 110, 210, 0.76);
+  --symbol-bg-start-dark: rgba(70, 165, 245, 0.84);
+  --symbol-bg-end-dark: rgba(24, 105, 210, 0.66);
 }
 
 .symbol--teal {
   --symbol-accent: #64d2ff;
-  --symbol-bg-start: rgba(100, 210, 255, 0.9);
-  --symbol-bg-end: rgba(100, 210, 255, 0.75);
+  --symbol-bg-start: rgba(100, 210, 255, 0.92);
+  --symbol-bg-end: rgba(70, 180, 230, 0.76);
+  --symbol-bg-start-dark: rgba(105, 210, 255, 0.84);
+  --symbol-bg-end-dark: rgba(60, 165, 215, 0.64);
 }
 
 /* Orange - Swift/Svelte stronger orange */
 .symbol--orange {
   --symbol-accent: #ff6b35;
-  --symbol-bg-start: rgba(255, 107, 53, 0.9);
-  --symbol-bg-end: rgba(255, 107, 53, 0.75);
+  --symbol-bg-start: rgba(255, 120, 60, 0.9);
+  --symbol-bg-end: rgba(215, 80, 20, 0.72);
+  --symbol-bg-start-dark: rgba(255, 140, 70, 0.82);
+  --symbol-bg-end-dark: rgba(210, 85, 25, 0.62);
 }
 
 .symbol--pink {
   --symbol-accent: #ff375f;
-  --symbol-bg-start: rgba(255, 55, 95, 0.9);
-  --symbol-bg-end: rgba(255, 55, 95, 0.75);
+  --symbol-bg-start: rgba(255, 80, 120, 0.9);
+  --symbol-bg-end: rgba(215, 40, 90, 0.72);
+  --symbol-bg-start-dark: rgba(255, 95, 135, 0.82);
+  --symbol-bg-end-dark: rgba(205, 45, 95, 0.62);
 }
 
 /* Green - Vue green */
 .symbol--green {
   --symbol-accent: #42b883;
-  --symbol-bg-start: rgba(66, 184, 131, 0.9);
-  --symbol-bg-end: rgba(66, 184, 131, 0.75);
+  --symbol-bg-start: rgba(66, 194, 140, 0.92);
+  --symbol-bg-end: rgba(42, 160, 110, 0.74);
+  --symbol-bg-start-dark: rgba(80, 205, 150, 0.84);
+  --symbol-bg-end-dark: rgba(36, 150, 105, 0.64);
 }
 
 .symbol--yellow {
   --symbol-accent: #ffd60a;
-  --symbol-bg-start: rgba(255, 214, 10, 0.9);
-  --symbol-bg-end: rgba(255, 214, 10, 0.75);
+  --symbol-bg-start: rgba(255, 220, 40, 0.9);
+  --symbol-bg-end: rgba(225, 175, 0, 0.72);
+  --symbol-bg-start-dark: rgba(255, 225, 70, 0.82);
+  --symbol-bg-end-dark: rgba(215, 165, 0, 0.6);
 }
 
 /* Cyan - Go cyan/turquoise */
 .symbol--cyan {
   --symbol-accent: #00add8;
-  --symbol-bg-start: rgba(0, 173, 216, 0.9);
-  --symbol-bg-end: rgba(0, 173, 216, 0.75);
+  --symbol-bg-start: rgba(0, 185, 230, 0.92);
+  --symbol-bg-end: rgba(0, 150, 210, 0.76);
+  --symbol-bg-start-dark: rgba(0, 190, 230, 0.84);
+  --symbol-bg-end-dark: rgba(0, 135, 200, 0.64);
 }
 
 .symbol--brown {
   --symbol-accent: #ff9f0a;
-  --symbol-bg-start: rgba(255, 159, 10, 0.7);
-  --symbol-bg-end: rgba(255, 159, 10, 0.55);
+  --symbol-bg-start: rgba(255, 172, 60, 0.85);
+  --symbol-bg-end: rgba(210, 120, 15, 0.66);
+  --symbol-bg-start-dark: rgba(255, 180, 75, 0.78);
+  --symbol-bg-end-dark: rgba(195, 115, 20, 0.58);
 }
 .symbol svg {
   position: relative;

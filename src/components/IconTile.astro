@@ -25,26 +25,105 @@ const symbolStyle = brandEntry
       ...(brandEntry.accent ? { "--symbol-accent": brandEntry.accent } : {}),
     } as Record<string, string>)
   : undefined;
+
+const darkVariantIcons = new Set(["ghostty", "neovim", "xcode"]);
+const hasDarkVariant = icon ? darkVariantIcons.has(icon) : false;
+const iconSrc = icon ? `/icons/${icon}.svg` : null;
+const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 ---
 
-<span class={"symbol symbol--" + tint} aria-hidden="true" style={symbolStyle}>
+<span
+  class={"symbol symbol--" + tint}
+  aria-hidden="true"
+  style={symbolStyle}
+  data-icon={icon ?? undefined}
+>
   {
     brandEntry ? (
       <BrandIcon name={icon} size={24} />
     ) : sfIcon ? (
       <SFIcon name={sfIcon} size={24} stroke={1.8} />
     ) : icon ? (
-      <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
-        <img
-          src={`/icons/${icon}.svg`}
-          alt={label}
-          width="32"
-          height="32"
-          style="object-fit:contain;"
-        />
+      <div class="symbol__media">
+        {
+          hasDarkVariant && iconSrc && iconDarkSrc ? (
+            <>
+              <img
+                src={iconSrc}
+                alt={label}
+                loading="lazy"
+                data-variant="light"
+                style="z-index:1;"
+              />
+              <img
+                src={iconDarkSrc}
+                alt={label}
+                loading="lazy"
+                data-variant="dark"
+                style="z-index:2;"
+              />
+            </>
+          ) : (
+            iconSrc && <img src={iconSrc} alt={label} loading="lazy" />
+          )
+        }
       </div>
     ) : (
       <SFIcon name="sparkle" size={24} stroke={1.8} />
     )
   }
 </span>
+
+<style>
+	.symbol__media {
+	  width: 100%;
+	  height: 100%;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  position: relative;
+	}
+
+	.symbol[data-icon] .symbol__media img {
+	  width: 112%;
+	  height: 112%;
+	  object-fit: contain;
+	  object-position: center;
+	  display: block;
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	  opacity: 1;
+	  transition: opacity 0.2s ease;
+	}
+
+	.symbol[data-icon="apple-containerization"] .symbol__media img {
+	  width: 100%;
+	  height: 100%;
+	}
+
+	.symbol__media img[data-variant="dark"] {
+	  opacity: 0;
+	}
+
+	html.dark .symbol__media img[data-variant="light"],
+	[data-theme="dark"] .symbol__media img[data-variant="light"] {
+	  opacity: 0;
+	}
+
+	html.dark .symbol__media img[data-variant="dark"],
+	[data-theme="dark"] .symbol__media img[data-variant="dark"] {
+	  opacity: 1;
+	}
+
+	html.light .symbol__media img[data-variant="light"],
+	[data-theme="light"] .symbol__media img[data-variant="light"] {
+	  opacity: 1;
+	}
+
+	html.light .symbol__media img[data-variant="dark"],
+	[data-theme="light"] .symbol__media img[data-variant="dark"] {
+	  opacity: 0;
+	}
+</style>

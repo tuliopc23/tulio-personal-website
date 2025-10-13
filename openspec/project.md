@@ -58,6 +58,14 @@ public/             # Public static files
 types/              # TypeScript type definitions
 ```
 
+## Primary Routes
+
+- `src/pages/index.astro` - Home with hero, quick links, tech stack rail, and featured writing cards.
+- `src/pages/projects.astro` - Projects grid fed by `src/data/projects.ts`.
+- `src/pages/blog/index.astro` - Blog listing with category filters; individual posts resolve via `src/pages/blog/[slug].astro`.
+- `src/pages/about.astro`, `now.astro`, and `uses.astro` - Narrative pages sharing biography, now page, and tooling setup.
+- `src/pages/studio/[[...index]].astro` - Embedded Sanity Studio route gated to development builds.
+
 ## Key Components
 
 ### Astro Components
@@ -69,6 +77,8 @@ types/              # TypeScript type definitions
 - `ProfileCard.astro` - Author/profile card
 - `ArticleCard.astro` - Full article card
 - `IconTile.astro` - Symbol/icon tiles (Apple style)
+- `PageIndicator.astro` - Scroll-linked pagination dots for horizontal rails
+- `ScrollIndicator.astro` - Edge hints and arrow affordances for card carousels
 - `Breadcrumbs.astro` - Navigation breadcrumbs
 - `ReadingProgress.astro` - Progress indicator for articles
 - `ScrollToTop.astro` - Scroll to top button
@@ -85,6 +95,13 @@ types/              # TypeScript type definitions
 - `VisualEditing.astro` - Visual editing overlay integration
 - `src/sanity/actions/*` - Custom document actions for editorial workflow
 - `src/sanity/lib/resolve.ts` - Presentation tool route resolver
+
+## Assets & Icon Pipeline
+
+- Brand glyphs are defined in `src/components/brand-icons.ts` and rendered through Iconify (`BrandIcon.astro`), matching light/dark ink and accent tokens.
+- When a brand icon is not registered, `IconTile.astro` falls back to `/public/icons/{slug}.svg`; custom assets should use kebab-case filenames and transparent backgrounds sized to 32×32 within the macOS-style tile.
+- Horizontal card rails attach `data-*` hooks (for example `data-tech-stack-rail`) that `PageIndicator.astro` and `ScrollIndicator.astro` use to sync scroll position, arrows, and accessibility labels across breakpoints.
+- Tooling icons currently live under `public/icons/Tools/` while they are normalized; new assets should be promoted into `public/icons/` with matching slug keys before wiring into cards.
 
 ## Coding Conventions
 

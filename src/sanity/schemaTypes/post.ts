@@ -172,12 +172,10 @@ export default defineType({
     prepare(selection) {
       const { title, subtitle, media, date, featured } = selection;
       const featuredEmoji = featured ? "⭐ " : "";
-      
+
       return {
         title: `${featuredEmoji}${title ?? "Untitled"}`,
-        subtitle: date
-          ? `${new Date(date).toLocaleDateString()} — ${subtitle ?? ""}`
-          : subtitle,
+        subtitle: date ? `${new Date(date).toLocaleDateString()} — ${subtitle ?? ""}` : subtitle,
         media,
       };
     },

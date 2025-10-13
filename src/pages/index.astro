@@ -120,6 +120,63 @@ const _techStack = [
   },
 ];
 
+const _tools = [
+  {
+    title: "Ghostty",
+    body: "GPU-accelerated terminal for speed and ergonomics.",
+    tint: "indigo",
+    icon: "ghostty",
+  },
+  {
+    title: "Neovim",
+    body: "Lua-powered, modal editing workflow.",
+    tint: "green",
+    icon: "neovim",
+  },
+  {
+    title: "Xcode",
+    body: "Native IDE for Apple platforms.",
+    tint: "blue",
+    icon: "xcode",
+  },
+  {
+    title: "Containerization",
+    body: "Portable macOS build and runtime environments.",
+    tint: "cyan",
+    icon: "apple-containerization",
+  },
+  {
+    title: "Transmit",
+    body: "High-speed macOS file transfer and deployment.",
+    tint: "yellow",
+    icon: "transmit",
+  },
+  {
+    title: "Kaleidoscope",
+    body: "High-fidelity diff and merge tooling.",
+    tint: "pink",
+    icon: "kaleidoscope",
+  },
+  {
+    title: "Code Edit",
+    body: "Lightweight, native macOS code editor.",
+    tint: "teal",
+    icon: "code-edit",
+  },
+  {
+    title: "Tower",
+    body: "Native Git client with visual diffs and history.",
+    tint: "orange",
+    icon: "tower",
+  },
+  {
+    title: "Orbstack",
+    body: "Streamlined Docker and Linux VMs for macOS.",
+    tint: "indigo",
+    icon: "orbstack",
+  },
+];
+
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const _canonical = new URL("/", siteOrigin).toString();
 const description =
@@ -226,6 +283,41 @@ const _structuredData = {
       containerSelector="[data-tech-stack-rail]" 
       itemSelector=".card"
       ariaLabel="Tech stack navigation"
+    />
+  </section>
+
+  <section
+    id="tools"
+    class="container"
+    data-reveal
+    data-reveal-group="home-tools"
+  >
+    <h2
+      class="section-title"
+      data-reveal
+      data-reveal-group="home-tools"
+      data-reveal-order={0}
+    >
+      Tools
+    </h2>
+    <div class="cardGrid cardRail" data-tools-rail>
+      {
+        _tools.map((entry, index) => (
+          <Card
+            title={entry.title}
+            body={entry.body}
+            tint={entry.tint}
+            icon={entry.icon}
+            revealGroup="home-tools"
+            revealOrder={index + 1}
+          />
+        ))
+      }
+    </div>
+    <PageIndicator 
+      containerSelector="[data-tools-rail]" 
+      itemSelector=".card"
+      ariaLabel="Tools navigation"
     />
   </section>
 
