@@ -92,13 +92,13 @@ const _techStack = [
   {
     title: "Go",
     body: "Backend services and tooling.",
-    tint: "cyan",
+    tint: "teal",
     icon: "go",
   },
   {
     title: "React",
     body: "Component-driven UI.",
-    tint: "cyan",
+    tint: "blue",
     icon: "react",
   },
   {
@@ -116,7 +116,7 @@ const _techStack = [
   {
     title: "Docker",
     body: "Portable environments and deployment pipelines.",
-    tint: "indigo",
+    tint: "cyan",
     icon: "docker",
   },
 ];
@@ -125,7 +125,7 @@ const _tools = [
   {
     title: "Ghostty",
     body: "GPU-accelerated terminal for speed and ergonomics.",
-    tint: "indigo",
+    tint: "blue",
     icon: "ghostty",
   },
   {
@@ -141,8 +141,8 @@ const _tools = [
     icon: "xcode",
   },
   {
-    title: "Containerization",
-    body: "Portable macOS build and runtime environments.",
+    title: "Apple\nContainers",
+    body: "Apple Silicon native containerization runtime.",
     tint: "cyan",
     icon: "apple-containerization",
   },
@@ -155,13 +155,13 @@ const _tools = [
   {
     title: "Kaleidoscope",
     body: "High-fidelity diff and merge tooling.",
-    tint: "pink",
+    tint: "teal",
     icon: "kaleidoscope",
   },
   {
-    title: "Code Edit",
+    title: "CodeEdit",
     body: "Lightweight, native macOS code editor.",
-    tint: "teal",
+    tint: "blue",
     icon: "code-edit",
   },
   {
@@ -251,8 +251,8 @@ const _structuredData = {
         revealOrder={1}
       />
     </div>
-    <PageIndicator 
-      containerSelector="[data-quick-links-rail]" 
+    <PageIndicator
+      containerSelector="[data-quick-links-rail]"
       itemSelector=".card"
       ariaLabel="Quick links navigation"
     />
@@ -282,19 +282,14 @@ const _structuredData = {
         ))
       }
     </div>
-    <PageIndicator 
-      containerSelector="[data-tech-stack-rail]" 
+    <PageIndicator
+      containerSelector="[data-tech-stack-rail]"
       itemSelector=".card"
       ariaLabel="Tech stack navigation"
     />
   </section>
 
-  <section
-    id="tools"
-    class="container"
-    data-reveal
-    data-reveal-group="home-tools"
-  >
+  <section id="tools" class="container" data-reveal data-reveal-group="home-tools">
     <h2
       class="section-title"
       data-reveal
@@ -318,8 +313,8 @@ const _structuredData = {
         ))
       }
     </div>
-    <PageIndicator 
-      containerSelector="[data-tools-rail]" 
+    <PageIndicator
+      containerSelector="[data-tools-rail]"
       itemSelector=".card"
       ariaLabel="Tools navigation"
     />
@@ -351,8 +346,8 @@ const _structuredData = {
         ))
       }
     </div>
-    <PageIndicator 
-      containerSelector="[data-featured-writing-rail]" 
+    <PageIndicator
+      containerSelector="[data-featured-writing-rail]"
       itemSelector=".card"
       ariaLabel="Featured writing navigation"
     />

@@ -1960,6 +1960,13 @@ body[data-glass-state="scrolled"] .topbar::before {
   transition: font-variation-settings var(--motion-duration-sm) var(--motion-ease-out);
 }
 
+.icon-tile img {
+  width: 20px;
+  height: 20px;
+  display: block;
+  object-fit: contain;
+}
+
 .icon-tile:hover :global(svg) {
   font-variation-settings: "wght" 600;
 }
