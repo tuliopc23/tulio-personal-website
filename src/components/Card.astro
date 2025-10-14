@@ -8,6 +8,7 @@ interface Props {
   tint?: string;
   cta?: string;
   icon?: string | null;
+  iconAsset?: string | null;
   revealGroup?: string;
   revealOrder?: number | string;
   revealDelay?: string;
@@ -20,6 +21,7 @@ const {
   tint = "blue",
   cta = "Read more →",
   icon = null,
+  iconAsset = null,
   revealGroup,
   revealOrder,
   revealDelay,
@@ -44,7 +46,7 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
       data-reveal-delay={revealDelay ?? undefined}
     >
       <div class="card__inner">
-        <IconTile tint={tint} label={title} icon={icon} />
+        <IconTile tint={tint} label={title} icon={iconAsset ? null : icon} asset={iconAsset} />
         <div class="card__content">
           <div class="card-title">{title}</div>
           <p class="card-body">{body}</p>
@@ -62,7 +64,7 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
       role="presentation"
     >
       <div class="card__inner">
-        <IconTile tint={tint} label={title} icon={icon} />
+        <IconTile tint={tint} label={title} icon={iconAsset ? null : icon} asset={iconAsset} />
         <div class="card__content">
           <div class="card-title">{title}</div>
           <p class="card-body">{body}</p>
