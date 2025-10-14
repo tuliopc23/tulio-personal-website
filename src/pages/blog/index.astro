@@ -4,6 +4,7 @@ import ArticleCard from "../../components/ArticleCard.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import CategoryList from "../../components/CategoryList.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
+import ScrollHint from "../../components/ScrollHint.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -226,6 +227,7 @@ const _placeholders = [
         )}
 
         <div class="articleCarousel">
+          <ScrollHint target=".articleGrid" variant="all" />
           <ul
             class="articleGrid"
             data-article-list

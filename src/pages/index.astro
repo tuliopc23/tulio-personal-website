@@ -5,6 +5,7 @@ import RecentPosts from "../components/RecentPosts.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Card from "../components/Card.astro";
 import PageIndicator from "../components/PageIndicator.astro";
+import ScrollHint from "../components/ScrollHint.astro";
 import "../styles/section.css";
 import { getAllPosts, getFeaturedPosts } from "../sanity/lib/posts";
 
@@ -227,6 +228,7 @@ const _structuredData = {
       location="Brazil"
       email="contact@tuliocunha.dev"
     />
+    <ScrollHint target="[data-quick-links-rail]" />
     <div class="home__quickLinks cardRail" data-quick-links-rail>
       <Card
         title="Projects"
@@ -265,6 +267,7 @@ const _structuredData = {
     >
       Tech stack
     </h2>
+    <ScrollHint target="[data-tech-stack-rail]" />
     <div class="cardGrid cardRail" data-tech-stack-rail>
       {
         _techStack.map((entry, index) => (
@@ -300,6 +303,7 @@ const _structuredData = {
     >
       Tools
     </h2>
+    <ScrollHint target="[data-tools-rail]" />
     <div class="cardGrid cardRail" data-tools-rail>
       {
         _tools.map((entry, index) => (
@@ -330,6 +334,7 @@ const _structuredData = {
     >
       Featured writing
     </h2>
+    <ScrollHint target="[data-featured-writing-rail]" />
     <div class="cardGrid cardRail" data-featured-writing-rail>
       {
         _writingCards.map((entry, index) => (

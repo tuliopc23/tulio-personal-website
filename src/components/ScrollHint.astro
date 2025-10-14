@@ -1,0 +1,208 @@
+---
+interface Props {
+  target: string;
+  text?: string;
+  storageKey?: string;
+  variant?: "mobile" | "desktop" | "all";
+  className?: string;
+}
+
+const {
+  target,
+  text = "Scroll left",
+  storageKey,
+  variant = "mobile",
+  className,
+} = Astro.props as Props;
+
+if (!target || typeof target !== "string") {
+  throw new Error("ScrollHint requires a `target` selector pointing to the scroll container.");
+}
+
+const baseKey = storageKey ?? target;
+const sanitizedKey = `scroll-hint:${baseKey.replace(/[^\w:-]+/g, "_")}`;
+const id = `scroll-hint-${sanitizedKey.split(":").at(-1) ?? "hint"}`;
+const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boolean).join(" ");
+---
+
+<div
+  id={id}
+  class={classes}
+  data-scroll-hint
+  data-scroll-hint-target={target}
+  data-scroll-hint-key={sanitizedKey}
+  data-scroll-hint-variant={variant}
+  role="note"
+  data-scroll-hint-state="visible"
+>
+  <span class="scrollHint__label">
+    {text}
+    <span aria-hidden="true" class="scrollHint__glyph">→</span>
+  </span>
+</div>
+
+<style>
+  .scrollHint {
+    --scroll-hint-color: var(--blue, #0d8aff);
+    --scroll-hint-font: var(--font-sans, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--scroll-hint-color);
+    font-family: var(--scroll-hint-font);
+    font-weight: 600;
+    font-size: clamp(14px, 3.4vw, 16px);
+    letter-spacing: -0.01em;
+    margin-bottom: clamp(var(--space-xs), 2.5vw, var(--space-sm));
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity var(--motion-duration-sm, 180ms) var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1)),
+      transform var(--motion-duration-sm, 180ms) var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1));
+    pointer-events: none;
+    user-select: none;
+    will-change: opacity, transform;
+  }
+
+  .scrollHint[data-scroll-hint-state="visible"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .scrollHint[data-scroll-hint-state="hidden"] {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  .scrollHint__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    white-space: nowrap;
+  }
+
+  .scrollHint__glyph {
+    font-size: 1em;
+    font-weight: 600;
+  }
+
+  .scrollHint--mobile {
+    display: inline-flex;
+  }
+
+  .scrollHint--desktop {
+    display: none;
+  }
+
+  .scrollHint--all {
+    display: inline-flex;
+  }
+
+  @media (min-width: 1024px) {
+    .scrollHint--mobile {
+      display: none;
+    }
+
+    .scrollHint--desktop {
+      display: inline-flex;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scrollHint {
+      transition: none;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const initHints = () => {
+      const hints = Array.from(document.querySelectorAll('[data-scroll-hint]')) as HTMLElement[];
+      if (hints.length === 0) return;
+
+      hints.forEach((hint) => {
+        if (hint.dataset.scrollHintReady === "true") return;
+
+        const targetSelector = hint.dataset.scrollHintTarget;
+        const storageKey = hint.dataset.scrollHintKey ?? "";
+
+        if (!targetSelector) return;
+
+        const scrollContainer = document.querySelector(targetSelector) as HTMLElement | null;
+        if (!scrollContainer) return;
+
+        const persistKey = storageKey || `scroll-hint:${targetSelector}`;
+
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const hideHint = () => {
+          if (hint.dataset.scrollHintState === "hidden") return;
+          hint.dataset.scrollHintState = "hidden";
+          try {
+            sessionStorage.setItem(persistKey, "dismissed");
+          } catch (error) {
+            console.warn("Unable to persist scroll hint dismissal", error);
+          }
+          detach();
+        };
+
+        const markVisible = () => {
+          if (hint.dataset.scrollHintState === "visible") return;
+          hint.dataset.scrollHintState = "visible";
+        };
+
+        const handleInteraction = () => {
+          hideHint();
+        };
+
+        const handleKeyDown = () => {
+          const active = document.activeElement as HTMLElement | null;
+          if (active && scrollContainer.contains(active)) {
+            hideHint();
+          }
+        };
+
+        const detach = () => {
+          scrollContainer.removeEventListener("scroll", handleInteraction);
+          scrollContainer.removeEventListener("pointerdown", handleInteraction);
+          scrollContainer.removeEventListener("touchstart", handleInteraction);
+          document.removeEventListener("keydown", handleKeyDown);
+        };
+
+        const dismissed = (() => {
+          try {
+            return sessionStorage.getItem(persistKey) === "dismissed";
+          } catch {
+            return false;
+          }
+        })();
+
+        if (dismissed) {
+          hint.dataset.scrollHintState = "hidden";
+          hint.dataset.scrollHintReady = "true";
+          return;
+        }
+
+        hint.dataset.scrollHintState = "visible";
+        hint.dataset.scrollHintReady = "true";
+
+        scrollContainer.addEventListener("scroll", handleInteraction, { passive: true });
+        scrollContainer.addEventListener("pointerdown", handleInteraction, { passive: true });
+        scrollContainer.addEventListener("touchstart", handleInteraction, { passive: true });
+        document.addEventListener("keydown", handleKeyDown, { passive: true });
+
+        if (prefersReducedMotion) {
+          hint.style.transition = "none";
+        }
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initHints, { once: true });
+    } else {
+      initHints();
+    }
+  })();
+</script>

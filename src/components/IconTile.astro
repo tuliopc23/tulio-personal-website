@@ -3,7 +3,37 @@ import BrandIcon from "./BrandIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 import SFIcon from "./SFIcon.astro";
 
-const { tint = "blue", label = "", icon = null } = Astro.props;
+type IconAsset =
+  | string
+  | {
+      light: string;
+      dark?: string | null;
+    };
+
+const {
+  tint = "blue",
+  label = "",
+  icon = null,
+  asset = null,
+}: {
+  tint?: string;
+  label?: string;
+  icon?: string | null;
+  asset?: IconAsset | null;
+} = Astro.props;
+
+const iconAsset = asset
+  ? typeof asset === "string"
+    ? { light: asset, dark: asset }
+    : {
+        light: asset.light,
+        dark: typeof asset.dark === "string" && asset.dark.length > 0 ? asset.dark : asset.light,
+      }
+  : null;
+
+const assetLight = iconAsset?.light ?? null;
+const assetDarkRaw = iconAsset?.dark ?? null;
+const assetDark = assetDarkRaw && assetDarkRaw !== assetLight ? assetDarkRaw : null;
 
 const symbolMap: Record<string, string> = {
   blog: "notebook",
@@ -17,18 +47,20 @@ const symbolMap: Record<string, string> = {
   code: "code",
 };
 
-const brandEntry = icon ? getBrandIcon(icon) : null;
-const sfIcon = !brandEntry && icon ? symbolMap[icon] : null;
-const symbolStyle = brandEntry
-  ? ({
-      ...(brandEntry.ink ? { "--symbol-ink": brandEntry.ink } : {}),
-      ...(brandEntry.accent ? { "--symbol-accent": brandEntry.accent } : {}),
-    } as Record<string, string>)
-  : undefined;
+const brandEntry = !iconAsset && icon ? getBrandIcon(icon) : null;
+const sfIcon = !iconAsset && !brandEntry && icon ? symbolMap[icon] : null;
+const symbolStyle =
+  !iconAsset && brandEntry
+    ? ({
+        ...(brandEntry.ink ? { "--symbol-ink": brandEntry.ink } : {}),
+        ...(brandEntry.accent ? { "--symbol-accent": brandEntry.accent } : {}),
+      } as Record<string, string>)
+    : undefined;
 
-const darkVariantIcons = new Set(["ghostty", "neovim", "xcode"]);
-const hasDarkVariant = icon ? darkVariantIcons.has(icon) : false;
-const iconSrc = icon ? `/icons/${icon}.svg` : null;
+const darkVariantIcons = new Set<string>();
+
+const hasDarkVariant = !iconAsset && icon ? darkVariantIcons.has(icon) : false;
+const iconSrc = !iconAsset && icon ? `/icons/${icon}.svg` : null;
 const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 ---
 
@@ -36,10 +68,35 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
   class={"symbol symbol--" + tint}
   aria-hidden="true"
   style={symbolStyle}
-  data-icon={icon ?? undefined}
+  data-icon={iconAsset ? "asset" : icon ?? undefined}
 >
   {
-    brandEntry ? (
+    iconAsset ? (
+      <div class="symbol__media">
+        {
+          assetLight && (
+            <img
+              src={assetLight}
+              alt={label}
+              loading="lazy"
+              data-variant="light"
+              style="z-index:1;"
+            />
+          )
+        }
+        {
+          assetDark && (
+            <img
+              src={assetDark}
+              alt={label}
+              loading="lazy"
+              data-variant="dark"
+              style="z-index:2;"
+            />
+          )
+        }
+      </div>
+    ) : brandEntry ? (
       <BrandIcon name={icon} size={24} />
     ) : sfIcon ? (
       <SFIcon name={sfIcon} size={24} stroke={1.8} />

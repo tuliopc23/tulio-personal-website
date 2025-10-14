@@ -1,9 +1,9 @@
 ---
 import { Image } from "astro:assets";
-import BrandIcon from "./BrandIcon.astro";
-import SFIcon from "./SFIcon.astro";
+import IconTile from "./IconTile.astro";
 import PageIndicator from "./PageIndicator.astro";
-import { getBrandIcon } from "./brand-icons";
+import ScrollIndicator from "./ScrollIndicator.astro";
+import ScrollHint from "./ScrollHint.astro";
 import AvatarSrc from "../assets/avatar.png";
 
 const {
@@ -13,56 +13,77 @@ const {
   email = "contact@tuliocunha.dev",
 } = Astro.props;
 
-const _contacts = [
+const socialRailIdDesktop = "profile-card-social-rail-desktop";
+const socialRailIdMobile = "profile-card-social-rail-mobile";
+const encodedLocation = encodeURIComponent(location);
+const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
+const socialCtas = [
   {
-    label: "GitHub",
-    value: "@tuliopc23",
+    title: "GitHub",
+    description: "Peek at the experiments I'm shipping each week.",
     href: "https://github.com/tuliopc23",
-    icon: "github",
+    icon: "profile-github",
+    tint: "indigo",
+    ariaLabel: "Visit Tulio on GitHub",
   },
   {
-    label: "Portfolio",
-    value: "https://portfolio.tuliocunha.dev",
+    title: "Portfolio",
+    description: "Browse the macOS-inspired work I've delivered for clients.",
     href: "https://portfolio.tuliocunha.dev",
-    icon: "globe",
+    icon: "profile-portfolio",
+    tint: "cyan",
+    ariaLabel: "Explore Tulio's portfolio",
   },
   {
-    label: "Instagram",
-    value: "https://instagram.com/tuliopinheirocunha",
+    title: "Instagram",
+    description: "Catch behind-the-scenes product snapshots and motion tests.",
     href: "https://instagram.com/tuliopinheirocunha",
-    icon: "instagram",
+    asset: "/icons/Socials/instagram-light.svg",
+    tint: "pink",
+    ariaLabel: "Follow Tulio on Instagram",
   },
   {
-    label: "LinkedIn",
-    value: "https://linkedin.com/in/tuliopinheirocunha",
+    title: "LinkedIn",
+    description: "Stay in the loop on product updates and roles I'm chasing.",
     href: "https://linkedin.com/in/tuliopinheirocunha",
-    icon: "linkedin",
+    asset: "/icons/Socials/linkedin-light.svg",
+    tint: "blue",
+    ariaLabel: "Connect with Tulio on LinkedIn",
   },
   {
-    label: "Book time",
-    value: "https://fantastical.app/tuliopinheirocunha",
+    title: "Book a meeting",
+    description: "Reserve a 30-minute slot to jam on your product roadmap.",
     href: "https://fantastical.app/tuliopinheirocunha",
-    icon: "calendar",
+    asset: "/icons/Socials/calendar-light.svg",
+    tint: "orange",
+    ariaLabel: "Book a meeting with Tulio",
   },
   {
-    label: "Fiverr",
-    value: "https://fiverr.com/placeholder",
-    href: "https://fiverr.com/placeholder",
-    icon: "fiverr",
+    title: "Fiverr",
+    description: "Spin up scoped engagements or retainers through my Fiverr studio.",
+    href: "https://www.fiverr.com/placeholder",
+    icon: "profile-fiverr",
+    tint: "green",
+    ariaLabel: "Work with Tulio via Fiverr",
   },
 ];
 
-const _meta = [
-  {
-    label: "Location",
-    value: location,
-    icon: "pin",
-  },
+const contactCards = [
   {
     label: "Email",
     value: email,
-    icon: "mail",
     href: `mailto:${email}`,
+    tint: "indigo",
+    asset: "/icons/Socials/Email.webp",
+    ariaLabel: `Email ${name}`,
+  },
+  {
+    label: "Location",
+    value: location,
+    href: locationHref,
+    tint: "cyan",
+    asset: "/icons/Socials/Location.svg",
+    ariaLabel: `Open ${name}'s location in Maps`,
   },
 ];
 ---
@@ -93,134 +114,156 @@ const _meta = [
       <p class="profileCard__title">{title}</p>
     </header>
 
-    <dl class="profileCard__meta" aria-label="Key details">
-      {
-        _meta.map((item) => (
-          <div class="profileCard__metaItem">
-            <dt>
-              {item.icon && (
-                <span class="profileCard__metaIcon" aria-hidden="true">
-                  {getBrandIcon(item.icon) ? (
-                    <BrandIcon name={item.icon} size={16} />
-                  ) : (
-                    <SFIcon name={item.icon} size={16} stroke={1.6} />
-                  )}
+    <div
+      class="profileCard__contactArea"
+      aria-label="Primary contact methods"
+      role="navigation"
+      data-reveal
+      data-reveal-group="profile-card"
+      data-reveal-order="0.5"
+    >
+      <div class="profileCard__contactList">
+        {
+          contactCards.map((card, index) => (
+            <a
+              class="card profileCard__contactCard"
+              href={card.href}
+              target={card.label === "Location" ? "_blank" : undefined}
+              rel={card.label === "Location" ? "noreferrer noopener" : undefined}
+              aria-label={card.ariaLabel}
+              data-reveal
+              data-reveal-group="profile-card"
+              data-reveal-order={`0.5.${index}`}
+            >
+              <div class="card__inner profileCard__contactInner">
+                <span class="profileCard__contactIcon" aria-hidden="true">
+                  <IconTile tint={card.tint} label={card.label} asset={card.asset} />
                 </span>
-              )}
-              <span class="profileCard__metaLabel">{item.label}</span>
-            </dt>
-            <dd>{item.href ? <a href={item.href}>{item.value}</a> : item.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
+                <span class="profileCard__contactCopy">
+                  <span class="profileCard__contactHeading">{card.label}</span>
+                  <span class="profileCard__contactValue">{card.value}</span>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
 
     <p class="profileCard__summary">
       I'm a full stack developer who spends my days tinkering with high- and low-level
       programming to solve my problems—and yours if you let me.
     </p>
 
-    <ul
-      class="profileCard__contacts profileCard__contactsDesktop"
+    <div
+      class="profileCard__socialArea profileCard__socialArea--desktop"
       aria-label="Ways to reach Tulio"
+      role="navigation"
+      data-reveal
+      data-reveal-group="profile-card"
+      data-reveal-order="1"
     >
-      {
-        _contacts.map((entry) => {
-          const brand = entry.icon ? getBrandIcon(entry.icon) : null;
-          const iconStyle = brand?.ink ? { "--chip-icon-color": brand.ink } : undefined;
-          return (
-            <li>
-              <a
-                class="profileCard__chip"
-                href={entry.href}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {entry.icon && (
-                  <span
-                    class="profileCard__chipIcon"
-                    aria-hidden="true"
-                    style={iconStyle}
-                    data-brand={brand ? entry.icon : undefined}
-                    data-icon={!brand && entry.icon !== "github" ? entry.icon : undefined}
-                  >
-                    {brand ? (
-                      <BrandIcon name={entry.icon} size={20} />
-                    ) : (
-                      <SFIcon
-                        name={entry.icon}
-                        size={20}
-                        stroke={entry.icon === "calendar" ? 1.4 : 1.6}
-                      />
-                    )}
-                  </span>
-                )}
-                <span class="profileCard__chipContent">
-                  <span class="profileCard__chipLabel">{entry.label}</span>
-                  <span class="profileCard__chipValue">{entry.value}</span>
-                </span>
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
+      <div
+        id={socialRailIdDesktop}
+        class="profileCard__socials profileCard__socials--desktop"
+      >
+        {
+          socialCtas.map((cta, index) => (
+            <a
+              class="card profileCard__socialCard"
+              href={cta.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label={cta.ariaLabel}
+              data-reveal
+              data-reveal-group="profile-card"
+              data-reveal-order={`1.${index}`}
+            >
+              <div class="card__inner">
+                <IconTile
+                  tint={cta.tint}
+                  label={cta.title}
+                  icon={cta.icon ?? null}
+                  asset={cta.asset ?? null}
+                />
+                <div class="card__content">
+                  <div class="card-title">{cta.title}</div>
+                  <p class="card-body profileCard__socialBody">{cta.description}</p>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+
+        <ScrollIndicator
+          containerClass="profileCard__scrollIndicator"
+          ariaLabel="Scroll to explore profile links"
+        />
+      </div>
+
+      <PageIndicator
+        containerSelector={`#${socialRailIdDesktop}`}
+        itemSelector=".profileCard__socialCard"
+        ariaLabel="Profile social links navigation"
+      />
+    </div>
   </div>
 </section>
 
-<ul
-  class="profileCardContactsMobile cardRail"
+<div
+  class="profileCard__socialArea profileCard__socialArea--mobile"
   aria-label="Ways to reach Tulio"
-  data-reveal
-  data-reveal-group="profile-card"
-  data-reveal-order="1"
+  role="navigation"
 >
-  {
-    _contacts.map((entry) => {
-      const brand = entry.icon ? getBrandIcon(entry.icon) : null;
-      const iconStyle = brand?.ink ? { "--chip-icon-color": brand.ink } : undefined;
-      return (
-        <li>
-          <a
-            class="profileCard__chip"
-            href={entry.href}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {entry.icon && (
-              <span
-                class="profileCard__chipIcon"
-                aria-hidden="true"
-                style={iconStyle}
-                data-brand={brand ? entry.icon : undefined}
-                data-icon={!brand && entry.icon !== "github" ? entry.icon : undefined}
-              >
-                {brand ? (
-                  <BrandIcon name={entry.icon} size={20} />
-                ) : (
-                  <SFIcon
-                    name={entry.icon}
-                    size={20}
-                    stroke={entry.icon === "calendar" ? 1.4 : 1.6}
-                  />
-                )}
-              </span>
-            )}
-            <span class="profileCard__chipContent">
-              <span class="profileCard__chipLabel">{entry.label}</span>
-              <span class="profileCard__chipValue">{entry.value}</span>
-            </span>
-          </a>
-        </li>
-      );
-    })
-  }
-</ul>
-<PageIndicator 
-  containerSelector=".profileCardContactsMobile" 
-  itemSelector="li"
-  ariaLabel="Social links navigation"
-/>
+  <h2 class="profileCard__socialHeading">Socials</h2>
+  <ScrollHint target={`#${socialRailIdMobile}`} className="profileCard__scrollHint" />
+  <div
+    id={socialRailIdMobile}
+    class="profileCard__socials profileCard__socials--mobile cardRail"
+    data-reveal
+    data-reveal-group="profile-card"
+    data-reveal-order="2"
+  >
+    {
+      socialCtas.map((cta, index) => (
+        <a
+          class="card profileCard__socialCard"
+          href={cta.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label={cta.ariaLabel}
+          data-reveal
+          data-reveal-group="profile-card"
+          data-reveal-order={`2.${index}`}
+        >
+          <div class="card__inner">
+            <IconTile
+              tint={cta.tint}
+              label={cta.title}
+              icon={cta.icon ?? null}
+              asset={cta.asset ?? null}
+            />
+            <div class="card__content">
+              <div class="card-title">{cta.title}</div>
+              <p class="card-body profileCard__socialBody">{cta.description}</p>
+            </div>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+
+  <ScrollIndicator
+    containerClass="profileCard__scrollIndicator"
+    ariaLabel="Scroll to explore profile links"
+  />
+
+  <PageIndicator
+    containerSelector={`#${socialRailIdMobile}`}
+    itemSelector=".profileCard__socialCard"
+    ariaLabel="Profile social links navigation"
+  />
+</div>
 
 <style>
   .profileCard {
@@ -424,86 +467,71 @@ const _meta = [
     color: rgba(60, 60, 67, 0.75);
   }
 
-  .profileCard__meta {
+  .profileCard__contactArea {
+    display: grid;
+    gap: clamp(var(--space-xs), 1.2vw, var(--space-sm));
+  }
+
+  .profileCard__contactList {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--space-xs) clamp(var(--space-sm), 2vw, var(--space-md));
-    margin: 0;
+    gap: clamp(var(--space-xs), 1vw, var(--space-sm));
   }
 
-  .profileCard__metaItem {
-    display: grid;
-    gap: var(--space-xxs);
+  .profileCard__contactCard {
+    padding: clamp(var(--space-xs), 1.6vw, var(--space-sm))
+      clamp(var(--space-sm), 1.8vw, var(--space-md));
+    border-radius: var(--radius-md);
+    min-height: auto;
   }
 
-  .profileCard__metaItem dt {
-    display: flex;
+  .profileCard__contactInner {
     align-items: center;
-    gap: var(--space-xs);
-    margin: 0;
-    font-size: var(--fs--2);
-    font-weight: 500; /* Better distinction */
-    text-transform: uppercase;
-    letter-spacing: var(--ls-eyebrow); /* 0.06em HIG standard */
+    gap: clamp(var(--space-xxs), 1vw, var(--space-xs));
   }
 
-  :global([data-theme="dark"]) .profileCard__metaItem dt {
-    color: rgba(235, 235, 245, 0.65);
-  }
-
-  :global([data-theme="light"]) .profileCard__metaItem dt {
-    color: rgba(60, 60, 67, 0.65);
-  }
-
-  .profileCard__metaLabel {
+  .profileCard__contactIcon {
     display: inline-flex;
-    align-items: center;
-    gap: 4px;
   }
 
-  .profileCard__metaItem dd {
-    margin: 0;
+  .profileCard__contactIcon .symbol {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  .profileCard__contactIcon .symbol[data-icon="asset"] .symbol__media img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .profileCard__contactCopy {
+    display: grid;
+    gap: 2px;
+  }
+
+  .profileCard__contactHeading {
     font-size: var(--fs--1);
     font-weight: 600;
-    color: var(--text);
+    letter-spacing: -0.01em;
+    color: rgba(60, 60, 67, 0.9);
+  }
+
+  :global([data-theme="dark"]) .profileCard__contactHeading {
+    color: rgba(235, 235, 245, 0.88);
+  }
+
+  .profileCard__contactValue {
+    font-size: var(--fs--2);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: rgba(60, 60, 67, 0.85);
     word-break: break-word;
   }
 
-  .profileCard__metaItem dd a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .profileCard__metaItem dd a:hover {
-    text-decoration: underline;
-  }
-
-  .profileCard__metaIcon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 12px;
-    border: 1px solid var(--panel-border);
-    box-shadow: var(--shadow-card);
-  }
-
-  :global([data-theme="dark"]) .profileCard__metaIcon {
-    background: rgba(29, 29, 32, 0.95);
-    color: rgba(235, 235, 245, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  :global([data-theme="light"]) .profileCard__metaIcon {
-    background: rgba(248, 248, 251, 1) !important;
-    color: rgba(60, 60, 67, 0.78);
-    border: 1px solid rgba(60, 60, 67, 0.106);
-  }
-
-  .profileCard__metaIcon :global(svg) {
-    width: 16px;
-    height: 16px;
+  :global([data-theme="dark"]) .profileCard__contactValue {
+    color: rgba(235, 235, 245, 0.86);
   }
 
   .profileCard__summary {
@@ -522,339 +550,80 @@ const _meta = [
     color: rgba(60, 60, 67, 0.85);
   }
 
-  .profileCard__contacts {
+  .profileCard__socialArea--desktop {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-sm);
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: clamp(var(--space-sm), 2vw, var(--space-md));
   }
 
-  .profileCardContactsMobile {
+  .profileCard__socials {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(var(--space-sm), 1.5vw, var(--space-md));
+  }
+
+  .profileCard__socialHeading {
     display: none;
-    list-style: none;
-    padding: 0;
-    margin: var(--space-lg) 0 0;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    transition:
-      transform var(--motion-duration-sm) var(--motion-spring-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out);
-    will-change: transform, box-shadow, border-color;
-  }
-
-  :global([data-theme="dark"]) .profileCardContactsMobile {
-    background: rgba(29, 29, 32, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.106);
-  }
-
-  :global([data-theme="light"]) .profileCardContactsMobile {
-    background: rgba(248, 248, 251, 1);
-    border: 1px solid rgba(60, 60, 67, 0.106);
-  }
-
-  /* Remove cardRail gradient overlay - force disable with !important */
-  .profileCardContactsMobile::after {
-    display: none !important;
-    content: none !important;
-  }
-
-  .profileCardContactsMobile li {
-    display: flex;
-  }
-
-  .profileCard__chip {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: clamp(var(--space-xs), 1.5vw, var(--space-sm));
-    border-radius: var(--radius-md);
-    border: 1px solid var(--panel-border);
-    padding: calc(var(--space-sm) - 2px) calc(var(--space-md) - 4px);
-    color: var(--text);
-    text-decoration: none;
-    transition:
-      transform var(--motion-duration-sm) var(--motion-spring-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out),
-      background var(--motion-duration-sm) var(--motion-ease-out);
-    overflow: hidden;
-    will-change: transform, box-shadow, background;
-    box-shadow: var(--shadow-card);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chip {
-    background: rgba(29, 29, 32, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.106);
-  }
-
-  :global([data-theme="light"]) .profileCard__chip {
-    background: rgba(248, 248, 251, 1) !important;
-    border: 1px solid rgba(60, 60, 67, 0.106);
-  }
-
-  /* Chip gradient overlay - disabled for consistency */
-  :global([data-theme="dark"]) .profileCard__chip::after {
-    content: none;
-  }
-
-  :global([data-theme="light"]) .profileCard__chip::after {
-    content: none;
-  }
-
-
-  :global([data-theme="dark"]) .profileCard__chip:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.24);
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      0 8px 24px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
-  }
-
-  :global([data-theme="light"]) .profileCard__chip:hover {
-    background: rgba(255, 255, 255, 0.8);
-    border-color: rgba(0, 0, 0, 0.04);
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.1),
-      0 8px 24px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    transform: translateY(-1px);
-  }
-
-  /* Remove gradient hover effect */
-  :global([data-theme="light"]) .profileCard__chip:hover::after {
-    opacity: 0;
-  }
-
-  :global([data-theme="dark"]) .profileCard .profileCard__chip:focus-visible {
-    outline: none !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(10, 132, 255, 0.6) !important;
-    box-shadow:
-      0 0 0 4px rgba(10, 132, 255, 0.3) !important;
-    z-index: 10 !important;
-    position: relative !important;
-  }
-
-  :global([data-theme="light"]) .profileCard .profileCard__chip:focus-visible {
-    outline: none !important;
-    background: rgba(255, 255, 255, 0.8) !important;
-    border-color: rgba(0, 122, 255, 0.6) !important;
-    box-shadow:
-      0 0 0 4px rgba(0, 122, 255, 0.3) !important;
-    z-index: 10 !important;
-    position: relative !important;
-  }
-
-  :global([data-theme="light"]) .profileCard__chip:focus-visible::after {
-    opacity: 0;
-  }
-
-  .profileCard__chipIcon {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--panel-border);
-    box-shadow: var(--shadow-card);
-    position: relative;
-    z-index: 1;
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon {
-    background: rgba(29, 29, 32, 0.95);
-    color: rgba(235, 235, 245, 0.82);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  :global([data-theme="light"]) .profileCard__chipIcon {
-    background: rgba(248, 248, 251, 1) !important;
-    color: rgba(60, 60, 67, 0.82);
-    border: 1px solid rgba(60, 60, 67, 0.106);
-  }
-
-  .profileCard__chipIcon :global(svg) {
-    width: 20px;
-    height: 20px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .profileCard__chip,
-    .profileCard__chip:hover,
-    .profileCard__chip:focus-visible {
-      transition: none;
-      transform: none;
-    }
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="github"],
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="instagram"] {
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="github"] svg,
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="github"] svg *,
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="instagram"] svg,
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-brand="instagram"] svg * {
-    fill: currentColor !important;
-  }
-
-  :global([data-theme="light"]) .profileCard__chipIcon[data-brand] {
-    color: rgba(60, 60, 67, 0.85);
-  }
-
-  /* Colored simple icons - Dark mode */
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-icon="calendar"] {
-    background: linear-gradient(
-      135deg,
-      rgba(13, 138, 255, 0.14),
-      rgba(13, 138, 255, 0.08)
-    );
-    color: #0d8aff;
-    border-color: rgba(13, 138, 255, 0.28);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-icon="globe"] {
-    background: linear-gradient(
-      135deg,
-      rgba(95, 212, 255, 0.14),
-      rgba(95, 212, 255, 0.08)
-    );
-    color: #5fd4ff;
-    border-color: rgba(95, 212, 255, 0.28);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-icon="pin"] {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 71, 60, 0.14),
-      rgba(255, 71, 60, 0.08)
-    );
-    color: #ff473c;
-    border-color: rgba(255, 71, 60, 0.28);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipIcon[data-icon="mail"] {
-    background: linear-gradient(
-      135deg,
-      rgba(13, 138, 255, 0.14),
-      rgba(13, 138, 255, 0.08)
-    );
-    color: #0d8aff;
-    border-color: rgba(13, 138, 255, 0.28);
-  }
-
-  /* Colored simple icons - Light mode */
-  :global([data-theme="light"]) .profileCard__chipIcon[data-icon="calendar"] {
-    background: linear-gradient(
-      135deg,
-      rgba(0, 113, 227, 0.12),
-      rgba(0, 113, 227, 0.06)
-    );
-    color: #0071e3;
-    border-color: rgba(0, 113, 227, 0.24);
-  }
-
-  :global([data-theme="light"]) .profileCard__chipIcon[data-icon="globe"] {
-    background: linear-gradient(
-      135deg,
-      rgba(90, 200, 250, 0.12),
-      rgba(90, 200, 250, 0.06)
-    );
-    color: #5ac8fa;
-    border-color: rgba(90, 200, 250, 0.24);
-  }
-
-  :global([data-theme="light"]) .profileCard__chipIcon[data-icon="pin"] {
-    background: linear-gradient(
-      135deg,
-      rgba(255, 59, 48, 0.12),
-      rgba(255, 59, 48, 0.06)
-    );
-    color: #ff3b30;
-    border-color: rgba(255, 59, 48, 0.24);
-  }
-
-  :global([data-theme="light"]) .profileCard__chipIcon[data-icon="mail"] {
-    background: linear-gradient(
-      135deg,
-      rgba(0, 113, 227, 0.12),
-      rgba(0, 113, 227, 0.06)
-    );
-    color: #0071e3;
-    border-color: rgba(0, 113, 227, 0.24);
-  }
-
-  /* Hover glow effects for colored icons */
-  :global([data-theme="dark"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="calendar"],
-  :global([data-theme="dark"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="mail"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(13, 138, 255, 0.24);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="globe"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(95, 212, 255, 0.24);
-  }
-
-  :global([data-theme="dark"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="pin"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(255, 71, 60, 0.24);
-  }
-
-  :global([data-theme="light"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="calendar"],
-  :global([data-theme="light"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="mail"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(0, 113, 227, 0.20);
-  }
-
-  :global([data-theme="light"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="globe"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(90, 200, 250, 0.20);
-  }
-
-  :global([data-theme="light"]) .profileCard__chip:hover .profileCard__chipIcon[data-icon="pin"] {
-    box-shadow: 
-      var(--shadow-card),
-      0 0 16px rgba(255, 59, 48, 0.20);
-  }
-
-  .profileCard__chipContent {
-    display: grid;
-    gap: 2px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .profileCard__chipLabel {
-    font-size: var(--fs--2);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  :global([data-theme="dark"]) .profileCard__chipLabel {
-    color: rgba(235, 235, 245, 0.6);
-  }
-
-  :global([data-theme="light"]) .profileCard__chipLabel {
-    color: rgba(60, 60, 67, 0.6);
-  }
-
-  .profileCard__chipValue {
-    font-size: var(--fs--1);
+    margin: 0 0 var(--space-xs);
+    font-size: clamp(18px, 3.8vw, 20px);
     font-weight: 600;
-    word-break: break-word;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+
+  .profileCard__socials::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profileCard__socials {
+    scrollbar-width: none;
+  }
+
+  .profileCard__socialCard {
+    display: block;
+    min-height: 170px;
+  }
+
+  .profileCard__socialCard .card__inner {
+    align-items: flex-start;
+    gap: clamp(var(--space-sm), 1.5vw, var(--space-md));
+  }
+
+  .profileCard__socialCard .card__content {
+    gap: var(--space-xs);
+  }
+
+  .profileCard__socialCard .card-title {
+    font-size: clamp(18px, 1.4vw, 20px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  .profileCard__socialBody {
+    margin: 0;
+    font-size: var(--fs--1);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .profileCard__socialCard .symbol {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+  }
+
+  .profileCard__socials > .scrollIndicator {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .profileCard__socials > .scrollIndicator .scrollIndicator__arrow {
+    pointer-events: auto;
+  }
+
+  .profileCard__socialArea--mobile {
+    display: none;
   }
 
 
@@ -869,6 +638,7 @@ const _meta = [
     .profileCard {
       grid-template-columns: 1fr;
       gap: clamp(var(--space-sm), 2vw, var(--space-md));
+      margin-bottom: clamp(var(--space-md), 6vw, var(--space-lg));
     }
 
     .profileCard__media {
@@ -879,6 +649,10 @@ const _meta = [
       width: 118px;
       height: 118px;
       border-radius: 22px;
+    }
+
+    .profileCard__contactList {
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
   }
 
@@ -893,35 +667,67 @@ const _meta = [
       border-radius: 20px;
     }
 
-    .profileCard__meta {
-      grid-template-columns: 1fr;
+    .profileCard__contactCard {
+      padding: clamp(var(--space-sm), 5vw, var(--space-md));
     }
 
-    .profileCard__contactsDesktop {
+    .profileCard__socialArea--desktop {
       display: none;
     }
 
-    .profileCardContactsMobile {
+    .profileCard__socialHeading {
+      display: block;
+    }
+
+    .profileCard__socialArea--mobile {
+      display: grid;
+      gap: clamp(var(--space-sm), 2vw, var(--space-md));
+      margin-top: clamp(var(--space-md), 6vw, var(--space-lg));
+    }
+
+    .profileCard__scrollHint {
+      margin-bottom: 0;
+    }
+
+    .profileCard__socials--mobile {
       display: flex;
-      gap: var(--space-sm);
       overflow-x: auto;
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
-      scroll-padding-inline: var(--space-sm);
-      padding: var(--space-sm);
-      margin-inline: calc(-1 * var(--space-sm));
+      scroll-padding-inline: clamp(var(--space-sm), 6vw, var(--space-md));
+      gap: var(--space-md);
+      padding-inline: clamp(var(--space-sm), 6vw, var(--space-md));
+      padding-bottom: var(--space-sm);
+      margin-inline: calc(-1 * clamp(var(--space-sm), 6vw, var(--space-md)));
       scrollbar-width: none;
     }
 
-    .profileCardContactsMobile::-webkit-scrollbar {
+    .profileCard__socials--mobile::-webkit-scrollbar {
       display: none;
     }
 
-    .profileCardContactsMobile li {
-      flex: 0 0 min(74vw, 240px);
+    .profileCard__socialArea--mobile .profileCard__socialCard {
+      flex: 0 0 clamp(82%, 78vw, 260px);
       scroll-snap-align: start;
+    }
+
+    .profileCard__socialArea--mobile .profileCard__socialCard .card__inner {
+      gap: var(--space-sm);
+    }
+
+    .profileCard__socialArea--mobile .profileCard__socialCard .card-title {
+      font-size: 17px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .profileCard__socialCard {
+      transition: none;
+    }
+    .profileCard__socials > .scrollIndicator {
+      display: none;
     }
   }
 </style>

@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import ScrollHint from "../components/ScrollHint.astro";
 import { projectsSorted } from "../data/projects";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
@@ -91,6 +92,7 @@ const _structuredData = {
               portfolio details.
             </p>
           </div>
+          <ScrollHint target="[data-projects-grid]" />
           <div class="cardGrid cardRail projects__grid" data-projects-grid>
             {projectsSorted.map((project, index) => (
               <ProjectCard project={project} revealOrder={index} />
