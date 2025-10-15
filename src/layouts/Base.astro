@@ -43,8 +43,7 @@ const {
 const fullTitle = `${title} • Tulio Cunha`;
 const computedOgTitle = ogTitle ?? fullTitle;
 const computedOgDescription = ogDescription ?? description;
-const canonicalUrl =
-  canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
+const canonicalUrl = canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
 const robotsValue = noIndex ? "noindex,nofollow" : "index,follow";
 const structuredDataJson =
   typeof structuredData === "string"

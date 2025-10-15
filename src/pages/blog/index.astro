@@ -2,7 +2,6 @@
 import Base from "../../layouts/Base.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import CategoryList from "../../components/CategoryList.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
@@ -186,10 +185,6 @@ const _placeholders = [
         </div>
       )
     }
-  </section>
-
-  <section class="container">
-    <CategoryList />
   </section>
 
   {

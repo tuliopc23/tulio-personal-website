@@ -27,10 +27,7 @@ const iconAsset = asset
     ? { light: asset, dark: asset }
     : {
         light: asset.light,
-        dark:
-          typeof asset.dark === "string" && asset.dark.length > 0
-            ? asset.dark
-            : asset.light,
+        dark: typeof asset.dark === "string" && asset.dark.length > 0 ? asset.dark : asset.light,
       }
   : null;
 

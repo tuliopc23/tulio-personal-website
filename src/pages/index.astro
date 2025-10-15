@@ -11,15 +11,13 @@ import { getAllPosts, getFeaturedPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
 const featuredPosts = await getFeaturedPosts();
-const featuredWriting =
-  featuredPosts.length > 0 ? featuredPosts.slice(0, 3) : posts.slice(0, 3);
+const featuredWriting = featuredPosts.length > 0 ? featuredPosts.slice(0, 3) : posts.slice(0, 3);
 
 const fallbackWriting = [
   {
     slug: "liquid-glass",
     title: "Liquid glass on the web",
-    summary:
-      "How to recreate Apple's materials with CSS blur, transparency, and borders.",
+    summary: "How to recreate Apple's materials with CSS blur, transparency, and borders.",
     tint: "blue" as const,
   },
   {
@@ -57,9 +55,7 @@ const _writingCards =
       }))
     : featuredWriting.map((post, index) => {
         const fallbackTint = fallbackWriting[index]?.tint ?? "indigo";
-        const tagTint = post.tags
-          .map((tag) => tintByTag[tag.toLowerCase()])
-          .find(Boolean);
+        const tagTint = post.tags.map((tag) => tintByTag[tag.toLowerCase()]).find(Boolean);
         return {
           title: post.title,
           summary: post.summary,
@@ -182,8 +178,7 @@ const _tools = [
   },
 ];
 
-const siteOrigin =
-  Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const _canonical = new URL("/", siteOrigin).toString();
 const description =
   "Tulio Cunha is a full stack developer crafting native and web experiences with Apple-inspired precision.";
