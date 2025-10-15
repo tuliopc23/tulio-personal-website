@@ -1,0 +1,86 @@
+---
+import { marked } from 'marked';
+
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+
+// Configure marked for better HTML output
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+});
+
+const htmlContent = marked(content);
+---
+
+<div class="markdown-content" set:html={htmlContent} />
+
+<style>
+  .markdown-content {
+    line-height: 1.7;
+  }
+
+  .markdown-content h2 {
+    font-size: var(--fs-3);
+    font-weight: 700;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+    color: var(--text);
+  }
+
+  .markdown-content h3 {
+    font-size: var(--fs-2);
+    font-weight: 600;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    color: var(--text);
+  }
+
+  .markdown-content p {
+    margin-bottom: var(--space-md);
+    color: var(--text-secondary);
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-lg);
+  }
+
+  .markdown-content li {
+    margin-bottom: var(--space-xs);
+    color: var(--text-secondary);
+  }
+
+  .markdown-content code {
+    background: var(--surface);
+    padding: 0.2em 0.4em;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  .markdown-content pre {
+    background: var(--surface);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    margin-bottom: var(--space-md);
+  }
+
+  .markdown-content pre code {
+    background: none;
+    padding: 0;
+  }
+
+  .markdown-content blockquote {
+    border-left: 4px solid var(--accent);
+    padding-left: var(--space-md);
+    margin: var(--space-md) 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+</style>

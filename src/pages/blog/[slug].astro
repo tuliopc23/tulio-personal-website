@@ -5,6 +5,7 @@ import ReadingProgress from "../../components/ReadingProgress.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SFIcon from "../../components/SFIcon.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
+import MarkdownContent from "../../components/MarkdownContent.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { urlFor, generateSrcset } from "../../sanity/lib/image";
 import {
@@ -256,7 +257,11 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             data-reveal-group="post-shell"
             data-reveal-order={2}
           >
-            <ArticlePortableText blocks={post.content} />
+            {typeof post.content === 'string' ? (
+              <MarkdownContent content={post.content} />
+            ) : (
+              <ArticlePortableText blocks={post.content} />
+            )}
           </section>
 
           <footer class="article__footer" aria-label="Article footer">
