@@ -43,7 +43,8 @@ const {
 const fullTitle = `${title} • Tulio Cunha`;
 const computedOgTitle = ogTitle ?? fullTitle;
 const computedOgDescription = ogDescription ?? description;
-const canonicalUrl = canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
+const canonicalUrl =
+  canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
 const robotsValue = noIndex ? "noindex,nofollow" : "index,follow";
 const structuredDataJson =
   typeof structuredData === "string"
@@ -61,10 +62,20 @@ const structuredDataJson =
     <meta name="robots" content={robotsValue} />
     {description && <meta name="description" content={description} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    
+
     <!-- Theme-aware favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-light.svg" media="(prefers-color-scheme: light)" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon-dark.svg"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon-light.svg"
+      media="(prefers-color-scheme: light)"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" />
 
     <!-- Performance: Resource hints for external domains -->
@@ -110,17 +121,17 @@ const structuredDataJson =
         }
         // Otherwise, respect the HTML's initial data-theme attribute (defaults to dark)
         // No need to set it again as it's already in the HTML
-        
+
         // Update favicon based on theme
         const updateFavicon = (theme) => {
           const favicon = document.querySelector('link[rel="icon"]');
           if (favicon) {
-            favicon.href = theme === 'light' ? '/favicon-light.svg' : '/favicon-dark.svg';
+            favicon.href = theme === "light" ? "/favicon-light.svg" : "/favicon-dark.svg";
           }
         };
-        
+
         // Set initial favicon
-        updateFavicon(stored || 'dark');
+        updateFavicon(stored || "dark");
       })();
     </script>
 
@@ -239,7 +250,7 @@ const structuredDataJson =
         sidebar && (
           <aside id="site-sidebar" class="sidebar" aria-label="Sidebar">
             <div class="sidebar__inner">
-              <div class="sidebar__dragHandle" aria-hidden="true"></div>
+              <div class="sidebar__dragHandle" aria-hidden="true" />
               <div class="sidebar__header">Navigation</div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
                 <div class="sidebar__group sidebar__group--site">
@@ -286,7 +297,22 @@ const structuredDataJson =
                     rel="noreferrer noopener"
                   >
                     <span class="icon-tile icon-tile--indigo" aria-hidden="true">
-                      <img src="/icons/profile-github.svg" alt="" loading="lazy" decoding="async" />
+                      <span class="icon-tile__media">
+                        <img
+                          src="/icons/profile-github.svg"
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          data-variant="light"
+                        />
+                        <img
+                          src="/icons/profile-github-dark.svg"
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          data-variant="dark"
+                        />
+                      </span>
                     </span>
                     GitHub
                   </a>
@@ -314,7 +340,12 @@ const structuredDataJson =
                     rel="noreferrer noopener"
                   >
                     <span class="icon-tile icon-tile--blue" aria-hidden="true">
-                      <img src="/icons/profile-linkedin.svg" alt="" loading="lazy" decoding="async" />
+                      <img
+                        src="/icons/profile-linkedin.svg"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </span>
                     LinkedIn
                   </a>
@@ -388,7 +419,7 @@ const structuredDataJson =
     </main>
 
     <ScrollToTop />
-    
+
     <script>
       import "../scripts/motion.ts";
       import "../scripts/theme.ts";
@@ -514,7 +545,9 @@ const structuredDataJson =
           }
 
           if (!this.reduceMotionQuery) {
-            this.reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+            this.reduceMotionQuery = window.matchMedia(
+              "(prefers-reduced-motion: reduce)"
+            );
           }
 
           return this.reduceMotionQuery.matches;
@@ -860,7 +893,9 @@ const structuredDataJson =
       };
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initializeAllToggles, { once: true });
+        document.addEventListener("DOMContentLoaded", initializeAllToggles, {
+          once: true,
+        });
       } else {
         initializeAllToggles();
       }

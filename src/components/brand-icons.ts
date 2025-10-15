@@ -50,7 +50,7 @@ const registry: Record<BrandIconKey, BrandEntry> = {
     ink: "#1DBF73",
   },
   github: {
-    icon: "logos:github-icon",
+    icon: "logos:github",
     fallback: "simple-icons:github",
     accent: "#24292F",
     ink: "#24292F",
