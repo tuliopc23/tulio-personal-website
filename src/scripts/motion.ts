@@ -98,46 +98,81 @@
       window.addEventListener("load", onReady, { once: true });
     }
 
+    // Check if we're on an article page - show reveals immediately
+    const isArticlePage = window.location.pathname.startsWith('/blog/') && 
+                         window.location.pathname !== '/blog/' && 
+                         !window.location.pathname.startsWith('/blog/category/');
+
     if (revealElements.length) {
       const groups = new Map<string, number>();
-      observer = new IntersectionObserver(
-        (entries: IntersectionObserverEntry[], obs: IntersectionObserver) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const target = entry.target as HTMLElement;
-              target.classList.add("is-visible");
-              obs.unobserve(target);
+      
+      if (isArticlePage) {
+        // On article pages, show all reveals immediately with staggered delays
+        revealElements.forEach((element) => {
+          const dataset = element.dataset as RevealDataset;
+          const { revealDelay, revealOrder, revealGroup } = dataset;
+
+          if (revealDelay) {
+            element.style.setProperty("--reveal-delay", revealDelay);
+          } else if (revealOrder !== undefined) {
+            const numericOrder = Number(revealOrder);
+            if (!Number.isNaN(numericOrder)) {
+              const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
+              element.style.setProperty("--reveal-delay", `${computed}ms`);
             }
-          });
-        },
-        {
-          root: null,
-          rootMargin: "0px 0px -10%",
-          threshold: 0.15,
-        },
-      );
-
-      revealElements.forEach((element) => {
-        const dataset = element.dataset as RevealDataset;
-        const { revealDelay, revealOrder, revealGroup } = dataset;
-
-        if (revealDelay) {
-          element.style.setProperty("--reveal-delay", revealDelay);
-        } else if (revealOrder !== undefined) {
-          const numericOrder = Number(revealOrder);
-          if (!Number.isNaN(numericOrder)) {
-            const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
+          } else if (revealGroup) {
+            const nextIndex = groups.get(revealGroup) ?? 0;
+            const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
             element.style.setProperty("--reveal-delay", `${computed}ms`);
+            groups.set(revealGroup, nextIndex + 1);
           }
-        } else if (revealGroup) {
-          const nextIndex = groups.get(revealGroup) ?? 0;
-          const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
-          element.style.setProperty("--reveal-delay", `${computed}ms`);
-          groups.set(revealGroup, nextIndex + 1);
-        }
 
-        observer?.observe(element);
-      });
+          // Show immediately with delay
+          setTimeout(() => {
+            element.classList.add("is-visible");
+          }, parseInt(element.style.getPropertyValue("--reveal-delay")) || 0);
+        });
+      } else {
+        // On other pages, use intersection observer
+        observer = new IntersectionObserver(
+          (entries: IntersectionObserverEntry[], obs: IntersectionObserver) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const target = entry.target as HTMLElement;
+                target.classList.add("is-visible");
+                obs.unobserve(target);
+              }
+            });
+          },
+          {
+            root: null,
+            rootMargin: "0px 0px -10%",
+            threshold: 0.15,
+          },
+        );
+
+        revealElements.forEach((element) => {
+          const dataset = element.dataset as RevealDataset;
+          const { revealDelay, revealOrder, revealGroup } = dataset;
+
+          if (revealDelay) {
+            element.style.setProperty("--reveal-delay", revealDelay);
+          } else if (revealOrder !== undefined) {
+            const numericOrder = Number(revealOrder);
+            if (!Number.isNaN(numericOrder)) {
+              const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
+              element.style.setProperty("--reveal-delay", `${computed}ms`);
+            }
+          } else if (revealGroup) {
+            const nextIndex = groups.get(revealGroup) ?? 0;
+            const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
+            element.style.setProperty("--reveal-delay", `${computed}ms`);
+            groups.set(revealGroup, nextIndex + 1);
+          }
+
+          observer?.observe(element);
+        });
+      }
     }
 
     if (internalLinks.length) {
