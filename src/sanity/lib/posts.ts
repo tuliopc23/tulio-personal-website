@@ -54,7 +54,7 @@ export interface PostSummary {
 }
 
 export interface PostDetail extends PostSummary {
-  content: PortableTextBlock[] | string;
+  content: PortableTextBlock[];
   readingTimeMinutes: number;
 }
 
@@ -208,17 +208,9 @@ export async function getRecentPosts(excludeSlug: string, limit = 3): Promise<Po
   return data ?? [];
 }
 
-export function calculateReadingTimeMinutes(content: PortableTextBlock[] | string): number {
-  let plainText: string;
-  
-  if (typeof content === 'string') {
-    plainText = content;
-  } else if (Array.isArray(content)) {
-    plainText = toPlainText(content);
-  } else {
-    return 1;
-  }
-  
+export function calculateReadingTimeMinutes(blocks: PortableTextBlock[]): number {
+  if (!Array.isArray(blocks)) return 1;
+  const plainText = toPlainText(blocks);
   const words = plainText.split(/\s+/).filter(Boolean);
   const minutes = Math.max(1, Math.round(words.length / 225));
   return minutes;
