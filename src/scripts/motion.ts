@@ -99,13 +99,14 @@
     }
 
     // Check if we're on an article page - show reveals immediately
-    const isArticlePage = window.location.pathname.startsWith('/blog/') && 
-                         window.location.pathname !== '/blog/' && 
-                         !window.location.pathname.startsWith('/blog/category/');
+    const isArticlePage =
+      window.location.pathname.startsWith("/blog/") &&
+      window.location.pathname !== "/blog/" &&
+      !window.location.pathname.startsWith("/blog/category/");
 
     if (revealElements.length) {
       const groups = new Map<string, number>();
-      
+
       if (isArticlePage) {
         // On article pages, show all reveals immediately with staggered delays
         revealElements.forEach((element) => {
@@ -128,9 +129,12 @@
           }
 
           // Show immediately with delay
-          setTimeout(() => {
-            element.classList.add("is-visible");
-          }, parseInt(element.style.getPropertyValue("--reveal-delay")) || 0);
+          setTimeout(
+            () => {
+              element.classList.add("is-visible");
+            },
+            parseInt(element.style.getPropertyValue("--reveal-delay"), 10) || 0,
+          );
         });
       } else {
         // On other pages, use intersection observer

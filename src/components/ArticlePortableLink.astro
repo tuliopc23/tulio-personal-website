@@ -13,8 +13,8 @@ const _isExternal = /^https?:\/\//i.test(href);
 <a
   class="articlePortable__link"
   href={href}
-  target={isExternal ? "_blank" : undefined}
-  rel={isExternal ? "noopener noreferrer" : undefined}
+  target={_isExternal ? "_blank" : undefined}
+  rel={_isExternal ? "noopener noreferrer" : undefined}
 >
   <slot />
 </a>
