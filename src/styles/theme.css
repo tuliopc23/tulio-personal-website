@@ -4412,8 +4412,8 @@ kbd.slash {
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
     blur(var(--glass-blur-base));
   isolation: isolate;
-  width: fit-content;
-  max-width: 100%;
+  max-width: 100%; /* Safari fix: enforce container boundary */
+  min-width: 0; /* Safari fix: prevent flex overflow */
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
@@ -4468,6 +4468,7 @@ kbd.slash {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0; /* Safari fix: prevent button shrinking */
   transition:
     color var(--motion-duration-sm) var(--motion-ease-out),
     background var(--motion-duration-sm) var(--motion-ease-out),
@@ -4664,6 +4665,8 @@ kbd.slash {
 .articleGrid__item {
   list-style: none;
   flex: 0 0 clamp(280px, 30vw, 360px);
+  min-width: 0; /* Safari fix: prevent flex item overflow */
+  max-width: clamp(280px, 30vw, 360px); /* Safari fix: enforce width constraint */
   scroll-snap-align: start;
   scroll-snap-stop: normal;
   animation: articleReveal var(--motion-duration-md) var(--motion-ease-out) backwards;
@@ -5355,6 +5358,8 @@ kbd.slash {
   }
   .articleGrid__item {
     flex: 0 0 clamp(80%, 78vw, 320px);
+    min-width: 0; /* Safari fix: prevent flex item overflow */
+    max-width: clamp(80%, 78vw, 320px); /* Safari fix: enforce width constraint */
     scroll-snap-align: start;
     scroll-snap-stop: normal;
   }

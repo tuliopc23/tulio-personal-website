@@ -5,7 +5,10 @@
       "Bash(openspec list --specs)",
       "Bash(mkdir -p openspec/changes/enhance-apple-hig-compliance/specs/visual-design)",
       "Bash(openspec validate enhance-apple-hig-compliance --strict)",
-      "Bash(bun run build)"
+      "Bash(bun run build)",
+      "Bash(cd:*)",
+      "Bash(mkdir:*)",
+      "Bash(openspec validate:*)"
     ],
     "deny": [],
     "ask": []
