@@ -8,7 +8,14 @@
       "Bash(bun run build)",
       "Bash(cd:*)",
       "Bash(mkdir:*)",
-      "Bash(openspec validate:*)"
+      "Bash(openspec validate:*)",
+      "SlashCommand(/openspec:proposal)",
+      "Bash(openspec list:*)",
+      "SlashCommand(/openspec:archive)",
+      "Bash(openspec archive:*)",
+      "Bash(openspec show:*)",
+      "Bash(npx tsc:*)",
+      "Bash(biome check:*)"
     ],
     "deny": [],
     "ask": []
