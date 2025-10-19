@@ -60,6 +60,8 @@ export default defineType({
       options: {
         list: TAG_OPTIONS,
       },
+      description:
+        "Tags will be automatically generated based on your article content when you create or update this post.",
       validation: (rule) => rule.max(6),
     }),
     defineField({
