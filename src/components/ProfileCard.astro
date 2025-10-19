@@ -668,8 +668,18 @@ const contactCards = [
       border-radius: 20px;
     }
 
+    .profileCard__contactList {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xs);
+    }
+
     .profileCard__contactCard {
       padding: clamp(var(--space-sm), 5vw, var(--space-md));
+      min-width: 0;
+    }
+
+    .profileCard__contactValue {
+      font-size: 11px;
     }
 
     .profileCard__socialArea--desktop {
