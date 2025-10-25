@@ -1,5 +1,6 @@
 ---
 import IconTile from "./IconTile.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 
 interface Props {
   href?: string;
@@ -50,7 +51,14 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
         <div class="card__content">
           <div class="card-title">{title}</div>
           <p class="card-body">{body}</p>
-          {_showCTA && <span class="card__cta">{ctaLabel}</span>}
+          {
+            _showCTA && (
+              <span class="card__cta">
+                {ctaLabel}
+                <PhosphorIcon name="arrow-right" size={16} weight="regular" />
+              </span>
+            )
+          }
         </div>
       </div>
     </a>

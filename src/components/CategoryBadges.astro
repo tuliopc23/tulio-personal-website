@@ -1,4 +1,5 @@
 ---
+import PhosphorIcon from "./PhosphorIcon.astro";
 import type { Category } from "../sanity/lib/posts";
 
 interface Props {
@@ -9,6 +10,22 @@ interface Props {
 const { categories = [], limit } = Astro.props;
 const validCategories = Array.isArray(categories) ? categories : [];
 const _displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
+
+// Map category slugs to icon names
+const categoryIconMap: Record<string, string> = {
+  "software-development": "code",
+  development: "code",
+  code: "code",
+  design: "paint-brush",
+  writing: "article",
+  tutorial: "book-open",
+  announcement: "sparkle",
+  default: "folder",
+};
+
+const getCategoryIcon = (slug: string) => {
+  return categoryIconMap[slug.toLowerCase()] || categoryIconMap.default;
+};
 ---
 
 {
@@ -16,7 +33,8 @@ const _displayCategories = limit ? validCategories.slice(0, limit) : validCatego
     <div class="categoryBadges">
       {_displayCategories.map((category) => (
         <a href={`/blog/category/${category.slug}/`} class="categoryBadge">
-          {category.title}
+          <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="bold" />
+          <span>{category.title}</span>
         </a>
       ))}
     </div>
@@ -33,6 +51,7 @@ const _displayCategories = limit ? validCategories.slice(0, limit) : validCatego
   .categoryBadge {
     display: inline-flex;
     align-items: center;
+    gap: var(--space-2xs);
     padding: var(--space-2xs) var(--space-sm);
     font-size: var(--fs--2);
     font-weight: 600;

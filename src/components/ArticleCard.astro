@@ -1,5 +1,6 @@
 ---
 import SFIcon from "./SFIcon.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 import CategoryBadges from "./CategoryBadges.astro";
 import type { Category } from "../sanity/lib/posts";
 
@@ -54,11 +55,15 @@ const _readingTimeLabel =
     <header class="articleCard__header">
       <div class="articleCard__meta" aria-label="Post metadata">
         <span class="articleCard__metaItem">
+          <PhosphorIcon name="calendar" size={14} weight="regular" />
           <time datetime={dateISO}>{dateLabel}</time>
         </span>
         {
           _readingTimeLabel && (
-            <span class="articleCard__metaItem">{_readingTimeLabel}</span>
+            <span class="articleCard__metaItem">
+              <PhosphorIcon name="clock" size={14} weight="regular" />
+              {_readingTimeLabel}
+            </span>
           )
         }
         {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
@@ -87,7 +92,7 @@ const _readingTimeLabel =
     </div>
     <span class="articleCard__cta">
       <span>Read article</span>
-      <SFIcon name="arrow-up-right" size={18} stroke={1.6} />
+      <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
     </span>
   </a>
 </article>

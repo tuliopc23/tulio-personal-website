@@ -85,4 +85,48 @@
   --hero-highlight: rgba(94, 92, 230, 0.28);
   --blue-glow: rgba(77, 166, 255, 0.65);
   --blue-glow-light: rgba(0, 113, 227, 0.45);
+
+  /* === Apple HIG Compliance Enhancements === */
+  
+  /* Surface hierarchy - Card variants */
+  --surface-card: color-mix(in srgb, var(--surface-elevated) 92%, #000000 8%);
+  --surface-card-hover: color-mix(in srgb, var(--surface-raised) 92%, #000000 8%);
+  --surface-card-active: color-mix(in srgb, var(--surface) 88%, #000000 12%);
+
+  /* Text hierarchy - 4-step semantic scale */
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(220, 232, 255, 0.76);
+  --text-tertiary: rgba(194, 210, 240, 0.54);
+  --text-quaternary: rgba(174, 190, 220, 0.42);
+
+  /* Radial gradients - Atmospheric depth (Dark mode) */
+  --bg-radial-primary: radial-gradient(
+    140% 140% at 28% 4%,
+    rgba(84, 84, 88, 0.16) 0%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  --bg-radial-secondary: radial-gradient(
+    160% 140% at 74% 12%,
+    rgba(68, 68, 74, 0.14) 0%,
+    rgba(0, 0, 0, 0) 64%
+  );
+  --bg-radial-tertiary: radial-gradient(
+    180% 140% at 50% 118%,
+    rgba(44, 44, 46, 0.18) 0%,
+    rgba(0, 0, 0, 0) 72%
+  );
+
+  /* Accent system - Blue tint variants */
+  --accent-soft: rgba(10, 132, 255, 0.16);
+  --accent-tint: color-mix(in srgb, var(--surface-elevated) 72%, var(--blue) 28%);
+  --accent-tint-strong: color-mix(in srgb, var(--surface-raised) 58%, var(--blue) 42%);
+  --accent-border: rgba(10, 132, 255, 0.45);
+  --accent-glow: rgba(10, 132, 255, 0.28);
+  --accent-hover: rgba(10, 132, 255, 0.22);
+  --accent-active: rgba(10, 132, 255, 0.32);
+
+  /* Border variants - Enhanced depth */
+  --panel-border-glow: rgba(255, 255, 255, 0.06);
+  --surface-card-border: rgba(255, 255, 255, 0.04);
+  --surface-card-border-strong: rgba(255, 255, 255, 0.08);
 }

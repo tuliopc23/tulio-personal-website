@@ -1,0 +1,130 @@
+---
+/**
+ * PhosphorIcon - Apple SF Symbols-style outline icons
+ * Uses @phosphor-icons/core for consistent outline iconography
+ * Supports multiple weights: thin, light, regular, bold, fill
+ */
+
+type IconWeight = "thin" | "light" | "regular" | "bold" | "fill";
+
+interface Props {
+  name: string;
+  size?: number;
+  weight?: IconWeight;
+  stroke?: number;
+  class?: string;
+}
+
+const { name, size = 24, weight = "regular", stroke = 1.5, class: className = "" } = Astro.props;
+
+// Map common icon names to Phosphor equivalents (kebab-case)
+const iconMap: Record<string, string> = {
+  // Time & Calendar
+  clock: "clock",
+  calendar: "calendar-blank",
+  "calendar-check": "calendar-check",
+
+  // Arrows & Navigation
+  "arrow-right": "arrow-right",
+  "arrow-left": "arrow-left",
+  "arrow-up": "arrow-up",
+  "arrow-down": "arrow-down",
+  "arrow-up-right": "arrow-up-right",
+  "arrow-square-out": "arrow-square-out",
+  "caret-right": "caret-right",
+  "caret-left": "caret-left",
+  "caret-down": "caret-down",
+
+  // Social & Communication
+  github: "github-logo",
+  twitter: "twitter-logo",
+  linkedin: "linkedin-logo",
+  instagram: "instagram-logo",
+  mail: "envelope",
+  phone: "phone",
+
+  // Content
+  eye: "eye",
+  "eye-closed": "eye-closed",
+  book: "book-open",
+  "book-open": "book-open",
+  article: "article",
+  code: "code",
+  "paint-brush": "paint-brush",
+
+  // UI Elements
+  sparkle: "sparkles",
+  star: "star",
+  heart: "heart",
+  share: "share-network",
+  link: "link",
+  "link-simple": "link-simple",
+
+  // Location & Places
+  "map-pin": "map-pin",
+  globe: "globe",
+  house: "house",
+
+  // Actions
+  download: "download-simple",
+  upload: "upload-simple",
+  copy: "copy",
+  check: "check",
+  x: "x",
+  plus: "plus",
+  minus: "minus",
+
+  // Work & Productivity
+  briefcase: "briefcase",
+  notebook: "notebook",
+  folder: "folder",
+  file: "file",
+};
+
+// Get the actual Phosphor icon name
+const phosphorName = iconMap[name.toLowerCase()] || name;
+
+// Import SVG dynamically from Phosphor using fs (server-side only)
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+let svgContent = "";
+try {
+  const iconPath = resolve(
+    process.cwd(),
+    "node_modules",
+    "@phosphor-icons",
+    "core",
+    "assets",
+    weight,
+    `${phosphorName}.svg`,
+  );
+  svgContent = readFileSync(iconPath, "utf-8");
+} catch (e) {
+  console.warn(`Phosphor icon not found: ${phosphorName} (${weight})`);
+}
+---
+
+{
+  svgContent && (
+    <span
+      class:list={["phosphor-icon", className]}
+      style={`display: inline-block; width: ${size}px; height: ${size}px;`}
+      aria-hidden="true"
+      set:html={svgContent}
+    />
+  )
+}
+
+<style>
+  .phosphor-icon {
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .phosphor-icon :global(svg) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>

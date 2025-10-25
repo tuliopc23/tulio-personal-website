@@ -383,6 +383,30 @@ const contactCards = [
     box-shadow: var(--shadow-card);
   }
 
+  /* === Apple HIG Photo Ring Glow === */
+  .profileCard__photo::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    border-radius: inherit;
+    background: linear-gradient(
+      160deg,
+      rgba(96, 156, 255, 0.42),
+      rgba(24, 52, 140, 0.18)
+    );
+    filter: blur(32px);
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out),
+                filter var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .profileCard:hover .profileCard__photo::before {
+    opacity: 1;
+    filter: blur(40px);
+  }
+
   :global([data-theme="dark"]) .profileCard__photo {
     background: rgba(29, 29, 32, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -391,6 +415,19 @@ const contactCards = [
   :global([data-theme="light"]) .profileCard__photo {
     background: rgba(248, 248, 251, 1) !important;
     border: 1px solid rgba(60, 60, 67, 0.106);
+  }
+
+  :global([data-theme="light"]) .profileCard__photo::before {
+    background: linear-gradient(
+      160deg,
+      rgba(0, 113, 227, 0.35),
+      rgba(20, 45, 120, 0.15)
+    );
+    opacity: 0.6;
+  }
+
+  :global([data-theme="light"]) .profileCard:hover .profileCard__photo::before {
+    opacity: 0.8;
   }
 
   /* Photo overlay - disabled in dark mode for flat elevated surface */

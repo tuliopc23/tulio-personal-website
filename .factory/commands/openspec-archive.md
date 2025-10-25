@@ -1,12 +1,7 @@
 ---
 description: Archive a deployed OpenSpec change and update specs.
+argument-hint: change-id
 ---
-
-The user wants to archive the following deployed change. Use the openspec instructions to archive the change and update specs.
-
-<ChangeId>
-  $ARGUMENTS
-</ChangeId>
 <!-- OPENSPEC:START -->
 **Guardrails**
 - Favor straightforward, minimal implementations first and add complexity only when it is requested or clearly required.
@@ -27,4 +22,6 @@ The user wants to archive the following deployed change. Use the openspec instru
 **Reference**
 - Use `openspec list` to confirm change IDs before archiving.
 - Inspect refreshed specs with `openspec list --specs` and address any validation issues before handing off.
+
+$ARGUMENTS
 <!-- OPENSPEC:END -->

@@ -29,6 +29,7 @@
     "@astrojs/mdx": "^4.3.7",
     "@iconify-json/logos": "^1.2.9",
     "@iconify-json/simple-icons": "^1.2.54",
+    "@phosphor-icons/core": "^2.1.1",
     "@portabletext/toolkit": "^3.0.1",
     "@portabletext/types": "^2.0.15",
     "@sanity/astro": "^3.2.10",

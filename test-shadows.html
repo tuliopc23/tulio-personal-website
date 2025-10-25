@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadow Animation Test</title>
+  <link rel="stylesheet" href="/dist/_astro/theme.rMUoy4jc.css">
+  <style>
+    body {
+      background: #050505;
+      color: #f5f5f7;
+      padding: 40px;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+    }
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    p {
+      color: rgba(235, 235, 245, 0.65);
+      margin-bottom: 32px;
+    }
+    .status {
+      background: rgba(48, 217, 72, 0.15);
+      border: 1px solid rgba(48, 217, 72, 0.3);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🎨 Shadow & Animation Test</h1>
+    <p>Hover over the cards below to test the new elevation system</p>
+    
+    <div class="status">
+      ✅ Implementation Complete - Testing Enhanced Shadows & Spring Physics
+    </div>
+
+    <div class="test-grid">
+      <!-- Test Card 1: Blue -->
+      <a href="#" class="card" data-tint="blue">
+        <div class="card__inner">
+          <div class="card-title">Blue Card Test</div>
+          <p class="card-body">Hover to see: -4px elevation, -0.5° rotation, blue ambient glow, spring physics</p>
+        </div>
+      </a>
+
+      <!-- Test Card 2: Green -->
+      <a href="#" class="card" data-tint="green">
+        <div class="card__inner">
+          <div class="card-title">Green Card Test</div>
+          <p class="card-body">Should glow green on hover with 6-layer shadow depth</p>
+        </div>
+      </a>
+
+      <!-- Test Card 3: Indigo -->
+      <a href="#" class="card" data-tint="indigo">
+        <div class="card__inner">
+          <div class="card-title">Indigo Card Test</div>
+          <p class="card-body">Click and hold to test compression feedback (+1px down)</p>
+        </div>
+      </a>
+
+      <!-- Test Card 4: Orange -->
+      <a href="#" class="card" data-tint="orange">
+        <div class="card__inner">
+          <div class="card-title">Orange Card Test</div>
+          <p class="card-body">Notice the spring bounce easing, not linear movement</p>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-top: 40px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 12px;">
+      <h3 style="margin-top: 0;">✨ What You Should See:</h3>
+      <ul style="line-height: 1.8;">
+        <li><strong>Hover:</strong> Card lifts up, rotates slightly, shadow deepens, color-matched glow appears</li>
+        <li><strong>Animation:</strong> Smooth spring physics with subtle overshoot (not instant)</li>
+        <li><strong>Press:</strong> Card compresses down with tighter shadow</li>
+        <li><strong>Shadows:</strong> 6 layers creating dimensional depth</li>
+      </ul>
+      
+      <h3>🔧 If nothing happens:</h3>
+      <ol style="line-height: 1.8;">
+        <li>Hard refresh: <code>Cmd+Shift+R</code> (Mac) or <code>Ctrl+Shift+R</code> (Windows/Linux)</li>
+        <li>Check DevTools Console for CSS loading errors</li>
+        <li>Verify theme.*.css is loaded in Network tab</li>
+        <li>Inspect card element to see if transforms are applied on hover</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>

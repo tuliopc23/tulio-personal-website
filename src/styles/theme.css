@@ -64,6 +64,16 @@
   --lh-heading: 1.2; /* Standard heading line height */
   --lh-compact: 1.45; /* Compact lists/UI text */
 
+  /* === Apple HIG Typography Enhancements === */
+  --lh-profile-name: 1.16; /* Profile card name line-height */
+  --lh-snug: 1.34; /* Snug variant */
+  --lh-relaxed: 1.68; /* Relaxed variant */
+  --fs-profile-name: clamp(26px, 1.8vw + 16px, 36px);
+  --fs-profile-title: 17px;
+  --fs-profile-bio: 16px;
+  --ls-profile-name: -0.028em; /* Profile name tracking */
+  --ls-profile-title: -0.018em; /* Profile title tracking */
+
   /* Letter spacing - Apple HIG precision (WWDC 2020 specifications) */
   --ls-hero: -0.039em; /* Large display: tighter tracking */
   --ls-h2: -0.025em; /* Medium display: balanced (refined from -0.027em) */
@@ -126,6 +136,10 @@
     0.28,
     1.32
   ); /* Enhanced from 0.18,0.89,0.32,1.28 */
+  
+  /* Phase 3: Additional spring easing variants */
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* Hover elevation spring */
+  --motion-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bounce effect */
 
   /* Spring-based animation system (WWDC 2023/2025) */
   --spring-snappy: cubic-bezier(0.16, 1.04, 0.32, 0.98); /* Quick, minimal overshoot */
@@ -146,6 +160,11 @@
   --motion-scale-sm: 1.015;
   --motion-scale-card: 1.024; /* Updated from 1.018 for better feedback */
   --motion-scale-active: 0.984; /* Press-down effect */
+
+  /* === Apple HIG Motion Enhancements === */
+  --motion-duration-slower: 700ms;
+  --motion-duration-slowest: 1000ms;
+  --motion-scale-pressed: 0.92; /* Deep press effect */
 
   /* Glass surfaces - Enhanced Liquid Glass (Tahoe 26) */
   --glass-blur-base: 28px; /* Enhanced from 18px */
@@ -197,6 +216,12 @@
   --glass-noise-opacity-base: 0.028;
   --glass-noise-opacity-active: 0.042;
   --glass-noise-scale: 1.2;
+
+  /* === Apple HIG Glass Enhancements === */
+  --glass-saturation-subtle: 140%;
+  --glass-saturation-vibrant: 220%;
+  --glass-noise-opacity-enhanced: 0.03;
+  --glass-noise-opacity-active-enhanced: 0.042;
 
   /* Personal Brand Icon - Context-aware sizing and theming */
   --pi-size-profile: 40px;
@@ -808,6 +833,17 @@ p + p {
   outline: none;
   box-shadow: var(--focus-ring);
   border-radius: inherit;
+  animation: focusRingIn 200ms var(--motion-ease-out) forwards;
+}
+
+/* Phase 2B: Focus ring scale-in animation */
+@keyframes focusRingIn {
+  from {
+    box-shadow: 0 0 0 0px rgba(10, 132, 255, 0), 0 0 0 0px rgba(10, 132, 255, 0);
+  }
+  to {
+    box-shadow: var(--focus-ring);
+  }
 }
 
 /* Selection colors */
@@ -1883,6 +1919,21 @@ body[data-glass-state="scrolled"] .topbar::before {
   color: rgba(245, 245, 247, 0.88);
 }
 
+/* Phase 2A: Enhanced depth with micro-gradient overlay (dark mode) */
+[data-theme="dark"] .icon-tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 48%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
 /* Light mode transparent glass sidebar icons */
 [data-theme="light"] .icon-tile {
   background:
@@ -1891,9 +1942,25 @@ body[data-glass-state="scrolled"] .topbar::before {
     rgba(248, 248, 251, 0.88);
   border: 1px solid rgba(60, 60, 67, 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 2px 8px rgba(31, 35, 53, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 2px 4px rgba(31, 35, 53, 0.06),
+    0 4px 12px rgba(31, 35, 53, 0.08);
   color: rgba(29, 29, 31, 0.92);
+}
+
+/* Phase 2A: Enhanced depth with outer glow (light mode) */
+[data-theme="light"] .icon-tile::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 70%
+  );
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+  pointer-events: none;
 }
 
 .icon-tile :global(svg) {
@@ -1969,7 +2036,7 @@ html.light .icon-tile__media img[data-variant="dark"],
 [data-theme="dark"] .icon-tile:focus-visible,
 [data-theme="dark"] .sidebar__link:hover .icon-tile,
 [data-theme="dark"] .sidebar__link:focus-visible .icon-tile {
-  transform: scale(1.06);
+  animation: iconTileBounce 300ms var(--motion-ease-spring) forwards;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
     linear-gradient(135deg, rgba(29, 29, 32, 0.96), rgba(29, 29, 32, 0.92)),
@@ -1984,7 +2051,7 @@ html.light .icon-tile__media img[data-variant="dark"],
 [data-theme="light"] .icon-tile:focus-visible,
 [data-theme="light"] .sidebar__link:hover .icon-tile,
 [data-theme="light"] .sidebar__link:focus-visible .icon-tile {
-  transform: scale(1.06);
+  animation: iconTileBounce 300ms var(--motion-ease-spring) forwards;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, transparent 50%),
     linear-gradient(135deg, rgba(248, 248, 251, 0.94), rgba(248, 248, 251, 0.9)),
@@ -2373,14 +2440,14 @@ kbd.slash {
   border-radius: var(--radius-lg); /* 32px - Tahoe 26 */
   border: 1px solid var(--panel-border);
   padding: var(--space-md);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card-resting);
   backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
     blur(var(--glass-blur-base));
   transition:
-    transform var(--motion-duration-sm) var(--motion-spring-out),
+    transform 250ms var(--motion-ease-spring),
     border-color var(--motion-duration-sm) var(--motion-ease-out),
-    box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+    box-shadow 250ms var(--motion-ease-spring),
     background var(--motion-duration-sm) var(--motion-ease-out);
   transform-origin: center;
   overflow: hidden;
@@ -2398,21 +2465,91 @@ kbd.slash {
   background: rgba(248, 248, 251, 0.96);
 }
 
-/* Inset highlight for depth */
+/* === Apple HIG Card Enhancements === */
+
+/* Radial gradient overlay for accent tinting */
 .card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(255, 255, 255, 0) 100%
+  inset: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 0%,
+    var(--card-accent-base, rgba(10, 132, 255, 0.12)),
+    rgba(0, 0, 0, 0) 72%
   );
+  opacity: 0.18;
   pointer-events: none;
+  transition: opacity var(--motion-duration-sm) var(--motion-ease-out),
+              background var(--motion-duration-sm) var(--motion-ease-out);
+  z-index: 0;
+}
+
+.card:hover::before {
+  background: radial-gradient(
+    circle at 50% 0%,
+    var(--card-accent-hover, rgba(10, 132, 255, 0.2)),
+    rgba(0, 0, 0, 0) 72%
+  );
+  opacity: 0.3;
+}
+
+/* Focus ring for keyboard navigation */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 0 0 var(--card-focus-ring, var(--accent-border));
+  transition: opacity var(--motion-duration-sm) var(--motion-ease-out),
+              box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+  z-index: 3;
+}
+
+.card:focus-visible::after {
+  opacity: 1;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 0 6px var(--card-focus-ring, var(--accent-border));
+}
+
+/* Tinted accent variants */
+.card[data-tint="blue"] {
+  --card-accent-base: rgba(10, 132, 255, 0.12);
+  --card-accent-hover: rgba(10, 132, 255, 0.26);
+  --card-focus-ring: rgba(10, 132, 255, 0.22);
+}
+
+.card[data-tint="indigo"] {
+  --card-accent-base: rgba(94, 92, 230, 0.12);
+  --card-accent-hover: rgba(94, 92, 230, 0.26);
+  --card-focus-ring: rgba(94, 92, 230, 0.22);
+}
+
+.card[data-tint="teal"] {
+  --card-accent-base: rgba(95, 212, 255, 0.12);
+  --card-accent-hover: rgba(95, 212, 255, 0.26);
+  --card-focus-ring: rgba(95, 212, 255, 0.22);
+}
+
+.card[data-tint="green"] {
+  --card-accent-base: rgba(48, 217, 72, 0.12);
+  --card-accent-hover: rgba(48, 217, 72, 0.26);
+  --card-focus-ring: rgba(48, 217, 72, 0.22);
+}
+
+.card[data-tint="orange"] {
+  --card-accent-base: rgba(255, 160, 13, 0.12);
+  --card-accent-hover: rgba(255, 160, 13, 0.26);
+  --card-focus-ring: rgba(255, 160, 13, 0.22);
+}
+
+.card[data-tint="pink"] {
+  --card-accent-base: rgba(255, 56, 97, 0.12);
+  --card-accent-hover: rgba(255, 56, 97, 0.26);
+  --card-focus-ring: rgba(255, 56, 97, 0.22);
 }
 
 .card > * {
@@ -2558,6 +2695,22 @@ kbd.slash {
   }
 }
 
+/* Phase 2B/3: Icon tile micro-bounce animation with rotation and elevation */
+@keyframes iconTileBounce {
+  0% {
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+  40% {
+    transform: scale(1.08) rotate(-0.5deg) translateY(-2px);
+  }
+  65% {
+    transform: scale(1.04) rotate(0.3deg) translateY(-1px);
+  }
+  100% {
+    transform: scale(1.06) rotate(0deg) translateY(-2px);
+  }
+}
+
 .card__meta {
   color: var(--muted);
   font-size: var(--fs--2);
@@ -2568,7 +2721,7 @@ kbd.slash {
   border-color: rgba(255, 255, 255, 0.22);
   text-decoration: none;
   background: rgba(29, 29, 32, 0.96);
-  transform: scale(var(--motion-scale-card)) translateY(-2px); /* 1.024 scale */
+  transform: scale(var(--motion-scale-card)) translateY(-4px) rotate(-0.5deg); /* Phase 3: Enhanced elevation */
 }
 
 [data-theme="light"] .card:hover,
@@ -2576,7 +2729,7 @@ kbd.slash {
   border-color: rgba(60, 60, 67, 0.2);
   text-decoration: none;
   background: rgba(255, 255, 255, 0.98);
-  transform: scale(var(--motion-scale-card)) translateY(-2px);
+  transform: scale(var(--motion-scale-card)) translateY(-4px) rotate(-0.5deg); /* Phase 3: Enhanced elevation */
 }
 
 .card:hover::before {
@@ -2589,7 +2742,48 @@ kbd.slash {
 }
 
 .card:hover {
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: var(--shadow-card-raised);
+}
+
+/* Phase 3: Tint-specific ambient glow + elevation on hover */
+.card[data-tint="blue"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-blue);
+}
+
+.card[data-tint="indigo"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-indigo);
+}
+
+.card[data-tint="teal"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-teal);
+}
+
+.card[data-tint="green"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-green);
+}
+
+.card[data-tint="orange"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-orange);
+}
+
+.card[data-tint="pink"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-pink);
+}
+
+.card[data-tint="cyan"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-cyan);
+}
+
+.card[data-tint="yellow"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-yellow);
+}
+
+.card[data-tint="purple"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-purple);
+}
+
+.card[data-tint="brown"]:hover {
+  box-shadow: var(--shadow-card-raised), var(--shadow-ambient-brown);
 }
 
 .card:focus-visible {
@@ -2598,15 +2792,15 @@ kbd.slash {
 }
 
 [data-theme="dark"] .card:active {
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card-pressed);
   border-color: rgba(255, 255, 255, 0.162);
-  transform: scale(var(--motion-scale-active)); /* 0.984 - press-down effect */
+  transform: scale(var(--motion-scale-active)) translateY(1px); /* Phase 3: Compression feedback */
 }
 
 [data-theme="light"] .card:active {
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card-pressed);
   border-color: rgba(60, 60, 67, 0.162);
-  transform: scale(var(--motion-scale-active));
+  transform: scale(var(--motion-scale-active)) translateY(1px); /* Phase 3: Compression feedback */
 }
 
 /* DISABLED: Accessibility - High contrast overrides */
@@ -3241,56 +3435,158 @@ kbd.slash {
 .projectCard:focus-visible .projectCard__cta svg {
   opacity: 0.9;
 }
-/* Symbol color variants - filled iOS-style with brand-accurate colors */
+/* === Apple HIG Symbol Enhancements === */
+
+/* Inner highlight gradient for depth */
+.symbol::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 50% 18%,
+    rgba(255, 255, 255, 0.32),
+    rgba(255, 255, 255, 0) 70%
+  );
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inner border ring for polish */
+.symbol::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Enhanced hover with stronger border */
+[data-theme="dark"] .card:hover .symbol,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol,
+[data-theme="dark"] .profileCard__contactCard:hover .symbol {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-symbol-dark-hover);
+}
+
+[data-theme="light"] .card:hover .symbol,
+[data-theme="light"] .profileCard__socialCard:hover .symbol,
+[data-theme="light"] .profileCard__contactCard:hover .symbol {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-symbol-light-hover);
+}
+
+/* Active press-down */
+.card:active .symbol,
+.profileCard__socialCard:active .symbol,
+.profileCard__contactCard:active .symbol {
+  transform: scale(var(--motion-scale-active));
+}
+
+/* Symbol color variants - Apple HIG 95% opacity for maximum vibrancy */
 .symbol--blue {
   --symbol-accent: #0a84ff;
-  --symbol-bg-start: rgba(35, 130, 255, 0.92);
-  --symbol-bg-end: rgba(5, 90, 210, 0.78);
-  --symbol-bg-start-dark: rgba(61, 146, 255, 0.82);
-  --symbol-bg-end-dark: rgba(20, 80, 190, 0.68);
+  --symbol-bg-start: rgba(35, 130, 255, 0.95);
+  --symbol-bg-end: rgba(5, 90, 210, 0.95);
+  --symbol-bg-start-dark: rgba(61, 146, 255, 0.95);
+  --symbol-bg-end-dark: rgba(20, 80, 190, 0.95);
+}
+
+/* Enhanced blue hover glow */
+[data-theme="dark"] .card:hover .symbol--blue,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--blue {
+  border: 1px solid color-mix(in srgb, rgba(10, 132, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(10, 132, 255, 0.95) 25%, transparent);
 }
 
 /* Indigo - tooling blue */
 .symbol--indigo {
   --symbol-accent: #2496ed;
-  --symbol-bg-start: rgba(36, 150, 237, 0.92);
-  --symbol-bg-end: rgba(20, 110, 210, 0.76);
-  --symbol-bg-start-dark: rgba(70, 165, 245, 0.84);
-  --symbol-bg-end-dark: rgba(24, 105, 210, 0.66);
+  --symbol-bg-start: rgba(36, 150, 237, 0.95);
+  --symbol-bg-end: rgba(20, 110, 210, 0.95);
+  --symbol-bg-start-dark: rgba(70, 165, 245, 0.95);
+  --symbol-bg-end-dark: rgba(24, 105, 210, 0.95);
+}
+
+[data-theme="dark"] .card:hover .symbol--indigo,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--indigo {
+  border: 1px solid color-mix(in srgb, rgba(36, 150, 237, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(36, 150, 237, 0.95) 25%, transparent);
 }
 
 .symbol--teal {
   --symbol-accent: #64d2ff;
-  --symbol-bg-start: rgba(100, 210, 255, 0.92);
-  --symbol-bg-end: rgba(70, 180, 230, 0.76);
-  --symbol-bg-start-dark: rgba(105, 210, 255, 0.84);
-  --symbol-bg-end-dark: rgba(60, 165, 215, 0.64);
+  --symbol-bg-start: rgba(100, 210, 255, 0.95);
+  --symbol-bg-end: rgba(70, 180, 230, 0.95);
+  --symbol-bg-start-dark: rgba(105, 210, 255, 0.95);
+  --symbol-bg-end-dark: rgba(60, 165, 215, 0.95);
+}
+
+[data-theme="dark"] .card:hover .symbol--teal,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--teal {
+  border: 1px solid color-mix(in srgb, rgba(100, 210, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(100, 210, 255, 0.95) 25%, transparent);
 }
 
 /* Orange - Swift/Svelte stronger orange */
 .symbol--orange {
   --symbol-accent: #ff6b35;
-  --symbol-bg-start: rgba(255, 120, 60, 0.9);
-  --symbol-bg-end: rgba(215, 80, 20, 0.72);
-  --symbol-bg-start-dark: rgba(255, 140, 70, 0.82);
-  --symbol-bg-end-dark: rgba(210, 85, 25, 0.62);
+  --symbol-bg-start: rgba(255, 120, 60, 0.95);
+  --symbol-bg-end: rgba(215, 80, 20, 0.95);
+  --symbol-bg-start-dark: rgba(255, 140, 70, 0.95);
+  --symbol-bg-end-dark: rgba(210, 85, 25, 0.95);
+}
+
+[data-theme="dark"] .card:hover .symbol--orange,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--orange {
+  border: 1px solid color-mix(in srgb, rgba(255, 120, 60, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(255, 120, 60, 0.95) 25%, transparent);
 }
 
 .symbol--pink {
   --symbol-accent: #ff375f;
-  --symbol-bg-start: rgba(255, 80, 120, 0.9);
-  --symbol-bg-end: rgba(215, 40, 90, 0.72);
-  --symbol-bg-start-dark: rgba(255, 95, 135, 0.82);
-  --symbol-bg-end-dark: rgba(205, 45, 95, 0.62);
+  --symbol-bg-start: rgba(255, 80, 120, 0.95);
+  --symbol-bg-end: rgba(215, 40, 90, 0.95);
+  --symbol-bg-start-dark: rgba(255, 95, 135, 0.95);
+  --symbol-bg-end-dark: rgba(205, 45, 95, 0.95);
+}
+
+[data-theme="dark"] .card:hover .symbol--pink,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--pink {
+  border: 1px solid color-mix(in srgb, rgba(255, 80, 120, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(255, 80, 120, 0.95) 25%, transparent);
 }
 
 /* Green - Vue green */
 .symbol--green {
   --symbol-accent: #42b883;
-  --symbol-bg-start: rgba(66, 194, 140, 0.92);
-  --symbol-bg-end: rgba(42, 160, 110, 0.74);
-  --symbol-bg-start-dark: rgba(80, 205, 150, 0.84);
-  --symbol-bg-end-dark: rgba(36, 150, 105, 0.64);
+  --symbol-bg-start: rgba(66, 194, 140, 0.95);
+  --symbol-bg-end: rgba(42, 160, 110, 0.95);
+  --symbol-bg-start-dark: rgba(80, 205, 150, 0.95);
+  --symbol-bg-end-dark: rgba(36, 150, 105, 0.95);
+}
+
+[data-theme="dark"] .card:hover .symbol--green,
+[data-theme="dark"] .profileCard__socialCard:hover .symbol--green {
+  border: 1px solid color-mix(in srgb, rgba(66, 194, 140, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 30px color-mix(in srgb, rgba(66, 194, 140, 0.95) 25%, transparent);
 }
 
 .symbol--yellow {
