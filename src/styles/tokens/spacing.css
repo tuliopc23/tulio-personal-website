@@ -1,0 +1,64 @@
+/* ======= Spacing Tokens ======= */
+
+:root {
+  /* Base Spacing Scale - 8px baseline grid */
+  --space-xxs: 8px;   /* 1x */
+  --space-xs: 12px;   /* 1.5x */
+  --space-sm: 16px;   /* 2x */
+  --space-md: 24px;   /* 3x */
+  --space-lg: 32px;   /* 4x */
+  --space-xl: 48px;   /* 6x */
+  --space-2xl: 64px;  /* 8x */
+  --space-3xl: 80px;  /* 10x */
+
+  /* Golden Ratio Spacing Multipliers (φ = 1.618) */
+  --golden-ratio: 1.618;
+  --space-golden-1: calc(var(--space-sm) * var(--golden-ratio)); /* ~26px */
+  --space-golden-2: calc(var(--space-md) * var(--golden-ratio)); /* ~39px */
+  --space-golden-3: calc(var(--space-lg) * var(--golden-ratio)); /* ~52px */
+  --space-golden-4: calc(var(--space-xl) * var(--golden-ratio)); /* ~78px */
+
+  /* Container & Layout */
+  --container-padding: clamp(40px, 6vw, 160px);
+  --content-max: 1320px;
+  --sidebar-width: 240px;
+  --topbar-h: 56px;
+
+  /* Safe Area Insets */
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-right: env(safe-area-inset-right);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+  --safe-area-left: env(safe-area-inset-left);
+
+  /* Card Spacing System - Unified 3-tier padding */
+  --card-padding-sm: clamp(var(--space-sm), 2.5vw, var(--space-md));   /* Compact cards (tech stack, tools) */
+  --card-padding-md: clamp(var(--space-md), 3.5vw, var(--space-lg));   /* Standard cards (generic, profile base) */
+  --card-padding-lg: clamp(var(--space-lg), 4.5vw, var(--space-xl));   /* Feature cards (articles, projects) */
+
+  /* Card Internal Spacing */
+  --card-gap-compact: var(--space-xs);    /* 12px - Tight internal spacing */
+  --card-gap-relaxed: var(--space-sm);    /* 16px - Comfortable spacing */
+  --card-gap-spacious: var(--space-md);   /* 24px - Generous spacing */
+
+  /* Section Spacing */
+  --space-section: clamp(var(--space-2xl), 8vw, var(--space-3xl));  /* Between major sections */
+}
+
+/* Mobile Breakpoint Overrides */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: clamp(20px, 5vw, 40px);    /* Tighter on tablets/mobile */
+    --card-padding-sm: var(--space-sm);              /* Fixed on small screens */
+    --card-padding-md: clamp(var(--space-sm), 4vw, var(--space-md));
+    --space-section: var(--space-xl);                /* Reduce section gaps */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: clamp(16px, 4vw, 24px);    /* Very tight on tiny screens */
+    --card-padding-sm: var(--space-xs);              /* Even more compact */
+    --card-padding-md: var(--space-sm);
+    --space-section: var(--space-lg);                /* Tighter section rhythm */
+  }
+}

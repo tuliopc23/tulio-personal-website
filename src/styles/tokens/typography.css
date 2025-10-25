@@ -1,0 +1,77 @@
+/* ======= Typography Tokens ======= */
+
+:root {
+  /* Font Families - CDN fonts with system fallbacks */
+  --font-sans:
+    "SF Pro Display", "SF UI Text", -apple-system, BlinkMacSystemFont, system-ui,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
+    sans-serif;
+  --font-mono:
+    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* Font Sizes - Display Scale */
+  --fs-hero: clamp(2.4rem, 4.2vw + 1.3rem, 3.25rem);   /* Large Title cap: 52px */
+  --fs-h2: clamp(1.75rem, 2.4vw + 1.15rem, 2.55rem);   /* Heading 2 */
+  --fs-h3: clamp(1.24rem, 1.5vw + 0.98rem, 1.88rem);   /* Heading 3 */
+
+  /* Font Sizes - Body Scale */
+  --fs-body: 17px;         /* iOS baseline body text */
+  --fs-body-sm: 16px;      /* Secondary body text */
+  --fs-caption: 14px;      /* Metadata, captions */
+  --fs-small: 13px;        /* Micro text, legal */
+
+  /* Font Sizes - Utility Scale (existing) */
+  --fs-0: clamp(1.0625rem, 1vw + 0.95rem, 1.2rem);      /* ~17-19px */
+  --fs--1: clamp(0.875rem, 0.8vw + 0.75rem, 1rem);      /* ~14-16px */
+  --fs--2: clamp(0.75rem, 0.6vw + 0.6875rem, 0.875rem); /* ~12-14px */
+
+  /* Profile-Specific Sizes */
+  --fs-profile-name: clamp(26px, 1.8vw + 16px, 36px);
+  --fs-profile-title: 17px;
+  --fs-profile-bio: 16px;
+
+  /* Line Heights - Hierarchy */
+  --lh-hero: 1.08;         /* Large display text - tight */
+  --lh-heading: 1.2;       /* Standard headings */
+  --lh-card-title: 1.25;   /* Card headings - slightly more breathing room */
+  --lh-snug: 1.34;         /* Snug variant */
+  --lh-ui: 1.4;            /* Buttons, labels, UI text */
+  --lh-compact: 1.45;      /* Compact lists/UI text */
+  --lh-card-body: 1.5;     /* Card descriptions */
+  --lh-tight: 1.382;       /* Golden ratio inverse */
+  --lh-base: 1.65;         /* Body text - Apple HIG long-form */
+  --lh-relaxed: 1.68;      /* Relaxed variant */
+
+  /* Profile-Specific Line Heights */
+  --lh-profile-name: 1.16;
+
+  /* Letter Spacing - Apple HIG precision (WWDC 2020 specifications) */
+  --ls-hero: -0.039em;       /* Large display: tighter tracking */
+  --ls-h2: -0.025em;         /* Medium display: balanced */
+  --ls-h3: -0.015em;         /* Small display: slightly open */
+  --ls-body: -0.01em;        /* Body text: subtle tightness */
+  --ls-caption: -0.006em;    /* Captions/small text */
+  --ls-button: 0.004em;      /* Button text (positive spacing) */
+  --ls-eyebrow: 0.06em;      /* Uppercase labels/eyebrows (HIG standard) */
+  --ls-tight: -0.01em;       /* General tight spacing */
+
+  /* Profile-Specific Letter Spacing */
+  --ls-profile-name: -0.028em;
+  --ls-profile-title: -0.018em;
+
+  /* Font Variation Settings - SF Pro Display Optical Sizing */
+  --font-variation-text: "opsz" 17;            /* 11-19pt */
+  --font-variation-display-small: "opsz" 20;   /* 20-27pt */
+  --font-variation-display-medium: "opsz" 28;  /* 28-35pt */
+  --font-variation-display-large: "opsz" 40;   /* 36-96pt */
+  --font-variation-display-xlarge: "opsz" 96;  /* 96pt+ */
+  --font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
+
+  /* Measure (Reading Width) */
+  --measure-reading: 58ch;   /* Comfortable reading width */
+  --measure-wide: 68ch;      /* Wider content */
+
+  /* Highlight Color */
+  --hero-highlight: rgba(94, 92, 230, 0.28);
+}

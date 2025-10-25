@@ -1,0 +1,38 @@
+/* ======= Breakpoint Tokens ======= */
+
+/*
+  Standard 5-tier breakpoint system
+  
+  Usage in media queries:
+  @media (max-width: 480px)  { } - xs: Tiny phones
+  @media (max-width: 600px)  { } - sm: Small phones  
+  @media (max-width: 768px)  { } - md: Tablets portrait
+  @media (max-width: 1024px) { } - lg: Tablets landscape / small laptops
+  @media (max-width: 1280px) { } - xl: Desktops
+
+  Migration from old breakpoints:
+  - 720px  → 768px  (tablet portrait)
+  - 768px  → 768px  (keep)
+  - 820px  → 768px or 1024px (case-by-case)
+  - 1023px → 1024px (tablets landscape)
+  - 1100px → 1024px (consolidate)
+  - 1279px → 1280px (desktops)
+*/
+
+:root {
+  --breakpoint-xs: 480px;   /* Tiny phones (iPhone SE) */
+  --breakpoint-sm: 600px;   /* Small phones */
+  --breakpoint-md: 768px;   /* Tablets portrait (iPad Mini) */
+  --breakpoint-lg: 1024px;  /* Tablets landscape / small laptops (iPad Pro) */
+  --breakpoint-xl: 1280px;  /* Desktops */
+}
+
+/*
+  Note: These are CSS custom properties for reference.
+  Media queries cannot use CSS variables, so use literal values:
+  
+  ✅ Correct:   @media (max-width: 768px) { }
+  ❌ Incorrect: @media (max-width: var(--breakpoint-md)) { }
+  
+  These tokens serve as documentation and for potential JS usage.
+*/

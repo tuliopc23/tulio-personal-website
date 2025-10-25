@@ -1,0 +1,48 @@
+/* ======= Motion & Animation Tokens ======= */
+
+:root {
+  /* Animation Durations - Apple-standard timing */
+  --motion-duration-ui: 180ms;      /* Fast UI interactions (NEW) */
+  --motion-duration-sm: 250ms;      /* Standard transitions */
+  --motion-duration-md: 350ms;      /* Moderate animations */
+  --motion-duration-lg: 500ms;      /* Elaborate animations */
+  --motion-duration-xl: 800ms;      /* Very slow, cinematic */
+
+  /* Easing Curves */
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);           /* Standard ease-out */
+  --motion-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);       /* Balanced */
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);    /* Spring physics with overshoot */
+  --motion-spring-out: cubic-bezier(0.175, 0.885, 0.32, 1.1); /* Spring with bounce */
+
+  /* Page Transition */
+  --motion-page-transition: 340ms;
+
+  /* Glass Material Blur Levels */
+  --glass-blur-none: 0px;
+  --glass-blur-light: 12px;    /* Subtle glass */
+  --glass-blur-base: 20px;     /* Standard glass (current default) */
+  --glass-blur-heavy: 32px;    /* Prominent glass */
+  --glass-blur-extreme: 48px;  /* Hero sections, overlays */
+
+  /* Glass Saturation */
+  --glass-saturation-base: 180%;   /* Standard richness */
+  --glass-saturation-high: 220%;   /* More vibrant */
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-ui: 0ms;
+    --motion-duration-sm: 0ms;
+    --motion-duration-md: 0ms;
+    --motion-duration-lg: 0ms;
+    --motion-duration-xl: 0ms;
+    --motion-page-transition: 0ms;
+    
+    /* Keep easing but instant */
+    --motion-ease-out: linear;
+    --motion-ease-in-out: linear;
+    --motion-ease-spring: linear;
+    --motion-spring-out: linear;
+  }
+}
