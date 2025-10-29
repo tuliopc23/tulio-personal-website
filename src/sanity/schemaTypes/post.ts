@@ -102,8 +102,17 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: "markdownContent",
+      title: "Markdown Content (Alternative)",
+      type: "markdown",
+      description: "Write your article in Markdown. This is an alternative to the rich text editor below.",
+      options: {
+        imageUrl: (imageAsset) => `${imageAsset.url}?w=800&fit=max`,
+      },
+    }),
+    defineField({
       name: "content",
-      title: "Content",
+      title: "Content (Rich Text)",
       type: "array",
       of: [
         defineArrayMember({
