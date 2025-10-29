@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [sanity-content-update]
 
+permissions:
+  contents: write
+
 jobs:
   trigger-rebuild:
     runs-on: ubuntu-latest
