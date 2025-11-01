@@ -21,6 +21,8 @@
     "biome:migrate": "biome migrate eslint --write && biome migrate prettier --write",
     "sanity:typegen": "sanity schema extract && sanity typegen generate",
     "sanity:webhook": "node scripts/setup-webhook.js",
+    "sanity:publish": "node scripts/auto-publish-to-devto.js",
+    "sanity:verify": "node scripts/verify-setup.js",
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check ."
