@@ -11,16 +11,20 @@ jobs:
   trigger-rebuild:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Cloudflare Pages Rebuild
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Log webhook trigger
         run: |
-          echo "✅ Sanity content updated - Cloudflare will rebuild from git"
+          echo "✅ Sanity content updated - triggering Cloudflare rebuild"
           echo "Document: ${{ github.event.client_payload.title }}"
           echo "Operation: ${{ github.event.client_payload.operation }}"
       
       - name: Create empty commit to trigger rebuild
         run: |
-          git config --global user.name "Sanity Webhook"
-          git config --global user.email "webhook@sanity.io"
-          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git .
+          git config user.name "Sanity Webhook"
+          git config user.email "webhook@sanity.io"
           git commit --allow-empty -m "chore: rebuild from sanity content update [skip ci]"
           git push

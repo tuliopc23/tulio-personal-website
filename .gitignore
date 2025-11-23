@@ -7,3 +7,6 @@ bun.lockb
 *.log
 .env
 .env.local
+
+# Stakpak local files
+.stakpak
