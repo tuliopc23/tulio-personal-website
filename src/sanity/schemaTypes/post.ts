@@ -105,10 +105,23 @@ export default defineType({
       name: "markdownContent",
       title: "Markdown Content (Alternative)",
       type: "markdown",
-      description: "Write your article in Markdown. This is an alternative to the rich text editor below.",
+      description:
+        "Write your article in Markdown. This is an alternative to the rich text editor below.",
       options: {
         imageUrl: (imageAsset) => `${imageAsset.url}?w=800&fit=max`,
       },
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const markdownContent = value;
+          const richTextContent = (context.document as any)?.content;
+
+          // If neither field has content, return error
+          if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {
+            return "Either Markdown Content or Rich Text Content is required";
+          }
+
+          return true;
+        }),
     }),
     defineField({
       name: "content",
@@ -169,7 +182,18 @@ export default defineType({
           },
         }),
       ],
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const richTextContent = value;
+          const markdownContent = (context.document as any)?.markdownContent;
+
+          // If neither field has content, return error
+          if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {
+            return "Either Markdown Content or Rich Text Content is required";
+          }
+
+          return true;
+        }),
     }),
   ],
   preview: {
