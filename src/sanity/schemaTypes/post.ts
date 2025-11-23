@@ -101,6 +101,167 @@ export default defineType({
       type: "boolean",
       initialValue: false,
     }),
+
+    // Scheduling & Publishing Options
+    defineField({
+      name: "scheduledPublishAt",
+      title: "Schedule Publish",
+      type: "datetime",
+      description:
+        "Optional: Schedule this article to be published at a specific date/time. Leave empty to publish immediately.",
+    }),
+
+    // Cross-posting Configuration
+    defineField({
+      name: "crossposting",
+      title: "Cross-posting Settings",
+      type: "object",
+      description: "Configure automatic cross-posting to external platforms",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        defineField({
+          name: "devto",
+          title: "Dev.to",
+          type: "object",
+          fields: [
+            defineField({
+              name: "enabled",
+              title: "Enable Dev.to Publishing",
+              type: "boolean",
+              initialValue: false,
+            }),
+            defineField({
+              name: "articleId",
+              title: "Dev.to Article ID",
+              type: "number",
+              description: "Automatically set after first publish. Do not edit manually.",
+              readOnly: true,
+            }),
+            defineField({
+              name: "url",
+              title: "Dev.to URL",
+              type: "url",
+              description: "Link to published article on Dev.to",
+              readOnly: true,
+            }),
+            defineField({
+              name: "lastSyncedAt",
+              title: "Last Synced",
+              type: "datetime",
+              readOnly: true,
+            }),
+          ],
+        }),
+        defineField({
+          name: "hashnode",
+          title: "Hashnode",
+          type: "object",
+          fields: [
+            defineField({
+              name: "enabled",
+              title: "Enable Hashnode Publishing",
+              type: "boolean",
+              initialValue: false,
+            }),
+            defineField({
+              name: "publicationId",
+              title: "Hashnode Publication ID",
+              type: "string",
+              description: "Your Hashnode publication/blog ID",
+            }),
+            defineField({
+              name: "postId",
+              title: "Hashnode Post ID",
+              type: "string",
+              description: "Automatically set after first publish. Do not edit manually.",
+              readOnly: true,
+            }),
+            defineField({
+              name: "url",
+              title: "Hashnode URL",
+              type: "url",
+              description: "Link to published article on Hashnode",
+              readOnly: true,
+            }),
+            defineField({
+              name: "lastSyncedAt",
+              title: "Last Synced",
+              type: "datetime",
+              readOnly: true,
+            }),
+          ],
+        }),
+      ],
+    }),
+
+    // Analytics
+    defineField({
+      name: "analytics",
+      title: "Analytics",
+      type: "object",
+      description: "Article performance metrics",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        defineField({
+          name: "views",
+          title: "Page Views",
+          type: "number",
+          initialValue: 0,
+          readOnly: true,
+        }),
+        defineField({
+          name: "uniqueVisitors",
+          title: "Unique Visitors",
+          type: "number",
+          initialValue: 0,
+          readOnly: true,
+        }),
+        defineField({
+          name: "averageReadTime",
+          title: "Average Read Time (seconds)",
+          type: "number",
+          readOnly: true,
+        }),
+        defineField({
+          name: "shares",
+          title: "Social Shares",
+          type: "object",
+          fields: [
+            defineField({
+              name: "twitter",
+              title: "Twitter/X",
+              type: "number",
+              initialValue: 0,
+            }),
+            defineField({
+              name: "linkedin",
+              title: "LinkedIn",
+              type: "number",
+              initialValue: 0,
+            }),
+            defineField({
+              name: "facebook",
+              title: "Facebook",
+              type: "number",
+              initialValue: 0,
+            }),
+          ],
+        }),
+        defineField({
+          name: "lastUpdatedAt",
+          title: "Analytics Last Updated",
+          type: "datetime",
+          readOnly: true,
+        }),
+      ],
+    }),
+
     defineField({
       name: "markdownContent",
       title: "Markdown Content (Alternative)",
@@ -113,7 +274,8 @@ export default defineType({
       validation: (rule) =>
         rule.custom((value, context) => {
           const markdownContent = value;
-          const richTextContent = (context.document as any)?.content;
+          const doc = context.document as { content?: unknown[] };
+          const richTextContent = doc?.content;
 
           // If neither field has content, return error
           if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {
@@ -185,7 +347,8 @@ export default defineType({
       validation: (rule) =>
         rule.custom((value, context) => {
           const richTextContent = value;
-          const markdownContent = (context.document as any)?.markdownContent;
+          const doc = context.document as { markdownContent?: string };
+          const markdownContent = doc?.markdownContent;
 
           // If neither field has content, return error
           if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {

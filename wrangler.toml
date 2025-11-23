@@ -8,3 +8,8 @@ directory = "./dist"
 PUBLIC_SANITY_PROJECT_ID = "61249gtj"
 PUBLIC_SANITY_DATASET = "production"
 SANITY_API_READ_TOKEN = "skonmkNRCv4QcFFbUz8qpZevmOZ1nyKtLvaEVWjCus0DE7t4uWMTDvVFvCAvJYDXwJS33XZmEquiJgpFgUeomPSTwtFgPGjIPfJM1GVK5ts31YH4JtqEhacMVxTHscpauyQpPWF2bWo5GMMsc6Ny054N1L1DltLysHdkblGTAUOQuYUwWZ4n"
+
+# Cron triggers for scheduled publishing
+# Runs every 15 minutes to check for posts that should be published
+[triggers]
+crons = ["*/15 * * * *"]

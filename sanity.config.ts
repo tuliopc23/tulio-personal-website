@@ -3,6 +3,13 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { markdownSchema } from "sanity-plugin-markdown";
+import {
+  approveAndPublishAction,
+  crosspostAction,
+  scheduleAction,
+  submitForReviewAction,
+  unpublishAction,
+} from "./src/sanity/actions";
 import { resolve } from "./src/sanity/lib/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 
@@ -61,5 +68,21 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    actions: (prev, context) => {
+      // Only add custom actions for post documents
+      if (context.schemaType === "post") {
+        return [
+          ...prev,
+          scheduleAction,
+          crosspostAction,
+          submitForReviewAction,
+          approveAndPublishAction,
+          unpublishAction,
+        ];
+      }
+      return prev;
+    },
   },
 });
