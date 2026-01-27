@@ -111,68 +111,139 @@ async function publishToDevTo(articleData) {
   }
 }
 
-// Publish to Medium
-async function publishToMedium(articleData) {
-  const mediumAccessToken = process.env.MEDIUM_ACCESS_TOKEN;
+// Publish to LinkedIn
+async function publishToLinkedIn(articleData) {
+  const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
+  const personUrn = process.env.LINKEDIN_PERSON_ID;
 
-  if (!mediumAccessToken) {
-    console.log("⚠️  MEDIUM_ACCESS_TOKEN not set - skipping Medium publishing");
-    return { success: false, message: "MEDIUM_ACCESS_TOKEN not set" };
+  if (!accessToken || !personUrn) {
+    console.log(
+      "⚠️  LINKEDIN_ACCESS_TOKEN or LINKEDIN_PERSON_ID not set - skipping LinkedIn publishing"
+    );
+    return { success: false, message: "LinkedIn credentials not set" };
   }
 
   try {
-    // Get Medium user ID first
-    const userResponse = await fetch("https://api.medium.com/v1/me", {
-      headers: {
-        Authorization: `Bearer ${mediumAccessToken}`,
-        "Content-Type": "application/json",
+    const summary = articleData.summary || articleData.seo?.metaDescription || "";
+    const url =
+      articleData.seo?.canonicalUrl ||
+      `https://www.tuliocunha.dev/blog/${articleData.slug}/`;
+
+    const postData = {
+      author: personUrn,
+      commentary: `${articleData.title}\n\n${summary}`,
+      visibility: "PUBLIC",
+      distribution: {
+        feedDistribution: "MAIN_FEED",
+        targetEntities: [],
+        thirdPartyDistributionChannels: [],
       },
-    });
-
-    if (!userResponse.ok) {
-      throw new Error(`Medium user API error (${userResponse.status})`);
-    }
-
-    const userData = await userResponse.json();
-    const userId = userData.data.id;
-
-    // Convert content to HTML
-    const bodyHtml = portableTextToHtml(articleData.content || []);
-
-    // Prepare article data for Medium
-    const article = {
-      title: articleData.title,
-      contentFormat: "html",
-      content: bodyHtml,
-      publishStatus: "public",
-      canonicalUrl:
-        articleData.seo?.canonicalUrl ||
-        `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
-      tags: articleData.tags || [],
+      content: {
+        article: {
+          source: url,
+          title: articleData.title,
+          description: summary,
+        },
+      },
+      lifecycleState: "PUBLISHED",
+      isReshareDisabledByAuthor: false,
     };
 
-    console.log("📝 Publishing to Medium:", articleData.title);
-
-    const response = await fetch(`https://api.medium.com/v1/users/${userId}/posts`, {
+    const response = await fetch("https://api.linkedin.com/rest/posts", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${mediumAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
+        "X-Restli-Protocol-Version": "2.0.0",
+        "LinkedIn-Version": "202401",
       },
-      body: JSON.stringify(article),
+      body: JSON.stringify(postData),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Medium API error (${response.status}): ${errorText}`);
+      throw new Error(`LinkedIn API error (${response.status}): ${errorText}`);
     }
 
-    const result = await response.json();
-    console.log("✅ Successfully published to Medium:", result.data.url);
-    return { success: true, url: result.data.url, platform: "Medium" };
+    const postId =
+      response.headers.get("x-restli-id") || response.headers.get("x-linkedin-id");
+    const postUrl = `https://www.linkedin.com/feed/update/${postId}`;
+
+    return { success: true, url: postUrl, platform: "LinkedIn" };
   } catch (error) {
-    console.error("❌ Error publishing to Medium:", error.message);
-    return { success: false, error: error.message, platform: "Medium" };
+    console.error("❌ Error publishing to LinkedIn:", error.message);
+    return { success: false, error: error.message, platform: "LinkedIn" };
+  }
+}
+
+// Publish to Hashnode using API v2 (GraphQL)
+async function publishToHashnode(articleData) {
+  const hashnodeToken = process.env.HASHNODE_ACCESS_TOKEN;
+  const publicationId = process.env.HASHNODE_PUBLICATION_ID;
+
+  if (!hashnodeToken || !publicationId) {
+    console.log(
+      "⚠️  HASHNODE_ACCESS_TOKEN or HASHNODE_PUBLICATION_ID not set - skipping Hashnode publishing"
+    );
+    return { success: false, message: "Hashnode credentials not set" };
+  }
+
+  const query = `
+    mutation PublishPost($input: PublishPostInput!) {
+      publishPost(input: $input) {
+        post {
+          id
+          url
+          slug
+        }
+      }
+    }
+  `;
+
+  try {
+    const bodyMarkdown = portableTextToMarkdown(articleData.content || []);
+
+    const variables = {
+      input: {
+        title: articleData.title,
+        contentMarkdown: bodyMarkdown,
+        publicationId: publicationId,
+        tags: (articleData.tags || []).map((tag) => ({
+          name: tag,
+          slug: tag.toLowerCase().replace(/\s+/g, "-"),
+        })),
+        originalArticleURL:
+          articleData.seo?.canonicalUrl ||
+          `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
+      },
+    };
+
+    console.log("📝 Publishing to Hashnode:", articleData.title);
+
+    const response = await fetch("https://gql.hashnode.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: hashnodeToken,
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.errors) {
+      throw new Error(`Hashnode API error: ${JSON.stringify(result.errors)}`);
+    }
+
+    const post = result.data.publishPost.post;
+    console.log("✅ Successfully published to Hashnode:", post.url);
+    return { success: true, url: post.url, platform: "Hashnode" };
+  } catch (error) {
+    console.error("❌ Error publishing to Hashnode:", error.message);
+    return { success: false, error: error.message, platform: "Hashnode" };
   }
 }
 
@@ -207,9 +278,13 @@ export default async function handler(req, res) {
     const devToResult = await publishToDevTo(webhookData);
     results.push(devToResult);
 
-    // Publish to Medium
-    const mediumResult = await publishToMedium(webhookData);
-    results.push(mediumResult);
+    // Publish to LinkedIn
+    const linkedInResult = await publishToLinkedIn(webhookData);
+    results.push(linkedInResult);
+
+    // Publish to Hashnode
+    const hashnodeResult = await publishToHashnode(webhookData);
+    results.push(hashnodeResult);
 
     // Check if any platforms were successfully published to
     const successfulPublishes = results.filter((r) => r.success);

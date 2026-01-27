@@ -194,6 +194,39 @@ export default defineType({
             }),
           ],
         }),
+        defineField({
+          name: "linkedin",
+          title: "LinkedIn",
+          type: "object",
+          fields: [
+            defineField({
+              name: "enabled",
+              title: "Enable LinkedIn Publishing",
+              type: "boolean",
+              initialValue: false,
+            }),
+            defineField({
+              name: "postId",
+              title: "LinkedIn Post ID",
+              type: "string",
+              description: "Automatically set after first publish. Do not edit manually.",
+              readOnly: true,
+            }),
+            defineField({
+              name: "url",
+              title: "LinkedIn URL",
+              type: "url",
+              description: "Link to published article on LinkedIn",
+              readOnly: true,
+            }),
+            defineField({
+              name: "lastSyncedAt",
+              title: "Last Synced",
+              type: "datetime",
+              readOnly: true,
+            }),
+          ],
+        }),
       ],
     }),
 

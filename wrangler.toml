@@ -1,5 +1,5 @@
 name = "tulio-personal-website"
-compatibility_date = "2025-10-10"
+compatibility_date = "2026-01-27"
 
 [assets]
 directory = "./dist"

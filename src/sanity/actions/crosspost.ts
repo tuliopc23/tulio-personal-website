@@ -26,6 +26,11 @@ export const crosspostAction: DocumentActionComponent = (props) => {
         `*[_id == $id][0]{
           _id,
           title,
+          summary,
+          "slug": slug.current,
+          tags,
+          content,
+          seo,
           crossposting
         }`,
         { id: docId },
@@ -38,25 +43,43 @@ export const crosspostAction: DocumentActionComponent = (props) => {
 
       const devtoEnabled = post.crossposting?.devto?.enabled;
       const hashnodeEnabled = post.crossposting?.hashnode?.enabled;
+      const linkedinEnabled = post.crossposting?.linkedin?.enabled;
 
-      if (!devtoEnabled && !hashnodeEnabled) {
+      if (!devtoEnabled && !hashnodeEnabled && !linkedinEnabled) {
         // No platforms enabled
         props.onComplete();
         return;
       }
 
       // In a real implementation, you would trigger an API endpoint here
-      // For now, we'll just show a success message
       console.log("Cross-posting triggered for:", post.title);
-      console.log("Dev.to enabled:", devtoEnabled);
-      console.log("Hashnode enabled:", hashnodeEnabled);
 
-      // You can add actual API calls here to trigger cross-posting
-      // Example:
-      // await fetch('/api/crosspost', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ postId: docId })
-      // });
+      const WEBHOOK_URL =
+        process.env.SANITY_STUDIO_WEBHOOK_URL || "https://tuliocunha.dev/api/auto-publish";
+
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          documentId: docId,
+          slug: post.slug,
+          title: post.title,
+          summary: post.summary,
+          tags: post.tags,
+          content: post.content,
+          seo: post.seo,
+          operation: "manual",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to trigger cross-posting: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      console.log("Cross-posting result:", result);
 
       props.onComplete();
     } catch (error) {

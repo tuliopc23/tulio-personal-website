@@ -4,7 +4,7 @@ import { loadQuery } from "../src/sanity/lib/load-query.js";
 
 dotenv.config();
 
-// Convert Sanity Portable Text blocks to Markdown
+// Convert Sanity Portable Text blocks to Markdown (Hashnode prefers Markdown)
 function portableTextToMarkdown(blocks) {
   if (!Array.isArray(blocks)) return "";
 
@@ -33,84 +33,73 @@ function portableTextToMarkdown(blocks) {
     .join("\n\n");
 }
 
-// Convert Sanity Portable Text to HTML (for fallback)
-function portableTextToHtml(blocks) {
-  if (!Array.isArray(blocks)) return "";
+// Publish to Hashnode using API v2 (GraphQL)
+async function publishToHashnode(articleData) {
+  const hashnodeToken = process.env.HASHNODE_ACCESS_TOKEN;
+  const publicationId = process.env.HASHNODE_PUBLICATION_ID;
 
-  return blocks
-    .map((block) => {
-      if (block._type === "block") {
-        let text = toPlainText([block]);
-
-        switch (block.style) {
-          case "h1":
-            return `<h1>${text}</h1>`;
-          case "h2":
-            return `<h2>${text}</h2>`;
-          case "h3":
-            return `<h3>${text}</h3>`;
-          case "h4":
-            return `<h4>${text}</h4>`;
-          case "blockquote":
-            return `<blockquote>${text}</blockquote>`;
-          default:
-            return `<p>${text}</p>`;
-        }
-      }
-      return "";
-    })
-    .join("\n");
-}
-
-// Publish to Dev.to
-async function publishToDevTo(articleData) {
-  const devToApiKey = process.env.DEV_TO_API_KEY || "tUjqHCg9bW8ULJ1JywBC3o14";
-
-  if (!devToApiKey) {
-    console.log("⚠️  DEV_TO_API_KEY not set - skipping Dev.to publishing");
+  if (!hashnodeToken || !publicationId) {
+    console.log(
+      "⚠️  HASHNODE_ACCESS_TOKEN or HASHNODE_PUBLICATION_ID not set - skipping Hashnode publishing"
+    );
     return;
   }
 
-  try {
-    // Convert content to Markdown
-    const bodyMarkdown = portableTextToMarkdown(articleData.content || []);
-    const bodyHtml = portableTextToHtml(articleData.content || []);
+  const query = `
+    mutation PublishPost($input: PublishPostInput!) {
+      publishPost(input: $input) {
+        post {
+          id
+          url
+          slug
+        }
+      }
+    }
+  `;
 
-    // Prepare article data for Dev.to
-    const article = {
-      article: {
+  try {
+    const bodyMarkdown = portableTextToMarkdown(articleData.content || []);
+
+    const variables = {
+      input: {
         title: articleData.title,
-        body_markdown: bodyMarkdown || bodyHtml, // Fallback to HTML if no markdown
-        description: articleData.summary || articleData.seo?.metaDescription || "",
-        tags: articleData.tags || [],
-        published: true,
-        canonical_url:
+        contentMarkdown: bodyMarkdown,
+        publicationId: publicationId,
+        tags: (articleData.tags || []).map((tag) => ({
+          name: tag,
+          slug: tag.toLowerCase().replace(/\s+/g, "-"),
+        })),
+        originalArticleURL:
           articleData.seo?.canonicalUrl ||
           `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
       },
     };
 
-    console.log("📝 Publishing to Dev.to:", articleData.title);
+    console.log("📝 Publishing to Hashnode:", articleData.title);
 
-    const response = await fetch("https://dev.to/api/articles", {
+    const response = await fetch("https://gql.hashnode.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "api-key": devToApiKey,
+        Authorization: hashnodeToken,
       },
-      body: JSON.stringify(article),
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Dev.to API error (${response.status}): ${errorText}`);
+    const result = await response.json();
+
+    if (result.errors) {
+      throw new Error(`Hashnode API error: ${JSON.stringify(result.errors)}`);
     }
 
-    const result = await response.json();
-    console.log("✅ Successfully published to Dev.to:", result.url);
-    return result;
+    const post = result.data.publishPost.post;
+    console.log("✅ Successfully published to Hashnode:", post.url);
+    return post;
   } catch (error) {
-    console.error("❌ Error publishing to Dev.to:", error.message);
+    console.error("❌ Error publishing to Hashnode:", error.message);
   }
 }
 
@@ -163,7 +152,6 @@ async function handleSanityWebhook(webhookData) {
   console.log(`📋 Processing ${operation} for article:`, slug);
 
   try {
-    // Get full article data
     const article = await getFullArticle(slug);
 
     if (!article) {
@@ -171,14 +159,12 @@ async function handleSanityWebhook(webhookData) {
       return;
     }
 
-    // Skip if marked as no-index
     if (article.seo?.noIndex) {
       console.log("⏭️  Skipping - article marked as no-index");
       return;
     }
 
-    // Publish to Dev.to
-    await publishToDevTo(article);
+    await publishToHashnode(article);
   } catch (error) {
     console.error("❌ Error processing article:", error);
   }
@@ -194,5 +180,4 @@ if (process.argv.length > 2) {
   }
 }
 
-// Export for use in other scripts
-export { handleSanityWebhook, publishToDevTo };
+export { handleSanityWebhook, publishToHashnode };
