@@ -77,6 +77,42 @@ bun run check            # Lint → typecheck → production build (fails if req
 bun run sanity:typegen   # Regenerates sanity.types.ts from current schema
 ```
 
+## Production deploy (Cloudflare Workers)
+
+The site is built with Astro and deployed via **Wrangler** to Cloudflare Workers Assets (`wrangler.toml` → `./dist`).
+
+### CI / platform deploy command
+
+Use the project’s deploy script so the locked Wrangler version is used:
+
+```bash
+bun run deploy
+```
+
+**Do not** use `bunx wrangler deploy` in CI. That pulls a fresh Wrangler each run and can worsen flaky Cloudflare API behavior. Your platform’s “deploy” step should run `bun run deploy` (after the build step has run `bun run build`).
+
+### If asset upload fails in CI
+
+Errors like:
+
+- `APIError: A request to the Cloudflare API (.../workers/assets/upload?base64=true) failed`
+- `An unknown error has occurred. Please contact support [code: -1]`
+
+usually mean a **transient Cloudflare API/upload issue**, not a bug in this repo. Often they clear on retry.
+
+1. **Retry the deploy** (e.g. re-run the failed job or push an empty commit).
+2. **Use the project Wrangler** so the deploy command is `bun run deploy`, not `bunx wrangler deploy`.
+3. **Check `CLOUDFLARE_API_TOKEN`** in your CI env: it must be set and have permissions that include Workers Scripts Edit and deployment (e.g. “Workers Scripts” write, or a custom token with the right scopes). See [Cloudflare – Run Wrangler in CI/CD](https://developers.cloudflare.com/workers/ci-cd/).
+
+### Local deploy
+
+From the repo root, after a successful build:
+
+```bash
+bun run build
+bun run deploy
+```
+
 ## Additional docs
 
 - [`docs/slider-evaluation.md`](docs/slider-evaluation.md) – analysis of where the liquid glass slider adds value (and when to defer it)
