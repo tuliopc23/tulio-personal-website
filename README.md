@@ -81,15 +81,25 @@ bun run sanity:typegen   # Regenerates sanity.types.ts from current schema
 
 The site is built with Astro and deployed via **Wrangler** to Cloudflare Workers Assets (`wrangler.toml` → `./dist`).
 
-### CI / platform deploy command
+### CI / platform build settings
 
-Use the project’s deploy script so the locked Wrangler version is used:
+**Install command:** use a non‑frozen install so dependencies can update. Set your platform’s **Install command** to:
+
+```bash
+bun install
+```
+
+or `bun run install:ci`. Do **not** use `bun install --frozen-lockfile` unless you explicitly want a locked, reproducible install.
+
+**Build command:** `bun run build`
+
+**Deploy command:** use the project’s deploy script so the locked Wrangler version is used:
 
 ```bash
 bun run deploy
 ```
 
-**Do not** use `bunx wrangler deploy` in CI. That pulls a fresh Wrangler each run and can worsen flaky Cloudflare API behavior. Your platform’s “deploy” step should run `bun run deploy` (after the build step has run `bun run build`).
+**Do not** use `bunx wrangler deploy` in CI. That pulls a fresh Wrangler each run and can worsen flaky Cloudflare API behavior. Your platform’s deploy step should run `bun run deploy` (after the build step has run `bun run build`).
 
 ### If asset upload fails in CI
 

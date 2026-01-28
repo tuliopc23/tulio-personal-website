@@ -26,7 +26,8 @@
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "install:ci": "bun install"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
