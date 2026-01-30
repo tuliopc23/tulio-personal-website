@@ -174,9 +174,6 @@ const structuredDataJson =
       )
     }
 
-    <!-- Performance: Web Vitals monitoring (dev only) -->
-    <script src="../scripts/web-vitals.ts" async></script>
-
     <slot name="head" />
   </head>
   <body data-page-state="entering" data-glass-state="rest">
@@ -410,6 +407,7 @@ const structuredDataJson =
       import "../scripts/theme.ts";
       import "../scripts/sidebar.ts";
       import "../scripts/scroll-indicators.ts";
+      import "../scripts/web-vitals.ts";
     </script>
     <script is:inline>
       if (typeof window !== "undefined") {
