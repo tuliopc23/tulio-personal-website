@@ -83,6 +83,16 @@ async function triggerGitHubRebuild(title: string) {
 
 // --- API Route Handler ---
 
+export const GET: APIRoute = async () => {
+  return new Response(
+    JSON.stringify({
+      status: "active",
+      message: "The auto-publish endpoint is live. Use POST for webhooks.",
+    }),
+    { status: 200 }
+  );
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
