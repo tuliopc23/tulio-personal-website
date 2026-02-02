@@ -1,12 +1,13 @@
 ---
 import BrandIcon from "../components/BrandIcon.astro";
+import BrandLogo from "../components/BrandLogo.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import SFIcon from "../components/SFIcon.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
-import PersonalIcon from "../components/PersonalIcon.astro";
 import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
+import fontsCssHref from "../styles/fonts.css?url";
 
 interface OgImageMeta {
   url: string;
@@ -23,6 +24,10 @@ interface BaseProps {
   ogDescription?: string;
   ogType?: string;
   ogImage?: OgImageMeta | null;
+  articleAuthor?: string;
+  articlePublishedTime?: string;
+  articleModifiedTime?: string;
+  articleTags?: string[];
   noIndex?: boolean;
   structuredData?: Record<string, unknown> | string | null;
   sidebar?: boolean;
@@ -36,6 +41,10 @@ const {
   ogDescription,
   ogType = "website",
   ogImage,
+  articleAuthor,
+  articlePublishedTime,
+  articleModifiedTime,
+  articleTags,
   noIndex = false,
   structuredData,
   sidebar = true,
@@ -58,36 +67,59 @@ const structuredDataJson =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="format-detection" content="telephone=no" />
     <title>{fullTitle}</title>
     <meta name="robots" content={robotsValue} />
     {description && <meta name="description" content={description} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
-    <!-- Theme-aware favicons -->
+    <!-- Theme-aware favicons (high-quality WebP brand icons) -->
     <link
       rel="icon"
-      type="image/svg+xml"
-      href="/favicon-dark.svg"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/favicon-light.svg"
+      type="image/webp"
+      href="/Brand-icon-dark.webp"
       media="(prefers-color-scheme: light)"
+      sizes="32x32"
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" />
+    <link
+      rel="icon"
+      type="image/webp"
+      href="/Brand-icon-light.webp"
+      media="(prefers-color-scheme: dark)"
+      sizes="32x32"
+    />
+    <link rel="icon" type="image/webp" href="/Brand-icon-dark.webp" sizes="32x32" />
 
     <!-- Performance: Resource hints for external domains -->
     <link rel="dns-prefetch" href="https://cdn.sanity.io" />
     <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    
+    <!-- Preload critical CSS for faster rendering -->
+    <link rel="preload" href={themeCssHref} as="style" />
+    <link rel="preload" href={fontsCssHref} as="style" />
 
     <!-- CDN Fonts: SF Pro Display, SF UI Text, SF Mono -->
     <link rel="preconnect" href="//fdn.fontcdn.ir" />
     <link rel="preconnect" href="//v1.fontapi.ir" />
-    <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet" />
-    <link href="https://v1.fontapi.ir/css/SFUIText" rel="stylesheet" />
-    <link href="https://v1.fontapi.ir/css/SFMono" rel="stylesheet" />
+    <!-- Preload critical font stylesheets -->
+    <link
+      rel="preload"
+      href="https://v1.fontapi.ir/css/SFProDisplay"
+      as="style"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="https://v1.fontapi.ir/css/SFUIText"
+      as="style"
+      crossorigin="anonymous"
+    />
+    <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://v1.fontapi.ir/css/SFUIText" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://v1.fontapi.ir/css/SFMono" rel="stylesheet" crossorigin="anonymous" />
 
     <!-- Theme script must run BEFORE CSS to prevent FOUC -->
     <script is:inline>
@@ -122,11 +154,11 @@ const structuredDataJson =
         // Otherwise, respect the HTML's initial data-theme attribute (defaults to dark)
         // No need to set it again as it's already in the HTML
 
-        // Update favicon based on theme
+        // Update favicon based on theme (brand icon WebP)
         const updateFavicon = (theme) => {
           const favicon = document.querySelector('link[rel="icon"]');
           if (favicon) {
-            favicon.href = theme === "light" ? "/favicon-light.svg" : "/favicon-dark.svg";
+            favicon.href = theme === "light" ? "/Brand-icon-dark.webp" : "/Brand-icon-light.webp";
           }
         };
 
@@ -135,9 +167,11 @@ const structuredDataJson =
       })();
     </script>
 
+    <link rel="stylesheet" href={fontsCssHref} />
     <link rel="stylesheet" href={themeCssHref} />
     <link rel="stylesheet" href={motionCssHref} />
     <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Tulio Cunha" />
     <meta property="og:title" content={computedOgTitle} />
     {
       computedOgDescription && (
@@ -145,7 +179,21 @@ const structuredDataJson =
       )
     }
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:locale" content="en_US" />
     {ogImage?.url && <meta property="og:image" content={ogImage.url} />}
+    {ogType === "article" && articleAuthor && (
+      <meta property="article:author" content={articleAuthor} />
+    )}
+    {ogType === "article" && articlePublishedTime && (
+      <meta property="article:published_time" content={articlePublishedTime} />
+    )}
+    {ogType === "article" && articleModifiedTime && (
+      <meta property="article:modified_time" content={articleModifiedTime} />
+    )}
+    {ogType === "article" &&
+      articleTags &&
+      articleTags.length > 0 &&
+      articleTags.map((tag) => <meta property="article:tag" content={tag} />)}
     {ogImage?.alt && <meta property="og:image:alt" content={ogImage.alt} />}
     {
       typeof ogImage?.width === "number" && (
@@ -176,7 +224,7 @@ const structuredDataJson =
 
     <slot name="head" />
   </head>
-  <body data-page-state="entering" data-glass-state="rest">
+  <body data-page-state="ready" data-glass-state="rest">
     <a href="#main" class="sr-only">Skip to content</a>
     <header class="topbar">
       <div class="topbar__inner">
@@ -190,7 +238,9 @@ const structuredDataJson =
           >
             <SFIcon name="sidebar-left" size={22} stroke={1.4} />
           </button>
-          <PersonalIcon size={32} class="topbar__brandIcon" />
+          <a href="/" class="topbar__brandIcon" aria-label="Tulio Cunha – Home">
+            <BrandLogo size={32} />
+          </a>
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
             <span class="topbar__brandSubtitle">Full Stack Developer</span>
@@ -374,7 +424,7 @@ const structuredDataJson =
               <p class="footer__title">
                 <span class="footer__titleRow">
                   Tulio Cunha
-                  <PersonalIcon size={20} class="footer__icon" />
+                  <BrandLogo size={20} class="footer__icon" />
                 </span>
               </p>
               <p class="footer__copy">
@@ -402,11 +452,19 @@ const structuredDataJson =
 
     <ScrollToTop />
 
-    <script>
+    <!-- Defer non-critical scripts for faster initial render -->
+    <script type="module">
+      // Motion and scroll indicators can load after initial render
       import "../scripts/motion.ts";
+      import "../scripts/scroll-indicators.ts";
+    </script>
+    <script type="module">
+      // Theme and sidebar are more critical but still async
       import "../scripts/theme.ts";
       import "../scripts/sidebar.ts";
-      import "../scripts/scroll-indicators.ts";
+    </script>
+    <script type="module" defer>
+      // Web vitals tracking can be deferred
       import "../scripts/web-vitals.ts";
     </script>
     <script is:inline>
@@ -582,7 +640,7 @@ const structuredDataJson =
 
           const favicon = document.querySelector('link[rel="icon"]');
           if (favicon) {
-            favicon.href = next === "light" ? "/favicon-light.svg" : "/favicon-dark.svg";
+            favicon.href = next === "light" ? "/Brand-icon-dark.webp" : "/Brand-icon-light.webp";
           }
 
           this.current = next;

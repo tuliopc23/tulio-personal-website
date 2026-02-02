@@ -35,10 +35,21 @@ const { size = 24, class: className = "" } = Astro.props;
     place-items: center;
     width: var(--pi-size, 24px);
     height: var(--pi-size, 24px);
-    border-radius: 20%;
+    /* Tahoe 26 - Fixed radius for better sub-pixel rendering */
+    border-radius: 10px;
     
-    /* No box-shadow on container to prevent white halo */
-    box-shadow: none;
+    /* Surface background to ground the icon */
+    background: var(--surface-raised);
+    
+    /* Multilayer shadow for visibility and depth */
+    box-shadow: 
+      /* Inner border/highlight */
+      inset 0 0 0 1px var(--hairline),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      /* Depth shadows */
+      0 1px 2px rgba(0, 0, 0, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.12),
+      0 8px 24px rgba(0, 0, 0, 0.1);
     
     /* Smooth animations */
     transition:
@@ -54,10 +65,14 @@ const { size = 24, class: className = "" } = Astro.props;
     isolation: isolate;
   }
 
-  /* Enhanced hover state - scale only, no shadow */
+  /* Enhanced hover state - scale and elevation */
   .personal-icon:hover {
-    transform: scale(1.03) translateZ(0);
-    box-shadow: none;
+    transform: translateY(-1px) scale(1.04) translateZ(0);
+    box-shadow: 
+      inset 0 0 0 1px var(--panel-border-strong),
+      0 2px 4px rgba(0, 0, 0, 0.18),
+      0 8px 24px rgba(0, 0, 0, 0.15),
+      0 16px 48px rgba(0, 0, 0, 0.12);
   }
 
   /* Active/pressed state - Apple-like press down */

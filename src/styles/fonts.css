@@ -1,0 +1,6 @@
+/* Font Display Optimization - Ensure fonts don't block rendering */
+/* Note: External fonts from CDN will use font-display: swap via CSS injection */
+/* This file ensures font-display is set for any self-hosted fonts in the future */
+
+/* Font-display optimization is handled via the external stylesheet links */
+/* The preload hints in Base.astro ensure fonts load efficiently */

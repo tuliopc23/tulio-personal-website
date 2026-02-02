@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow admin/studio paths
+Disallow: /studio/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.tuliocunha.dev/sitemap.xml

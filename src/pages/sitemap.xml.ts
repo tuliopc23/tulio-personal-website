@@ -24,16 +24,19 @@ export const GET: APIRoute = async ({ site }) => {
       loc: `${cleanedOrigin}${route}`,
       lastmod: new Date().toISOString(),
       priority: route === "/" ? 1.0 : 0.8,
+      changefreq: route === "/" ? "weekly" : "monthly",
     })),
     ...postLocators.map((post) => ({
       loc: `${cleanedOrigin}/blog/${post.slug}/`,
       lastmod: formatDate(post.publishedAt),
       priority: 0.7,
+      changefreq: "monthly",
     })),
     ...categories.map((category) => ({
       loc: `${cleanedOrigin}/blog/category/${category.slug}/`,
       lastmod: new Date().toISOString(),
       priority: 0.6,
+      changefreq: "weekly",
     })),
   ];
 
@@ -46,6 +49,7 @@ export const GET: APIRoute = async ({ site }) => {
           "  <url>",
           `    <loc>${entry.loc}</loc>`,
           `    <lastmod>${entry.lastmod}</lastmod>`,
+          `    <changefreq>${entry.changefreq}</changefreq>`,
           `    <priority>${entry.priority}</priority>`,
           "  </url>",
         ].join("\n");

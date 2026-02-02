@@ -1,38 +1,59 @@
 :root {
   --reveal-delay-step: 50ms;
+  --scroll-parallax-distance: 24px;
+  --scroll-blur-max: 8px;
+  --scroll-scale-min: 0.96;
 }
 
+/* Content is visible by default - no opacity hiding */
 body.motion-enabled [data-reveal] {
   --reveal-delay: 0ms;
-  opacity: 0;
-  transform: translateY(var(--motion-distance-sm));
+  --scroll-progress: 0;
+  opacity: 1;
+  transform: translateY(calc(var(--scroll-progress) * var(--scroll-parallax-distance)));
+  filter: blur(calc((1 - var(--scroll-progress)) * var(--scroll-blur-max)));
   transition:
-    opacity var(--motion-duration-md) var(--motion-ease-out) var(--reveal-delay),
-    transform var(--motion-duration-md) var(--motion-ease-out) var(--reveal-delay);
-  will-change: opacity, transform;
+    transform var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay),
+    filter var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay);
+  will-change: transform, filter;
 }
 
+/* Scale variant - subtle scale animation */
 body.motion-enabled [data-reveal][data-reveal-type="scale"] {
-  transform: scale(0.98);
+  transform: 
+    translateY(calc(var(--scroll-progress) * var(--scroll-parallax-distance)))
+    scale(calc(var(--scroll-scale-min) + (var(--scroll-progress) * (1 - var(--scroll-scale-min)))));
 }
 
+/* Slide-left variant - horizontal parallax */
 body.motion-enabled [data-reveal][data-reveal-type="slide-left"] {
-  transform: translateX(var(--motion-distance-md));
+  transform: translateX(calc((1 - var(--scroll-progress)) * var(--motion-distance-md)));
 }
 
+/* Fade variant - subtle opacity enhancement (starts at 0.85, goes to 1) */
+body.motion-enabled [data-reveal][data-reveal-type="fade"] {
+  opacity: calc(0.85 + (var(--scroll-progress) * 0.15));
+  transform: translateY(calc(var(--scroll-progress) * var(--scroll-parallax-distance)));
+}
+
+/* When element is fully in view - smooth final state */
 body.motion-enabled [data-reveal].is-visible {
+  --scroll-progress: 1;
   opacity: 1;
   transform: none;
+  filter: blur(0);
 }
 
+/* Content is visible by default - no initial hiding */
 body.motion-enabled[data-page-state="entering"] .content {
-  opacity: 0;
-  transform: translateY(var(--motion-distance-sm));
+  opacity: 1;
+  transform: none;
 }
 
 body.motion-enabled[data-page-state="ready"] .content {
   opacity: 1;
   transform: none;
+  /* Smooth transitions only for page navigation, not initial load */
   transition:
     opacity var(--motion-duration-lg) var(--motion-ease-out),
     transform var(--motion-duration-lg) var(--motion-ease-out);
@@ -54,6 +75,7 @@ body.motion-reduce [data-reveal],
 body.motion-reduce [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
   transition: none;
 }
 

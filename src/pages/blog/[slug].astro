@@ -148,14 +148,21 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
   title={seoTitle}
   description={seoDescription}
   canonical={canonical}
+  ogType="article"
   ogTitle={seoTitle}
   ogDescription={seoDescription}
-  ogType="article"
   ogImage={ogImage}
+  articleAuthor={post?.author?.name ?? "Tulio Cunha"}
+  articlePublishedTime={post?.publishedAt}
+  articleModifiedTime={post?.publishedAt}
+  articleTags={post?.tags}
   noIndex={_noIndex}
   structuredData={_structuredData}
   sidebar={true}
 >
+  {ogImage?.url && (
+    <link slot="head" rel="preload" as="image" href={ogImage.url} fetchpriority="high" />
+  )}
   <link
     slot="head"
     rel="alternate"

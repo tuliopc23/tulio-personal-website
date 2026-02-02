@@ -55,6 +55,8 @@
 
   let observer: IntersectionObserver | null = null;
   let linkHandler: ((event: MouseEvent) => void) | null = null;
+  let scrollHandler: (() => void) | null = null;
+  let scrollTimeout: number | null = null;
 
   const cleanup = (): void => {
     if (observer) {
@@ -67,6 +69,16 @@
         link.removeEventListener("click", linkHandler as EventListener);
       });
       linkHandler = null;
+    }
+
+    if (scrollHandler) {
+      window.removeEventListener("scroll", scrollHandler);
+      scrollHandler = null;
+    }
+
+    if (scrollTimeout !== null) {
+      window.cancelAnimationFrame(scrollTimeout);
+      scrollTimeout = null;
     }
   };
 
@@ -137,23 +149,87 @@
           );
         });
       } else {
-        // On other pages, use intersection observer
+        // On other pages, use intersection observer with scroll progress tracking
         observer = new IntersectionObserver(
           (entries: IntersectionObserverEntry[], obs: IntersectionObserver) => {
             entries.forEach((entry) => {
+              const target = entry.target as HTMLElement;
+              const rect = entry.boundingClientRect;
+              const viewportHeight = window.innerHeight;
+              
+              // Calculate scroll progress (0 = just entering, 1 = fully visible)
+              // Trigger zone: from 20% below viewport to 20% above viewport
+              const triggerStart = viewportHeight * 0.2;
+              const triggerEnd = viewportHeight * 0.8;
+              const elementTop = rect.top;
+              const elementHeight = rect.height;
+              
+              let progress = 0;
+              
               if (entry.isIntersecting) {
-                const target = entry.target as HTMLElement;
-                target.classList.add("is-visible");
-                obs.unobserve(target);
+                // Element is in the trigger zone
+                const distanceFromTop = elementTop - triggerStart;
+                const triggerRange = triggerEnd - triggerStart;
+                progress = Math.max(0, Math.min(1, 1 - (distanceFromTop / triggerRange)));
+                
+                // Smooth progress calculation
+                progress = Math.max(0, Math.min(1, progress));
+                target.style.setProperty("--scroll-progress", String(progress));
+                
+                // Mark as visible when progress > 0.5 for better UX
+                if (progress > 0.5 && !target.classList.contains("is-visible")) {
+                  target.classList.add("is-visible");
+                }
+              } else {
+                // Element is outside viewport
+                if (elementTop < 0) {
+                  // Element has scrolled past - fully visible
+                  progress = 1;
+                  target.classList.add("is-visible");
+                } else {
+                  // Element hasn't entered yet
+                  progress = 0;
+                }
+                target.style.setProperty("--scroll-progress", String(progress));
               }
             });
           },
           {
             root: null,
-            rootMargin: "0px 0px -10%",
-            threshold: 0.15,
+            rootMargin: "20% 0px -20% 0px", // Larger margin for smoother transitions
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], // Multiple thresholds for smooth progress
           },
         );
+
+        // Add scroll listener for continuous progress updates
+        const updateScrollProgress = (): void => {
+          revealElements.forEach((element) => {
+            if (element.classList.contains("is-visible")) {
+              return; // Skip already fully visible elements
+            }
+            
+            const rect = element.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const triggerStart = viewportHeight * 0.2;
+            const triggerEnd = viewportHeight * 0.8;
+            
+            // Check if element is in trigger zone
+            if (rect.top < triggerEnd && rect.bottom > triggerStart) {
+              const distanceFromTop = rect.top - triggerStart;
+              const triggerRange = triggerEnd - triggerStart;
+              const progress = Math.max(0, Math.min(1, 1 - (distanceFromTop / triggerRange)));
+              element.style.setProperty("--scroll-progress", String(progress));
+              
+              if (progress > 0.5) {
+                element.classList.add("is-visible");
+              }
+            } else if (rect.top < 0) {
+              // Element scrolled past - fully visible
+              element.style.setProperty("--scroll-progress", "1");
+              element.classList.add("is-visible");
+            }
+          });
+        };
 
         revealElements.forEach((element) => {
           const dataset = element.dataset as RevealDataset;
@@ -174,8 +250,43 @@
             groups.set(revealGroup, nextIndex + 1);
           }
 
+          // Check if element is already in viewport on load
+          const rect = element.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const triggerStart = viewportHeight * 0.2;
+          const triggerEnd = viewportHeight * 0.8;
+          
+          if (rect.top < triggerEnd && rect.bottom > triggerStart) {
+            // Element is already in trigger zone
+            const distanceFromTop = rect.top - triggerStart;
+            const triggerRange = triggerEnd - triggerStart;
+            const progress = Math.max(0, Math.min(1, 1 - (distanceFromTop / triggerRange)));
+            element.style.setProperty("--scroll-progress", String(progress));
+            if (progress > 0.5) {
+              element.classList.add("is-visible");
+            }
+          } else if (rect.top < 0) {
+            // Element is above viewport - fully visible
+            element.style.setProperty("--scroll-progress", "1");
+            element.classList.add("is-visible");
+          } else {
+            // Element is below viewport - initialize to 0
+            element.style.setProperty("--scroll-progress", "0");
+          }
+
           observer?.observe(element);
         });
+
+        // Throttled scroll listener for smooth progress updates
+        scrollHandler = (): void => {
+          if (scrollTimeout === null) {
+            scrollTimeout = window.requestAnimationFrame(() => {
+              updateScrollProgress();
+              scrollTimeout = null;
+            });
+          }
+        };
+        window.addEventListener("scroll", scrollHandler, { passive: true });
       }
     }
 
