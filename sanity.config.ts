@@ -1,7 +1,7 @@
 import { codeInput } from "@sanity/code-input";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
-import { structureTool } from "sanity/structure";
+import { structureTool, type StructureBuilder } from "sanity/structure";
 import { markdownSchema } from "sanity-plugin-markdown";
 import {
   approveAndPublishAction,
@@ -25,7 +25,7 @@ export default defineConfig({
   basePath: "/studio",
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S: StructureBuilder) =>
         S.list()
           .title("Content")
           .items([

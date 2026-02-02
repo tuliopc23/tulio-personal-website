@@ -3,19 +3,31 @@ import { toPlainText } from "astro-portabletext";
 
 // --- Helper Functions ---
 
-function portableTextToMarkdown(blocks: any[]): string {
+interface PortableTextBlock {
+  _type: string;
+  style?: string;
+  [key: string]: unknown;
+}
+
+function portableTextToMarkdown(blocks: PortableTextBlock[]): string {
   if (!Array.isArray(blocks)) return "";
   return blocks
     .map((block) => {
       if (block._type === "block") {
-        const text = toPlainText([block]);
+        const text = toPlainText([block as any]);
         switch (block.style) {
-          case "h1": return `# ${text}`;
-          case "h2": return `## ${text}`;
-          case "h3": return `### ${text}`;
-          case "h4": return `#### ${text}`;
-          case "blockquote": return `> ${text}`;
-          default: return text;
+          case "h1":
+            return `# ${text}`;
+          case "h2":
+            return `## ${text}`;
+          case "h3":
+            return `### ${text}`;
+          case "h4":
+            return `#### ${text}`;
+          case "blockquote":
+            return `> ${text}`;
+          default:
+            return text;
         }
       }
       return "";
@@ -23,7 +35,16 @@ function portableTextToMarkdown(blocks: any[]): string {
     .join("\n\n");
 }
 
-async function publishToDevTo(articleData: any) {
+interface ArticleData {
+  title: string;
+  summary?: string;
+  slug: string;
+  tags?: string[];
+  content?: PortableTextBlock[];
+  [key: string]: unknown;
+}
+
+async function publishToDevTo(articleData: ArticleData) {
   const apiKey = import.meta.env.DEV_TO_API_KEY;
   if (!apiKey) return { success: false, message: "DEV_TO_API_KEY missing" };
 
@@ -49,15 +70,15 @@ async function publishToDevTo(articleData: any) {
     if (!response.ok) throw new Error(await response.text());
     const result = await response.json();
     return { success: true, url: result.url };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 
 async function triggerGitHubRebuild(title: string) {
   const token = import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN;
   const repo = import.meta.env.GITHUB_REPOSITORY || "tuliopc23/tulio-personal-website";
-  
+
   if (!token) return { success: false, message: "GITHUB_PERSONAL_ACCESS_TOKEN missing" };
 
   try {
@@ -76,8 +97,8 @@ async function triggerGitHubRebuild(title: string) {
 
     if (!response.ok) throw new Error(await response.text());
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 
@@ -89,7 +110,7 @@ export const GET: APIRoute = async () => {
       status: "active",
       message: "The auto-publish endpoint is live. Use POST for webhooks.",
     }),
-    { status: 200 }
+    { status: 200 },
   );
 };
 
@@ -115,9 +136,10 @@ export const POST: APIRoute = async ({ request }) => {
         devTo: devToResult,
         rebuildTriggered: githubResult.success,
       }),
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return new Response(JSON.stringify({ error: message }), { status: 500 });
   }
 };
