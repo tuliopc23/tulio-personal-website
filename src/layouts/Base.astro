@@ -243,7 +243,7 @@ const structuredDataJson =
           </a>
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
-            <span class="topbar__brandSubtitle">Full Stack Developer</span>
+            <span class="topbar__brandSubtitle">Product Engineer</span>
           </div>
         </div>
         <nav class="topbar__nav" aria-label="Global">
@@ -281,6 +281,33 @@ const structuredDataJson =
                   aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">Projects</span>
+                </a>
+              </li>
+              <li class="topbar__navItem">
+                <a
+                  href="/about/"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname === "/about/" ? "page" : undefined}
+                >
+                  <span class="topbar__navLabel">About</span>
+                </a>
+              </li>
+              <li class="topbar__navItem">
+                <a
+                  href="/uses/"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname === "/uses/" ? "page" : undefined}
+                >
+                  <span class="topbar__navLabel">Uses</span>
+                </a>
+              </li>
+              <li class="topbar__navItem">
+                <a
+                  href="/now/"
+                  class="topbar__navLink"
+                  aria-current={Astro.url.pathname === "/now/" ? "page" : undefined}
+                >
+                  <span class="topbar__navLabel">Now</span>
                 </a>
               </li>
             </ul>
@@ -333,6 +360,36 @@ const structuredDataJson =
                       <SFIcon name="briefcase" size={20} stroke={1.4} />
                     </span>
                     Projects
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="/about/"
+                    aria-current={Astro.url.pathname === "/about/" ? "page" : undefined}
+                  >
+                    <span class="icon-tile icon-tile--teal" aria-hidden="true">
+                      <SFIcon name="sparkle" size={20} stroke={1.4} />
+                    </span>
+                    About
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="/uses/"
+                    aria-current={Astro.url.pathname === "/uses/" ? "page" : undefined}
+                  >
+                    <span class="icon-tile icon-tile--green" aria-hidden="true">
+                      <SFIcon name="code" size={20} stroke={1.4} />
+                    </span>
+                    Uses
+                  </a>
+                  <a
+                    class="sidebar__link"
+                    href="/now/"
+                    aria-current={Astro.url.pathname === "/now/" ? "page" : undefined}
+                  >
+                    <span class="icon-tile icon-tile--orange" aria-hidden="true">
+                      <SFIcon name="calendar" size={20} stroke={1.4} />
+                    </span>
+                    Now
                   </a>
                 </div>
                 <div class="sidebar__group sidebar__group--social">
@@ -435,6 +492,8 @@ const structuredDataJson =
             <div class="footer__links" aria-label="Footer links">
               <a href="/projects">Projects</a>
               <a href="/blog/">Blog</a>
+              <a href="/about/">About</a>
+              <a href="/uses/">Uses</a>
               <a
                 href="https://portfolio.tuliocunha.dev"
                 target="_blank"

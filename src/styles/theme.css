@@ -1632,12 +1632,6 @@ body[data-glass-state="scrolled"] .topbar::before {
     padding: 10px var(--space-sm);
   }
 
-  /* Hide Home, Blog, Projects nav items on mobile */
-  .topbar__navItem:nth-child(1),
-  .topbar__navItem:nth-child(2),
-  .topbar__navItem:nth-child(3) {
-    display: none;
-  }
 }
 
 /* ======= Layout ======= */
