@@ -1,132 +1,175 @@
-/* ======= Color Tokens ======= */
-/* All color values extracted from theme.css - exact values preserved */
+/* ======= Apple HIG Color System ======= */
 
 :root {
-  /* Base colors - Dark mode default */
-  --bg: #050505;
-  --surface: #161618;
-  --surface-elevated: #1d1d20;
-  --surface-raised: #232327;
-  --subtle: #0a0a0b;
-  --hairline: rgba(255, 255, 255, 0.08);
-  --panel-border: rgba(255, 255, 255, 0.12);
-  --panel-border-strong: rgba(255, 255, 255, 0.18);
-  --text: #f5f5f7;
-  --muted: rgba(235, 235, 245, 0.65);
+	/* Primary Background Hierarchy */
+	--bg: #050506;
+	--bg-base: #050506;
+	--bg-gradient: linear-gradient(180deg, #050506 0%, #101114 100%);
+	--bg-radial-primary: radial-gradient(
+		140% 140% at 28% 4%,
+		rgba(84, 84, 88, 0.16) 0%,
+		rgba(0, 0, 0, 0) 60%
+	);
+	--bg-radial-secondary: radial-gradient(
+		160% 140% at 74% 12%,
+		rgba(68, 68, 74, 0.14) 0%,
+		rgba(0, 0, 0, 0) 64%
+	);
+	--bg-radial-tertiary: radial-gradient(
+		180% 140% at 50% 118%,
+		rgba(44, 44, 46, 0.18) 0%,
+		rgba(0, 0, 0, 0) 72%
+	);
+	--bg-elevated: #101115;
+	--bg-grouped: #131317;
+	--surface: #1a1a1d;
+	--surface-elevated: #1f2024;
+	--surface-raised: #25262b;
+	--surface-translucent-2: rgba(28, 28, 32, 0.92);
+	--subtle: #212126;
+	--surface-card: color-mix(in srgb, var(--surface-elevated) 92%, #000000 8%);
+	--surface-card-hover: color-mix(in srgb, var(--surface-raised) 92%, #000000 8%);
+	--surface-card-active: color-mix(in srgb, var(--surface) 88%, #000000 12%);
+	--surface-card-border: rgba(255, 255, 255, 0.04);
+	--surface-card-border-strong: rgba(255, 255, 255, 0.08);
 
-  /* Apple system colors - Dark mode with enhanced vibrancy (+6-8% saturation for Tahoe 26) */
-  --blue: #0d8aff;
-  --green: #30d948;
-  --indigo: #5e5ce8;
-  --teal: #5fd4ff;
-  --orange: #ffa00d;
-  --pink: #ff3861;
-  --purple: #c25bf4;
-  --red: #ff473c;
-  --yellow: #ffd70d;
-  --brown: #ac8e68;
-  --cyan: #5ac8fa;
+	/* Borders & Separators */
+	--hairline: rgba(84, 84, 88, 0.18);
+	--panel-border: rgba(60, 60, 67, 0.28);
+	--panel-border-strong: rgba(99, 99, 102, 0.4);
+	--separator-opaque: rgba(44, 44, 46, 0.65);
+	--panel-border-glow: rgba(255, 255, 255, 0.06);
+	--panel-border-strong-glow: rgba(255, 255, 255, 0.12);
 
-  /* State colors */
-  --neutral-bg: rgba(28, 28, 30, 0.92);
-  --neutral-border: rgba(255, 255, 255, 0.16);
-  --neutral-text: rgba(235, 235, 245, 0.96);
-  --info-bg: rgba(100, 210, 255, 0.24);
-  --info-border: rgba(100, 210, 255, 0.46);
-  --info-text: rgba(100, 210, 255, 0.92);
-  --success-bg: rgba(50, 215, 75, 0.24);
-  --success-border: rgba(50, 215, 75, 0.52);
-  --success-text: rgba(50, 215, 75, 0.92);
-  --warning-bg: rgba(255, 214, 10, 0.20);
-  --warning-border: rgba(255, 214, 10, 0.48);
-  --warning-text: rgba(255, 214, 10, 0.90);
-  --danger-bg: rgba(255, 69, 58, 0.24);
-  --danger-border: rgba(255, 69, 58, 0.52);
-  --danger-text: rgba(255, 69, 58, 0.92);
+	/* Text Hierarchy */
+	--text: rgba(255, 255, 255, 0.92);
+	--text-primary: rgba(255, 255, 255, 0.92);
+	--text-secondary: rgba(220, 232, 255, 0.76);
+	--text-tertiary: rgba(194, 210, 240, 0.54);
+	--text-quaternary: rgba(174, 190, 220, 0.42);
+	--muted: rgba(204, 220, 244, 0.64);
 
-  /* Component-specific colors - Dark mode */
-  --color-dark-surface: rgba(29, 29, 32, 1);
-  --color-dark-surface-translucent: rgba(29, 29, 32, 0.95);
-  --color-dark-surface-light: rgba(29, 29, 32, 0.96);
-  --color-dark-surface-lighter: rgba(29, 29, 32, 0.92);
-  --color-dark-surface-lightest: rgba(29, 29, 32, 0.88);
-  --color-dark-border: rgba(255, 255, 255, 0.106);
-  --color-dark-border-strong: rgba(255, 255, 255, 0.15);
-  --color-dark-border-stronger: rgba(255, 255, 255, 0.158);
-  --color-dark-text: rgba(235, 235, 245, 0.96);
-  --color-dark-text-muted: rgba(235, 235, 245, 0.85);
-  --color-dark-text-subtle: rgba(235, 235, 245, 0.75);
-  --color-dark-text-faint: rgba(235, 235, 245, 0.65);
-  --color-dark-text-very-faint: rgba(235, 235, 245, 0.58);
-  --color-dark-text-icon: rgba(235, 235, 245, 0.82);
-  --color-dark-text-icon-muted: rgba(235, 235, 245, 0.78);
+	/* Fill Colors (Buttons, Controls) */
+	--fill-primary: rgba(118, 118, 128, 0.24);
+	--fill-secondary: rgba(118, 118, 128, 0.16);
+	--fill-tertiary: rgba(118, 118, 128, 0.12);
 
-  /* Component-specific colors - Light mode */
-  --color-light-surface: rgba(248, 248, 251, 1);
-  --color-light-surface-translucent: rgba(248, 248, 251, 0.96);
-  --color-light-surface-elevated: rgba(255, 255, 255, 0.98);
-  --color-light-border: rgba(60, 60, 67, 0.106);
-  --color-light-border-strong: rgba(60, 60, 67, 0.158);
-  --color-light-text: rgba(60, 60, 67, 0.95);
-  --color-light-text-muted: rgba(60, 60, 67, 0.85);
-  --color-light-text-subtle: rgba(60, 60, 67, 0.75);
-  --color-light-text-faint: rgba(60, 60, 67, 0.65);
-  --color-light-text-very-faint: rgba(60, 60, 67, 0.58);
-  --color-light-text-icon: rgba(60, 60, 67, 0.82);
-  --color-light-text-icon-muted: rgba(60, 60, 67, 0.78);
+	/* Apple System Colors - Dark Mode */
+	--blue: #0a84ff;
+	--green: #30d948;
+	--indigo: #5e5ce8;
+	--teal: #5fd4ff;
+	--orange: #ffa00d;
+	--pink: #ff3861;
+	--purple: #c25bf4;
+	--red: #ff453a;
+	--yellow: #ffd70d;
+	--brown: #ac8e68;
+	--cyan: #5ac8fa;
+	--gray: #8e8e93;
 
-  /* Chrome/Window decorator colors */
-  --color-chrome-dark: rgba(28, 28, 30, 0.92);
-  --color-chrome-dark-hover: rgba(28, 28, 30, 0.96);
-  --color-chrome-light: rgba(235, 235, 240, 0.92);
-  --color-chrome-light-hover: rgba(235, 235, 240, 0.96);
+	/* Semantic Colors */
+	--color-primary: var(--blue);
+	--color-success: var(--green);
+	--color-warning: var(--orange);
+	--color-error: var(--red);
 
-  /* Gradient accent colors */
-  --hero-highlight: rgba(94, 92, 230, 0.28);
-  --blue-glow: rgba(77, 166, 255, 0.65);
-  --blue-glow-light: rgba(0, 113, 227, 0.45);
+	/* Accent Blends */
+	--accent-soft: rgba(10, 132, 255, 0.16);
+	--accent-tint: color-mix(in srgb, var(--surface-elevated) 72%, var(--blue) 28%);
+	--accent-tint-strong: color-mix(in srgb, var(--surface-raised) 58%, var(--blue) 42%);
+	--accent-border: rgba(10, 132, 255, 0.45);
+	--accent-glow: rgba(10, 132, 255, 0.28);
+	--accent-hover: rgba(10, 132, 255, 0.22);
+	--accent-active: rgba(10, 132, 255, 0.32);
 
-  /* === Apple HIG Compliance Enhancements === */
-  
-  /* Surface hierarchy - Card variants */
-  --surface-card: color-mix(in srgb, var(--surface-elevated) 92%, #000000 8%);
-  --surface-card-hover: color-mix(in srgb, var(--surface-raised) 92%, #000000 8%);
-  --surface-card-active: color-mix(in srgb, var(--surface) 88%, #000000 12%);
+	/* Interactive States */
+	--link: var(--blue);
+	--link-hover: color-mix(in srgb, var(--blue) 72%, #ffffff 28%);
+	--selection-bg: rgba(10, 132, 255, 0.22);
 
-  /* Text hierarchy - 4-step semantic scale */
-  --text-primary: rgba(255, 255, 255, 0.92);
-  --text-secondary: rgba(220, 232, 255, 0.76);
-  --text-tertiary: rgba(194, 210, 240, 0.54);
-  --text-quaternary: rgba(174, 190, 220, 0.42);
+	/* Glass & Materials */
+	--glass-bg: rgba(24, 24, 28, 0.88);
+	--glass-blur-base: 34px;
+	--glass-saturation-base: 140%;
 
-  /* Radial gradients - Atmospheric depth (Dark mode) */
-  --bg-radial-primary: radial-gradient(
-    140% 140% at 28% 4%,
-    rgba(84, 84, 88, 0.16) 0%,
-    rgba(0, 0, 0, 0) 60%
-  );
-  --bg-radial-secondary: radial-gradient(
-    160% 140% at 74% 12%,
-    rgba(68, 68, 74, 0.14) 0%,
-    rgba(0, 0, 0, 0) 64%
-  );
-  --bg-radial-tertiary: radial-gradient(
-    180% 140% at 50% 118%,
-    rgba(44, 44, 46, 0.18) 0%,
-    rgba(0, 0, 0, 0) 72%
-  );
+	/* Vibrant Gradients */
+	--gradient-blue: linear-gradient(180deg, rgba(10, 132, 255, 0.2) 0%, rgba(0, 0, 0, 0) 95%);
+	--gradient-purple: linear-gradient(180deg, rgba(136, 112, 255, 0.18) 0%, rgba(0, 0, 0, 0) 95%);
+	--gradient-pink: linear-gradient(180deg, rgba(220, 128, 255, 0.16) 0%, rgba(0, 0, 0, 0) 95%);
+}
 
-  /* Accent system - Blue tint variants */
-  --accent-soft: rgba(10, 132, 255, 0.16);
-  --accent-tint: color-mix(in srgb, var(--surface-elevated) 72%, var(--blue) 28%);
-  --accent-tint-strong: color-mix(in srgb, var(--surface-raised) 58%, var(--blue) 42%);
-  --accent-border: rgba(10, 132, 255, 0.45);
-  --accent-glow: rgba(10, 132, 255, 0.28);
-  --accent-hover: rgba(10, 132, 255, 0.22);
-  --accent-active: rgba(10, 132, 255, 0.32);
+/* Light Mode */
+[data-theme="light"] {
+	--bg: #f6f7fb;
+	--bg-base: #f6f7fb;
+	--bg-gradient: linear-gradient(180deg, #f6f7fb 0%, #eef2ff 70%, #e6ecff 100%);
+	--bg-radial-primary: radial-gradient(
+		120% 120% at 25% 0%,
+		rgba(124, 164, 255, 0.24) 0%,
+		rgba(255, 255, 255, 0) 60%
+	);
+	--bg-radial-secondary: radial-gradient(
+		140% 120% at 82% 8%,
+		rgba(148, 188, 255, 0.18) 0%,
+		rgba(255, 255, 255, 0) 70%
+	);
+	--bg-radial-tertiary: radial-gradient(
+		160% 140% at 50% 120%,
+		rgba(168, 200, 255, 0.12) 0%,
+		rgba(255, 255, 255, 0) 75%
+	);
+	--bg-elevated: rgba(255, 255, 255, 0.82);
+	--bg-grouped: #eef0fa;
+	--surface: rgba(246, 248, 255, 0.88);
+	--surface-elevated: rgba(255, 255, 255, 0.75);
+	--surface-raised: rgba(255, 255, 255, 0.85);
+	--surface-translucent-2: rgba(236, 240, 255, 0.68);
+	--subtle: #f0f2fb;
+	--surface-card: rgba(255, 255, 255, 0.9);
+	--surface-card-hover: rgba(255, 255, 255, 0.96);
+	--surface-card-active: rgba(255, 255, 255, 0.88);
+	--surface-card-border: rgba(34, 48, 88, 0.08);
+	--surface-card-border-strong: rgba(34, 48, 88, 0.16);
 
-  /* Border variants - Enhanced depth */
-  --panel-border-glow: rgba(255, 255, 255, 0.06);
-  --surface-card-border: rgba(255, 255, 255, 0.04);
-  --surface-card-border-strong: rgba(255, 255, 255, 0.08);
+	--hairline: rgba(120, 130, 160, 0.08);
+	--panel-border: rgba(108, 130, 180, 0.18);
+	--panel-border-strong: rgba(84, 114, 190, 0.28);
+	--separator-opaque: rgba(110, 130, 172, 0.26);
+
+	--text: rgba(12, 17, 32, 0.96);
+	--text-primary: rgba(12, 17, 32, 0.96);
+	--text-secondary: rgba(28, 42, 76, 0.68);
+	--text-tertiary: rgba(54, 72, 110, 0.48);
+	--text-quaternary: rgba(84, 102, 140, 0.36);
+	--muted: rgba(50, 66, 104, 0.6);
+
+	--fill-primary: rgba(120, 144, 208, 0.16);
+	--fill-secondary: rgba(120, 144, 208, 0.12);
+	--fill-tertiary: rgba(118, 140, 190, 0.08);
+
+	--blue: #007aff;
+	--green: #34c759;
+	--indigo: #5856d6;
+	--teal: #5ac8fa;
+	--orange: #ff9500;
+	--pink: #ff2d55;
+	--purple: #af52de;
+	--red: #ff3b30;
+	--yellow: #ffcc00;
+	--brown: #a2845e;
+	--cyan: #50c8f0;
+
+	--color-primary: var(--blue);
+	--link-hover: #0055d4;
+	--accent-hover: rgba(0, 122, 255, 0.12);
+	--accent-active: rgba(0, 122, 255, 0.18);
+	--selection-bg: rgba(0, 122, 255, 0.16);
+	--glass-bg: rgba(255, 255, 255, 0.7);
+}
+
+/* Selection Styling */
+::selection {
+	background-color: var(--selection-bg);
+	color: var(--text-primary);
 }

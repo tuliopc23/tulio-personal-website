@@ -1,0 +1,66 @@
+---
+interface SectionItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  sections: SectionItem[];
+}
+
+const { sections = [] } = Astro.props as Props;
+---
+
+<nav class="section-quick-nav" aria-label="Quick navigation">
+  <ul class="section-quick-nav__list" role="list">
+    <li class="section-quick-nav__item" role="listitem">
+      <a class="section-quick-nav__link" href="#top">Top</a>
+    </li>
+    {sections.map((section) => (
+      <li class="section-quick-nav__item" role="listitem">
+        <a class="section-quick-nav__link" href={`#${section.id}`}>{section.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .section-quick-nav {
+    grid-column: 1 / -1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--panel-border);
+    background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
+    box-shadow: var(--shadow-card), var(--shadow-card-highlight);
+    backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
+    -webkit-backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
+    overflow-x: auto;
+  }
+
+  .section-quick-nav__list {
+    display: inline-flex;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .section-quick-nav__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: 1px solid var(--panel-border);
+    color: var(--text-primary);
+    background: var(--surface-muted);
+    text-decoration: none;
+    font-size: var(--fs-footnote);
+    font-weight: var(--fw-semibold);
+  }
+
+  .section-quick-nav__link:hover {
+    background: var(--surface-card-hover);
+  }
+</style>

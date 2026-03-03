@@ -20,7 +20,7 @@ const {
   title = "Card title",
   body = "",
   tint = "blue",
-  cta = "Read more →",
+  cta = "Read more",
   icon = null,
   iconAsset = null,
   revealGroup,
@@ -28,34 +28,39 @@ const {
   revealDelay,
 } = Astro.props as Props;
 
-const ctaLabel = cta ? cta.replace(/\s*→$/, "") : null;
-const _revealOrderAttr =
+const revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
 const isInteractive = typeof href === "string" && href.trim().length > 0;
-const _cardClasses = ["card", !isInteractive ? "card--static" : null].filter(Boolean).join(" ");
-const _showCTA = isInteractive && Boolean(ctaLabel);
+const showCTA = isInteractive && Boolean(cta);
+const baseClasses = ["card", isInteractive ? "hover-elevate" : "card--static"].join(" ");
 ---
 
 {
   isInteractive ? (
     <a
-      class={_cardClasses}
+      class={baseClasses}
+      data-tint={tint}
       href={href}
       data-reveal
       data-reveal-group={revealGroup ?? undefined}
-      data-reveal-order={_revealOrderAttr}
+      data-reveal-order={revealOrderAttr}
       data-reveal-delay={revealDelay ?? undefined}
     >
       <div class="card__inner">
-        <IconTile tint={tint} label={title} icon={iconAsset ? null : icon} asset={iconAsset} />
+        <IconTile
+          tint={tint}
+          label={title}
+          icon={iconAsset ? null : icon}
+          asset={iconAsset}
+        />
         <div class="card__content">
-          <div class="card-title">{title}</div>
+          <h3 class="card-title">{title}</h3>
           <p class="card-body">{body}</p>
           {
-            _showCTA && (
+            showCTA && (
               <span class="card__cta">
-                {ctaLabel}
-                <PhosphorIcon name="arrow-right" size={16} weight="regular" />
+                <span>{cta}</span>
+                <PhosphorIcon name="arrow-up-right" size={14} weight="regular" />
               </span>
             )
           }
@@ -63,64 +68,217 @@ const _showCTA = isInteractive && Boolean(ctaLabel);
       </div>
     </a>
   ) : (
-    <div
-      class={_cardClasses}
+    <article
+      class={baseClasses}
+      data-tint={tint}
       data-reveal
       data-reveal-group={revealGroup ?? undefined}
-      data-reveal-order={_revealOrderAttr}
+      data-reveal-order={revealOrderAttr}
       data-reveal-delay={revealDelay ?? undefined}
-      role="presentation"
+      aria-label={title}
     >
       <div class="card__inner">
-        <IconTile tint={tint} label={title} icon={iconAsset ? null : icon} asset={iconAsset} />
+        <IconTile
+          tint={tint}
+          label={title}
+          icon={iconAsset ? null : icon}
+          asset={iconAsset}
+        />
         <div class="card__content">
-          <div class="card-title">{title}</div>
+          <h3 class="card-title">{title}</h3>
           <p class="card-body">{body}</p>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
-<script is:inline>
-  (() => {
-    // Ripple effect on card click
-    const initCardRipple = () => {
-      const cards = document.querySelectorAll(".card:not(.card--static)");
+<style>
+  .card {
+    --card-accent-base: rgba(255, 255, 255, 0.06);
+    --card-accent-hover: rgba(255, 255, 255, 0.12);
+    --card-focus-ring: rgba(255, 255, 255, 0.14);
+    --hover-elevate-translate: -4px;
+    --hover-elevate-scale: 1.012;
+    --hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight);
+    --hover-border: var(--surface-card-border-strong);
+    display: block;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--radius-card, 20px);
+    text-decoration: none;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-card-border);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--motion-duration-fast) var(--motion-ease-out),
+      background-color var(--motion-duration-fast) var(--motion-ease-out),
+      border-color var(--motion-duration-fast) var(--motion-ease-out);
+  }
 
-      cards.forEach((card) => {
-        card.addEventListener("click", function (e) {
-          // Check for reduced motion preference
-          const prefersReducedMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-          ).matches;
-          if (prefersReducedMotion) return;
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 0%, var(--card-accent-base) 0%, rgba(0, 0, 0, 0) 72%);
+    opacity: 0.18;
+    pointer-events: none;
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+  }
 
-          const ripple = document.createElement("span");
-          ripple.classList.add("card__ripple");
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow: 0 0 0 0 var(--card-focus-ring);
+    transition:
+      opacity var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+  }
 
-          const rect = this.getBoundingClientRect();
-          const size = Math.max(rect.width, rect.height);
-          const x = e.clientX - rect.left - size / 2;
-          const y = e.clientY - rect.top - size / 2;
+  .card:hover {
+    background: var(--surface-card-hover);
+  }
 
-          ripple.style.width = ripple.style.height = `${size}px`;
-          ripple.style.left = `${x}px`;
-          ripple.style.top = `${y}px`;
+  .card:hover::before {
+    background: radial-gradient(circle at 50% 0%, var(--card-accent-hover) 0%, rgba(0, 0, 0, 0) 72%);
+    opacity: 0.3;
+  }
 
-          this.appendChild(ripple);
+  .card:focus-visible {
+    outline: none;
+  }
 
-          // Remove ripple after animation completes
-          setTimeout(() => ripple.remove(), 600);
-        });
-      });
-    };
+  .card:focus-visible::after {
+    opacity: 1;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 0 0 6px var(--card-focus-ring);
+  }
 
-    // Initialize on page load
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initCardRipple);
-    } else {
-      initCardRipple();
+  .card:active {
+    transform: scale(var(--motion-scale-active));
+    transition-duration: var(--motion-duration-instant);
+    background: var(--surface-card-active);
+  }
+
+  .card__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-lg, 16px);
+    padding: var(--card-padding-compact, 20px);
+  }
+
+  .card__content {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: var(--space-1, 4px);
+  }
+
+  .card-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: var(--fs-body);
+    line-height: var(--lh-tight);
+    font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-body);
+  }
+
+  .card-body {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-callout);
+    line-height: var(--lh-snug);
+  }
+
+  .card__cta {
+    margin-top: var(--space-2, 8px);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    color: var(--blue);
+    font-size: var(--fs-footnote);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--ls-footnote, -0.006em);
+    transition:
+      color var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .card:hover .card__cta,
+  .card:focus-visible .card__cta {
+    color: color-mix(in srgb, var(--blue) 82%, #ffffff 18%);
+    transform: translateX(2px);
+  }
+
+  .card[data-tint="blue"] {
+    --card-accent-hover: rgba(10, 132, 255, 0.26);
+    --card-focus-ring: rgba(10, 132, 255, 0.22);
+  }
+
+  .card[data-tint="indigo"] {
+    --card-accent-hover: rgba(94, 92, 232, 0.26);
+    --card-focus-ring: rgba(94, 92, 232, 0.22);
+  }
+
+  .card[data-tint="teal"] {
+    --card-accent-hover: rgba(95, 212, 255, 0.26);
+    --card-focus-ring: rgba(95, 212, 255, 0.24);
+  }
+
+  .card[data-tint="green"] {
+    --card-accent-hover: rgba(48, 217, 72, 0.26);
+    --card-focus-ring: rgba(48, 217, 72, 0.22);
+  }
+
+  .card[data-tint="orange"] {
+    --card-accent-hover: rgba(255, 160, 13, 0.26);
+    --card-focus-ring: rgba(255, 160, 13, 0.22);
+  }
+
+  .card[data-tint="pink"] {
+    --card-accent-hover: rgba(255, 56, 97, 0.26);
+    --card-focus-ring: rgba(255, 56, 97, 0.22);
+  }
+
+  .card[data-tint="purple"] {
+    --card-accent-hover: rgba(194, 91, 244, 0.26);
+    --card-focus-ring: rgba(194, 91, 244, 0.22);
+  }
+
+  .card[data-tint="red"] {
+    --card-accent-hover: rgba(255, 71, 60, 0.26);
+    --card-focus-ring: rgba(255, 71, 60, 0.22);
+  }
+
+  .card[data-tint="yellow"] {
+    --card-accent-hover: rgba(255, 215, 13, 0.26);
+    --card-focus-ring: rgba(255, 215, 13, 0.22);
+  }
+
+  .card[data-tint="cyan"] {
+    --card-accent-hover: rgba(90, 200, 250, 0.26);
+    --card-focus-ring: rgba(90, 200, 250, 0.22);
+  }
+
+  @media (max-width: 768px) {
+    .card__inner {
+      padding: var(--space-4, 16px);
+      gap: var(--gap-md, 12px);
     }
-  })();
-</script>
+
+    .card-title {
+      font-size: var(--fs-callout);
+    }
+
+    .card-body {
+      font-size: var(--fs-footnote);
+    }
+  }
+</style>

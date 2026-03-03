@@ -1,0 +1,128 @@
+---
+interface CommitItem {
+  repo: string;
+  message: string;
+  date: string;
+  sha: string;
+  url: string;
+}
+
+const username = "tuliopc23";
+let commits: CommitItem[] = [];
+
+try {
+  const eventsResponse = await fetch(
+    `https://api.github.com/users/${username}/events/public?per_page=25`,
+    {
+      headers: { "User-Agent": "tulio-personal-website" },
+    },
+  );
+
+  if (eventsResponse.ok) {
+    const events = (await eventsResponse.json()) as Array<Record<string, unknown>>;
+    commits = events
+      .filter((event) => event.type === "PushEvent")
+      .flatMap((event) => {
+        const payload = event.payload as {
+          commits?: Array<{ message?: string; sha?: string; url?: string }>;
+        };
+        const repo = (event.repo as { name?: string })?.name ?? "unknown-repo";
+        const createdAt = String(event.created_at ?? "");
+        return (payload.commits ?? []).map((commit) => ({
+          repo,
+          message: commit.message ?? "Update",
+          date: createdAt,
+          sha: (commit.sha ?? "").slice(0, 7),
+          url: commit.url
+            ? String(commit.url)
+                .replace("api.github.com/repos", "github.com")
+                .replace("/commits/", "/commit/")
+            : `https://github.com/${repo}`,
+        }));
+      })
+      .slice(0, 6);
+  }
+} catch {
+  commits = [];
+}
+
+const relativeTime = (date: string) => {
+  if (!date) return "recently";
+  const now = Date.now();
+  const then = new Date(date).getTime();
+  const diff = Math.max(0, now - then);
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+};
+---
+
+<div class="github-widget">
+  {commits.length > 0 ? (
+    <ul class="github-widget__list" role="list" aria-label="Latest GitHub commits">
+      {commits.map((commit) => (
+        <li class="github-widget__item" role="listitem">
+          <a href={commit.url} target="_blank" rel="noopener noreferrer">
+            <span class="github-widget__repo">{commit.repo}</span>
+            <span class="github-widget__message">{commit.message}</span>
+            <span class="github-widget__meta">{relativeTime(commit.date)} • {commit.sha}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p class="github-widget__empty">GitHub activity unavailable right now.</p>
+  )}
+</div>
+
+<style>
+  .github-widget__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .github-widget__item a {
+    display: grid;
+    gap: 4px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--panel-border);
+    text-decoration: none;
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+  }
+
+  .github-widget__item a:hover {
+    border-color: var(--panel-border-strong);
+    background: var(--surface-card-hover);
+  }
+
+  .github-widget__repo {
+    font-size: var(--fs-footnote);
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .github-widget__message {
+    font-size: var(--fs-callout);
+    line-height: var(--lh-snug);
+    font-weight: 500;
+  }
+
+  .github-widget__meta {
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+  }
+
+  .github-widget__empty {
+    margin: 0;
+    color: var(--text-tertiary);
+    font-size: var(--fs-callout);
+  }
+</style>

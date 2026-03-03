@@ -1,476 +1,290 @@
 ---
 import Base from "../layouts/Base.astro";
 import ProfileCard from "../components/ProfileCard.astro";
-import RecentPosts from "../components/RecentPosts.astro";
-import Breadcrumbs from "../components/Breadcrumbs.astro";
-import Card from "../components/Card.astro";
-import PageIndicator from "../components/PageIndicator.astro";
-import ScrollHint from "../components/ScrollHint.astro";
-import "../styles/section.css";
-import { getAllPosts, getFeaturedPosts } from "../sanity/lib/posts";
+import DockLink from "../components/DockLink.astro";
+import SectionQuickNav from "../components/SectionQuickNav.astro";
+import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
+import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
+import { getAllPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
-const featuredPosts = await getFeaturedPosts();
-const featuredWriting = featuredPosts.length > 0 ? featuredPosts.slice(0, 3) : posts.slice(0, 3);
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
 
-const fallbackWriting = [
-  {
-    slug: "liquid-glass",
-    title: "Liquid glass on the web",
-    summary: "How to recreate Apple's materials with CSS blur, transparency, and borders.",
-    tint: "blue" as const,
-  },
-  {
-    slug: "sidebar-ux",
-    title: "Sidebar UX like Apple Docs",
-    summary: "Sticky sections, quick filter, and semantics.",
-    tint: "teal" as const,
-  },
-  {
-    slug: "system-fonts",
-    title: "System font stacks",
-    summary: "Use -apple-system and friends correctly.",
-    tint: "orange" as const,
-  },
-];
+const writingPosts = posts.slice(0, 3).map((post) => {
+  const date = new Date(post.publishedAt);
+  const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
+  return {
+    title: post.title,
+    summary: post.summary,
+    href: `/blog/${post.slug}/`,
+    dateLabel: formatter.format(date),
+    readingTimeMinutes: post.readingTimeMinutes ?? Math.max(1, Math.round(summaryWordCount / 170)),
+  };
+});
 
-const tintByTag: Record<string, string> = {
-  design: "orange",
-  accessibility: "teal",
-  tooling: "blue",
-  engineering: "blue",
-  swift: "orange",
-  frontend: "teal",
-  ux: "blue",
-  writing: "yellow",
-};
-
-const _writingCards =
-  featuredWriting.length === 0
-    ? fallbackWriting.map((item) => ({
-        title: item.title,
-        summary: item.summary,
-        href: `/blog/${item.slug}/`,
-        tint: item.tint,
-      }))
-    : featuredWriting.map((post, index) => {
-        const fallbackTint = fallbackWriting[index]?.tint ?? "indigo";
-        const tagTint = post.tags.map((tag) => tintByTag[tag.toLowerCase()]).find(Boolean);
-        return {
-          title: post.title,
-          summary: post.summary,
-          href: `/blog/${post.slug}/`,
-          tint: tagTint ?? fallbackTint,
-        };
-      });
-
-const _techStack = [
-  {
-    title: "Swift",
-    body: "Native macOS and iOS development.",
-    tint: "orange",
-    icon: "swift",
-  },
-  {
-    title: "TypeScript",
-    body: "Structured web applications.",
-    tint: "blue",
-    icon: "typescript",
-  },
-  {
-    title: "Rust",
-    body: "Systems programming with safety.",
-    tint: "brown",
-    icon: "rust",
-  },
-  {
-    title: "Zig",
-    body: "Low-level ergonomics and performance.",
-    tint: "yellow",
-    icon: "zig",
-  },
-  {
-    title: "Go",
-    body: "Backend services and tooling.",
-    tint: "teal",
-    icon: "go",
-  },
-  {
-    title: "React",
-    body: "Component-driven UI.",
-    tint: "blue",
-    icon: "react",
-  },
-  {
-    title: "Svelte",
-    body: "Motion-forward, compiled interfaces.",
-    tint: "orange",
-    icon: "svelte",
-  },
-  {
-    title: "Vue",
-    body: "Progressive web app craftsmanship.",
-    tint: "green",
-    icon: "vue",
-  },
-  {
-    title: "Docker",
-    body: "Portable environments and deployment pipelines.",
-    tint: "cyan",
-    icon: "docker",
-  },
-];
-
-const _tools = [
+const toolLinks = [
   {
     title: "Ghostty",
-    body: "Native SwiftUI terminal app with a Zig-based emulation core. My favorite.",
+    href: "https://ghostty.org",
     tint: "blue",
-    icon: "ghostty",
+    iconAsset: "/icons/Ghostty Dark_upscayl_2x_digital-art-4x_wrapped.svg",
   },
   {
     title: "Neovim",
-    body: "No introduction needed. If I code fast, Neovim is a big reason why.",
+    href: "https://neovim.io",
     tint: "green",
-    icon: "neovim",
+    iconAsset: "/icons/neovimlight_upscayl_2x_digital-art-4x_wrapped.svg",
   },
   {
     title: "Xcode",
-    body: "My workbench for building and refining native Apple-platform apps.",
+    href: "https://developer.apple.com/xcode/",
     tint: "blue",
-    icon: "xcode",
+    iconAsset: "/icons/xcodelogh_upscayl_2x_digital-art-4x copy.svg",
   },
   {
-    title: "Apple\nContainers",
-    body: "Apple Silicon native containerization runtime.",
+    title: "Containers",
+    href: "https://support.apple.com/guide/terminal/welcome/mac",
     tint: "cyan",
-    icon: "apple-containerization",
+    iconAsset: "/icons/Apple Containerization_upscayl_2x_digital-art-4x.svg",
   },
   {
     title: "Transmit",
-    body: "Beautiful and smooth SFTP app for the Mac.",
+    href: "https://panic.com/transmit/",
     tint: "yellow",
-    icon: "transmit",
-  },
-  {
-    title: "Kaleidoscope",
-    body: "Best native diff GUI app. Great UI and diff interface.",
-    tint: "teal",
-    icon: "kaleidoscope",
-  },
-  {
-    title: "CodeEdit",
-    body: "Swift-based open-source editor with strong potential and excellent pace.",
-    tint: "blue",
-    icon: "code-edit",
+    iconAsset: "/icons/Transmit_upscayl_2x_digital-art-4x.svg",
   },
   {
     title: "Tower",
-    body: "Native Git client with visual diffs and history.",
+    href: "https://www.git-tower.com",
     tint: "orange",
-    icon: "tower",
+    iconAsset: "/icons/Tower.svg",
   },
   {
-    title: "Orbstack",
-    body: "Streamlined Docker and Linux VMs for macOS.",
+    title: "CodeEdit",
+    href: "https://www.codeedit.app",
+    tint: "blue",
+    iconAsset: "/icons/Codeedit_upscayl_2x_digital-art-4x_wrapped.svg",
+  },
+  {
+    title: "OrbStack",
+    href: "https://orbstack.dev",
     tint: "indigo",
-    icon: "orbstack",
+    iconAsset: "/icons/orbstack.svg",
   },
 ];
 
+const sectionNavItems = [
+  { id: "section-profile", label: "Profile" },
+  { id: "section-tools", label: "Tools" },
+  { id: "section-github", label: "GitHub" },
+  { id: "section-writing", label: "Writing" },
+];
+
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
-const _canonical = new URL("/", siteOrigin).toString();
+const canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Tulio Cunha builds premium developer products, native apps, and editorial-grade digital experiences with Apple-inspired precision.";
-const _heroImage = "/terminal-favicon.svg";
-const _structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Tulio Cunha",
-  url: siteOrigin,
-  jobTitle: "Full Stack Developer",
-  description,
-  sameAs: [
-    "https://github.com/tuliopc23",
-    "https://linkedin.com/in/tuliocunha",
-    "https://instagram.com/tuliopinheirocunha",
-  ],
-};
+  "Full stack developer portfolio and blog with Apple-inspired craft, polished motion, and editorial engineering depth.";
 ---
 
 <Base
   title="Home"
   description={description}
-  canonical={_canonical}
+  canonical={canonical}
   ogDescription={description}
-  ogImage={{ url: _heroImage, alt: "Tulio Cunha portfolio hero" }}
-  structuredData={_structuredData}
-  sidebar={true}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Tulio Cunha portfolio" }}
+  sidebar={false}
 >
-  <section
-    class="hero container"
-    data-reveal
-    data-reveal-type="scale"
-    data-reveal-group="home-hero"
-  >
-    <Breadcrumbs items={[{ label: "Home", icon: "home" }]} />
-    <h1 class="hero__title">Shipping software with craft, speed, and taste.</h1>
-    <p class="hero__subtitle">
-      I design and engineer native and web products with cinematic polish, strong
-      technical foundations, and a ruthless focus on outcomes.
-    </p>
-    <div class="hero__proof" role="list" aria-label="Proof points">
-      <span role="listitem">Native + Web Product Engineer</span>
-      <span role="listitem">Open source builder</span>
-      <span role="listitem">Design-language obsessive</span>
-    </div>
-  </section>
-
-  <section class="container home__section homePulse" data-reveal data-reveal-group="home-pulse">
-    <ul class="homePulse__list" role="list" aria-label="Delivery pulse">
-      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={0}>
-        <span class="homePulse__value">0→1</span>
-        <span class="homePulse__label">from framing to shipped surface</span>
-      </li>
-      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={1}>
-        <span class="homePulse__value">2 stacks</span>
-        <span class="homePulse__label">native and web, one design language</span>
-      </li>
-      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={2}>
-        <span class="homePulse__value">High signal</span>
-        <span class="homePulse__label">tradeoffs documented, outcomes measurable</span>
-      </li>
-    </ul>
-  </section>
-
-  <section class="container home__section" data-reveal data-reveal-group="home-profile">
-    <ProfileCard
-      name="Tulio Cunha"
-      title="Full Stack Developer"
-      location="Brazil"
-      email="contact@tuliocunha.dev"
-    />
-    <ScrollHint target="[data-quick-links-rail]" />
-    <div class="home__quickLinks cardRail" data-quick-links-rail>
-      <Card
-        title="Projects"
-        body="Projects spanning refined web UIs, full-stack builds, CLI tools, and systems programming."
-        href="/projects"
-        tint="orange"
-        iconAsset="/icons/projects.png"
-        cta="Explore selected work →"
-        revealGroup="home-links"
-        revealOrder={0}
-      />
-      <Card
-        title="Blog"
-        body="Essays, breakdowns, and hard-earned engineering lessons from real product work."
-        href="/blog/"
-        tint="blue"
-        iconAsset="/icons/blog.png"
-        cta="Read the editorial log →"
-        revealGroup="home-links"
-        revealOrder={1}
+  <section id="top" class="bento-grid">
+    <div id="section-profile" class="widget-profile">
+      <ProfileCard
+        name="Tulio Cunha"
+        title="Full Stack Developer"
+        location="Brazil"
+        email="contact@tuliocunha.dev"
       />
     </div>
-    <PageIndicator
-      containerSelector="[data-quick-links-rail]"
-      itemSelector=".card"
-      ariaLabel="Quick links navigation"
-    />
-  </section>
 
-  <section class="container home__section" data-reveal data-reveal-group="home-credibility">
-    <h2 class="section-title" data-reveal data-reveal-group="home-credibility" data-reveal-order={0}
-      >What Clients And Teams Value</h2
-    >
-    <div class="cardGrid">
-      <Card
-        title="End-to-end ownership"
-        body="From product framing to shipped experience: architecture, interface, and production delivery."
-        tint="indigo"
-        icon="constellation"
-        revealGroup="home-credibility"
-        revealOrder={1}
-      />
-      <Card
-        title="Execution under constraints"
-        body="Fast decisions, clean tradeoffs, and high-quality output even with tight timelines."
-        tint="teal"
-        icon="sparkle"
-        revealGroup="home-credibility"
-        revealOrder={2}
-      />
-      <Card
-        title="Craft that scales"
-        body="Design systems, reusable patterns, and stable foundations that survive real-world growth."
-        tint="orange"
-        icon="cube"
-        revealGroup="home-credibility"
-        revealOrder={3}
-      />
+    <SectionQuickNav sections={sectionNavItems} />
+
+    <div class="widget-carousel" role="region" aria-label="Widget carousel">
+      <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal>
+        <div class="widget-header">
+          <span class="widget-eyebrow">Toolkit</span>
+          <h2 class="widget-title">Tools</h2>
+          <p class="widget-caption">macOS utilities that stay docked.</p>
+        </div>
+        <div class="tools-grid" role="list" aria-label="Tools">
+          {toolLinks.map((link, index) => (
+            <DockLink
+              href={link.href}
+              title={link.title}
+              tint={link.tint}
+              iconAsset={link.iconAsset}
+              revealOrder={index}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal>
+        <div class="widget-header">
+          <span class="widget-eyebrow">Activity</span>
+          <h2 class="widget-title">GitHub</h2>
+          <p class="widget-caption">Latest commits and streaks.</p>
+        </div>
+        <GitHubActivityWidget />
+      </div>
+
+      <div id="section-writing" class="widget-box widget-feature-writing hover-elevate" data-reveal>
+        <div class="widget-header">
+          <span class="widget-eyebrow">Writing</span>
+          <h2 class="widget-title">Feature Writing</h2>
+          <p class="widget-caption">Fresh perspectives from the lab.</p>
+        </div>
+        <FeatureWritingWidget posts={writingPosts} />
+      </div>
     </div>
   </section>
+</Base>
 
-  <section class="container" data-reveal data-reveal-group="home-tech">
-    <h2
-      class="section-title"
-      data-reveal
-      data-reveal-group="home-tech"
-      data-reveal-order={0}
-    >
-      Tech stack
-    </h2>
-    <ScrollHint target="[data-tech-stack-rail]" />
-    <div class="cardGrid cardRail" data-tech-stack-rail>
-      {
-        _techStack.map((entry, index) => (
-          <Card
-            title={entry.title}
-            body={entry.body}
-            tint={entry.tint}
-            icon={entry.icon}
-            revealGroup="home-tech"
-            revealOrder={index + 1}
-          />
-        ))
-      }
-    </div>
-    <PageIndicator
-      containerSelector="[data-tech-stack-rail]"
-      itemSelector=".card"
-      ariaLabel="Tech stack navigation"
-    />
-  </section>
+<style is:global>
+  .bento-grid {
+    padding: clamp(28px, 6vw, 60px) var(--container-padding);
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    gap: clamp(20px, 2.6vw, 32px);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: stretch;
+  }
 
-  <section id="tools" class="container" data-reveal data-reveal-group="home-tools">
-    <h2
-      class="section-title"
-      data-reveal
-      data-reveal-group="home-tools"
-      data-reveal-order={0}
-    >
-      Tools
-    </h2>
-    <ScrollHint target="[data-tools-rail]" />
-    <div class="cardGrid cardRail" data-tools-rail>
-      {
-        _tools.map((entry, index) => (
-          <Card
-            title={entry.title}
-            body={entry.body}
-            tint={entry.tint}
-            icon={entry.icon}
-            revealGroup="home-tools"
-            revealOrder={index + 1}
-          />
-        ))
-      }
-    </div>
-    <PageIndicator
-      containerSelector="[data-tools-rail]"
-      itemSelector=".card"
-      ariaLabel="Tools navigation"
-    />
-  </section>
+  .widget-profile {
+    grid-column: 1 / -1;
+  }
 
-  <section class="container" data-reveal data-reveal-group="home-writing">
-    <h2
-      class="section-title"
-      data-reveal
-      data-reveal-group="home-writing"
-      data-reveal-order={0}
-    >
-      Featured writing
-    </h2>
-    <ScrollHint target="[data-featured-writing-rail]" />
-    <div class="cardGrid cardRail" data-featured-writing-rail>
-      {
-        _writingCards.map((entry, index) => (
-          <Card
-            title={entry.title}
-            body={entry.summary}
-            href={entry.href}
-            tint={entry.tint}
-            icon="writing"
-            cta="Read article →"
-            revealGroup="home-writing"
-            revealOrder={index + 1}
-          />
-        ))
-      }
-    </div>
-    <PageIndicator
-      containerSelector="[data-featured-writing-rail]"
-      itemSelector=".card"
-      ariaLabel="Featured writing navigation"
-    />
-  </section>
+  .widget-carousel {
+    display: contents;
+    grid-column: 1 / -1;
+  }
 
-  <script is:inline>
-    // Scroll-linked parallax for hero gradient (0.3 velocity)
-    const hero = document.querySelector(".hero");
-    if (hero) {
-      const updateParallax = () => {
-        const scrollY = window.scrollY;
-        const parallaxOffset = scrollY * 0.3;
-        hero.style.setProperty("--parallax-offset", `${parallaxOffset}px`);
-      };
+  .widget-box {
+    --hover-elevate-translate: -6px;
+    --hover-elevate-scale: 1.015;
+    --hover-elevate-shadow:
+      var(--shadow-card-hover),
+      var(--shadow-card-highlight),
+      var(--shadow-card-glow),
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 0 100px rgba(10, 132, 255, 0.08);
+    --hover-elevate-border: var(--panel-border-strong);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-4), 2vw, var(--space-5));
+    padding: clamp(24px, 2.8vw, 32px);
+    background: color-mix(in srgb, var(--surface-elevated) 96%, transparent);
+    border: 1px solid var(--panel-border);
+    border-radius: 36px;
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight),
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 0 60px rgba(10, 132, 255, 0.03);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    overflow: hidden;
+    grid-column: span 6;
+  }
 
-      // Throttle scroll events for performance
-      let ticking = false;
-      const handleScroll = () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            updateParallax();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      };
+  .widget-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 80%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    opacity: 0.6;
+  }
 
-      // Check for reduced motion preference
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      if (!prefersReducedMotion) {
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        updateParallax(); // Initial position
-      }
+  .widget-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .widget-eyebrow {
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+  }
+
+  .widget-title {
+    font-size: var(--fs-title-2);
+    font-weight: 700;
+    letter-spacing: var(--ls-title);
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  .widget-caption {
+    font-size: var(--fs-subheadline);
+    color: var(--text-tertiary);
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  .widget-tools,
+  .widget-github {
+    grid-column: span 6;
+  }
+
+  .widget-feature-writing {
+    grid-column: 1 / -1;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(var(--space-3), 1.4vw, var(--space-4));
+  }
+
+  @media (max-width: 1199px) {
+    .bento-grid {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 
-    const setupProjectTilt = () => {
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
-      if (prefersReducedMotion) return;
+    .widget-tools,
+    .widget-github,
+    .widget-feature-writing {
+      grid-column: 1 / -1;
+    }
 
-      const cards = document.querySelectorAll("[data-project-card]");
-      cards.forEach((card) => {
-        card.addEventListener("pointermove", (event) => {
-          const rect = card.getBoundingClientRect();
-          const x = event.clientX - rect.left;
-          const y = event.clientY - rect.top;
-          const rotateX = ((rect.height / 2 - y) / rect.height) * 4;
-          const rotateY = ((x - rect.width / 2) / rect.width) * 5;
+    .tools-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
 
-          card.style.setProperty("--tilt-x", `${rotateX}deg`);
-          card.style.setProperty("--tilt-y", `${rotateY}deg`);
-          card.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
-          card.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
-          card.setAttribute("data-tilt", "active");
-        });
+  @media (max-width: 767px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 24px 16px 80px;
+    }
 
-        card.addEventListener("pointerleave", () => {
-          card.style.setProperty("--tilt-x", "0deg");
-          card.style.setProperty("--tilt-y", "0deg");
-          card.style.setProperty("--glow-x", "50%");
-          card.style.setProperty("--glow-y", "50%");
-          card.removeAttribute("data-tilt");
-        });
-      });
-    };
+    .widget-box {
+      grid-column: 1 / -1;
+      padding: 24px;
+    }
 
-    setupProjectTilt();
-  </script>
-</Base>
+    .tools-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

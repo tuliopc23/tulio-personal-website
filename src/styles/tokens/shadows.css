@@ -1,305 +1,135 @@
 /* ======= Shadow Tokens ======= */
-/* Enhanced 4-layer shadow system for better definition and depth */
+/* Enhanced 4-layer shadow system for depth and definition */
 
 :root {
-  /* Card elevation system - TAHOE 3D POP - 7 layers */
-  --shadow-card:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.22),
-    0 2px 4px rgba(0, 0, 0, 0.20),
-    0 4px 8px rgba(0, 0, 0, 0.18),
-    0 8px 16px rgba(0, 0, 0, 0.14),
-    0 16px 32px rgba(0, 0, 0, 0.12);
+	/* Layered elevation system */
+	--shadow-0:
+		0 0.6px 1.2px rgba(0, 0, 0, 0.6),
+		0 0 8px rgba(0, 0, 0, 0.15);
 
-  --shadow-card-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 2px 4px rgba(0, 0, 0, 0.28),
-    0 8px 16px rgba(0, 0, 0, 0.24),
-    0 16px 32px rgba(0, 0, 0, 0.22),
-    0 32px 64px rgba(0, 0, 0, 0.18),
-    0 64px 128px rgba(0, 0, 0, 0.14);
+	--shadow-1:
+		0 1px 2px rgba(0, 0, 0, 0.6),
+		0 2px 4px rgba(0, 0, 0, 0.5),
+		0 12px 24px rgba(0, 0, 0, 0.38),
+		0 24px 48px rgba(0, 0, 0, 0.25);
 
-  /* Symbol/Icon tile shadows - Enhanced for more definition and 3D pop */
-  --shadow-symbol-dark:
-    inset 0 1px 0 rgba(255, 255, 255, 0.20),
-    0 2px 4px rgba(0, 0, 0, 0.22),
-    0 8px 16px rgba(0, 0, 0, 0.16),
-    0 16px 32px rgba(0, 0, 0, 0.12);
+	--shadow-2:
+		0 2px 4px rgba(0, 0, 0, 0.65),
+		0 6px 12px rgba(0, 0, 0, 0.52),
+		0 20px 40px rgba(0, 0, 0, 0.34),
+		0 40px 80px rgba(0, 0, 0, 0.22);
 
-  --shadow-symbol-dark-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 4px 8px rgba(0, 0, 0, 0.28),
-    0 12px 24px rgba(0, 0, 0, 0.24),
-    0 24px 48px rgba(0, 0, 0, 0.18);
+	--shadow-3:
+		0 4px 8px rgba(0, 0, 0, 0.7),
+		0 12px 24px rgba(0, 0, 0, 0.56),
+		0 30px 60px rgba(0, 0, 0, 0.38),
+		0 60px 120px rgba(0, 0, 0, 0.26);
 
-  --shadow-symbol-light:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 2px 4px rgba(31, 35, 53, 0.14),
-    0 8px 16px rgba(31, 35, 53, 0.18),
-    0 18px 36px rgba(31, 35, 53, 0.22);
+	--shadow-4:
+		0 8px 16px rgba(0, 0, 0, 0.75),
+		0 24px 48px rgba(0, 0, 0, 0.6),
+		0 80px 160px rgba(0, 0, 0, 0.32);
 
-  --shadow-symbol-light-hover:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 3px 6px rgba(31, 35, 53, 0.16),
-    0 10px 20px rgba(31, 35, 53, 0.20),
-    0 22px 40px rgba(31, 35, 53, 0.24);
+	/* Card shadows with ambient glow */
+	--shadow-card:
+		0 1px 2px rgba(0, 0, 0, 0.6),
+		0 2px 4px rgba(0, 0, 0, 0.5),
+		0 12px 24px rgba(0, 0, 0, 0.38),
+		0 24px 48px rgba(0, 0, 0, 0.25),
+		0 0 60px rgba(10, 132, 255, 0.04),
+		inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
-  /* Focus ring - Enhanced 3-layer with glow */
-  --focus-ring: 
-    0 0 0 3px rgba(13, 138, 255, 0.48),
-    0 0 0 5px rgba(13, 138, 255, 0.24),
-    0 0 10px rgba(13, 138, 255, 0.18);
+	--shadow-card-hover:
+		0 2px 4px rgba(0, 0, 0, 0.65),
+		0 6px 12px rgba(0, 0, 0, 0.52),
+		0 20px 40px rgba(0, 0, 0, 0.34),
+		0 40px 80px rgba(0, 0, 0, 0.22),
+		0 0 80px rgba(10, 132, 255, 0.12),
+		inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
-  /* Glass surface shadows - Enhanced definition */
-  --shadow-glass:
-    0 0.5px 0 rgba(255, 255, 255, 0.28),
-    0 1px 2px rgba(0, 0, 0, 0.12);
+	--shadow-card-highlight:
+		0 4px 8px rgba(0, 0, 0, 0.7),
+		0 12px 24px rgba(0, 0, 0, 0.56),
+		0 30px 60px rgba(0, 0, 0, 0.38),
+		0 60px 120px rgba(0, 0, 0, 0.26);
 
-  /* Project card frame shadows - Enhanced depth */
-  --shadow-frame:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 24px 48px rgba(0, 0, 0, 0.38);
+	--shadow-card-glow:
+		0 8px 16px rgba(0, 0, 0, 0.75),
+		0 24px 48px rgba(0, 0, 0, 0.6),
+		0 80px 160px rgba(0, 0, 0, 0.32),
+		0 0 120px rgba(10, 132, 255, 0.18),
+		inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-  /* Chrome decorator shadows - Enhanced contrast */
-  --shadow-chrome:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 1px 2px rgba(0, 0, 0, 0.12);
+	/* Icon tile shadows */
+	--shadow-symbol-dark:
+		0 0.8px 1.6px rgba(0, 0, 0, 0.66),
+		0 3px 9px rgba(0, 0, 0, 0.52),
+		0 10px 22px rgba(0, 0, 0, 0.38),
+		0 24px 42px rgba(0, 0, 0, 0.26),
+		0 0 36px rgba(0, 0, 0, 0.22),
+		inset 0 1px 0 rgba(255, 255, 255, 0.22),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.14);
 
-  /* === Apple HIG Compliance Enhancements === */
+	--shadow-symbol-dark-hover:
+		0 1.6px 3px rgba(0, 0, 0, 0.72),
+		0 5px 12px rgba(0, 0, 0, 0.56),
+		0 16px 30px rgba(0, 0, 0, 0.4),
+		0 34px 62px rgba(0, 0, 0, 0.28),
+		0 0 52px rgba(0, 0, 0, 0.24),
+		inset 0 1px 0 rgba(255, 255, 255, 0.26),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.18);
 
-  /* Card shadow with highlight - Enhanced 4-layer */
-  --shadow-card-highlight:
-    0 0 0 0.5px rgba(255, 255, 255, 0.05),
-    0 0 60px rgba(10, 132, 255, 0.04);
+	--shadow-symbol-light:
+		inset 0 1px 0 rgba(255, 255, 255, 0.74),
+		0 1.2px 2.5px rgba(31, 35, 53, 0.2),
+		0 6px 14px rgba(31, 35, 53, 0.24),
+		0 18px 32px rgba(31, 35, 53, 0.26);
 
-  /* Icon tile shadows - Dark mode TAHOE 3D - Split lighting */
-  --shadow-symbol-dark:
-    0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 1px 2px rgba(0, 0, 0, 0.28),
-    0 4px 8px rgba(0, 0, 0, 0.24),
-    0 8px 16px rgba(0, 0, 0, 0.22),
-    0 16px 32px rgba(0, 0, 0, 0.18),
-    0 0 48px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+	--shadow-symbol-light-hover:
+		inset 0 1px 0 rgba(255, 255, 255, 0.82),
+		0 1.8px 3.6px rgba(31, 35, 53, 0.22),
+		0 10px 20px rgba(31, 35, 53, 0.26),
+		0 26px 44px rgba(31, 35, 53, 0.28);
 
-  --shadow-symbol-dark-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.18),
-    0 2px 4px rgba(0, 0, 0, 0.32),
-    0 6px 12px rgba(0, 0, 0, 0.28),
-    0 12px 24px rgba(0, 0, 0, 0.26),
-    0 24px 48px rgba(0, 0, 0, 0.22),
-    0 0 64px rgba(0, 0, 0, 0.20),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+	/* Focus ring with glow */
+	--focus-ring:
+		0 0 0 3px rgba(10, 132, 255, 0.3),
+		0 0 0 6px rgba(10, 132, 255, 0.15),
+		0 0 20px rgba(10, 132, 255, 0.2),
+		0 0 0 1px rgba(255, 255, 255, 0.1);
 
-  /* Icon tile shadows - Light mode TAHOE 3D - Split lighting */
-  --shadow-symbol-light:
-    0 0 0 1px rgba(0, 0, 0, 0.10),
-    inset 0 1px 0 rgba(255, 255, 255, 0.90),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-    0 2px 4px rgba(31, 35, 53, 0.12),
-    0 4px 8px rgba(31, 35, 53, 0.14),
-    0 8px 16px rgba(31, 35, 53, 0.16),
-    0 16px 32px rgba(31, 35, 53, 0.14);
+	/* Glass surface shadows */
+	--shadow-glass:
+		0 1px 0 rgba(255, 255, 255, 0.05),
+		0 10px 18px rgba(0, 0, 0, 0.32);
+}
 
-  --shadow-symbol-light-hover:
-    0 0 0 1px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.10),
-    0 2px 4px rgba(31, 35, 53, 0.16),
-    0 6px 12px rgba(31, 35, 53, 0.18),
-    0 12px 24px rgba(31, 35, 53, 0.20),
-    0 24px 48px rgba(31, 35, 53, 0.18);
+[data-theme="light"] {
+	--shadow-0: 0 0.4px 0.8px rgba(34, 48, 88, 0.24);
 
-  /* Colored shadow variants - Interactive elements */
-  --shadow-blue:
-    0 2px 4px rgba(10, 132, 255, 0.2),
-    0 6px 12px rgba(10, 132, 255, 0.25),
-    0 12px 24px rgba(10, 132, 255, 0.3);
+	--shadow-1:
+		0 1px 3px rgba(34, 48, 88, 0.17),
+		0 10px 20px rgba(34, 48, 88, 0.11);
 
-  --shadow-green:
-    0 2px 4px rgba(48, 217, 72, 0.2),
-    0 6px 12px rgba(48, 217, 72, 0.25),
-    0 12px 24px rgba(48, 217, 72, 0.3);
+	--shadow-2:
+		0 2px 4px rgba(38, 54, 104, 0.26),
+		0 16px 28px rgba(34, 48, 88, 0.25),
+		0 32px 48px rgba(34, 48, 88, 0.24);
 
-  --shadow-indigo:
-    0 2px 4px rgba(94, 92, 230, 0.2),
-    0 6px 12px rgba(94, 92, 230, 0.25),
-    0 12px 24px rgba(94, 92, 230, 0.3);
+	--shadow-3: 0 20px 46px rgba(48, 68, 128, 0.25), 0 42px 84px rgba(52, 74, 140, 0.23);
 
-  --shadow-teal:
-    0 2px 4px rgba(95, 212, 255, 0.2),
-    0 6px 12px rgba(95, 212, 255, 0.25),
-    0 12px 24px rgba(95, 212, 255, 0.3);
+	--shadow-4: 0 48px 120px rgba(96, 144, 240, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.38);
 
-  --shadow-orange:
-    0 2px 4px rgba(255, 160, 13, 0.2),
-    0 6px 12px rgba(255, 160, 13, 0.25),
-    0 12px 24px rgba(255, 160, 13, 0.3);
+	--shadow-card: var(--shadow-1);
+	--shadow-card-hover: var(--shadow-2);
+	--shadow-card-highlight: var(--shadow-3);
+	--shadow-card-glow: var(--shadow-4);
 
-  /* === Phase 2A: Microinteraction Enhancements === */
-  
-  /* Card micro-glow variants - Subtle colored glow on hover */
-  --shadow-card-glow-blue:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(10, 132, 255, 0.12);
+	--focus-ring:
+		0 0 0 3px rgba(0, 122, 255, 0.45),
+		0 0 0 6px rgba(0, 122, 255, 0.28),
+		0 0 16px rgba(0, 122, 255, 0.32),
+		0 0 0 1px rgba(0, 122, 255, 0.3);
 
-  --shadow-card-glow-green:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(48, 217, 72, 0.12);
-
-  --shadow-card-glow-indigo:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(94, 92, 230, 0.12);
-
-  --shadow-card-glow-teal:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(95, 212, 255, 0.12);
-
-  --shadow-card-glow-orange:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(255, 160, 13, 0.12);
-
-  --shadow-card-glow-pink:
-    0 2px 4px rgba(0, 0, 0, 0.10),
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 16px 32px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(255, 55, 95, 0.12);
-
-  /* Card pressed state - Reduced shadow for depth feedback */
-  --shadow-card-pressed:
-    0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.14),
-    0 2px 4px rgba(0, 0, 0, 0.12),
-    0 4px 8px rgba(0, 0, 0, 0.10);
-
-  /* === Phase 3: Elevation-Based Shadow System === */
-  
-  /* Elevation levels - 3-tier shadow hierarchy - DRAMATIC VISIBILITY */
-  --shadow-elevation-resting:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0.5px 1px rgba(0, 0, 0, 0.16),
-    0 2px 4px rgba(0, 0, 0, 0.14),
-    0 4px 8px rgba(0, 0, 0, 0.12),
-    0 8px 16px rgba(0, 0, 0, 0.10),
-    0 16px 32px rgba(0, 0, 0, 0.08);
-
-  --shadow-elevation-raised:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 2px 4px rgba(0, 0, 0, 0.20),
-    0 6px 12px rgba(0, 0, 0, 0.18),
-    0 12px 24px rgba(0, 0, 0, 0.16),
-    0 24px 48px rgba(0, 0, 0, 0.14),
-    0 48px 96px rgba(0, 0, 0, 0.10);
-
-  --shadow-elevation-floating:
-    0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 4px 8px rgba(0, 0, 0, 0.24),
-    0 8px 16px rgba(0, 0, 0, 0.22),
-    0 16px 32px rgba(0, 0, 0, 0.20),
-    0 32px 64px rgba(0, 0, 0, 0.16),
-    0 48px 96px rgba(0, 0, 0, 0.12);
-
-  /* Contact shadows - Tight dark shadow directly beneath element */
-  --shadow-contact-sm: 0 1px 2px rgba(0, 0, 0, 0.22);
-  --shadow-contact-md: 0 2px 4px rgba(0, 0, 0, 0.26);
-  --shadow-contact-lg: 0 3px 6px rgba(0, 0, 0, 0.30);
-
-  /* Enhanced card elevation shadows - TAHOE 3D POP - 7-layer composition */
-  --shadow-card-resting:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.22),
-    0 2px 4px rgba(0, 0, 0, 0.20),
-    0 4px 8px rgba(0, 0, 0, 0.18),
-    0 8px 16px rgba(0, 0, 0, 0.14),
-    0 16px 32px rgba(0, 0, 0, 0.12);
-
-  --shadow-card-raised:
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 2px 4px rgba(0, 0, 0, 0.28),
-    0 8px 16px rgba(0, 0, 0, 0.24),
-    0 16px 32px rgba(0, 0, 0, 0.22),
-    0 32px 64px rgba(0, 0, 0, 0.18),
-    0 64px 128px rgba(0, 0, 0, 0.14);
-
-  --shadow-card-floating:
-    0 0 0 1px rgba(255, 255, 255, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 4px 8px rgba(0, 0, 0, 0.32),
-    0 12px 24px rgba(0, 0, 0, 0.28),
-    0 24px 48px rgba(0, 0, 0, 0.24),
-    0 48px 96px rgba(0, 0, 0, 0.20),
-    0 96px 192px rgba(0, 0, 0, 0.16);
-
-  /* Icon tile elevation shadows - TAHOE 3D for brand icons */
-  --shadow-icon-tile-resting:
-    0 0 0 1px rgba(255, 255, 255, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
-    0 2px 4px rgba(0, 0, 0, 0.24),
-    0 4px 8px rgba(0, 0, 0, 0.20),
-    0 8px 16px rgba(0, 0, 0, 0.18),
-    0 0 32px rgba(0, 0, 0, 0.12);
-
-  --shadow-icon-tile-raised:
-    0 0 0 1px rgba(255, 255, 255, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
-    0 4px 8px rgba(0, 0, 0, 0.28),
-    0 8px 16px rgba(0, 0, 0, 0.24),
-    0 16px 32px rgba(0, 0, 0, 0.22),
-    0 0 48px rgba(0, 0, 0, 0.16);
-
-  /* Color-specific ambient shadows - TAHOE 3D - Enhanced for brand icons */
-  --shadow-ambient-blue: 
-    0 0 32px rgba(10, 132, 255, 0.12),
-    0 0 48px rgba(10, 132, 255, 0.08);
-  --shadow-ambient-green: 
-    0 0 32px rgba(48, 217, 72, 0.12),
-    0 0 48px rgba(48, 217, 72, 0.08);
-  --shadow-ambient-indigo: 
-    0 0 32px rgba(94, 92, 230, 0.14),
-    0 0 48px rgba(94, 92, 230, 0.10);
-  --shadow-ambient-teal: 
-    0 0 32px rgba(95, 212, 255, 0.12),
-    0 0 48px rgba(95, 212, 255, 0.08);
-  --shadow-ambient-orange: 
-    0 0 32px rgba(255, 160, 13, 0.14),
-    0 0 48px rgba(255, 160, 13, 0.10);
-  --shadow-ambient-pink: 
-    0 0 32px rgba(255, 55, 95, 0.16),
-    0 0 48px rgba(255, 55, 95, 0.12);
-  --shadow-ambient-cyan: 
-    0 0 32px rgba(100, 210, 255, 0.12),
-    0 0 48px rgba(100, 210, 255, 0.08);
-  --shadow-ambient-yellow: 
-    0 0 32px rgba(255, 214, 10, 0.14),
-    0 0 48px rgba(255, 214, 10, 0.10);
-  --shadow-ambient-purple: 
-    0 0 32px rgba(191, 90, 242, 0.14),
-    0 0 48px rgba(191, 90, 242, 0.10);
-  --shadow-ambient-brown: 
-    0 0 32px rgba(172, 142, 104, 0.12),
-    0 0 48px rgba(172, 142, 104, 0.08);
+	--shadow-glass: 0 0.5px 0 rgba(255, 255, 255, 0.52), 0 1px 3px rgba(34, 48, 88, 0.24);
 }

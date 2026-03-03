@@ -1,0 +1,108 @@
+---
+interface PostItem {
+  title: string;
+  summary: string;
+  href: string;
+  dateLabel?: string;
+  readingTimeMinutes?: number;
+}
+
+const { posts = [] } = Astro.props as { posts: PostItem[] };
+---
+
+<div class="feature-writing-widget" role="list" aria-label="Featured writing articles">
+  {posts.length > 0 ? (
+    posts.slice(0, 3).map((post) => (
+      <article class="feature-writing-widget__card" role="listitem">
+        <p class="feature-writing-widget__eyebrow">Article</p>
+        <h3 class="feature-writing-widget__title">{post.title}</h3>
+        <p class="feature-writing-widget__summary">{post.summary}</p>
+        <div class="feature-writing-widget__meta">
+          {post.dateLabel && <span>{post.dateLabel}</span>}
+          {typeof post.readingTimeMinutes === "number" && (
+            <span>{post.readingTimeMinutes} min read</span>
+          )}
+        </div>
+        <a class="feature-writing-widget__cta" href={post.href}>Read</a>
+      </article>
+    ))
+  ) : (
+    <p class="feature-writing-widget__empty">New long-form entries are being prepared.</p>
+  )}
+</div>
+
+<style>
+  .feature-writing-widget {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .feature-writing-widget__card {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 20px;
+    border: 1px solid var(--panel-border);
+    background: color-mix(in srgb, var(--surface-card) 94%, transparent);
+    box-shadow: var(--shadow-card), var(--shadow-card-highlight);
+    min-height: 100%;
+  }
+
+  .feature-writing-widget__eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+    font-weight: var(--fw-medium);
+  }
+
+  .feature-writing-widget__title {
+    margin: 0;
+    font-size: var(--fs-title-3);
+    line-height: var(--lh-tight);
+  }
+
+  .feature-writing-widget__summary {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--fs-callout);
+    line-height: var(--lh-snug);
+  }
+
+  .feature-writing-widget__meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+  }
+
+  .feature-writing-widget__cta {
+    width: fit-content;
+    text-decoration: none;
+    font-size: var(--fs-footnote);
+    font-weight: var(--fw-semibold);
+    color: var(--link);
+    border: 1px solid var(--panel-border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: var(--surface-translucent-1);
+  }
+
+  .feature-writing-widget__cta:hover {
+    border-color: var(--panel-border-strong);
+  }
+
+  .feature-writing-widget__empty {
+    margin: 0;
+    color: var(--text-tertiary);
+  }
+
+  @media (max-width: 980px) {
+    .feature-writing-widget {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
