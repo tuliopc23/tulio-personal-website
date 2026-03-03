@@ -49,6 +49,7 @@ const heroImage = post?.heroImage;
 const _tags = post?.tags ?? [];
 const _takeaways = post?.keyTakeaways?.filter(Boolean) ?? [];
 const _series = post?.series ?? null;
+const _coverVariant = post?.coverVariant ?? "default";
 const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
@@ -182,7 +183,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
   <VisualEditing />
   <ReadingProgress />
   <article
-    class="container article"
+    class={`container article article--cover-${_coverVariant}`}
     data-reveal
     data-reveal-type="scale"
     data-reveal-group="post-shell"

@@ -112,6 +112,53 @@ const _structuredData = {
     }
   </section>
 
+  <section class="container home__section projects__approach" data-reveal data-reveal-group="projects-approach">
+    <div class="home__selectedHeader">
+      <h2 class="section-title" data-reveal data-reveal-group="projects-approach" data-reveal-order={0}
+        >How I Build</h2
+      >
+      <p class="home__selectedLede">
+        A lightweight delivery model tuned for fast iteration without sacrificing interface
+        quality or long-term maintainability.
+      </p>
+    </div>
+    <div class="cardGrid">
+      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={1}>
+        <div class="card__inner">
+          <div class="card__content">
+            <h3 class="card-title">Frame</h3>
+            <p class="card-body">
+              Clarify constraints, identify leverage points, and define what success looks
+              like before writing implementation code.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={2}>
+        <div class="card__inner">
+          <div class="card__content">
+            <h3 class="card-title">Ship</h3>
+            <p class="card-body">
+              Build vertically in thin slices, validate quickly, and keep quality gates close
+              to actual product behavior.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={3}>
+        <div class="card__inner">
+          <div class="card__content">
+            <h3 class="card-title">Polish</h3>
+            <p class="card-body">
+              Tighten motion, accessibility, and visual rhythm so the final product feels
+              intentional, robust, and premium.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <script is:inline>
     const grid = document.querySelector("[data-projects-grid]");
     const cards = Array.from(document.querySelectorAll("[data-project-card]"));
