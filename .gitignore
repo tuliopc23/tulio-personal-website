@@ -10,3 +10,19 @@ bun.lockb
 
 # Stakpak local files
 .stakpak
+
+# Local agent/editor skill folders (do not version)
+.agent/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.windsurf/
+.github/prompts/
