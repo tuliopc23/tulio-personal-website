@@ -2876,6 +2876,7 @@ kbd.slash {
   font-size: var(--fs--1);
   font-weight: 500; /* Medium - card descriptions are lede text, not body copy */
   line-height: var(--lh-compact); /* 1.45 - Apple HIG compact text */
+  max-width: 56ch;
   margin: 0;
 }
 
@@ -5014,8 +5015,8 @@ kbd.slash {
 
 .projects__grid [data-project-card] {
   transition:
-    opacity 200ms var(--motion-ease-out),
-    transform 200ms var(--motion-ease-out);
+    opacity var(--motion-duration-sm) var(--motion-ease-out),
+    transform var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 .projects__grid [data-project-card][hidden] {
@@ -5660,8 +5661,8 @@ kbd.slash {
   scroll-snap-stop: normal;
   animation: articleReveal var(--motion-duration-md) var(--motion-ease-out) backwards;
   transition:
-    opacity 200ms var(--motion-ease-out),
-    transform 200ms var(--motion-ease-out);
+    opacity var(--motion-duration-sm) var(--motion-ease-out),
+    transform var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 /* Sequential reveal with 60ms stagger */
@@ -5931,7 +5932,10 @@ kbd.slash {
     0 0 12px rgba(10, 132, 255, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(10, 132, 255, 0.3);
-  transition: all var(--motion-duration-sm) var(--motion-ease-out);
+  transition:
+    background var(--motion-duration-sm) var(--motion-ease-out),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+    border-color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 .articleCard:hover .articleCard__newBadge {
@@ -5951,6 +5955,7 @@ kbd.slash {
 
 .articleCard__summary {
   margin: 0;
+  max-width: 58ch;
   font-size: var(--fs--1);
   font-weight: 500; /* Medium - card lede text that entices readers */
   line-height: var(--lh-base); /* 1.65 */
