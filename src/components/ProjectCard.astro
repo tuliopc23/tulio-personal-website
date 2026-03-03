@@ -48,7 +48,7 @@ const categoryLabel: Record<Project["categories"][number], string> = {
 };
 const _signals = [
   categoryLabel[project.categories[0]] ?? "Product build",
-  `${project.stack.length} technologies`,
+  project.stack.length === 1 ? "1 technology" : `${project.stack.length} technologies`,
   project.status ? `${project.status} status` : null,
 ].filter(Boolean) as string[];
 ---
