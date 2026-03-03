@@ -230,6 +230,23 @@ const _structuredData = {
     </div>
   </section>
 
+  <section class="container home__section homePulse" data-reveal data-reveal-group="home-pulse">
+    <ul class="homePulse__list" role="list" aria-label="Delivery pulse">
+      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={0}>
+        <span class="homePulse__value">0→1</span>
+        <span class="homePulse__label">from framing to shipped surface</span>
+      </li>
+      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={1}>
+        <span class="homePulse__value">2 stacks</span>
+        <span class="homePulse__label">native and web, one design language</span>
+      </li>
+      <li data-reveal data-reveal-group="home-pulse" data-reveal-order={2}>
+        <span class="homePulse__value">High signal</span>
+        <span class="homePulse__label">tradeoffs documented, outcomes measurable</span>
+      </li>
+    </ul>
+  </section>
+
   <section class="container home__section" data-reveal data-reveal-group="home-profile">
     <ProfileCard
       name="Tulio Cunha"
@@ -442,5 +459,39 @@ const _structuredData = {
         updateParallax(); // Initial position
       }
     }
+
+    const setupProjectTilt = () => {
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (prefersReducedMotion) return;
+
+      const cards = document.querySelectorAll("[data-project-card]");
+      cards.forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          const rotateX = ((rect.height / 2 - y) / rect.height) * 4;
+          const rotateY = ((x - rect.width / 2) / rect.width) * 5;
+
+          card.style.setProperty("--tilt-x", `${rotateX}deg`);
+          card.style.setProperty("--tilt-y", `${rotateY}deg`);
+          card.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
+          card.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
+          card.setAttribute("data-tilt", "active");
+        });
+
+        card.addEventListener("pointerleave", () => {
+          card.style.setProperty("--tilt-x", "0deg");
+          card.style.setProperty("--tilt-y", "0deg");
+          card.style.setProperty("--glow-x", "50%");
+          card.style.setProperty("--glow-y", "50%");
+          card.removeAttribute("data-tilt");
+        });
+      });
+    };
+
+    setupProjectTilt();
   </script>
 </Base>

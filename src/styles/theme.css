@@ -2849,6 +2849,10 @@ kbd.slash {
 }
 
 .projectCard {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --glow-x: 50%;
+  --glow-y: 50%;
   display: grid;
   gap: var(--space-md);
   height: 100%;
@@ -2900,6 +2904,11 @@ kbd.slash {
   height: 100%;
   border-radius: calc(var(--radius-lg) - 10px);
   overflow: hidden;
+  transform: perspective(920px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transform-style: preserve-3d;
+  transition:
+    transform var(--motion-duration-sm) var(--motion-spring-out),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 [data-theme="dark"] .projectCard__frame {
@@ -3379,7 +3388,7 @@ kbd.slash {
   inset: 18%;
   border-radius: clamp(var(--radius-sm), 2vw, var(--radius-md));
   background: radial-gradient(
-    circle at center,
+    circle at var(--glow-x) var(--glow-y),
     rgba(10, 132, 255, 0.55) 0%,
     transparent 68%
   );
@@ -4315,6 +4324,89 @@ kbd.slash {
   grid-template-columns: repeat(2, minmax(280px, 1fr));
 }
 
+.homePulse {
+  margin-top: clamp(var(--space-lg), 5vw, 72px);
+}
+
+.homePulse__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: var(--space-sm);
+}
+
+.homePulse__list li {
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 1px solid var(--panel-border);
+  display: grid;
+  gap: var(--space-xxs);
+}
+
+[data-theme="dark"] .homePulse__list li {
+  background:
+    radial-gradient(circle at top right, rgba(10, 132, 255, 0.16), transparent 58%),
+    rgba(30, 30, 34, 0.9);
+}
+
+[data-theme="light"] .homePulse__list li {
+  background:
+    radial-gradient(circle at top right, rgba(0, 122, 255, 0.12), transparent 58%),
+    rgba(251, 252, 254, 0.92);
+}
+
+.homePulse__value {
+  font-size: clamp(20px, 1.2vw + 16px, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.homePulse__label {
+  font-size: var(--fs--1);
+  line-height: var(--lh-base);
+  color: var(--muted);
+}
+
+.projectsCadence__line {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: var(--space-sm);
+}
+
+.projectsCadence__line li {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--panel-border);
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-xs);
+}
+
+[data-theme="dark"] .projectsCadence__line li {
+  background: rgba(30, 30, 34, 0.9);
+}
+
+[data-theme="light"] .projectsCadence__line li {
+  background: rgba(250, 250, 252, 0.92);
+}
+
+.projectsCadence__line span {
+  font-family: var(--font-mono);
+  font-size: var(--fs--1);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.projectsCadence__line p {
+  margin: 0;
+  font-size: var(--fs--1);
+  line-height: var(--lh-base);
+}
+
 .about__manifesto {
   margin-top: clamp(var(--space-xl), 6vw, 92px);
 }
@@ -4556,8 +4648,10 @@ kbd.slash {
   }
 
   .about__principles,
+  .homePulse__list,
   .uses__columns,
   .uses__rituals,
+  .projectsCadence__line,
   .now__columns,
   .now__signalGrid {
     grid-template-columns: 1fr;

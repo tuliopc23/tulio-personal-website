@@ -80,6 +80,31 @@ const _structuredData = {
     }
   </section>
 
+  <section class="container home__section projectsCadence" data-reveal data-reveal-group="projects-cadence">
+    <div class="home__selectedHeader">
+      <h2 class="section-title" data-reveal data-reveal-group="projects-cadence" data-reveal-order={0}
+        >Delivery Cadence</h2
+      >
+      <p class="home__selectedLede">
+        A practical sequence that keeps momentum high while protecting product quality.
+      </p>
+    </div>
+    <ol class="projectsCadence__line" role="list">
+      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={1}>
+        <span>01</span>
+        <p>Define the leverage point and the constraint window.</p>
+      </li>
+      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={2}>
+        <span>02</span>
+        <p>Ship a thin vertical slice and validate with real behavior.</p>
+      </li>
+      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={3}>
+        <span>03</span>
+        <p>Refine motion, accessibility, and structural resilience.</p>
+      </li>
+    </ol>
+  </section>
+
   <section class="container" data-reveal data-reveal-group="projects-list">
     {
       _hasProjects ? (
@@ -160,6 +185,40 @@ const _structuredData = {
   </section>
 
   <script is:inline>
+    const setupProjectTilt = () => {
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (prefersReducedMotion) return;
+
+      const cards = document.querySelectorAll("[data-project-card]");
+      cards.forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          const rotateX = ((rect.height / 2 - y) / rect.height) * 4;
+          const rotateY = ((x - rect.width / 2) / rect.width) * 5;
+
+          card.style.setProperty("--tilt-x", `${rotateX}deg`);
+          card.style.setProperty("--tilt-y", `${rotateY}deg`);
+          card.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
+          card.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
+          card.setAttribute("data-tilt", "active");
+        });
+
+        card.addEventListener("pointerleave", () => {
+          card.style.setProperty("--tilt-x", "0deg");
+          card.style.setProperty("--tilt-y", "0deg");
+          card.style.setProperty("--glow-x", "50%");
+          card.style.setProperty("--glow-y", "50%");
+          card.removeAttribute("data-tilt");
+        });
+      });
+    };
+
+    setupProjectTilt();
+
     const grid = document.querySelector("[data-projects-grid]");
     const cards = Array.from(document.querySelectorAll("[data-project-card]"));
     const filters = Array.from(document.querySelectorAll("[data-project-filter]"));
