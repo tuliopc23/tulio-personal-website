@@ -85,6 +85,28 @@ postEntries.forEach((entry) => {
 
 const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
 const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
+const _pillars = [
+  {
+    title: "Product Engineering",
+    body: "Execution patterns, architecture decisions, and delivery tradeoffs from real builds.",
+  },
+  {
+    title: "Design Language",
+    body: "Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.",
+  },
+  {
+    title: "Tooling And Workflows",
+    body: "Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.",
+  },
+];
+const _byYear = postEntries.reduce((acc, post) => {
+  const year = new Date(post.publishedAt).getFullYear();
+  const current = acc.get(year) ?? { year, count: 0 };
+  current.count += 1;
+  acc.set(year, current);
+  return acc;
+}, new Map<number, { year: number; count: number }>());
+const _archiveYears = Array.from(_byYear.values()).sort((a, b) => b.year - a.year);
 const _placeholders = [
   {
     title: "Fresh case study in flight",
@@ -186,6 +208,55 @@ const _placeholders = [
       )
     }
   </section>
+
+  <section class="container home__section blogBrief" data-reveal data-reveal-group="blog-brief">
+    <div class="home__selectedHeader">
+      <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
+        >Editorial Direction</h2
+      >
+      <p class="home__selectedLede">
+        The publication is structured around three recurring lenses that keep writing grounded and practical.
+      </p>
+    </div>
+    <div class="cardGrid blogBrief__grid">
+      {_pillars.map((pillar, index) => (
+        <article
+          class="card card--static"
+          data-reveal
+          data-reveal-group="blog-brief"
+          data-reveal-order={index + 1}
+        >
+          <div class="card__inner">
+            <div class="card__content">
+              <h3 class="card-title">{pillar.title}</h3>
+              <p class="card-body">{pillar.body}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {_archiveYears.length > 0 && (
+    <section class="container home__section blogArchive" data-reveal data-reveal-group="blog-archive">
+      <div class="home__selectedHeader">
+        <h2 class="section-title" data-reveal data-reveal-group="blog-archive" data-reveal-order={0}
+          >Archive Overview</h2
+        >
+        <p class="home__selectedLede">
+          A year-by-year snapshot of published articles and output cadence.
+        </p>
+      </div>
+      <ul class="blogArchive__list" role="list" aria-label="Posts by year">
+        {_archiveYears.map((item, index) => (
+          <li data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1}>
+            <span class="blogArchive__year">{item.year}</span>
+            <span class="blogArchive__count">{item.count} {item.count === 1 ? "article" : "articles"}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   {
     featured && rest.length > 0 && (

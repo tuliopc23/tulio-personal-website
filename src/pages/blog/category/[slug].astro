@@ -1,6 +1,8 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import ArticleCard from "../../../components/ArticleCard.astro";
+import ScrollHint from "../../../components/ScrollHint.astro";
 import {
   getAllCategories,
   getCategoryBySlug,
@@ -49,7 +51,7 @@ const postEntries: Array<
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
-  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000; // 7 days
+  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000;
   return {
     ...post,
     href: `/blog/${post.slug}/`,
@@ -65,6 +67,8 @@ const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL(`/blog/category/${slug}/`, siteOrigin).toString();
 const pageTitle = `${category.title} Articles`;
 const pageDescription = category.description || `Articles about ${category.title} by Tulio Cunha`;
+const _latestDate =
+  postEntries.length > 0 ? formatter.format(new Date(postEntries[0].publishedAt)) : null;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -95,149 +99,64 @@ const structuredData = {
     data-reveal-type="scale"
     data-reveal-group="category-hero"
   >
-    <div class="categoryHero__breadcrumb">
-      <a href="/blog/" class="categoryHero__back">← Blog</a>
-    </div>
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/", icon: "home" },
+        { label: "Blog", href: "/blog/", icon: "book" },
+        { label: category.title },
+      ]}
+    />
 
-    <div class="categoryHero__header">
+    <div class="categoryHero__copy">
       <span class="categoryHero__eyebrow">Category</span>
       <h1 class="categoryHero__title">{category.title}</h1>
-      {
-        category.description && (
-          <p class="categoryHero__description">{category.description}</p>
-        )
-      }
+      {category.description && <p class="categoryHero__description">{category.description}</p>}
     </div>
 
-    {
-      postEntries.length > 0 ? (
-        <div class="categoryHero__count">
-          {postEntries.length} {postEntries.length === 1 ? "article" : "articles"}
-        </div>
-      ) : (
-        <div class="categoryHero__empty">
-          <p>No published articles in this category yet.</p>
-        </div>
-      )
-    }
+    <div class="categoryHero__meta" role="list" aria-label="Category metadata">
+      <span role="listitem">{postEntries.length} {postEntries.length === 1 ? "article" : "articles"}</span>
+      {_latestDate && <span role="listitem">Latest: {_latestDate}</span>}
+    </div>
   </section>
 
-  {
-    postEntries.length > 0 && (
-      <section
-        class="container categorySurface"
-        data-reveal
-        data-reveal-group="category-list"
-      >
-        <div class="articleCarousel">
-          <ul class="articleGrid">
-            {postEntries.map((post, index) => (
-              <li class="articleGrid__item">
-                <ArticleCard
-                  href={post.href}
-                  title={post.title}
-                  summary={post.summary}
-                  hook={post.hook}
-                  dateISO={post.dateISO}
-                  dateLabel={post.dateLabel}
-                  tags={post.tags}
-                  readingTimeMinutes={post.readingTimeMinutes}
-                  isNew={post.isNew}
-                  revealGroup="category-list"
-                  revealOrder={index}
-                />
-              </li>
-            ))}
-          </ul>
+  {postEntries.length > 0 ? (
+    <section class="container categorySurface" data-reveal data-reveal-group="category-list">
+      <ScrollHint target=".categorySurface .articleGrid" variant="all" />
+      <div class="articleCarousel">
+        <ul class="articleGrid">
+          {postEntries.map((post, index) => (
+            <li class="articleGrid__item">
+              <ArticleCard
+                href={post.href}
+                title={post.title}
+                summary={post.summary}
+                hook={post.hook}
+                dateISO={post.dateISO}
+                dateLabel={post.dateLabel}
+                tags={post.tags}
+                categories={post.categories}
+                readingTimeMinutes={post.readingTimeMinutes}
+                isNew={post.isNew}
+                revealGroup="category-list"
+                revealOrder={index}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ) : (
+    <section class="container home__section" data-reveal>
+      <div class="categoryEmpty card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">No articles in this category yet</h2>
+            <p class="card-body">
+              New entries are in progress. Explore all posts on the <a href="/blog/">blog index</a>.
+            </p>
+          </div>
         </div>
-      </section>
-    )
-  }
+      </div>
+    </section>
+  )}
 </Base>
-
-<style>
-  .categoryHero {
-    padding-block-start: var(--space-2xl);
-    padding-block-end: var(--space-xl);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .categoryHero__breadcrumb {
-    display: flex;
-  }
-
-  .categoryHero__back {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: var(--fs--1);
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  .categoryHero__back:hover {
-    color: var(--accent-bright);
-  }
-
-  .categoryHero__header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .categoryHero__eyebrow {
-    font-size: var(--fs--1);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-  }
-
-  .categoryHero__title {
-    font-size: var(--fs-4);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text);
-  }
-
-  .categoryHero__description {
-    font-size: var(--fs-0);
-    line-height: 1.6;
-    color: var(--text-secondary);
-    max-width: 65ch;
-  }
-
-  .categoryHero__count {
-    font-size: var(--fs--1);
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .categoryHero__empty {
-    padding: var(--space-lg);
-    background: var(--surface);
-    border: 1px solid var(--hairline);
-    border-radius: var(--radius-lg);
-    text-align: center;
-  }
-
-  .categoryHero__empty p {
-    color: var(--muted);
-    font-size: var(--fs-0);
-  }
-
-  .categorySurface {
-    padding-block-end: var(--space-2xl);
-  }
-
-  @media (min-width: 768px) {
-    .categoryHero__title {
-      font-size: var(--fs-5);
-    }
-
-    .categoryHero__description {
-      font-size: var(--fs-1);
-    }
-  }
-</style>
