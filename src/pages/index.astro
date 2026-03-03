@@ -4,12 +4,10 @@ import ProfileCard from "../components/ProfileCard.astro";
 import RecentPosts from "../components/RecentPosts.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Card from "../components/Card.astro";
-import ProjectCard from "../components/ProjectCard.astro";
 import PageIndicator from "../components/PageIndicator.astro";
 import ScrollHint from "../components/ScrollHint.astro";
 import "../styles/section.css";
 import { getAllPosts, getFeaturedPosts } from "../sanity/lib/posts";
-import { projectsSorted } from "../data/projects";
 
 const posts = await getAllPosts();
 const featuredPosts = await getFeaturedPosts();
@@ -180,8 +178,6 @@ const _tools = [
   },
 ];
 
-const _selectedProjects = projectsSorted.slice(0, 2);
-
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const _canonical = new URL("/", siteOrigin).toString();
 const description =
@@ -313,23 +309,6 @@ const _structuredData = {
         revealGroup="home-credibility"
         revealOrder={3}
       />
-    </div>
-  </section>
-
-  <section class="container home__section home__selectedWork" data-reveal data-reveal-group="home-selected-work">
-    <div class="home__selectedHeader">
-      <h2 class="section-title" data-reveal data-reveal-group="home-selected-work" data-reveal-order={0}
-        >Selected Work</h2
-      >
-      <p class="home__selectedLede">
-        Recent product builds where design-language precision and engineering execution
-        translated into practical, shippable outcomes.
-      </p>
-    </div>
-    <div class="cardGrid home__selectedGrid">
-      {_selectedProjects.map((project, index) => (
-        <ProjectCard project={project} revealGroup="home-selected-work" revealOrder={index + 1} />
-      ))}
     </div>
   </section>
 

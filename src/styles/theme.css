@@ -4336,10 +4336,6 @@ kbd.slash {
   gap: var(--space-md);
 }
 
-.home__selectedWork {
-  margin-top: clamp(var(--space-xl), 6vw, 88px);
-}
-
 .home__selectedHeader {
   display: grid;
   gap: var(--space-xs);
@@ -4358,10 +4354,6 @@ kbd.slash {
 
 [data-theme="light"] .home__selectedLede {
   color: rgba(60, 60, 67, 0.7);
-}
-
-.home__selectedGrid {
-  grid-template-columns: repeat(2, minmax(280px, 1fr));
 }
 
 .homePulse {
@@ -4680,10 +4672,6 @@ kbd.slash {
 
 @media (max-width: 768px) {
   .home__quickLinks {
-    grid-template-columns: 1fr;
-  }
-
-  .home__selectedGrid {
     grid-template-columns: 1fr;
   }
 
