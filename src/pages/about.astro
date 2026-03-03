@@ -23,11 +23,53 @@ const _structuredData = {
   structuredData={_structuredData}
   sidebar={true}
 >
-  <section class="container prose">
-    <h1>About</h1>
-    <p>
-      This website uses an Apple‑like docs aesthetic: translucent materials, hairline
-      borders, and precise type hierarchy.
-    </p>
+  <section class="container blogHero" data-reveal data-reveal-type="scale">
+    <div class="blogHero__copy">
+      <span class="blogHero__eyebrow">About</span>
+      <h1 class="blogHero__title">I build products where engineering and taste reinforce each other.</h1>
+      <p class="blogHero__lede">
+        My work sits at the intersection of technical rigor and design sensitivity. I care
+        about reliability, motion, information architecture, and the small interaction
+        details that make software feel premium.
+      </p>
+    </div>
+  </section>
+
+  <section class="container home__section" data-reveal>
+    <div class="cardGrid">
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">What I optimize for</h2>
+            <p class="card-body">
+              Clarity in product decisions, strong technical execution, and interfaces that
+              feel intentional from first impression to last interaction.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">How I usually work</h2>
+            <p class="card-body">
+              Discovery first, then fast iteration with measurable checkpoints, then careful
+              polish and hardening before launch.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Current focus</h2>
+            <p class="card-body">
+              Native developer tooling, high-performance web interfaces, and editorial
+              product storytelling through the blog.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
   </section>
 </Base>

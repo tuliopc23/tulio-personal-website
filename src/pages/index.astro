@@ -124,19 +124,19 @@ const _techStack = [
 const _tools = [
   {
     title: "Ghostty",
-    body: "Native SwiftUI Terminal app with a Zig-Based emulation core,my favorite.",
+    body: "Native SwiftUI terminal app with a Zig-based emulation core. My favorite.",
     tint: "blue",
     icon: "ghostty",
   },
   {
     title: "Neovim",
-    body: "Don't neeed introduction. if i code fast, its because of Neovim.",
+    body: "No introduction needed. If I code fast, Neovim is a big reason why.",
     tint: "green",
     icon: "neovim",
   },
   {
     title: "Xcode",
-    body: "My Workbench for tinkering native apps. Honestly, love it.",
+    body: "My workbench for building and refining native Apple-platform apps.",
     tint: "blue",
     icon: "xcode",
   },
@@ -160,7 +160,7 @@ const _tools = [
   },
   {
     title: "CodeEdit",
-    body: "Swift-Based general code editor, open source, plents of potencial.",
+    body: "Swift-based open-source editor with strong potential and excellent pace.",
     tint: "blue",
     icon: "code-edit",
   },
@@ -181,7 +181,7 @@ const _tools = [
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const _canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Tulio Cunha is a full stack developer crafting native and web experiences with Apple-inspired precision.";
+  "Tulio Cunha builds premium developer products, native apps, and editorial-grade digital experiences with Apple-inspired precision.";
 const _heroImage = "/terminal-favicon.svg";
 const _structuredData = {
   "@context": "https://schema.org",
@@ -214,11 +214,16 @@ const _structuredData = {
     data-reveal-group="home-hero"
   >
     <Breadcrumbs items={[{ label: "Home", icon: "home" }]} />
-    <h1 class="hero__title">Hi, I'm Tulio Cunha.</h1>
+    <h1 class="hero__title">Shipping software with craft, speed, and taste.</h1>
     <p class="hero__subtitle">
-      Full stack developer crafting native and web tools with calm detail and reliable
-      execution.
+      I design and engineer native and web products with cinematic polish, strong
+      technical foundations, and a ruthless focus on outcomes.
     </p>
+    <div class="hero__proof" role="list" aria-label="Proof points">
+      <span role="listitem">Native + Web Product Engineer</span>
+      <span role="listitem">Open source builder</span>
+      <span role="listitem">Design-language obsessive</span>
+    </div>
   </section>
 
   <section class="container home__section" data-reveal data-reveal-group="home-profile">
@@ -236,17 +241,17 @@ const _structuredData = {
         href="/projects"
         tint="orange"
         iconAsset="/icons/projects.png"
-        cta="Browse projects →"
+        cta="Explore selected work →"
         revealGroup="home-links"
         revealOrder={0}
       />
       <Card
         title="Blog"
-        body="Notes on engineering, experiences, products, tastes, and tips worth sharing."
+        body="Essays, breakdowns, and hard-earned engineering lessons from real product work."
         href="/blog/"
         tint="blue"
         iconAsset="/icons/blog.png"
-        cta="Browse the journal →"
+        cta="Read the editorial log →"
         revealGroup="home-links"
         revealOrder={1}
       />
@@ -256,6 +261,38 @@ const _structuredData = {
       itemSelector=".card"
       ariaLabel="Quick links navigation"
     />
+  </section>
+
+  <section class="container home__section" data-reveal data-reveal-group="home-credibility">
+    <h2 class="section-title" data-reveal data-reveal-group="home-credibility" data-reveal-order={0}
+      >What Clients And Teams Value</h2
+    >
+    <div class="cardGrid">
+      <Card
+        title="End-to-end ownership"
+        body="From product framing to shipped experience: architecture, interface, and production delivery."
+        tint="indigo"
+        icon="constellation"
+        revealGroup="home-credibility"
+        revealOrder={1}
+      />
+      <Card
+        title="Execution under constraints"
+        body="Fast decisions, clean tradeoffs, and high-quality output even with tight timelines."
+        tint="teal"
+        icon="sparkle"
+        revealGroup="home-credibility"
+        revealOrder={2}
+      />
+      <Card
+        title="Craft that scales"
+        body="Design systems, reusable patterns, and stable foundations that survive real-world growth."
+        tint="orange"
+        icon="cube"
+        revealGroup="home-credibility"
+        revealOrder={3}
+      />
+    </div>
   </section>
 
   <section class="container" data-reveal data-reveal-group="home-tech">

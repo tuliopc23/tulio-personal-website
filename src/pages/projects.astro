@@ -7,7 +7,7 @@ import { projectsSorted } from "../data/projects";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const description =
-  "Apple-inspired gallery of Tulio Cunha's latest work including LiqUIdify, Hackerfolio, Switchify, Cockpit, and Swiftget CLI.";
+  "Cinematic, Apple-inspired portfolio of Tulio Cunha's product work across native, web, and developer tooling.";
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
 const _hasProjects = projectsSorted.length > 0;
 const _projectCount = projectsSorted.length;
@@ -53,8 +53,8 @@ const _structuredData = {
       <span class="projects__eyebrow">Recent work</span>
       <h1 class="projects__title">Projects</h1>
       <p class="projects__lede">
-        Thoughtfully crafted tools spanning native and web platforms, each embracing
-        Apple's design language while solving real workflows for developers and creatives.
+        Selected product work with clear context, technical depth, and visual execution.
+        Each project balances craft and constraints to ship tangible outcomes.
       </p>
     </div>
     <div class="projects__meta" role="list">

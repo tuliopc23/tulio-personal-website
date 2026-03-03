@@ -47,6 +47,8 @@ const shareUrl = `${shareOrigin}/blog/${slug}/`;
 const _shareText = post ? encodeURIComponent(post.title) : "";
 const heroImage = post?.heroImage;
 const _tags = post?.tags ?? [];
+const _takeaways = post?.keyTakeaways?.filter(Boolean) ?? [];
+const _series = post?.series ?? null;
 const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
@@ -224,6 +226,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             )}
             {(_tags.length > 0 || (post.categories && post.categories.length > 0)) && (
               <ul class="article__tags">
+                {_series && <li class="article__tag article__tag--category">Series: {_series}</li>}
                 {post.categories?.map((category) => (
                   <li class="article__tag article__tag--category">{category.title}</li>
                 ))}
@@ -233,6 +236,17 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               </ul>
             )}
           </header>
+
+          {_takeaways.length > 0 && (
+            <section class="article__takeaways" aria-label="Key takeaways">
+              <h2 class="article__relatedTitle">Key takeaways</h2>
+              <ul class="article__takeawayList">
+                {_takeaways.map((takeaway) => (
+                  <li>{takeaway}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           {heroImage?.url && (
             <div
@@ -306,6 +320,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                         href={`/blog/${entry.slug}/`}
                         title={entry.title}
                         summary={entry.summary}
+                        hook={entry.hook}
                         dateISO={relatedISO}
                         dateLabel={relatedLabel}
                         tags={entry.tags}

@@ -22,8 +22,52 @@ const _structuredData = {
   structuredData={_structuredData}
   sidebar={true}
 >
-  <section class="container prose">
-    <h1>Now</h1>
-    <p>What I’m focused on this month.</p>
+  <section class="container blogHero" data-reveal data-reveal-type="scale">
+    <div class="blogHero__copy">
+      <span class="blogHero__eyebrow">Now</span>
+      <h1 class="blogHero__title">What I am building and refining right now.</h1>
+      <p class="blogHero__lede">
+        This page tracks my active priorities, current experiments, and near-term delivery
+        focus.
+      </p>
+    </div>
+  </section>
+
+  <section class="container home__section" data-reveal>
+    <div class="cardGrid">
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Redesigning this portfolio</h2>
+            <p class="card-body">
+              Evolving the site toward a cinematic editorial direction while preserving its
+              Apple-inspired system discipline.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Deepening project case studies</h2>
+            <p class="card-body">
+              Adding stronger context around constraints, tradeoffs, and measurable outcomes
+              for each highlighted project.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Publishing technical essays</h2>
+            <p class="card-body">
+              Writing practical articles about product engineering, UI systems, and modern
+              developer tooling.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
   </section>
 </Base>

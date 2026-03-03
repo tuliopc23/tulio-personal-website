@@ -42,9 +42,13 @@ export interface PostSummary {
   _id: string;
   title: string;
   summary: string;
+  hook?: string | null;
   slug: string;
   publishedAt: string;
   tags: string[];
+  keyTakeaways?: string[] | null;
+  coverVariant?: "default" | "cinematic" | "minimal" | null;
+  series?: string | null;
   heroImage?: SanityImageWithMetadata | null;
   author?: Author | null;
   categories?: Category[] | null;
@@ -116,10 +120,14 @@ const SUMMARY_PROJECTION = `{
   _id,
   title,
   summary,
+  hook,
   "slug": slug.current,
   publishedAt,
   tags,
   featured,
+  keyTakeaways,
+  coverVariant,
+  series,
   ${HERO_IMAGE_PROJECTION},
   ${AUTHOR_PROJECTION},
   ${CATEGORIES_PROJECTION},
@@ -130,10 +138,14 @@ const DETAIL_PROJECTION = `{
   _id,
   title,
   summary,
+  hook,
   "slug": slug.current,
   publishedAt,
   tags,
   featured,
+  keyTakeaways,
+  coverVariant,
+  series,
   content[]{
     ...,
     _type == "image" => {

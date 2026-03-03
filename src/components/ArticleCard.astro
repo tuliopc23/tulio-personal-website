@@ -8,6 +8,7 @@ interface Props {
   href: string;
   title: string;
   summary: string;
+  hook?: string | null;
   dateISO: string;
   dateLabel: string;
   tags?: string[];
@@ -24,6 +25,7 @@ const {
   href,
   title,
   summary,
+  hook = null,
   dateISO,
   dateLabel,
   tags = [],
@@ -78,6 +80,11 @@ const _readingTimeLabel =
       <h3 class="articleCard__title">{title}</h3>
     </header>
     <p class="articleCard__summary">{summary}</p>
+    {
+      hook && (
+        <p class="articleCard__hook">{hook}</p>
+      )
+    }
     <div class="articleCard__taxonomy">
       <CategoryBadges categories={categories} limit={2} />
       {
@@ -102,5 +109,14 @@ const _readingTimeLabel =
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
+  }
+
+  .articleCard__hook {
+    margin: 0;
+    font-size: var(--fs--2);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--blue);
   }
 </style>

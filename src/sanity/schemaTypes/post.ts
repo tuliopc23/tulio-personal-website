@@ -39,6 +39,14 @@ export default defineType({
       validation: (rule) => rule.required().max(280),
     }),
     defineField({
+      name: "hook",
+      title: "Card Hook",
+      type: "string",
+      description:
+        "Optional short teaser line used in editorial cards and featured sections.",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",
@@ -100,6 +108,40 @@ export default defineType({
       title: "Featured Article",
       type: "boolean",
       initialValue: false,
+    }),
+    defineField({
+      name: "keyTakeaways",
+      title: "Key Takeaways",
+      type: "array",
+      description: "Optional key bullets highlighted at the top of the article.",
+      of: [
+        defineArrayMember({
+          type: "string",
+          validation: (rule) => rule.max(180),
+        }),
+      ],
+      validation: (rule) => rule.max(6),
+    }),
+    defineField({
+      name: "coverVariant",
+      title: "Cover Variant",
+      type: "string",
+      initialValue: "default",
+      options: {
+        list: [
+          { title: "Default", value: "default" },
+          { title: "Cinematic", value: "cinematic" },
+          { title: "Minimal", value: "minimal" },
+        ],
+        layout: "radio",
+      },
+    }),
+    defineField({
+      name: "series",
+      title: "Series",
+      type: "string",
+      description: "Optional series name for grouped editorial publishing.",
+      validation: (rule) => rule.max(80),
     }),
 
     // Scheduling & Publishing Options

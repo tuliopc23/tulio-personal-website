@@ -98,6 +98,7 @@ const _categoriesAttr = project.categories.join(",");
         <p class="projectCard__eyebrow">{project.role}</p>
         <h3 class="projectCard__title">{project.title}</h3>
       </div>
+      {project.status && <span class="projectCard__status">{project.status}</span>}
     </header>
 
     {
@@ -112,6 +113,7 @@ const _categoriesAttr = project.categories.join(",");
     }
 
     <p class="projectCard__summary">{project.summary}</p>
+    {project.impact && <p class="projectCard__impact">{project.impact}</p>}
 
     <div class="projectCard__divider" aria-hidden="true"></div>
 

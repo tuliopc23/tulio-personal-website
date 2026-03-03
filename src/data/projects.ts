@@ -24,6 +24,8 @@ export type Project = {
   title: string;
   summary: string;
   role: string;
+  impact?: string;
+  status?: "Live" | "Maintained" | "Exploration";
   stack: string[];
   href: string;
   cta: string;
@@ -39,6 +41,8 @@ export const projects: Project[] = [
     summary:
       "React component library inspired by Apple's latest OS glassmorphism, built for makers shipping fluid web interfaces.",
     role: "Creator & UI Engineer",
+    impact: "Used as a design system accelerator for premium UI prototypes.",
+    status: "Live",
     stack: ["React", "Ark UI", "Panda CSS"],
     href: "https://www.useliquidify.dev",
     cta: "Explore LiqUIdify",
@@ -56,6 +60,8 @@ export const projects: Project[] = [
     summary:
       "Terminal-inspired personal site that accepts commands like ls, grep, and whoami while revealing my story as output.",
     role: "Designer & Full Stack Developer",
+    impact: "Personal flagship portfolio proving command-first interaction design.",
+    status: "Live",
     stack: ["Bun", "Elysia", "Tailwind v4", "TanStack Query", "TanStack Router"],
     href: "https://portfolio.tuliocunha.dev",
     cta: "Visit Hackerfolio",
@@ -73,6 +79,8 @@ export const projects: Project[] = [
     summary:
       "SwiftUI macOS switcher that keeps windows close at hand with blazing-fast keyboard driven navigation.",
     role: "Swift Engineer",
+    impact: "Improved desktop task switching ergonomics for keyboard-first workflows.",
+    status: "Maintained",
     stack: ["Swift", "SwiftUI", "AppKit"],
     href: "https://github.com/tuliopc23/Switchify",
     cta: "View Switchify on GitHub",
@@ -90,6 +98,8 @@ export const projects: Project[] = [
     summary:
       "Safari extension command palette paired with a native companion app to remove friction from keyboard-first iPadOS browsing.",
     role: "Product Engineer",
+    impact: "Reduced browsing friction with command-palette interaction patterns.",
+    status: "Maintained",
     stack: ["Swift", "Safari App Extensions", "SwiftUI"],
     href: "https://github.com/tuliopc23/Cockpit.app",
     cta: "View Cockpit repo",
@@ -107,6 +117,8 @@ export const projects: Project[] = [
     summary:
       "Swift command-line tool for lightning fast file downloads plus a friendly HTTP and API client experience.",
     role: "Systems Engineer",
+    impact: "Built a practical CLI utility for fast network and file workflows.",
+    status: "Exploration",
     stack: ["Swift", "CLI", "Networking"],
     href: "https://github.com/tuliopc23/swiftgetcli",
     cta: "View Swiftget CLI repo",

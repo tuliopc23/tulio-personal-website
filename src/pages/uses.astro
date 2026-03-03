@@ -22,12 +22,51 @@ const _structuredData = {
   structuredData={_structuredData}
   sidebar={true}
 >
-  <section class="container prose">
-    <h1>Uses</h1>
-    <ul>
-      <li>Editor: VS Code with minimal plugins.</li>
-      <li>Terminal: zsh + zoxide + starship.</li>
-      <li>Design: Figma, SF Symbols (for Apple platforms).</li>
-    </ul>
+  <section class="container blogHero" data-reveal data-reveal-type="scale">
+    <div class="blogHero__copy">
+      <span class="blogHero__eyebrow">Uses</span>
+      <h1 class="blogHero__title">The stack behind my daily shipping workflow.</h1>
+      <p class="blogHero__lede">
+        A curated setup focused on speed, reliability, and design quality across native and
+        web product development.
+      </p>
+    </div>
+  </section>
+
+  <section class="container home__section" data-reveal>
+    <div class="cardGrid">
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Coding</h2>
+            <p class="card-body">
+              Neovim, Xcode, and CodeEdit depending on platform and project context.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Terminal and infra</h2>
+            <p class="card-body">
+              Ghostty, zsh, Bun, Docker/Orbstack, and automation scripts to keep delivery
+              friction low.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="card card--static">
+        <div class="card__inner">
+          <div class="card__content">
+            <h2 class="card-title">Design and review</h2>
+            <p class="card-body">
+              Figma, SF Symbols, and Kaleidoscope for interface exploration and precise
+              visual/code review cycles.
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
   </section>
 </Base>

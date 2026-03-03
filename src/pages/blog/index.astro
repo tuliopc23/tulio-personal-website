@@ -43,7 +43,7 @@ const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
 const pageDescription =
-  "Notes on engineering, design rigor, and Apple-inspired interfaces by Tulio Cunha.";
+  "Editorial log by Tulio Cunha on engineering execution, product decisions, and Apple-inspired design systems.";
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
   : (featured?.heroImage ?? null);
@@ -148,12 +148,11 @@ const _placeholders = [
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">Blog</span>
       <h1 class="blogHero__title">
-        Thoughts from a curious, passionate developer in a fast-shifting software world.
+        Essays on product engineering, design language, and the realities of shipping.
       </h1>
       <p class="blogHero__lede">
-        Essays on the craft of building—from refining open source tools and shipping
-        innovative experiences to questioning the habits and opinions that shape modern
-        product development.
+        From interface architecture to execution tradeoffs, this is where I document what
+        works, what breaks, and what actually moves products forward.
       </p>
     </div>
     {
@@ -164,6 +163,7 @@ const _placeholders = [
             href={featured.href}
             title={featured.title}
             summary={featured.summary}
+            hook={featured.hook}
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
             tags={featured.tags}
@@ -241,6 +241,7 @@ const _placeholders = [
                   href={post.href}
                   title={post.title}
                   summary={post.summary}
+                  hook={post.hook}
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
                   tags={post.tags}
@@ -258,6 +259,7 @@ const _placeholders = [
                   href={placeholder.href}
                   title={placeholder.title}
                   summary={placeholder.summary}
+                  hook={null}
                   dateISO={new Date().toISOString()}
                   dateLabel="Coming soon"
                   tags={placeholder.tags}
