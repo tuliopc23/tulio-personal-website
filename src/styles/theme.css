@@ -8,12 +8,9 @@
 @import "./tokens/motion.css";
 @import "./tokens/breakpoints.css";
 
-/* ======= CDN Fonts from fontapi.ir ======= */
-/* Fonts loaded via <link> tags in Base.astro:
- * - SF Pro Display (headings)
- * - SF UI Text (body text)
- * - SF Mono (code)
- * All fonts have variable weights and fallback to Apple system fonts
+/* ======= Self-hosted SF fonts ======= */
+/* Font files are defined in src/styles/fonts.css and served from:
+ * /fonts/sf/v1/*.woff2
  */
 
 /* ======= Apple-like Docs Aesthetic — design tokens ======= */
@@ -62,11 +59,10 @@
   --space-golden-3: calc(var(--space-lg) * var(--golden-ratio)); /* ~52px */
   --space-golden-4: calc(var(--space-xl) * var(--golden-ratio)); /* ~78px */
 
-  /* Typography - CDN fonts with system fallbacks */
+  /* Typography - self-hosted SF fonts with system fallbacks */
   --font-sans:
-    "SF Pro Display", "SF UI Text", -apple-system, BlinkMacSystemFont, system-ui,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
-    sans-serif;
+    "SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
   --font-mono:
     "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -106,7 +102,7 @@
   --ls-tight: -0.01em; /* General tight spacing */
   --hero-highlight: rgba(94, 92, 230, 0.28);
 
-  /* Font Variation Settings - SF Pro Display Optical Sizing (Apple exact thresholds) */
+  /* Font Variation Settings - SF Pro Optical Sizing (Apple exact thresholds) */
   --font-variation-text: "opsz" 17; /* 11-19pt */
   --font-variation-display-small: "opsz" 20; /* 20-27pt */
   --font-variation-display-medium: "opsz" 28; /* 28-35pt */
@@ -1127,6 +1123,13 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   scroll-padding-inline: clamp(var(--space-xs), 2vw, var(--space-md));
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 16px,
+    #000 calc(100% - 16px),
+    transparent 100%
+  );
   mask-image: linear-gradient(
     90deg,
     transparent 0,
@@ -1134,6 +1137,8 @@ body[data-sidebar-state="open"] .topbar__menu svg {
     #000 calc(100% - 16px),
     transparent 100%
   );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .topbar__navMask::-webkit-scrollbar {
@@ -1732,6 +1737,14 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   grid-template-columns: var(--sidebar-width) 1fr;
   min-height: calc(100vh - var(--topbar-h));
 }
+
+.layout--noSidebar {
+  grid-template-columns: 1fr;
+}
+
+body[data-has-sidebar="false"] .topbar__brandGroup {
+  gap: var(--space-xs);
+}
 @media (max-width: 1024px) {
   .layout {
     grid-template-columns: 1fr;
@@ -1749,6 +1762,10 @@ body[data-sidebar-state="open"] .topbar__menu svg {
 .content {
   min-width: 0;
   padding: var(--space-lg) var(--container-padding) var(--space-xl);
+}
+
+body[data-has-sidebar="false"] .content {
+  padding-inline: clamp(8px, 1.6vw, 20px);
 }
 .sr-only:focus,
 .sr-only:focus-visible {
@@ -3739,13 +3756,15 @@ kbd.slash {
 
 /* ======= Prose ======= */
 .prose {
-  padding: 8px 0;
+  padding: 10px 0;
   max-width: var(--measure-reading);
   width: min(100%, var(--measure-reading));
   margin-inline: 0;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
   text-wrap: pretty;
+  color: var(--text-primary);
+  line-height: var(--lh-base);
 }
 .prose h1,
 .prose h2,
@@ -3753,26 +3772,32 @@ kbd.slash {
   letter-spacing: -0.01em;
 }
 .prose h2 {
-  font-size: var(--fs-h2);
-  margin: 28px 0 var(--space-xs);
+  font-size: clamp(30px, 2.6vw, 44px);
+  margin: clamp(32px, 4vw, 52px) 0 var(--space-sm);
 }
 .prose h3 {
-  font-size: var(--fs-h3);
-  margin: 20px 0 var(--space-xxs);
+  font-size: clamp(24px, 2vw, 34px);
+  margin: clamp(24px, 3vw, 34px) 0 var(--space-xs);
 }
 .prose pre {
-  background: var(--subtle);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--radius-sm);
-  padding: 16px;
+  background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+  border: 1px solid var(--panel-border-strong);
+  border-radius: clamp(16px, 2vw, 22px);
+  padding: 18px 20px;
   overflow: auto;
-  font-size: var(--fs-caption);
+  font-size: 0.94rem;
 }
 .prose code {
-  font-size: 0.95em;
+  font-size: 0.92em;
+  border-radius: 8px;
+  padding: 0.14em 0.45em;
+  background: color-mix(in srgb, var(--surface-muted) 88%, transparent);
 }
 .prose ul {
-  padding-left: 1.25rem;
+  padding-left: 1.2rem;
+  margin: 0 0 var(--space-md);
+  display: grid;
+  gap: 0.45rem;
 }
 
 /* ======= Article Reader ======= */
@@ -3996,8 +4021,8 @@ kbd.slash {
 
 .articlePortable {
   font-size: var(--fs-0);
-  line-height: var(--lh-base); /* 1.65 for better readability */
-  color: var(--text);
+  line-height: var(--lh-base);
+  color: var(--text-primary);
   max-width: var(--measure-reading);
   width: min(100%, var(--measure-reading));
   margin-inline: 0;
@@ -4011,46 +4036,49 @@ kbd.slash {
 }
 
 .articlePortable :where(h2) {
-  margin: clamp(var(--space-lg), 4vw, 48px) 0 var(--space-sm); /* Cap at 48px */
-  font-size: clamp(28px, 2.8vw + 18px, 46px);
-  font-weight: 700; /* Match global H2 */
+  margin: clamp(var(--space-lg), 4vw, 52px) 0 var(--space-sm);
+  font-size: clamp(30px, 2.8vw + 18px, 48px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
 }
 
 .articlePortable :where(h3) {
-  margin: clamp(var(--space-md), 3vw, 32px) 0 var(--space-xs); /* Cap at 32px */
-  font-size: clamp(22px, 2vw + 16px, 30px);
+  margin: clamp(var(--space-md), 3vw, 34px) 0 var(--space-xs);
+  font-size: clamp(24px, 2vw + 16px, 34px);
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .articlePortable :where(blockquote) {
   position: relative;
-  margin: var(--space-lg) 0;
-  padding: var(--space-md) var(--space-lg);
-  padding-inline-start: var(--space-xl); /* Enhanced emphasis: 48px */
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: clamp(var(--space-md), 3.5vw, var(--space-xl)) 0;
+  padding: clamp(16px, 2.2vw, 26px) clamp(18px, 2.8vw, 30px);
+  padding-inline-start: clamp(20px, 3vw, 36px);
+  border-radius: clamp(20px, 2.3vw, 28px);
+  border: 1px solid var(--panel-border);
   border-left: 4px solid var(--link);
-  background: rgba(28, 28, 30, 0.88);
+  background: color-mix(in srgb, var(--surface-card) 94%, transparent);
   backdrop-filter: saturate(var(--glass-saturation-base))
     blur(calc(var(--glass-blur-base) * 0.5));
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
     blur(calc(var(--glass-blur-base) * 0.5));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.12);
-  color: rgba(235, 235, 245, 0.75); /* Increased opacity from 0.65 */
-  font-style: normal; /* Apple HIG standard */
-  font-weight: 500; /* Medium - emphasized quoted content, standard weight system */
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+  font-style: normal;
+  font-weight: 500;
 }
 
 [data-theme="light"] .articlePortable :where(blockquote) {
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(60, 60, 67, 0.16);
   border-left: 4px solid var(--link);
-  background: rgba(252, 252, 255, 0.92);
+  background: color-mix(in srgb, var(--surface-card) 96%, transparent);
   color: rgba(60, 60, 67, 0.82);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 8px 16px rgba(31, 35, 53, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 10px 22px rgba(31, 35, 53, 0.08);
 }
 
 .articlePortable :where(ul),
@@ -4066,16 +4094,17 @@ kbd.slash {
 }
 
 .articlePortable :where(li) {
-  color: var(--text);
+  color: var(--text-primary);
 }
 
 .articlePortable :where(code) {
   font-family: var(--font-mono);
-  background: rgba(35, 35, 39, 0.8);
-  border-radius: var(--radius-sm);
-  padding: calc(var(--space-xxs) / 4) calc(var(--space-xxs) * 0.75);
-  font-size: 0.94em; /* Better optical balance */
-  line-height: inherit; /* Ensure proper line height */
+  background: color-mix(in srgb, var(--surface-muted) 88%, transparent);
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  padding: 0.12em 0.4em;
+  font-size: 0.92em;
+  line-height: inherit;
 }
 
 .articlePortable__link,
@@ -4087,14 +4116,15 @@ kbd.slash {
 }
 
 .articlePortable__figure {
-  margin: clamp(var(--space-lg), 5vw, 80px) auto;
+  margin: clamp(var(--space-lg), 5vw, 82px) auto;
   display: grid;
   gap: var(--space-xs);
   text-align: center;
-  background: rgba(28, 28, 30, 0.88);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: color-mix(in srgb, var(--surface-card) 95%, transparent);
+  border-radius: clamp(20px, 2.8vw, 30px);
+  border: 1px solid var(--panel-border);
   padding: clamp(var(--space-sm), 3vw, var(--space-md));
+  box-shadow: var(--shadow-card), var(--shadow-card-highlight);
 }
 
 .articlePortable__figure {
@@ -4131,11 +4161,13 @@ kbd.slash {
 
 .articlePortable__codeBlock {
   margin: clamp(var(--space-lg), 4vw, 72px) 0;
-  border-radius: var(--radius-md);
+  border-radius: clamp(18px, 2.2vw, 24px);
   border: 1px solid var(--panel-border-strong);
-  background: rgba(22, 22, 24, 0.88);
+  background: color-mix(in srgb, var(--surface-card) 93%, transparent);
   overflow: hidden;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  box-shadow:
+    var(--shadow-card),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 [data-theme="light"] .articlePortable__codeBlock {
@@ -4150,22 +4182,22 @@ kbd.slash {
   margin: 0;
   padding: 10px 16px;
   font-family: var(--font-mono);
-  font-size: 0.95em;
+  font-size: 0.9em;
   letter-spacing: -0.005em;
   text-transform: none;
   line-height: 1.45;
   color: var(--muted);
-  background: rgba(35, 35, 39, 0.82);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: color-mix(in srgb, var(--surface-muted) 90%, transparent);
+  border-bottom: 1px solid var(--panel-border);
 }
 
 .articlePortable__pre {
   margin: 0;
-  padding: 18px clamp(var(--space-md), 4vw, 36px);
+  padding: 18px clamp(var(--space-md), 4vw, 34px);
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 0.95em;
-  line-height: 1.6;
+  font-size: 0.92em;
+  line-height: 1.62;
 }
 
 .articlePortable--empty {

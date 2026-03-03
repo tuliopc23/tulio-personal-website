@@ -1,4 +1,5 @@
 const isBrowser = typeof window !== "undefined";
+const THEME_OVERRIDE_KEY = "theme-override";
 export {};
 
 type ThemeMode = "light" | "dark";
@@ -162,16 +163,16 @@ class ThemeController {
       return this.stored;
     }
 
-    const htmlTheme = root.getAttribute("data-theme");
-    if (htmlTheme === "light" || htmlTheme === "dark") {
-      return htmlTheme;
-    }
-
     if (this.mediaQuery?.matches) {
       return "light";
     }
 
-    return "dark";
+    if (this.mediaQuery) {
+      return "dark";
+    }
+
+    const htmlTheme = root.getAttribute("data-theme");
+    return htmlTheme === "light" ? "light" : "dark";
   }
 
   private readStoredTheme(): ThemeMode | null {
@@ -180,7 +181,7 @@ class ThemeController {
     }
 
     try {
-      const value = window.localStorage.getItem("theme");
+      const value = window.localStorage.getItem(THEME_OVERRIDE_KEY);
       return value === "light" || value === "dark" ? value : null;
     } catch {
       return null;
@@ -193,7 +194,7 @@ class ThemeController {
     }
 
     try {
-      window.localStorage.setItem("theme", theme);
+      window.localStorage.setItem(THEME_OVERRIDE_KEY, theme);
     } catch {
       // ignore storage errors
     }

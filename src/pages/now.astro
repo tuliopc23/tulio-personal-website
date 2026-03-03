@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/now/", siteOrigin).toString();
@@ -109,6 +110,17 @@ const _structuredData = {
         </div>
       </article>
       </div>
+    </section>
+
+    <section class="container home__section now__github pageWidget" data-reveal>
+      <div class="home__selectedHeader">
+        <span class="pageWidget__eyebrow">Activity</span>
+        <h2 class="section-title">Live GitHub Stream</h2>
+        <p class="home__selectedLede">
+          Real-time commit activity across active repositories.
+        </p>
+      </div>
+      <GitHubActivityWidget live={true} large={true} limit={12} />
     </section>
   </div>
 </Base>

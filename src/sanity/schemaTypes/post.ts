@@ -73,8 +73,7 @@ export default defineType({
       title: "Card Hook",
       type: "string",
       fieldset: "editorial",
-      description:
-        "Optional short teaser line used in editorial cards and featured sections.",
+      description: "Optional short teaser line used in editorial cards and featured sections.",
       validation: (rule) => rule.max(120),
     }),
     defineField({
@@ -528,9 +527,7 @@ export default defineType({
                 : "Draft";
       const seriesLabel = series ? `Series: ${series}` : null;
       const variantLabel =
-        coverVariant && coverVariant !== "default"
-          ? `Cover: ${coverVariant}`
-          : null;
+        coverVariant && coverVariant !== "default" ? `Cover: ${coverVariant}` : null;
       const meta = [statusLabel, seriesLabel, variantLabel].filter(Boolean).join(" · ");
 
       return {

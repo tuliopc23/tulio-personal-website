@@ -35,18 +35,22 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
   .feature-writing-widget {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
     gap: 14px;
+    align-items: stretch;
   }
 
   .feature-writing-widget__card {
     display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
     gap: 10px;
-    padding: 18px;
-    border-radius: 20px;
+    padding: clamp(18px, 1.7vw, 24px);
+    border-radius: clamp(22px, 2vw, 28px);
     border: 1px solid var(--panel-border);
-    background: color-mix(in srgb, var(--surface-card) 94%, transparent);
+    background: color-mix(in srgb, var(--surface-card) 95%, transparent);
     box-shadow: var(--shadow-card), var(--shadow-card-highlight);
-    min-height: 100%;
+    min-height: clamp(290px, 30vw, 380px);
+    overflow: hidden;
   }
 
   .feature-writing-widget__eyebrow {
@@ -60,8 +64,10 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
 
   .feature-writing-widget__title {
     margin: 0;
-    font-size: var(--fs-title-3);
-    line-height: var(--lh-tight);
+    font-size: clamp(26px, 1.8vw, 42px);
+    letter-spacing: -0.02em;
+    line-height: 1.06;
+    text-wrap: balance;
   }
 
   .feature-writing-widget__summary {
@@ -69,6 +75,7 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
     color: var(--text-secondary);
     font-size: var(--fs-callout);
     line-height: var(--lh-snug);
+    max-width: 36ch;
   }
 
   .feature-writing-widget__meta {
@@ -79,6 +86,16 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
     color: var(--text-tertiary);
   }
 
+  .feature-writing-widget__meta span {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--panel-border);
+    background: var(--surface-muted);
+    padding: 4px 10px;
+    white-space: nowrap;
+  }
+
   .feature-writing-widget__cta {
     width: fit-content;
     text-decoration: none;
@@ -87,12 +104,18 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
     color: var(--link);
     border: 1px solid var(--panel-border);
     border-radius: 999px;
-    padding: 6px 12px;
+    padding: 6px 14px;
     background: var(--surface-translucent-1);
+    transition:
+      border-color var(--motion-duration-sm) var(--motion-ease-out),
+      background var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .feature-writing-widget__cta:hover {
     border-color: var(--panel-border-strong);
+    background: var(--surface-card-hover);
+    transform: translateY(-1px);
   }
 
   .feature-writing-widget__empty {
@@ -100,9 +123,20 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
     color: var(--text-tertiary);
   }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
+    .feature-writing-widget {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
     .feature-writing-widget {
       grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+
+    .feature-writing-widget__card {
+      min-height: clamp(250px, 48vw, 340px);
     }
   }
 </style>

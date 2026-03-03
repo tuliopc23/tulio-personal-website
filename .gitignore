@@ -26,3 +26,6 @@ bun.lockb
 .trae/
 .windsurf/
 .github/prompts/
+
+# Local source font exports (converted outputs live under public/fonts)
+Sf fonts/

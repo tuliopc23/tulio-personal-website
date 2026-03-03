@@ -9,13 +9,12 @@
 body.motion-enabled [data-reveal] {
   --reveal-delay: 0ms;
   --scroll-progress: 0;
-  opacity: 1;
+  opacity: calc(0.86 + (var(--scroll-progress) * 0.14));
   transform: translateY(calc(var(--scroll-progress) * var(--scroll-parallax-distance)));
-  filter: blur(calc((1 - var(--scroll-progress)) * var(--scroll-blur-max)));
   transition:
     transform var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay),
-    filter var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay);
-  will-change: transform, filter;
+    opacity var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay);
+  will-change: transform, opacity;
 }
 
 /* Scale variant - subtle scale animation */
@@ -41,7 +40,6 @@ body.motion-enabled [data-reveal].is-visible {
   --scroll-progress: 1;
   opacity: 1;
   transform: none;
-  filter: blur(0);
 }
 
 /* Content is visible by default - no initial hiding */
@@ -75,7 +73,6 @@ body.motion-reduce [data-reveal],
 body.motion-reduce [data-reveal].is-visible {
   opacity: 1;
   transform: none;
-  filter: none;
   transition: none;
 }
 

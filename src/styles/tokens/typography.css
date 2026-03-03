@@ -3,7 +3,7 @@
 :root {
 	/* Font Families */
 	--font-system:
-		-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+		"SF Pro", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 	--font-mono: "SF Mono", "Monaco", "Menlo", monospace;
 
 	/* Font Sizes - Fluid Typography (Dynamic Type aligned) */

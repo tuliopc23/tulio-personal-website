@@ -31,43 +31,43 @@ const toolLinks = [
     title: "Ghostty",
     href: "https://ghostty.org",
     tint: "blue",
-    iconAsset: "/icons/Ghostty Dark_upscayl_2x_digital-art-4x_wrapped.svg",
+    iconAsset: "/icons/Tools/Ghostty Dark_upscayl_2x_digital-art-4x_wrapped.svg",
   },
   {
     title: "Neovim",
     href: "https://neovim.io",
     tint: "green",
-    iconAsset: "/icons/neovimlight_upscayl_2x_digital-art-4x_wrapped.svg",
+    iconAsset: "/icons/Tools/neovimlight_upscayl_2x_digital-art-4x_wrapped.svg",
   },
   {
     title: "Xcode",
     href: "https://developer.apple.com/xcode/",
     tint: "blue",
-    iconAsset: "/icons/xcodelogh_upscayl_2x_digital-art-4x copy.svg",
+    iconAsset: "/icons/Tools/xcodelogh_upscayl_2x_digital-art-4x.svg",
   },
   {
     title: "Containers",
     href: "https://support.apple.com/guide/terminal/welcome/mac",
     tint: "cyan",
-    iconAsset: "/icons/Apple Containerization_upscayl_2x_digital-art-4x.svg",
+    iconAsset: "/icons/Tools/Apple Containerization_upscayl_2x_digital-art-4x.svg",
   },
   {
     title: "Transmit",
     href: "https://panic.com/transmit/",
     tint: "yellow",
-    iconAsset: "/icons/Transmit_upscayl_2x_digital-art-4x.svg",
+    iconAsset: "/icons/Tools/Transmit_upscayl_2x_digital-art-4x.svg",
   },
   {
     title: "Tower",
     href: "https://www.git-tower.com",
     tint: "orange",
-    iconAsset: "/icons/Tower.svg",
+    iconAsset: "/icons/Tools/Tower.svg",
   },
   {
     title: "CodeEdit",
     href: "https://www.codeedit.app",
     tint: "blue",
-    iconAsset: "/icons/Codeedit_upscayl_2x_digital-art-4x_wrapped.svg",
+    iconAsset: "/icons/Tools/Codeedit_upscayl_2x_digital-art-4x_wrapped.svg",
   },
   {
     title: "OrbStack",
@@ -77,9 +77,67 @@ const toolLinks = [
   },
 ];
 
+const stackLinks = [
+  {
+    title: "Swift",
+    href: "https://developer.apple.com/swift/",
+    tint: "orange",
+    iconAsset: "/icons/stack/swift.svg",
+  },
+  {
+    title: "Go",
+    href: "https://go.dev",
+    tint: "cyan",
+    iconAsset: "/icons/stack/go.svg",
+  },
+  {
+    title: "TypeScript",
+    href: "https://www.typescriptlang.org",
+    tint: "blue",
+    iconAsset: "/icons/stack/typescript.svg",
+  },
+  {
+    title: "React",
+    href: "https://react.dev",
+    tint: "blue",
+    iconAsset: "/icons/stack/react.svg",
+  },
+  {
+    title: "Vue",
+    href: "https://vuejs.org",
+    tint: "green",
+    iconAsset: "/icons/stack/vuejs.svg",
+  },
+  {
+    title: "Svelte",
+    href: "https://svelte.dev",
+    tint: "orange",
+    iconAsset: "/icons/stack/svelte.svg",
+  },
+  {
+    title: "Rust",
+    href: "https://www.rust-lang.org",
+    tint: "brown",
+    iconAsset: "/icons/stack/rust.svg",
+  },
+  {
+    title: "Zig",
+    href: "https://ziglang.org",
+    tint: "yellow",
+    iconAsset: "/icons/stack/zig.svg",
+  },
+  {
+    title: "Docker",
+    href: "https://www.docker.com",
+    tint: "indigo",
+    iconAsset: "/icons/stack/docker.svg",
+  },
+];
+
 const sectionNavItems = [
   { id: "section-profile", label: "Profile" },
   { id: "section-tools", label: "Tools" },
+  { id: "section-stack", label: "Stack" },
   { id: "section-github", label: "GitHub" },
   { id: "section-writing", label: "Writing" },
 ];
@@ -130,6 +188,25 @@ const description =
         </div>
       </div>
 
+      <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal>
+        <div class="widget-header">
+          <span class="widget-eyebrow">Languages</span>
+          <h2 class="widget-title">Stack</h2>
+          <p class="widget-caption">Core languages and frameworks I ship with.</p>
+        </div>
+        <div class="tools-grid" role="list" aria-label="Stack">
+          {stackLinks.map((link, index) => (
+            <DockLink
+              href={link.href}
+              title={link.title}
+              tint={link.tint}
+              iconAsset={link.iconAsset}
+              revealOrder={index}
+            />
+          ))}
+        </div>
+      </div>
+
       <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal>
         <div class="widget-header">
           <span class="widget-eyebrow">Activity</span>
@@ -153,8 +230,10 @@ const description =
 
 <style is:global>
   .bento-grid {
-    padding: clamp(28px, 6vw, 60px) var(--container-padding);
-    max-width: 1280px;
+    width: min(100%, var(--content-max));
+    box-sizing: border-box;
+    padding: clamp(24px, 4vw, 44px) clamp(16px, 2.8vw, 36px);
+    max-width: var(--content-max);
     margin: 0 auto;
     display: grid;
     gap: clamp(20px, 2.6vw, 32px);
@@ -164,11 +243,15 @@ const description =
 
   .widget-profile {
     grid-column: 1 / -1;
+    min-width: 0;
   }
 
   .widget-carousel {
-    display: contents;
+    display: grid;
     grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 2.6vw, 32px);
+    min-width: 0;
   }
 
   .widget-box {
@@ -184,7 +267,7 @@ const description =
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: clamp(var(--space-4), 2vw, var(--space-5));
+    gap: clamp(var(--space-sm), 2vw, var(--space-md));
     padding: clamp(24px, 2.8vw, 32px);
     background: color-mix(in srgb, var(--surface-elevated) 96%, transparent);
     border: 1px solid var(--panel-border);
@@ -197,7 +280,8 @@ const description =
     backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
     -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
     overflow: hidden;
-    grid-column: span 6;
+    grid-column: auto;
+    min-width: 0;
   }
 
   .widget-box::before {
@@ -241,10 +325,11 @@ const description =
   }
 
   .widget-tools,
-  .widget-github {
-    grid-column: span 6;
+  .widget-stack {
+    grid-column: auto;
   }
 
+  .widget-github,
   .widget-feature-writing {
     grid-column: 1 / -1;
   }
@@ -260,10 +345,8 @@ const description =
       grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 
-    .widget-tools,
-    .widget-github,
-    .widget-feature-writing {
-      grid-column: 1 / -1;
+    .widget-carousel {
+      grid-template-columns: 1fr;
     }
 
     .tools-grid {
@@ -275,7 +358,7 @@ const description =
     .bento-grid {
       grid-template-columns: 1fr;
       gap: 18px;
-      padding: 24px 16px 80px;
+      padding: 18px 12px 64px;
     }
 
     .widget-box {

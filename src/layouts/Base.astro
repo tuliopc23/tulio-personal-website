@@ -63,12 +63,12 @@ const structuredDataJson =
       : null;
 ---
 
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" id="theme-color-meta" content="#050506" />
+    <meta name="theme-color" id="theme-color-meta" content="#f6f7fb" />
     <meta name="theme-color" content="#050506" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
     <meta name="format-detection" content="telephone=no" />
@@ -102,32 +102,29 @@ const structuredDataJson =
     <link rel="preload" href={themeCssHref} as="style" />
     <link rel="preload" href={fontsCssHref} as="style" />
 
-    <!-- CDN Fonts: SF Pro Display, SF UI Text, SF Mono -->
-    <link rel="preconnect" href="//fdn.fontcdn.ir" />
-    <link rel="preconnect" href="//v1.fontapi.ir" />
-    <!-- Preload critical font stylesheets -->
+    <!-- Self-hosted SF fonts -->
     <link
       rel="preload"
-      href="https://v1.fontapi.ir/css/SFProDisplay"
-      as="style"
+      href="/fonts/sf/v1/sf-pro.woff2"
+      as="font"
+      type="font/woff2"
       crossorigin="anonymous"
     />
     <link
       rel="preload"
-      href="https://v1.fontapi.ir/css/SFUIText"
-      as="style"
+      href="/fonts/sf/v1/sf-mono-medium.woff2"
+      as="font"
+      type="font/woff2"
       crossorigin="anonymous"
     />
-    <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet" crossorigin="anonymous" />
-    <link href="https://v1.fontapi.ir/css/SFUIText" rel="stylesheet" crossorigin="anonymous" />
-    <link href="https://v1.fontapi.ir/css/SFMono" rel="stylesheet" crossorigin="anonymous" />
 
     <!-- Theme script must run BEFORE CSS to prevent FOUC -->
     <script is:inline>
       (() => {
+        const STORAGE_KEY = "theme-override";
         const readStoredTheme = () => {
           try {
-            const value = localStorage.getItem("theme");
+            const value = localStorage.getItem(STORAGE_KEY);
             return value === "light" || value === "dark" ? value : null;
           } catch {
             return null;
@@ -137,23 +134,17 @@ const structuredDataJson =
         const stored = readStoredTheme();
         const root = document.documentElement;
 
-        // If user has explicitly chosen a theme, use it
-        if (stored === "light" || stored === "dark") {
-          root.setAttribute("data-theme", stored);
-          // Add class for Shiki code block theme switching
-          if (stored === "light") {
-            root.classList.remove("dark");
-            root.classList.add("light");
-          } else {
-            root.classList.remove("light");
-            root.classList.add("dark");
-          }
+        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        const initialTheme = stored ?? (prefersLight ? "light" : "dark");
+
+        root.setAttribute("data-theme", initialTheme);
+        if (initialTheme === "light") {
+          root.classList.remove("dark");
+          root.classList.add("light");
         } else {
-          // Default is dark, add the class
+          root.classList.remove("light");
           root.classList.add("dark");
         }
-        // Otherwise, respect the HTML's initial data-theme attribute (defaults to dark)
-        // No need to set it again as it's already in the HTML
 
         // Update favicon based on theme (brand icon WebP)
         const updateFavicon = (theme) => {
@@ -170,8 +161,6 @@ const structuredDataJson =
           }
         };
 
-        // Set initial favicon
-        const initialTheme = stored || "dark";
         updateFavicon(initialTheme);
         updateThemeColor(initialTheme);
       })();
@@ -234,21 +223,30 @@ const structuredDataJson =
 
     <slot name="head" />
   </head>
-  <body class="liquid-glass" data-page-state="ready" data-glass-state="rest">
+  <body
+    class="liquid-glass"
+    data-page-state="ready"
+    data-glass-state="rest"
+    data-has-sidebar={sidebar ? "true" : "false"}
+  >
     <div class="liquid-glass-reflector" aria-hidden="true"></div>
     <a href="#main" class="sr-only">Skip to content</a>
     <header class="topbar">
       <div class="topbar__inner">
         <div class="topbar__brandGroup">
-          <button
-            type="button"
-            class="topbar__menu"
-            aria-label="Toggle sidebar"
-            aria-expanded="false"
-            aria-controls={sidebar ? "site-sidebar" : undefined}
-          >
-            <SFIcon name="sidebar-left" size={22} stroke={1.4} />
-          </button>
+          {
+            sidebar && (
+              <button
+                type="button"
+                class="topbar__menu"
+                aria-label="Toggle sidebar"
+                aria-expanded="false"
+                aria-controls="site-sidebar"
+              >
+                <SFIcon name="sidebar-left" size={22} stroke={1.4} />
+              </button>
+            )
+          }
           <a href="/" class="topbar__brandIcon" aria-label="Tulio Cunha – Home">
             <BrandLogo size={32} />
           </a>
@@ -330,7 +328,7 @@ const structuredDataJson =
       </div>
     </header>
 
-    <main class="layout">
+    <main class:list={["layout", !sidebar && "layout--noSidebar"]}>
       {
         sidebar && (
           <aside id="site-sidebar" class="sidebar" aria-label="Sidebar">
