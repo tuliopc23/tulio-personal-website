@@ -14,7 +14,7 @@ function portableTextToMarkdown(blocks: PortableTextBlock[]): string {
   return blocks
     .map((block) => {
       if (block._type === "block") {
-        const text = toPlainText([block as any]);
+        const text = toPlainText(block as unknown as Parameters<typeof toPlainText>[0]);
         switch (block.style) {
           case "h1":
             return `# ${text}`;
