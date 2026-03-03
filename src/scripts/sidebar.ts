@@ -6,6 +6,10 @@
   const status = document.querySelector<HTMLElement>("[data-sidebar-status]");
   const totalLinks = links.length;
 
+  links.forEach((anchor, index) => {
+    anchor.style.setProperty("--sidebar-order", String(index));
+  });
+
   if (body?.dataset && !body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
   }
