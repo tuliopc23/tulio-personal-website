@@ -34,6 +34,24 @@ export default defineConfig({
               .icon(() => "📄")
               .child(S.documentTypeList("post").title("All Articles")),
 
+            S.listItem()
+              .title("👀 In Review")
+              .child(
+                S.documentList()
+                  .title("In Review")
+                  .filter('_type == "post" && status == "in-review"'),
+              ),
+
+            S.listItem()
+              .title("⏰ Scheduled")
+              .child(
+                S.documentList()
+                  .title("Scheduled")
+                  .filter(
+                    '_type == "post" && defined(scheduledPublishAt) && dateTime(scheduledPublishAt) > dateTime(now())',
+                  ),
+              ),
+
             S.divider(),
 
             S.listItem()

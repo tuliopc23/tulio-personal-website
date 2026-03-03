@@ -39,6 +39,18 @@ const stackPrimary = project.stack.slice(0, 3);
 const stackOverflow = project.stack.length - stackPrimary.length;
 const _stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
 const _categoriesAttr = project.categories.join(",");
+const categoryLabel: Record<Project["categories"][number], string> = {
+  native: "Native build",
+  web: "Web product",
+  tooling: "Developer tooling",
+  "design-system": "Design system",
+  experience: "Experience design",
+};
+const _signals = [
+  categoryLabel[project.categories[0]] ?? "Product build",
+  `${project.stack.length} technologies`,
+  project.status ? `${project.status} status` : null,
+].filter(Boolean) as string[];
 ---
 
 <a
@@ -114,6 +126,13 @@ const _categoriesAttr = project.categories.join(",");
 
     <p class="projectCard__summary">{project.summary}</p>
     {project.impact && <p class="projectCard__impact">{project.impact}</p>}
+    {_signals.length > 0 && (
+      <ul class="projectCard__signals" aria-label="Project highlights">
+        {_signals.map((signal) => (
+          <li>{signal}</li>
+        ))}
+      </ul>
+    )}
 
     <div class="projectCard__divider" aria-hidden="true"></div>
 

@@ -3195,6 +3195,25 @@ kbd.slash {
   line-height: 1.5;
 }
 
+.projectCard__signals {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xxs);
+}
+
+.projectCard__signals li {
+  border-radius: 999px;
+  padding: calc(var(--space-xxs) * 0.8) var(--space-xs);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid var(--panel-border);
+}
+
 [data-theme="dark"] .projectCard__summary {
   color: rgba(235, 235, 245, 0.72);
 }
@@ -3209,6 +3228,16 @@ kbd.slash {
 
 [data-theme="light"] .projectCard__impact {
   color: rgba(0, 82, 182, 0.82);
+}
+
+[data-theme="dark"] .projectCard__signals li {
+  color: rgba(235, 235, 245, 0.76);
+  background: rgba(36, 36, 40, 0.84);
+}
+
+[data-theme="light"] .projectCard__signals li {
+  color: rgba(60, 60, 67, 0.8);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .projectCard__divider {

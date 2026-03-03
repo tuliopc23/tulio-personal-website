@@ -14,17 +14,46 @@ export default defineType({
   name: "post",
   title: "Article",
   type: "document",
+  fieldsets: [
+    {
+      name: "editorial",
+      title: "Editorial Framing",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "publication",
+      title: "Publication",
+      options: { collapsible: true, collapsed: false },
+    },
+    {
+      name: "workflow",
+      title: "Workflow",
+      options: { collapsible: true, collapsed: true },
+    },
+    {
+      name: "distribution",
+      title: "Distribution",
+      options: { collapsible: true, collapsed: true },
+    },
+    {
+      name: "metrics",
+      title: "Performance Metrics",
+      options: { collapsible: true, collapsed: true },
+    },
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Title",
       type: "string",
+      fieldset: "editorial",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      fieldset: "editorial",
       options: {
         source: "title",
         maxLength: 96,
@@ -35,6 +64,7 @@ export default defineType({
       name: "summary",
       title: "Summary",
       type: "text",
+      fieldset: "editorial",
       rows: 3,
       validation: (rule) => rule.required().max(280),
     }),
@@ -42,6 +72,7 @@ export default defineType({
       name: "hook",
       title: "Card Hook",
       type: "string",
+      fieldset: "editorial",
       description:
         "Optional short teaser line used in editorial cards and featured sections.",
       validation: (rule) => rule.max(120),
@@ -50,6 +81,7 @@ export default defineType({
       name: "author",
       title: "Author",
       type: "reference",
+      fieldset: "publication",
       to: [{ type: "author" }],
       validation: (rule) => rule.required(),
     }),
@@ -57,6 +89,7 @@ export default defineType({
       name: "categories",
       title: "Categories",
       type: "array",
+      fieldset: "publication",
       of: [{ type: "reference", to: [{ type: "category" }] }],
       validation: (rule) => rule.max(3),
     }),
@@ -64,6 +97,7 @@ export default defineType({
       name: "tags",
       title: "Tags",
       type: "array",
+      fieldset: "publication",
       of: [{ type: "string" }],
       options: {
         list: TAG_OPTIONS,
@@ -76,6 +110,7 @@ export default defineType({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
+      fieldset: "editorial",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -91,6 +126,7 @@ export default defineType({
       name: "seo",
       title: "SEO",
       type: "seo",
+      fieldset: "distribution",
       options: {
         collapsible: true,
         collapsed: true,
@@ -100,6 +136,7 @@ export default defineType({
       name: "publishedAt",
       title: "Published Date",
       type: "datetime",
+      fieldset: "publication",
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
@@ -107,12 +144,36 @@ export default defineType({
       name: "featured",
       title: "Featured Article",
       type: "boolean",
+      fieldset: "publication",
       initialValue: false,
+    }),
+    defineField({
+      name: "status",
+      title: "Workflow Status",
+      type: "workflowStatus",
+      fieldset: "workflow",
+      initialValue: "draft",
+      description: "Used by custom Studio actions to manage review and publishing flow.",
+    }),
+    defineField({
+      name: "lastReviewedAt",
+      title: "Last Reviewed",
+      type: "datetime",
+      fieldset: "workflow",
+      readOnly: true,
+    }),
+    defineField({
+      name: "approvedAt",
+      title: "Approved At",
+      type: "datetime",
+      fieldset: "workflow",
+      readOnly: true,
     }),
     defineField({
       name: "keyTakeaways",
       title: "Key Takeaways",
       type: "array",
+      fieldset: "editorial",
       description: "Optional key bullets highlighted at the top of the article.",
       of: [
         defineArrayMember({
@@ -126,6 +187,7 @@ export default defineType({
       name: "coverVariant",
       title: "Cover Variant",
       type: "string",
+      fieldset: "editorial",
       initialValue: "default",
       options: {
         list: [
@@ -140,6 +202,7 @@ export default defineType({
       name: "series",
       title: "Series",
       type: "string",
+      fieldset: "editorial",
       description: "Optional series name for grouped editorial publishing.",
       validation: (rule) => rule.max(80),
     }),
@@ -149,6 +212,7 @@ export default defineType({
       name: "scheduledPublishAt",
       title: "Schedule Publish",
       type: "datetime",
+      fieldset: "workflow",
       description:
         "Optional: Schedule this article to be published at a specific date/time. Leave empty to publish immediately.",
     }),
@@ -158,6 +222,7 @@ export default defineType({
       name: "crossposting",
       title: "Cross-posting Settings",
       type: "object",
+      fieldset: "distribution",
       description: "Configure automatic cross-posting to external platforms",
       options: {
         collapsible: true,
@@ -277,6 +342,7 @@ export default defineType({
       name: "analytics",
       title: "Analytics",
       type: "object",
+      fieldset: "metrics",
       description: "Article performance metrics",
       options: {
         collapsible: true,
@@ -341,6 +407,7 @@ export default defineType({
       name: "markdownContent",
       title: "Markdown Content (Alternative)",
       type: "markdown",
+      fieldset: "editorial",
       description:
         "Write your article in Markdown. This is an alternative to the rich text editor below.",
       options: {
@@ -364,6 +431,7 @@ export default defineType({
       name: "content",
       title: "Content (Rich Text)",
       type: "array",
+      fieldset: "editorial",
       of: [
         defineArrayMember({
           type: "block",
@@ -441,14 +509,35 @@ export default defineType({
       media: "heroImage",
       date: "publishedAt",
       featured: "featured",
+      status: "status",
+      series: "series",
+      coverVariant: "coverVariant",
     },
     prepare(selection) {
-      const { title, subtitle, media, date, featured } = selection;
+      const { title, subtitle, media, date, featured, status, series, coverVariant } = selection;
       const featuredEmoji = featured ? "⭐ " : "";
+      const statusLabel =
+        status === "in-review"
+          ? "In review"
+          : status === "approved"
+            ? "Approved"
+            : status === "published"
+              ? "Published"
+              : status === "archived"
+                ? "Archived"
+                : "Draft";
+      const seriesLabel = series ? `Series: ${series}` : null;
+      const variantLabel =
+        coverVariant && coverVariant !== "default"
+          ? `Cover: ${coverVariant}`
+          : null;
+      const meta = [statusLabel, seriesLabel, variantLabel].filter(Boolean).join(" · ");
 
       return {
         title: `${featuredEmoji}${title ?? "Untitled"}`,
-        subtitle: date ? `${new Date(date).toLocaleDateString()} — ${subtitle ?? ""}` : subtitle,
+        subtitle: date
+          ? `${new Date(date).toLocaleDateString()} · ${meta}${subtitle ? ` — ${subtitle}` : ""}`
+          : `${meta}${subtitle ? ` — ${subtitle}` : ""}`,
         media,
       };
     },
