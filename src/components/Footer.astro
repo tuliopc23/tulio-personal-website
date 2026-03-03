@@ -25,7 +25,7 @@ const socials = [
   },
 ];
 
-const _decoratedSocials = socials.map((entry) => {
+const decoratedSocials = socials.map((entry) => {
   const brand = entry.icon ? getBrandIcon(entry.icon) : null;
   return {
     ...entry,
