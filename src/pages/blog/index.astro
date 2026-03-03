@@ -155,8 +155,9 @@ const _placeholders = [
     title="Tulio Cunha — Blog Atom"
     href="/blog/atom.xml"
   />
+  <div class="pageBento">
   <section
-    class="container blogHero"
+    class="container blogHero pageWidget"
     data-reveal
     data-reveal-type="scale"
     data-reveal-group="blog-hero"
@@ -209,7 +210,7 @@ const _placeholders = [
     }
   </section>
 
-  <section class="container home__section blogBrief" data-reveal data-reveal-group="blog-brief">
+  <section class="container home__section blogBrief pageWidget" data-reveal data-reveal-group="blog-brief">
     <div class="home__selectedHeader">
       <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
         >Editorial Direction</h2
@@ -238,7 +239,7 @@ const _placeholders = [
   </section>
 
   {_archiveYears.length > 0 && (
-    <section class="container home__section blogArchive" data-reveal data-reveal-group="blog-archive">
+    <section class="container home__section blogArchive pageWidget" data-reveal data-reveal-group="blog-archive">
       <div class="home__selectedHeader">
         <h2 class="section-title" data-reveal data-reveal-group="blog-archive" data-reveal-order={0}
           >Archive Overview</h2
@@ -260,7 +261,7 @@ const _placeholders = [
 
   {
     featured && rest.length > 0 && (
-      <section class="container blogSurface" data-reveal data-reveal-group="blog-list">
+      <section class="container blogSurface pageWidget" data-reveal data-reveal-group="blog-list">
         <div class="blogFilters" role="toolbar" aria-label="Filter posts by tag">
           <button
             class="blogFilters__link is-active"
@@ -485,4 +486,5 @@ const _placeholders = [
       applyFilters();
     }
   </script>
+  </div>
 </Base>

@@ -37,8 +37,9 @@ const _structuredData = {
   ogImage={{ url: "/terminal-favicon.svg", alt: "Projects preview" }}
   structuredData={_structuredData}
 >
+  <div class="pageBento">
   <section
-    class="container projects__intro"
+    class="container projects__intro pageWidget"
     data-reveal
     data-reveal-type="scale"
     data-reveal-group="projects-intro"
@@ -80,7 +81,7 @@ const _structuredData = {
     }
   </section>
 
-  <section class="container home__section projectsCadence" data-reveal data-reveal-group="projects-cadence">
+  <section class="container home__section projectsCadence pageWidget" data-reveal data-reveal-group="projects-cadence">
     <div class="home__selectedHeader">
       <h2 class="section-title" data-reveal data-reveal-group="projects-cadence" data-reveal-order={0}
         >Delivery Cadence</h2
@@ -105,7 +106,7 @@ const _structuredData = {
     </ol>
   </section>
 
-  <section class="container" data-reveal data-reveal-group="projects-list">
+  <section class="container pageWidget" data-reveal data-reveal-group="projects-list">
     {
       _hasProjects ? (
         <Fragment>
@@ -137,7 +138,7 @@ const _structuredData = {
     }
   </section>
 
-  <section class="container home__section projects__approach" data-reveal data-reveal-group="projects-approach">
+  <section class="container home__section projects__approach pageWidget" data-reveal data-reveal-group="projects-approach">
     <div class="home__selectedHeader">
       <h2 class="section-title" data-reveal data-reveal-group="projects-approach" data-reveal-order={0}
         >How I Build</h2
@@ -335,4 +336,5 @@ const _structuredData = {
       applyFilters();
     }
   </script>
+  </div>
 </Base>
