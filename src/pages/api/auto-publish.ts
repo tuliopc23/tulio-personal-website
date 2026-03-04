@@ -135,6 +135,7 @@ async function triggerGitHubRebuild(title: string) {
         Authorization: `Bearer ${token}`,
         Accept: "application/vnd.github.v3+json",
         "Content-Type": "application/json",
+        "User-Agent": "tulio-personal-website-webhook",
       },
       body: JSON.stringify({
         event_type: "sanity-content-update",
