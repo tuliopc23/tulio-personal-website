@@ -1,0 +1,23 @@
+.infisical.json
+  94364543a075e02c 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "0e7bbb344c3b969ede4ffe3170d69eb12df3c3eb",
+  "prompts": {
+    "94364543a075e02c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb988-6d2d-7812-b91b-d09ab95c6552",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
