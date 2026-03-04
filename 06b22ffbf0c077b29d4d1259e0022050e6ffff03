@@ -1,0 +1,39 @@
+src/components/ProfileCard.astro
+  32b7feea6997bb5b 198,216,237,247-248,254,256,286,309,433,451,469-470,558,567,579,590,594
+src/pages/index.astro
+  32b7feea6997bb5b 262,266,280,297-298,301,347-348,372,398-399,404,408
+src/styles/theme.css
+  32b7feea6997bb5b 35-36,55,64-66,101-109,241-242,275,282-283,307-308,1534,1538,2570-2571,2573,2599,2607-2608,2612,2647,2678,2797,2807,2859-2860,3164-3166,3524-3526,3613-3614,3619-3622,3624-3626,3628-3630,3658,3687,3806,3808-3811,3813-3817,3822-3824,4042-4048,4050-4051,4061,4083,4143,4145,4164,4265,4351,4406,4467-4468,4470,4544,4569,4697,4771-4773,4842-4843,4845-4846,4917,4944,4971,4975,5010-5011,5437,5439,5511-5512,5518-5519,5527,5547-5548,5554,5590,5593,5657-5658,5770,5780,5783-5784,5830,5957,6082,6085,6088-6090,6093,6239,6242,6717,6722,6738-6739,6789,6801-6803
+src/styles/tokens/colors.css
+  32b7feea6997bb5b 30,142
+src/styles/github-activity-widget.css
+  32b7feea6997bb5b 99-100,110,124,130,408,421,457
+src/components/Card.astro
+  32b7feea6997bb5b 176-177,190,192,199-200,211
+src/components/DockLink.astro
+  32b7feea6997bb5b 52-53,73-76,140
+src/styles/tokens/typography.css
+  32b7feea6997bb5b 18,21,26-27,52,64
+src/components/FeatureWritingWidget.astro
+  32b7feea6997bb5b 55,69-71,75,102,104,114,120,132,134,192
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "06b22ffbf0c077b29d4d1259e0022050e6ffff03",
+  "prompts": {
+    "32b7feea6997bb5b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb723-b500-79e0-8d57-ecb39e292af2",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 87401,
+      "total_deletions": 209,
+      "accepted_lines": 87392,
+      "overriden_lines": 0
+    }
+  }
+}
