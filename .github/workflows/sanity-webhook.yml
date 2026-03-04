@@ -22,23 +22,18 @@ jobs:
           echo "Document: ${{ github.event.client_payload.title }}"
           echo "Operation: ${{ github.event.client_payload.operation }}"
 
-      - name: Trigger Cloudflare deploy hook
+      - name: Trigger rebuild
         env:
           CLOUDFLARE_DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
         run: |
-          if [ -z "$CLOUDFLARE_DEPLOY_HOOK_URL" ]; then
-            echo "ℹ️ Missing deploy hook secret; falling back to git-push deploy trigger"
-            exit 0
+          if [ -n "$CLOUDFLARE_DEPLOY_HOOK_URL" ]; then
+            curl -fsS -X POST "$CLOUDFLARE_DEPLOY_HOOK_URL"
+            echo "✅ Cloudflare deploy hook triggered"
+          else
+            echo "ℹ️ Missing deploy hook secret; using git-push deploy trigger"
+            git config user.name "Sanity Webhook"
+            git config user.email "webhook@sanity.io"
+            git commit --allow-empty -m "chore: rebuild from sanity content update [skip ci]"
+            git push origin main
+            echo "✅ Fallback git push trigger executed"
           fi
-
-          curl -fsS -X POST "$CLOUDFLARE_DEPLOY_HOOK_URL"
-          echo "✅ Cloudflare deploy hook triggered"
-
-      - name: Fallback git-push deploy trigger
-        if: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL == '' }}
-        run: |
-          git config user.name "Sanity Webhook"
-          git config user.email "webhook@sanity.io"
-          git commit --allow-empty -m "chore: rebuild from sanity content update [skip ci]"
-          git push origin main
-          echo "✅ Fallback git push trigger executed"
