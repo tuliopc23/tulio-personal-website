@@ -37,8 +37,8 @@
     "@iconify-json/simple-icons": "^1.2.72",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
-    "@portabletext/toolkit": "^5.0.1",
-    "@portabletext/types": "^4.0.1",
+    "@portabletext/toolkit": "^5.0.2",
+    "@portabletext/types": "^4.0.2",
     "@sanity/astro": "^3.2.11",
     "@sanity/blueprints": "^0.12.2",
     "@sanity/client": "^7.16.0",
@@ -78,7 +78,7 @@
     "typescript": "^5.9.3",
     "wrangler": "^4.70.0"
   },
-  "packageManager": "bun@1.2.22",
+  "packageManager": "bun@1.3.6",
   "trustedDependencies": [
     "@sentry/cli"
   ]

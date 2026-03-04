@@ -314,8 +314,7 @@
   --topbar-bg-active: rgba(22, 22, 24, 0.88);
   --hero-highlight: rgba(94, 92, 230, 0.28);
 
-  --toggle-track:
-  --toggle-thumb: #ffffff;
+  --toggle-track: --toggle-thumb: #ffffff;
   --toggle-shadow:
     0 3px 10px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.3);
@@ -341,8 +340,7 @@
   --topbar-bg-active: rgba(255, 255, 255, 0.88);
   --hero-highlight: rgba(94, 92, 230, 0.2);
 
-  --toggle-track:
-  --toggle-thumb: #ffffff;
+  --toggle-track: --toggle-thumb: #ffffff;
   --toggle-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04), 0 3px 15px rgba(0, 0, 0, 0.08),
     inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);
@@ -410,10 +408,17 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: var(--bg-radial-primary), var(--bg-radial-secondary), var(--bg-radial-tertiary);
+  background-image:
+    var(--bg-radial-primary), var(--bg-radial-secondary), var(--bg-radial-tertiary);
   background-repeat: no-repeat, no-repeat, no-repeat;
-  background-size: 140% 140%, 160% 160%, 180% 140%;
-  background-position: 20% 0%, 80% 10%, 50% 120%;
+  background-size:
+    140% 140%,
+    160% 160%,
+    180% 140%;
+  background-position:
+    20% 0%,
+    80% 10%,
+    50% 120%;
   mix-blend-mode: soft-light;
   opacity: 0.32;
   pointer-events: none;
@@ -425,7 +430,11 @@ body::after {
   left: 0;
   width: 100%;
   height: 120px;
-  background: radial-gradient(ellipse at 50% 0%, var(--color-primary, var(--blue)) 0%, transparent 70%);
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    var(--color-primary, var(--blue)) 0%,
+    transparent 70%
+  );
   opacity: 0.08;
   z-index: 10;
   pointer-events: none;
@@ -472,11 +481,14 @@ a:hover {
     border-color var(--motion-duration-sm) var(--motion-ease-out),
     background-color var(--motion-duration-sm) var(--motion-ease-out);
   will-change: transform, box-shadow;
-  transform:
-    perspective(1100px)
-    rotateX(var(--parallax-rotate-x))
+  transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
     rotateY(var(--parallax-rotate-y))
-    translateY(calc((var(--reveal-translate, 0px)) + var(--hover-translate) + var(--parallax-translate)))
+    translateY(
+      calc(
+        (var(--reveal-translate, 0px)) + var(--hover-translate) +
+          var(--parallax-translate)
+      )
+    )
     scale(var(--hover-scale));
 }
 
@@ -490,13 +502,12 @@ a:hover {
 }
 
 .hover-elevate:active {
-  transform:
-    perspective(1100px)
-    rotateX(var(--parallax-rotate-x))
+  transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
     rotateY(var(--parallax-rotate-y))
     translateY(
       calc(
-        (var(--reveal-translate, 0px)) + (var(--hover-elevate-translate) * 0.3) + var(--parallax-translate)
+        (var(--reveal-translate, 0px)) + (var(--hover-elevate-translate) * 0.3) +
+          var(--parallax-translate)
       )
     )
     scale(var(--motion-scale-active));
@@ -506,7 +517,8 @@ a:hover {
 .motion-surface-premium {
   --hover-elevate-translate: -6px;
   --hover-elevate-scale: 1.014;
-  --hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
+  --hover-shadow:
+    var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
   --hover-border: var(--panel-border-strong);
 }
 
@@ -671,7 +683,9 @@ p + p {
 /* Phase 2B: Focus ring scale-in animation */
 @keyframes focusRingIn {
   from {
-    box-shadow: 0 0 0 0px transparent, 0 0 0 0px transparent;
+    box-shadow:
+      0 0 0 0px transparent,
+      0 0 0 0px transparent;
   }
   to {
     box-shadow: var(--focus-ring);
@@ -1498,7 +1512,6 @@ body[data-sidebar-state="open"] .topbar__menu svg {
     min-height: 44px;
     padding: 10px var(--space-sm);
   }
-
 }
 
 /* ======= Layout ======= */
@@ -2401,13 +2414,18 @@ kbd.slash {
   );
   opacity: 0.18;
   pointer-events: none;
-  transition: opacity var(--motion-duration-sm) var(--motion-ease-out),
-              background var(--motion-duration-sm) var(--motion-ease-out);
+  transition:
+    opacity var(--motion-duration-sm) var(--motion-ease-out),
+    background var(--motion-duration-sm) var(--motion-ease-out);
   z-index: 0;
 }
 
 .card:hover::before {
-  background: radial-gradient(circle at 50% 0%, var(--card-accent-hover, rgba(10, 132, 255, 0.2)), rgba(0, 0, 0, 0) 72%);
+  background: radial-gradient(
+    circle at 50% 0%,
+    var(--card-accent-hover, rgba(10, 132, 255, 0.2)),
+    rgba(0, 0, 0, 0) 72%
+  );
   opacity: 0.3;
 }
 
@@ -2419,8 +2437,9 @@ kbd.slash {
   pointer-events: none;
   opacity: 0;
   box-shadow: 0 0 0 0 var(--card-focus-ring, var(--accent-border));
-  transition: opacity var(--motion-duration-sm) var(--motion-ease-out),
-              box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+  transition:
+    opacity var(--motion-duration-sm) var(--motion-ease-out),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out);
   z-index: 3;
 }
 
@@ -3349,7 +3368,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--blue,
 [data-theme="dark"] .profileCard__contact:hover .symbol--blue,
 [data-theme="dark"] .dock-link:hover .symbol--blue {
-  border: 1px solid color-mix(in srgb, rgba(10, 132, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(10, 132, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(10, 132, 255, 0.95) 25%, transparent);
@@ -3368,7 +3388,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--indigo,
 [data-theme="dark"] .profileCard__contact:hover .symbol--indigo,
 [data-theme="dark"] .dock-link:hover .symbol--indigo {
-  border: 1px solid color-mix(in srgb, rgba(36, 150, 237, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(36, 150, 237, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(36, 150, 237, 0.95) 25%, transparent);
@@ -3386,7 +3407,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--teal,
 [data-theme="dark"] .profileCard__contact:hover .symbol--teal,
 [data-theme="dark"] .dock-link:hover .symbol--teal {
-  border: 1px solid color-mix(in srgb, rgba(100, 210, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(100, 210, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(100, 210, 255, 0.95) 25%, transparent);
@@ -3405,7 +3427,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--orange,
 [data-theme="dark"] .profileCard__contact:hover .symbol--orange,
 [data-theme="dark"] .dock-link:hover .symbol--orange {
-  border: 1px solid color-mix(in srgb, rgba(255, 120, 60, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(255, 120, 60, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(255, 120, 60, 0.95) 25%, transparent);
@@ -3423,7 +3446,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--pink,
 [data-theme="dark"] .profileCard__contact:hover .symbol--pink,
 [data-theme="dark"] .dock-link:hover .symbol--pink {
-  border: 1px solid color-mix(in srgb, rgba(255, 80, 120, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(255, 80, 120, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(255, 80, 120, 0.95) 25%, transparent);
@@ -3442,7 +3466,8 @@ kbd.slash {
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--green,
 [data-theme="dark"] .profileCard__contact:hover .symbol--green,
 [data-theme="dark"] .dock-link:hover .symbol--green {
-  border: 1px solid color-mix(in srgb, rgba(66, 194, 140, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid
+    color-mix(in srgb, rgba(66, 194, 140, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(66, 194, 140, 0.95) 25%, transparent);
@@ -3644,7 +3669,7 @@ kbd.slash {
   gap: var(--space-xxs);
   font-size: var(--fs--1);
   color: var(--muted);
-  transition: 
+  transition:
     color var(--motion-duration-sm) var(--motion-ease-out),
     transform var(--motion-duration-sm) var(--motion-ease-out);
 }
@@ -3758,9 +3783,7 @@ kbd.slash {
   overflow: hidden;
   border: 1px solid var(--panel-border);
   background: var(--subtle);
-  box-shadow:
-    var(--shadow-card),
-    var(--shadow-card-highlight);
+  box-shadow: var(--shadow-card), var(--shadow-card-highlight);
 }
 
 .article--cover-cinematic .article__hero {
@@ -3823,9 +3846,7 @@ kbd.slash {
   margin-top: 0;
   padding: clamp(var(--space-xs), 1.6vw, var(--space-sm));
   border-radius: var(--radius-md);
-  box-shadow:
-    var(--shadow-card),
-    var(--shadow-card-highlight);
+  box-shadow: var(--shadow-card), var(--shadow-card-highlight);
 }
 
 [data-theme="dark"] .article__takeaways {
@@ -3954,7 +3975,8 @@ kbd.slash {
   padding: clamp(var(--space-sm), 3vw, var(--space-md));
   box-shadow: var(--shadow-card), var(--shadow-card-highlight);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
+    saturate(var(--glass-saturation-base));
 }
 
 .articlePortable__figure {
@@ -3999,7 +4021,8 @@ kbd.slash {
     var(--shadow-card),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
+    saturate(var(--glass-saturation-base));
 }
 
 [data-theme="light"] .articlePortable__codeBlock {
@@ -5019,8 +5042,7 @@ kbd.slash {
   --hover-elevate-translate: -4px;
   --hover-elevate-scale: 1.01;
   --hover-shadow:
-    var(--shadow-card-hover),
-    var(--shadow-card-highlight),
+    var(--shadow-card-hover), var(--shadow-card-highlight),
     0 18px 32px rgba(5, 9, 20, 0.34);
   --hover-border: var(--panel-border-strong);
   border-radius: 28px;
@@ -5529,11 +5551,14 @@ kbd.slash {
   height: 100%;
   box-shadow: var(--shadow-card); /* 4-layer shadow system */
   overflow: hidden;
-  transform:
-    perspective(1100px)
-    rotateX(var(--parallax-rotate-x))
+  transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
     rotateY(var(--parallax-rotate-y))
-    translateY(calc((var(--reveal-translate, 0px)) + var(--hover-translate, 0px) + var(--parallax-translate)))
+    translateY(
+      calc(
+        (var(--reveal-translate, 0px)) + var(--hover-translate, 0px) +
+          var(--parallax-translate)
+      )
+    )
     scale(var(--hover-scale, 1));
   transition:
     transform var(--motion-duration-spring-sm) var(--spring-smooth),
@@ -6592,7 +6617,7 @@ input:focus {
 
 @media (min-width: 768px) {
   .footer__inner {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr auto;
     align-items: start;
   }
   .footer__links {
@@ -6728,7 +6753,8 @@ input:focus {
     0 0 0 1px rgba(255, 255, 255, 0.04),
     0 0 60px rgba(10, 132, 255, 0.03);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
+    saturate(var(--glass-saturation-base));
   overflow: hidden;
 }
 
