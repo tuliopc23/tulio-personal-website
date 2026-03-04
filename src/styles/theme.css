@@ -3450,9 +3450,9 @@ kbd.slash {
 }
 
 .symbol--dock {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
 }
 
 /* Dark mode: vibrant filled icons with 4-layer iOS shadows */
@@ -5821,8 +5821,8 @@ kbd.slash {
 
 .blogSurface .articleGrid__item,
 .categorySurface .articleGrid__item {
-  flex-basis: clamp(320px, 28vw, 360px);
-  max-width: clamp(320px, 28vw, 360px);
+  flex-basis: clamp(340px, 31vw, 390px);
+  max-width: clamp(340px, 31vw, 390px);
 }
 
 .articleCard {
@@ -5850,12 +5850,12 @@ kbd.slash {
 .blogSurface .articleCard:not(.articleCard--featured),
 .categorySurface .articleCard:not(.articleCard--featured) {
   border-radius: 32px;
-  min-height: 300px;
+  min-height: 280px;
 }
 
 .blogSurface .articleCard:not(.articleCard--featured) .articleCard__link,
 .categorySurface .articleCard:not(.articleCard--featured) .articleCard__link {
-  padding: clamp(22px, 2.6vw, 30px);
+  padding: clamp(20px, 2.2vw, 26px);
 }
 
 .articleCard[data-parallax-card].is-tilting {
