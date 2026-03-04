@@ -13,12 +13,7 @@
  */
 
 // Source: schema.json
-export type WorkflowStatus =
-  | "draft"
-  | "in-review"
-  | "approved"
-  | "published"
-  | "archived";
+export type WorkflowStatus = "draft" | "in-review" | "approved" | "published" | "archived";
 
 export type VideoEmbed = {
   _type: "videoEmbed";
@@ -141,11 +136,9 @@ export type Post = {
   summary?: string;
   hook?: string;
   author?: AuthorReference;
-  categories?: Array<
-    {
-      _key: string;
-    } & CategoryReference
-  >;
+  categories?: Array<{
+    _key: string;
+  } & CategoryReference>;
   tags?: Array<string>;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -198,38 +191,34 @@ export type Post = {
     lastUpdatedAt?: string;
   };
   markdownContent?: Markdown;
-  content?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "normal" | "h2" | "h3" | "blockquote";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-    | ({
-        _key: string;
-      } & Code)
-  >;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  } | {
+    _key: string;
+  } & Code>;
 };
 
 export type Markdown = string;
@@ -307,49 +296,42 @@ export type Callout = {
   }>;
 };
 
-export type BlockContent = Array<
-  | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
-      listItem?: "bullet" | "number";
-      markDefs?: Array<{
-        href?: string;
-        openInNewTab?: boolean;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }
-  | {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      caption?: string;
-      _type: "image";
-      _key: string;
-    }
-  | ({
-      _key: string;
-    } & Code)
-  | ({
-      _key: string;
-    } & Callout)
-  | ({
-      _key: string;
-    } & VideoEmbed)
-  | ({
-      _key: string;
-    } & Divider)
->;
+export type BlockContent = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+  listItem?: "bullet" | "number";
+  markDefs?: Array<{
+    href?: string;
+    openInNewTab?: boolean;
+    _type: "link";
+    _key: string;
+  }>;
+  level?: number;
+  _type: "block";
+  _key: string;
+} | {
+  asset?: SanityImageAssetReference;
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+  caption?: string;
+  _type: "image";
+  _key: string;
+} | {
+  _key: string;
+} & Code | {
+  _key: string;
+} & Callout | {
+  _key: string;
+} & VideoEmbed | {
+  _key: string;
+} & Divider>;
 
 export type BlogPage = {
   _id: string;
@@ -550,36 +532,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes =
-  | WorkflowStatus
-  | VideoEmbed
-  | SanityImageAssetReference
-  | Seo
-  | ProjectsPage
-  | Project
-  | SanityImageCrop
-  | SanityImageHotspot
-  | Slug
-  | AuthorReference
-  | CategoryReference
-  | Post
-  | Markdown
-  | Code
-  | NowPage
-  | Divider
-  | Category
-  | Callout
-  | BlockContent
-  | BlogPage
-  | Author
-  | AboutPage
-  | SanityImagePaletteSwatch
-  | SanityImagePalette
-  | SanityImageDimensions
-  | SanityImageMetadata
-  | SanityFileAsset
-  | SanityAssetSourceData
-  | SanityImageAsset
-  | Geopoint;
+export type AllSanitySchemaTypes = WorkflowStatus | VideoEmbed | SanityImageAssetReference | Seo | ProjectsPage | Project | SanityImageCrop | SanityImageHotspot | Slug | AuthorReference | CategoryReference | Post | Markdown | Code | NowPage | Divider | Category | Callout | BlockContent | BlogPage | Author | AboutPage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
+
