@@ -9,58 +9,218 @@ interface Props {
 }
 
 const { sections = [] } = Astro.props as Props;
+const heroSectionId = sections[0]?.id ?? "top";
 ---
 
-<nav class="section-quick-nav" aria-label="Quick navigation">
-  <ul class="section-quick-nav__list" role="list">
-    <li class="section-quick-nav__item" role="listitem">
-      <a class="section-quick-nav__link" href="#top">Top</a>
-    </li>
-    {sections.map((section) => (
-      <li class="section-quick-nav__item" role="listitem">
-        <a class="section-quick-nav__link" href={`#${section.id}`}>{section.label}</a>
-      </li>
-    ))}
-  </ul>
-</nav>
+{sections.length > 0 && (
+  <nav
+    class="section-quick-nav"
+    aria-label="Quick navigation"
+    data-section-nav-root
+    data-hero-section={heroSectionId}
+  >
+    <div class="section-quick-nav__scroll" data-section-nav-scroll>
+      <ul class="section-quick-nav__list" data-section-nav role="list">
+        <li class="section-quick-nav__item" role="listitem">
+          <a
+            class="section-quick-nav__link section-quick-nav__link--top is-active"
+            href="#top"
+            data-nav-top
+            data-section="top"
+            aria-current="true"
+          >
+            Top
+          </a>
+        </li>
+        {sections.map((section) => (
+          <li class="section-quick-nav__item" role="listitem">
+            <a class="section-quick-nav__link" href={`#${section.id}`} data-nav-item data-section={section.id}>
+              {section.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+)}
+
+<script>
+  function initSectionQuickNav() {
+    const root = document.querySelector("[data-section-nav-root]");
+    if (!(root instanceof HTMLElement)) return;
+
+    const topChip = root.querySelector("[data-nav-top]");
+    const navItems = Array.from(root.querySelectorAll("[data-nav-item]"));
+    const allItems = [topChip, ...navItems].filter((node) => node instanceof HTMLAnchorElement);
+    if (allItems.length === 0) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const setActive = (sectionId) => {
+      allItems.forEach((item) => {
+        const isActive = item.dataset.section === sectionId;
+        item.classList.toggle("is-active", isActive);
+        if (isActive) {
+          item.setAttribute("aria-current", "true");
+        } else {
+          item.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const scrollToTarget = (sectionId) => {
+      const target = sectionId === "top" ? document.getElementById("top") : document.getElementById(sectionId);
+      if (!target) return;
+      target.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    };
+
+    const handleClick = (event) => {
+      event.preventDefault();
+      const item = event.currentTarget;
+      if (!(item instanceof HTMLAnchorElement)) return;
+      const sectionId = item.dataset.section;
+      if (!sectionId) return;
+      setActive(sectionId);
+      scrollToTarget(sectionId);
+    };
+
+    allItems.forEach((item) => item.addEventListener("click", handleClick));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let best = null;
+        for (const entry of entries) {
+          if (!(entry.target instanceof HTMLElement)) continue;
+          if (!best || entry.intersectionRatio > best.intersectionRatio) {
+            best = entry;
+          }
+        }
+        if (best?.target instanceof HTMLElement) {
+          const id = best.target.id || "top";
+          setActive(id);
+        }
+      },
+      { threshold: [0.3, 0.5, 0.7], rootMargin: "-15% 0px -45% 0px" },
+    );
+
+    const observedIds = new Set(["top", ...navItems.map((item) => item.dataset.section).filter(Boolean)]);
+    observedIds.forEach((id) => {
+      const node = document.getElementById(id);
+      if (node) observer.observe(node);
+    });
+
+    const cleanup = () => {
+      observer.disconnect();
+      allItems.forEach((item) => item.removeEventListener("click", handleClick));
+    };
+
+    document.addEventListener("astro:before-swap", cleanup, { once: true });
+    window.addEventListener("beforeunload", cleanup, { once: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSectionQuickNav, { once: true });
+  } else {
+    initSectionQuickNav();
+  }
+</script>
 
 <style>
   .section-quick-nav {
     grid-column: 1 / -1;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid var(--panel-border);
-    background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
-    box-shadow: var(--shadow-card), var(--shadow-card-highlight);
-    backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
-    -webkit-backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
-    overflow-x: auto;
+    margin: clamp(12px, 3vw, 24px) 0;
   }
 
   .section-quick-nav__list {
-    display: inline-flex;
-    gap: 10px;
-    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 14px 18px;
     margin: 0;
-    padding: 0;
+    list-style: none;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--surface-card) 88%, transparent);
+    border: 1px solid var(--surface-card-border);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.38),
+      0 4px 8px rgba(0, 0, 0, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  .section-quick-nav__item {
+    flex: 0 0 auto;
   }
 
   .section-quick-nav__link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 40px;
-    padding: 0 16px;
-    border-radius: 12px;
-    border: 1px solid var(--panel-border);
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+    border: 1px solid transparent;
     color: var(--text-primary);
-    background: var(--surface-muted);
-    text-decoration: none;
     font-size: var(--fs-footnote);
     font-weight: var(--fw-semibold);
+    text-decoration: none;
+    transition:
+      background var(--motion-duration-sm) var(--motion-ease-out),
+      color var(--motion-duration-sm) var(--motion-ease-out),
+      border-color var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .section-quick-nav__link:hover {
-    background: var(--surface-card-hover);
+    background: color-mix(in srgb, var(--surface-card) 98%, transparent);
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .section-quick-nav__link.is-active {
+    background: color-mix(in srgb, var(--blue) 18%, var(--surface-card) 82%);
+    color: #f7f9ff;
+    border-color: color-mix(in srgb, var(--blue) 45%, transparent);
+    box-shadow:
+      0 4px 12px rgba(10, 132, 255, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  }
+
+  .section-quick-nav__link:focus-visible {
+    outline: none;
+    border-color: color-mix(in srgb, var(--blue) 70%, transparent);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--blue) 55%, transparent),
+      0 0 0 4px color-mix(in srgb, var(--blue) 25%, transparent);
+  }
+
+  @media (max-width: 767px) {
+    .section-quick-nav__list {
+      flex-wrap: nowrap;
+      gap: var(--space-1);
+      padding: 12px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .section-quick-nav__list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .section-quick-nav__link {
+      padding: 10px 15px;
+      font-size: var(--fs-caption);
+    }
   }
 </style>

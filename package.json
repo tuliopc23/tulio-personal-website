@@ -76,7 +76,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "sanity-codegen": "^0.9.8",
     "typescript": "^5.9.3",
-    "wrangler": "^4.69.0"
+    "wrangler": "^4.70.0"
   },
   "packageManager": "bun@1.2.22",
   "trustedDependencies": [

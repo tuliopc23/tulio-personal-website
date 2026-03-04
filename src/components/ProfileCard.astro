@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import IconTile from "./IconTile.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 import AvatarSrc from "../assets/avatar.png";
 
 const {
@@ -88,7 +89,12 @@ const socialCards = [
 
 <section class="profileCard" aria-label={`Profile information for ${name}`} data-reveal>
   <div class="profileCard__hero">
-    <article class="profileCard__identity" data-reveal data-reveal-order="0">
+    <article
+      class="profileCard__identity hover-elevate"
+      data-reveal
+      data-reveal-order="0"
+      data-parallax-card
+    >
       <figure class="profileCard__photo">
         <Image
           src={AvatarSrc}
@@ -105,8 +111,7 @@ const socialCards = [
         <h2 class="profileCard__name">{name}</h2>
         <p class="profileCard__title">{title}</p>
         <p class="profileCard__summary">
-          Full stack engineer for high-quality native and web products with Apple-inspired
-          detail and delivery discipline.
+          . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict..
         </p>
       </div>
 
@@ -132,10 +137,21 @@ const socialCards = [
       </div>
     </article>
 
-    <article class="profileCard__social" data-reveal data-reveal-order="1">
+    <article
+      class="profileCard__social hover-elevate"
+      data-reveal
+      data-reveal-order="1"
+      data-parallax-card
+    >
       <header class="profileCard__socialHeader">
-        <p class="profileCard__eyebrow">Connect</p>
-        <h3>Socials</h3>
+        <p class="profileCard__eyebrow">
+          <PhosphorIcon name="share" size={14} weight="regular" />
+          <span>Connect</span>
+        </p>
+        <h3>
+          <span>Socials</span>
+          <PhosphorIcon name="users-three" size={18} weight="regular" />
+        </h3>
         <p>Direct channels for consulting and collaboration.</p>
       </header>
       <div class="profileCard__socialGrid" role="list" aria-label="Social channels">
@@ -207,11 +223,22 @@ const socialCards = [
 
   .profileCard__identity,
   .profileCard__social {
+    --hover-elevate-translate: -6px;
+    --hover-elevate-scale: 1.012;
+    --hover-shadow:
+      var(--shadow-card-hover),
+      var(--shadow-card-highlight),
+      0 26px 44px rgba(4, 9, 20, 0.42),
+      0 0 50px rgba(77, 166, 255, 0.1);
+    --hover-border: var(--panel-border-strong);
     border-radius: clamp(22px, 2vw, 28px);
     border: 1px solid var(--panel-border);
     background: color-mix(in srgb, var(--surface-card) 95%, transparent);
     padding: clamp(18px, 2.2vw, 28px);
-    box-shadow: var(--shadow-card), var(--shadow-card-highlight);
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight),
+      0 18px 36px rgba(6, 10, 22, 0.32);
     min-width: 0;
   }
 
@@ -273,6 +300,7 @@ const socialCards = [
     color: var(--text-secondary);
     line-height: var(--lh-snug);
     font-size: var(--fs-callout);
+    font-weight: var(--fw-medium);
   }
 
   .profileCard__contactList {
@@ -364,17 +392,27 @@ const socialCards = [
     gap: 6px;
   }
 
+  .profileCard__socialHeader .profileCard__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .profileCard__socialHeader h3 {
     margin: 0;
     font-size: clamp(34px, 2.1vw, 44px);
     letter-spacing: -0.025em;
     line-height: 1.05;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .profileCard__socialHeader p {
     margin: 0;
     color: var(--text-tertiary);
     font-size: var(--fs-subheadline);
+    max-width: 30ch;
   }
 
   .profileCard__socialGrid {
@@ -402,16 +440,17 @@ const socialCards = [
     min-height: 118px;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 8px 22px rgba(14, 28, 60, 0.2);
+      0 12px 28px rgba(14, 28, 60, 0.28);
     transform:
       perspective(900px)
       rotateX(var(--parallax-rotate-x))
       rotateY(var(--parallax-rotate-y))
       translateY(var(--parallax-translate));
     display: grid;
-    justify-items: start;
-    align-content: space-between;
-    gap: 8px;
+    justify-items: center;
+    align-content: center;
+    text-align: center;
+    gap: 10px;
     transition:
       transform var(--motion-duration-sm) var(--motion-ease-out),
       border-color var(--motion-duration-sm) var(--motion-ease-out),
@@ -436,7 +475,8 @@ const socialCards = [
       var(--surface-card-hover);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.24),
-      0 14px 30px rgba(14, 28, 60, 0.28);
+      0 18px 36px rgba(14, 28, 60, 0.36),
+      0 0 26px rgba(77, 166, 255, 0.18);
   }
 
   @media (max-width: 1240px) {

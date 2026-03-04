@@ -5,6 +5,7 @@ import DockLink from "../components/DockLink.astro";
 import SectionQuickNav from "../components/SectionQuickNav.astro";
 import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getAllPosts } from "../sanity/lib/posts";
 
 const posts = await getAllPosts();
@@ -171,8 +172,14 @@ const description =
     <div class="widget-carousel" role="region" aria-label="Widget carousel">
       <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
-          <span class="widget-eyebrow">Toolkit</span>
-          <h2 class="widget-title">Tools</h2>
+          <span class="widget-eyebrow">
+            <PhosphorIcon name="toolbox" size={13} weight="regular" />
+            Toolkit
+          </span>
+          <h2 class="widget-title">
+            <span>Tools</span>
+            <PhosphorIcon name="toolbox" size={18} weight="regular" />
+          </h2>
           <p class="widget-caption">macOS utilities that stay docked.</p>
         </div>
         <div class="tools-grid" role="list" aria-label="Tools">
@@ -190,8 +197,14 @@ const description =
 
       <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
-          <span class="widget-eyebrow">Languages</span>
-          <h2 class="widget-title">Stack</h2>
+          <span class="widget-eyebrow">
+            <PhosphorIcon name="code" size={13} weight="regular" />
+            Languages
+          </span>
+          <h2 class="widget-title">
+            <span>Stack</span>
+            <PhosphorIcon name="code" size={18} weight="regular" />
+          </h2>
           <p class="widget-caption">Core languages and frameworks I ship with.</p>
         </div>
         <div class="tools-grid" role="list" aria-label="Stack">
@@ -209,8 +222,14 @@ const description =
 
       <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
-          <span class="widget-eyebrow">Activity</span>
-          <h2 class="widget-title">GitHub</h2>
+          <span class="widget-eyebrow">
+            <PhosphorIcon name="chart-bar" size={13} weight="regular" />
+            Activity
+          </span>
+          <h2 class="widget-title">
+            <span>GitHub</span>
+            <PhosphorIcon name="github" size={18} weight="regular" />
+          </h2>
           <p class="widget-caption">Latest commits and streaks.</p>
         </div>
         <GitHubActivityWidget large={true} limit={10} />
@@ -218,8 +237,14 @@ const description =
 
       <div id="section-writing" class="widget-box widget-feature-writing hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
-          <span class="widget-eyebrow">Writing</span>
-          <h2 class="widget-title">Feature Writing</h2>
+          <span class="widget-eyebrow">
+            <PhosphorIcon name="article" size={13} weight="regular" />
+            Writing
+          </span>
+          <h2 class="widget-title">
+            <span>Feature Writing</span>
+            <PhosphorIcon name="article" size={18} weight="regular" />
+          </h2>
           <p class="widget-caption">Fresh perspectives from the lab.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
@@ -276,7 +301,8 @@ const description =
       var(--shadow-card),
       var(--shadow-card-highlight),
       0 0 0 1px rgba(255, 255, 255, 0.04),
-      0 0 60px rgba(10, 132, 255, 0.03);
+      0 22px 44px rgba(5, 8, 18, 0.42),
+      0 0 80px rgba(10, 132, 255, 0.08);
     backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
     -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
     overflow: hidden;
@@ -302,6 +328,9 @@ const description =
   }
 
   .widget-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: var(--fs-eyebrow);
     letter-spacing: var(--ls-eyebrow);
     text-transform: uppercase;
@@ -310,6 +339,9 @@ const description =
   }
 
   .widget-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: var(--fs-title-2);
     font-weight: 700;
     letter-spacing: var(--ls-title);

@@ -4,6 +4,7 @@ import ArticleCard from "../../components/ArticleCard.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
+import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import { optimizedImageUrl } from "../../sanity/lib/image";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
@@ -92,14 +93,17 @@ const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
 const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
 const _pillars = [
   {
+    icon: "briefcase",
     title: "Product Engineering",
     body: "Execution patterns, architecture decisions, and delivery tradeoffs from real builds.",
   },
   {
+    icon: "sparkle",
     title: "Design Language",
     body: "Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.",
   },
   {
+    icon: "toolbox",
     title: "Tooling And Workflows",
     body: "Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.",
   },
@@ -174,7 +178,10 @@ const _placeholders = [
       ]}
     />
     <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">Blog</span>
+      <span class="blogHero__eyebrow">
+        <PhosphorIcon name="article" size={14} weight="regular" />
+        Blog
+      </span>
       <h1 class="blogHero__title">
         Essays on product engineering, design language, and the realities of shipping.
       </h1>
@@ -217,9 +224,9 @@ const _placeholders = [
 
   <section class="container home__section blogBrief pageWidget" data-reveal data-reveal-group="blog-brief">
     <div class="home__selectedHeader">
-      <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
-        >Editorial Direction</h2
-      >
+        <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
+          >Editorial Direction</h2
+        >
       <p class="home__selectedLede">
         The publication is structured around three recurring lenses that keep writing grounded and practical.
       </p>
@@ -227,7 +234,7 @@ const _placeholders = [
     <div class="cardGrid blogBrief__grid">
       {_pillars.map((pillar, index) => (
         <article
-          class="card hover-elevate"
+          class="card hover-elevate blogBrief__card"
           data-parallax-card
           data-reveal
           data-reveal-group="blog-brief"
@@ -235,7 +242,10 @@ const _placeholders = [
         >
           <div class="card__inner">
             <div class="card__content">
-              <h3 class="card-title">{pillar.title}</h3>
+              <h3 class="card-title blogBrief__title">
+                <PhosphorIcon name={pillar.icon} size={16} weight="regular" />
+                <span>{pillar.title}</span>
+              </h3>
               <p class="card-body">{pillar.body}</p>
             </div>
           </div>
