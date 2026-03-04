@@ -1,0 +1,42 @@
+src/components/IconTile.astro
+  b14542b9f4e62b00 18,24,39-49,51-52,84,87-88,169,174-193,199,201-204,206-210,212-215,217-222,224-230
+  a8699bb91ffbef8c 200,205,211,216,223,231-244
+src/components/DockLink.astro
+  b14542b9f4e62b00 10,18-19,24,33,41,50,52,67,72,74-75,77-80,82-83,106,108-137,139,143,145-149
+  a8699bb91ffbef8c 107
+src/pages/index.astro
+  b14542b9f4e62b00 193,219
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "56ebe67778d74b17294049b350de3cebfedd033f",
+  "prompts": {
+    "a8699bb91ffbef8c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb643-2fe4-7990-9ce6-7a2103e1a86c",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 70,
+      "overriden_lines": 0
+    },
+    "b14542b9f4e62b00": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb6ff-42a6-72d2-850e-81b6a16233f1",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 124,
+      "overriden_lines": 0
+    }
+  }
+}
