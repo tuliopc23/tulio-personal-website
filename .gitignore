@@ -29,3 +29,10 @@ bun.lockb
 
 # Local source font exports (converted outputs live under public/fonts)
 Sf fonts/
+
+# Agent workspace metadata (local only)
+.amazonq/
+.factory/
+.github/skills/
+CLAUDE.md
+openspec/AGENTS.md
