@@ -1,8 +1,6 @@
 ---
-import { Image } from "astro:assets";
 import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
-import AvatarSrc from "../assets/avatar.png";
 
 const {
   name = "Tulio Cunha",
@@ -13,6 +11,8 @@ const {
 
 const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
+const profilePhotoSrc =
+  "/cdn-cgi/image/width=384,height=384,fit=cover,quality=90,format=auto/profile-photo.png";
 
 const contactCards = [
   {
@@ -96,14 +96,7 @@ const socialCards = [
       data-parallax-card
     >
       <figure class="profileCard__photo">
-        <Image
-          src={AvatarSrc}
-          alt={name}
-          width={160}
-          height={160}
-          loading="eager"
-          decoding="async"
-        />
+        <img src={profilePhotoSrc} alt={name} width={192} height={192} loading="eager" decoding="async" />
       </figure>
 
       <div class="profileCard__copy">
@@ -202,7 +195,7 @@ const socialCards = [
       0 20px 56px rgba(44, 74, 132, 0.2);
     backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
     -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-    padding: clamp(22px, 2.8vw, 34px);
+    padding: clamp(18px, 2.2vw, 28px);
     overflow: hidden;
     width: 100%;
     max-width: 100%;
@@ -220,7 +213,7 @@ const socialCards = [
 
   .profileCard__hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
     gap: clamp(18px, 2vw, 28px);
     align-items: stretch;
     position: relative;
@@ -241,7 +234,7 @@ const socialCards = [
     border-radius: clamp(22px, 2vw, 28px);
     border: 1px solid var(--panel-border);
     background: color-mix(in srgb, var(--surface-card) 95%, transparent);
-    padding: clamp(18px, 2.2vw, 28px);
+    padding: clamp(16px, 1.8vw, 22px);
     box-shadow:
       var(--shadow-card),
       var(--shadow-card-highlight),
@@ -251,16 +244,16 @@ const socialCards = [
 
   .profileCard__identity {
     display: grid;
-    grid-template-columns: minmax(108px, 140px) 1fr;
-    gap: clamp(14px, 2vw, 24px);
+    grid-template-columns: minmax(156px, 208px) 1fr;
+    gap: clamp(12px, 1.4vw, 18px);
     align-items: start;
   }
 
   .profileCard__photo {
     margin: 0;
-    width: min(100%, 140px);
+    width: min(100%, 196px);
     aspect-ratio: 1 / 1;
-    border-radius: 26px;
+    border-radius: 28px;
     overflow: hidden;
     border: 1px solid var(--panel-border);
     box-shadow: var(--shadow-card);
@@ -290,7 +283,7 @@ const socialCards = [
 
   .profileCard__name {
     margin: 0;
-    font-size: clamp(34px, 2.4vw, 52px);
+    font-size: clamp(32px, 2vw, 44px);
     letter-spacing: -0.025em;
     line-height: 1.02;
   }
@@ -313,7 +306,7 @@ const socialCards = [
   .profileCard__contactList {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
     gap: 12px;
     margin-top: 4px;
   }
@@ -437,7 +430,7 @@ const socialCards = [
 
   .profileCard__socialHeader h3 {
     margin: 0;
-    font-size: clamp(34px, 2.1vw, 44px);
+    font-size: clamp(26px, 1.4vw, 34px);
     letter-spacing: -0.025em;
     line-height: 1.05;
     display: inline-flex;
@@ -455,7 +448,7 @@ const socialCards = [
   .profileCard__socialGrid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 12px;
   }
 
   .profileCard__socialCard {
@@ -473,8 +466,8 @@ const socialCards = [
     background: color-mix(in srgb, var(--surface-card) 96%, transparent);
     text-decoration: none;
     color: var(--text-primary);
-    padding: 16px 14px 14px;
-    min-height: 124px;
+    padding: 14px 12px 12px;
+    min-height: 96px;
     box-shadow:
       var(--shadow-card),
       var(--shadow-card-highlight),
@@ -562,7 +555,7 @@ const socialCards = [
 
   @media (max-width: 760px) {
     .profileCard {
-      padding: 18px;
+      padding: 16px;
       border-radius: 24px;
     }
 
@@ -571,7 +564,7 @@ const socialCards = [
     }
 
     .profileCard__photo {
-      width: 128px;
+      width: 164px;
     }
 
     .profileCard__contactList {
@@ -583,7 +576,7 @@ const socialCards = [
     }
 
     .profileCard__socialCard {
-      min-height: 112px;
+      min-height: 88px;
     }
   }
 
@@ -594,11 +587,11 @@ const socialCards = [
     }
 
     .profileCard__name {
-      font-size: clamp(30px, 10vw, 42px);
+      font-size: clamp(28px, 9vw, 36px);
     }
 
     .profileCard__socialHeader h3 {
-      font-size: clamp(30px, 10vw, 40px);
+      font-size: clamp(26px, 9vw, 34px);
     }
   }
 </style>

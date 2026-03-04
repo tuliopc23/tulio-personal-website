@@ -1,10 +1,11 @@
 /* ======= Apple HIG Color System ======= */
+/* Tahoe 26 — Single source of truth for all color tokens */
 
 :root {
-	/* Primary Background Hierarchy */
-	--bg: #050506;
-	--bg-base: #050506;
-	--bg-gradient: linear-gradient(180deg, #050506 0%, #101114 100%);
+	/* ---- Primary Background Hierarchy ---- */
+	--bg: #050505;
+	--bg-base: #050505;
+	--bg-gradient: linear-gradient(180deg, #050505 0%, #0f0f12 100%);
 	--bg-radial-primary: radial-gradient(
 		140% 140% at 28% 4%,
 		rgba(84, 84, 88, 0.16) 0%,
@@ -22,47 +23,48 @@
 	);
 	--bg-elevated: #101115;
 	--bg-grouped: #131317;
-	--surface: #1a1a1d;
-	--surface-elevated: #1f2024;
-	--surface-raised: #25262b;
+	--surface: #161618;
+	--surface-elevated: #1d1d20;
+	--surface-raised: #232327;
 	--surface-translucent-2: rgba(28, 28, 32, 0.92);
-	--subtle: #212126;
+	--surface-muted: color-mix(in srgb, var(--surface-card) 82%, transparent);
+	--subtle: #0a0a0b;
 	--surface-card: color-mix(in srgb, var(--surface-elevated) 92%, #000000 8%);
 	--surface-card-hover: color-mix(in srgb, var(--surface-raised) 92%, #000000 8%);
 	--surface-card-active: color-mix(in srgb, var(--surface) 88%, #000000 12%);
 	--surface-card-border: rgba(255, 255, 255, 0.04);
 	--surface-card-border-strong: rgba(255, 255, 255, 0.08);
 
-	/* Borders & Separators */
-	--hairline: rgba(84, 84, 88, 0.18);
-	--panel-border: rgba(60, 60, 67, 0.28);
-	--panel-border-strong: rgba(99, 99, 102, 0.4);
+	/* ---- Borders & Separators ---- */
+	--hairline: rgba(255, 255, 255, 0.08);
+	--panel-border: rgba(255, 255, 255, 0.12);
+	--panel-border-strong: rgba(255, 255, 255, 0.18);
 	--separator-opaque: rgba(44, 44, 46, 0.65);
 	--panel-border-glow: rgba(255, 255, 255, 0.06);
 	--panel-border-strong-glow: rgba(255, 255, 255, 0.12);
 
-	/* Text Hierarchy */
-	--text: rgba(255, 255, 255, 0.92);
-	--text-primary: rgba(255, 255, 255, 0.92);
+	/* ---- Text Hierarchy ---- */
+	--text: #f5f5f7;
+	--text-primary: #f5f5f7;
 	--text-secondary: rgba(220, 232, 255, 0.76);
-	--text-tertiary: rgba(194, 210, 240, 0.54);
-	--text-quaternary: rgba(174, 190, 220, 0.42);
-	--muted: rgba(204, 220, 244, 0.64);
+	--text-tertiary: rgba(194, 210, 240, 0.62);
+	--text-quaternary: rgba(174, 190, 220, 0.50);
+	--muted: rgba(235, 235, 245, 0.65);
 
-	/* Fill Colors (Buttons, Controls) */
+	/* ---- Fill Colors (Buttons, Controls) ---- */
 	--fill-primary: rgba(118, 118, 128, 0.24);
 	--fill-secondary: rgba(118, 118, 128, 0.16);
 	--fill-tertiary: rgba(118, 118, 128, 0.12);
 
-	/* Apple System Colors - Dark Mode */
-	--blue: #0a84ff;
+	/* ---- Apple System Colors — Dark Mode (Tahoe 26 enhanced vibrancy) ---- */
+	--blue: #0d8aff;
 	--green: #30d948;
 	--indigo: #5e5ce8;
 	--teal: #5fd4ff;
 	--orange: #ffa00d;
 	--pink: #ff3861;
 	--purple: #c25bf4;
-	--red: #ff453a;
+	--red: #ff473c;
 	--yellow: #ffd70d;
 	--brown: #ac8e68;
 	--cyan: #5ac8fa;
@@ -74,7 +76,24 @@
 	--color-warning: var(--orange);
 	--color-error: var(--red);
 
-	/* Accent Blends */
+	/* ---- State Colors ---- */
+	--neutral-bg: rgba(28, 28, 30, 0.92);
+	--neutral-border: rgba(255, 255, 255, 0.16);
+	--neutral-text: rgba(235, 235, 245, 0.96);
+	--info-bg: rgba(100, 210, 255, 0.24);
+	--info-border: rgba(100, 210, 255, 0.46);
+	--info-text: rgba(100, 210, 255, 0.92);
+	--success-bg: rgba(50, 215, 75, 0.24);
+	--success-border: rgba(50, 215, 75, 0.52);
+	--success-text: rgba(50, 215, 75, 0.92);
+	--warning-bg: rgba(255, 214, 10, 0.2);
+	--warning-border: rgba(255, 214, 10, 0.48);
+	--warning-text: rgba(255, 214, 10, 0.9);
+	--danger-bg: rgba(255, 69, 58, 0.24);
+	--danger-border: rgba(255, 69, 58, 0.52);
+	--danger-text: rgba(255, 69, 58, 0.92);
+
+	/* ---- Accent Blends ---- */
 	--accent-soft: rgba(10, 132, 255, 0.16);
 	--accent-tint: color-mix(in srgb, var(--surface-elevated) 72%, var(--blue) 28%);
 	--accent-tint-strong: color-mix(in srgb, var(--surface-raised) 58%, var(--blue) 42%);
@@ -83,27 +102,22 @@
 	--accent-hover: rgba(10, 132, 255, 0.22);
 	--accent-active: rgba(10, 132, 255, 0.32);
 
-	/* Interactive States */
+	/* ---- Interactive States ---- */
 	--link: var(--blue);
 	--link-hover: color-mix(in srgb, var(--blue) 72%, #ffffff 28%);
 	--selection-bg: rgba(10, 132, 255, 0.22);
 
-	/* Glass & Materials */
-	--glass-bg: rgba(24, 24, 28, 0.88);
-	--glass-blur-base: 34px;
-	--glass-saturation-base: 140%;
-
-	/* Vibrant Gradients */
+	/* ---- Vibrant Gradients ---- */
 	--gradient-blue: linear-gradient(180deg, rgba(10, 132, 255, 0.2) 0%, rgba(0, 0, 0, 0) 95%);
 	--gradient-purple: linear-gradient(180deg, rgba(136, 112, 255, 0.18) 0%, rgba(0, 0, 0, 0) 95%);
 	--gradient-pink: linear-gradient(180deg, rgba(220, 128, 255, 0.16) 0%, rgba(0, 0, 0, 0) 95%);
 }
 
-/* Light Mode */
+/* ---- Light Mode ---- */
 [data-theme="light"] {
-	--bg: #f6f7fb;
-	--bg-base: #f6f7fb;
-	--bg-gradient: linear-gradient(180deg, #f6f7fb 0%, #eef2ff 70%, #e6ecff 100%);
+	--bg: #f5f5f7;
+	--bg-base: #f5f5f7;
+	--bg-gradient: linear-gradient(180deg, #f5f5f7 0%, #eef0f5 70%, #e8ecf2 100%);
 	--bg-radial-primary: radial-gradient(
 		120% 120% at 25% 0%,
 		rgba(124, 164, 255, 0.24) 0%,
@@ -121,34 +135,36 @@
 	);
 	--bg-elevated: rgba(255, 255, 255, 0.82);
 	--bg-grouped: #eef0fa;
-	--surface: rgba(246, 248, 255, 0.88);
-	--surface-elevated: rgba(255, 255, 255, 0.75);
-	--surface-raised: rgba(255, 255, 255, 0.85);
+	--surface: #ffffff;
+	--surface-elevated: #f8f8fb;
+	--surface-raised: #f1f1f6;
 	--surface-translucent-2: rgba(236, 240, 255, 0.68);
-	--subtle: #f0f2fb;
+	--surface-muted: color-mix(in srgb, var(--surface-card) 86%, transparent);
+	--subtle: #fafafa;
 	--surface-card: rgba(255, 255, 255, 0.9);
 	--surface-card-hover: rgba(255, 255, 255, 0.96);
 	--surface-card-active: rgba(255, 255, 255, 0.88);
 	--surface-card-border: rgba(34, 48, 88, 0.08);
 	--surface-card-border-strong: rgba(34, 48, 88, 0.16);
 
-	--hairline: rgba(120, 130, 160, 0.08);
-	--panel-border: rgba(108, 130, 180, 0.18);
-	--panel-border-strong: rgba(84, 114, 190, 0.28);
+	--hairline: rgba(60, 60, 67, 0.12);
+	--panel-border: rgba(60, 60, 67, 0.12);
+	--panel-border-strong: rgba(60, 60, 67, 0.18);
 	--separator-opaque: rgba(110, 130, 172, 0.26);
 
-	--text: rgba(12, 17, 32, 0.96);
-	--text-primary: rgba(12, 17, 32, 0.96);
+	--text: #1d1d1f;
+	--text-primary: #1d1d1f;
 	--text-secondary: rgba(28, 42, 76, 0.68);
-	--text-tertiary: rgba(54, 72, 110, 0.48);
-	--text-quaternary: rgba(84, 102, 140, 0.36);
-	--muted: rgba(50, 66, 104, 0.6);
+	--text-tertiary: rgba(54, 72, 110, 0.58);
+	--text-quaternary: rgba(84, 102, 140, 0.46);
+	--muted: rgba(60, 60, 67, 0.64);
 
 	--fill-primary: rgba(120, 144, 208, 0.16);
 	--fill-secondary: rgba(120, 144, 208, 0.12);
 	--fill-tertiary: rgba(118, 140, 190, 0.08);
 
-	--blue: #007aff;
+	/* Apple System Colors — Light Mode (Tahoe 26) */
+	--blue: #0071e3;
 	--green: #34c759;
 	--indigo: #5856d6;
 	--teal: #5ac8fa;
@@ -165,7 +181,23 @@
 	--accent-hover: rgba(0, 122, 255, 0.12);
 	--accent-active: rgba(0, 122, 255, 0.18);
 	--selection-bg: rgba(0, 122, 255, 0.16);
-	--glass-bg: rgba(255, 255, 255, 0.7);
+
+	/* State Colors — Light Mode */
+	--neutral-bg: rgba(28, 28, 30, 0.94);
+	--neutral-border: rgba(60, 60, 67, 0.22);
+	--neutral-text: rgba(235, 235, 245, 0.94);
+	--info-bg: rgba(100, 210, 255, 0.18);
+	--info-border: rgba(100, 210, 255, 0.4);
+	--info-text: rgba(100, 210, 255, 0.9);
+	--success-bg: rgba(50, 215, 75, 0.18);
+	--success-border: rgba(50, 215, 75, 0.42);
+	--success-text: rgba(50, 215, 75, 0.88);
+	--warning-bg: rgba(255, 214, 10, 0.16);
+	--warning-border: rgba(255, 214, 10, 0.4);
+	--warning-text: rgba(255, 214, 10, 0.86);
+	--danger-bg: rgba(255, 69, 58, 0.18);
+	--danger-border: rgba(255, 69, 58, 0.42);
+	--danger-text: rgba(255, 69, 58, 0.9);
 }
 
 /* Selection Styling */

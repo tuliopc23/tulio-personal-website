@@ -173,8 +173,8 @@ const baseClasses = [
   .card__inner {
     display: flex;
     align-items: center;
-    gap: var(--gap-lg, 16px);
-    padding: var(--card-padding-compact, 20px);
+    gap: var(--gap-lg, 14px);
+    padding: var(--card-padding-compact, 18px);
   }
 
   .card__content {
@@ -187,17 +187,17 @@ const baseClasses = [
   .card-title {
     margin: 0;
     color: var(--text-primary);
-    font-size: var(--fs-body);
+    font-size: clamp(0.96rem, 0.56vw + 0.9rem, 1.1rem);
     line-height: var(--lh-tight);
-    font-weight: var(--fw-semibold);
+    font-weight: 750;
     letter-spacing: var(--ls-body);
   }
 
   .card-body {
     margin: 0;
     color: var(--text-secondary);
-    font-size: var(--fs-callout);
-    line-height: var(--lh-snug);
+    font-size: var(--fs-subheadline);
+    line-height: 1.45;
   }
 
   .card__cta {
@@ -208,7 +208,7 @@ const baseClasses = [
     color: var(--blue);
     font-size: var(--fs-footnote);
     font-weight: var(--fw-medium);
-    letter-spacing: var(--ls-footnote, -0.006em);
+    letter-spacing: var(--ls-footnote);
     transition:
       color var(--motion-duration-sm) var(--motion-ease-out),
       transform var(--motion-duration-sm) var(--motion-ease-out);

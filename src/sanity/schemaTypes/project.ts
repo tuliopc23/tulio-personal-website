@@ -155,8 +155,7 @@ export default defineType({
       title: "Sort Order",
       type: "number",
       fieldset: "technical",
-      description:
-        "Lower numbers appear first. Leave empty to sort by release date.",
+      description: "Lower numbers appear first. Leave empty to sort by release date.",
     }),
   ],
   preview: {

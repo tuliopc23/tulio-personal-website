@@ -8,11 +8,7 @@ interface Props {
   revealOrder?: number | string;
 }
 
-const {
-  project,
-  revealGroup = "projects-grid",
-  revealOrder,
-}: Props = Astro.props as Props;
+const { project, revealGroup = "projects-grid", revealOrder }: Props = Astro.props as Props;
 
 const _categoriesAttr = (project.categories ?? []).join(",");
 const _hasImage = !!project.coverImage?.url;
@@ -25,8 +21,7 @@ const _categoryColors: Record<string, string> = {
   "design-system": "#ff3861",
   experience: "#c25bf4",
 };
-const _fallbackColor =
-  _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "#0a84ff";
+const _fallbackColor = _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "#0a84ff";
 ---
 
 <a

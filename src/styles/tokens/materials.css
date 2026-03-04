@@ -1,19 +1,69 @@
-/* ======= Apple HIG Materials & Glass Effects ======= */
+/* ======= Apple HIG Materials & Glass Effects — Tahoe 26 ======= */
 
 :root {
-	/* Glass Material Properties */
-	--glass-blur-ultra-thin: 18px;
-	--glass-blur-thin: 28px;
-	--glass-blur-base: 34px;
-	--glass-blur-thick: 60px;
-	--glass-blur-ultra-thick: 80px;
+	/* === Base Glass Properties === */
+	--glass-blur-base: 28px;
+	--glass-blur-active: 42px;
+	--glass-saturation-base: 2.1;
+	--glass-saturation-active: 2.4;
+	--glass-opacity-base: 72%;
+	--glass-opacity-active: 88%;
 
-	/* Saturation Values */
+	/* Glass borders */
+	--glass-border: var(--panel-border);
+	--glass-border-strong: var(--panel-border-strong);
+
+	/* Glass noise */
+	--glass-noise-opacity: 0.03;
+	--glass-noise-opacity-base: 0.028;
+	--glass-noise-opacity-active: 0.042;
+	--glass-noise-scale: 1.2;
+
+	/* === Tahoe 26 Spectrum Variants === */
+	/* Ultra-thin */
+	--glass-ultra-thin-blur: 12px;
+	--glass-ultra-thin-opacity: 60%;
+	--glass-ultra-thin-saturation: 1.6;
+
+	/* Thin */
+	--glass-thin-blur: 20px;
+	--glass-thin-opacity: 68%;
+	--glass-thin-saturation: 1.9;
+
+	/* Regular */
+	--glass-regular-blur: 28px;
+	--glass-regular-opacity: 72%;
+	--glass-regular-saturation: 2.1;
+
+	/* Thick */
+	--glass-thick-blur: 36px;
+	--glass-thick-opacity: 80%;
+	--glass-thick-saturation: 2.3;
+
+	/* Ultra-thick */
+	--glass-ultra-thick-blur: 48px;
+	--glass-ultra-thick-opacity: 90%;
+	--glass-ultra-thick-saturation: 2.5;
+
+	/* === Advanced Variants === */
+	--glass-adaptive-blur: var(--glass-regular-blur);
+	--glass-adaptive-opacity: var(--glass-regular-opacity);
+	--glass-adaptive-saturation: var(--glass-regular-saturation);
+
+	--glass-frosted-blur: 64px;
+	--glass-frosted-opacity: 92%;
+	--glass-frosted-saturation: 2.8;
+
+	--glass-crystal-blur: 18px;
+	--glass-crystal-opacity: 65%;
+	--glass-crystal-saturation: 2.6;
+	--glass-crystal-brightness: 1.08;
+
+	/* === Saturation Enhancements === */
 	--glass-saturation-subtle: 140%;
-	--glass-saturation-base: 180%;
 	--glass-saturation-vibrant: 220%;
 
-	/* Vibrancy Effects - Dark Mode */
+	/* === Vibrancy Effects — Dark Mode === */
 	--glass-ultra-thin: rgba(24, 24, 27, 0.55);
 	--glass-thin: rgba(26, 27, 31, 0.68);
 	--glass-base: rgba(28, 30, 34, 0.78);
@@ -73,4 +123,16 @@
 	--overlay-medium: rgba(255, 255, 255, 0.5);
 	--overlay-heavy: rgba(255, 255, 255, 0.7);
 	--overlay-modal: rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile Glass Performance */
+@media (max-width: 1024px) {
+	:root {
+		--glass-blur-base: 20px;
+		--glass-blur-active: 28px;
+		--glass-saturation-base: 1.9;
+		--glass-saturation-active: 2.2;
+		--glass-opacity-base: 72%;
+		--glass-opacity-active: 86%;
+	}
 }

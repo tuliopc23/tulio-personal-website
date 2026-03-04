@@ -259,11 +259,11 @@ const description =
   .bento-grid {
     width: min(100%, var(--content-max));
     box-sizing: border-box;
-    padding: clamp(24px, 4vw, 44px) clamp(16px, 2.8vw, 36px);
+    padding: clamp(14px, 2.4vw, 24px) clamp(10px, 2vw, 20px);
     max-width: var(--content-max);
     margin: 0 auto;
     display: grid;
-    gap: clamp(20px, 2.6vw, 32px);
+    gap: clamp(14px, 1.8vw, 20px);
     grid-template-columns: repeat(12, minmax(0, 1fr));
     align-items: stretch;
   }
@@ -277,7 +277,7 @@ const description =
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(20px, 2.6vw, 32px);
+    gap: clamp(14px, 1.8vw, 20px);
     min-width: 0;
   }
 
@@ -294,11 +294,11 @@ const description =
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: clamp(var(--space-sm), 2vw, var(--space-md));
-    padding: clamp(24px, 2.8vw, 32px);
+    gap: clamp(var(--space-xs), 1.2vw, var(--space-sm));
+    padding: clamp(14px, 1.5vw, 18px);
     background: color-mix(in srgb, var(--surface-elevated) 96%, transparent);
     border: 1px solid var(--panel-border);
-    border-radius: 36px;
+    border-radius: 26px;
     box-shadow:
       var(--shadow-card),
       var(--shadow-card-highlight),
@@ -344,8 +344,8 @@ const description =
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--fs-title-2);
-    font-weight: 700;
+    font-size: var(--fs-title-3);
+    font-weight: 800;
     letter-spacing: var(--ls-title);
     margin: 0;
     color: var(--text-primary);
@@ -369,7 +369,7 @@ const description =
   }
 
   .widget-github {
-    min-height: clamp(540px, 48vw, 760px);
+    min-height: clamp(360px, 34vw, 520px);
   }
 
   .tools-grid {
@@ -392,20 +392,20 @@ const description =
     }
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 768px) {
     .bento-grid {
       grid-template-columns: 1fr;
-      gap: 18px;
-      padding: 18px 12px 64px;
+      gap: 14px;
+      padding: 14px 10px 44px;
     }
 
     .widget-box {
       grid-column: 1 / -1;
-      padding: 24px;
+      padding: 18px;
     }
 
     .widget-github {
-      min-height: clamp(420px, 92vw, 620px);
+      min-height: clamp(300px, 74vw, 420px);
     }
 
     .tools-grid {

@@ -9,11 +9,11 @@ const { value } = Astro.props;
 const _style = value.style || "line";
 ---
 
-<div class={`divider divider--${style}`} role="separator" aria-hidden="true">
-  {style === "line" && <hr class="divider__line" />}
-  {style === "dots" && <div class="divider__dots">• • •</div>}
-  {style === "asterisks" && <div class="divider__asterisks">* * *</div>}
-  {style === "space" && <div class="divider__space" />}
+<div class={`divider divider--${_style}`} role="separator" aria-hidden="true">
+  {_style === "line" && <hr class="divider__line" />}
+  {_style === "dots" && <div class="divider__dots">• • •</div>}
+  {_style === "asterisks" && <div class="divider__asterisks">* * *</div>}
+  {_style === "space" && <div class="divider__space" />}
 </div>
 
 <style>

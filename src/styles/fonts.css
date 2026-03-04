@@ -1,4 +1,4 @@
-/* Self-hosted SF font faces (lean set) */
+/* Self-hosted SF font faces — variable font consolidation */
 
 @font-face {
   font-family: "SF Pro";
@@ -6,57 +6,7 @@
     local("SF Pro"),
     url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 900;
+  font-weight: 400 900; /* Variable font: single file covers all weights */
   font-display: swap;
 }
 
@@ -66,36 +16,6 @@
     local("SF Mono Medium"),
     url("/fonts/sf/v1/sf-mono-medium.woff2") format("woff2");
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Mono";
-  src:
-    local("SF Mono Medium"),
-    url("/fonts/sf/v1/sf-mono-medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Mono";
-  src:
-    local("SF Mono Medium"),
-    url("/fonts/sf/v1/sf-mono-medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SF Mono";
-  src:
-    local("SF Mono Medium"),
-    url("/fonts/sf/v1/sf-mono-medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 400 700; /* Single-weight file mapped to all used weights */
   font-display: swap;
 }

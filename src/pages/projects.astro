@@ -7,8 +7,7 @@ import { getAllProjects } from "../sanity/lib/projects";
 const projects = await getAllProjects();
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
-const description =
-  "A focused set of builds across native apps, web products, and design systems.";
+const description = "A focused set of builds across native apps, web products, and design systems.";
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
 const _hasProjects = projects.length > 0;
 const _projectFilters = [
