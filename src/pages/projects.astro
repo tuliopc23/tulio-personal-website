@@ -2,16 +2,15 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import ScrollHint from "../components/ScrollHint.astro";
-import { projectsSorted } from "../data/projects";
+import { getAllProjects } from "../sanity/lib/projects";
+
+const projects = await getAllProjects();
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const description =
-  "Cinematic, Apple-inspired portfolio of Tulio Cunha's product work across native, web, and developer tooling.";
+  "A focused set of builds across native apps, web products, and design systems.";
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
-const _hasProjects = projectsSorted.length > 0;
-const _projectCount = projectsSorted.length;
-const _focusSummary = "Design systems • Native apps • Developer tooling";
+const _hasProjects = projects.length > 0;
 const _projectFilters = [
   { id: "all", label: "All" },
   { id: "native", label: "Native" },
@@ -38,152 +37,73 @@ const _structuredData = {
   structuredData={_structuredData}
 >
   <div class="pageBento">
-  <section
-    class="container projects__intro pageWidget"
-    data-reveal
-    data-reveal-type="scale"
-    data-reveal-group="projects-intro"
-  >
-    <Breadcrumbs
-      items={[
-        { label: "Home", href: "/", icon: "home" },
-        { label: "Projects", icon: "cube" },
-      ]}
-    />
-    <div class="projects__hero">
-      <span class="projects__eyebrow">Recent work</span>
-      <h1 class="projects__title">Projects</h1>
-      <p class="projects__lede">
-        Selected product work with clear context, technical depth, and visual execution.
-        Each project balances craft and constraints to ship tangible outcomes.
-      </p>
-    </div>
-    <div class="projects__meta" role="list">
-      <span class="projects__metaItem" role="listitem"
-        >{_projectCount} featured builds</span
-      >
-      <span class="projects__metaItem" role="listitem">{_focusSummary}</span>
-    </div>
-    {
-      _hasProjects && (
-        <div class="projects__filters" role="toolbar" aria-label="Filter projects">
-          {_projectFilters.map((filter, index) => (
-            <button
-              type="button"
-              class={`projectsFilter__button${index === 0 ? " is-active" : ""}`}
-              data-project-filter={filter.id}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
-      )
-    }
-  </section>
-
-  <section class="container home__section projectsCadence pageWidget" data-reveal data-reveal-group="projects-cadence">
-    <div class="home__selectedHeader">
-      <h2 class="section-title" data-reveal data-reveal-group="projects-cadence" data-reveal-order={0}
-        >Delivery Cadence</h2
-      >
-      <p class="home__selectedLede">
-        A practical sequence that keeps momentum high while protecting product quality.
-      </p>
-    </div>
-    <ol class="projectsCadence__line" role="list">
-      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={1}>
-        <span>01</span>
-        <p>Define the leverage point and the constraint window.</p>
-      </li>
-      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={2}>
-        <span>02</span>
-        <p>Ship a thin vertical slice and validate with real behavior.</p>
-      </li>
-      <li data-reveal data-reveal-group="projects-cadence" data-reveal-order={3}>
-        <span>03</span>
-        <p>Refine motion, accessibility, and structural resilience.</p>
-      </li>
-    </ol>
-  </section>
-
-  <section class="container pageWidget" data-reveal data-reveal-group="projects-list">
-    {
-      _hasProjects ? (
-        <Fragment>
-          <div class="projects__filterEmpty card" data-project-empty hidden>
-            <h2>No projects match this view</h2>
-            <p>
-              Adjust the filter above or reach out at
-              <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> for
-              portfolio details.
-            </p>
-          </div>
-          <ScrollHint target="[data-projects-grid]" />
-          <div class="cardGrid cardRail projects__grid" data-projects-grid>
-            {projectsSorted.map((project, index) => (
-              <ProjectCard project={project} revealOrder={index} />
+    <section
+      class="container projects__intro pageWidget"
+      data-reveal
+      data-reveal-type="scale"
+      data-reveal-group="projects-intro"
+    >
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "Projects", icon: "cube" },
+        ]}
+      />
+      <div class="projects__hero">
+        <span class="projects__eyebrow">Selected work</span>
+        <h1 class="projects__title">Projects</h1>
+        <p class="projects__lede">
+          A focused set of builds across native apps, web products, and design systems.
+        </p>
+      </div>
+      {
+        _hasProjects && (
+          <div class="projects__filters" role="toolbar" aria-label="Filter projects">
+            {_projectFilters.map((filter, index) => (
+              <button
+                type="button"
+                class={`projectsFilter__button${index === 0 ? " is-active" : ""}`}
+                data-project-filter={filter.id}
+              >
+                {filter.label}
+              </button>
             ))}
           </div>
-        </Fragment>
-      ) : (
-        <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
-          <h2>Projects coming soon</h2>
-          <p>
-            I'm polishing case studies. In the meantime, reach out at
-            <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> if you'd
-            like to collaborate.
-          </p>
-        </div>
-      )
-    }
-  </section>
+        )
+      }
+    </section>
 
-  <section class="container home__section projects__approach pageWidget" data-reveal data-reveal-group="projects-approach">
-    <div class="home__selectedHeader">
-      <h2 class="section-title" data-reveal data-reveal-group="projects-approach" data-reveal-order={0}
-        >How I Build</h2
-      >
-      <p class="home__selectedLede">
-        A lightweight delivery model tuned for fast iteration without sacrificing interface
-        quality or long-term maintainability.
-      </p>
-    </div>
-    <div class="cardGrid">
-      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={1}>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Frame</h3>
-            <p class="card-body">
-              Clarify constraints, identify leverage points, and define what success looks
-              like before writing implementation code.
+    <section class="container pageWidget" data-reveal data-reveal-group="projects-list">
+      {
+        _hasProjects ? (
+          <Fragment>
+            <div class="projects__filterEmpty card" data-project-empty hidden>
+              <h2>No projects match this view</h2>
+              <p>
+                Adjust the filter above or reach out at{" "}
+                <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> for portfolio
+                details.
+              </p>
+            </div>
+            <div class="cardGrid projects__grid" data-projects-grid>
+              {projects.map((project, i) => (
+                <ProjectCard project={project} revealOrder={i} />
+              ))}
+            </div>
+          </Fragment>
+        ) : (
+          <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
+            <h2>Projects coming soon</h2>
+            <p>
+              I'm polishing case studies. In the meantime, reach out at{" "}
+              <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> if you'd like to
+              collaborate.
             </p>
           </div>
-        </div>
-      </article>
-      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={2}>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Ship</h3>
-            <p class="card-body">
-              Build vertically in thin slices, validate quickly, and keep quality gates close
-              to actual product behavior.
-            </p>
-          </div>
-        </div>
-      </article>
-      <article class="card card--static" data-reveal data-reveal-group="projects-approach" data-reveal-order={3}>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Polish</h3>
-            <p class="card-body">
-              Tighten motion, accessibility, and visual rhythm so the final product feels
-              intentional, robust, and premium.
-            </p>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
+        )
+      }
+    </section>
+  </div>
 
   <script is:inline>
     const setupProjectTilt = () => {
@@ -203,16 +123,12 @@ const _structuredData = {
 
           card.style.setProperty("--tilt-x", `${rotateX}deg`);
           card.style.setProperty("--tilt-y", `${rotateY}deg`);
-          card.style.setProperty("--glow-x", `${(x / rect.width) * 100}%`);
-          card.style.setProperty("--glow-y", `${(y / rect.height) * 100}%`);
           card.setAttribute("data-tilt", "active");
         });
 
         card.addEventListener("pointerleave", () => {
           card.style.setProperty("--tilt-x", "0deg");
           card.style.setProperty("--tilt-y", "0deg");
-          card.style.setProperty("--glow-x", "50%");
-          card.style.setProperty("--glow-y", "50%");
           card.removeAttribute("data-tilt");
         });
       });
@@ -275,13 +191,6 @@ const _structuredData = {
         if (emptyState) {
           emptyState.hidden = matches > 0;
         }
-
-        if (matches > 0) {
-          const firstVisible = cards.find((card) => card.dataset.state === "visible");
-          if (firstVisible) {
-            grid.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }
       };
 
       const selectProjectFilter = (button) => {
@@ -336,5 +245,4 @@ const _structuredData = {
       applyFilters();
     }
   </script>
-  </div>
 </Base>

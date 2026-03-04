@@ -1,56 +1,32 @@
 ---
-import { Image } from "astro:assets";
-import BrandIcon from "./BrandIcon.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
-import type { Project } from "../data/projects";
+import type { SanityProject } from "../sanity/lib/projects";
 
 interface Props {
-  project: Project;
+  project: SanityProject;
   revealGroup?: string;
   revealOrder?: number | string;
-  revealDelay?: string;
 }
 
 const {
   project,
   revealGroup = "projects-grid",
   revealOrder,
-  revealDelay,
 }: Props = Astro.props as Props;
 
-const _mediaTint = project.media.type === "icon" ? (project.media.tint ?? "blue") : null;
-const _hasImage = project.media.type === "image";
+const _categoriesAttr = (project.categories ?? []).join(",");
+const _hasImage = !!project.coverImage?.url;
+const _statusKey = project.status?.toLowerCase() ?? "exploration";
 
-const releaseDate = project.releaseDate ? new Date(project.releaseDate) : null;
-const _releaseLabel =
-  releaseDate && !Number.isNaN(releaseDate.getTime())
-    ? new Intl.DateTimeFormat("en", { month: "short", year: "numeric" }).format(releaseDate)
-    : null;
-
-let _originLabel: string | null = null;
-try {
-  const url = new URL(project.href);
-  _originLabel = url.hostname.replace(/^www\./, "");
-} catch {
-  _originLabel = null;
-}
-
-const stackPrimary = project.stack.slice(0, 3);
-const stackOverflow = project.stack.length - stackPrimary.length;
-const _stackOverflowLabel = stackOverflow > 0 ? `+${stackOverflow} more` : null;
-const _categoriesAttr = project.categories.join(",");
-const categoryLabel: Record<Project["categories"][number], string> = {
-  native: "Native build",
-  web: "Web product",
-  tooling: "Developer tooling",
-  "design-system": "Design system",
-  experience: "Experience design",
+const _categoryColors: Record<string, string> = {
+  native: "#5e5ce8",
+  web: "#0a84ff",
+  tooling: "#30d948",
+  "design-system": "#ff3861",
+  experience: "#c25bf4",
 };
-const _signals = [
-  categoryLabel[project.categories[0]] ?? "Product build",
-  project.stack.length === 1 ? "1 technology" : `${project.stack.length} technologies`,
-  project.status ? `${project.status} status` : null,
-].filter(Boolean) as string[];
+const _fallbackColor =
+  _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "#0a84ff";
 ---
 
 <a
@@ -58,96 +34,205 @@ const _signals = [
   href={project.href}
   target="_blank"
   rel="noreferrer noopener"
-  data-analytics-event={`project:${project.id}`}
+  data-analytics-event={`project:${project.slug}`}
   data-reveal
   data-reveal-group={revealGroup}
   data-reveal-order={revealOrder === undefined || revealOrder === null
     ? undefined
     : String(revealOrder)}
-  data-reveal-delay={revealDelay ?? undefined}
-  data-project-id={project.id}
   data-project-categories={_categoriesAttr}
   data-project-card
 >
-  <div class="projectCard__media" data-kind={_hasImage ? "image" : "icon"}>
-    <div class="projectCard__frame" data-kind={_hasImage ? "image" : "icon"}>
-      <div class="projectCard__chrome" aria-hidden="true">
-        <span class="projectCard__chromeDot" data-variant="close"></span>
-        <span class="projectCard__chromeDot" data-variant="minimize"></span>
-        <span class="projectCard__chromeDot" data-variant="zoom"></span>
-      </div>
-      <div class="projectCard__viewport">
-        {
-          _hasImage ? (
-            <Image
-              src={project.media.src}
-              alt={project.media.alt}
-              widths={[320, 480, 640]}
-              sizes="(max-width: 720px) 84vw, (max-width: 1040px) 50vw, 360px"
-              formats={["avif", "webp"]}
-              class="projectCard__image"
-              loading="lazy"
-              decoding="async"
-              data-image-loading
-            />
-          ) : (
-            <div
-              class={`projectCard__icon symbol symbol--${_mediaTint ?? "blue"}`}
-              aria-hidden="true"
-            >
-              <BrandIcon name={project.media.icon} size={36} />
-            </div>
-          )
-        }
-      </div>
-    </div>
-    <span class="projectCard__mediaGlow" aria-hidden="true"></span>
-  </div>
-
-  <div class="projectCard__body">
-    <header class="projectCard__header">
-      <div class="projectCard__heading">
-        <p class="projectCard__eyebrow">{project.role}</p>
-        <h3 class="projectCard__title">{project.title}</h3>
-      </div>
-      {project.status && <span class="projectCard__status">{project.status}</span>}
-    </header>
-
+  <div class="projectCard__media">
     {
-      (_releaseLabel || _originLabel) && (
-        <div class="projectCard__metaRow">
-          {_releaseLabel && <span class="projectCard__meta">{_releaseLabel}</span>}
-          {_originLabel && (
-            <span class="projectCard__meta projectCard__meta--origin">{_originLabel}</span>
-          )}
+      _hasImage ? (
+        <img
+          src={project.coverImage!.url!}
+          alt={project.coverImage?.alt ?? project.title}
+          class="projectCard__image"
+          loading="lazy"
+          decoding="async"
+          style={
+            project.coverImage?.lqip
+              ? `background-image: url('${project.coverImage.lqip}'); background-size: cover;`
+              : undefined
+          }
+        />
+      ) : (
+        <div
+          class="projectCard__fallback"
+          style={`background: linear-gradient(135deg, ${_fallbackColor}33 0%, ${_fallbackColor}18 100%);`}
+          aria-hidden="true"
+        >
+          <PhosphorIcon name="cube" size={36} weight="duotone" />
         </div>
       )
     }
+  </div>
 
+  <div class="projectCard__body">
+    <div class="projectCard__heading">
+      <p class="projectCard__eyebrow">
+        <span>{project.role}</span>
+        <span class="projectCard__statusDot" data-status={_statusKey} aria-hidden="true"></span>
+      </p>
+      <h3 class="projectCard__title">{project.title}</h3>
+    </div>
     <p class="projectCard__summary">{project.summary}</p>
-    {project.impact && <p class="projectCard__impact">{project.impact}</p>}
-    {_signals.length > 0 && (
-      <ul class="projectCard__signals" aria-label="Project highlights">
-        {_signals.map((signal) => (
-          <li>{signal}</li>
-        ))}
-      </ul>
-    )}
-
-    <div class="projectCard__divider" aria-hidden="true"></div>
-
-    <ul class="projectCard__stack" aria-label="Technology stack">
-      {stackPrimary.map((tech) => <li class="projectCard__tag">{tech}</li>)}
-      {
-        _stackOverflowLabel && (
-          <li class="projectCard__tag projectCard__tag--muted">{_stackOverflowLabel}</li>
-        )
-      }
-    </ul>
-
     <span class="projectCard__cta">
       <span>{project.cta}</span>
-      <PhosphorIcon name="arrow-up-right" size={18} weight="regular" />
+      <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
     </span>
   </div>
 </a>
+
+<style>
+  .projectCard {
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-xs);
+    height: 100%;
+  }
+
+  .projectCard__media {
+    position: relative;
+    border-radius: 12px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface-elevated);
+  }
+
+  .projectCard__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    transition: transform var(--motion-duration-md) var(--motion-ease-out);
+  }
+
+  .projectCard:hover .projectCard__image,
+  .projectCard:focus-visible .projectCard__image {
+    transform: scale(1.03);
+  }
+
+  .projectCard__fallback {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--text-tertiary);
+  }
+
+  .projectCard__body {
+    display: grid;
+    gap: var(--space-xxs);
+    align-content: start;
+  }
+
+  .projectCard__heading {
+    display: grid;
+    gap: 4px;
+  }
+
+  .projectCard__eyebrow {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs--2);
+    font-weight: 600;
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .projectCard__statusDot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--text-tertiary);
+  }
+
+  .projectCard__statusDot[data-status="live"] {
+    background: var(--green);
+  }
+
+  .projectCard__statusDot[data-status="maintained"] {
+    background: var(--yellow);
+  }
+
+  .projectCard__statusDot[data-status="exploration"] {
+    background: var(--text-tertiary);
+  }
+
+  .projectCard__title {
+    margin: 0;
+    font-size: clamp(18px, 0.8vw + 16px, 22px);
+    font-weight: 700;
+    letter-spacing: var(--ls-h3);
+    line-height: 1.2;
+  }
+
+  .projectCard__summary {
+    margin: 0;
+    font-size: var(--fs--1);
+    font-weight: 400;
+    line-height: 1.52;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .projectCard__cta {
+    margin-top: var(--space-xxs);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: start;
+    width: fit-content;
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-footnote);
+    letter-spacing: var(--ls-footnote);
+    color: var(--text-strong-on-primary, #fefefe);
+    border: 1px solid color-mix(in srgb, var(--blue) 46%, transparent);
+    border-radius: 999px;
+    padding: 10px 14px;
+    min-width: 44px;
+    min-height: 44px;
+    background: color-mix(in srgb, var(--blue) 26%, var(--surface-card) 74%);
+    box-shadow:
+      0 6px 16px rgba(10, 132, 255, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    transition:
+      border-color var(--motion-duration-sm) var(--motion-ease-out),
+      background var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .projectCard:hover .projectCard__cta,
+  .projectCard:focus-visible .projectCard__cta {
+    transform: translateY(-1px);
+    box-shadow:
+      0 10px 24px rgba(10, 132, 255, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+
+  .projectCard__cta :global(svg) {
+    transition: transform var(--motion-duration-sm) var(--motion-spring-out);
+    display: inline-block;
+  }
+
+  .projectCard:hover .projectCard__cta :global(svg),
+  .projectCard:focus-visible .projectCard__cta :global(svg) {
+    transform: translateX(4px);
+  }
+</style>

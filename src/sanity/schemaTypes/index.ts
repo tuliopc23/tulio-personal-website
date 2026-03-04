@@ -4,6 +4,7 @@ import callout from "./callout";
 import category from "./category";
 import divider from "./divider";
 import post from "./post";
+import project from "./project";
 import seo from "./seo";
 import videoEmbed from "./videoEmbed";
 import workflowStatus from "./workflowStatus";
@@ -15,6 +16,7 @@ export const schemaTypes = [
   category,
   divider,
   post,
+  project,
   seo,
   videoEmbed,
   workflowStatus,

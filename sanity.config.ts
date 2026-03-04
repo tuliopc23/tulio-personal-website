@@ -4,6 +4,7 @@ import {
   CheckmarkCircleIcon,
   ClockIcon,
   DocumentTextIcon,
+  ProjectsIcon,
   TagIcon,
   UserIcon,
 } from "@sanity/icons";
@@ -72,6 +73,13 @@ export default defineConfig({
                   .title("Featured Articles")
                   .filter('_type == "post" && featured == true'),
               ),
+
+            S.divider(),
+
+            S.listItem()
+              .title("Projects")
+              .icon(ProjectsIcon)
+              .child(S.documentTypeList("project").title("Projects")),
 
             S.divider(),
 
