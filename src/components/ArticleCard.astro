@@ -48,6 +48,7 @@ const _readingTimeLabel =
 
 <article
   class={`articleCard hover-elevate${featured ? " articleCard--featured" : ""}`}
+  data-parallax-card
   data-reveal
   data-reveal-group={revealGroup}
   data-reveal-order={_revealOrderAttr}
@@ -98,7 +99,7 @@ const _readingTimeLabel =
       }
     </div>
     <span class="articleCard__cta">
-      <span>Read article</span>
+      <span>Read</span>
       <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
     </span>
   </a>

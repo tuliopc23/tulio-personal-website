@@ -1,3 +1,4 @@
+import { DocumentTextIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 const TAG_OPTIONS = [
@@ -13,6 +14,7 @@ const TAG_OPTIONS = [
 export default defineType({
   name: "post",
   title: "Article",
+  icon: DocumentTextIcon,
   type: "document",
   fieldsets: [
     {
@@ -47,7 +49,9 @@ export default defineType({
       title: "Title",
       type: "string",
       fieldset: "editorial",
-      validation: (rule) => rule.required(),
+      description: "Clear promise-led headline, ideally 40-90 characters.",
+      validation: (rule) =>
+        rule.required().min(18).max(110).warning("Target 40-90 chars for strong card and reader fit."),
     }),
     defineField({
       name: "slug",
@@ -66,7 +70,13 @@ export default defineType({
       type: "text",
       fieldset: "editorial",
       rows: 3,
-      validation: (rule) => rule.required().max(280),
+      description: "Card lede and SEO fallback. Aim for one concise, high-signal paragraph.",
+      validation: (rule) =>
+        rule
+          .required()
+          .min(80)
+          .max(280)
+          .warning("Keep summaries between 100-220 chars for better card rhythm."),
     }),
     defineField({
       name: "hook",
@@ -74,7 +84,12 @@ export default defineType({
       type: "string",
       fieldset: "editorial",
       description: "Optional short teaser line used in editorial cards and featured sections.",
-      validation: (rule) => rule.max(120),
+      validation: (rule) =>
+        rule
+          .max(120)
+          .custom((value) =>
+            !value || value.length >= 14 ? true : "Hooks should be at least 14 chars when provided.",
+          ),
     }),
     defineField({
       name: "author",
@@ -116,7 +131,12 @@ export default defineType({
           name: "alt",
           title: "Alt text",
           type: "string",
-          validation: (rule) => rule.required(),
+          description: "Describe the key visual + intent. Avoid generic labels like 'image'.",
+          validation: (rule) =>
+            rule
+              .required()
+              .min(12)
+              .warning("Use at least 12 chars for accessible, descriptive hero alt text."),
         }),
       ],
       validation: (rule) => rule.required(),
@@ -514,7 +534,7 @@ export default defineType({
     },
     prepare(selection) {
       const { title, subtitle, media, date, featured, status, series, coverVariant } = selection;
-      const featuredEmoji = featured ? "⭐ " : "";
+      const featuredPrefix = featured ? "Featured · " : "";
       const statusLabel =
         status === "in-review"
           ? "In review"
@@ -531,7 +551,7 @@ export default defineType({
       const meta = [statusLabel, seriesLabel, variantLabel].filter(Boolean).join(" · ");
 
       return {
-        title: `${featuredEmoji}${title ?? "Untitled"}`,
+        title: `${featuredPrefix}${title ?? "Untitled"}`,
         subtitle: date
           ? `${new Date(date).toLocaleDateString()} · ${meta}${subtitle ? ` — ${subtitle}` : ""}`
           : `${meta}${subtitle ? ` — ${subtitle}` : ""}`,

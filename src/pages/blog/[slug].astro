@@ -6,7 +6,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import SFIcon from "../../components/SFIcon.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
-import { urlFor, generateSrcset } from "../../sanity/lib/image";
+import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
 import {
   calculateReadingTimeMinutes,
   getAllPostSlugs,
@@ -61,13 +61,11 @@ const preferredSocialImage = seo?.socialImage?.url ? seo.socialImage : (heroImag
 // Optimize OG images (1200x630 for optimal social sharing)
 const ogImage = preferredSocialImage?.url
   ? {
-      url: urlFor(preferredSocialImage.url)
-        .width(1200)
-        .height(630)
-        .fit("crop")
-        .auto("format")
-        .quality(85)
-        .url(),
+      url: optimizedImageUrl(preferredSocialImage.url, 1200, 630, {
+        quality: 88,
+        sharpen: 1.2,
+        fit: "cover",
+      }),
       alt: preferredSocialImage.alt ?? null,
       width: 1200,
       height: 630,
@@ -257,7 +255,11 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               data-reveal-order={1}
             >
               <img
-                src={urlFor(heroImage.url).width(1920).auto("format").quality(85).url()}
+                src={optimizedImageUrl(heroImage.url, 1920, undefined, {
+                  quality: 88,
+                  sharpen: 1.2,
+                  fit: "scale-down",
+                })}
                 srcset={generateSrcset(heroImage.url, [640, 1024, 1280, 1920, 2560])}
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1920px"
                 alt={heroImage.alt ?? ""}

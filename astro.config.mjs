@@ -1,4 +1,5 @@
 import mdx from "@astrojs/mdx";
+import solidJs from "@astrojs/solid-js";
 import sanity from "@sanity/astro";
 import { defineConfig } from "astro/config";
 
@@ -14,5 +15,5 @@ const sanityOptions = {
 
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
-  integrations: [mdx(), sanity(sanityOptions)],
+  integrations: [mdx(), sanity(sanityOptions), solidJs()],
 });

@@ -169,7 +169,7 @@ const description =
     <SectionQuickNav sections={sectionNavItems} />
 
     <div class="widget-carousel" role="region" aria-label="Widget carousel">
-      <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal>
+      <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">Toolkit</span>
           <h2 class="widget-title">Tools</h2>
@@ -188,7 +188,7 @@ const description =
         </div>
       </div>
 
-      <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal>
+      <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">Languages</span>
           <h2 class="widget-title">Stack</h2>
@@ -207,16 +207,16 @@ const description =
         </div>
       </div>
 
-      <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal>
+      <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">Activity</span>
           <h2 class="widget-title">GitHub</h2>
           <p class="widget-caption">Latest commits and streaks.</p>
         </div>
-        <GitHubActivityWidget />
+        <GitHubActivityWidget large={true} limit={10} />
       </div>
 
-      <div id="section-writing" class="widget-box widget-feature-writing hover-elevate" data-reveal>
+      <div id="section-writing" class="widget-box widget-feature-writing hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">Writing</span>
           <h2 class="widget-title">Feature Writing</h2>
@@ -334,6 +334,10 @@ const description =
     grid-column: 1 / -1;
   }
 
+  .widget-github {
+    min-height: clamp(540px, 48vw, 760px);
+  }
+
   .tools-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -364,6 +368,10 @@ const description =
     .widget-box {
       grid-column: 1 / -1;
       padding: 24px;
+    }
+
+    .widget-github {
+      min-height: clamp(420px, 92vw, 620px);
     }
 
     .tools-grid {

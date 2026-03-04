@@ -1,4 +1,12 @@
 import { codeInput } from "@sanity/code-input";
+import {
+  CalendarIcon,
+  CheckmarkCircleIcon,
+  ClockIcon,
+  DocumentTextIcon,
+  TagIcon,
+  UserIcon,
+} from "@sanity/icons";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool, type StructureBuilder } from "sanity/structure";
@@ -31,11 +39,12 @@ export default defineConfig({
           .items([
             S.listItem()
               .title("Articles")
-              .icon(() => "📄")
+              .icon(DocumentTextIcon)
               .child(S.documentTypeList("post").title("All Articles")),
 
             S.listItem()
-              .title("👀 In Review")
+              .title("In Review")
+              .icon(ClockIcon)
               .child(
                 S.documentList()
                   .title("In Review")
@@ -43,7 +52,8 @@ export default defineConfig({
               ),
 
             S.listItem()
-              .title("⏰ Scheduled")
+              .title("Scheduled")
+              .icon(CalendarIcon)
               .child(
                 S.documentList()
                   .title("Scheduled")
@@ -55,7 +65,8 @@ export default defineConfig({
             S.divider(),
 
             S.listItem()
-              .title("⭐ Featured Articles")
+              .title("Featured Articles")
+              .icon(CheckmarkCircleIcon)
               .child(
                 S.documentList()
                   .title("Featured Articles")
@@ -66,13 +77,13 @@ export default defineConfig({
 
             S.listItem()
               .title("Categories")
-              .icon(() => "🏷️")
+              .icon(TagIcon)
               .schemaType("category")
               .child(S.documentTypeList("category").title("Categories")),
 
             S.listItem()
               .title("Author")
-              .icon(() => "👤")
+              .icon(UserIcon)
               .schemaType("author")
               .child(S.documentTypeList("author").title("Author")),
           ]),

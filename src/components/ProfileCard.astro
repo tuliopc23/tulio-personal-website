@@ -36,6 +36,14 @@ const contactCards = [
 
 const socialCards = [
   {
+    title: "GitHub",
+    href: "https://github.com/tuliopc23",
+    tint: "indigo",
+    icon: "github",
+    ariaLabel: "Explore Tulio projects on GitHub",
+    external: true,
+  },
+  {
     title: "My Portfolio",
     href: "https://portfolio.tuliocunha.dev",
     tint: "cyan",
@@ -57,6 +65,14 @@ const socialCards = [
     tint: "pink",
     asset: "/icons/Socials/instagram-light.svg",
     ariaLabel: "Follow Tulio on Instagram",
+    external: true,
+  },
+  {
+    title: "Mastodon",
+    href: "https://mastodon.social/@tuliocunhadev",
+    tint: "purple",
+    icon: "mastodon",
+    ariaLabel: "Follow Tulio on Mastodon",
     external: true,
   },
   {
@@ -99,6 +115,7 @@ const socialCards = [
           contactCards.map((card) => (
             <a
               class="profileCard__contact"
+              data-parallax-card
               href={card.href}
               target={card.external ? "_blank" : undefined}
               rel={card.external ? "noreferrer noopener" : undefined}
@@ -126,6 +143,7 @@ const socialCards = [
           socialCards.map((card) => (
             <a
               class="profileCard__socialCard"
+              data-parallax-card
               href={card.href}
               target={card.external ? "_blank" : undefined}
               rel={card.external ? "noreferrer noopener" : undefined}
@@ -266,26 +284,53 @@ const socialCards = [
   }
 
   .profileCard__contact {
+    --parallax-rotate-x: 0deg;
+    --parallax-rotate-y: 0deg;
+    --parallax-translate: 0px;
     display: inline-flex;
     align-items: center;
     gap: 12px;
     border-radius: 16px;
     border: 1px solid var(--panel-border);
-    background: var(--surface-muted);
+    background:
+      linear-gradient(
+        140deg,
+        color-mix(in srgb, var(--blue) 16%, var(--surface-muted)) 0%,
+        var(--surface-muted) 62%
+      ),
+      var(--surface-muted);
     padding: 10px 12px;
     text-decoration: none;
     color: var(--text-primary);
     min-width: 0;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      0 8px 20px rgba(14, 28, 60, 0.22);
+    transform:
+      perspective(900px)
+      rotateX(var(--parallax-rotate-x))
+      rotateY(var(--parallax-rotate-y))
+      translateY(var(--parallax-translate));
     transition:
       border-color var(--motion-duration-sm) var(--motion-ease-out),
       background var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out);
+      transform var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .profileCard__contact:hover {
     border-color: var(--panel-border-strong);
-    background: var(--surface-card-hover);
-    transform: translateY(-1px);
+    background:
+      linear-gradient(
+        140deg,
+        color-mix(in srgb, var(--blue) 24%, var(--surface-card-hover)) 0%,
+        var(--surface-card-hover) 62%
+      ),
+      var(--surface-card-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      0 12px 28px rgba(14, 28, 60, 0.3);
+    transform: translateY(-2px);
   }
 
   .profileCard__contactCopy {
@@ -334,18 +379,35 @@ const socialCards = [
 
   .profileCard__socialGrid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
   }
 
   .profileCard__socialCard {
+    --parallax-rotate-x: 0deg;
+    --parallax-rotate-y: 0deg;
+    --parallax-translate: 0px;
     border-radius: 16px;
     border: 1px solid var(--panel-border);
-    background: var(--surface-muted);
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--surface-muted) 92%, rgba(255, 255, 255, 0.06)) 0%,
+        var(--surface-muted) 70%
+      ),
+      var(--surface-muted);
     text-decoration: none;
     color: var(--text-primary);
     padding: 14px;
-    min-height: 126px;
+    min-height: 118px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 8px 22px rgba(14, 28, 60, 0.2);
+    transform:
+      perspective(900px)
+      rotateX(var(--parallax-rotate-x))
+      rotateY(var(--parallax-rotate-y))
+      translateY(var(--parallax-translate));
     display: grid;
     justify-items: start;
     align-content: space-between;
@@ -353,7 +415,8 @@ const socialCards = [
     transition:
       transform var(--motion-duration-sm) var(--motion-ease-out),
       border-color var(--motion-duration-sm) var(--motion-ease-out),
-      background var(--motion-duration-sm) var(--motion-ease-out);
+      background var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .profileCard__socialCard span:last-child {
@@ -364,7 +427,16 @@ const socialCards = [
   .profileCard__socialCard:hover {
     transform: translateY(-2px);
     border-color: var(--panel-border-strong);
-    background: var(--surface-card-hover);
+    background:
+      linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--surface-card-hover) 90%, rgba(255, 255, 255, 0.12)) 0%,
+        var(--surface-card-hover) 70%
+      ),
+      var(--surface-card-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      0 14px 30px rgba(14, 28, 60, 0.28);
   }
 
   @media (max-width: 1240px) {
@@ -387,9 +459,12 @@ const socialCards = [
       width: 128px;
     }
 
-    .profileCard__contactList,
-    .profileCard__socialGrid {
+    .profileCard__contactList {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .profileCard__socialGrid {
+      grid-template-columns: 1fr 1fr 1fr;
     }
 
     .profileCard__socialCard {
@@ -400,7 +475,7 @@ const socialCards = [
   @media (max-width: 520px) {
     .profileCard__contactList,
     .profileCard__socialGrid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
     }
 
     .profileCard__name {

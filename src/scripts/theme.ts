@@ -9,6 +9,7 @@ interface ThemeOptions {
 
 declare global {
   interface Window {
+    PUBLIC_GITHUB_TOKEN?: string;
     __themeController?: ThemeController;
     themeController?: {
       init: () => ThemeMode;

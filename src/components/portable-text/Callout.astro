@@ -72,10 +72,15 @@ const { variant, title, body } = value;
   .callout {
     display: flex;
     gap: var(--space-sm);
-    padding: var(--space-md);
-    border-radius: var(--radius-md);
+    padding: clamp(var(--space-sm), 2.2vw, var(--space-md));
+    border-radius: clamp(18px, 2.2vw, 24px);
     margin: var(--space-lg) 0;
-    border: 1px solid;
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight);
   }
 
   .callout--info {

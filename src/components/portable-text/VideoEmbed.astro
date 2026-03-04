@@ -39,7 +39,7 @@ function getVideoInfo(url: string) {
   return null;
 }
 
-const _videoInfo = getVideoInfo(url);
+const videoInfo = getVideoInfo(url);
 ---
 
 {
@@ -71,9 +71,14 @@ const _videoInfo = getVideoInfo(url);
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     overflow: hidden;
-    border-radius: var(--radius-md);
-    background: var(--surface);
+    border-radius: clamp(18px, 2.4vw, 24px);
+    background: color-mix(in srgb, var(--surface-card) 95%, transparent);
     border: 1px solid var(--panel-border);
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   }
 
   .videoEmbed__wrapper iframe {

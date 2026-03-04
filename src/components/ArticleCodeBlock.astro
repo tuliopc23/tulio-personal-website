@@ -80,10 +80,15 @@ const highlightedHtml = code ? await highlightCode(code, language) : "";
 <style>
   .articlePortable__codeBlock {
     margin: var(--space-lg) 0;
-    border-radius: var(--radius-lg);
+    border-radius: clamp(18px, 2.4vw, 24px);
     overflow: hidden;
-    background: var(--surface);
-    border: 1px solid var(--hairline);
+    background: color-mix(in srgb, var(--surface-card) 95%, transparent);
+    border: 1px solid var(--panel-border-strong);
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   }
 
   .codeBlock__header {
@@ -91,8 +96,8 @@ const highlightedHtml = code ? await highlightCode(code, language) : "";
     align-items: center;
     justify-content: space-between;
     padding: var(--space-sm) var(--space-md);
-    background: var(--surface-elevated);
-    border-bottom: 1px solid var(--hairline);
+    background: color-mix(in srgb, var(--surface-muted) 88%, transparent);
+    border-bottom: 1px solid var(--panel-border);
   }
 
   .codeBlock__filename {
@@ -108,7 +113,7 @@ const highlightedHtml = code ? await highlightCode(code, language) : "";
     gap: var(--space-2xs);
     padding: var(--space-2xs) var(--space-sm);
     background: transparent;
-    border: 1px solid var(--hairline);
+    border: 1px solid var(--panel-border);
     border-radius: var(--radius-sm);
     color: var(--muted);
     font-size: var(--fs--2);
@@ -119,8 +124,8 @@ const highlightedHtml = code ? await highlightCode(code, language) : "";
   }
 
   .codeBlock__copy:hover {
-    background: var(--surface-hover);
-    border-color: var(--accent-hairline);
+    background: color-mix(in srgb, var(--surface-card-hover) 94%, transparent);
+    border-color: var(--panel-border-strong);
     color: var(--accent);
   }
 

@@ -303,15 +303,6 @@ const structuredDataJson =
               </li>
               <li class="topbar__navItem">
                 <a
-                  href="/uses"
-                  class="topbar__navLink"
-                  aria-current={Astro.url.pathname.startsWith("/uses") ? "page" : undefined}
-                >
-                  <span class="topbar__navLabel">Uses</span>
-                </a>
-              </li>
-              <li class="topbar__navItem">
-                <a
                   href="/now"
                   class="topbar__navLink"
                   aria-current={Astro.url.pathname.startsWith("/now") ? "page" : undefined}
@@ -379,16 +370,6 @@ const structuredDataJson =
                       <SFIcon name="sparkle" size={20} stroke={1.4} />
                     </span>
                     About
-                  </a>
-                  <a
-                    class="sidebar__link"
-                    href="/uses"
-                    aria-current={Astro.url.pathname.startsWith("/uses") ? "page" : undefined}
-                  >
-                    <span class="icon-tile icon-tile--green" aria-hidden="true">
-                      <SFIcon name="code" size={20} stroke={1.4} />
-                    </span>
-                    Uses
                   </a>
                   <a
                     class="sidebar__link"
@@ -502,7 +483,6 @@ const structuredDataJson =
               <a href="/projects">Projects</a>
               <a href="/blog/">Blog</a>
               <a href="/about">About</a>
-              <a href="/uses">Uses</a>
               <a
                 href="https://portfolio.tuliocunha.dev"
                 target="_blank"

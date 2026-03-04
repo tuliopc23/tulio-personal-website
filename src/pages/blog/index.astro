@@ -4,6 +4,7 @@ import ArticleCard from "../../components/ArticleCard.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
+import { optimizedImageUrl } from "../../sanity/lib/image";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
@@ -49,7 +50,11 @@ const featuredSocial = featured?.seo?.socialImage?.url
   : (featured?.heroImage ?? null);
 const ogImage = featuredSocial?.url
   ? {
-      url: featuredSocial.url,
+      url: optimizedImageUrl(featuredSocial.url, 1200, 630, {
+        quality: 88,
+        sharpen: 1.2,
+        fit: "cover",
+      }),
       alt: featuredSocial.alt ?? null,
       width: featuredSocial.width,
       height: featuredSocial.height,
@@ -222,7 +227,8 @@ const _placeholders = [
     <div class="cardGrid blogBrief__grid">
       {_pillars.map((pillar, index) => (
         <article
-          class="card card--static"
+          class="card hover-elevate"
+          data-parallax-card
           data-reveal
           data-reveal-group="blog-brief"
           data-reveal-order={index + 1}

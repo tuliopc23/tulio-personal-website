@@ -1,9 +1,12 @@
+import { EarthGlobeIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "seo",
   title: "SEO",
+  icon: EarthGlobeIcon,
   type: "object",
+  description: "Search and social metadata presented across cards, feeds, and article pages.",
   options: {
     collapsible: true,
     collapsed: false,

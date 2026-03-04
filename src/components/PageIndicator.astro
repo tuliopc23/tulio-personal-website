@@ -273,7 +273,7 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
         track.appendChild(existingSlider);
       }
       
-      const dots: HTMLElement[] = [];
+      const dots = [];
       
       items.forEach((item, index) => {
         const dot = document.createElement('div');
@@ -288,7 +288,7 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
         }
         
         dot.addEventListener('click', () => {
-          const itemElement = items[index] as HTMLElement;
+          const itemElement = items[index];
           itemElement.scrollIntoView({ 
             behavior: 'smooth', 
             block: 'nearest', 
@@ -312,7 +312,7 @@ const { containerSelector, itemSelector = "> *", ariaLabel = "Page indicator" } 
             let closestDistance = Infinity;
             
             items.forEach((item, index) => {
-              const itemRect = (item as HTMLElement).getBoundingClientRect();
+              const itemRect = item.getBoundingClientRect();
               const itemCenter = itemRect.left + itemRect.width / 2;
               const distance = Math.abs(itemCenter - containerCenter);
               

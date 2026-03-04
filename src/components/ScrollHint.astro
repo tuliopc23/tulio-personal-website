@@ -119,7 +119,7 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
 <script is:inline>
   (() => {
     const initHints = () => {
-      const hints = Array.from(document.querySelectorAll('[data-scroll-hint]')) as HTMLElement[];
+      const hints = Array.from(document.querySelectorAll('[data-scroll-hint]'));
       if (hints.length === 0) return;
 
       hints.forEach((hint) => {
@@ -130,7 +130,7 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
 
         if (!targetSelector) return;
 
-        const scrollContainer = document.querySelector(targetSelector) as HTMLElement | null;
+        const scrollContainer = document.querySelector(targetSelector);
         if (!scrollContainer) return;
 
         const persistKey = storageKey || `scroll-hint:${targetSelector}`;
@@ -158,7 +158,7 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
         };
 
         const handleKeyDown = () => {
-          const active = document.activeElement as HTMLElement | null;
+          const active = document.activeElement;
           if (active && scrollContainer.contains(active)) {
             hideHint();
           }

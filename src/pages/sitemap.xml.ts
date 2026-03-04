@@ -3,7 +3,7 @@ import { getAllCategories, getAllPostLocators } from "../sanity/lib/posts";
 
 export const prerender = true;
 
-const STATIC_ROUTES = ["/", "/about/", "/blog/", "/projects/", "/uses/", "/now/"];
+const STATIC_ROUTES = ["/", "/about/", "/blog/", "/projects/", "/now/"];
 
 function formatDate(input: string): string {
   const date = new Date(input);

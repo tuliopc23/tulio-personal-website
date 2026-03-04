@@ -57,6 +57,84 @@
   let linkHandler: ((event: MouseEvent) => void) | null = null;
   let scrollHandler: (() => void) | null = null;
   let scrollTimeout: number | null = null;
+  let parallaxCleanups: Array<() => void> = [];
+
+  const setupParallaxCards = (): void => {
+    parallaxCleanups.forEach((dispose) => {
+      dispose();
+    });
+    parallaxCleanups = [];
+
+    if (prefersReduced.matches) {
+      return;
+    }
+
+    const cards = Array.from(doc.querySelectorAll<HTMLElement>("[data-parallax-card]"));
+    if (!cards.length) {
+      return;
+    }
+
+    cards.forEach((card) => {
+      let frame = 0;
+      const maxTilt = 4;
+      const maxShift = 6;
+
+      const applyTilt = (event: PointerEvent): void => {
+        const rect = card.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+
+        const relativeX = (event.clientX - rect.left) / rect.width - 0.5;
+        const relativeY = (event.clientY - rect.top) / rect.height - 0.5;
+        const clamp = (value: number, limit: number): number =>
+          Math.min(Math.max(value, -limit), limit);
+
+        const rotateX = clamp(-relativeY * maxTilt * 2, maxTilt);
+        const rotateY = clamp(relativeX * maxTilt * 2, maxTilt);
+        const translateY = clamp(-relativeY * maxShift, maxShift);
+
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = window.requestAnimationFrame(() => {
+          card.style.setProperty("--parallax-rotate-x", `${rotateX}deg`);
+          card.style.setProperty("--parallax-rotate-y", `${rotateY}deg`);
+          card.style.setProperty("--parallax-translate", `${translateY}px`);
+        });
+      };
+
+      const resetTilt = (): void => {
+        if (frame) window.cancelAnimationFrame(frame);
+        card.style.setProperty("--parallax-rotate-x", "0deg");
+        card.style.setProperty("--parallax-rotate-y", "0deg");
+        card.style.setProperty("--parallax-translate", "0px");
+      };
+
+      const handlePointerEnter = (event: PointerEvent): void => {
+        card.classList.add("is-tilting");
+        applyTilt(event);
+      };
+      const handlePointerMove = (event: PointerEvent): void => applyTilt(event);
+      const handlePointerEnd = (): void => {
+        card.classList.remove("is-tilting");
+        resetTilt();
+      };
+
+      card.addEventListener("pointerenter", handlePointerEnter, { passive: true });
+      card.addEventListener("pointermove", handlePointerMove, { passive: true });
+      card.addEventListener("pointerdown", handlePointerEnter, { passive: true });
+      card.addEventListener("pointerup", handlePointerEnd, { passive: true });
+      card.addEventListener("pointerleave", handlePointerEnd, { passive: true });
+      card.addEventListener("pointercancel", handlePointerEnd, { passive: true });
+
+      parallaxCleanups.push(() => {
+        card.removeEventListener("pointerenter", handlePointerEnter);
+        card.removeEventListener("pointermove", handlePointerMove);
+        card.removeEventListener("pointerdown", handlePointerEnter);
+        card.removeEventListener("pointerup", handlePointerEnd);
+        card.removeEventListener("pointerleave", handlePointerEnd);
+        card.removeEventListener("pointercancel", handlePointerEnd);
+        resetTilt();
+      });
+    });
+  };
 
   const cleanup = (): void => {
     if (observer) {
@@ -79,6 +157,13 @@
     if (scrollTimeout !== null) {
       window.cancelAnimationFrame(scrollTimeout);
       scrollTimeout = null;
+    }
+
+    if (parallaxCleanups.length > 0) {
+      parallaxCleanups.forEach((dispose) => {
+        dispose();
+      });
+      parallaxCleanups = [];
     }
   };
 
@@ -331,6 +416,8 @@
         link.addEventListener("click", linkHandler as EventListener);
       });
     }
+
+    setupParallaxCards();
   };
 
   const applyMotionPreference = (reduce: boolean): void => {

@@ -512,3 +512,396 @@ Motion replication is complete when:
 - writing/profile cards exhibit premium depth behavior
 - reduced-motion and keyboard-focus paths are first-class
 - no performance regressions are introduced
+
+## 12) Remaining Bentolink Elements Not Yet Adapted
+
+This is the explicit “what is still missing” list after deeper cross-repo audit.
+
+## 12.1 Missing or Under-ported Modules (from Bentolink)
+Bentolink-only modules not present in target source tree:
+- `src/components/GitHubActivity.tsx` (Solid island)
+- `src/components/FeatureWritingWidget.tsx` (Solid island variant with richer interactions)
+- `src/styles/github-activity-widget.css`
+- `src/styles/feature-writing-widget.css` (Bentolink TSX companion)
+- `src/components/ScrollCTA.astro`
+- `src/components/ContactWidget.astro`
+- `src/components/SocialsCard.astro`
+- `src/components/ProfileHeader.astro`
+- `src/components/Icon.astro` (phosphor class wrapper)
+- `src/scripts/carousel-handler.ts`
+- `src/styles/phosphor.css` and `src/styles/phosphor-icons.css`
+- `src/services/sanity.ts` (Bentolink service layer)
+
+Interpretation:
+- Some are intentionally replaced in target architecture.
+- The important part is functional/visual parity, not file-name parity.
+
+## 12.2 GitHub Feature: What Is Still Missing vs Bentolink
+Current target (`GitHubActivityWidget.astro`) is a simpler SSR + optional live refresh list.
+
+Bentolink GitHub feature includes richer island behavior:
+- client-side carousel of repos
+- per-repo commit lists
+- scroll hint CTA
+- progress segments
+- keyboard navigation for carousel
+- periodic refresh and stateful interactions
+- comprehensive widget-specific styling depth (`github-activity-widget.css`)
+
+Gap conclusion:
+- GitHub section is functionally and visually below Bentolink’s interactive fidelity.
+- User-requested Solid island is valid and required for parity.
+
+## 12.3 Solid Islands Requirement (GitHub)
+To port Bentolink-style GitHub island into this repo, the following remains:
+
+Dependency/config gaps in target:
+1. Add `@astrojs/solid-js` integration in `astro.config.mjs`.
+2. Add runtime deps:
+   - `solid-js`
+   - optional `@phosphor-icons/web` if class-based icon usage is preserved for the island.
+3. Ensure island hydration strategy is explicit (`client:load` or `client:visible`).
+
+Component migration path:
+1. Introduce Solid component island for GitHub (from Bentolink `GitHubActivity.tsx`).
+2. Migrate widget CSS depth layer (`github-activity-widget.css`) and adapt tokens to target theme variables.
+3. Replace or wrap current `GitHubActivityWidget.astro` with island host component.
+4. Preserve token and accessibility semantics in target repo conventions.
+
+Data/auth path:
+- Bentolink component supports token-based authenticated GitHub API usage.
+- Target currently can use unauthenticated requests and lighter payload.
+- Final parity should keep secure token injection (server -> client island) with fallback behavior.
+
+## 12.4 Other Remaining Adaptation Areas
+1. Scroll affordance layer
+- Bentolink has `ScrollCTA` + carousel handling feel that is not fully replicated.
+- Target should decide whether to restore this pattern or keep current nav-only cues.
+
+2. Writing interactivity layer
+- Bentolink writing cards support pointer parallax + richer chip micro-interactions.
+- Target Astro writing widget still has simpler card behavior.
+
+3. Profile decomposition fidelity
+- Bentolink separated contact/social concerns with dedicated components.
+- Target merged into one `ProfileCard`; parity needs behavior-level equivalence even if architecture stays merged.
+
+4. Phosphor class-based affordances
+- Bentolink icon micro-animations rely on `.ph` class usage in some areas.
+- Target mainly uses custom `PhosphorIcon` component.
+- Must ensure motion/icon behavior parity without necessarily reintroducing font-icon stack globally.
+
+## 12.5 Recommended Decision Matrix for GitHub Island
+Option A (recommended): Hybrid adoption
+- Keep site architecture.
+- Introduce Solid island only for GitHub widget.
+- Reuse existing Astro page shell.
+- Port Bentolink widget behavior and styles.
+
+Option B: Full Bentolink widget stack import
+- Higher fidelity, higher risk.
+- Imports more coupled patterns and class naming.
+
+Option C: Enhance existing Astro widget only
+- Lowest risk, but likely misses parity target for interaction richness.
+
+Recommendation:
+- Execute Option A.
+
+## 12.6 Exact Tasks to Add to Execution Backlog (New)
+P0 additions:
+1. Integrate Solid in Astro config.
+2. Add GitHub Solid island component and style layer.
+3. Replace current GitHub widget embedding on home with island host.
+
+P1 additions:
+1. Port scroll hint/progress interaction patterns from Bentolink GitHub widget.
+2. Align writing widget interaction sophistication (parallax/chips).
+
+P2 additions:
+1. Normalize icon behavior inside island to match global outlined icon strategy.
+2. Evaluate whether `ScrollCTA` pattern should be restored site-wide.
+
+## 12.7 Verification Checklist for GitHub Island Parity
+Functional:
+- repo carousel loads
+- commits render per repo
+- keyboard arrows navigate cards
+- refresh flow works without console errors
+
+Visual:
+- card depth and glow match Bentolink
+- metadata chips and iconography read consistently
+- scroll hint/progress treatments match quality target
+
+Performance/A11y:
+- no hydration mismatch warnings
+- reduced motion respected
+- focus-visible states present for keyboard users
+
+## 13) OpenSpec Change Pack (Use This File As Generation Source)
+
+Use the following change units to generate OpenSpec proposals/tasks/spec deltas.
+
+## Change A: `bentolink-home-parity`
+Purpose:
+- Bring homepage visual system (materials, depth, sizing, card/tile hierarchy) to Bentolink parity.
+
+Primary files:
+- `src/pages/index.astro`
+- `src/components/ProfileCard.astro`
+- `src/components/IconTile.astro`
+- `src/components/DockLink.astro`
+- `src/components/Card.astro`
+
+Spec deltas:
+- `openspec/specs/styling-system/spec.md`
+  - Add requirements for component-level elevation tiers and shared card-shell behavior.
+- `openspec/specs/responsive-layout/spec.md`
+  - Add scenario for preserving depth hierarchy across breakpoints.
+
+Task skeleton:
+1. Align profile shell and inner panel structure with Bentolink hierarchy.
+2. Align contact chip and social tile material treatment.
+3. Normalize icon tile depth and hover response.
+4. Verify visual parity in light/dark and desktop/mobile.
+
+Acceptance:
+- Home card shells and tiles match Bentolink depth language at rest/hover/active.
+
+## Change B: `bentolink-motion-parity`
+Purpose:
+- Replicate comprehensive elevation hover motion and selective parallax.
+
+Primary files:
+- `src/styles/theme.css`
+- `src/styles/motion.css`
+- `src/scripts/motion.ts`
+- `src/components/FeatureWritingWidget.astro`
+- `src/components/ArticleCard.astro`
+- `src/components/ProfileCard.astro`
+
+Spec deltas:
+- `openspec/specs/styling-system/spec.md`
+  - Add canonical hover-elevation utility contract.
+- `openspec/specs/client-scripts/spec.md`
+  - Add pointer-parallax behavior contract and cleanup requirements.
+- `openspec/specs/responsive-layout/spec.md`
+  - Add reduced-motion behavior for hover/parallax interactions.
+
+Task skeleton:
+1. Standardize hover elevation utility and variable contract.
+2. Add Tier A parallax hooks for premium cards only.
+3. Ensure reduced-motion and focus-visible equivalence.
+4. Validate no frame drops on Safari.
+
+Acceptance:
+- Motion hierarchy is consistent across major interactive surfaces with no accessibility regressions.
+
+## Change C: `iconography-outlined-unification`
+Purpose:
+- Ensure outlined icon language consistency across all pages/components.
+
+Primary files:
+- `src/components/PhosphorIcon.astro`
+- `src/components/SFIcon.astro`
+- `src/layouts/Base.astro`
+- `src/components/Breadcrumbs.astro`
+- `src/components/Footer.astro`
+- `src/components/ArticleCard.astro`
+- `src/components/ProjectCard.astro`
+- `src/pages/index.astro`
+- `src/pages/blog/index.astro`
+- `src/pages/blog/[slug].astro`
+
+Spec deltas:
+- `openspec/specs/styling-system/spec.md`
+  - Add icon style consistency requirement for global shell + content surfaces.
+
+Task skeleton:
+1. Create explicit icon mapping matrix (old -> outlined equivalent).
+2. Migrate mixed icon usage contexts page-by-page.
+3. Keep brand logos as assets where appropriate.
+4. Verify semantic labels and focus states.
+
+Acceptance:
+- No mixed icon language in equivalent UI contexts.
+
+## Change D: `github-solid-island-parity`
+Purpose:
+- Port Bentolink-grade GitHub interactive widget as Solid island.
+
+Primary files:
+- `astro.config.mjs`
+- `package.json`
+- `src/components/GitHubActivity.tsx` (new)
+- `src/components/GitHubActivityWidget.astro` (wrapper/host or replacement)
+- `src/styles/github-activity-widget.css` (new/adapted)
+- `src/pages/index.astro`
+- `src/pages/now.astro`
+
+Dependencies/config:
+- Add `@astrojs/solid-js` integration.
+- Add `solid-js` runtime dependency.
+- Optional: evaluate `@phosphor-icons/web` necessity vs existing icon component strategy.
+
+Spec deltas:
+- `openspec/specs/client-scripts/spec.md`
+  - Add island hydration and lifecycle requirements.
+- `openspec/specs/styling-system/spec.md`
+  - Add widget-specific card-depth and carousel interaction requirements.
+
+Task skeleton:
+1. Enable Solid integration in Astro config.
+2. Introduce GitHub Solid island component.
+3. Wire token-safe styling and hydration strategy.
+4. Replace current home/now GitHub widget embedding.
+5. Validate token-based auth fallback behavior.
+
+Acceptance:
+- GitHub widget parity includes carousel, richer card interactions, and robust fallback handling.
+
+## Change E: `writing-widget-interaction-parity`
+Purpose:
+- Align writing cards to Bentolink CTA and interaction sophistication.
+
+Primary files:
+- `src/components/FeatureWritingWidget.astro`
+- `src/styles/theme.css` (or split stylesheet if adopted)
+- optional script support via `src/scripts/motion.ts`
+
+Spec deltas:
+- `openspec/specs/styling-system/spec.md`
+  - Add chip-CTA and metadata interaction requirements.
+
+Task skeleton:
+1. Port chip-based CTA language with icon affordance.
+2. Add card-level hover/parallax behavior as approved in motion contract.
+3. Ensure readability and clamp behavior remain stable.
+
+Acceptance:
+- Writing cards visually and interactively match Bentolink quality bar.
+
+## Change F: `blog-reader-fidelity-alignment`
+Purpose:
+- Bring blog index + article reader to same material/elevation language as home.
+
+Primary files:
+- `src/pages/blog/index.astro`
+- `src/components/ArticleCard.astro`
+- `src/pages/blog/[slug].astro`
+- `src/components/ArticlePortableText.astro`
+- `src/components/ArticlePortableImage.astro`
+
+Spec deltas:
+- `openspec/specs/styling-system/spec.md`
+  - Add article shell and content block surface hierarchy requirements.
+
+Task skeleton:
+1. Harmonize article card shells and CTA states.
+2. Elevate reader header/body/related surfaces.
+3. Normalize portable blocks (callouts/images/code) to shared material depth.
+
+Acceptance:
+- Blog and reader no longer feel like separate design systems from home.
+
+## Change G: `sanity-editorial-fidelity`
+Purpose:
+- Align Sanity authoring guidance with high-fidelity front-end rendering.
+
+Primary files:
+- `sanity.config.ts`
+- `src/sanity/schemaTypes/post.ts`
+- `src/sanity/schemaTypes/seo.ts`
+
+Spec deltas:
+- `openspec/specs/sanity-cms/spec.md`
+  - Add editorial metadata guidance for hooks/summaries/hero assets that preserve UI quality.
+
+Task skeleton:
+1. Improve schema descriptions and editorial constraints.
+2. Tune Studio structure labels/order for clarity.
+3. Document content quality contracts tied to frontend cards/reader.
+
+Acceptance:
+- Editor workflow and schema guidance consistently produce design-aligned content.
+
+## Change H: `remove-uses-surface`
+Purpose:
+- Fully remove `Uses` page and all references.
+
+Primary files:
+- `src/pages/uses.astro` (delete)
+- `src/layouts/Base.astro`
+- `src/pages/sitemap.xml.ts`
+- `src/styles/theme.css`
+
+Spec deltas:
+- `openspec/specs/responsive-layout/spec.md`
+  - Remove/adjust references to obsolete route where applicable.
+
+Task skeleton:
+1. Delete route and nav links.
+2. Remove sitemap entry.
+3. Purge `.uses__*` styles.
+4. Verify no stale references remain.
+
+Acceptance:
+- Zero `/uses` routes/links/styles remain.
+
+## 14) Final Gap Audit (Post-Deep Scan)
+Additional uncovered gaps from latest pass:
+1. Homepage interaction parity still misses Bentolink scroll affordance layer:
+- Bentolink uses `ScrollCTA` and `carousel-handler` behavior on home.
+- Target currently does not include this exact layer.
+
+2. GitHub parity affects both home and now pages:
+- `src/pages/now.astro` also consumes `GitHubActivityWidget.astro`; island migration must cover both pages.
+
+3. Solid integration is currently absent:
+- Target `astro.config.mjs` has no `@astrojs/solid-js` integration.
+- Bentolink relies on Solid islands for GitHub/Writing interactions.
+
+4. Writing island parity is optional but still a gap:
+- Bentolink uses Solid `FeatureWritingWidget.tsx` with deeper interactions.
+- Target Astro widget is simpler.
+
+Everything else material for Bentolink parity is already captured in sections 1-13.
+
+## 15) Ready-to-Generate Status
+Status:
+- The file now contains full OpenSpec generation input for each section/workstream.
+- No additional major parity gaps were found beyond the items listed in section 14.
+
+Next action:
+- Generate OpenSpec changes from Section 13 (`A` through `H`) in priority order: `A`, `B`, `D`, `H`, then `C`, `E`, `F`, `G`.
+
+## 16) OpenSpec Consolidation Mapping (A-H -> 4 Changes)
+To avoid fragmentation while keeping full coverage, the original 8 change units are consolidated into 4 validated OpenSpec changes.
+
+Consolidated changes:
+1. `bentolink-visual-home-parity`
+2. `bentolink-motion-system-parity`
+3. `github-solid-island-parity`
+4. `blog-reader-sanity-parity`
+
+Coverage mapping:
+- Original `A` (home parity) -> `bentolink-visual-home-parity`
+- Original `B` (motion parity) -> `bentolink-motion-system-parity`
+- Original `C` (iconography unification) -> `bentolink-visual-home-parity` + `bentolink-motion-system-parity`
+- Original `D` (GitHub Solid island) -> `github-solid-island-parity`
+- Original `E` (writing interaction parity) -> `bentolink-visual-home-parity` + `bentolink-motion-system-parity`
+- Original `F` (blog/reader fidelity) -> `blog-reader-sanity-parity`
+- Original `G` (sanity/editorial fidelity) -> `blog-reader-sanity-parity`
+- Original `H` (remove uses surface) -> `bentolink-visual-home-parity`
+
+Final audit result:
+- No required conversion from Sections 13-15 is left outside these 4 changes.
+- Solid-island GitHub scope is explicitly covered on both `/` and `/now`.
+- Motion parity is isolated in a dedicated change to keep implementation and QA deterministic.
+
+OpenSpec validation results (`--strict`):
+- `bentolink-visual-home-parity` -> valid
+- `bentolink-motion-system-parity` -> valid
+- `github-solid-island-parity` -> valid
+- `blog-reader-sanity-parity` -> valid
