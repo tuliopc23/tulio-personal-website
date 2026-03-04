@@ -3449,6 +3449,12 @@ kbd.slash {
   transform-origin: center;
 }
 
+.symbol--dock {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+}
+
 /* Dark mode: vibrant filled icons with 4-layer iOS shadows */
 [data-theme="dark"] .symbol {
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -3586,12 +3592,28 @@ kbd.slash {
   box-shadow: var(--shadow-symbol-dark-hover);
 }
 
+[data-theme="dark"] .dock-link--dock-premium:hover .symbol--dock,
+[data-theme="dark"] .dock-link--dock-premium:focus-visible .symbol--dock {
+  transform: scale(1.08) translateY(-1px);
+  box-shadow:
+    var(--shadow-symbol-dark-hover),
+    0 0 34px color-mix(in srgb, var(--symbol-accent) 24%, transparent);
+}
+
 [data-theme="light"] .card:hover .symbol,
 [data-theme="light"] .profileCard__socialCard:hover .symbol,
 [data-theme="light"] .profileCard__contact:hover .symbol,
 [data-theme="light"] .dock-link:hover .symbol {
   transform: scale(1.05);
   box-shadow: var(--shadow-symbol-light-hover);
+}
+
+[data-theme="light"] .dock-link--dock-premium:hover .symbol--dock,
+[data-theme="light"] .dock-link--dock-premium:focus-visible .symbol--dock {
+  transform: scale(1.08) translateY(-1px);
+  box-shadow:
+    var(--shadow-symbol-light-hover),
+    0 0 26px color-mix(in srgb, var(--symbol-accent) 22%, transparent);
 }
 
 /* Active press-down */
@@ -5798,8 +5820,8 @@ kbd.slash {
 }
 
 .blogSurface .articleGrid__item {
-  flex-basis: clamp(320px, 28vw, 360px);
-  max-width: clamp(320px, 28vw, 360px);
+  flex-basis: clamp(300px, 26vw, 340px);
+  max-width: clamp(300px, 26vw, 340px);
 }
 
 .articleCard {
@@ -5826,11 +5848,11 @@ kbd.slash {
 
 .blogSurface .articleCard:not(.articleCard--featured) {
   border-radius: 32px;
-  min-height: 320px;
+  min-height: 300px;
 }
 
 .blogSurface .articleCard:not(.articleCard--featured) .articleCard__link {
-  padding: clamp(24px, 2.8vw, 32px);
+  padding: clamp(20px, 2.2vw, 26px);
 }
 
 .articleCard[data-parallax-card].is-tilting {
@@ -6105,18 +6127,20 @@ kbd.slash {
 .articleCard__cta {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: 8px;
   margin-top: var(--space-xs);
   justify-self: start;
   align-self: start;
   width: fit-content;
-  font-weight: 600;
-  font-size: var(--fs--2);
-  letter-spacing: -0.01em;
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-footnote);
+  letter-spacing: var(--ls-footnote);
   color: var(--text-strong-on-primary, #fefefe);
   border: 1px solid color-mix(in srgb, var(--blue) 46%, transparent);
   border-radius: 999px;
-  padding: 9px 16px;
+  padding: 10px 14px;
+  min-width: 44px;
+  min-height: 44px;
   background: color-mix(in srgb, var(--blue) 26%, var(--surface-card) 74%);
   box-shadow:
     0 6px 16px rgba(10, 132, 255, 0.32),
