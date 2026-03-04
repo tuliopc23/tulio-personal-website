@@ -1,0 +1,33 @@
+src/components/ProjectCard.astro
+  8af5314e759a65cc 3,6,17-19,21-26,28-29,37,48-51,55-58,61-67,71,73-80,84,88-94,96-131,133-175,178-185,187-238
+src/sanity/schemaTypes/project.ts
+  8af5314e759a65cc 1-177
+src/sanity/lib/projects.ts
+  8af5314e759a65cc 1-50
+sanity.config.ts
+  8af5314e759a65cc 7,80-85
+src/pages/projects.astro
+  8af5314e759a65cc 5,7,11,13,53,56-57,72-76,80,83-100,103-106
+src/sanity/schemaTypes/index.ts
+  8af5314e759a65cc 7,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "fb541e3e5e6fcceefbe424df84016f7a6be2a329",
+  "prompts": {
+    "8af5314e759a65cc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "06f66cdc-70a8-4fb6-879e-917a7e47f4dc",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 505,
+      "total_deletions": 275,
+      "accepted_lines": 458,
+      "overriden_lines": 5
+    }
+  }
+}
