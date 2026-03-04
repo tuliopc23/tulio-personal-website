@@ -7,13 +7,21 @@ interface Props {
   tint?: string;
   iconAsset?: string;
   revealOrder?: number | string;
+  sizeVariant?: "default" | "dock-premium";
 }
 
-const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Props;
+const {
+  href,
+  title,
+  tint = "blue",
+  iconAsset,
+  revealOrder,
+  sizeVariant = "default",
+} = Astro.props as Props;
 ---
 
 <a
-  class="dock-link hover-elevate"
+  class={`dock-link dock-link--${sizeVariant} hover-elevate ${sizeVariant === "dock-premium" ? "motion-surface-premium" : "motion-surface-standard"}`}
   data-tint={tint}
   href={href}
   data-reveal
@@ -22,7 +30,7 @@ const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Pr
   target={href.startsWith("http") ? "_blank" : undefined}
   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
 >
-  <IconTile tint={tint} label={title} asset={iconAsset} />
+  <IconTile tint={tint} label={title} asset={iconAsset} context={sizeVariant === "dock-premium" ? "dock" : "default"} />
   <span class="dock-link__name">{title}</span>
 </a>
 
@@ -30,6 +38,7 @@ const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Pr
   .dock-link {
     --dock-accent-base: rgba(255, 255, 255, 0.08);
     --dock-accent-hover: rgba(255, 255, 255, 0.16);
+    --dock-glow-rgb: 10, 132, 255;
     --hover-elevate-translate: -4px;
     --hover-elevate-scale: 1.015;
     --hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
@@ -38,9 +47,9 @@ const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Pr
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     text-decoration: none;
-    padding: 10px;
+    padding: 12px 10px;
     border-radius: 18px;
     transition:
       transform var(--motion-duration-fast) var(--motion-ease-out),
@@ -55,9 +64,21 @@ const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Pr
       var(--shadow-card),
       var(--shadow-card-highlight),
       inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 0 36px rgba(10, 132, 255, 0.05);
+      0 0 36px rgba(var(--dock-glow-rgb), 0.05);
     backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
     -webkit-backdrop-filter: blur(var(--glass-thin-blur)) saturate(var(--glass-saturation-base));
+  }
+
+  .dock-link--dock-premium {
+    min-height: 124px;
+    gap: 12px;
+    border-radius: 20px;
+    padding: 16px 12px 14px;
+    box-shadow:
+      var(--shadow-card),
+      var(--shadow-card-highlight),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 52px rgba(var(--dock-glow-rgb), 0.09);
   }
 
   .dock-link::before {
@@ -82,12 +103,49 @@ const { href, title, tint = "blue", iconAsset, revealOrder } = Astro.props as Pr
     background: radial-gradient(circle at 50% 14%, var(--dock-accent-hover), rgba(0, 0, 0, 0) 72%);
   }
 
+  .dock-link--dock-premium:hover::before {
+    opacity: 0.44;
+  }
+
+  .dock-link[data-tint="blue"] {
+    --dock-glow-rgb: 10, 132, 255;
+  }
+
+  .dock-link[data-tint="indigo"] {
+    --dock-glow-rgb: 94, 92, 232;
+  }
+
+  .dock-link[data-tint="cyan"] {
+    --dock-glow-rgb: 0, 173, 216;
+  }
+
+  .dock-link[data-tint="green"] {
+    --dock-glow-rgb: 66, 184, 131;
+  }
+
+  .dock-link[data-tint="orange"] {
+    --dock-glow-rgb: 255, 120, 60;
+  }
+
+  .dock-link[data-tint="yellow"] {
+    --dock-glow-rgb: 255, 214, 10;
+  }
+
+  .dock-link[data-tint="brown"] {
+    --dock-glow-rgb: 183, 136, 86;
+  }
+
   .dock-link__name {
-    font-size: var(--fs-caption);
+    font-size: var(--fs-footnote);
     font-weight: var(--fw-semibold);
     color: var(--text-primary);
     text-align: center;
-    line-height: var(--lh-tight);
+    line-height: var(--lh-snug);
     margin: 0;
+    letter-spacing: var(--ls-footnote);
+  }
+
+  .dock-link--dock-premium .dock-link__name {
+    font-size: var(--fs-caption);
   }
 </style>

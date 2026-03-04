@@ -15,7 +15,7 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
 <div class="feature-writing-widget" role="list" aria-label="Featured writing articles">
   {posts.length > 0 ? (
     posts.slice(0, 3).map((post) => (
-      <article class="feature-writing-widget__card hover-elevate" role="listitem" data-parallax-card>
+      <article class="feature-writing-widget__card hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <p class="feature-writing-widget__eyebrow">
           <PhosphorIcon name="article" size={12} weight="regular" />
           <span>Article</span>
@@ -36,7 +36,7 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
             </span>
           )}
         </div>
-        <a class="feature-writing-widget__cta" href={post.href}>
+        <a class="feature-writing-widget__cta motion-cta-pill" href={post.href}>
           <span>Read</span>
           <PhosphorIcon name="arrow-up-right" size={14} weight="regular" />
         </a>

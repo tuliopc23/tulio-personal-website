@@ -202,7 +202,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             data-reveal-group="post-shell"
             data-reveal-order={0}
           >
-            <a class="article__backLink" href="/blog">
+            <a class="article__backLink motion-link-inline" href="/blog">
               <PhosphorIcon name="arrow-left" size={18} weight="regular" />
               <span>Back to articles</span>
             </a>
@@ -288,7 +288,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               <h2 class="article__relatedTitle">Share</h2>
               <div class="article__meta" role="group" aria-label="Share article">
                 <a
-                  class="articlePortable__link"
+                  class="articlePortable__link motion-link-inline"
                   href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${_shareText}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -296,7 +296,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   Share on X (Twitter)
                 </a>
                 <a
-                  class="articlePortable__link"
+                  class="articlePortable__link motion-link-inline"
                   href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${_shareText}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -344,7 +344,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
           <p class="article__summary">
             The article you’re looking for may have been unpublished or renamed. Return to
             the
-            <a class="articlePortable__link" href="/blog">
+            <a class="articlePortable__link motion-link-inline" href="/blog">
               {" "}
               blog overview
             </a>{" "}

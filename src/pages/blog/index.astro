@@ -234,7 +234,7 @@ const _placeholders = [
     <div class="cardGrid blogBrief__grid">
       {_pillars.map((pillar, index) => (
         <article
-          class="card hover-elevate blogBrief__card"
+          class="card hover-elevate motion-surface-standard blogBrief__card"
           data-parallax-card
           data-reveal
           data-reveal-group="blog-brief"
@@ -266,7 +266,7 @@ const _placeholders = [
       </div>
       <ul class="blogArchive__list" role="list" aria-label="Posts by year">
         {_archiveYears.map((item, index) => (
-          <li data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1}>
+          <li class="hover-elevate motion-surface-standard" data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1} data-parallax-card>
             <span class="blogArchive__year">{item.year}</span>
             <span class="blogArchive__count">{item.count} {item.count === 1 ? "article" : "articles"}</span>
           </li>
@@ -280,7 +280,7 @@ const _placeholders = [
       <section class="container blogSurface pageWidget" data-reveal data-reveal-group="blog-list">
         <div class="blogFilters" role="toolbar" aria-label="Filter posts by tag">
           <button
-            class="blogFilters__link is-active"
+            class="blogFilters__link motion-chip is-active"
             data-blog-filter="all"
             type="button"
           >
@@ -289,7 +289,7 @@ const _placeholders = [
           {_uniqueTags.map((tag) => {
             const slug = tag.toLowerCase().replace(/\s+/g, "-");
             return (
-              <button class="blogFilters__link" data-blog-filter={slug} type="button">
+              <button class="blogFilters__link motion-chip" data-blog-filter={slug} type="button">
                 {tag}
               </button>
             );
@@ -364,7 +364,7 @@ const _placeholders = [
         </div>
 
         <div class="blogActions">
-          <button class="blogActions__load" data-blog-load-more type="button">
+          <button class="blogActions__load motion-cta-pill" data-blog-load-more type="button">
             Load older articles
           </button>
         </div>

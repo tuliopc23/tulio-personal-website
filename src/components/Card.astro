@@ -32,7 +32,10 @@ const revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
 const isInteractive = typeof href === "string" && href.trim().length > 0;
 const showCTA = isInteractive && Boolean(cta);
-const baseClasses = ["card", isInteractive ? "hover-elevate" : "card--static"].join(" ");
+const baseClasses = [
+  "card",
+  isInteractive ? "hover-elevate motion-surface-standard" : "card--static",
+].join(" ");
 ---
 
 {

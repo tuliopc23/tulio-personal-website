@@ -90,7 +90,7 @@ const socialCards = [
 <section class="profileCard" aria-label={`Profile information for ${name}`} data-reveal>
   <div class="profileCard__hero">
     <article
-      class="profileCard__identity hover-elevate"
+      class="profileCard__identity hover-elevate motion-surface-premium"
       data-reveal
       data-reveal-order="0"
       data-parallax-card
@@ -119,14 +119,19 @@ const socialCards = [
         {
           contactCards.map((card) => (
             <a
-              class="profileCard__contact"
+              class="profileCard__contact motion-chip"
+              data-tint={card.tint}
               data-parallax-card
               href={card.href}
               target={card.external ? "_blank" : undefined}
               rel={card.external ? "noreferrer noopener" : undefined}
               aria-label={card.ariaLabel}
             >
-              <IconTile tint={card.tint} label={card.label} asset={card.asset} />
+              <IconTile
+                tint={card.tint}
+                label={card.label}
+                asset={card.asset}
+              />
               <span class="profileCard__contactCopy">
                 <strong>{card.label}</strong>
                 <span>{card.value}</span>
@@ -138,7 +143,7 @@ const socialCards = [
     </article>
 
     <article
-      class="profileCard__social hover-elevate"
+      class="profileCard__social hover-elevate motion-surface-premium"
       data-reveal
       data-reveal-order="1"
       data-parallax-card
@@ -158,7 +163,8 @@ const socialCards = [
         {
           socialCards.map((card) => (
             <a
-              class="profileCard__socialCard"
+              class="profileCard__socialCard hover-elevate motion-surface-standard"
+              data-tint={card.tint}
               data-parallax-card
               href={card.href}
               target={card.external ? "_blank" : undefined}
@@ -171,6 +177,7 @@ const socialCards = [
                 label={card.title}
                 icon={card.icon ?? null}
                 asset={card.asset ?? null}
+                context="dock"
               />
               <span>{card.title}</span>
             </a>
@@ -315,67 +322,97 @@ const socialCards = [
     --parallax-rotate-x: 0deg;
     --parallax-rotate-y: 0deg;
     --parallax-translate: 0px;
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-2);
     border-radius: 16px;
-    border: 1px solid var(--panel-border);
-    background:
-      linear-gradient(
-        140deg,
-        color-mix(in srgb, var(--blue) 16%, var(--surface-muted)) 0%,
-        var(--surface-muted) 62%
-      ),
-      var(--surface-muted);
-    padding: 10px 12px;
+    border: 1px solid rgba(108, 168, 255, 0.28);
+    background: var(--surface-translucent-2);
+    background: color-mix(in srgb, var(--surface-translucent-2) 96%, rgba(70, 124, 220, 0.06));
+    padding: 8px 12px;
     text-decoration: none;
     color: var(--text-primary);
+    min-height: 44px;
     min-width: 0;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.24),
-      0 8px 20px rgba(14, 28, 60, 0.22);
+    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.1);
+    backdrop-filter: blur(var(--glass-regular-blur)) saturate(150%);
+    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(150%);
     transform:
       perspective(900px)
       rotateX(var(--parallax-rotate-x))
       rotateY(var(--parallax-rotate-y))
       translateY(var(--parallax-translate));
     transition:
+      transform var(--motion-duration-spring-xs) var(--spring-responsive),
       border-color var(--motion-duration-sm) var(--motion-ease-out),
-      background var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+      background-color var(--motion-duration-sm) var(--motion-ease-out);
   }
 
-  .profileCard__contact:hover {
-    border-color: var(--panel-border-strong);
-    background:
-      linear-gradient(
-        140deg,
-        color-mix(in srgb, var(--blue) 24%, var(--surface-card-hover)) 0%,
-        var(--surface-card-hover) 62%
-      ),
-      var(--surface-card-hover);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 12px 28px rgba(14, 28, 60, 0.3);
+  .profileCard__contact::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at 24% 28%,
+      rgba(10, 132, 255, 0.26) 0%,
+      rgba(10, 132, 255, 0.12) 42%,
+      rgba(10, 132, 255, 0) 76%
+    );
+    opacity: 0;
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+    z-index: -1;
+  }
+
+  .profileCard__contact:hover,
+  .profileCard__contact:focus-visible {
     transform: translateY(-2px);
+    border-color: rgba(128, 184, 255, 0.4);
+    background: color-mix(in srgb, var(--blue) 16%, var(--surface-translucent-2));
+    box-shadow:
+      0 6px 16px rgba(10, 132, 255, 0.24),
+      inset 0 0 0 1px rgba(120, 180, 255, 0.18);
+  }
+
+  .profileCard__contact:hover::after,
+  .profileCard__contact:focus-visible::after {
+    opacity: 1;
+  }
+
+  .profileCard__contact:focus-visible {
+    box-shadow: var(--focus-ring);
   }
 
   .profileCard__contactCopy {
     min-width: 0;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
     line-height: 1.15;
-    gap: 4px;
+  }
+
+  .profileCard__contact :global(.symbol) {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
   }
 
   .profileCard__contactCopy strong {
     font-size: var(--fs-footnote);
     font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
   }
 
   .profileCard__contactCopy span {
-    font-size: var(--fs-caption);
+    font-size: 10px;
     color: var(--text-tertiary);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    font-weight: var(--fw-regular);
+    opacity: 0.8;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -422,25 +459,27 @@ const socialCards = [
   }
 
   .profileCard__socialCard {
+    --tile-accent-base: rgba(255, 255, 255, 0.08);
+    --tile-accent-hover: rgba(255, 255, 255, 0.16);
+    --tile-glow-rgb: 10, 132, 255;
+    --tile-hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
     --parallax-rotate-x: 0deg;
     --parallax-rotate-y: 0deg;
     --parallax-translate: 0px;
-    border-radius: 16px;
-    border: 1px solid var(--panel-border);
-    background:
-      linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--surface-muted) 92%, rgba(255, 255, 255, 0.06)) 0%,
-        var(--surface-muted) 70%
-      ),
-      var(--surface-muted);
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--panel-border) 68%, transparent);
+    background: color-mix(in srgb, var(--surface-card) 96%, transparent);
     text-decoration: none;
     color: var(--text-primary);
-    padding: 14px;
-    min-height: 118px;
+    padding: 16px 14px 14px;
+    min-height: 124px;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 12px 28px rgba(14, 28, 60, 0.28);
+      var(--shadow-card),
+      var(--shadow-card-highlight),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 48px rgba(var(--tile-glow-rgb), 0.09);
     transform:
       perspective(900px)
       rotateX(var(--parallax-rotate-x))
@@ -458,25 +497,61 @@ const socialCards = [
       box-shadow var(--motion-duration-sm) var(--motion-ease-out);
   }
 
+  .profileCard__socialCard::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 14%, var(--tile-accent-base), rgba(0, 0, 0, 0) 72%);
+    opacity: 0.22;
+    pointer-events: none;
+    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
   .profileCard__socialCard span:last-child {
-    font-size: var(--fs-footnote);
+    font-size: var(--fs-caption);
     font-weight: var(--fw-semibold);
+    letter-spacing: var(--ls-footnote);
   }
 
   .profileCard__socialCard:hover {
     transform: translateY(-2px);
     border-color: var(--panel-border-strong);
-    background:
-      linear-gradient(
-        145deg,
-        color-mix(in srgb, var(--surface-card-hover) 90%, rgba(255, 255, 255, 0.12)) 0%,
-        var(--surface-card-hover) 70%
-      ),
-      var(--surface-card-hover);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.24),
-      0 18px 36px rgba(14, 28, 60, 0.36),
-      0 0 26px rgba(77, 166, 255, 0.18);
+    background: color-mix(in srgb, var(--surface-card) 98%, transparent);
+    box-shadow: var(--tile-hover-shadow);
+  }
+
+  .profileCard__socialCard:hover::before {
+    opacity: 0.44;
+    background: radial-gradient(circle at 50% 14%, var(--tile-accent-hover), rgba(0, 0, 0, 0) 72%);
+  }
+
+  .profileCard__socialCard[data-tint="blue"] {
+    --tile-glow-rgb: 10, 132, 255;
+  }
+
+  .profileCard__socialCard[data-tint="indigo"] {
+    --tile-glow-rgb: 94, 92, 232;
+  }
+
+  .profileCard__socialCard[data-tint="cyan"] {
+    --tile-glow-rgb: 0, 173, 216;
+  }
+
+  .profileCard__socialCard[data-tint="green"] {
+    --tile-glow-rgb: 66, 184, 131;
+  }
+
+  .profileCard__socialCard[data-tint="orange"] {
+    --tile-glow-rgb: 255, 120, 60;
+  }
+
+  .profileCard__socialCard[data-tint="pink"] {
+    --tile-glow-rgb: 255, 56, 97;
+  }
+
+  .profileCard__socialCard[data-tint="purple"] {
+    --tile-glow-rgb: 194, 91, 244;
   }
 
   @media (max-width: 1240px) {
