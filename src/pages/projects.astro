@@ -3,12 +3,39 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../sanity/lib/projects";
+import { getProjectsPageContent } from "../sanity/lib/page-content";
 import { PROJECT_CATEGORIES } from "../sanity/project-categories";
 
 const projects = await getAllProjects();
+const pageContent = await getProjectsPageContent();
+
+const defaults = {
+  description: "A focused set of builds across native apps, web products, and design systems.",
+  heroEyebrow: "Selected work",
+  heroTitle: "Projects",
+  heroLede: "A focused set of builds across native apps, web products, and design systems.",
+  filterEmptyTitle: "No projects match this view",
+  filterEmptyBody: "Adjust the filter above or reach out for portfolio details:",
+  pageEmptyTitle: "Projects coming soon",
+  pageEmptyBody:
+    "I'm polishing case studies. In the meantime, reach out if you'd like to collaborate:",
+  contactEmail: "contact@tuliocunha.dev",
+};
+
+const content = {
+  description: pageContent?.description ?? defaults.description,
+  heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
+  heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
+  heroLede: pageContent?.heroLede ?? defaults.heroLede,
+  filterEmptyTitle: pageContent?.filterEmptyTitle ?? defaults.filterEmptyTitle,
+  filterEmptyBody: pageContent?.filterEmptyBody ?? defaults.filterEmptyBody,
+  pageEmptyTitle: pageContent?.pageEmptyTitle ?? defaults.pageEmptyTitle,
+  pageEmptyBody: pageContent?.pageEmptyBody ?? defaults.pageEmptyBody,
+  contactEmail: pageContent?.contactEmail ?? defaults.contactEmail,
+};
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
-const description = "A focused set of builds across native apps, web products, and design systems.";
+const description = content.description;
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
 const _hasProjects = projects.length > 0;
 const _projectFilters = [
@@ -47,11 +74,9 @@ const _structuredData = {
         ]}
       />
       <div class="projects__hero">
-        <span class="projects__eyebrow">Selected work</span>
-        <h1 class="projects__title">Projects</h1>
-        <p class="projects__lede">
-          A focused set of builds across native apps, web products, and design systems.
-        </p>
+        <span class="projects__eyebrow">{content.heroEyebrow}</span>
+        <h1 class="projects__title">{content.heroTitle}</h1>
+        <p class="projects__lede">{content.heroLede}</p>
       </div>
       {
         _hasProjects && (
@@ -76,11 +101,11 @@ const _structuredData = {
         _hasProjects ? (
           <Fragment>
             <div class="projects__filterEmpty card" data-project-empty hidden>
-              <h2>No projects match this view</h2>
+              <h2>{content.filterEmptyTitle}</h2>
               <p>
-                Adjust the filter above or reach out at{" "}
-                <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> for portfolio
-                details.
+                {content.filterEmptyBody}
+                {" "}
+                <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
               </p>
             </div>
             <div class="cardGrid projects__grid" data-projects-grid>
@@ -91,11 +116,11 @@ const _structuredData = {
           </Fragment>
         ) : (
           <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
-            <h2>Projects coming soon</h2>
+            <h2>{content.pageEmptyTitle}</h2>
             <p>
-              I'm polishing case studies. In the meantime, reach out at{" "}
-              <a href="mailto:contact@tuliocunha.dev">contact@tuliocunha.dev</a> if you'd like to
-              collaborate.
+              {content.pageEmptyBody}
+              {" "}
+              <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
             </p>
           </div>
         )

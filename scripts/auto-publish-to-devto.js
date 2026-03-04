@@ -64,7 +64,7 @@ function portableTextToHtml(blocks) {
 
 // Publish to Dev.to
 async function publishToDevTo(articleData) {
-  const devToApiKey = process.env.DEV_TO_API_KEY || "tUjqHCg9bW8ULJ1JywBC3o14";
+  const devToApiKey = process.env.DEV_TO_API_KEY;
 
   if (!devToApiKey) {
     console.log("⚠️  DEV_TO_API_KEY not set - skipping Dev.to publishing");

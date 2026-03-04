@@ -7,7 +7,7 @@ const client = createClient({
   projectId: process.env.PUBLIC_SANITY_PROJECT_ID || "61249gtj",
   dataset: process.env.PUBLIC_SANITY_DATASET || "production",
   token: process.env.SANITY_API_WRITE_TOKEN,
-  apiVersion: "2024-01-01",
+  apiVersion: "2025-02-19",
   useCdn: false,
 });
 
@@ -33,6 +33,7 @@ async function setupWebhook() {
 
   // GitHub integration (for site rebuild)
   const githubToken = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
+  const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
   const githubRepo = process.env.GITHUB_REPOSITORY || "tuliopc23/tulio-personal-website";
 
   if (!githubToken) {
@@ -90,7 +91,8 @@ async function setupWebhook() {
           }`,
           on: ["create", "update", "delete"],
           includeDrafts: false,
-          apiVersion: "2024-01-01",
+          apiVersion: "2025-02-19",
+          ...(webhookSecret ? { secret: webhookSecret } : {}),
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${githubToken}`,
@@ -160,7 +162,8 @@ async function setupWebhook() {
           }`,
           on: ["create", "update", "delete"],
           includeDrafts: false,
-          apiVersion: "2024-01-01",
+          apiVersion: "2025-02-19",
+          ...(webhookSecret ? { secret: webhookSecret } : {}),
           headers: {
             "Content-Type": "application/json",
             "X-Sanity-Webhook": "auto-publish",

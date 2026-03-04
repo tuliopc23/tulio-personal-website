@@ -1,6 +1,50 @@
 import type { APIRoute } from "astro";
 import { toPlainText } from "astro-portabletext";
 
+function toHex(buffer: ArrayBuffer): string {
+  return Array.from(new Uint8Array(buffer))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function extractSignature(rawSignature: string): string | null {
+  const match = rawSignature.match(/[a-f0-9]{64}/i);
+  return match ? match[0].toLowerCase() : null;
+}
+
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) {
+    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return mismatch === 0;
+}
+
+async function verifySanityWebhookSignature(
+  rawBody: string,
+  signatureHeader: string,
+  secret: string,
+) {
+  const expected = extractSignature(signatureHeader);
+  if (!expected) return false;
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    {
+      name: "HMAC",
+      hash: "SHA-256",
+    },
+    false,
+    ["sign"],
+  );
+
+  const mac = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(rawBody));
+  const calculated = toHex(mac);
+  return constantTimeEqual(calculated, expected);
+}
+
 // --- Helper Functions ---
 
 interface PortableTextBlock {
@@ -71,7 +115,10 @@ async function publishToDevTo(articleData: ArticleData) {
     const result = await response.json();
     return { success: true, url: result.url };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : String(error) };
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 }
 
@@ -98,7 +145,10 @@ async function triggerGitHubRebuild(title: string) {
     if (!response.ok) throw new Error(await response.text());
     return { success: true };
   } catch (error) {
-    return { success: false, error: error instanceof Error ? error.message : String(error) };
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
   }
 }
 
@@ -116,15 +166,41 @@ export const GET: APIRoute = async () => {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const data = await request.json();
-    const { title, operation, crossposting } = data;
+    const webhookSecret = import.meta.env.SANITY_WEBHOOK_SECRET;
+    const signatureHeader =
+      request.headers.get("x-sanity-signature") ??
+      request.headers.get("sanity-webhook-signature") ??
+      "";
+    const rawBody = await request.text();
+
+    if (!webhookSecret) {
+      return new Response(
+        JSON.stringify({ error: "Missing SANITY_WEBHOOK_SECRET server configuration" }),
+        { status: 500 },
+      );
+    }
+
+    const isValid = await verifySanityWebhookSignature(rawBody, signatureHeader, webhookSecret);
+    if (!isValid) {
+      return new Response(JSON.stringify({ error: "Invalid webhook signature" }), {
+        status: 401,
+      });
+    }
+
+    const data = JSON.parse(rawBody) as ArticleData & {
+      operation?: string;
+      crossposting?: { devto?: { enabled?: boolean } };
+    };
+    const title = (data.title || "Untitled").toString();
+    const operation = (data.operation || "update").toString();
+    const crossposting = data.crossposting as { devto?: { enabled?: boolean } } | undefined;
 
     console.log(`[Webhook] Received ${operation} for: ${title}`);
 
     // 1. Handle Auto-publishing to Dev.to
     let devToResult = null;
     if (operation !== "delete" && crossposting?.devto?.enabled) {
-      devToResult = await publishToDevTo(data);
+      devToResult = await publishToDevTo(data as ArticleData);
     }
 
     // 2. Trigger Site Rebuild (GitHub Actions)

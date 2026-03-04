@@ -10,7 +10,7 @@ const sanityOptions = {
   projectId: DEFAULT_PROJECT_ID,
   dataset: DEFAULT_DATASET,
   useCdn: true,
-  apiVersion: "2025-01-01",
+  apiVersion: "2025-02-19",
 };
 
 export default defineConfig({

@@ -1,15 +1,77 @@
 ---
 import Base from "../layouts/Base.astro";
 import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
+import { getNowPageContent } from "../sanity/lib/page-content";
+
+const pageContent = await getNowPageContent();
+
+const defaults = {
+  seoDescription: "What Tulio Cunha is currently building, refining, and preparing next.",
+  heroEyebrow: "Now",
+  heroTitle: "Live priorities, not static intentions.",
+  heroLede:
+    "A transparent snapshot of what I am shipping now, what is queued next, and where my attention is headed.",
+  nowItems: [
+    "Portfolio redesign and storytelling depth expansion",
+    "Case studies with stronger context, tradeoffs, and impact",
+    "Motion and editorial polish across primary pages",
+  ],
+  nextItems: [
+    "Blog templates with richer narrative and illustration blocks",
+    "Project-by-project technical postmortems",
+    "Better publishing pipeline ergonomics in Sanity",
+  ],
+  laterItems: [
+    "Interactive showcase modules for selected product work",
+    "Expanded writing series on design systems and delivery",
+    "Public playbooks for engineering + interface quality",
+  ],
+  signalsHeading: "Execution Signals",
+  signalsLede: "What indicates this current direction is working.",
+  executionSignals: [
+    {
+      title: "Clearer narrative flow",
+      body: "Visitors can understand scope, depth, and outcomes quickly without losing detail.",
+    },
+    {
+      title: "Higher publishing cadence",
+      body: "More frequent articles and case-study updates with consistent editorial quality.",
+    },
+    {
+      title: "Stronger design consistency",
+      body: "Shared motion, spacing, and visual language across home, projects, and blog.",
+    },
+  ],
+  githubHeading: "Live GitHub Stream",
+  githubLede: "Real-time commit activity across active repositories.",
+};
+
+const content = {
+  seoDescription: pageContent?.seoDescription ?? defaults.seoDescription,
+  heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
+  heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
+  heroLede: pageContent?.heroLede ?? defaults.heroLede,
+  lastUpdated: pageContent?.lastUpdated ?? new Date().toISOString(),
+  nowItems: pageContent?.nowItems?.length ? pageContent.nowItems : defaults.nowItems,
+  nextItems: pageContent?.nextItems?.length ? pageContent.nextItems : defaults.nextItems,
+  laterItems: pageContent?.laterItems?.length ? pageContent.laterItems : defaults.laterItems,
+  signalsHeading: pageContent?.signalsHeading ?? defaults.signalsHeading,
+  signalsLede: pageContent?.signalsLede ?? defaults.signalsLede,
+  executionSignals: pageContent?.executionSignals?.length
+    ? pageContent.executionSignals
+    : defaults.executionSignals,
+  githubHeading: pageContent?.githubHeading ?? defaults.githubHeading,
+  githubLede: pageContent?.githubLede ?? defaults.githubLede,
+};
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/now/", siteOrigin).toString();
-const description = "What Tulio Cunha is currently building, refining, and preparing next.";
+const description = content.seoDescription;
 const _lastUpdated = new Intl.DateTimeFormat("en", {
   month: "long",
   day: "numeric",
   year: "numeric",
-}).format(new Date());
+}).format(new Date(content.lastUpdated));
 const _structuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
@@ -31,12 +93,9 @@ const _structuredData = {
   <div class="pageBento">
     <section class="container blogHero pageWidget" data-reveal data-reveal-type="scale">
     <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">Now</span>
-      <h1 class="blogHero__title">Live priorities, not static intentions.</h1>
-      <p class="blogHero__lede">
-        A transparent snapshot of what I am shipping now, what is queued next, and where my
-        attention is headed.
-      </p>
+      <span class="blogHero__eyebrow">{content.heroEyebrow}</span>
+      <h1 class="blogHero__title">{content.heroTitle}</h1>
+      <p class="blogHero__lede">{content.heroLede}</p>
     </div>
     <p class="now__updated">Last updated: {_lastUpdated}</p>
     </section>
@@ -46,25 +105,19 @@ const _structuredData = {
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <h2>Now</h2>
         <ul>
-          <li>Portfolio redesign and storytelling depth expansion</li>
-          <li>Case studies with stronger context, tradeoffs, and impact</li>
-          <li>Motion and editorial polish across primary pages</li>
+          {content.nowItems.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <h2>Next</h2>
         <ul>
-          <li>Blog templates with richer narrative and illustration blocks</li>
-          <li>Project-by-project technical postmortems</li>
-          <li>Better publishing pipeline ergonomics in Sanity</li>
+          {content.nextItems.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <h2>Later</h2>
         <ul>
-          <li>Interactive showcase modules for selected product work</li>
-          <li>Expanded writing series on design systems and delivery</li>
-          <li>Public playbooks for engineering + interface quality</li>
+          {content.laterItems.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       </div>
@@ -72,53 +125,28 @@ const _structuredData = {
 
     <section class="container home__section now__signals pageWidget" data-reveal>
       <div class="home__selectedHeader">
-        <h2 class="section-title">Execution Signals</h2>
-        <p class="home__selectedLede">
-          What indicates this current direction is working.
-        </p>
+        <h2 class="section-title">{content.signalsHeading}</h2>
+        <p class="home__selectedLede">{content.signalsLede}</p>
       </div>
       <div class="now__signalGrid">
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Clearer narrative flow</h3>
-            <p class="card-body">
-              Visitors can understand scope, depth, and outcomes quickly without losing
-              detail.
-            </p>
+      {content.executionSignals.map((signal) => (
+        <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
+          <div class="card__inner">
+            <div class="card__content">
+              <h3 class="card-title">{signal.title}</h3>
+              <p class="card-body">{signal.body}</p>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Higher publishing cadence</h3>
-            <p class="card-body">
-              More frequent articles and case-study updates with consistent editorial quality.
-            </p>
-          </div>
-        </div>
-      </article>
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h3 class="card-title">Stronger design consistency</h3>
-            <p class="card-body">
-              Shared motion, spacing, and visual language across home, projects, and blog.
-            </p>
-          </div>
-        </div>
-      </article>
+        </article>
+      ))}
       </div>
     </section>
 
     <section class="container home__section now__github pageWidget" data-reveal>
       <div class="home__selectedHeader">
         <span class="pageWidget__eyebrow">Activity</span>
-        <h2 class="section-title">Live GitHub Stream</h2>
-        <p class="home__selectedLede">
-          Real-time commit activity across active repositories.
-        </p>
+        <h2 class="section-title">{content.githubHeading}</h2>
+        <p class="home__selectedLede">{content.githubLede}</p>
       </div>
       <GitHubActivityWidget live={true} large={true} limit={12} />
     </section>

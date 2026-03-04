@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { type DocumentActionComponent, useClient } from "sanity";
 
 export const unpublishAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-01-01" });
+  const client = useClient({ apiVersion: "2025-02-19" });
   const [dialogOpen, setDialogOpen] = useState(false);
 
   // Only show for published posts

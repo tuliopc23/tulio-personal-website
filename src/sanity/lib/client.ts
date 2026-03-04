@@ -6,7 +6,7 @@ const isDevelopment = import.meta.env.DEV;
 
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? DEFAULT_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? DEFAULT_DATASET;
-const apiVersion = "2025-01-01";
+const apiVersion = "2025-02-19";
 const useCdn = import.meta.env.PROD;
 
 if (

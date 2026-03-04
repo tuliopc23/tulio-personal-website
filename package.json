@@ -27,6 +27,11 @@
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
+    "secrets:sync": "doppler secrets --project tulio-cunha-website --json | jq -c 'with_entries(select((.key as $k | [\"SANITY_API_READ_TOKEN\",\"SANITY_API_WRITE_TOKEN\",\"DEV_TO_API_KEY\",\"HASHNODE_API_KEY\",\"GITHUB_PERSONAL_ACCESS_TOKEN\",\"SANITY_WEBHOOK_SECRET\",\"LINKEDIN_ACCESS_TOKEN\",\"LINKEDIN_PERSON_ID\",\"HASHNODE_ACCESS_TOKEN\",\"HASHNODE_PUBLICATION_ID\"] | index($k))) | .value = .value.computed)' | wrangler secret bulk --env \"\"",
+    "secrets:sync:stg": "doppler secrets --project tulio-cunha-website --config stg --json | jq -c 'with_entries(select((.key as $k | [\"SANITY_API_READ_TOKEN\",\"SANITY_API_WRITE_TOKEN\",\"DEV_TO_API_KEY\",\"HASHNODE_API_KEY\",\"GITHUB_PERSONAL_ACCESS_TOKEN\",\"SANITY_WEBHOOK_SECRET\",\"LINKEDIN_ACCESS_TOKEN\",\"LINKEDIN_PERSON_ID\",\"HASHNODE_ACCESS_TOKEN\",\"HASHNODE_PUBLICATION_ID\"] | index($k))) | .value = .value.computed)' | wrangler secret bulk --env stg",
+    "secrets:sync:prd": "doppler secrets --project tulio-cunha-website --config prd --json | jq -c 'with_entries(select((.key as $k | [\"SANITY_API_READ_TOKEN\",\"SANITY_API_WRITE_TOKEN\",\"DEV_TO_API_KEY\",\"HASHNODE_API_KEY\",\"GITHUB_PERSONAL_ACCESS_TOKEN\",\"SANITY_WEBHOOK_SECRET\",\"LINKEDIN_ACCESS_TOKEN\",\"LINKEDIN_PERSON_ID\",\"HASHNODE_ACCESS_TOKEN\",\"HASHNODE_PUBLICATION_ID\"] | index($k))) | .value = .value.computed)' | wrangler secret bulk --env prd",
+    "deploy:stg": "bun run secrets:sync:stg && wrangler deploy --env stg",
+    "deploy:prd": "bun run secrets:sync:prd && wrangler deploy --env prd",
     "deploy": "wrangler deploy",
     "install:ci": "bun install"
   },

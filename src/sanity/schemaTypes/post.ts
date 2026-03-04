@@ -238,8 +238,13 @@ export default defineType({
       title: "Schedule Publish",
       type: "datetime",
       fieldset: "workflow",
-      description:
-        "Optional: Schedule this article to be published at a specific date/time. Leave empty to publish immediately.",
+      description: "Deprecated. Use Sanity Scheduled Drafts or Content Releases for scheduling.",
+      readOnly: true,
+      hidden: ({ value }) => value === undefined,
+      deprecated: {
+        reason: "Use Scheduled Drafts/Releases instead of custom scheduledPublishAt workflow.",
+      },
+      initialValue: undefined,
     }),
 
     // Cross-posting Configuration

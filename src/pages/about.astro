@@ -1,10 +1,87 @@
 ---
 import Base from "../layouts/Base.astro";
+import { getAboutPageContent } from "../sanity/lib/page-content";
+
+const pageContent = await getAboutPageContent();
+
+const defaults = {
+  seoDescription:
+    "Tulio Cunha is a product engineer blending native craft with web precision and editorial design thinking.",
+  heroEyebrow: "About",
+  heroTitle: "I engineer products that feel inevitable to use.",
+  heroLede:
+    "My work combines system-level thinking, interface taste, and execution rigor. I care about reliability, motion, readability, and the product details users notice only when they are done right.",
+  manifestoLabel: "Core stance",
+  manifestoTitle: "Strong foundations first. Distinctive polish second.",
+  manifestoCopy:
+    "Most teams choose between speed and quality because they sequence work poorly. I structure projects so architecture, UX, and delivery rhythm reinforce each other, instead of fighting for priority.",
+  proofBullets: [
+    "Product-context before implementation",
+    "Vertical slices with measurable checkpoints",
+    "Motion and accessibility as first-class quality gates",
+  ],
+  principles: [
+    {
+      title: "Systems Thinking",
+      body: "Information architecture, component contracts, and content models are designed together so interfaces stay coherent as products scale.",
+    },
+    {
+      title: "Execution Discipline",
+      body: "I keep implementation close to real behavior with pragmatic validation loops, not speculative complexity.",
+    },
+    {
+      title: "Design Language",
+      body: "Apple-inspired clarity, precise spacing, and restrained visual hierarchy shape products that feel premium without being ornamental.",
+    },
+    {
+      title: "Editorial Communication",
+      body: "I document tradeoffs and decisions in plain language so teams can move faster with shared understanding.",
+    },
+  ],
+  timelineHeading: "Current Arc",
+  timelineLede:
+    "The present focus across product engineering, portfolio work, and technical writing.",
+  timelineItems: [
+    {
+      year: "2026",
+      title: "Portfolio and case-study expansion",
+      body: "Rebuilding this site as a more cinematic portfolio and stronger narrative layer for project outcomes.",
+    },
+    {
+      year: "2025",
+      title: "Native + web product convergence",
+      body: "Bridged workflows between Apple-platform development and modern web systems to ship faster with consistent quality.",
+    },
+    {
+      year: "Ongoing",
+      title: "Tooling, performance, and interface craft",
+      body: "Investing in reliable delivery pipelines and refined interaction design that hold up under real-world constraints.",
+    },
+  ],
+};
+
+const content = {
+  seoDescription: pageContent?.seoDescription ?? defaults.seoDescription,
+  heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
+  heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
+  heroLede: pageContent?.heroLede ?? defaults.heroLede,
+  manifestoLabel: pageContent?.manifestoLabel ?? defaults.manifestoLabel,
+  manifestoTitle: pageContent?.manifestoTitle ?? defaults.manifestoTitle,
+  manifestoCopy: pageContent?.manifestoCopy ?? defaults.manifestoCopy,
+  proofBullets: pageContent?.proofBullets?.length
+    ? pageContent.proofBullets
+    : defaults.proofBullets,
+  principles: pageContent?.principles?.length ? pageContent.principles : defaults.principles,
+  timelineHeading: pageContent?.timelineHeading ?? defaults.timelineHeading,
+  timelineLede: pageContent?.timelineLede ?? defaults.timelineLede,
+  timelineItems: pageContent?.timelineItems?.length
+    ? pageContent.timelineItems
+    : defaults.timelineItems,
+};
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/about/", siteOrigin).toString();
-const description =
-  "Tulio Cunha is a product engineer blending native craft with web precision and editorial design thinking.";
+const description = content.seoDescription;
 const _structuredData = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
@@ -26,120 +103,53 @@ const _structuredData = {
   <div class="pageBento">
   <section class="container blogHero pageWidget" data-reveal data-reveal-type="scale">
     <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">About</span>
-      <h1 class="blogHero__title">I engineer products that feel inevitable to use.</h1>
-      <p class="blogHero__lede">
-        My work combines system-level thinking, interface taste, and execution rigor. I care
-        about reliability, motion, readability, and the product details users notice only
-        when they are done right.
-      </p>
+      <span class="blogHero__eyebrow">{content.heroEyebrow}</span>
+      <h1 class="blogHero__title">{content.heroTitle}</h1>
+      <p class="blogHero__lede">{content.heroLede}</p>
     </div>
   </section>
 
   <section class="container home__section about__manifesto pageWidget" data-reveal>
     <article class="about__manifestoCard hover-elevate motion-surface-standard" data-parallax-card>
-      <p class="about__manifestoLabel">Core stance</p>
-      <h2 class="section-title">Strong foundations first. Distinctive polish second.</h2>
-      <p class="about__manifestoCopy">
-        Most teams choose between speed and quality because they sequence work poorly. I
-        structure projects so architecture, UX, and delivery rhythm reinforce each other,
-        instead of fighting for priority.
-      </p>
+      <p class="about__manifestoLabel">{content.manifestoLabel}</p>
+      <h2 class="section-title">{content.manifestoTitle}</h2>
+      <p class="about__manifestoCopy">{content.manifestoCopy}</p>
       <ul class="about__proof" role="list" aria-label="Working principles">
-        <li role="listitem">Product-context before implementation</li>
-        <li role="listitem">Vertical slices with measurable checkpoints</li>
-        <li role="listitem">Motion and accessibility as first-class quality gates</li>
+        {content.proofBullets.map((item) => <li role="listitem">{item}</li>)}
       </ul>
     </article>
   </section>
 
   <section class="container home__section pageWidget" data-reveal>
     <div class="cardGrid about__principles">
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h2 class="card-title">Systems Thinking</h2>
-            <p class="card-body">
-              Information architecture, component contracts, and content models are designed
-              together so interfaces stay coherent as products scale.
-            </p>
+      {content.principles.map((principle) => (
+        <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
+          <div class="card__inner">
+            <div class="card__content">
+              <h2 class="card-title">{principle.title}</h2>
+              <p class="card-body">{principle.body}</p>
+            </div>
           </div>
-        </div>
-      </article>
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h2 class="card-title">Execution Discipline</h2>
-            <p class="card-body">
-              I keep implementation close to real behavior with pragmatic validation loops,
-              not speculative complexity.
-            </p>
-          </div>
-        </div>
-      </article>
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h2 class="card-title">Design Language</h2>
-            <p class="card-body">
-              Apple-inspired clarity, precise spacing, and restrained visual hierarchy shape
-              products that feel premium without being ornamental.
-            </p>
-          </div>
-        </div>
-      </article>
-      <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-        <div class="card__inner">
-          <div class="card__content">
-            <h2 class="card-title">Editorial Communication</h2>
-            <p class="card-body">
-              I document tradeoffs and decisions in plain language so teams can move faster
-              with shared understanding.
-            </p>
-          </div>
-        </div>
-      </article>
+        </article>
+      ))}
     </div>
   </section>
 
   <section class="container home__section about__timeline pageWidget" data-reveal>
     <div class="home__selectedHeader">
-      <h2 class="section-title">Current Arc</h2>
-      <p class="home__selectedLede">
-        The present focus across product engineering, portfolio work, and technical writing.
-      </p>
+      <h2 class="section-title">{content.timelineHeading}</h2>
+      <p class="home__selectedLede">{content.timelineLede}</p>
     </div>
     <ol class="about__timelineList">
-      <li class="hover-elevate motion-surface-standard" data-parallax-card>
-        <span class="about__timelineYear">2026</span>
-        <div>
-          <h3>Portfolio and case-study expansion</h3>
-          <p>
-            Rebuilding this site as a more cinematic portfolio and stronger narrative layer
-            for project outcomes.
-          </p>
-        </div>
-      </li>
-      <li class="hover-elevate motion-surface-standard" data-parallax-card>
-        <span class="about__timelineYear">2025</span>
-        <div>
-          <h3>Native + web product convergence</h3>
-          <p>
-            Bridged workflows between Apple-platform development and modern web systems to
-            ship faster with consistent quality.
-          </p>
-        </div>
-      </li>
-      <li class="hover-elevate motion-surface-standard" data-parallax-card>
-        <span class="about__timelineYear">Ongoing</span>
-        <div>
-          <h3>Tooling, performance, and interface craft</h3>
-          <p>
-            Investing in reliable delivery pipelines and refined interaction design that hold
-            up under real-world constraints.
-          </p>
-        </div>
-      </li>
+      {content.timelineItems.map((item) => (
+        <li class="hover-elevate motion-surface-standard" data-parallax-card>
+          <span class="about__timelineYear">{item.year}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        </li>
+      ))}
     </ol>
   </section>
   </div>

@@ -1,7 +1,7 @@
 import { sanityClient } from "sanity:client";
 import type { QueryParams } from "sanity";
 
-type Perspective = "published" | "previewDrafts";
+type Perspective = "published" | "drafts";
 
 type LoadQueryArgs = {
   query: string;
@@ -27,7 +27,7 @@ export async function loadQuery<QueryResponse>({
   query,
   params,
 }: LoadQueryArgs): Promise<LoadQueryResult<QueryResponse>> {
-  const perspective: Perspective = visualEditingEnabled ? "previewDrafts" : "published";
+  const perspective: Perspective = visualEditingEnabled ? "drafts" : "published";
 
   const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(query, params ?? {}, {
     filterResponse: false,

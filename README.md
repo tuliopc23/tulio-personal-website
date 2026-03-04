@@ -41,6 +41,29 @@ With the deployment done you can log into the hosted Studio, use the latest Port
 
 Create a `.env` file (or copy `.env.example`) before running the site.
 
+### Secrets management (Doppler + Wrangler)
+
+This project uses **Doppler as the source of truth for secrets** and syncs them to Cloudflare Workers with Wrangler.
+
+- Keep sensitive values (`*_TOKEN`, API keys, PATs) in Doppler configs.
+- Keep non-sensitive values (for example `PUBLIC_*`) in regular config (`.env`, `wrangler.toml`, or build vars).
+- Do not commit secrets to `wrangler.toml` under `[vars]`; use Workers secrets instead.
+- `bun run secrets:sync*` only uploads an allowlist of sensitive keys (non-sensitive values are intentionally excluded).
+
+Setup and sync flow:
+
+```bash
+# one-time setup
+doppler setup
+
+# sync currently selected Doppler config -> default Worker environment
+bun run secrets:sync
+
+# explicit environment sync + deploy
+bun run deploy:stg
+bun run deploy:prd
+```
+
 ### Required in all environments
 
 - `PUBLIC_SANITY_PROJECT_ID` — Sanity project ID used by Astro clients.
@@ -100,6 +123,13 @@ bun run deploy
 ```
 
 **Do not** use `bunx wrangler deploy` in CI. That pulls a fresh Wrangler each run and can worsen flaky Cloudflare API behavior. Your platform’s deploy step should run `bun run deploy` (after the build step has run `bun run build`).
+
+When deploying environment-specific Workers and syncing secrets from Doppler, prefer:
+
+```bash
+bun run deploy:stg
+bun run deploy:prd
+```
 
 ### If asset upload fails in CI
 

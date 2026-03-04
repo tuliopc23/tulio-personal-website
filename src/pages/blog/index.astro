@@ -6,7 +6,10 @@ import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import { optimizedImageUrl } from "../../sanity/lib/image";
+import { getBlogPageContent } from "../../sanity/lib/page-content";
 import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
+
+const pageContent = await getBlogPageContent();
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -38,13 +41,16 @@ const postEntries: Array<
 });
 
 const [featured, ...rest] = postEntries;
-const spotlightTags = ["projects", "tools", "open source", "opinion"];
+const spotlightTags = pageContent?.spotlightTags?.length
+  ? pageContent.spotlightTags
+  : ["projects", "tools", "open source", "opinion"];
 const tagSet = new Set<string>(spotlightTags);
 
 const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
 const pageDescription =
+  pageContent?.pageDescription ??
   "Editorial log by Tulio Cunha on engineering execution, product decisions, and Apple-inspired design systems.";
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
@@ -91,23 +97,25 @@ postEntries.forEach((entry) => {
 
 const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
 const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
-const _pillars = [
-  {
-    icon: "briefcase",
-    title: "Product Engineering",
-    body: "Execution patterns, architecture decisions, and delivery tradeoffs from real builds.",
-  },
-  {
-    icon: "sparkle",
-    title: "Design Language",
-    body: "Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.",
-  },
-  {
-    icon: "toolbox",
-    title: "Tooling And Workflows",
-    body: "Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.",
-  },
-];
+const _pillars = pageContent?.pillars?.length
+  ? pageContent.pillars
+  : [
+      {
+        icon: "briefcase",
+        title: "Product Engineering",
+        body: "Execution patterns, architecture decisions, and delivery tradeoffs from real builds.",
+      },
+      {
+        icon: "sparkle",
+        title: "Design Language",
+        body: "Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.",
+      },
+      {
+        icon: "toolbox",
+        title: "Tooling And Workflows",
+        body: "Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.",
+      },
+    ];
 const _byYear = postEntries.reduce((acc, post) => {
   const year = new Date(post.publishedAt).getFullYear();
   const current = acc.get(year) ?? { year, count: 0 };
@@ -116,29 +124,31 @@ const _byYear = postEntries.reduce((acc, post) => {
   return acc;
 }, new Map<number, { year: number; count: number }>());
 const _archiveYears = Array.from(_byYear.values()).sort((a, b) => b.year - a.year);
-const _placeholders = [
-  {
-    title: "Fresh case study in flight",
-    summary:
-      "A new long-form breakdown is on the bench. Watch this space for the release notes and lessons learned.",
-    href: "/blog/",
-    tags: ["Preview"],
-  },
-  {
-    title: "Tooling notebook",
-    summary:
-      "Documenting the latest experiments in automation, testing, and performance tuning before they ship here.",
-    href: "/blog/",
-    tags: ["Preview"],
-  },
-  {
-    title: "Interface theory draft",
-    summary:
-      "Collecting ideas about haptics, motion, and how hardware influences the feel of software interfaces.",
-    href: "/blog/",
-    tags: ["Preview"],
-  },
-];
+const _placeholders = pageContent?.placeholderCards?.length
+  ? pageContent.placeholderCards
+  : [
+      {
+        title: "Fresh case study in flight",
+        summary:
+          "A new long-form breakdown is on the bench. Watch this space for the release notes and lessons learned.",
+        href: "/blog/",
+        tags: ["Preview"],
+      },
+      {
+        title: "Tooling notebook",
+        summary:
+          "Documenting the latest experiments in automation, testing, and performance tuning before they ship here.",
+        href: "/blog/",
+        tags: ["Preview"],
+      },
+      {
+        title: "Interface theory draft",
+        summary:
+          "Collecting ideas about haptics, motion, and how hardware influences the feel of software interfaces.",
+        href: "/blog/",
+        tags: ["Preview"],
+      },
+    ];
 ---
 
 <Base
@@ -180,15 +190,10 @@ const _placeholders = [
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow">
         <PhosphorIcon name="article" size={14} weight="regular" />
-        Blog
+        {pageContent?.heroEyebrow ?? "Blog"}
       </span>
-      <h1 class="blogHero__title">
-        Essays on product engineering, design language, and the realities of shipping.
-      </h1>
-      <p class="blogHero__lede">
-        From interface architecture to execution tradeoffs, this is where I document what
-        works, what breaks, and what actually moves products forward.
-      </p>
+      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Essays on product engineering, design language, and the realities of shipping."}</h1>
+      <p class="blogHero__lede">{pageContent?.heroLede ?? "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward."}</p>
     </div>
     {
       featured ? (
@@ -212,11 +217,8 @@ const _placeholders = [
         </div>
       ) : (
         <div class="blogHero__empty card">
-          <h2>No posts yet</h2>
-          <p>
-            Articles are en route. Subscribe via RSS to be notified as soon as the first
-            story lands.
-          </p>
+          <h2>{pageContent?.emptyStateTitle ?? "No posts yet"}</h2>
+          <p>{pageContent?.emptyStateBody ?? "Articles are en route. Subscribe via RSS to be notified as soon as the first story lands."}</p>
         </div>
       )
     }
@@ -225,10 +227,10 @@ const _placeholders = [
   <section class="container home__section blogBrief pageWidget" data-reveal data-reveal-group="blog-brief">
     <div class="home__selectedHeader">
         <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
-          >Editorial Direction</h2
+          >{pageContent?.editorialDirectionHeading ?? "Editorial Direction"}</h2
         >
       <p class="home__selectedLede">
-        The publication is structured around three recurring lenses that keep writing grounded and practical.
+        {pageContent?.editorialDirectionLede ?? "The publication is structured around three recurring lenses that keep writing grounded and practical."}
       </p>
     </div>
     <div class="cardGrid blogBrief__grid">
@@ -258,10 +260,10 @@ const _placeholders = [
     <section class="container home__section blogArchive pageWidget" data-reveal data-reveal-group="blog-archive">
       <div class="home__selectedHeader">
         <h2 class="section-title" data-reveal data-reveal-group="blog-archive" data-reveal-order={0}
-          >Archive Overview</h2
+          >{pageContent?.archiveHeading ?? "Archive Overview"}</h2
         >
         <p class="home__selectedLede">
-          A year-by-year snapshot of published articles and output cadence.
+          {pageContent?.archiveLede ?? "A year-by-year snapshot of published articles and output cadence."}
         </p>
       </div>
       <ul class="blogArchive__list" role="list" aria-label="Posts by year">
@@ -284,7 +286,7 @@ const _placeholders = [
             data-blog-filter="all"
             type="button"
           >
-            All articles
+            {pageContent?.allArticlesLabel ?? "All articles"}
           </button>
           {_uniqueTags.map((tag) => {
             const slug = tag.toLowerCase().replace(/\s+/g, "-");
@@ -305,7 +307,7 @@ const _placeholders = [
 
         {rest.length > 0 && (
           <div class="blogEmpty" data-blog-empty hidden>
-            No articles match this filter yet. Try another tag or check back soon.
+            {pageContent?.filterEmptyState ?? "No articles match this filter yet. Try another tag or check back soon."}
           </div>
         )}
 
@@ -350,7 +352,7 @@ const _placeholders = [
                   hook={null}
                   dateISO={new Date().toISOString()}
                   dateLabel="Coming soon"
-                  tags={placeholder.tags}
+                  tags={placeholder.tags ?? []}
                   featured={false}
                 />
               </li>
@@ -365,7 +367,7 @@ const _placeholders = [
 
         <div class="blogActions">
           <button class="blogActions__load motion-cta-pill" data-blog-load-more type="button">
-            Load older articles
+            {pageContent?.loadOlderLabel ?? "Load older articles"}
           </button>
         </div>
       </section>

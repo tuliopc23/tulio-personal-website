@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { type DocumentActionComponent, useClient } from "sanity";
 
 export const approveAndPublishAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-01-01" });
+  const client = useClient({ apiVersion: "2025-02-19" });
 
   // Only show for posts in review
   const status = (props.draft || props.published)?.status;

@@ -4,7 +4,7 @@ import { documentEventHandler } from "@sanity/functions";
 export const handler = documentEventHandler(async ({ context, event }) => {
   const client = createClient({
     ...context.clientOptions,
-    apiVersion: "2025-01-01",
+    apiVersion: "2025-02-19",
     useCdn: false,
   });
 

@@ -7,7 +7,7 @@ import { type DocumentActionComponent, useClient } from "sanity";
  * Allows manually triggering cross-posting to Dev.to and Hashnode
  */
 export const crosspostAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-01-01" });
+  const client = useClient({ apiVersion: "2025-02-19" });
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Only show for published posts

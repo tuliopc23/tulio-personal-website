@@ -15,7 +15,6 @@ import { markdownSchema } from "sanity-plugin-markdown";
 import {
   approveAndPublishAction,
   crosspostAction,
-  scheduleAction,
   submitForReviewAction,
   unpublishAction,
 } from "./src/sanity/actions";
@@ -25,6 +24,9 @@ import { schemaTypes } from "./src/sanity/schemaTypes";
 const projectId = "61249gtj";
 const dataset = "production";
 const previewUrl = "https://tulio-cunha-dev.vercel.app";
+
+const SINGLETONS = ["blogPage", "projectsPage", "aboutPage", "nowPage"] as const;
+const MANAGED_TYPES = ["post", "project", "category", "author", ...SINGLETONS] as const;
 
 export default defineConfig({
   name: "tulio-personal-website",
@@ -44,6 +46,11 @@ export default defineConfig({
               .child(S.documentTypeList("post").title("All Articles")),
 
             S.listItem()
+              .title("Blog Page")
+              .icon(DocumentTextIcon)
+              .child(S.document().schemaType("blogPage").documentId("blogPage")),
+
+            S.listItem()
               .title("In Review")
               .icon(ClockIcon)
               .child(
@@ -53,13 +60,13 @@ export default defineConfig({
               ),
 
             S.listItem()
-              .title("Scheduled")
+              .title("Scheduled Drafts")
               .icon(CalendarIcon)
               .child(
                 S.documentList()
-                  .title("Scheduled")
+                  .title("Scheduled Drafts")
                   .filter(
-                    '_type == "post" && defined(scheduledPublishAt) && dateTime(scheduledPublishAt) > dateTime(now())',
+                    '_type == "system.release" && metadata.releaseType == "scheduled" && state == "scheduled"',
                   ),
               ),
 
@@ -81,6 +88,21 @@ export default defineConfig({
               .icon(ProjectsIcon)
               .child(S.documentTypeList("project").title("Projects")),
 
+            S.listItem()
+              .title("Projects Page")
+              .icon(ProjectsIcon)
+              .child(S.document().schemaType("projectsPage").documentId("projectsPage")),
+
+            S.listItem()
+              .title("About Page")
+              .icon(UserIcon)
+              .child(S.document().schemaType("aboutPage").documentId("aboutPage")),
+
+            S.listItem()
+              .title("Now Page")
+              .icon(CalendarIcon)
+              .child(S.document().schemaType("nowPage").documentId("nowPage")),
+
             S.divider(),
 
             S.listItem()
@@ -94,6 +116,13 @@ export default defineConfig({
               .icon(UserIcon)
               .schemaType("author")
               .child(S.documentTypeList("author").title("Author")),
+
+            S.divider(),
+
+            ...S.documentTypeListItems().filter((listItem) => {
+              const id = listItem.getId();
+              return !MANAGED_TYPES.includes(id as (typeof MANAGED_TYPES)[number]);
+            }),
           ]),
     }),
     presentationTool({
@@ -106,13 +135,18 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+  releases: {
+    enabled: true,
+  },
+  scheduledDrafts: {
+    enabled: true,
+  },
   document: {
     actions: (prev, context) => {
       // Only add custom actions for post documents
       if (context.schemaType === "post") {
         return [
           ...prev,
-          scheduleAction,
           crosspostAction,
           submitForReviewAction,
           approveAndPublishAction,
