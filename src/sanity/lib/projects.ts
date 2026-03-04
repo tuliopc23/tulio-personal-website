@@ -1,3 +1,4 @@
+import { isProjectCategory, type ProjectCategory } from "../project-categories";
 import { loadQuery } from "./load-query";
 
 export interface SanityProject {
@@ -10,7 +11,7 @@ export interface SanityProject {
   href: string;
   cta: string;
   releaseDate?: string | null;
-  categories: string[];
+  categories: ProjectCategory[];
   coverImage?: {
     alt?: string | null;
     url: string | null;
@@ -46,5 +47,8 @@ export async function getAllProjects(): Promise<SanityProject[]> {
     query: `*[_type == "project"] | order(coalesce(order, 9999) asc, releaseDate desc)${PROJECT_PROJECTION}`,
   });
 
-  return data ?? [];
+  return (data ?? []).map((project) => ({
+    ...project,
+    categories: (project.categories ?? []).filter(isProjectCategory),
+  }));
 }

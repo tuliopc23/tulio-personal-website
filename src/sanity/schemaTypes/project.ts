@@ -1,13 +1,6 @@
 import { ProjectsIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
-
-const CATEGORY_OPTIONS = [
-  { title: "Native", value: "native" },
-  { title: "Web", value: "web" },
-  { title: "Tooling", value: "tooling" },
-  { title: "Design System", value: "design-system" },
-  { title: "Experience", value: "experience" },
-];
+import { PROJECT_CATEGORIES } from "../project-categories";
 
 const STATUS_OPTIONS = [
   { title: "Live", value: "Live" },
@@ -138,7 +131,7 @@ export default defineType({
         }),
       ],
       options: {
-        list: CATEGORY_OPTIONS,
+        list: PROJECT_CATEGORIES.map(({ title, value }) => ({ title, value })),
       },
       validation: (rule) => rule.required().min(1).max(3),
     }),

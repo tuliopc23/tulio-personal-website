@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../sanity/lib/projects";
+import { PROJECT_CATEGORIES } from "../sanity/project-categories";
 
 const projects = await getAllProjects();
 
@@ -12,10 +13,7 @@ const canonicalUrl = new URL("/projects/", siteOrigin).toString();
 const _hasProjects = projects.length > 0;
 const _projectFilters = [
   { id: "all", label: "All" },
-  { id: "native", label: "Native" },
-  { id: "web", label: "Web" },
-  { id: "tooling", label: "Tooling" },
-  { id: "design-system", label: "Design systems" },
+  ...PROJECT_CATEGORIES.map(({ value, label }) => ({ id: value, label })),
 ];
 
 const _structuredData = {
@@ -63,6 +61,7 @@ const _structuredData = {
                 type="button"
                 class={`projectsFilter__button${index === 0 ? " is-active" : ""}`}
                 data-project-filter={filter.id}
+                aria-pressed={index === 0 ? "true" : "false"}
               >
                 {filter.label}
               </button>
@@ -150,10 +149,12 @@ const _structuredData = {
       }
 
       filters.forEach((filter) => {
+        const isActive = filter.dataset.projectFilter === activeFilter;
         filter.classList.toggle(
           "is-active",
-          filter.dataset.projectFilter === activeFilter
+          isActive
         );
+        filter.setAttribute("aria-pressed", String(isActive));
       });
 
       const fadeDuration = 200;
@@ -196,7 +197,11 @@ const _structuredData = {
         const nextFilter = button.dataset.projectFilter ?? "all";
         if (nextFilter === activeFilter) return;
         activeFilter = nextFilter;
-        filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
+        filters.forEach((chip) => {
+          const isActive = chip === button;
+          chip.classList.toggle("is-active", isActive);
+          chip.setAttribute("aria-pressed", String(isActive));
+        });
 
         const url = new URL(window.location);
         if (nextFilter === "all") {
