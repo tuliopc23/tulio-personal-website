@@ -5718,9 +5718,9 @@ kbd.slash {
 
 .articleGrid__item {
   list-style: none;
-  flex: 0 0 clamp(280px, 30vw, 360px);
+  flex: 0 0 clamp(320px, 33vw, 420px);
   min-width: 0; /* Safari fix: prevent flex item overflow */
-  max-width: clamp(280px, 30vw, 360px); /* Safari fix: enforce width constraint */
+  max-width: clamp(320px, 33vw, 420px); /* Safari fix: enforce width constraint */
   display: flex;
   align-self: stretch;
   scroll-snap-align: start;
@@ -5792,7 +5792,8 @@ kbd.slash {
 
 @media (min-width: 1280px) {
   .articleGrid__item {
-    flex-basis: clamp(320px, 24vw, 420px);
+    flex-basis: clamp(340px, 26vw, 440px);
+    max-width: clamp(340px, 26vw, 440px);
   }
 }
 
@@ -5801,7 +5802,7 @@ kbd.slash {
   --parallax-rotate-y: 0deg;
   --parallax-translate: 0px;
   position: relative;
-  border-radius: var(--radius-lg); /* 32px - Tahoe 26 */
+  border-radius: clamp(30px, 2.4vw, 38px); /* Slightly larger than Home cards */
   display: flex;
   height: 100%;
   box-shadow: var(--shadow-card); /* 4-layer shadow system */
@@ -5919,7 +5920,7 @@ kbd.slash {
   grid-template-rows: auto auto minmax(0, 1fr) auto auto;
   align-content: stretch;
   gap: var(--space-sm);
-  padding: clamp(var(--space-md), 3vw, var(--space-lg));
+  padding: clamp(22px, 3.2vw, 34px);
   color: var(--text);
   text-decoration: none;
   width: 100%;
@@ -6099,19 +6100,20 @@ kbd.slash {
   font-size: var(--fs--2);
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  border: 1px solid color-mix(in srgb, var(--blue) 42%, var(--panel-border));
+  border: 1px solid color-mix(in srgb, var(--blue) 56%, var(--panel-border));
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 9px 16px;
   background:
     linear-gradient(
       145deg,
-      color-mix(in srgb, var(--blue) 24%, var(--surface-translucent-1)) 0%,
-      var(--surface-translucent-1) 72%
+      color-mix(in srgb, var(--blue) 42%, var(--surface-translucent-1)) 0%,
+      color-mix(in srgb, var(--blue) 18%, var(--surface-translucent-1)) 72%
     ),
     var(--surface-translucent-1);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 6px 14px rgba(10, 132, 255, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 10px 22px rgba(10, 132, 255, 0.34),
+    0 0 22px rgba(10, 132, 255, 0.28);
   transition:
     border-color var(--motion-duration-sm) var(--motion-ease-out),
     background var(--motion-duration-sm) var(--motion-ease-out),
@@ -6128,10 +6130,11 @@ kbd.slash {
 [data-theme="dark"] .articleCard:hover .articleCard__cta,
 [data-theme="dark"] .articleCard:focus-within .articleCard__cta {
   color: #cfe3ff;
-  border-color: color-mix(in srgb, var(--blue) 58%, var(--panel-border-strong));
+  border-color: color-mix(in srgb, var(--blue) 74%, var(--panel-border-strong));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 10px 20px rgba(10, 132, 255, 0.3);
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    0 14px 28px rgba(10, 132, 255, 0.42),
+    0 0 30px rgba(10, 132, 255, 0.34);
   transform: translateY(-1px);
 }
 
@@ -6143,10 +6146,11 @@ kbd.slash {
 [data-theme="light"] .articleCard:hover .articleCard__cta,
 [data-theme="light"] .articleCard:focus-within .articleCard__cta {
   color: #1a2f61;
-  border-color: color-mix(in srgb, var(--blue) 56%, var(--panel-border-strong));
+  border-color: color-mix(in srgb, var(--blue) 70%, var(--panel-border-strong));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 10px 20px rgba(10, 132, 255, 0.26);
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    0 12px 24px rgba(10, 132, 255, 0.32),
+    0 0 24px rgba(10, 132, 255, 0.24);
   transform: translateY(-1px);
 }
 
