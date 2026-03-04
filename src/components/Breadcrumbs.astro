@@ -1,5 +1,5 @@
 ---
-import SFIcon from "./SFIcon.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 
 interface BreadcrumbItem {
   label: string;
@@ -20,10 +20,10 @@ const { items } = Astro.props as Props;
       items.map((item, index) => (
         <li class="breadcrumbs__item">
           {index > 0 && (
-            <SFIcon
+            <PhosphorIcon
               name="chevron-right"
               size={14}
-              stroke={1.5}
+              weight="regular"
               class="breadcrumbs__separator"
             />
           )}
@@ -31,7 +31,7 @@ const { items } = Astro.props as Props;
             <a href={item.href} class="breadcrumbs__link">
               {item.icon && (
                 <span class="breadcrumbs__icon" aria-hidden="true">
-                  <SFIcon name={item.icon} size={16} stroke={1.6} />
+                  <PhosphorIcon name={item.icon} size={16} weight="regular" />
                 </span>
               )}
               <span>{item.label}</span>
@@ -40,7 +40,7 @@ const { items } = Astro.props as Props;
             <span class="breadcrumbs__current" aria-current="page">
               {item.icon && (
                 <span class="breadcrumbs__icon" aria-hidden="true">
-                  <SFIcon name={item.icon} size={16} stroke={1.6} />
+                  <PhosphorIcon name={item.icon} size={16} weight="regular" />
                 </span>
               )}
               <span>{item.label}</span>

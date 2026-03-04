@@ -2,7 +2,6 @@
 import BrandIcon from "../components/BrandIcon.astro";
 import BrandLogo from "../components/BrandLogo.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
-import SFIcon from "../components/SFIcon.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import motionCssHref from "../styles/motion.css?url";
@@ -243,7 +242,7 @@ const structuredDataJson =
                 aria-expanded="false"
                 aria-controls="site-sidebar"
               >
-                <SFIcon name="sidebar-left" size={22} stroke={1.4} />
+                <PhosphorIcon name="sidebar-left" size={22} weight="regular" />
               </button>
             )
           }
@@ -335,7 +334,7 @@ const structuredDataJson =
                     aria-current={Astro.url.pathname === "/" ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--indigo" aria-hidden="true">
-                      <SFIcon name="house" size={20} stroke={1.4} />
+                      <PhosphorIcon name="house" size={20} weight="regular" />
                     </span>
                     Home
                   </a>
@@ -347,7 +346,7 @@ const structuredDataJson =
                     }
                   >
                     <span class="icon-tile icon-tile--blue" aria-hidden="true">
-                      <SFIcon name="notebook" size={20} stroke={1.4} />
+                      <PhosphorIcon name="notebook" size={20} weight="regular" />
                     </span>
                     Blog
                   </a>
@@ -357,7 +356,7 @@ const structuredDataJson =
                     aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--orange" aria-hidden="true">
-                      <SFIcon name="briefcase" size={20} stroke={1.4} />
+                      <PhosphorIcon name="briefcase" size={20} weight="regular" />
                     </span>
                     Projects
                   </a>
@@ -367,7 +366,7 @@ const structuredDataJson =
                     aria-current={Astro.url.pathname.startsWith("/about") ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--teal" aria-hidden="true">
-                      <SFIcon name="sparkle" size={20} stroke={1.4} />
+                      <PhosphorIcon name="sparkle" size={20} weight="regular" />
                     </span>
                     About
                   </a>
@@ -377,7 +376,7 @@ const structuredDataJson =
                     aria-current={Astro.url.pathname.startsWith("/now") ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--orange" aria-hidden="true">
-                      <SFIcon name="calendar" size={20} stroke={1.4} />
+                      <PhosphorIcon name="calendar" size={20} weight="regular" />
                     </span>
                     Now
                   </a>
@@ -408,7 +407,7 @@ const structuredDataJson =
                   </a>
                   <a class="sidebar__link" href="mailto:contact@tuliocunha.dev">
                     <span class="icon-tile" aria-hidden="true">
-                      <SFIcon name="mail" size={22} stroke={1.4} />
+                      <PhosphorIcon name="mail" size={22} weight="regular" />
                     </span>
                     Email
                   </a>
@@ -435,7 +434,7 @@ const structuredDataJson =
                     rel="noreferrer noopener"
                   >
                     <span class="icon-tile" aria-hidden="true">
-                      <SFIcon name="calendar" size={22} stroke={1.4} />
+                      <PhosphorIcon name="calendar" size={22} weight="regular" />
                     </span>
                     Book Time
                   </a>

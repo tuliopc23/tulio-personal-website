@@ -75,7 +75,11 @@ function formatCommitMessage(message: string): string {
   return line.length <= 110 ? line : `${line.slice(0, 107)}...`;
 }
 
-async function fetchReposWithCommits(username: string, token?: string, limit = 8): Promise<GitHubRepo[]> {
+async function fetchReposWithCommits(
+  username: string,
+  token?: string,
+  limit = 8,
+): Promise<GitHubRepo[]> {
   const cached = repoCache.get(username);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
     return cached.data.slice(0, limit);
@@ -99,7 +103,9 @@ async function fetchReposWithCommits(username: string, token?: string, limit = 8
   }
 
   const repos = (await reposResponse.json()) as GitHubRepoApi[];
-  const filtered = repos.filter((repo) => !repo.private && repo.size > 0).slice(0, Math.max(limit, 8));
+  const filtered = repos
+    .filter((repo) => !repo.private && repo.size > 0)
+    .slice(0, Math.max(limit, 8));
 
   const mapped = await Promise.all(
     filtered.map(async (repo) => {
@@ -215,12 +221,20 @@ export default function GitHubActivity(props: Props) {
 
       if (event.key === "ArrowLeft" && current > 0) {
         event.preventDefault();
-        cards[current - 1]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        cards[current - 1]?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
       }
 
       if (event.key === "ArrowRight" && current < cards.length - 1) {
         event.preventDefault();
-        cards[current + 1]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        cards[current + 1]?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
       }
     };
 
@@ -239,9 +253,26 @@ export default function GitHubActivity(props: Props) {
 
   return (
     <section class={classes()} data-github-widget>
-      <Show when={!loading()} fallback={<div class="github-widget__loading"><div class="github-commit-skeleton"></div></div>}>
-        <Show when={!error()} fallback={<div class="github-widget__error"><p>{error()}</p></div>}>
-          <Show when={repos().length > 0} fallback={<p class="github-widget__empty">No recent repository activity.</p>}>
+      <Show
+        when={!loading()}
+        fallback={
+          <div class="github-widget__loading">
+            <div class="github-commit-skeleton"></div>
+          </div>
+        }
+      >
+        <Show
+          when={!error()}
+          fallback={
+            <div class="github-widget__error">
+              <p>{error()}</p>
+            </div>
+          }
+        >
+          <Show
+            when={repos().length > 0}
+            fallback={<p class="github-widget__empty">No recent repository activity.</p>}
+          >
             <div class="github-repo-carousel">
               <Show when={showScrollHint() && repos().length > 1}>
                 <p class="github-scroll-cta" aria-live="polite">
@@ -254,11 +285,18 @@ export default function GitHubActivity(props: Props) {
                   {(repo) => (
                     <article class="github-repo-card" data-parallax-card>
                       <header class="github-repo-card__header">
-                        <a href={repo.url} target="_blank" rel="noopener noreferrer" class="github-repo-card__title">
+                        <a
+                          href={repo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="github-repo-card__title"
+                        >
                           {repo.name}
                         </a>
                         <Show when={repo.description}>
-                          <p class="github-repo-card__description">{stripEmojis(repo.description ?? "")}</p>
+                          <p class="github-repo-card__description">
+                            {stripEmojis(repo.description ?? "")}
+                          </p>
                         </Show>
                         <p class="github-repo-card__meta">
                           <span class="github-repo-card__language">{repo.language ?? "Code"}</span>
@@ -283,10 +321,14 @@ export default function GitHubActivity(props: Props) {
                                   <p class="github-commit-list-item__message">{commit.message}</p>
                                   <div class="github-commit-list-item__meta">
                                     <span class="github-commit-list-item__chip">{commit.date}</span>
-                                    <span class="github-commit-list-item__chip github-commit-list-item__chip--mono">{commit.sha}</span>
+                                    <span class="github-commit-list-item__chip github-commit-list-item__chip--mono">
+                                      {commit.sha}
+                                    </span>
                                   </div>
                                 </div>
-                                <span class="github-commit-list-item__icon" aria-hidden="true">↗</span>
+                                <span class="github-commit-list-item__icon" aria-hidden="true">
+                                  ↗
+                                </span>
                               </a>
                             </li>
                           )}
@@ -298,7 +340,11 @@ export default function GitHubActivity(props: Props) {
               </div>
 
               <div class="github-progress-bar">
-                <div class="github-progress-bar__track" role="tablist" aria-label="Repository pages">
+                <div
+                  class="github-progress-bar__track"
+                  role="tablist"
+                  aria-label="Repository pages"
+                >
                   <For each={repos()}>
                     {(_, index) => {
                       const current = () => activeIndex();
@@ -315,9 +361,14 @@ export default function GitHubActivity(props: Props) {
                             "github-progress-bar__segment--passed": isPassed(),
                           }}
                           onClick={() => {
-                            const track = document.querySelector<HTMLElement>("[data-github-track]");
+                            const track =
+                              document.querySelector<HTMLElement>("[data-github-track]");
                             const cards = track?.querySelectorAll<HTMLElement>(".github-repo-card");
-                            cards?.[index()]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                            cards?.[index()]?.scrollIntoView({
+                              behavior: "smooth",
+                              block: "nearest",
+                              inline: "center",
+                            });
                             setActiveIndex(index());
                           }}
                         />

@@ -51,7 +51,11 @@ export default defineType({
       fieldset: "editorial",
       description: "Clear promise-led headline, ideally 40-90 characters.",
       validation: (rule) =>
-        rule.required().min(18).max(110).warning("Target 40-90 chars for strong card and reader fit."),
+        rule
+          .required()
+          .min(18)
+          .max(110)
+          .warning("Target 40-90 chars for strong card and reader fit."),
     }),
     defineField({
       name: "slug",
@@ -88,7 +92,9 @@ export default defineType({
         rule
           .max(120)
           .custom((value) =>
-            !value || value.length >= 14 ? true : "Hooks should be at least 14 chars when provided.",
+            !value || value.length >= 14
+              ? true
+              : "Hooks should be at least 14 chars when provided.",
           ),
     }),
     defineField({

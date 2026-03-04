@@ -3,7 +3,7 @@ import Base from "../../layouts/Base.astro";
 import VisualEditing from "../../components/VisualEditing.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import SFIcon from "../../components/SFIcon.astro";
+import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
@@ -203,7 +203,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             data-reveal-order={0}
           >
             <a class="article__backLink" href="/blog">
-              <SFIcon name="arrow-left" size={18} stroke={1.6} />
+              <PhosphorIcon name="arrow-left" size={18} weight="regular" />
               <span>Back to articles</span>
             </a>
             <h1 class="article__title">{post.title}</h1>
