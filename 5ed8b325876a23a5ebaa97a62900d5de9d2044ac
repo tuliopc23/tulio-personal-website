@@ -1,0 +1,23 @@
+src/components/ProfileCard.astro
+  e6c74d47eefe528c 14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "5ed8b325876a23a5ebaa97a62900d5de9d2044ac",
+  "prompts": {
+    "e6c74d47eefe528c": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_346bc5ee3ffeYF01DG9tDwX3WA",
+        "model": "unknown"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 2,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
