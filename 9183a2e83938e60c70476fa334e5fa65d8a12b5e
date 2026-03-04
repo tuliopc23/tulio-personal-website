@@ -1,0 +1,29 @@
+src/pages/projects.astro
+  94364543a075e02c 6,16,64,152,155,157,200-204
+src/sanity/lib/projects.ts
+  94364543a075e02c 1,14,50-53
+src/sanity/schemaTypes/project.ts
+  94364543a075e02c 3,134
+src/sanity/project-categories.ts
+  94364543a075e02c 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "9183a2e83938e60c70476fa334e5fa65d8a12b5e",
+  "prompts": {
+    "94364543a075e02c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb988-6d2d-7812-b91b-d09ab95c6552",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 41,
+      "total_deletions": 17,
+      "accepted_lines": 41,
+      "overriden_lines": 0
+    }
+  }
+}
