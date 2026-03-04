@@ -5850,12 +5850,13 @@ kbd.slash {
 .blogSurface .articleCard:not(.articleCard--featured),
 .categorySurface .articleCard:not(.articleCard--featured) {
   border-radius: 32px;
-  min-height: 280px;
+  min-height: 250px;
 }
 
 .blogSurface .articleCard:not(.articleCard--featured) .articleCard__link,
 .categorySurface .articleCard:not(.articleCard--featured) .articleCard__link {
-  padding: clamp(20px, 2.2vw, 26px);
+  gap: var(--space-xs);
+  padding: clamp(16px, 1.8vw, 22px);
 }
 
 .articleCard[data-parallax-card].is-tilting {
