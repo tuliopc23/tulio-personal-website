@@ -1,0 +1,23 @@
+src/pages/projects.astro
+  94364543a075e02c 7,43,89,177,180,182,225-229
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.2",
+  "base_commit_sha": "4a9045ba9dd8ea7c5ce4176db430c63368917d9c",
+  "prompts": {
+    "94364543a075e02c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cb988-6d2d-7812-b91b-d09ab95c6552",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}
