@@ -62,3 +62,73 @@ The project SHALL document clear guidelines for where styles should be defined.
 - **THEN** theme rules are placed in `themes/dark.css` or `themes/light.css`
 - **AND** not in scoped component styles with `[data-theme]` selectors
 
+### Requirement: GitHub Widget Visual Parity
+The GitHub widget SHALL match Bentolink-grade surface depth and interaction polish while using the target design tokens.
+
+#### Scenario: Repository card depth
+- **WHEN** repository cards render in the GitHub widget
+- **THEN** cards SHALL use elevated material surfaces with tiered shadows and glass-compatible borders
+- **AND** hover/focus states SHALL provide clear elevation feedback
+
+#### Scenario: Scroll and progress affordances
+- **WHEN** widget content overflows horizontally
+- **THEN** scroll hints/progress affordances SHALL be visible and token-consistent
+- **AND** affordances SHALL not obstruct card content or focus order
+
+#### Scenario: Commit row interaction clarity
+- **WHEN** commit rows are hovered or focused
+- **THEN** row states SHALL present stronger border/background contrast
+- **AND** directional/action affordances SHALL remain legible in both themes
+
+### Requirement: Blog and Reader Surface Consistency
+Blog listing and article-reader surfaces SHALL share the same material/elevation language as the homepage.
+
+#### Scenario: Blog listing card parity
+- **WHEN** article cards are rendered on blog listing pages
+- **THEN** card shell depth, border treatment, and CTA hierarchy SHALL match the shared visual system
+- **AND** theme switching SHALL preserve contrast and legibility
+
+#### Scenario: Reader shell hierarchy
+- **WHEN** a blog article page is rendered
+- **THEN** header/body/related sections SHALL use coherent surface tiers
+- **AND** visual separation SHALL improve scannability without reducing readability
+
+#### Scenario: Portable block material cohesion
+- **WHEN** images, callouts, and code blocks appear in article bodies
+- **THEN** block surfaces SHALL follow shared radius/border/shadow conventions
+- **AND** content SHALL remain readable in both light and dark themes
+
+### Requirement: Canonical Elevation Motion Contract
+Interactive surfaces SHALL follow one shared elevation-motion contract.
+
+#### Scenario: Shared hover-elevate behavior
+- **WHEN** an interactive card/tile is hovered, focused, or focus-within
+- **THEN** it SHALL apply shared translate/scale variables from the global contract
+- **AND** it SHALL escalate shadow and border in a consistent tiered manner
+
+#### Scenario: Active press feedback
+- **WHEN** an interactive surface enters active state
+- **THEN** it SHALL apply a bounded press-down scale
+- **AND** it SHALL return smoothly to rest without residual transform drift
+
+#### Scenario: Icon tile synchronization
+- **WHEN** parent interactive surfaces transition to hover/focus states
+- **THEN** child icon tiles SHALL receive synchronized micro-lift and glow adjustment
+- **AND** child motion SHALL not exceed readability-safe transform bounds
+
+### Requirement: Tiered Motion Density
+Not all interactive surfaces SHALL use the same motion complexity.
+
+#### Scenario: Premium card parallax eligibility
+- **WHEN** a surface is designated as premium (feature/writing/spotlight class)
+- **THEN** pointer parallax MAY be enabled
+- **AND** compact chips and utility controls SHALL remain hover-elevate only
+
+### Requirement: Route Surface Consistency
+Legacy pages and references that are intentionally removed SHALL not persist as dead UI artifacts.
+
+#### Scenario: Uses surface removal
+- **WHEN** the navigation, sitemap, and theme styles are evaluated
+- **THEN** there SHALL be no `/uses` route links
+- **AND** there SHALL be no `.uses__*` visual rules remaining in active stylesheets
+

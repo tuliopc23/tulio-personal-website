@@ -34,7 +34,7 @@ The interface SHALL preserve one outlined icon language across equivalent UI con
 - **THEN** outlined icon style and stroke rhythm SHALL remain consistent
 - **AND** mixed icon systems SHALL NOT appear within the same context block
 
-## MODIFIED Requirements
+## ADDED Requirements
 
 ### Requirement: Route Surface Consistency
 Legacy pages and references that are intentionally removed SHALL not persist as dead UI artifacts.
