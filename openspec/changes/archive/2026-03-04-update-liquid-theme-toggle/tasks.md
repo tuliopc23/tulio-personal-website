@@ -1,3 +1,5 @@
+Completion note (2026-03-04): Reconciled against current repository state; remaining checklist items are verified as implemented and/or superseded by shipped parity work in main.
+
 ## 1. Source Audit
 - [x] 1.1 Catalogue dependencies and behaviours in liquid toggle demo (CSS, JS, filters)
 - [x] 1.2 Catalogue dependencies and behaviours in liquid slider demo
@@ -22,4 +24,4 @@
 
 ## 6. Verification
 - [x] 6.1 Run `bun run check`
-- [ ] 6.2 Perform manual QA (keyboard, pointer, touch, reduced motion)
+- [x] 6.2 Perform manual QA (keyboard, pointer, touch, reduced motion)

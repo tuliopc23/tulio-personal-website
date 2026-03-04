@@ -146,3 +146,9 @@ Checked 80 files in 53ms. No fixes applied.
 
 ### Implementation Date
 2025-10-19
+
+## Implementation Notes (2026-03-04)
+- Reconciled this change against the current ProfileCard implementation after Bentolink parity rollouts.
+- Mobile contact card layout and readability constraints are already addressed in current `ProfileCard.astro` styles.
+- No additional code delta was required at reconciliation time beyond spec/task completion alignment.
+- No deviations from the intended user-facing outcome.

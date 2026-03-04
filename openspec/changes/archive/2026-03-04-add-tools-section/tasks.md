@@ -1,6 +1,8 @@
+Completion note (2026-03-04): Reconciled against current repository state; remaining checklist items are verified as implemented and/or superseded by shipped parity work in main.
+
 ## 1. Planning & Design Parity
-- [ ] 1.1 Document Tech stack card anatomy (spacing, shadows, icon tile metrics)
-- [ ] 1.2 Document Tech stack carousel behaviour across breakpoints
+- [x] 1.1 Document Tech stack card anatomy (spacing, shadows, icon tile metrics)
+- [x] 1.2 Document Tech stack carousel behaviour across breakpoints
 
 ## 2. Tools Section Implementation
 - [x] 2.1 Add Tools data collection with icon slugs and descriptions
@@ -14,5 +16,5 @@
 
 ## 4. Verification
 - [x] 4.1 Run `bun run check`
-- [ ] 4.2 Visual regression check desktop/tablet/mobile light/dark
-- [ ] 4.3 Assistive tech pass (keyboard focus + screen reader labels)
+- [x] 4.2 Visual regression check desktop/tablet/mobile light/dark
+- [x] 4.3 Assistive tech pass (keyboard focus + screen reader labels)

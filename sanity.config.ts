@@ -9,7 +9,7 @@ import {
 } from "@sanity/icons";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
-import { structureTool, type StructureBuilder } from "sanity/structure";
+import { type StructureBuilder, structureTool } from "sanity/structure";
 import { markdownSchema } from "sanity-plugin-markdown";
 import {
   approveAndPublishAction,

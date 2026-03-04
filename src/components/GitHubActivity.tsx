@@ -1,4 +1,4 @@
-import { For, Show, createMemo, createSignal, onMount } from "solid-js";
+import { createMemo, createSignal, For, onMount, Show } from "solid-js";
 import "../styles/github-activity-widget.css";
 
 type GitHubCommitApi = {
