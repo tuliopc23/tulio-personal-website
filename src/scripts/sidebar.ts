@@ -31,7 +31,7 @@
     if (!(target instanceof HTMLElement)) {
       return false;
     }
-    return Boolean(target.closest("input, textarea, select, [contenteditable=\"true\"]"));
+    return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
   };
 
   const getFocusableSidebarElements = (): HTMLElement[] => {
@@ -39,18 +39,20 @@
       return [];
     }
 
-    return Array.from(sidebar.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter((element) => {
-      if (element.hasAttribute("disabled")) {
-        return false;
-      }
-      if (element.getAttribute("aria-hidden") === "true") {
-        return false;
-      }
+    return Array.from(sidebar.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+      (element) => {
+        if (element.hasAttribute("disabled")) {
+          return false;
+        }
+        if (element.getAttribute("aria-hidden") === "true") {
+          return false;
+        }
 
-      const style = window.getComputedStyle(element);
-      const rect = element.getBoundingClientRect();
-      return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0;
-    });
+        const style = window.getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0;
+      },
+    );
   };
 
   const focusDrawerEntry = (): void => {
@@ -158,7 +160,10 @@
 
   const open = (): void => {
     const nextBackdrop = ensureBackdrop();
-    if (!(document.activeElement instanceof HTMLElement) || !sidebar?.contains(document.activeElement)) {
+    if (
+      !(document.activeElement instanceof HTMLElement) ||
+      !sidebar?.contains(document.activeElement)
+    ) {
       previousFocusedElement = document.activeElement as HTMLElement | null;
     }
 

@@ -110,6 +110,8 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
 
   @media (prefers-reduced-motion: reduce) {
     .scrollHint {
+      display: none !important;
+      opacity: 0;
       transition: none;
       transform: none !important;
     }
@@ -118,7 +120,25 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
 
 <script is:inline>
   (() => {
+    const cleanupKey = '__scrollHintCleanups';
+
+    const getCleanups = () => {
+      if (!Array.isArray(window[cleanupKey])) {
+        window[cleanupKey] = [];
+      }
+
+      return window[cleanupKey];
+    };
+
+    const cleanupAll = () => {
+      getCleanups().splice(0).forEach((cleanup) => {
+        cleanup();
+      });
+    };
+
     const initHints = () => {
+      cleanupAll();
+
       const hints = Array.from(document.querySelectorAll('[data-scroll-hint]'));
       if (hints.length === 0) return;
 
@@ -148,11 +168,6 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
           detach();
         };
 
-        const markVisible = () => {
-          if (hint.dataset.scrollHintState === "visible") return;
-          hint.dataset.scrollHintState = "visible";
-        };
-
         const handleInteraction = () => {
           hideHint();
         };
@@ -171,6 +186,8 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
           document.removeEventListener("keydown", handleKeyDown);
         };
 
+        getCleanups().push(detach);
+
         const dismissed = (() => {
           try {
             return sessionStorage.getItem(persistKey) === "dismissed";
@@ -179,23 +196,22 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
           }
         })();
 
-        if (dismissed) {
+        if (dismissed || prefersReducedMotion) {
           hint.dataset.scrollHintState = "hidden";
+          hint.setAttribute("aria-hidden", "true");
           hint.dataset.scrollHintReady = "true";
           return;
         }
 
         hint.dataset.scrollHintState = "visible";
+        hint.removeAttribute("aria-hidden");
         hint.dataset.scrollHintReady = "true";
 
         scrollContainer.addEventListener("scroll", handleInteraction, { passive: true });
         scrollContainer.addEventListener("pointerdown", handleInteraction, { passive: true });
         scrollContainer.addEventListener("touchstart", handleInteraction, { passive: true });
-        document.addEventListener("keydown", handleKeyDown, { passive: true });
+        document.addEventListener("keydown", handleKeyDown);
 
-        if (prefersReducedMotion) {
-          hint.style.transition = "none";
-        }
       });
     };
 
@@ -204,5 +220,7 @@ const classes = ["scrollHint", `scrollHint--${variant}`, className].filter(Boole
     } else {
       initHints();
     }
+
+    document.addEventListener("astro:page-load", initHints);
   })();
 </script>

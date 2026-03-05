@@ -18,6 +18,7 @@ declare global {
       setTheme: (theme: ThemeMode, options?: ThemeOptions) => void;
       subscribe: (listener: (theme: ThemeMode) => void) => () => void;
       prefersReducedMotion: () => boolean;
+      subscribeMotionPreference: (listener: (reduced: boolean) => void) => () => void;
     };
     initLiquidThemeToggle?: (root: Element | null) => void;
   }
@@ -28,6 +29,7 @@ class ThemeController {
   private current: ThemeMode = "dark";
   private stored: ThemeMode | null = null;
   private listeners = new Set<(theme: ThemeMode) => void>();
+  private motionListeners = new Set<(reduced: boolean) => void>();
   private mediaQuery: MediaQueryList | null = null;
   private reduceMotionQuery: MediaQueryList | null = null;
   private transitionTimeoutId: number | null = null;
@@ -40,6 +42,7 @@ class ThemeController {
     this.initialized = true;
     this.mediaQuery = window.matchMedia("(prefers-color-scheme: light)");
     this.reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    this.applyMotionPreference(this.reduceMotionQuery.matches);
 
     this.stored = this.readStoredTheme();
     const resolved = this.resolveInitialTheme();
@@ -57,6 +60,18 @@ class ThemeController {
         this.mediaQuery.addEventListener("change", handleMediaChange);
       } else if (typeof this.mediaQuery.addListener === "function") {
         this.mediaQuery.addListener(handleMediaChange);
+      }
+    }
+
+    const handleReduceMotionChange = (event: MediaQueryListEvent): void => {
+      this.applyMotionPreference(event.matches);
+    };
+
+    if (this.reduceMotionQuery) {
+      if (typeof this.reduceMotionQuery.addEventListener === "function") {
+        this.reduceMotionQuery.addEventListener("change", handleReduceMotionChange);
+      } else if (typeof this.reduceMotionQuery.addListener === "function") {
+        this.reduceMotionQuery.addListener(handleReduceMotionChange);
       }
     }
 
@@ -89,6 +104,19 @@ class ThemeController {
 
     return () => {
       this.listeners.delete(listener);
+    };
+  }
+
+  subscribeMotionPreference(listener: (reduced: boolean) => void): () => void {
+    if (!this.initialized) {
+      this.init();
+    }
+
+    this.motionListeners.add(listener);
+    listener(this.prefersReducedMotion());
+
+    return () => {
+      this.motionListeners.delete(listener);
     };
   }
 
@@ -139,22 +167,46 @@ class ThemeController {
       this.persistTheme(next);
     }
 
+    this.clearThemeTransition();
     if (!this.prefersReducedMotion()) {
-      if (this.transitionTimeoutId !== null) {
-        window.clearTimeout(this.transitionTimeoutId);
-      }
       root.classList.add("theme-transition");
       this.transitionTimeoutId = window.setTimeout(() => {
         root.classList.remove("theme-transition");
         this.transitionTimeoutId = null;
       }, 400);
-    } else {
-      root.classList.remove("theme-transition");
     }
 
     this.listeners.forEach((listener) => {
       listener(next);
     });
+  }
+
+  private applyMotionPreference(reduced: boolean): void {
+    if (!isBrowser) {
+      return;
+    }
+
+    document.documentElement.dataset.motion = reduced ? "reduced" : "normal";
+    if (reduced) {
+      this.clearThemeTransition();
+    }
+
+    this.motionListeners.forEach((listener) => {
+      listener(reduced);
+    });
+  }
+
+  private clearThemeTransition(): void {
+    if (!isBrowser) {
+      return;
+    }
+
+    if (this.transitionTimeoutId !== null) {
+      window.clearTimeout(this.transitionTimeoutId);
+      this.transitionTimeoutId = null;
+    }
+
+    document.documentElement.classList.remove("theme-transition");
   }
 
   private resolveInitialTheme(): ThemeMode {
@@ -227,6 +279,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   const toggleTheme = window.themeController.toggleTheme;
   const prefersReducedMotion = window.themeController.prefersReducedMotion;
   const subscribeToTheme = window.themeController.subscribe;
+  const subscribeToMotionPreference = window.themeController.subscribeMotionPreference;
 
   button.setAttribute("aria-pressed", getTheme() === "dark" ? "true" : "false");
 
@@ -237,10 +290,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   let startX = 0;
   let skipClick = false;
   const dragActivationDistance = 12;
-
-  const updateMotionPreference = (): void => {
-    button.dataset.motion = prefersReducedMotion() ? "reduced" : "normal";
-  };
+  let reducedMotion = prefersReducedMotion();
 
   const setComplete = (value: number, instant = false): void => {
     currentComplete = clamp(value, 0, 100);
@@ -285,8 +335,23 @@ const initLiquidThemeToggle = (root: Element | null): void => {
     button.dataset.dragging = "false";
   };
 
+  const updateMotionPreference = (reduced: boolean): void => {
+    reducedMotion = reduced;
+    button.dataset.motion = reduced ? "reduced" : "normal";
+
+    if (!reduced) {
+      return;
+    }
+
+    skipClick = false;
+    if (pointerMode !== "idle") {
+      releasePointer();
+    }
+    setComplete(themeToComplete(getTheme()), true);
+  };
+
   const handlePointerDown = (event: PointerEvent): void => {
-    if (event.button !== 0) {
+    if (event.button !== 0 || reducedMotion) {
       return;
     }
 
@@ -303,10 +368,6 @@ const initLiquidThemeToggle = (root: Element | null): void => {
       } catch {
         // ignore capture errors
       }
-    }
-
-    if (prefersReducedMotion()) {
-      return;
     }
 
     setComplete(rectComplete(event.clientX));
@@ -383,16 +444,6 @@ const initLiquidThemeToggle = (root: Element | null): void => {
     toggleTheme({ persist: true });
   };
 
-  updateMotionPreference();
-
-  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const motionListener = (): void => updateMotionPreference();
-  if (typeof motionQuery.addEventListener === "function") {
-    motionQuery.addEventListener("change", motionListener);
-  } else if (typeof motionQuery.addListener === "function") {
-    motionQuery.addListener(motionListener);
-  }
-
   button.addEventListener("pointerdown", handlePointerDown);
   button.addEventListener("pointermove", handlePointerMove);
   button.addEventListener("pointerup", handlePointerUp);
@@ -401,6 +452,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   button.addEventListener("keydown", handleKeyDown);
   button.addEventListener("keyup", handleKeyUp);
 
+  subscribeToMotionPreference(updateMotionPreference);
   subscribeToTheme(updateFromTheme);
 
   setComplete(themeToComplete(getTheme()), true);
@@ -426,6 +478,8 @@ const initializeTheme = (): void => {
     subscribe: (listener: (theme: ThemeMode) => void): (() => void) =>
       controller.subscribe(listener),
     prefersReducedMotion: (): boolean => controller.prefersReducedMotion(),
+    subscribeMotionPreference: (listener: (reduced: boolean) => void): (() => void) =>
+      controller.subscribeMotionPreference(listener),
   };
 
   controller.init();

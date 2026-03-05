@@ -74,8 +74,40 @@
 }
 
 /* ---- Reduced motion override ---- */
+:root[data-motion="reduced"] {
+  --motion-duration-instant: 0ms;
+  --motion-duration-xs: 0ms;
+  --motion-duration-sm: 0ms;
+  --motion-duration-md: 0ms;
+  --motion-duration-lg: 0ms;
+  --motion-duration-slow: 0ms;
+  --motion-duration-slower: 0ms;
+  --motion-duration-slowest: 0ms;
+  --motion-duration-fast: 0ms;
+  --motion-duration-base: 0ms;
+  --motion-duration-ui: 0ms;
+  --motion-duration-normal: 0ms;
+  --motion-duration-spring-xs: 0ms;
+  --motion-duration-spring-sm: 0ms;
+  --motion-duration-spring-md: 0ms;
+  --motion-duration-spring-lg: 0ms;
+  --motion-page-transition: 0ms;
+
+  --motion-ease-out: linear;
+  --motion-ease-in: linear;
+  --motion-ease-in-out: linear;
+  --motion-ease-smooth: linear;
+  --motion-ease-spring: linear;
+  --motion-ease-bounce: linear;
+  --motion-spring-out: linear;
+  --spring-snappy: linear;
+  --spring-bouncy: linear;
+  --spring-smooth: linear;
+  --spring-responsive: linear;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  :root {
+  :root:not([data-motion="normal"]) {
     --motion-duration-instant: 0ms;
     --motion-duration-xs: 0ms;
     --motion-duration-sm: 0ms;

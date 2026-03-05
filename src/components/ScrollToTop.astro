@@ -3,73 +3,110 @@ import PhosphorIcon from "./PhosphorIcon.astro";
 // Scroll to top button with progress indicator
 ---
 
-<button class="scroll-to-top" aria-label="Scroll to top" data-scroll-to-top hidden>
+<button class="scroll-to-top" type="button" aria-label="Scroll to top" data-scroll-to-top hidden>
   <div class="scroll-to-top__progress" data-scroll-progress aria-hidden="true"></div>
   <PhosphorIcon name="arrow-up" size={20} weight="regular" />
 </button>
 
 <script>
-  const scrollButton = document.querySelector("[data-scroll-to-top]");
-  const progressBar = document.querySelector("[data-scroll-progress]");
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  (() => {
+    const cleanupKey = '__scrollToTopCleanups';
 
-  const resolveBehavior = () => (prefersReduced.matches ? "auto" : "smooth");
+    const getCleanups = () => {
+      if (!Array.isArray(window[cleanupKey])) {
+        window[cleanupKey] = [];
+      }
 
-  if (scrollButton && progressBar) {
-    let scrollBehavior = resolveBehavior();
-
-    if (prefersReduced.matches) {
-      progressBar.style.transition = "none";
-    }
-
-    const updateScrollState = () => {
-      const scrollTop = window.pageYOffset;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = Math.min(scrollTop / docHeight, 1);
-
-      // Show/hide button
-      scrollButton.hidden = scrollTop < 300;
-
-      // Update progress
-      progressBar.style.transform = `scaleY(${scrollPercent})`;
+      return window[cleanupKey];
     };
 
-    // Throttled scroll handler
-    let ticking = false;
-    const throttledUpdate = () => {
-      if (!ticking) {
+    const cleanupAll = () => {
+      getCleanups().splice(0).forEach((cleanup) => {
+        cleanup();
+      });
+    };
+
+    const initScrollToTop = () => {
+      cleanupAll();
+
+      const scrollButton = document.querySelector('[data-scroll-to-top]');
+      const progressBar = document.querySelector('[data-scroll-progress]');
+      if (!(scrollButton instanceof HTMLButtonElement) || !(progressBar instanceof HTMLElement)) {
+        return;
+      }
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const resolveBehavior = () => (prefersReduced.matches ? 'auto' : 'smooth');
+
+      let scrollBehavior = resolveBehavior();
+
+      if (prefersReduced.matches) {
+        progressBar.style.transition = 'none';
+      }
+
+      const updateScrollState = () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+
+        scrollButton.hidden = scrollTop < 300;
+        progressBar.style.transform = `scaleY(${scrollPercent})`;
+      };
+
+      let ticking = false;
+      const throttledUpdate = () => {
+        if (ticking) return;
+
+        ticking = true;
         requestAnimationFrame(() => {
           updateScrollState();
           ticking = false;
         });
-        ticking = true;
+      };
+
+      const handleClick = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: scrollBehavior,
+        });
+      };
+
+      const handlePreferenceChange = () => {
+        scrollBehavior = resolveBehavior();
+        progressBar.style.transition = prefersReduced.matches ? 'none' : '';
+        updateScrollState();
+      };
+
+      scrollButton.addEventListener('click', handleClick);
+      window.addEventListener('scroll', throttledUpdate, { passive: true });
+
+      if (typeof prefersReduced.addEventListener === 'function') {
+        prefersReduced.addEventListener('change', handlePreferenceChange);
+      } else if (typeof prefersReduced.addListener === 'function') {
+        prefersReduced.addListener(handlePreferenceChange);
       }
-    };
 
-    // Scroll to top handler
-    scrollButton.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: scrollBehavior,
+      getCleanups().push(() => {
+        scrollButton.removeEventListener('click', handleClick);
+        window.removeEventListener('scroll', throttledUpdate);
+        if (typeof prefersReduced.removeEventListener === 'function') {
+          prefersReduced.removeEventListener('change', handlePreferenceChange);
+        } else if (typeof prefersReduced.removeListener === 'function') {
+          prefersReduced.removeListener(handlePreferenceChange);
+        }
       });
-    });
 
-    // Listen for scroll
-    window.addEventListener("scroll", throttledUpdate);
-    updateScrollState(); // Initial update
-
-    const handlePreferenceChange = () => {
-      scrollBehavior = resolveBehavior();
-      progressBar.style.transition = prefersReduced.matches ? "none" : "";
       updateScrollState();
     };
 
-    if (typeof prefersReduced.addEventListener === "function") {
-      prefersReduced.addEventListener("change", handlePreferenceChange);
-    } else if (typeof prefersReduced.addListener === "function") {
-      prefersReduced.addListener(handlePreferenceChange);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initScrollToTop, { once: true });
+    } else {
+      initScrollToTop();
     }
-  }
+
+    document.addEventListener('astro:page-load', initScrollToTop);
+  })();
 </script>
 
 <style>

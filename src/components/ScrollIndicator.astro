@@ -7,7 +7,12 @@ interface Props {
 const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.props;
 ---
 
-<div class={`scrollIndicator ${containerClass}`} data-scroll-indicator aria-label={ariaLabel}>
+<div
+  class={`scrollIndicator ${containerClass}`}
+  data-scroll-indicator
+  data-motion="normal"
+  aria-label={ariaLabel}
+>
   <button 
     class="scrollIndicator__arrow scrollIndicator__arrow--left" 
     data-scroll-arrow="left"
@@ -118,114 +123,245 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
     }
   }
 
-  /* Reduced motion support */
+  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow,
+  .scrollIndicator[data-motion="reduced"] .scrollIndicator__hint {
+    transition: none;
+  }
+
+  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow:hover,
+  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow:active {
+    transform: translateY(-50%);
+  }
+
+  .scrollIndicator[data-motion="reduced"] .scrollIndicator__hint {
+    display: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow,
+    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__hint {
+      transition: none;
+    }
+
+    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow:hover,
+    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow:active {
+      transform: translateY(-50%);
+    }
+
+    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__hint {
+      display: none;
+    }
+
     .scrollIndicator__arrow,
     .scrollIndicator__hint {
-      transition: opacity 0.01ms;
+      transition: none;
     }
   }
 </style>
 
 <script>
-  // Initialize scroll indicators for horizontal carousels
-  const initScrollIndicators = () => {
-    const indicators = document.querySelectorAll('[data-scroll-indicator]');
-    
-    indicators.forEach((indicator) => {
-      // Find the scrollable container (parent with overflow-x: auto)
-      let scrollContainer = indicator.parentElement;
-      while (scrollContainer && scrollContainer !== document.body) {
-        const style = window.getComputedStyle(scrollContainer);
-        if (style.overflowX === 'auto' || style.overflowX === 'scroll') {
-          break;
-        }
-        scrollContainer = scrollContainer.parentElement;
+  (() => {
+    const cleanupKey = '__scrollIndicatorCleanups';
+
+    const getCleanups = () => {
+      if (!Array.isArray(window[cleanupKey])) {
+        window[cleanupKey] = [];
       }
 
-      if (!scrollContainer || scrollContainer === document.body) return;
+      return window[cleanupKey];
+    };
 
-      const leftArrow = indicator.querySelector('[data-scroll-arrow="left"]');
-      const rightArrow = indicator.querySelector('[data-scroll-arrow="right"]');
-      const hint = indicator.querySelector('[data-scroll-hint]');
-      
-      let hasInteracted = sessionStorage.getItem('carousel-interacted') === 'true';
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cleanupAll = () => {
+      getCleanups().splice(0).forEach((cleanup) => {
+        cleanup();
+      });
+    };
 
-      // Show hint on first load
-      if (!hasInteracted && hint && window.innerWidth < 1024) {
-        setTimeout(() => {
-          hint.classList.add('is-visible');
-          setTimeout(() => {
-            hint.classList.remove('is-visible');
-          }, 3000);
-        }, 500);
-      }
+    const initScrollIndicators = () => {
+      cleanupAll();
 
-      const updateArrows = () => {
-        if (window.innerWidth >= 1024) return; // Desktop doesn't need arrows
+      const indicators = document.querySelectorAll('[data-scroll-indicator]');
 
-        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-        const atStart = scrollLeft <= 10;
-        const atEnd = scrollLeft + clientWidth >= scrollWidth - 10;
+      indicators.forEach((indicator) => {
+        if (!(indicator instanceof HTMLElement)) return;
 
-        if (leftArrow) {
-          leftArrow.classList.toggle('is-visible', !atStart);
+        let scrollContainer = indicator.parentElement;
+        while (scrollContainer && scrollContainer !== document.body) {
+          const style = window.getComputedStyle(scrollContainer);
+          if (style.overflowX === 'auto' || style.overflowX === 'scroll') {
+            break;
+          }
+          scrollContainer = scrollContainer.parentElement;
         }
-        if (rightArrow) {
-          rightArrow.classList.toggle('is-visible', !atEnd);
-        }
-      };
 
-      const markInteracted = () => {
-        if (!hasInteracted) {
-          hasInteracted = true;
-          sessionStorage.setItem('carousel-interacted', 'true');
+        if (!(scrollContainer instanceof HTMLElement) || scrollContainer === document.body) {
+          return;
+        }
+
+        const leftArrow = indicator.querySelector('[data-scroll-arrow="left"]');
+        const rightArrow = indicator.querySelector('[data-scroll-arrow="right"]');
+        const hint = indicator.querySelector('[data-scroll-hint]');
+        const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        let hasInteracted = false;
+        try {
+          hasInteracted = sessionStorage.getItem('carousel-interacted') === 'true';
+        } catch {
+          hasInteracted = false;
+        }
+
+        let showHintTimeout = 0;
+        let hideHintTimeout = 0;
+
+        const clearHintTimers = () => {
+          if (showHintTimeout) {
+            window.clearTimeout(showHintTimeout);
+            showHintTimeout = 0;
+          }
+          if (hideHintTimeout) {
+            window.clearTimeout(hideHintTimeout);
+            hideHintTimeout = 0;
+          }
+        };
+
+        const prefersReducedMotion = () => {
+          const rootMotion = document.documentElement.dataset.motion;
+          return rootMotion === 'reduced' || (rootMotion !== 'normal' && motionQuery.matches);
+        };
+
+        const updateMotionState = () => {
+          const reduced = prefersReducedMotion();
+          indicator.dataset.motion = reduced ? 'reduced' : 'normal';
+
+          if (reduced) {
+            clearHintTimers();
+            hint?.classList.remove('is-visible');
+          }
+
+          return reduced;
+        };
+
+        const updateArrows = () => {
+          updateMotionState();
+
+          if (window.innerWidth >= 1024) {
+            leftArrow?.classList.remove('is-visible');
+            rightArrow?.classList.remove('is-visible');
+            return;
+          }
+
+          const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+          const atStart = scrollLeft <= 10;
+          const atEnd = scrollLeft + clientWidth >= scrollWidth - 10;
+
+          leftArrow?.classList.toggle('is-visible', !atStart);
+          rightArrow?.classList.toggle('is-visible', !atEnd);
+        };
+
+        const markInteracted = () => {
+          if (!hasInteracted) {
+            hasInteracted = true;
+            try {
+              sessionStorage.setItem('carousel-interacted', 'true');
+            } catch {
+              // ignore storage errors
+            }
+          }
+
+          clearHintTimers();
           hint?.classList.remove('is-visible');
+        };
+
+        const showHintIfNeeded = () => {
+          const reduced = updateMotionState();
+          clearHintTimers();
+
+          if (
+            hasInteracted ||
+            reduced ||
+            !(hint instanceof HTMLElement) ||
+            window.innerWidth >= 1024
+          ) {
+            return;
+          }
+
+          showHintTimeout = window.setTimeout(() => {
+            hint.classList.add('is-visible');
+            hideHintTimeout = window.setTimeout(() => {
+              hint.classList.remove('is-visible');
+            }, 3000);
+          }, 500);
+        };
+
+        const handleLeftClick = () => {
+          const scrollAmount = scrollContainer.clientWidth * 0.8;
+          scrollContainer.scrollBy({
+            left: -scrollAmount,
+            behavior: updateMotionState() ? 'auto' : 'smooth',
+          });
+          markInteracted();
+        };
+
+        const handleRightClick = () => {
+          const scrollAmount = scrollContainer.clientWidth * 0.8;
+          scrollContainer.scrollBy({
+            left: scrollAmount,
+            behavior: updateMotionState() ? 'auto' : 'smooth',
+          });
+          markInteracted();
+        };
+
+        const handleScroll = () => {
+          updateArrows();
+          markInteracted();
+        };
+
+        const handleResize = () => {
+          updateArrows();
+          showHintIfNeeded();
+        };
+
+        const handleMotionChange = () => {
+          updateArrows();
+          showHintIfNeeded();
+        };
+
+        leftArrow?.addEventListener('click', handleLeftClick);
+        rightArrow?.addEventListener('click', handleRightClick);
+        scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleResize, { passive: true });
+
+        if (typeof motionQuery.addEventListener === 'function') {
+          motionQuery.addEventListener('change', handleMotionChange);
+        } else if (typeof motionQuery.addListener === 'function') {
+          motionQuery.addListener(handleMotionChange);
         }
-      };
 
-      // Arrow click handlers
-      if (leftArrow) {
-        leftArrow.addEventListener('click', () => {
-          const scrollAmount = scrollContainer.clientWidth * 0.8;
-          scrollContainer.scrollBy({ 
-            left: -scrollAmount, 
-            behavior: prefersReducedMotion ? 'auto' : 'smooth' 
-          });
-          markInteracted();
+        getCleanups().push(() => {
+          clearHintTimers();
+          leftArrow?.removeEventListener('click', handleLeftClick);
+          rightArrow?.removeEventListener('click', handleRightClick);
+          scrollContainer.removeEventListener('scroll', handleScroll);
+          window.removeEventListener('resize', handleResize);
+
+          if (typeof motionQuery.removeEventListener === 'function') {
+            motionQuery.removeEventListener('change', handleMotionChange);
+          } else if (typeof motionQuery.removeListener === 'function') {
+            motionQuery.removeListener(handleMotionChange);
+          }
         });
-      }
 
-      if (rightArrow) {
-        rightArrow.addEventListener('click', () => {
-          const scrollAmount = scrollContainer.clientWidth * 0.8;
-          scrollContainer.scrollBy({ 
-            left: scrollAmount, 
-            behavior: prefersReducedMotion ? 'auto' : 'smooth' 
-          });
-          markInteracted();
-        });
-      }
-
-      // Update arrow visibility on scroll
-      scrollContainer.addEventListener('scroll', () => {
         updateArrows();
-        markInteracted();
-      }, { passive: true });
+        showHintIfNeeded();
+      });
+    };
 
-      // Update on resize
-      window.addEventListener('resize', updateArrows, { passive: true });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initScrollIndicators, { once: true });
+    } else {
+      initScrollIndicators();
+    }
 
-      // Initial update
-      updateArrows();
-    });
-  };
-
-  // Run on page load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollIndicators);
-  } else {
-    initScrollIndicators();
-  }
+    document.addEventListener('astro:page-load', initScrollIndicators);
+  })();
 </script>

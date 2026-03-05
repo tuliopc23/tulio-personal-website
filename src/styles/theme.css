@@ -242,17 +242,88 @@
   --sidebar-order: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  :root.theme-transition,
-  :root.theme-transition body,
-  :root.theme-transition body * {
-    transition:
-      background-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
-      color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
-      border-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
-      box-shadow var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
-      fill var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
-      stroke var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease);
+:root[data-motion="normal"].theme-transition body,
+:root[data-motion="normal"].theme-transition body :where(
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  summary,
+  svg,
+  svg *,
+  [role="button"],
+  [data-theme-toggle-root],
+  [data-parallax-card],
+  [class*="Card"],
+  [class*="card"],
+  [class*="Surface"],
+  [class*="surface"],
+  [class*="Panel"],
+  [class*="panel"],
+  [class*="Glass"],
+  [class*="glass"],
+  [class*="Chip"],
+  [class*="chip"],
+  [class*="Badge"],
+  [class*="badge"],
+  [class*="Tag"],
+  [class*="tag"],
+  [class*="Toggle"],
+  [class*="toggle"],
+  [class*="Nav"],
+  [class*="nav"]
+) {
+  transition:
+    background-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+    color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+    border-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+    box-shadow var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+    fill var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
+    stroke var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease);
+}
+
+:root[data-motion="reduced"] .hover-elevate,
+:root[data-motion="reduced"] .hover-elevate:hover,
+:root[data-motion="reduced"] .hover-elevate:focus-visible,
+:root[data-motion="reduced"] .hover-elevate:focus-within,
+:root[data-motion="reduced"] .hover-elevate:active,
+:root[data-motion="reduced"] .motion-chip,
+:root[data-motion="reduced"] .motion-chip:hover,
+:root[data-motion="reduced"] .motion-chip:focus-visible,
+:root[data-motion="reduced"] .motion-chip:active,
+:root[data-motion="reduced"] .motion-link-inline,
+:root[data-motion="reduced"] .motion-link-inline:hover,
+:root[data-motion="reduced"] .motion-link-inline:focus-visible,
+:root[data-motion="reduced"] .motion-link-inline:active,
+:root[data-motion="reduced"] .motion-cta-pill,
+:root[data-motion="reduced"] .motion-cta-pill:hover,
+:root[data-motion="reduced"] .motion-cta-pill:focus-visible,
+:root[data-motion="reduced"] .motion-cta-pill:active {
+  transform: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="normal"]) .hover-elevate,
+  :root:not([data-motion="normal"]) .hover-elevate:hover,
+  :root:not([data-motion="normal"]) .hover-elevate:focus-visible,
+  :root:not([data-motion="normal"]) .hover-elevate:focus-within,
+  :root:not([data-motion="normal"]) .hover-elevate:active,
+  :root:not([data-motion="normal"]) .motion-chip,
+  :root:not([data-motion="normal"]) .motion-chip:hover,
+  :root:not([data-motion="normal"]) .motion-chip:focus-visible,
+  :root:not([data-motion="normal"]) .motion-chip:active,
+  :root:not([data-motion="normal"]) .motion-link-inline,
+  :root:not([data-motion="normal"]) .motion-link-inline:hover,
+  :root:not([data-motion="normal"]) .motion-link-inline:focus-visible,
+  :root:not([data-motion="normal"]) .motion-link-inline:active,
+  :root:not([data-motion="normal"]) .motion-cta-pill,
+  :root:not([data-motion="normal"]) .motion-cta-pill:hover,
+  :root:not([data-motion="normal"]) .motion-cta-pill:focus-visible,
+  :root:not([data-motion="normal"]) .motion-cta-pill:active {
+    transform: none;
+    transition: none;
   }
 }
 
@@ -480,7 +551,6 @@ a:hover {
     box-shadow var(--motion-duration-sm) var(--motion-ease-out),
     border-color var(--motion-duration-sm) var(--motion-ease-out),
     background-color var(--motion-duration-sm) var(--motion-ease-out);
-  will-change: transform, box-shadow;
   transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
     rotateY(var(--parallax-rotate-y))
     translateY(
@@ -497,6 +567,7 @@ a:hover {
 .hover-elevate:focus-within {
   --hover-translate: var(--hover-elevate-translate);
   --hover-scale: var(--hover-elevate-scale);
+  will-change: transform, box-shadow;
   box-shadow: var(--hover-shadow);
   border-color: var(--hover-border);
 }
@@ -582,29 +653,6 @@ a:hover {
 .motion-cta-pill:active {
   transform: translateY(0) scale(var(--motion-scale-active));
   transition-duration: var(--motion-duration-instant);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hover-elevate,
-  .hover-elevate:hover,
-  .hover-elevate:focus-visible,
-  .hover-elevate:focus-within,
-  .hover-elevate:active,
-  .motion-chip,
-  .motion-chip:hover,
-  .motion-chip:focus-visible,
-  .motion-chip:active,
-  .motion-link-inline,
-  .motion-link-inline:hover,
-  .motion-link-inline:focus-visible,
-  .motion-link-inline:active,
-  .motion-cta-pill,
-  .motion-cta-pill:hover,
-  .motion-cta-pill:focus-visible,
-  .motion-cta-pill:active {
-    transform: none;
-    transition: none;
-  }
 }
 
 /* Typography rhythm */
@@ -1370,13 +1418,41 @@ body[data-sidebar-state="open"] .topbar__menu svg {
 .liquidToggle[data-instant="true"] .liquidToggle__maskCore {
   transition: none;
 }
-.liquidToggle[data-motion="reduced"] .liquidToggle__thumb,
-.liquidToggle[data-motion="reduced"] .liquidToggle__maskCore {
-  transition:
-    transform var(--motion-duration-sm) var(--motion-ease-in-out),
-    background-color var(--motion-duration-sm) var(--motion-ease-in-out);
-}
 .liquidToggle[data-motion="reduced"] {
+  --thumb-scale: 1;
+  touch-action: manipulation;
+}
+
+.liquidToggle[data-motion="reduced"]:active,
+.liquidToggle[data-motion="reduced"][data-dragging="true"] {
+  --thumb-scale: 1;
+}
+
+.liquidToggle[data-motion="reduced"] .liquidToggle__thumb,
+.liquidToggle[data-motion="reduced"] .liquidToggle__maskCore,
+.liquidToggle[data-motion="reduced"] .liquidToggle__thumbLiquid {
+  transition: none;
+}
+
+.liquidToggle[data-motion="reduced"] .liquidToggle__thumbLiquid {
+  transform: none;
+}
+
+:root[data-motion="reduced"] .liquidToggle {
+  --thumb-scale: 1;
+  touch-action: manipulation;
+}
+
+:root[data-motion="reduced"] .liquidToggle__thumb,
+:root[data-motion="reduced"] .liquidToggle__maskCore,
+:root[data-motion="reduced"] .liquidToggle__thumbLiquid {
+  transition: none;
+}
+
+:root[data-motion="reduced"] .liquidToggle__thumbLiquid {
+  transform: none;
+}
+:root[data-motion="reduced"] .liquidToggle {
   --thumb-scale: 1;
 }
 .liquidToggle[aria-pressed="true"] {
@@ -4887,8 +4963,12 @@ kbd.slash {
   transform: translateY(6px);
 }
 
+:root[data-motion="reduced"] .projects__grid [data-project-card] {
+  transition: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .projects__grid [data-project-card] {
+  :root:not([data-motion="normal"]) .projects__grid [data-project-card] {
     transition: none;
   }
 }
@@ -5632,7 +5712,6 @@ kbd.slash {
     transform var(--motion-duration-spring-sm) var(--spring-smooth),
     box-shadow var(--motion-duration-sm) var(--motion-ease-out),
     border-color var(--motion-duration-sm) var(--motion-ease-out);
-  will-change: transform, box-shadow, border-color;
 }
 
 .blogSurface .articleCard:not(.articleCard--featured),
@@ -6451,20 +6530,36 @@ kbd.slash {
   }
 } */
 
+:root[data-motion="reduced"] .topbar__menu,
+:root[data-motion="reduced"] .topbar__navLink,
+:root[data-motion="reduced"] .sidebar,
+:root[data-motion="reduced"] .sidebar__link,
+:root[data-motion="reduced"] .backdrop,
+:root[data-motion="reduced"] .article__backLink,
+:root[data-motion="reduced"] .footer__links a {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+:root[data-motion="reduced"] .sidebar.is-open .sidebar__link {
+  animation: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .topbar__menu,
-  .topbar__navLink,
-  .sidebar,
-  .sidebar__link,
-  .backdrop,
-  .article__backLink,
-  .footer__links a {
+  :root:not([data-motion="normal"]) .topbar__menu,
+  :root:not([data-motion="normal"]) .topbar__navLink,
+  :root:not([data-motion="normal"]) .sidebar,
+  :root:not([data-motion="normal"]) .sidebar__link,
+  :root:not([data-motion="normal"]) .backdrop,
+  :root:not([data-motion="normal"]) .article__backLink,
+  :root:not([data-motion="normal"]) .footer__links a {
     transition: none !important;
     animation: none !important;
     transform: none !important;
   }
 
-  .sidebar.is-open .sidebar__link {
+  :root:not([data-motion="normal"]) .sidebar.is-open .sidebar__link {
     animation: none !important;
   }
 }
@@ -6778,26 +6873,49 @@ input:focus {
 }
 
 /* ======= Accessibility Runtime Safeguards ======= */
+:root[data-motion="reduced"] {
+  scroll-behavior: auto;
+}
+
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+:root[data-motion="reduced"] .hero::after,
+:root[data-motion="reduced"] .projects__intro::after,
+:root[data-motion="reduced"] .blogHero::after,
+:root[data-motion="reduced"] .blogHero__halo,
+:root[data-motion="reduced"] .articleCard__halo,
+:root[data-motion="reduced"] .topbar::before {
+  opacity: 0.2 !important;
+  filter: blur(20px) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html {
+  :root:not([data-motion="normal"]) {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
+  :root:not([data-motion="normal"]) *,
+  :root:not([data-motion="normal"]) *::before,
+  :root:not([data-motion="normal"]) *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
 
-  .hero::after,
-  .projects__intro::after,
-  .blogHero::after,
-  .blogHero__halo,
-  .articleCard__halo,
-  .topbar::before {
+  :root:not([data-motion="normal"]) .hero::after,
+  :root:not([data-motion="normal"]) .projects__intro::after,
+  :root:not([data-motion="normal"]) .blogHero::after,
+  :root:not([data-motion="normal"]) .blogHero__halo,
+  :root:not([data-motion="normal"]) .articleCard__halo,
+  :root:not([data-motion="normal"]) .topbar::before {
     opacity: 0.2 !important;
     filter: blur(20px) !important;
   }

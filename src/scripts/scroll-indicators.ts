@@ -1,4 +1,26 @@
 (() => {
+  const cleanupKey = "__edgeFadeCleanups";
+
+  const getCleanups = (): Array<() => void> => {
+    const windowWithCleanups = window as Window & {
+      [cleanupKey]?: Array<() => void>;
+    };
+
+    if (!Array.isArray(windowWithCleanups[cleanupKey])) {
+      windowWithCleanups[cleanupKey] = [];
+    }
+
+    return windowWithCleanups[cleanupKey];
+  };
+
+  const cleanupAll = (): void => {
+    getCleanups()
+      .splice(0)
+      .forEach((cleanup) => {
+        cleanup();
+      });
+  };
+
   // Track scroll position for edge fade indicators
   const updateEdgeFades = (): void => {
     // Article carousel edge fades
@@ -32,6 +54,8 @@
 
   // Attach scroll listeners
   const attachScrollListeners = (): void => {
+    cleanupAll();
+
     const scrollables = [
       ...document.querySelectorAll<HTMLElement>(".articleGrid"),
       ...document.querySelectorAll<HTMLElement>(".cardRail"),
@@ -39,9 +63,15 @@
 
     scrollables.forEach((element) => {
       element.addEventListener("scroll", updateEdgeFades, { passive: true });
+      getCleanups().push(() => {
+        element.removeEventListener("scroll", updateEdgeFades);
+      });
     });
 
     window.addEventListener("resize", updateEdgeFades, { passive: true });
+    getCleanups().push(() => {
+      window.removeEventListener("resize", updateEdgeFades);
+    });
   };
 
   // Initialize on load
@@ -54,4 +84,9 @@
     attachScrollListeners();
     updateEdgeFades();
   }
+
+  document.addEventListener("astro:page-load", () => {
+    attachScrollListeners();
+    updateEdgeFades();
+  });
 })();

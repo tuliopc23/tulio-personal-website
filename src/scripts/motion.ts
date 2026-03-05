@@ -15,22 +15,109 @@
   }
 
   const doc = document;
-  const body = doc.body as HTMLBodyElement & { dataset: BodyDataset };
+  let body = doc.body as HTMLBodyElement & { dataset: BodyDataset };
   if (!body) {
     return;
   }
 
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const fallbackMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const pointerTiltMedia = window.matchMedia("(hover: hover) and (pointer: fine)");
   const revealSelector = "[data-reveal]";
   const internalLinkSelector = 'a[href^="/"]:not([target]):not([download])';
   const MAX_REVEAL_DELAY = 180;
 
-  const revealElements = Array.from(doc.querySelectorAll<HTMLElement>(revealSelector));
-  const internalLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>(internalLinkSelector));
+  let revealElements: HTMLElement[] = [];
+  let internalLinks: HTMLAnchorElement[] = [];
+  let glassFrame = 0;
+  let readyFrame: number | null = null;
+  let pendingLoadHandler: (() => void) | null = null;
+  let leaveTimeout: number | null = null;
+  let currentReducedMotion =
+    window.themeController?.prefersReducedMotion?.() ?? fallbackMotionQuery.matches;
+  let unsubscribeMotionPreference: (() => void) | null = null;
+  let cleanupFallbackMotionListener: (() => void) | null = null;
+
+  const refreshMotionTargets = (): void => {
+    body = doc.body as HTMLBodyElement & { dataset: BodyDataset };
+    revealElements = Array.from(doc.querySelectorAll<HTMLElement>(revealSelector));
+    internalLinks = Array.from(doc.querySelectorAll<HTMLAnchorElement>(internalLinkSelector));
+  };
+
+  const clearReadyTransition = (): void => {
+    if (readyFrame !== null) {
+      window.cancelAnimationFrame(readyFrame);
+      readyFrame = null;
+    }
+
+    if (pendingLoadHandler) {
+      window.removeEventListener("load", pendingLoadHandler);
+      pendingLoadHandler = null;
+    }
+  };
+
+  const clearLeaveNavigation = (): void => {
+    if (leaveTimeout !== null) {
+      window.clearTimeout(leaveTimeout);
+      leaveTimeout = null;
+    }
+  };
+
+  const applyRevealDelay = (element: HTMLElement, groups: Map<string, number>): void => {
+    const dataset = element.dataset as RevealDataset;
+    const { revealDelay, revealOrder, revealGroup } = dataset;
+
+    if (revealDelay) {
+      element.style.setProperty("--reveal-delay", revealDelay);
+      return;
+    }
+
+    if (revealOrder !== undefined) {
+      const numericOrder = Number(revealOrder);
+      if (!Number.isNaN(numericOrder)) {
+        const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
+        element.style.setProperty("--reveal-delay", `${computed}ms`);
+      }
+      return;
+    }
+
+    if (!revealGroup) {
+      return;
+    }
+
+    const nextIndex = groups.get(revealGroup) ?? 0;
+    const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
+    element.style.setProperty("--reveal-delay", `${computed}ms`);
+    groups.set(revealGroup, nextIndex + 1);
+  };
+
+  const revealElement = (element: HTMLElement): void => {
+    element.style.setProperty("--scroll-progress", "1");
+    element.classList.add("is-visible");
+  };
+
+  const shouldRevealOnLoad = (element: HTMLElement): boolean => {
+    const rect = element.getBoundingClientRect();
+
+    if (rect.bottom <= 0) {
+      return true;
+    }
+
+    const viewportHeight = window.innerHeight;
+    return rect.top <= viewportHeight * 0.88 && rect.bottom >= 0;
+  };
+
+  const resetRevealState = (): void => {
+    revealElements.forEach((el) => {
+      el.classList.remove("is-visible");
+      el.style.removeProperty("--reveal-delay");
+      el.style.removeProperty("--scroll-progress");
+    });
+  };
 
   const showAllReveals = (): void => {
     revealElements.forEach((el) => {
-      el.classList.add("is-visible");
+      el.style.removeProperty("--reveal-delay");
+      revealElement(el);
     });
   };
 
@@ -41,12 +128,20 @@
   };
 
   const updateGlassState = (): void => {
-    const scrolled = window.scrollY > 32;
-    body.dataset.glassState = scrolled ? "scrolled" : "rest";
+    glassFrame = 0;
+
+    const nextState: GlassState = window.scrollY > 32 ? "scrolled" : "rest";
+    if (body.dataset.glassState !== nextState) {
+      body.dataset.glassState = nextState;
+    }
   };
 
   const handleScroll = (): void => {
-    window.requestAnimationFrame(updateGlassState);
+    if (glassFrame !== 0) {
+      return;
+    }
+
+    glassFrame = window.requestAnimationFrame(updateGlassState);
   };
 
   ensureGlassState();
@@ -55,8 +150,6 @@
 
   let observer: IntersectionObserver | null = null;
   let linkHandler: ((event: MouseEvent) => void) | null = null;
-  let scrollHandler: (() => void) | null = null;
-  let scrollTimeout: number | null = null;
   let parallaxCleanups: Array<() => void> = [];
 
   const setupParallaxCards = (): void => {
@@ -65,7 +158,7 @@
     });
     parallaxCleanups = [];
 
-    if (prefersReduced.matches) {
+    if (currentReducedMotion || !pointerTiltMedia.matches) {
       return;
     }
 
@@ -76,6 +169,7 @@
 
     cards.forEach((card) => {
       let frame = 0;
+      let trackingPointer = false;
       const maxTilt = 4;
       const maxShift = 6;
 
@@ -107,36 +201,49 @@
         card.style.setProperty("--parallax-translate", "0px");
       };
 
+      const handlePointerMove = (event: PointerEvent): void => applyTilt(event);
+
       const handlePointerEnter = (event: PointerEvent): void => {
+        if (event.pointerType && event.pointerType !== "mouse" && event.pointerType !== "pen") {
+          return;
+        }
+
+        if (!trackingPointer) {
+          card.addEventListener("pointermove", handlePointerMove, { passive: true });
+          trackingPointer = true;
+        }
+
         card.classList.add("is-tilting");
         applyTilt(event);
       };
-      const handlePointerMove = (event: PointerEvent): void => applyTilt(event);
+
       const handlePointerEnd = (): void => {
+        if (trackingPointer) {
+          card.removeEventListener("pointermove", handlePointerMove);
+          trackingPointer = false;
+        }
+
         card.classList.remove("is-tilting");
         resetTilt();
       };
 
       card.addEventListener("pointerenter", handlePointerEnter, { passive: true });
-      card.addEventListener("pointermove", handlePointerMove, { passive: true });
-      card.addEventListener("pointerdown", handlePointerEnter, { passive: true });
-      card.addEventListener("pointerup", handlePointerEnd, { passive: true });
       card.addEventListener("pointerleave", handlePointerEnd, { passive: true });
       card.addEventListener("pointercancel", handlePointerEnd, { passive: true });
 
       parallaxCleanups.push(() => {
         card.removeEventListener("pointerenter", handlePointerEnter);
-        card.removeEventListener("pointermove", handlePointerMove);
-        card.removeEventListener("pointerdown", handlePointerEnter);
-        card.removeEventListener("pointerup", handlePointerEnd);
         card.removeEventListener("pointerleave", handlePointerEnd);
         card.removeEventListener("pointercancel", handlePointerEnd);
-        resetTilt();
+        handlePointerEnd();
       });
     });
   };
 
   const cleanup = (): void => {
+    clearReadyTransition();
+    clearLeaveNavigation();
+
     if (observer) {
       observer.disconnect();
       observer = null;
@@ -149,28 +256,21 @@
       linkHandler = null;
     }
 
-    if (scrollHandler) {
-      window.removeEventListener("scroll", scrollHandler);
-      scrollHandler = null;
-    }
-
-    if (scrollTimeout !== null) {
-      window.cancelAnimationFrame(scrollTimeout);
-      scrollTimeout = null;
-    }
-
     if (parallaxCleanups.length > 0) {
       parallaxCleanups.forEach((dispose) => {
         dispose();
       });
       parallaxCleanups = [];
     }
+
+    if (glassFrame !== 0) {
+      window.cancelAnimationFrame(glassFrame);
+      glassFrame = 0;
+    }
   };
 
   const activateReducedMotion = (): void => {
     cleanup();
-    body.classList.remove("motion-enabled");
-    body.classList.add("motion-reduce");
     body.dataset.pageState = "ready";
     ensureGlassState();
     showAllReveals();
@@ -178,13 +278,13 @@
 
   const activateStandardMotion = (): void => {
     cleanup();
-    body.classList.remove("motion-reduce");
-    body.classList.add("motion-enabled");
     body.dataset.pageState = "entering";
     ensureGlassState();
+    resetRevealState();
 
     const onReady = (): void => {
-      requestAnimationFrame(() => {
+      readyFrame = requestAnimationFrame(() => {
+        readyFrame = null;
         body.dataset.pageState = "ready";
       });
     };
@@ -192,7 +292,11 @@
     if (doc.readyState === "complete") {
       onReady();
     } else {
-      window.addEventListener("load", onReady, { once: true });
+      pendingLoadHandler = () => {
+        pendingLoadHandler = null;
+        onReady();
+      };
+      window.addEventListener("load", pendingLoadHandler, { once: true });
     }
 
     // Check if we're on an article page - show reveals immediately
@@ -204,173 +308,44 @@
     if (revealElements.length) {
       const groups = new Map<string, number>();
 
+      revealElements.forEach((element) => {
+        applyRevealDelay(element, groups);
+      });
+
       if (isArticlePage) {
-        // On article pages, show all reveals immediately with staggered delays
-        revealElements.forEach((element) => {
-          const dataset = element.dataset as RevealDataset;
-          const { revealDelay, revealOrder, revealGroup } = dataset;
-
-          if (revealDelay) {
-            element.style.setProperty("--reveal-delay", revealDelay);
-          } else if (revealOrder !== undefined) {
-            const numericOrder = Number(revealOrder);
-            if (!Number.isNaN(numericOrder)) {
-              const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
-              element.style.setProperty("--reveal-delay", `${computed}ms`);
-            }
-          } else if (revealGroup) {
-            const nextIndex = groups.get(revealGroup) ?? 0;
-            const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
-            element.style.setProperty("--reveal-delay", `${computed}ms`);
-            groups.set(revealGroup, nextIndex + 1);
-          }
-
-          // Show immediately with delay
-          setTimeout(
-            () => {
-              element.classList.add("is-visible");
-            },
-            parseInt(element.style.getPropertyValue("--reveal-delay"), 10) || 0,
-          );
+        requestAnimationFrame(() => {
+          revealElements.forEach((element) => {
+            revealElement(element);
+          });
         });
       } else {
-        // On other pages, use intersection observer with scroll progress tracking
         observer = new IntersectionObserver(
           (entries: IntersectionObserverEntry[]) => {
             entries.forEach((entry) => {
-              const target = entry.target as HTMLElement;
-              const rect = entry.boundingClientRect;
-              const viewportHeight = window.innerHeight;
-
-              // Calculate scroll progress (0 = just entering, 1 = fully visible)
-              // Trigger zone: from 20% below viewport to 20% above viewport
-              const triggerStart = viewportHeight * 0.2;
-              const triggerEnd = viewportHeight * 0.8;
-              const elementTop = rect.top;
-
-              let progress = 0;
-
-              if (entry.isIntersecting) {
-                // Element is in the trigger zone
-                const distanceFromTop = elementTop - triggerStart;
-                const triggerRange = triggerEnd - triggerStart;
-                progress = Math.max(0, Math.min(1, 1 - distanceFromTop / triggerRange));
-
-                // Smooth progress calculation
-                progress = Math.max(0, Math.min(1, progress));
-                target.style.setProperty("--scroll-progress", String(progress));
-
-                // Mark as visible when progress > 0.5 for better UX
-                if (progress > 0.5 && !target.classList.contains("is-visible")) {
-                  target.classList.add("is-visible");
-                }
-              } else {
-                // Element is outside viewport
-                if (elementTop < 0) {
-                  // Element has scrolled past - fully visible
-                  progress = 1;
-                  target.classList.add("is-visible");
-                } else {
-                  // Element hasn't entered yet
-                  progress = 0;
-                }
-                target.style.setProperty("--scroll-progress", String(progress));
+              if (!entry.isIntersecting) {
+                return;
               }
+
+              const target = entry.target as HTMLElement;
+              revealElement(target);
+              observer?.unobserve(target);
             });
           },
           {
             root: null,
-            rootMargin: "20% 0px -20% 0px", // Larger margin for smoother transitions
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1], // Multiple thresholds for smooth progress
+            rootMargin: "0px 0px -12% 0px",
+            threshold: 0.12,
           },
         );
 
-        // Add scroll listener for continuous progress updates
-        const updateScrollProgress = (): void => {
-          revealElements.forEach((element) => {
-            if (element.classList.contains("is-visible")) {
-              return; // Skip already fully visible elements
-            }
-
-            const rect = element.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const triggerStart = viewportHeight * 0.2;
-            const triggerEnd = viewportHeight * 0.8;
-
-            // Check if element is in trigger zone
-            if (rect.top < triggerEnd && rect.bottom > triggerStart) {
-              const distanceFromTop = rect.top - triggerStart;
-              const triggerRange = triggerEnd - triggerStart;
-              const progress = Math.max(0, Math.min(1, 1 - distanceFromTop / triggerRange));
-              element.style.setProperty("--scroll-progress", String(progress));
-
-              if (progress > 0.5) {
-                element.classList.add("is-visible");
-              }
-            } else if (rect.top < 0) {
-              // Element scrolled past - fully visible
-              element.style.setProperty("--scroll-progress", "1");
-              element.classList.add("is-visible");
-            }
-          });
-        };
-
         revealElements.forEach((element) => {
-          const dataset = element.dataset as RevealDataset;
-          const { revealDelay, revealOrder, revealGroup } = dataset;
-
-          if (revealDelay) {
-            element.style.setProperty("--reveal-delay", revealDelay);
-          } else if (revealOrder !== undefined) {
-            const numericOrder = Number(revealOrder);
-            if (!Number.isNaN(numericOrder)) {
-              const computed = Math.min(Math.max(numericOrder, 0) * 60, MAX_REVEAL_DELAY);
-              element.style.setProperty("--reveal-delay", `${computed}ms`);
-            }
-          } else if (revealGroup) {
-            const nextIndex = groups.get(revealGroup) ?? 0;
-            const computed = Math.min(nextIndex * 60, MAX_REVEAL_DELAY);
-            element.style.setProperty("--reveal-delay", `${computed}ms`);
-            groups.set(revealGroup, nextIndex + 1);
-          }
-
-          // Check if element is already in viewport on load
-          const rect = element.getBoundingClientRect();
-          const viewportHeight = window.innerHeight;
-          const triggerStart = viewportHeight * 0.2;
-          const triggerEnd = viewportHeight * 0.8;
-
-          if (rect.top < triggerEnd && rect.bottom > triggerStart) {
-            // Element is already in trigger zone
-            const distanceFromTop = rect.top - triggerStart;
-            const triggerRange = triggerEnd - triggerStart;
-            const progress = Math.max(0, Math.min(1, 1 - distanceFromTop / triggerRange));
-            element.style.setProperty("--scroll-progress", String(progress));
-            if (progress > 0.5) {
-              element.classList.add("is-visible");
-            }
-          } else if (rect.top < 0) {
-            // Element is above viewport - fully visible
-            element.style.setProperty("--scroll-progress", "1");
-            element.classList.add("is-visible");
-          } else {
-            // Element is below viewport - initialize to 0
-            element.style.setProperty("--scroll-progress", "0");
+          if (shouldRevealOnLoad(element)) {
+            revealElement(element);
+            return;
           }
 
           observer?.observe(element);
         });
-
-        // Throttled scroll listener for smooth progress updates
-        scrollHandler = (): void => {
-          if (scrollTimeout === null) {
-            scrollTimeout = window.requestAnimationFrame(() => {
-              updateScrollProgress();
-              scrollTimeout = null;
-            });
-          }
-        };
-        window.addEventListener("scroll", scrollHandler, { passive: true });
       }
     }
 
@@ -405,7 +380,9 @@
 
         body.dataset.pageState = "leaving";
 
-        window.setTimeout(() => {
+        clearLeaveNavigation();
+        leaveTimeout = window.setTimeout(() => {
+          leaveTimeout = null;
           window.location.assign(url.toString());
         }, 160);
 
@@ -428,17 +405,57 @@
     }
   };
 
-  applyMotionPreference(prefersReduced.matches);
-
-  const handlePreferenceChange = (event?: MediaQueryListEvent): void => {
-    const next = typeof event?.matches === "boolean" ? event.matches : prefersReduced.matches;
-    applyMotionPreference(next);
+  const initializeMotionRuntime = (): void => {
+    refreshMotionTargets();
+    applyMotionPreference(currentReducedMotion);
   };
 
-  if (typeof prefersReduced.addEventListener === "function") {
-    prefersReduced.addEventListener("change", handlePreferenceChange);
-  } else if (typeof prefersReduced.addListener === "function") {
-    // Legacy API for older browsers
-    prefersReduced.addListener(handlePreferenceChange);
-  }
+  const bindMotionPreference = (): void => {
+    if (unsubscribeMotionPreference || cleanupFallbackMotionListener) {
+      return;
+    }
+
+    const handlePreferenceChange = (next: boolean): void => {
+      if (next === currentReducedMotion) {
+        return;
+      }
+
+      currentReducedMotion = next;
+      applyMotionPreference(next);
+    };
+
+    if (window.themeController?.subscribeMotionPreference) {
+      unsubscribeMotionPreference =
+        window.themeController.subscribeMotionPreference(handlePreferenceChange);
+      return;
+    }
+
+    const fallbackHandler = (event?: MediaQueryListEvent): void => {
+      handlePreferenceChange(
+        typeof event?.matches === "boolean" ? event.matches : fallbackMotionQuery.matches,
+      );
+    };
+
+    if (typeof fallbackMotionQuery.addEventListener === "function") {
+      fallbackMotionQuery.addEventListener("change", fallbackHandler);
+      cleanupFallbackMotionListener = () => {
+        fallbackMotionQuery.removeEventListener("change", fallbackHandler);
+      };
+      return;
+    }
+
+    if (typeof fallbackMotionQuery.addListener === "function") {
+      fallbackMotionQuery.addListener(fallbackHandler);
+      cleanupFallbackMotionListener = () => {
+        fallbackMotionQuery.removeListener(fallbackHandler);
+      };
+    }
+  };
+
+  bindMotionPreference();
+  initializeMotionRuntime();
+
+  document.addEventListener("astro:before-swap", cleanup);
+  document.addEventListener("astro:page-load", initializeMotionRuntime);
+  window.addEventListener("pagehide", cleanup);
 })();
