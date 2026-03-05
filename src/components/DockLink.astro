@@ -8,6 +8,7 @@ interface Props {
   iconAsset?: string;
   revealOrder?: number | string;
   sizeVariant?: "default" | "dock-premium";
+  iconContext?: "tools" | "stack";
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   iconAsset,
   revealOrder,
   sizeVariant = "default",
+  iconContext = "tools",
 } = Astro.props as Props;
 ---
 
@@ -30,7 +32,7 @@ const {
   target={href.startsWith("http") ? "_blank" : undefined}
   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
 >
-  <IconTile tint={tint} label={title} asset={iconAsset} context={sizeVariant === "dock-premium" ? "dock" : "default"} />
+  <IconTile tint={tint} label={title} asset={iconAsset} context={sizeVariant === "dock-premium" ? "dock" : "default"} iconContext={iconContext} />
   <span class="dock-link__name">{title}</span>
 </a>
 

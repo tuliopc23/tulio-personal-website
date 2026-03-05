@@ -16,12 +16,14 @@ const {
   icon = null,
   asset = null,
   context = "default",
+  iconContext = "tools",
 }: {
   tint?: string;
   label?: string;
   icon?: string | null;
   asset?: IconAsset | null;
   context?: "default" | "dock";
+  iconContext?: "tools" | "stack";
 } = Astro.props;
 
 const iconAsset = asset
@@ -81,11 +83,12 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 ---
 
 <span
-  class={`symbol symbol--${tint} ${context === "dock" ? "symbol--dock" : ""}`}
+  class={`symbol symbol--${tint} ${context === "dock" ? "symbol--dock" : ""} ${iconContext === "stack" ? "symbol--stack-icon" : ""}`}
   aria-hidden="true"
   style={symbolStyle}
   data-icon={iconKey ?? undefined}
   data-icon-source={iconAsset ? "asset" : "icon"}
+  data-icon-context={iconContext}
 >
   {
     iconAsset ? (
@@ -216,19 +219,56 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
     --dock-icon-scale: 122%;
   }
 
-  .symbol--dock[data-icon="swift"],
-  .symbol--dock[data-icon="typescript"],
-  .symbol--dock[data-icon="react"],
-  .symbol--dock[data-icon="docker"] {
-    --dock-icon-scale: 119%;
+  /* ---- Stack icon containment ---- */
+  /* Stack icons are raw brand SVGs that need to sit inside the gradient
+     squircle with breathing room, unlike Tools which are pre-wrapped macOS icons. */
+  .symbol--stack-icon.symbol--dock {
+    --dock-icon-scale: 74%;
   }
 
-  .symbol--dock[data-icon="go"],
-  .symbol--dock[data-icon="svelte"],
-  .symbol--dock[data-icon="rust"],
-  .symbol--dock[data-icon="vuejs"],
-  .symbol--dock[data-icon="zig"] {
-    --dock-icon-scale: 121%;
+  .symbol--stack-icon .symbol__media {
+    padding: 4px;
+  }
+
+  .symbol--stack-icon .symbol__media img {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    border-radius: 4px;
+  }
+
+  /* Per-icon optical tuning — icons with baked-in backgrounds (Swift, TS, Docker) */
+  .symbol--stack-icon[data-icon="swift"],
+  .symbol--stack-icon[data-icon="typescript"] {
+    --dock-icon-scale: 70%;
+  }
+
+  .symbol--stack-icon[data-icon="docker"] {
+    --dock-icon-scale: 72%;
+  }
+
+  /* Complex illustration — needs more room */
+  .symbol--stack-icon[data-icon="go"] {
+    --dock-icon-scale: 68%;
+  }
+
+  /* Transparent logos — slightly larger */
+  .symbol--stack-icon[data-icon="react"] {
+    --dock-icon-scale: 76%;
+  }
+
+  .symbol--stack-icon[data-icon="svelte"] {
+    --dock-icon-scale: 74%;
+  }
+
+  .symbol--stack-icon[data-icon="rust"] {
+    --dock-icon-scale: 72%;
+  }
+
+  .symbol--stack-icon[data-icon="vuejs"] {
+    --dock-icon-scale: 76%;
+  }
+
+  .symbol--stack-icon[data-icon="zig"] {
+    --dock-icon-scale: 76%;
   }
 
   .symbol--dock[data-icon="email"],
