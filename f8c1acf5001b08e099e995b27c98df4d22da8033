@@ -1,0 +1,23 @@
+src/scripts/theme.ts
+  9b0a8de1db1f98e4 236,239,283,295,300-301,303-306,321-322
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f8c1acf5001b08e099e995b27c98df4d22da8033",
+  "prompts": {
+    "9b0a8de1db1f98e4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cbbc0-d41e-77b1-ad50-de71b8c55fdd",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 13,
+      "total_deletions": 2,
+      "accepted_lines": 12,
+      "overriden_lines": 0
+    }
+  }
+}
