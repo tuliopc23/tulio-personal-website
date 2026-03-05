@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f26e96e0c04c81e9053996f7b6f3bafdeb90493d",
+  "prompts": {
+    "0fd2fc6b80dbffab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cbc19-b1d2-7e90-a955-1bf3b0593066",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 226,
+      "total_deletions": 0,
+      "accepted_lines": 226,
+      "overriden_lines": 0
+    }
+  }
+}
