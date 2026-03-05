@@ -25,6 +25,14 @@ export function cloudflareImageUrl(
   sourceUrl: string,
   { width, height, quality = 86, sharpen = 1, fit = "scale-down" }: CloudflareImageOptions = {},
 ): string {
+  if (!sourceUrl) {
+    return sourceUrl;
+  }
+
+  if (!CLOUDFLARE_IMAGE_BASE && import.meta.env.DEV) {
+    return sourceUrl;
+  }
+
   const params = [
     "format=auto",
     `quality=${Math.max(30, Math.min(quality, 100))}`,

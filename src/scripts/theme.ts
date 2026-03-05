@@ -233,8 +233,10 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   let currentComplete = getTheme() === "dark" ? 100 : 0;
   let pointerMode: "idle" | "tap" | "drag" = "idle";
   let pointerId: number | null = null;
+  let pointerType: string | null = null;
   let startX = 0;
   let skipClick = false;
+  const dragActivationDistance = 12;
 
   const updateMotionPreference = (): void => {
     button.dataset.motion = prefersReducedMotion() ? "reduced" : "normal";
@@ -278,6 +280,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
       }
     }
     pointerId = null;
+    pointerType = null;
     pointerMode = "idle";
     button.dataset.dragging = "false";
   };
@@ -289,11 +292,18 @@ const initLiquidThemeToggle = (root: Element | null): void => {
 
     pointerMode = "tap";
     pointerId = event.pointerId;
+    pointerType = event.pointerType;
     startX = event.clientX;
     skipClick = false;
 
     button.dataset.dragging = "true";
-    button.setPointerCapture(event.pointerId);
+    if (typeof button.setPointerCapture === "function") {
+      try {
+        button.setPointerCapture(event.pointerId);
+      } catch {
+        // ignore capture errors
+      }
+    }
 
     if (prefersReducedMotion()) {
       return;
@@ -308,7 +318,8 @@ const initLiquidThemeToggle = (root: Element | null): void => {
     }
 
     const distance = Math.abs(event.clientX - startX);
-    if (pointerMode === "tap" && distance > 4) {
+    const canDrag = pointerType === "mouse";
+    if (pointerMode === "tap" && canDrag && distance > dragActivationDistance) {
       pointerMode = "drag";
     }
 
