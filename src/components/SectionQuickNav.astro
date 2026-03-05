@@ -135,6 +135,15 @@ const heroSectionId = sections[0]?.id ?? "top";
     margin: clamp(12px, 3vw, 24px) 0;
   }
 
+  .section-quick-nav__scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
   .section-quick-nav__list {
     display: flex;
     flex-wrap: wrap;
@@ -151,6 +160,8 @@ const heroSectionId = sections[0]?.id ?? "top";
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
+    width: max-content;
+    min-width: 100%;
   }
 
   .section-quick-nav__item {
@@ -209,9 +220,8 @@ const heroSectionId = sections[0]?.id ?? "top";
       flex-wrap: nowrap;
       gap: var(--space-1);
       padding: 12px 16px;
-      overflow-x: auto;
+      overflow-x: visible;
       scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
     }
 
     .section-quick-nav__list::-webkit-scrollbar {

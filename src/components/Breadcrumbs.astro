@@ -66,6 +66,15 @@ const { items } = Astro.props as Props;
     padding: 0;
     list-style: none;
     font-size: var(--fs--1);
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .breadcrumbs__list::-webkit-scrollbar {
+    display: none;
   }
 
   .breadcrumbs__item {
@@ -86,6 +95,10 @@ const { items } = Astro.props as Props;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    min-height: 46px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
   }
 
   .breadcrumbs__link:hover {
@@ -98,6 +111,9 @@ const { items } = Astro.props as Props;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    min-height: 46px;
+    padding: 8px 10px;
+    white-space: nowrap;
   }
 
   .breadcrumbs__link:focus-visible {

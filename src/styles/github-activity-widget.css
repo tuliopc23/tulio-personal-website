@@ -60,6 +60,7 @@
 	gap: var(--space-3);
 	overflow-x: auto;
 	scroll-snap-type: x mandatory;
+	overscroll-behavior-x: contain;
 	scrollbar-width: thin;
 	scrollbar-color: color-mix(in srgb, var(--blue) 30%, transparent) transparent;
 	-ms-overflow-style: auto;
@@ -140,6 +141,10 @@
 	color: var(--text-primary);
 	text-decoration: none;
 	transition: color var(--motion-duration-fast) var(--motion-ease-out);
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .github-repo-card__title:hover {
@@ -321,7 +326,8 @@
 
 .github-progress-bar__segment {
 	flex: 1;
-	height: 2px;
+	min-width: 20px;
+	height: 12px;
 	border-radius: 2px;
 	background: color-mix(in srgb, var(--text-tertiary) 30%, transparent);
 	cursor: pointer;
@@ -332,7 +338,7 @@
 }
 
 .github-progress-bar__segment--active {
-	height: 3px;
+	height: 12px;
 	background: var(--blue);
 	box-shadow: 0 0 8px color-mix(in srgb, var(--blue) 40%, transparent);
 }

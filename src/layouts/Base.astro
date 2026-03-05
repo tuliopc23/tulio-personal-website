@@ -499,20 +499,9 @@ const structuredDataJson =
 
     <ScrollToTop />
 
-    <!-- Defer non-critical scripts for faster initial render -->
-    <script type="module">
-      // Motion and scroll indicators can load after initial render
-      import "../scripts/motion.ts";
-      import "../scripts/scroll-indicators.ts";
-    </script>
-    <script type="module">
-      // Theme and sidebar are more critical but still async
-      import "../scripts/theme.ts";
-      import "../scripts/sidebar.ts";
-    </script>
-    <script type="module" defer>
-      // Web vitals tracking can be deferred
-      import "../scripts/web-vitals.ts";
+    <script>
+      // Bundled client entrypoint to avoid route-relative 404s on nested pages.
+      import "../scripts/client.ts";
     </script>
     <script is:inline>
       if (typeof window !== "undefined") {
