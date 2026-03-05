@@ -1,0 +1,36 @@
+MOBILE_UX_AUDIT_2026-03-05.md
+  0fd2fc6b80dbffab 1-226
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "068789b916120b0c122131986bb7fb3d9198d77c",
+  "prompts": {
+    "0fd2fc6b80dbffab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cbc19-b1d2-7e90-a955-1bf3b0593066",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 226,
+      "overriden_lines": 0
+    },
+    "3e3392d2306fed76": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cbc14-ca8b-79a3-b2fe-1f19e589960f",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
