@@ -1,0 +1,371 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "Tulio Cunha – Home" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Tulio Cunha" [ref=e7]
+        - generic [ref=e8]:
+          - generic [ref=e9]: Tulio Cunha
+          - generic [ref=e10]: Software Developer
+      - navigation "Global" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "Home" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e16]: Home
+          - listitem [ref=e17]:
+            - link "Blog" [ref=e18] [cursor=pointer]:
+              - /url: /blog/
+              - generic [ref=e19]: Blog
+          - listitem [ref=e20]:
+            - link "Projects" [ref=e21] [cursor=pointer]:
+              - /url: /projects
+              - generic [ref=e22]: Projects
+          - listitem [ref=e23]:
+            - link "About" [ref=e24] [cursor=pointer]:
+              - /url: /about
+              - generic [ref=e25]: About
+          - listitem [ref=e26]:
+            - link "Now" [ref=e27] [cursor=pointer]:
+              - /url: /now
+              - generic [ref=e28]: Now
+      - button "Toggle theme" [pressed] [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Toggle theme
+  - main [ref=e36]:
+    - complementary [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]: Navigation
+        - navigation [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: Site
+            - link [ref=e43] [cursor=pointer]:
+              - /url: /
+              - img [ref=e46]
+              - text: Home
+            - link [ref=e48] [cursor=pointer]:
+              - /url: /blog/
+              - img [ref=e51]
+              - text: Blog
+            - link [ref=e53] [cursor=pointer]:
+              - /url: /projects
+              - img [ref=e56]
+              - text: Projects
+            - link [ref=e58] [cursor=pointer]:
+              - /url: /about
+              - img [ref=e61]
+              - text: About
+            - link [ref=e63] [cursor=pointer]:
+              - /url: /now
+              - img [ref=e66]
+              - text: Now
+          - generic [ref=e68]:
+            - generic [ref=e69]: Social
+            - link [ref=e70] [cursor=pointer]:
+              - /url: https://github.com/tuliopc23
+              - img [ref=e73]
+              - text: GitHub
+            - link [ref=e75] [cursor=pointer]:
+              - /url: https://instagram.com/tuliopinheirocunha
+              - img [ref=e77]
+              - text: Instagram
+            - link [ref=e79] [cursor=pointer]:
+              - /url: /contact
+              - img [ref=e82]
+              - text: Contact
+            - link [ref=e84] [cursor=pointer]:
+              - /url: https://linkedin.com/in/tuliocunha
+              - text: LinkedIn
+            - link [ref=e86] [cursor=pointer]:
+              - /url: https://fantastical.app/tuliopinheirocunha
+              - img [ref=e89]
+              - text: Book Time
+        - generic [ref=e91]:
+          - searchbox [ref=e92]
+          - generic [ref=e93]: /
+          - status [ref=e94]: Showing all 10 sidebar links.
+    - generic [ref=e95]:
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - navigation "Breadcrumb navigation" [ref=e99]:
+            - list [ref=e100]:
+              - listitem [ref=e101]:
+                - link "Home" [ref=e102] [cursor=pointer]:
+                  - /url: /
+                  - img [ref=e105]
+                  - generic [ref=e107]: Home
+              - listitem [ref=e108]:
+                - img [ref=e110]
+                - generic [ref=e112]:
+                  - img [ref=e115]
+                  - generic [ref=e117]: Blog
+          - generic [ref=e118]:
+            - generic [ref=e119]:
+              - img [ref=e121]
+              - text: Blog
+            - heading "Essays on product engineering, design language, and the realities of shipping." [level=1] [ref=e123]
+            - paragraph [ref=e124]: From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward.
+          - article [ref=e126]:
+            - link "Post metadata Liquid Glass, Local AI, and the “26” Era iOS 26, iPadOS 26, and macOS Tahoe 26 — what actually changes for developers (beyond the shine) Tags Read" [ref=e127] [cursor=pointer]:
+              - /url: /blog/liquid-glass-local-ai-and-the-26-era/
+              - generic [ref=e128]:
+                - generic "Post metadata" [ref=e129]:
+                  - generic [ref=e130]:
+                    - img [ref=e132]
+                    - time [ref=e134]: Dec 15, 2025
+                  - generic [ref=e135]:
+                    - img [ref=e137]
+                    - text: 1 min read
+                  - generic "Tags" [ref=e139]: Engineering · Swift
+                - heading "Liquid Glass, Local AI, and the “26” Era" [level=3] [ref=e140]
+              - paragraph [ref=e141]: iOS 26, iPadOS 26, and macOS Tahoe 26 — what actually changes for developers (beyond the shine)
+              - list "Tags" [ref=e143]:
+                - listitem [ref=e144]: Engineering
+                - listitem [ref=e145]: Swift
+              - generic [ref=e146]:
+                - generic [ref=e147]: Read
+                - img [ref=e149]
+        - generic [ref=e151]:
+          - generic [ref=e152]:
+            - heading "Editorial Direction" [level=2] [ref=e153]
+            - paragraph [ref=e154]: The publication is structured around three recurring lenses that keep writing grounded and practical.
+          - generic [ref=e155]:
+            - article [ref=e156]:
+              - generic [ref=e158]:
+                - heading "Product Engineering" [level=3] [ref=e159]:
+                  - img [ref=e161]
+                  - generic [ref=e163]: Product Engineering
+                - paragraph [ref=e164]: Execution patterns, architecture decisions, and delivery tradeoffs from real builds.
+            - article [ref=e165]:
+              - generic [ref=e167]:
+                - heading "Design Language" [level=3] [ref=e168]:
+                  - img [ref=e170]
+                  - generic [ref=e172]: Design Language
+                - paragraph [ref=e173]: Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.
+            - article [ref=e174]:
+              - generic [ref=e176]:
+                - heading "Tooling And Workflows" [level=3] [ref=e177]:
+                  - img [ref=e179]
+                  - generic [ref=e181]: Tooling And Workflows
+                - paragraph [ref=e182]: Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.
+        - generic [ref=e183]:
+          - generic [ref=e184]:
+            - heading "Archive Overview" [level=2] [ref=e185]
+            - paragraph [ref=e186]: A year-by-year snapshot of published articles and output cadence.
+          - list "Posts by year" [ref=e187]:
+            - listitem [ref=e188]:
+              - generic [ref=e189]: "2025"
+              - generic [ref=e190]: 6 articles
+        - generic [ref=e191]:
+          - toolbar "Filter posts by tag" [ref=e192]:
+            - button "All articles" [ref=e193] [cursor=pointer]
+            - button "Engineering" [ref=e194] [cursor=pointer]
+            - button "Frontend" [ref=e195] [cursor=pointer]
+            - button "open source" [ref=e196] [cursor=pointer]
+            - button "opinion" [ref=e197] [cursor=pointer]
+            - button "projects" [ref=e198] [cursor=pointer]
+            - button "Swift" [ref=e199] [cursor=pointer]
+            - button "Tooling" [ref=e200] [cursor=pointer]
+            - button "tools" [ref=e201] [cursor=pointer]
+          - status [ref=e202]: Showing 5 articles for all articles
+          - generic [ref=e203]:
+            - note:
+              - generic:
+                - text: Scroll left
+                - generic: →
+            - list [ref=e204]:
+              - listitem [ref=e205]:
+                - article [ref=e206]:
+                  - 'link "Post metadata OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ Under the Hood A practical, opinionated look at how Docker, OrbStack, and Apple’s new container tool actually work on macOS. Tags Read" [ref=e207] [cursor=pointer]':
+                    - /url: /blog/orbstack-vs-apple-containers-vs-docker-on-macos-how-they-really-differ-under-the-hood/
+                    - generic [ref=e208]:
+                      - generic "Post metadata" [ref=e209]:
+                        - generic [ref=e210]:
+                          - img [ref=e212]
+                          - time [ref=e214]: Nov 23, 2025
+                        - generic [ref=e215]:
+                          - img [ref=e217]
+                          - text: 1 min read
+                        - generic "Tags" [ref=e219]: Engineering · Swift
+                      - 'heading "OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ Under the Hood" [level=3] [ref=e220]'
+                    - paragraph [ref=e221]: A practical, opinionated look at how Docker, OrbStack, and Apple’s new container tool actually work on macOS.
+                    - list "Tags" [ref=e223]:
+                      - listitem [ref=e224]: Engineering
+                      - listitem [ref=e225]: Swift
+                    - generic [ref=e226]:
+                      - generic [ref=e227]: Read
+                      - img [ref=e229]
+              - listitem [ref=e231]:
+                - article [ref=e232]:
+                  - link "Post metadata Why I Choose Neovim Over Full-Blown GUI IDEs This is the story of why—plus a practical comparison of modern terminal (TUI) editors versus today’s GUI editors. Tags Read" [ref=e233] [cursor=pointer]:
+                    - /url: /blog/neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025/
+                    - generic [ref=e234]:
+                      - generic "Post metadata" [ref=e235]:
+                        - generic [ref=e236]:
+                          - img [ref=e238]
+                          - time [ref=e240]: Oct 26, 2025
+                        - generic [ref=e241]:
+                          - img [ref=e243]
+                          - text: 1 min read
+                        - generic "Tags" [ref=e245]: Engineering
+                      - heading "Why I Choose Neovim Over Full-Blown GUI IDEs" [level=3] [ref=e246]
+                    - paragraph [ref=e247]: This is the story of why—plus a practical comparison of modern terminal (TUI) editors versus today’s GUI editors.
+                    - list "Tags" [ref=e249]:
+                      - listitem [ref=e250]: Engineering
+                    - generic [ref=e251]:
+                      - generic [ref=e252]: Read
+                      - img [ref=e254]
+              - listitem [ref=e256]:
+                - article [ref=e257]:
+                  - link "Post metadata The Lost Potential of Native Mac Apps \"Big tech embraced convenience. Indie developers still have a chance to choose craft.\" Tags Read" [ref=e258] [cursor=pointer]:
+                    - /url: /blog/the-lost-potencial-of-the-native-desktop-app/
+                    - generic [ref=e259]:
+                      - generic "Post metadata" [ref=e260]:
+                        - generic [ref=e261]:
+                          - img [ref=e263]
+                          - time [ref=e265]: Oct 15, 2025
+                        - generic [ref=e266]:
+                          - img [ref=e268]
+                          - text: 1 min read
+                        - generic "Tags" [ref=e270]: Engineering · Tooling · Swift
+                      - heading "The Lost Potential of Native Mac Apps" [level=3] [ref=e271]
+                    - paragraph [ref=e272]: "\"Big tech embraced convenience. Indie developers still have a chance to choose craft.\""
+                    - list "Tags" [ref=e274]:
+                      - listitem [ref=e275]: Engineering
+                      - listitem [ref=e276]: Tooling
+                      - listitem [ref=e277]: Swift
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: Read
+                      - img [ref=e281]
+              - listitem [ref=e283]:
+                - article [ref=e284]:
+                  - link "Post metadata Building a Terminal Portfolio Web App Why I built a keyboard-first, terminal-style portfolio; how the React + Elysia (Bun) + TanStack + SQLite stack fits the problem. Tags Read" [ref=e285] [cursor=pointer]:
+                    - /url: /blog/building-a-terminal-portfolio-web-app/
+                    - generic [ref=e286]:
+                      - generic "Post metadata" [ref=e287]:
+                        - generic [ref=e288]:
+                          - img [ref=e290]
+                          - time [ref=e292]: Oct 14, 2025
+                        - generic [ref=e293]:
+                          - img [ref=e295]
+                          - text: 1 min read
+                        - generic "Tags" [ref=e297]: Engineering · Frontend
+                      - heading "Building a Terminal Portfolio Web App" [level=3] [ref=e298]
+                    - paragraph [ref=e299]: Why I built a keyboard-first, terminal-style portfolio; how the React + Elysia (Bun) + TanStack + SQLite stack fits the problem.
+                    - list "Tags" [ref=e301]:
+                      - listitem [ref=e302]: Engineering
+                      - listitem [ref=e303]: Frontend
+                    - generic [ref=e304]:
+                      - generic [ref=e305]: Read
+                      - img [ref=e307]
+              - listitem [ref=e309]:
+                - article [ref=e310]:
+                  - link "Post metadata Toolchain Audit Notes Early findings from the automation lab while refining build speeds, bundle hygiene, and DX scripts. Tags Read" [ref=e311] [cursor=pointer]:
+                    - /url: /blog/toolchain-audit-notes/
+                    - generic [ref=e312]:
+                      - generic "Post metadata" [ref=e313]:
+                        - generic [ref=e314]:
+                          - img [ref=e316]
+                          - time [ref=e318]: Jan 7, 2025
+                        - generic [ref=e319]:
+                          - img [ref=e321]
+                          - text: 1 min read
+                        - generic "Tags" [ref=e323]: Tooling · Engineering
+                      - heading "Toolchain Audit Notes" [level=3] [ref=e324]
+                    - paragraph [ref=e325]: Early findings from the automation lab while refining build speeds, bundle hygiene, and DX scripts.
+                    - list "Tags" [ref=e327]:
+                      - listitem [ref=e328]: Tooling
+                      - listitem [ref=e329]: Engineering
+                    - generic [ref=e330]:
+                      - generic [ref=e331]: Read
+                      - img [ref=e333]
+              - listitem [ref=e335]:
+                - article [ref=e336]:
+                  - link [ref=e337] [cursor=pointer]:
+                    - /url: /blog/
+                    - generic [ref=e338]:
+                      - generic [ref=e339]:
+                        - generic [ref=e340]:
+                          - img [ref=e342]
+                          - time [ref=e344]: Coming soon
+                        - generic [ref=e345]: Preview
+                      - heading [level=3] [ref=e346]: Fresh case study in flight
+                    - paragraph [ref=e347]: A new long-form breakdown is on the bench. Watch this space for the release notes and lessons learned.
+                    - list [ref=e349]:
+                      - listitem [ref=e350]: Preview
+                    - generic [ref=e351]:
+                      - generic [ref=e352]: Read
+                      - img [ref=e354]
+              - listitem [ref=e356]:
+                - article [ref=e357]:
+                  - link [ref=e358] [cursor=pointer]:
+                    - /url: /blog/
+                    - generic [ref=e359]:
+                      - generic [ref=e360]:
+                        - generic [ref=e361]:
+                          - img [ref=e363]
+                          - time [ref=e365]: Coming soon
+                        - generic [ref=e366]: Preview
+                      - heading [level=3] [ref=e367]: Tooling notebook
+                    - paragraph [ref=e368]: Documenting the latest experiments in automation, testing, and performance tuning before they ship here.
+                    - list [ref=e370]:
+                      - listitem [ref=e371]: Preview
+                    - generic [ref=e372]:
+                      - generic [ref=e373]: Read
+                      - img [ref=e375]
+              - listitem [ref=e377]:
+                - article [ref=e378]:
+                  - link [ref=e379] [cursor=pointer]:
+                    - /url: /blog/
+                    - generic [ref=e380]:
+                      - generic [ref=e381]:
+                        - generic [ref=e382]:
+                          - img [ref=e384]
+                          - time [ref=e386]: Coming soon
+                        - generic [ref=e387]: Preview
+                      - heading [level=3] [ref=e388]: Interface theory draft
+                    - paragraph [ref=e389]: Collecting ideas about haptics, motion, and how hardware influences the feel of software interfaces.
+                    - list [ref=e391]:
+                      - listitem [ref=e392]: Preview
+                    - generic [ref=e393]:
+                      - generic [ref=e394]: Read
+                      - img [ref=e396]
+          - button "Load older articles" [disabled] [ref=e399]
+      - generic [ref=e401]:
+        - generic [ref=e402]:
+          - paragraph [ref=e403]:
+            - generic [ref=e404]:
+              - text: Tulio Cunha
+              - img "Tulio Cunha" [ref=e405]
+          - paragraph [ref=e406]: Full stack developer building native and web experiences through precise tooling and considerate interfaces.
+        - generic "Footer links" [ref=e407]:
+          - link "Projects" [ref=e408] [cursor=pointer]:
+            - /url: /projects
+          - link "Blog" [ref=e409] [cursor=pointer]:
+            - /url: /blog/
+          - link "About" [ref=e410] [cursor=pointer]:
+            - /url: /about
+          - link "Portfolio" [ref=e411] [cursor=pointer]:
+            - /url: https://portfolio.tuliocunha.dev
+          - link "Email" [ref=e412] [cursor=pointer]:
+            - /url: mailto:contact@tuliocunha.dev
+        - paragraph [ref=e413]: © 2026 Tulio Cunha. Built with Astro.
+  - button "Scroll to top" [ref=e414] [cursor=pointer]:
+    - img [ref=e416]
+  - generic [ref=e420]:
+    - button "Menu" [ref=e421]:
+      - img [ref=e423]
+      - generic: Menu
+    - button "Inspect" [ref=e427]:
+      - img [ref=e429]
+      - generic: Inspect
+    - button "Audit" [ref=e431]:
+      - generic [ref=e432]:
+        - img [ref=e433]
+        - img [ref=e436]
+      - generic: Audit
+    - button "Settings" [ref=e439]:
+      - img [ref=e441]
+      - generic: Settings

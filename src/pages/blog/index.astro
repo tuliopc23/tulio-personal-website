@@ -51,7 +51,7 @@ const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
 const pageDescription =
   pageContent?.pageDescription ??
-  "Editorial log by Tulio Cunha on engineering execution, product decisions, and Apple-inspired design systems.";
+  "Essays, field notes, and build logs by Tulio Cunha on engineering craft, product decisions, and interface feel.";
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
   : (featured?.heroImage ?? null);
@@ -192,8 +192,8 @@ const _placeholders = pageContent?.placeholderCards?.length
         <PhosphorIcon name="article" size={14} weight="regular" />
         {pageContent?.heroEyebrow ?? "Blog"}
       </span>
-      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Essays on product engineering, design language, and the realities of shipping."}</h1>
-      <p class="blogHero__lede">{pageContent?.heroLede ?? "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward."}</p>
+      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Essays, field notes, and shipping lessons from the edge of product engineering."}</h1>
+      <p class="blogHero__lede">{pageContent?.heroLede ?? "A running notebook on interface systems, execution tradeoffs, and the small decisions that make software feel considered—published in the open and friendly to RSS and Atom readers."}</p>
     </div>
     {
       featured ? (
@@ -218,7 +218,7 @@ const _placeholders = pageContent?.placeholderCards?.length
       ) : (
         <div class="blogHero__empty card">
           <h2>{pageContent?.emptyStateTitle ?? "No posts yet"}</h2>
-          <p>{pageContent?.emptyStateBody ?? "Articles are en route. Subscribe via RSS to be notified as soon as the first story lands."}</p>
+          <p>{pageContent?.emptyStateBody ?? "Articles are on the bench. Subscribe via RSS or Atom and the next one will meet you there."}</p>
         </div>
       )
     }
@@ -230,7 +230,7 @@ const _placeholders = pageContent?.placeholderCards?.length
           >{pageContent?.editorialDirectionHeading ?? "Editorial Direction"}</h2
         >
       <p class="home__selectedLede">
-        {pageContent?.editorialDirectionLede ?? "The publication is structured around three recurring lenses that keep writing grounded and practical."}
+        {pageContent?.editorialDirectionLede ?? "Three recurring lenses keep the archive opinionated, practical, and close to the work."}
       </p>
     </div>
     <div class="cardGrid blogBrief__grid">
@@ -263,7 +263,7 @@ const _placeholders = pageContent?.placeholderCards?.length
           >{pageContent?.archiveHeading ?? "Archive Overview"}</h2
         >
         <p class="home__selectedLede">
-          {pageContent?.archiveLede ?? "A year-by-year snapshot of published articles and output cadence."}
+          {pageContent?.archiveLede ?? "A year-by-year record of what shipped, when it shipped, and where the thinking was headed."}
         </p>
       </div>
       <ul class="blogArchive__list" role="list" aria-label="Posts by year">
@@ -367,7 +367,7 @@ const _placeholders = pageContent?.placeholderCards?.length
 
         <div class="blogActions">
           <button class="blogActions__load motion-cta-pill" data-blog-load-more type="button">
-            {pageContent?.loadOlderLabel ?? "Load older articles"}
+            {pageContent?.loadOlderLabel ?? "Load more from the archive"}
           </button>
         </div>
       </section>

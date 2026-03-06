@@ -136,17 +136,17 @@ const stackLinks = [
 ];
 
 const sectionNavItems = [
-  { id: "section-profile", label: "Profile" },
+  { id: "section-profile", label: "Identity" },
   { id: "section-tools", label: "Tools" },
   { id: "section-stack", label: "Stack" },
-  { id: "section-github", label: "GitHub" },
-  { id: "section-writing", label: "Writing" },
+  { id: "section-github", label: "Proof" },
+  { id: "section-writing", label: "Explore" },
 ];
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Full stack developer portfolio and blog with Apple-inspired craft, polished motion, and editorial engineering depth.";
+  "Portfolio and editorial notebook by Tulio Cunha with full-stack engineering craft, thoughtful interfaces, and visible proof of work.";
 ---
 
 <Base
@@ -167,92 +167,130 @@ const description =
       />
     </div>
 
-    <SectionQuickNav sections={sectionNavItems} />
-
-    <div class="widget-carousel" role="region" aria-label="Widget carousel">
-      <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal data-parallax-card>
-        <div class="widget-header">
-          <span class="widget-eyebrow">
-            <PhosphorIcon name="toolbox" size={13} weight="regular" />
-            Toolkit
-          </span>
-          <h2 class="widget-title">
-            <span>Tools</span>
-            <PhosphorIcon name="toolbox" size={18} weight="regular" />
+    <section class="homepage-stage homepage-stage--context" aria-labelledby="homepage-working-context-title">
+      <header class="stage-intro">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">Working context</span>
+          <h2 id="homepage-working-context-title" class="stage-intro__title">
+            The tools, languages, and setup that shape how I ship.
           </h2>
-          <p class="widget-caption">macOS utilities that stay docked.</p>
+          <p class="stage-intro__caption">
+            A quick map of the day-to-day environment before the deeper proof-of-work and writing sections.
+          </p>
         </div>
-        <div class="tools-grid" role="list" aria-label="Tools">
-          {toolLinks.map((link, index) => (
-            <DockLink
-              href={link.href}
-              title={link.title}
-              tint={link.tint}
-              iconAsset={link.iconAsset}
-              revealOrder={index}
-              sizeVariant="dock-premium"
-            />
-          ))}
+
+        <SectionQuickNav sections={sectionNavItems} />
+      </header>
+
+      <div class="widget-carousel widget-carousel--context" role="region" aria-label="Working context widgets">
+        <div id="section-tools" class="widget-box widget-tools hover-elevate" data-reveal data-parallax-card>
+          <div class="widget-header">
+            <span class="widget-eyebrow">
+              <PhosphorIcon name="toolbox" size={13} weight="regular" />
+              Toolkit
+            </span>
+            <h2 class="widget-title">
+              <span>Tools</span>
+              <PhosphorIcon name="toolbox" size={18} weight="regular" />
+            </h2>
+            <p class="widget-caption">Utilities, workflows, and interfaces that stay close to the build.</p>
+          </div>
+          <div class="tools-grid" role="list" aria-label="Tools">
+            {toolLinks.map((link, index) => (
+              <DockLink
+                href={link.href}
+                title={link.title}
+                tint={link.tint}
+                iconAsset={link.iconAsset}
+                revealOrder={index}
+                sizeVariant="dock-premium"
+              />
+            ))}
+          </div>
+        </div>
+
+        <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal data-parallax-card>
+          <div class="widget-header">
+            <span class="widget-eyebrow">
+              <PhosphorIcon name="code" size={13} weight="regular" />
+              Languages
+            </span>
+            <h2 class="widget-title">
+              <span>Stack</span>
+              <PhosphorIcon name="code" size={18} weight="regular" />
+            </h2>
+            <p class="widget-caption">Core languages and frameworks behind the products, tooling, and experiments.</p>
+          </div>
+          <div class="tools-grid" role="list" aria-label="Stack">
+            {stackLinks.map((link, index) => (
+              <DockLink
+                href={link.href}
+                title={link.title}
+                tint={link.tint}
+                iconAsset={link.iconAsset}
+                revealOrder={index}
+                sizeVariant="dock-premium"
+                iconContext="stack"
+              />
+            ))}
+          </div>
         </div>
       </div>
+    </section>
 
-      <div id="section-stack" class="widget-box widget-stack hover-elevate" data-reveal data-parallax-card>
-        <div class="widget-header">
-          <span class="widget-eyebrow">
-            <PhosphorIcon name="code" size={13} weight="regular" />
-            Languages
-          </span>
-          <h2 class="widget-title">
-            <span>Stack</span>
-            <PhosphorIcon name="code" size={18} weight="regular" />
-          </h2>
-          <p class="widget-caption">Core languages and frameworks I ship with.</p>
+    <section class="homepage-stage" aria-labelledby="homepage-proof-title">
+      <header class="stage-intro stage-intro--single">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">Proof of work</span>
+          <h2 id="homepage-proof-title" class="stage-intro__title">Live momentum and recent shipping activity.</h2>
+          <p class="stage-intro__caption">
+            The GitHub surface remains the credibility check: active work, recent commits, and visible consistency.
+          </p>
         </div>
-        <div class="tools-grid" role="list" aria-label="Stack">
-          {stackLinks.map((link, index) => (
-            <DockLink
-              href={link.href}
-              title={link.title}
-              tint={link.tint}
-              iconAsset={link.iconAsset}
-              revealOrder={index}
-              sizeVariant="dock-premium"
-              iconContext="stack"
-            />
-          ))}
-        </div>
-      </div>
+      </header>
 
       <div id="section-github" class="widget-box widget-github hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">
             <PhosphorIcon name="chart-bar" size={13} weight="regular" />
-            Activity
+            Proof of work
           </span>
           <h2 class="widget-title">
             <span>GitHub</span>
             <PhosphorIcon name="github" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption">Latest commits and streaks.</p>
+          <p class="widget-caption">Live momentum, selected work, and the rhythm behind ongoing projects.</p>
         </div>
         <GitHubActivityWidget large={true} limit={10} />
       </div>
+    </section>
+
+    <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
+      <header class="stage-intro stage-intro--single">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">Exploration</span>
+          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing, experiments, and ideas still unfolding.</h2>
+          <p class="stage-intro__caption">
+            A final pass through essays, notes, and technical threads that extend the work beyond shipping.
+          </p>
+        </div>
+      </header>
 
       <div id="section-writing" class="widget-box widget-feature-writing hover-elevate" data-reveal data-parallax-card>
         <div class="widget-header">
           <span class="widget-eyebrow">
             <PhosphorIcon name="article" size={13} weight="regular" />
-            Writing
+            Exploration
           </span>
           <h2 class="widget-title">
             <span>Feature Writing</span>
             <PhosphorIcon name="article" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption">Fresh perspectives from the lab.</p>
+          <p class="widget-caption">Essays and experiments that keep the editorial side of the practice visible.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
       </div>
-    </div>
+    </section>
   </section>
 </Base>
 
@@ -272,6 +310,60 @@ const description =
   .widget-profile {
     grid-column: 1 / -1;
     min-width: 0;
+  }
+
+  .homepage-stage {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: clamp(14px, 1.8vw, 20px);
+    min-width: 0;
+  }
+
+  .stage-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(12px, 1.8vw, 20px);
+    align-items: end;
+    min-width: 0;
+  }
+
+  .stage-intro--single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stage-intro__copy {
+    display: grid;
+    gap: 8px;
+    max-width: 62ch;
+    min-width: 0;
+  }
+
+  .stage-intro__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+  }
+
+  .stage-intro__title {
+    margin: 0;
+    font-size: clamp(28px, 2.4vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+  }
+
+  .stage-intro__caption {
+    margin: 0;
+    max-width: 58ch;
+    font-size: var(--fs-subheadline);
+    line-height: var(--lh-relaxed);
+    color: var(--text-tertiary);
   }
 
   .widget-carousel {
@@ -384,6 +476,11 @@ const description =
       grid-template-columns: repeat(8, minmax(0, 1fr));
     }
 
+    .stage-intro {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
     .widget-carousel {
       grid-template-columns: 1fr;
     }
@@ -398,6 +495,10 @@ const description =
       grid-template-columns: minmax(0, 1fr);
       gap: 14px;
       padding: 14px 10px 44px;
+    }
+
+    .stage-intro__title {
+      font-size: clamp(24px, 8vw, 32px);
     }
 
     .widget-box {

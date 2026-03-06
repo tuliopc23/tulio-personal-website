@@ -18,7 +18,7 @@ const profilePhotoSrc = import.meta.env.DEV
 const contactCards = [
   {
     label: "Contact",
-    value: "Open form",
+    value: "Start a conversation",
     href: "/contact",
     tint: "indigo",
     asset: "/icons/Socials/Email.webp",
@@ -27,7 +27,7 @@ const contactCards = [
   },
   {
     label: "Location",
-    value: location,
+    value: `Based in ${location}`,
     href: locationHref,
     tint: "cyan",
     asset: "/icons/Socials/Location.svg",
@@ -101,11 +101,14 @@ const socialCards = [
       </figure>
 
       <div class="profileCard__copy">
-        <p class="profileCard__eyebrow">Hello</p>
+        <p class="profileCard__eyebrow">Identity</p>
         <h2 class="profileCard__name">{name}</h2>
         <p class="profileCard__title">{title}</p>
+        <p class="profileCard__lead">
+          I build polished product systems across the web, Apple platforms, and the command line.
+        </p>
         <p class="profileCard__summary">
-          . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict..
+          Based in Brazil, I work where interface craft, tooling depth, and technical storytelling overlap.
         </p>
       </div>
 
@@ -151,7 +154,7 @@ const socialCards = [
           <span>Socials</span>
           <PhosphorIcon name="users-three" size={18} weight="regular" />
         </h3>
-        <p>Direct channels for consulting and collaboration.</p>
+        <p>Direct channels for collaboration, consulting, and following the work in public.</p>
       </header>
       <div class="profileCard__socialGrid" role="list" aria-label="Social channels">
         {
@@ -295,8 +298,18 @@ const socialCards = [
     color: var(--text-secondary);
   }
 
+  .profileCard__lead {
+    margin: 4px 0 0;
+    max-width: 28ch;
+    color: var(--text-primary);
+    line-height: 1.1;
+    font-size: clamp(20px, 1.4vw, 26px);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.02em;
+  }
+
   .profileCard__summary {
-    margin: 6px 0 0;
+    margin: 2px 0 0;
     max-width: 48ch;
     color: var(--text-secondary);
     line-height: var(--lh-snug);

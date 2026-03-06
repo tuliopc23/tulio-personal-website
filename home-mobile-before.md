@@ -1,0 +1,648 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Tulio Cunha – Home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img "Tulio Cunha" [ref=e7]
+      - navigation "Global" [ref=e8]:
+        - list [ref=e10]:
+          - listitem [ref=e11]:
+            - link "Home" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e13]: Home
+          - listitem [ref=e14]:
+            - link "Blog" [ref=e15] [cursor=pointer]:
+              - /url: /blog/
+              - generic [ref=e16]: Blog
+          - listitem [ref=e17]:
+            - link "Projects" [ref=e18] [cursor=pointer]:
+              - /url: /projects
+              - generic [ref=e19]: Projects
+          - listitem [ref=e20]:
+            - link "About" [ref=e21] [cursor=pointer]:
+              - /url: /about
+              - generic [ref=e22]: About
+          - listitem [ref=e23]:
+            - link "Now" [ref=e24] [cursor=pointer]:
+              - /url: /now
+              - generic [ref=e25]: Now
+      - button "Toggle theme" [pressed] [ref=e28] [cursor=pointer]:
+        - generic [ref=e29]: Toggle theme
+  - main [ref=e33]:
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - region "Profile information for Tulio Cunha" [ref=e38]:
+          - generic [ref=e39]:
+            - article [ref=e40]:
+              - figure [ref=e41]:
+                - img "Tulio Cunha" [ref=e42]
+              - generic [ref=e43]:
+                - paragraph [ref=e44]: Hello
+                - heading "Tulio Cunha" [level=2] [ref=e45]
+                - paragraph [ref=e46]: Full Stack Developer
+                - paragraph [ref=e47]: . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict..
+              - navigation "Primary contact methods" [ref=e48]:
+                - link "Open contact form for Tulio Cunha" [ref=e49] [cursor=pointer]:
+                  - /url: /contact
+                  - img [ref=e52]
+                  - generic [ref=e53]:
+                    - strong [ref=e54]: Contact
+                    - generic [ref=e55]: Open form
+                - link "Open Tulio Cunha's location in Maps" [ref=e56] [cursor=pointer]:
+                  - /url: https://maps.apple.com/?q=Brazil
+                  - img [ref=e59]
+                  - generic [ref=e60]:
+                    - strong [ref=e61]: Location
+                    - generic [ref=e62]: Brazil
+            - article [ref=e63]:
+              - generic [ref=e64]:
+                - paragraph [ref=e65]:
+                  - img [ref=e67]
+                  - generic [ref=e69]: Connect
+                - heading "Socials" [level=3] [ref=e70]:
+                  - generic [ref=e71]: Socials
+                  - img [ref=e73]
+                - paragraph [ref=e75]: Direct channels for consulting and collaboration.
+              - list "Social channels" [ref=e76]:
+                - listitem "Explore Tulio projects on GitHub" [ref=e77] [cursor=pointer]:
+                  - img [ref=e79]
+                  - generic [ref=e81]: GitHub
+                - listitem "Explore Tulio portfolio work" [ref=e82] [cursor=pointer]:
+                  - img [ref=e85]
+                  - generic [ref=e86]: My Portfolio
+                - listitem "Connect with Tulio on LinkedIn" [ref=e87] [cursor=pointer]:
+                  - img [ref=e90]
+                  - generic [ref=e91]: LinkedIn
+                - listitem "Follow Tulio on Instagram" [ref=e92] [cursor=pointer]:
+                  - img [ref=e95]
+                  - generic [ref=e96]: Instagram
+                - listitem "Follow Tulio on Mastodon" [ref=e97] [cursor=pointer]:
+                  - img [ref=e99]
+                  - generic [ref=e101]: Mastodon
+                - listitem "Book a meeting with Tulio" [ref=e102] [cursor=pointer]:
+                  - img [ref=e105]
+                  - generic [ref=e106]: Book meeting
+        - navigation "Quick navigation" [ref=e107]:
+          - list [ref=e109]:
+            - listitem [ref=e110]:
+              - link "Top" [ref=e111] [cursor=pointer]:
+                - /url: "#top"
+            - listitem [ref=e112]:
+              - link "Profile" [ref=e113] [cursor=pointer]:
+                - /url: "#section-profile"
+            - listitem [ref=e114]:
+              - link "Tools" [ref=e115] [cursor=pointer]:
+                - /url: "#section-tools"
+            - listitem [ref=e116]:
+              - link "Stack" [ref=e117] [cursor=pointer]:
+                - /url: "#section-stack"
+            - listitem [ref=e118]:
+              - link "GitHub" [ref=e119] [cursor=pointer]:
+                - /url: "#section-github"
+            - listitem [ref=e120]:
+              - link "Writing" [ref=e121] [cursor=pointer]:
+                - /url: "#section-writing"
+        - region "Widget carousel" [ref=e122]:
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - img [ref=e127]
+                - text: Toolkit
+              - heading "Tools" [level=2] [ref=e129]:
+                - generic [ref=e130]: Tools
+                - img [ref=e132]
+              - paragraph [ref=e134]: macOS utilities that stay docked.
+            - list "Tools" [ref=e135]:
+              - listitem [ref=e136] [cursor=pointer]:
+                - img [ref=e139]
+                - generic [ref=e140]: Ghostty
+              - listitem [ref=e141] [cursor=pointer]:
+                - img [ref=e144]
+                - generic [ref=e145]: Neovim
+              - listitem [ref=e146] [cursor=pointer]:
+                - img [ref=e149]
+                - generic [ref=e150]: Xcode
+              - listitem [ref=e151] [cursor=pointer]:
+                - img [ref=e154]
+                - generic [ref=e155]: Containers
+              - listitem [ref=e156] [cursor=pointer]:
+                - img [ref=e159]
+                - generic [ref=e160]: Transmit
+              - listitem [ref=e161] [cursor=pointer]:
+                - img [ref=e164]
+                - generic [ref=e165]: Tower
+              - listitem [ref=e166] [cursor=pointer]:
+                - img [ref=e169]
+                - generic [ref=e170]: CodeEdit
+              - listitem [ref=e171] [cursor=pointer]:
+                - img [ref=e174]
+                - generic [ref=e175]: OrbStack
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - generic [ref=e178]:
+                - img [ref=e180]
+                - text: Languages
+              - heading "Stack" [level=2] [ref=e182]:
+                - generic [ref=e183]: Stack
+                - img [ref=e185]
+              - paragraph [ref=e187]: Core languages and frameworks I ship with.
+            - list "Stack" [ref=e188]:
+              - listitem [ref=e189] [cursor=pointer]:
+                - img [ref=e192]
+                - generic [ref=e193]: Swift
+              - listitem [ref=e194] [cursor=pointer]:
+                - img [ref=e197]
+                - generic [ref=e198]: Go
+              - listitem [ref=e199] [cursor=pointer]:
+                - img [ref=e202]
+                - generic [ref=e203]: TypeScript
+              - listitem [ref=e204] [cursor=pointer]:
+                - img [ref=e207]
+                - generic [ref=e208]: React
+              - listitem [ref=e209] [cursor=pointer]:
+                - img [ref=e212]
+                - generic [ref=e213]: Vue
+              - listitem [ref=e214] [cursor=pointer]:
+                - img [ref=e217]
+                - generic [ref=e218]: Svelte
+              - listitem [ref=e219] [cursor=pointer]:
+                - img [ref=e222]
+                - generic [ref=e223]: Rust
+              - listitem [ref=e224] [cursor=pointer]:
+                - img [ref=e227]
+                - generic [ref=e228]: Zig
+              - listitem [ref=e229] [cursor=pointer]:
+                - img [ref=e232]
+                - generic [ref=e233]: Docker
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - generic [ref=e236]:
+                - img [ref=e238]
+                - text: Activity
+              - heading "GitHub" [level=2] [ref=e240]:
+                - generic [ref=e241]: GitHub
+                - img [ref=e243]
+              - paragraph [ref=e245]: Latest commits and streaks.
+            - generic [ref=e248]:
+              - paragraph [ref=e249]:
+                - generic [ref=e250]: Scroll for more
+              - generic [ref=e251]:
+                - article [ref=e252]:
+                  - generic [ref=e253]:
+                    - link "tulio-personal-website" [ref=e254] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/tulio-personal-website
+                    - paragraph [ref=e255]: my personal website, connected from the portfolio, blog attached and more consumer friendly than the hackerfolio
+                    - paragraph [ref=e256]:
+                      - generic [ref=e257]: CSS
+                  - list "Recent commits for tulio-personal-website" [ref=e258]:
+                    - listitem [ref=e259]:
+                      - link "View commit f26e96e in tulio-personal-website" [ref=e260] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/tulio-personal-website/commit/f26e96e0c04c81e9053996f7b6f3bafdeb90493d
+                        - generic [ref=e261]:
+                          - paragraph [ref=e262]: "fix: preserve desktop slash shortcut for sidebar filter"
+                          - generic [ref=e263]:
+                            - generic [ref=e264]: 18h ago
+                            - generic [ref=e265]: f26e96e
+                        - generic [ref=e266]: ↗
+                    - listitem [ref=e267]:
+                      - link "View commit f8c1acf in tulio-personal-website" [ref=e268] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/tulio-personal-website/commit/f8c1acf5001b08e099e995b27c98df4d22da8033
+                        - generic [ref=e269]:
+                          - paragraph [ref=e270]: Fix theme toggle interactions and Sanity hero image rendering
+                          - generic [ref=e271]:
+                            - generic [ref=e272]: 21h ago
+                            - generic [ref=e273]: f8c1acf
+                        - generic [ref=e274]: ↗
+                    - listitem [ref=e275]:
+                      - link "View commit f150cde in tulio-personal-website" [ref=e276] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/tulio-personal-website/commit/f150cded98cf8ac0b59b9bc32923d1039b39cb3c
+                        - generic [ref=e277]:
+                          - paragraph [ref=e278]: "chore: rebuild from sanity content update [skip ci]"
+                          - generic [ref=e279]:
+                            - generic [ref=e280]: 1d ago
+                            - generic [ref=e281]: f150cde
+                        - generic [ref=e282]: ↗
+                - article [ref=e283]:
+                  - generic [ref=e284]:
+                    - link "HackerFolio-Tulio" [ref=e285] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/HackerFolio-Tulio
+                    - paragraph [ref=e286]:
+                      - generic [ref=e287]: TypeScript
+                      - generic [ref=e288]: 1 stars
+                  - list "Recent commits for HackerFolio-Tulio" [ref=e289]:
+                    - listitem [ref=e290]:
+                      - link "View commit f6ba396 in HackerFolio-Tulio" [ref=e291] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/HackerFolio-Tulio/commit/f6ba396407218f7acebe8b343aebeafecf0f2a0a
+                        - generic [ref=e292]:
+                          - paragraph [ref=e293]: "feat(ui): elevate terminal showcase and add quality gates"
+                          - generic [ref=e294]:
+                            - generic [ref=e295]: 2d ago
+                            - generic [ref=e296]: f6ba396
+                        - generic [ref=e297]: ↗
+                    - listitem [ref=e298]:
+                      - link "View commit a33b9bd in HackerFolio-Tulio" [ref=e299] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/HackerFolio-Tulio/commit/a33b9bd75949deea51b0681c82dd60a91219ce34
+                        - generic [ref=e300]:
+                          - paragraph [ref=e301]: "chore(deps): update cloudflare tooling dependencies"
+                          - generic [ref=e302]:
+                            - generic [ref=e303]: 2d ago
+                            - generic [ref=e304]: a33b9bd
+                        - generic [ref=e305]: ↗
+                    - listitem [ref=e306]:
+                      - link "View commit afa74e0 in HackerFolio-Tulio" [ref=e307] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/HackerFolio-Tulio/commit/afa74e04e76523aa6512307d2308640cb13af765
+                        - generic [ref=e308]:
+                          - paragraph [ref=e309]: Updated .github/dependabot.yml to use 'docker' ecosystem and added 'dependencies' label.
+                          - generic [ref=e310]:
+                            - generic [ref=e311]: Jan 10
+                            - generic [ref=e312]: afa74e0
+                        - generic [ref=e313]: ↗
+                - article [ref=e314]:
+                  - generic [ref=e315]:
+                    - link "flying-dutchman-app" [ref=e316] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/flying-dutchman-app
+                    - paragraph [ref=e317]:
+                      - generic [ref=e318]: Swift
+                  - list "Recent commits for flying-dutchman-app" [ref=e319]:
+                    - listitem [ref=e320]:
+                      - link "View commit 18d40e7 in flying-dutchman-app" [ref=e321] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/flying-dutchman-app/commit/18d40e7e8952e793044db729d5ce0cbfdfdb4ab7
+                        - generic [ref=e322]:
+                          - paragraph [ref=e323]: Remove OpenSpec files and update AGENTS.md.
+                          - generic [ref=e324]:
+                            - generic [ref=e325]: 5d ago
+                            - generic [ref=e326]: 18d40e7
+                        - generic [ref=e327]: ↗
+                    - listitem [ref=e328]:
+                      - link "View commit 3768c6b in flying-dutchman-app" [ref=e329] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/flying-dutchman-app/commit/3768c6b39158ffeb15947644b20e66f5ccba6e6e
+                        - generic [ref=e330]:
+                          - paragraph [ref=e331]: "feat(ui): overhaul UI with Liquid Glass design and pastel colors (Phase 4)"
+                          - generic [ref=e332]:
+                            - generic [ref=e333]: Feb 10
+                            - generic [ref=e334]: 3768c6b
+                        - generic [ref=e335]: ↗
+                    - listitem [ref=e336]:
+                      - link "View commit 3eb253e in flying-dutchman-app" [ref=e337] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/flying-dutchman-app/commit/3eb253e3a8354f139e4daef560672b55cdd8c51f
+                        - generic [ref=e338]:
+                          - paragraph [ref=e339]: Implements Compose domain routing and UI enhancements
+                          - generic [ref=e340]:
+                            - generic [ref=e341]: Feb 5
+                            - generic [ref=e342]: 3eb253e
+                        - generic [ref=e343]: ↗
+                - article [ref=e344]:
+                  - generic [ref=e345]:
+                    - link "LiqUIdify" [ref=e346] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/LiqUIdify
+                    - paragraph [ref=e347]: Apple-inspired liquid glass component library for React with comprehensive testing and Storybook documentation
+                    - paragraph [ref=e348]:
+                      - generic [ref=e349]: JavaScript
+                      - generic [ref=e350]: 3 stars
+                  - list "Recent commits for LiqUIdify" [ref=e351]:
+                    - listitem [ref=e352]:
+                      - link "View commit bc462c6 in LiqUIdify" [ref=e353] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/LiqUIdify/commit/bc462c6e0bcc502938013b02c6434ac06c8350a0
+                        - generic [ref=e354]:
+                          - paragraph [ref=e355]: "chore: release 1.0.0 — production stable, consumer fixture test, changelog"
+                          - generic [ref=e356]:
+                            - generic [ref=e357]: Feb 13
+                            - generic [ref=e358]: bc462c6
+                        - generic [ref=e359]: ↗
+                    - listitem [ref=e360]:
+                      - link "View commit b36d467 in LiqUIdify" [ref=e361] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/LiqUIdify/commit/b36d467bea0d0ba09a8c10859937cc71a4ce4862
+                        - generic [ref=e362]:
+                          - paragraph [ref=e363]: "chore(release): v0.6.26"
+                          - generic [ref=e364]:
+                            - generic [ref=e365]: Feb 12
+                            - generic [ref=e366]: b36d467
+                        - generic [ref=e367]: ↗
+                    - listitem [ref=e368]:
+                      - link "View commit a5bb23c in LiqUIdify" [ref=e369] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/LiqUIdify/commit/a5bb23cba4dfa393e098f7ead5ef7f3cfc40cfb0
+                        - generic [ref=e370]:
+                          - paragraph [ref=e371]: "fix: linting and tsc errors, bump version to 0.6.26"
+                          - generic [ref=e372]:
+                            - generic [ref=e373]: Feb 12
+                            - generic [ref=e374]: a5bb23c
+                        - generic [ref=e375]: ↗
+                - article [ref=e376]:
+                  - generic [ref=e377]:
+                    - link "CodeEdit" [ref=e378] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/CodeEdit
+                    - paragraph [ref=e379]: CodeEdit App for macOS – Elevate your code editing experience. Open source, free forever.
+                    - paragraph [ref=e380]:
+                      - generic [ref=e381]: Swift
+                  - list "Recent commits for CodeEdit" [ref=e382]:
+                    - listitem [ref=e383]:
+                      - link "View commit ce39acf in CodeEdit" [ref=e384] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CodeEdit/commit/ce39acff67174add05e071db78d824716fce8e63
+                        - generic [ref=e385]:
+                          - paragraph [ref=e386]: Migrate to Swift 6.2, fix Tree-sitter highlighting, and prepare for libghostty
+                          - generic [ref=e387]:
+                            - generic [ref=e388]: Feb 5
+                            - generic [ref=e389]: ce39acf
+                        - generic [ref=e390]: ↗
+                    - listitem [ref=e391]:
+                      - link "View commit 9b95077 in CodeEdit" [ref=e392] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CodeEdit/commit/9b950770df9ac981e4e0158faee821b0a844ebcd
+                        - generic [ref=e393]:
+                          - paragraph [ref=e394]: Migrate Tuist configuration to modern Tuist.swift and .swift-version
+                          - generic [ref=e395]:
+                            - generic [ref=e396]: Feb 5
+                            - generic [ref=e397]: 9b95077
+                        - generic [ref=e398]: ↗
+                    - listitem [ref=e399]:
+                      - link "View commit 37e8531 in CodeEdit" [ref=e400] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CodeEdit/commit/37e85310349fbb1864afb929e8735de7166d5591
+                        - generic [ref=e401]:
+                          - paragraph [ref=e402]: Add Tuist imports and build.log
+                          - generic [ref=e403]:
+                            - generic [ref=e404]: Feb 5
+                            - generic [ref=e405]: "37e8531"
+                        - generic [ref=e406]: ↗
+                - article [ref=e407]:
+                  - generic [ref=e408]:
+                    - link "liquidify-landing-page" [ref=e409] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/liquidify-landing-page
+                    - paragraph [ref=e410]:
+                      - generic [ref=e411]: TypeScript
+                      - generic [ref=e412]: 1 stars
+                  - list "Recent commits for liquidify-landing-page" [ref=e413]:
+                    - listitem [ref=e414]:
+                      - link "View commit 703d5db in liquidify-landing-page" [ref=e415] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/liquidify-landing-page/commit/703d5db212a8e88b1df354d61ec0e9eaee37d0cd
+                        - generic [ref=e416]:
+                          - paragraph [ref=e417]: "Chores: Updates dependencies and adds dependabot config"
+                          - generic [ref=e418]:
+                            - generic [ref=e419]: Nov 23
+                            - generic [ref=e420]: 703d5db
+                        - generic [ref=e421]: ↗
+                    - listitem [ref=e422]:
+                      - link "View commit b2d3e1c in liquidify-landing-page" [ref=e423] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/liquidify-landing-page/commit/b2d3e1c009548aeed7532cb79fbd8f8095cbced9
+                        - generic [ref=e424]:
+                          - paragraph [ref=e425]: Updates dependencies to latest versions
+                          - generic [ref=e426]:
+                            - generic [ref=e427]: Oct 8
+                            - generic [ref=e428]: b2d3e1c
+                        - generic [ref=e429]: ↗
+                    - listitem [ref=e430]:
+                      - link "View commit 19b220c in liquidify-landing-page" [ref=e431] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/liquidify-landing-page/commit/19b220c1ac79cb71389fef9c31e03cbe19226449
+                        - generic [ref=e432]:
+                          - paragraph [ref=e433]: Updates dependencies
+                          - generic [ref=e434]:
+                            - generic [ref=e435]: Oct 8
+                            - generic [ref=e436]: 19b220c
+                        - generic [ref=e437]: ↗
+                - article [ref=e438]:
+                  - generic [ref=e439]:
+                    - link "dotfiles" [ref=e440] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/dotfiles
+                    - paragraph [ref=e441]:
+                      - generic [ref=e442]: Shell
+                  - list "Recent commits for dotfiles" [ref=e443]:
+                    - listitem [ref=e444]:
+                      - link "View commit 70aedc7 in dotfiles" [ref=e445] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/dotfiles/commit/70aedc71b23a02667efbe162717ef69b91da0826
+                        - generic [ref=e446]:
+                          - paragraph [ref=e447]: Fix syntax in .chezmoi.toml.tmpl
+                          - generic [ref=e448]:
+                            - generic [ref=e449]: Jan 31
+                            - generic [ref=e450]: 70aedc7
+                        - generic [ref=e451]: ↗
+                    - listitem [ref=e452]:
+                      - link "View commit a5f5bf4 in dotfiles" [ref=e453] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/dotfiles/commit/a5f5bf42564467908373463e9d52c9053617de56
+                        - generic [ref=e454]:
+                          - paragraph [ref=e455]: Template Git config and setup identity management
+                          - generic [ref=e456]:
+                            - generic [ref=e457]: Jan 31
+                            - generic [ref=e458]: a5f5bf4
+                        - generic [ref=e459]: ↗
+                    - listitem [ref=e460]:
+                      - link "View commit eaeab7e in dotfiles" [ref=e461] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/dotfiles/commit/eaeab7e2d9ddef7cbcc820c253259d586e92d282
+                        - generic [ref=e462]:
+                          - paragraph [ref=e463]: Add Git configuration
+                          - generic [ref=e464]:
+                            - generic [ref=e465]: Jan 31
+                            - generic [ref=e466]: eaeab7e
+                        - generic [ref=e467]: ↗
+                - article [ref=e468]:
+                  - generic [ref=e469]:
+                    - link "CotEditor" [ref=e470] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/CotEditor
+                    - paragraph [ref=e471]: Lightweight Plain-Text Editor for macOS
+                    - paragraph [ref=e472]:
+                      - generic [ref=e473]: Code
+                  - list "Recent commits for CotEditor" [ref=e474]:
+                    - listitem [ref=e475]:
+                      - link "View commit 8d1e832 in CotEditor" [ref=e476] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CotEditor/commit/8d1e832a81b5882350f07a0bb00e870d496e05ce
+                        - generic [ref=e477]:
+                          - paragraph [ref=e478]: Fix user syntaxes directory
+                          - generic [ref=e479]:
+                            - generic [ref=e480]: Jan 23
+                            - generic [ref=e481]: 8d1e832
+                        - generic [ref=e482]: ↗
+                    - listitem [ref=e483]:
+                      - link "View commit 50f67c3 in CotEditor" [ref=e484] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CotEditor/commit/50f67c35f36f06d3cd210fc0668d5c2c82a8ec0f
+                        - generic [ref=e485]:
+                          - paragraph [ref=e486]: Update CHANGELOG
+                          - generic [ref=e487]:
+                            - generic [ref=e488]: Jan 23
+                            - generic [ref=e489]: 50f67c3
+                        - generic [ref=e490]: ↗
+                    - listitem [ref=e491]:
+                      - link "View commit 89dd4a4 in CotEditor" [ref=e492] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/CotEditor/commit/89dd4a4b6b35320254f5b7dac0c97403c2176237
+                        - generic [ref=e493]:
+                          - paragraph [ref=e494]: Add test plans
+                          - generic [ref=e495]:
+                            - generic [ref=e496]: Jan 23
+                            - generic [ref=e497]: 89dd4a4
+                        - generic [ref=e498]: ↗
+                - article [ref=e499]:
+                  - generic [ref=e500]:
+                    - link "codeapp" [ref=e501] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/codeapp
+                    - paragraph [ref=e502]: Building a full-fledged code editor for iPad
+                    - paragraph [ref=e503]:
+                      - generic [ref=e504]: Code
+                  - list "Recent commits for codeapp" [ref=e505]:
+                    - listitem [ref=e506]:
+                      - link "View commit db5f282 in codeapp" [ref=e507] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/codeapp/commit/db5f28247087637fa2f1ca5e8e9cc5e3bdbce0d6
+                        - generic [ref=e508]:
+                          - paragraph [ref=e509]: update app version to 1.12.0
+                          - generic [ref=e510]:
+                            - generic [ref=e511]: Jan 17
+                            - generic [ref=e512]: db5f282
+                        - generic [ref=e513]: ↗
+                    - listitem [ref=e514]:
+                      - link "View commit 192a8ce in codeapp" [ref=e515] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/codeapp/commit/192a8ce8372e9f1fd4f2cefdf807a7cb5f346d44
+                        - generic [ref=e516]:
+                          - paragraph [ref=e517]: Adjust orders of editor keyboard toolbar items
+                          - generic [ref=e518]:
+                            - generic [ref=e519]: Jan 17
+                            - generic [ref=e520]: 192a8ce
+                        - generic [ref=e521]: ↗
+                    - listitem [ref=e522]:
+                      - link "View commit 5958c03 in codeapp" [ref=e523] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/codeapp/commit/5958c03de89ceea2806de6497768cab53978dd8d
+                        - generic [ref=e524]:
+                          - paragraph [ref=e525]: Use inputWithModifiers for terminal input
+                          - generic [ref=e526]:
+                            - generic [ref=e527]: Jan 16
+                            - generic [ref=e528]: 5958c03
+                        - generic [ref=e529]: ↗
+                - article [ref=e530]:
+                  - generic [ref=e531]:
+                    - link "vimr" [ref=e532] [cursor=pointer]:
+                      - /url: https://github.com/tuliopc23/vimr
+                    - paragraph [ref=e533]: VimR — Neovim GUI for macOS in Swift
+                    - paragraph [ref=e534]:
+                      - generic [ref=e535]: Code
+                  - list "Recent commits for vimr" [ref=e536]:
+                    - listitem [ref=e537]:
+                      - link "View commit 4a6812f in vimr" [ref=e538] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/vimr/commit/4a6812fd306a7c46baeee7d7140274e87dc15f94
+                        - generic [ref=e539]:
+                          - paragraph [ref=e540]: Use fira code in the demo
+                          - generic [ref=e541]:
+                            - generic [ref=e542]: Jan 4
+                            - generic [ref=e543]: 4a6812f
+                        - generic [ref=e544]: ↗
+                    - listitem [ref=e545]:
+                      - link "View commit cdd08f0 in vimr" [ref=e546] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/vimr/commit/cdd08f0323ce0009cde0ba37d08e3d25156b2852
+                        - generic [ref=e547]:
+                          - paragraph [ref=e548]: Refactor slightly
+                          - generic [ref=e549]:
+                            - generic [ref=e550]: Jan 4
+                            - generic [ref=e551]: cdd08f0
+                        - generic [ref=e552]: ↗
+                    - listitem [ref=e553]:
+                      - link "View commit 248436b in vimr" [ref=e554] [cursor=pointer]:
+                        - /url: https://github.com/tuliopc23/vimr/commit/248436bc5f6ac5a9c19045fa1586610f2a975803
+                        - generic [ref=e555]:
+                          - paragraph [ref=e556]: Update deps
+                          - generic [ref=e557]:
+                            - generic [ref=e558]: Jan 2
+                            - generic [ref=e559]: 248436b
+                        - generic [ref=e560]: ↗
+              - generic [ref=e561]:
+                - tablist "Repository pages" [ref=e562]:
+                  - tab [selected] [ref=e563] [cursor=pointer]
+                  - tab [ref=e564] [cursor=pointer]
+                  - tab [ref=e565] [cursor=pointer]
+                  - tab [ref=e566] [cursor=pointer]
+                  - tab [ref=e567] [cursor=pointer]
+                  - tab [ref=e568] [cursor=pointer]
+                  - tab [ref=e569] [cursor=pointer]
+                  - tab [ref=e570] [cursor=pointer]
+                  - tab [ref=e571] [cursor=pointer]
+                  - tab [ref=e572] [cursor=pointer]
+                - paragraph [ref=e573]: 1 / 10
+          - generic [ref=e574]:
+            - generic [ref=e575]:
+              - generic [ref=e576]:
+                - img [ref=e578]
+                - text: Writing
+              - heading "Feature Writing" [level=2] [ref=e580]:
+                - generic [ref=e581]: Feature Writing
+                - img [ref=e583]
+              - paragraph [ref=e585]: Fresh perspectives from the lab.
+            - list "Featured writing articles" [ref=e586]:
+              - listitem [ref=e587]:
+                - paragraph [ref=e588]:
+                  - img [ref=e590]
+                  - text: Article
+                - heading "Liquid Glass, Local AI, and the “26” Era" [level=3] [ref=e592]
+                - paragraph [ref=e593]: iOS 26, iPadOS 26, and macOS Tahoe 26 — what actually changes for developers (beyond the shine)
+                - generic [ref=e594]:
+                  - generic [ref=e595]:
+                    - img [ref=e597]
+                    - text: Dec 15, 2025
+                  - generic [ref=e599]:
+                    - img [ref=e601]
+                    - text: 1 min read
+                - link "Read" [ref=e603] [cursor=pointer]:
+                  - /url: /blog/liquid-glass-local-ai-and-the-26-era/
+                  - generic [ref=e604]: Read
+                  - img [ref=e606]
+              - listitem [ref=e608]:
+                - paragraph [ref=e609]:
+                  - img [ref=e611]
+                  - text: Article
+                - 'heading "OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ Under the Hood" [level=3] [ref=e613]'
+                - paragraph [ref=e614]: A practical, opinionated look at how Docker, OrbStack, and Apple’s new container tool actually work on macOS.
+                - generic [ref=e615]:
+                  - generic [ref=e616]:
+                    - img [ref=e618]
+                    - text: Nov 23, 2025
+                  - generic [ref=e620]:
+                    - img [ref=e622]
+                    - text: 1 min read
+                - link "Read" [ref=e624] [cursor=pointer]:
+                  - /url: /blog/orbstack-vs-apple-containers-vs-docker-on-macos-how-they-really-differ-under-the-hood/
+                  - generic [ref=e625]: Read
+                  - img [ref=e627]
+              - listitem [ref=e629]:
+                - paragraph [ref=e630]:
+                  - img [ref=e632]
+                  - text: Article
+                - heading "Why I Choose Neovim Over Full-Blown GUI IDEs" [level=3] [ref=e634]
+                - paragraph [ref=e635]: This is the story of why—plus a practical comparison of modern terminal (TUI) editors versus today’s GUI editors.
+                - generic [ref=e636]:
+                  - generic [ref=e637]:
+                    - img [ref=e639]
+                    - text: Oct 26, 2025
+                  - generic [ref=e641]:
+                    - img [ref=e643]
+                    - text: 1 min read
+                - link "Read" [ref=e645] [cursor=pointer]:
+                  - /url: /blog/neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025/
+                  - generic [ref=e646]: Read
+                  - img [ref=e648]
+      - generic [ref=e651]:
+        - generic [ref=e652]:
+          - paragraph [ref=e653]:
+            - generic [ref=e654]:
+              - text: Tulio Cunha
+              - img "Tulio Cunha" [ref=e655]
+          - paragraph [ref=e656]: Full stack developer building native and web experiences through precise tooling and considerate interfaces.
+        - generic "Footer links" [ref=e657]:
+          - link "Projects" [ref=e658] [cursor=pointer]:
+            - /url: /projects
+          - link "Blog" [ref=e659] [cursor=pointer]:
+            - /url: /blog/
+          - link "About" [ref=e660] [cursor=pointer]:
+            - /url: /about
+          - link "Portfolio" [ref=e661] [cursor=pointer]:
+            - /url: https://portfolio.tuliocunha.dev
+          - link "Email" [ref=e662] [cursor=pointer]:
+            - /url: mailto:contact@tuliocunha.dev
+        - paragraph [ref=e663]: © 2026 Tulio Cunha. Built with Astro.
+  - button "Scroll to top" [ref=e664] [cursor=pointer]:
+    - img [ref=e666]
+  - generic [ref=e670]:
+    - button "Menu" [ref=e671]:
+      - img [ref=e673]
+      - generic: Menu
+    - button "Inspect" [ref=e677]:
+      - img [ref=e679]
+      - generic: Inspect
+    - button "Audit" [ref=e681]:
+      - img [ref=e683]
+      - generic: Audit
+    - button "Settings" [ref=e686]:
+      - img [ref=e688]
+      - generic: Settings

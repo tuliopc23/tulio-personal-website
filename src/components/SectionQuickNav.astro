@@ -19,6 +19,10 @@ const heroSectionId = sections[0]?.id ?? "top";
     data-section-nav-root
     data-hero-section={heroSectionId}
   >
+    <div class="section-quick-nav__meta">
+      <p class="section-quick-nav__label">Quick navigation</p>
+      <p class="section-quick-nav__hint">Jump between homepage sections without losing the thread.</p>
+    </div>
     <div class="section-quick-nav__scroll" data-section-nav-scroll>
       <ul class="section-quick-nav__list" data-section-nav role="list">
         <li class="section-quick-nav__item" role="listitem">
@@ -29,7 +33,7 @@ const heroSectionId = sections[0]?.id ?? "top";
             data-section="top"
             aria-current="true"
           >
-            Top
+            Overview
           </a>
         </li>
         {sections.map((section) => (
@@ -131,12 +135,40 @@ const heroSectionId = sections[0]?.id ?? "top";
 
 <style>
   .section-quick-nav {
-    grid-column: 1 / -1;
-    margin: clamp(12px, 3vw, 24px) 0;
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .section-quick-nav__meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    width: min(100%, 560px);
+    max-width: 100%;
+    justify-self: end;
+  }
+
+  .section-quick-nav__label {
+    margin: 0;
+    font-size: var(--fs-caption);
+    letter-spacing: var(--ls-eyebrow);
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: var(--fw-semibold);
+  }
+
+  .section-quick-nav__hint {
+    margin: 0;
+    max-width: 34ch;
+    font-size: var(--fs-caption);
+    color: var(--muted);
+    text-align: right;
   }
 
   .section-quick-nav__scroll {
-    width: 100%;
+    width: min(100%, 560px);
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
@@ -147,21 +179,22 @@ const heroSectionId = sections[0]?.id ?? "top";
   .section-quick-nav__list {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
-    padding: 14px 18px;
+    gap: 8px;
+    padding: 8px;
     margin: 0;
     list-style: none;
-    border-radius: 24px;
-    background: color-mix(in srgb, var(--surface-card) 88%, transparent);
-    border: 1px solid var(--surface-card-border);
+    border-radius: 22px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 58%),
+      color-mix(in srgb, var(--surface-card) 76%, transparent);
+    border: 1px solid color-mix(in srgb, var(--surface-card-border) 88%, transparent);
     box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.38),
-      0 4px 8px rgba(0, 0, 0, 0.26),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(18px) saturate(140%);
-    -webkit-backdrop-filter: blur(18px) saturate(140%);
+      0 10px 28px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px) saturate(125%);
+    -webkit-backdrop-filter: blur(14px) saturate(125%);
     width: max-content;
-    min-width: 100%;
+    min-width: min(100%, 520px);
   }
 
   .section-quick-nav__item {
@@ -173,13 +206,13 @@ const heroSectionId = sections[0]?.id ?? "top";
     align-items: center;
     justify-content: center;
     min-width: 44px;
-    min-height: 44px;
-    padding: 10px 18px;
+    min-height: 38px;
+    padding: 8px 14px;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+    background: color-mix(in srgb, var(--surface-card) 78%, transparent);
     border: 1px solid transparent;
     color: var(--text-primary);
-    font-size: var(--fs-footnote);
+    font-size: var(--fs-caption);
     font-weight: var(--fw-semibold);
     text-decoration: none;
     transition:
@@ -192,9 +225,9 @@ const heroSectionId = sections[0]?.id ?? "top";
 
   .section-quick-nav__link:hover {
     background: color-mix(in srgb, var(--surface-card) 98%, transparent);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow:
-      0 4px 10px rgba(0, 0, 0, 0.2),
+      0 4px 10px rgba(0, 0, 0, 0.16),
       inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 
@@ -216,12 +249,27 @@ const heroSectionId = sections[0]?.id ?? "top";
   }
 
   @media (max-width: 768px) {
+    .section-quick-nav__meta {
+      width: 100%;
+      justify-self: stretch;
+      align-items: center;
+    }
+
+    .section-quick-nav__hint {
+      display: none;
+    }
+
+    .section-quick-nav__scroll {
+      width: 100%;
+    }
+
     .section-quick-nav__list {
       flex-wrap: nowrap;
       gap: var(--space-1);
-      padding: 12px 16px;
+      padding: 8px;
       overflow-x: visible;
       scrollbar-width: none;
+      min-width: 100%;
     }
 
     .section-quick-nav__list::-webkit-scrollbar {
@@ -229,7 +277,7 @@ const heroSectionId = sections[0]?.id ?? "top";
     }
 
     .section-quick-nav__link {
-      padding: 10px 15px;
+      padding: 8px 14px;
       font-size: var(--fs-caption);
     }
   }

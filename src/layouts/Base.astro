@@ -60,6 +60,35 @@ const structuredDataJson =
     : structuredData
       ? JSON.stringify(structuredData)
       : null;
+const pathname = Astro.url.pathname;
+const normalizedPath =
+  pathname !== "/" && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+const isBlogIndexRoute = normalizedPath === "/blog";
+const isBlogCategoryRoute = normalizedPath.startsWith("/blog/category");
+const isBlogRoute = isBlogIndexRoute || normalizedPath.startsWith("/blog/");
+const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
+const topbarSubtitle = isArticleRoute
+  ? "Editorial · Reading mode"
+  : isBlogRoute
+    ? "Editorial · Writing archive"
+    : "Software Developer";
+const topbarContextLabel =
+  normalizedPath === "/" ? null : isArticleRoute ? "Reading" : isBlogRoute ? "Journal" : title;
+const sidebarEyebrow = isArticleRoute
+  ? "Editorial companion"
+  : isBlogRoute
+    ? "Journal navigation"
+    : "Site navigation";
+const sidebarTitle = isArticleRoute
+  ? title
+  : isBlogIndexRoute
+    ? "Browse the writing archive"
+    : title;
+const sidebarMeta = isArticleRoute
+  ? "Keep the archive and contact surfaces close while you read."
+  : isBlogRoute
+    ? "Writing, feeds, and contact points in one place."
+    : "Primary routes and contact points stay within reach.";
 ---
 
 <html lang="en" data-theme="light">
@@ -251,8 +280,15 @@ const structuredDataJson =
           </a>
           <div class="topbar__brand">
             <span class="topbar__brandName">Tulio Cunha</span>
-            <span class="topbar__brandSubtitle">Software Developer</span>
+            <span class="topbar__brandSubtitle">{topbarSubtitle}</span>
           </div>
+          {
+            topbarContextLabel && (
+              <span class:list={["topbar__context", isBlogRoute && "topbar__context--editorial"]}>
+                {topbarContextLabel}
+              </span>
+            )
+          }
         </div>
         <nav class="topbar__nav" aria-label="Global">
           <div
@@ -324,7 +360,11 @@ const structuredDataJson =
           <aside id="site-sidebar" class="sidebar" aria-label="Sidebar">
             <div class="sidebar__inner">
               <div class="sidebar__dragHandle" aria-hidden="true" />
-              <div class="sidebar__header">Navigation</div>
+              <div class="sidebar__header">
+                <p class="sidebar__eyebrow">{sidebarEyebrow}</p>
+                <p class="sidebar__title">{sidebarTitle}</p>
+                <p class="sidebar__meta">{sidebarMeta}</p>
+              </div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
                 <div class="sidebar__group sidebar__group--site">
                   <div class="sidebar__groupLabel">Site</div>
@@ -467,6 +507,7 @@ const structuredDataJson =
         <footer class="footer">
           <div class="footer__inner">
             <div class="footer__about">
+              <p class="footer__eyebrow">Closing note</p>
               <p class="footer__title">
                 <span class="footer__titleRow">
                   Tulio Cunha
@@ -478,20 +519,26 @@ const structuredDataJson =
                 tooling and considerate interfaces.
               </p>
             </div>
-            <div class="footer__links" aria-label="Footer links">
-              <a href="/projects">Projects</a>
-              <a href="/blog/">Blog</a>
-              <a href="/about">About</a>
-              <a
-                href="https://portfolio.tuliocunha.dev"
-                target="_blank"
-                rel="noreferrer noopener">Portfolio</a
-              >
-              <a href="mailto:contact@tuliocunha.dev">Email</a>
+            <div class="footer__actions">
+              <p class="footer__groupLabel">Explore</p>
+              <nav class="footer__links" aria-label="Footer links">
+                <a href="/projects">Projects</a>
+                <a href="/blog/">Blog</a>
+                <a href="/about">About</a>
+                <a
+                  href="https://portfolio.tuliocunha.dev"
+                  target="_blank"
+                  rel="noreferrer noopener">Portfolio</a
+                >
+                <a href="mailto:contact@tuliocunha.dev">Email</a>
+              </nav>
             </div>
-            <p class="footer__legal">
-              © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
-            </p>
+            <div class="footer__meta">
+              <p class="footer__status">Available for select product, platform, and interface work.</p>
+              <p class="footer__legal">
+                © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
+              </p>
+            </div>
           </div>
         </footer>
       </section>

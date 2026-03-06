@@ -1,0 +1,400 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - link "Tulio Cunha – Home" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Tulio Cunha" [ref=e7]
+        - generic [ref=e8]:
+          - generic [ref=e9]: Tulio Cunha
+          - generic [ref=e10]: Software Developer
+      - navigation "Global" [ref=e11]:
+        - list [ref=e13]:
+          - listitem [ref=e14]:
+            - link "Home" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e16]: Home
+          - listitem [ref=e17]:
+            - link "Blog" [ref=e18] [cursor=pointer]:
+              - /url: /blog/
+              - generic [ref=e19]: Blog
+          - listitem [ref=e20]:
+            - link "Projects" [ref=e21] [cursor=pointer]:
+              - /url: /projects
+              - generic [ref=e22]: Projects
+          - listitem [ref=e23]:
+            - link "About" [ref=e24] [cursor=pointer]:
+              - /url: /about
+              - generic [ref=e25]: About
+          - listitem [ref=e26]:
+            - link "Now" [ref=e27] [cursor=pointer]:
+              - /url: /now
+              - generic [ref=e28]: Now
+      - button "Toggle theme" [pressed] [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: Toggle theme
+  - main [ref=e36]:
+    - complementary [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]: Navigation
+        - navigation [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: Site
+            - link [ref=e43] [cursor=pointer]:
+              - /url: /
+              - img [ref=e46]
+              - text: Home
+            - link [ref=e48] [cursor=pointer]:
+              - /url: /blog/
+              - img [ref=e51]
+              - text: Blog
+            - link [ref=e53] [cursor=pointer]:
+              - /url: /projects
+              - img [ref=e56]
+              - text: Projects
+            - link [ref=e58] [cursor=pointer]:
+              - /url: /about
+              - img [ref=e61]
+              - text: About
+            - link [ref=e63] [cursor=pointer]:
+              - /url: /now
+              - img [ref=e66]
+              - text: Now
+          - generic [ref=e68]:
+            - generic [ref=e69]: Social
+            - link [ref=e70] [cursor=pointer]:
+              - /url: https://github.com/tuliopc23
+              - img [ref=e73]
+              - text: GitHub
+            - link [ref=e75] [cursor=pointer]:
+              - /url: https://instagram.com/tuliopinheirocunha
+              - img [ref=e77]
+              - text: Instagram
+            - link [ref=e79] [cursor=pointer]:
+              - /url: /contact
+              - img [ref=e82]
+              - text: Contact
+            - link [ref=e84] [cursor=pointer]:
+              - /url: https://linkedin.com/in/tuliocunha
+              - text: LinkedIn
+            - link [ref=e86] [cursor=pointer]:
+              - /url: https://fantastical.app/tuliopinheirocunha
+              - img [ref=e89]
+              - text: Book Time
+        - generic [ref=e91]:
+          - searchbox [ref=e92]
+          - generic [ref=e93]: /
+          - status [ref=e94]: Showing all 10 sidebar links.
+    - generic [ref=e95]:
+      - article [ref=e97]:
+        - navigation "Breadcrumb navigation" [ref=e98]:
+          - list [ref=e99]:
+            - listitem [ref=e100]:
+              - link "Home" [ref=e101] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e102]: Home
+            - listitem [ref=e103]:
+              - img [ref=e105]
+              - link "Blog" [ref=e107] [cursor=pointer]:
+                - /url: /blog/
+                - generic [ref=e108]: Blog
+            - listitem [ref=e109]:
+              - img [ref=e111]
+              - generic [ref=e114]: Liquid Glass, Local AI, and the “26” Era
+        - generic [ref=e115]:
+          - link "Back to articles" [ref=e116] [cursor=pointer]:
+            - /url: /blog
+            - img [ref=e118]
+            - generic [ref=e120]: Back to articles
+          - heading "Liquid Glass, Local AI, and the “26” Era" [level=1] [ref=e121]
+          - paragraph [ref=e122]: iOS 26, iPadOS 26, and macOS Tahoe 26 — what actually changes for developers (beyond the shine)
+          - generic [ref=e123]:
+            - generic [ref=e124]: By Tulio Cunha
+            - generic [ref=e125]: •
+            - time [ref=e126]: December 15, 2025
+            - generic [ref=e127]: •
+            - generic [ref=e128]: 6 min read
+          - list [ref=e129]:
+            - listitem [ref=e130]: Engineering
+            - listitem [ref=e131]: Swift
+        - img "The new 26 Oses image, from Apple Developer Website." [ref=e133]
+        - generic [ref=e135]:
+          - blockquote [ref=e136]:
+            - strong [ref=e137]:
+              - text: A new design language will always trigger opinions. That’s normal.
+              - text: "What matters for us is what the platform enables: stronger hierarchy, more system surfaces to integrate with, and genuinely shippable on-device intelligence."
+          - paragraph [ref=e138]:
+            - text: Apple didn’t just ship a new coat of paint this cycle — it shipped a new
+            - strong [ref=e139]: baseline
+            - text: . With
+            - strong [ref=e140]: iOS 26
+            - text: ","
+            - strong [ref=e141]: iPadOS 26
+            - text: and
+            - strong [ref=e142]: macOS Tahoe 26
+            - text: ", Apple is aligning platforms around:"
+          - paragraph [ref=e143]:
+            - text: "- A shared design language ("
+            - strong [ref=e144]: Liquid Glass
+            - text: )
+            - text: "- A bigger “do things *from anywhere*” story"
+            - strong [ref=e145]: (Spotlight actions, App Intents, controls).
+            - text: "- A real developer unlock:"
+            - strong [ref=e146]: on-device foundation models
+            - text: you can call directly from your app
+          - paragraph [ref=e147]:
+            - text: And yes — people are debating the look. That’s part of every major Apple UI shift. But in practice, the platforms are giving us new primitives that can make apps feel more modern,more usable, and
+            - strong [ref=e148]: more capable
+            - text: —if we adopt them intentionally.
+          - paragraph [ref=e149]: "---"
+          - heading "Why “26” across the board?" [level=2] [ref=e150]:
+            - strong [ref=e151]: Why “26” across the board?
+          - paragraph [ref=e152]: "The “26” versions make Apple’s release cycle easier to reason about across devices. As someone maintaining apps for iPhone + iPad + Mac, that consistency actually matters: fewer “wait, which OS introduced this?” moments, cleaner SDK targeting, and clearer parity across platforms."
+          - paragraph [ref=e153]: "---"
+          - 'heading "Liquid Glass: not “a theme,” a hierarchy system" [level=2] [ref=e154]'
+          - paragraph [ref=e155]: "Liquid Glass is best understood as a **layering tool**. It’s Apple’s way of saying:"
+          - paragraph [ref=e156]:
+            - strong [ref=e157]:
+              - text: "- This area is navigation."
+              - text: "- This is an action surface."
+              - text: "- This control needs priority"
+            - text: — without boxing the content into heavy panels.
+          - paragraph [ref=e158]:
+            - text: If you treat it like decoration, it becomes noise. If you treat it like hierarchy, it becomes
+            - strong [ref=e159]: clarity
+            - text: .
+          - heading "What Liquid Glass is good at" [level=3] [ref=e160]
+          - paragraph [ref=e161]:
+            - text: "- Elevating your app’s most important UI chrome (navigation, key controls)"
+            - text: "- Helping content feel edge-to-edge and “present”"
+            - text: "- Making interaction surfaces feel alive and responsive (without you hand-crafting shader stacks)"
+          - 'heading "SwiftUI: start simple, then compose" [level=3] [ref=e162]'
+          - paragraph [ref=e163]:
+            - text: Keep it boring at first. Seriously. Let the system handle the heavy lifting, then selectively layer on glass where it
+            - strong [ref=e164]: helps
+            - text: .
+          - paragraph [ref=e165]:
+            - text: "\\`\\`\\`swift"
+            - text: Text("Ship it")
+            - text: .font(.headline)
+            - text: .padding(.horizontal, 14)
+            - text: .padding(.vertical, 10)
+            - text: .glassEffect()
+          - 'heading "UIKit + AppKit: use the platform’s glass types" [level=3] [ref=e166]'
+          - paragraph [ref=e167]:
+            - text: If you’re building custom UI chrome, prefer the system’s glass APIs over rolling your own blur/shader soup. Why?
+            - text: • You inherit Apple’s performance tuning
+            - text: • You get consistency as the design evolves
+            - text: • You reduce the chance of subtle readability regressions
+          - paragraph [ref=e168]: A note about accessibility (and why it’s not a “fallback”)
+          - paragraph [ref=e169]: Translucent UI always intersects with accessibility. Users who reduce transparency should still get a readable, solid hierarchy.
+          - paragraph [ref=e170]:
+            - text: Build the opt-out path like it’s a first-class design.
+            - text: Your app shouldn’t become “less usable” just because someone prefers clearer contrast.
+          - paragraph [ref=e171]: ⸻
+          - heading "The real story is what ships alongside Liquid Glass" [level=3] [ref=e172]
+          - paragraph [ref=e173]: If you only talk about the material, you miss the upgrades that actually shift user behavior — and give developers new system surfaces to plug into.
+          - paragraph [ref=e174]: ⸻
+          - paragraph [ref=e175]:
+            - strong [ref=e176]: "iOS 26:"
+            - text: fewer interruptions, richer conversations, a new Games hub
+          - paragraph [ref=e177]: Phone and Messages are quietly more powerful
+          - paragraph [ref=e178]:
+            - strong [ref=e179]: iOS 26
+            - text: "pushes usability in the places people live all day:"
+            - text: • Call Screening and Hold Assist reduce spam/hold friction
+            - text: • Messages can screen unknown senders
+            - text: • Conversation UX gets polls and custom backgrounds
+          - paragraph [ref=e180]: These aren’t “developer APIs” in the immediate sense — but they shape user expectations. People are getting more control, more filtering, more personalization, and less tolerance for interruptions. Your app’s notification and comms UX should match that trajectory.
+          - paragraph [ref=e181]: "Apple Games: a system-level home for play"
+          - paragraph [ref=e182]: "Apple Games is positioned as a dedicated destination for discovery, library, and social play. If you ship a game (or even game-adjacent experiences), this matters because the OS is signaling: “we want a unified place for this.”"
+          - paragraph [ref=e183]: ⸻
+          - 'heading "iPadOS 26: the iPad finally gets windowing that feels pro without losing iPad-ness" [level=3] [ref=e184]'
+          - paragraph [ref=e185]: This is the iPadOS update I’ve been waiting for.
+          - paragraph [ref=e186]: A windowing system that respects how people actually work
+          - paragraph [ref=e187]: "iPadOS 26 brings a stronger multitasking foundation: windows you can resize fluidly, tiling, Exposé-style switching — without turning iPad into a mini-Mac cosplay."
+          - heading "The new menu bar (and why devs should care)" [level=3] [ref=e188]
+          - paragraph [ref=e189]: "A menu bar users can reveal (with search!) makes iPad apps feel immediately more “tool-like.” For pro apps, the menu bar becomes a discoverability engine: commands, workflows, shortcuts — without burying everything in nested toolbars."
+          - paragraph [ref=e190]: "Real work support: Preview + background tasks"
+          - paragraph [ref=e191]:
+            - text: "Two more signals that iPadOS is serious about “work”:"
+            - text: • Preview arrives on iPad for PDF/image workflows
+            - text: • Background Tasks get a refreshed story, plus improvements around audio input selection and local capture
+          - paragraph [ref=e192]: "If you build productivity, creator, or document-heavy apps: this is your cue to revisit your iPad experience."
+          - paragraph [ref=e193]: ⸻
+          - 'heading "macOS Tahoe 26: Spotlight becomes an action layer" [level=3] [ref=e194]'
+          - paragraph [ref=e195]: Spotlight isn’t just search anymore — it’s becoming an execution surface.
+          - paragraph [ref=e196]: Spotlight actions + quick keys = fewer context switches
+          - paragraph [ref=e197]: "Spotlight can execute actions directly, offers browse views (including clipboard history), and supports quick keys. The developer-relevant part: apps can provide actions via App Intents."
+          - paragraph [ref=e198]: "That’s the story: the OS is rewarding apps that expose their core capabilities in a system-friendly way."
+          - paragraph [ref=e199]: ⸻
+          - 'heading "App Intents: moving from “nice-to-have” to “table stakes”" [level=3] [ref=e200]'
+          - paragraph [ref=e201]:
+            - text: "App Intents are becoming the glue across:"
+            - text: • Spotlight
+            - text: • Widgets
+            - text: • Controls
+            - text: • Siri-style system actions
+            - text: • Cross-device continuity experiences
+          - paragraph [ref=e202]: If you’re still treating App Intents as optional, iOS 26/macOS Tahoe 26 is the moment to change that mindset.
+          - paragraph [ref=e203]:
+            - text: "Rule of thumb:"
+            - text: If a feature is important inside your app, it should be discoverable outside your app.
+          - paragraph [ref=e204]: ⸻
+          - 'heading "Foundation Models framework: local intelligence you can actually ship" [level=3] [ref=e205]'
+          - paragraph [ref=e206]: "Here’s the part I’m most excited about: Apple is opening on-device intelligence through the Foundation Models framework."
+          - paragraph [ref=e207]:
+            - text: "The shift is subtle but huge:"
+            - text: • No cloud dependency
+            - text: • Stronger privacy posture
+            - text: • Lower latency
+            - text: • Better offline support
+            - text: • Less operational cost
+          - paragraph [ref=e208]:
+            - text: This isn’t “add a chatbot.”
+            - text: "This is “add smart, contextual micro-features”:"
+            - text: • Turn messy input into structured data
+            - text: • Summarize and rewrite user content safely on-device
+            - text: • Generate suggestions that feel native, not bolted-on
+            - text: • Help users do the next step with less friction
+          - paragraph [ref=e209]: If you’ve been hesitant to add AI because of cost, latency, or privacy… Apple just removed a lot of that friction.
+          - paragraph [ref=e210]: ⸻
+          - 'heading "Xcode 26: faster feedback loops, smarter assistance" [level=3] [ref=e211]'
+          - paragraph [ref=e212]: "Xcode 26 leans into AI-assisted development with Coding Tools, and the direction is clear: reduce the time between “idea” and “working code,” without forcing you into a single model/provider."
+          - paragraph [ref=e213]:
+            - strong [ref=e214]: "Swift 6.2:"
+            - text: the language keeps tightening the bolts
+          - paragraph [ref=e215]: Swift 6.2 continues the push around concurrency, performance, and interoperability — the kind of improvements you don’t celebrate on Twitter, but absolutely feel in mature codebases.
+          - 'heading "Containers on Mac: a huge quality-of-life upgrade" [level=3] [ref=e216]'
+          - paragraph [ref=e217]: Apple also introduced a Containerization framework for running Linux containers on macOS with secure isolation and Apple silicon optimization.
+          - paragraph [ref=e218]: If your workflow touches Docker, CI images, dev environments, or reproducible tooling — this is a genuinely meaningful platform move.
+          - paragraph [ref=e219]: ⸻
+          - 'heading "Metal 4 + Games: more headroom for performance and polish" [level=3] [ref=e220]'
+          - paragraph [ref=e221]: "For game and graphics-heavy developers, Metal 4 and the growing Apple Games surface matter because they reinforce the same theme: Apple wants higher-end experiences to feel native on its hardware."
+          - paragraph [ref=e222]: "Even if you don’t ship games, the knock-on effect is real: more performance infrastructure tends to benefit pro apps too."
+          - paragraph [ref=e223]: ⸻
+          - 'heading "Adoption guidance: a sane, low-drama plan" [level=3] [ref=e224]'
+          - paragraph [ref=e225]:
+            - text: "Here’s a practical way to approach the “26” era without rewriting your app in a weekend:"
+            - text: 1. Build with Xcode 26 and do a UI pass to see what you get “for free.”
+            - text: 2. Treat Liquid Glass as hierarchy, not decoration.
+            - text: 3. Invest in App Intents — it’s how system surfaces discover your features.
+            - text: 4. Pick one Foundation Models use case that makes your app feel smarter (not noisier).
+            - text: "5. If you’re iPad-heavy: rethink multitasking UX around the new windowing + menu bar."
+            - text: 6. Test accessibility paths (especially transparency reductions) as a first-class experience.
+          - paragraph [ref=e226]: ⸻
+          - 'heading "Closing: don’t let the glass distract you from the platform" [level=3] [ref=e227]'
+          - paragraph [ref=e228]: The loudest arguments are about aesthetics.
+          - paragraph [ref=e229]: The lasting impact is about capability.
+          - paragraph [ref=e230]: Apple is standardizing design, expanding system surfaces where your app can show up (Spotlight, controls, intents), and making on-device intelligence a practical tool you can ship without a cloud bill.
+          - paragraph [ref=e231]: That’s a genuinely optimistic direction — not because it’s shiny, but because it gives developers more leverage.
+          - paragraph [ref=e232]: The future of Apple development isn’t just here.
+          - paragraph [ref=e233]: It’s integrated.
+          - paragraph [ref=e234]: ⸻
+          - paragraph [ref=e235]:
+            - text: TL;DR
+            - text: • Liquid Glass is a hierarchy material, not a gimmick — use it to clarify the UI layer.
+            - text: • Spotlight + App Intents means your app’s features can be used outside your app.
+            - text: • Foundation Models brings local AI features that are fast, private, and shippable.
+            - text: "• iPadOS 26 is a big “pro iPad” moment: windows, menu bar, background workflows."
+            - text: • Xcode 26 and the new container story reduce friction across modern dev workflows.
+          - paragraph
+        - generic "Article footer" [ref=e236]:
+          - generic [ref=e237]:
+            - heading "Share" [level=2] [ref=e238]
+            - group "Share article" [ref=e239]:
+              - link "Share on X (Twitter)" [ref=e240] [cursor=pointer]:
+                - /url: https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.tuliocunha.dev%2Fblog%2Fliquid-glass-local-ai-and-the-26-era%2F&text=Liquid%20Glass%2C%20Local%20AI%2C%20and%20the%20%E2%80%9C26%E2%80%9D%20Era
+              - link "Share on LinkedIn" [ref=e241] [cursor=pointer]:
+                - /url: https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.tuliocunha.dev%2Fblog%2Fliquid-glass-local-ai-and-the-26-era%2F&title=Liquid%20Glass%2C%20Local%20AI%2C%20and%20the%20%E2%80%9C26%E2%80%9D%20Era
+          - region "Related posts" [ref=e242]:
+            - heading "Related reading" [level=2] [ref=e243]
+            - generic [ref=e244]:
+              - article [ref=e245]:
+                - 'link "Post metadata OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ Under the Hood A practical, opinionated look at how Docker, OrbStack, and Apple’s new container tool actually work on macOS. Tags Read" [ref=e246] [cursor=pointer]':
+                  - /url: /blog/orbstack-vs-apple-containers-vs-docker-on-macos-how-they-really-differ-under-the-hood/
+                  - generic [ref=e247]:
+                    - generic "Post metadata" [ref=e248]:
+                      - generic [ref=e249]:
+                        - img [ref=e251]
+                        - time [ref=e253]: November 23, 2025
+                      - generic "Tags" [ref=e254]: Engineering · Swift
+                    - 'heading "OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ Under the Hood" [level=3] [ref=e255]'
+                  - paragraph [ref=e256]: A practical, opinionated look at how Docker, OrbStack, and Apple’s new container tool actually work on macOS.
+                  - list "Tags" [ref=e258]:
+                    - listitem [ref=e259]: Engineering
+                    - listitem [ref=e260]: Swift
+                  - generic [ref=e261]:
+                    - generic [ref=e262]: Read
+                    - img [ref=e264]
+              - article [ref=e266]:
+                - link "Post metadata Why I Choose Neovim Over Full-Blown GUI IDEs This is the story of why—plus a practical comparison of modern terminal (TUI) editors versus today’s GUI editors. Tags Read" [ref=e267] [cursor=pointer]:
+                  - /url: /blog/neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025/
+                  - generic [ref=e268]:
+                    - generic "Post metadata" [ref=e269]:
+                      - generic [ref=e270]:
+                        - img [ref=e272]
+                        - time [ref=e274]: October 26, 2025
+                      - generic "Tags" [ref=e275]: Engineering
+                    - heading "Why I Choose Neovim Over Full-Blown GUI IDEs" [level=3] [ref=e276]
+                  - paragraph [ref=e277]: This is the story of why—plus a practical comparison of modern terminal (TUI) editors versus today’s GUI editors.
+                  - list "Tags" [ref=e279]:
+                    - listitem [ref=e280]: Engineering
+                  - generic [ref=e281]:
+                    - generic [ref=e282]: Read
+                    - img [ref=e284]
+              - article [ref=e286]:
+                - link "Post metadata The Lost Potential of Native Mac Apps \"Big tech embraced convenience. Indie developers still have a chance to choose craft.\" Tags Read" [ref=e287] [cursor=pointer]:
+                  - /url: /blog/the-lost-potencial-of-the-native-desktop-app/
+                  - generic [ref=e288]:
+                    - generic "Post metadata" [ref=e289]:
+                      - generic [ref=e290]:
+                        - img [ref=e292]
+                        - time [ref=e294]: October 15, 2025
+                      - generic "Tags" [ref=e295]: Engineering · Tooling · Swift
+                    - heading "The Lost Potential of Native Mac Apps" [level=3] [ref=e296]
+                  - paragraph [ref=e297]: "\"Big tech embraced convenience. Indie developers still have a chance to choose craft.\""
+                  - list "Tags" [ref=e299]:
+                    - listitem [ref=e300]: Engineering
+                    - listitem [ref=e301]: Tooling
+                    - listitem [ref=e302]: Swift
+                  - generic [ref=e303]:
+                    - generic [ref=e304]: Read
+                    - img [ref=e306]
+      - generic [ref=e309]:
+        - generic [ref=e310]:
+          - paragraph [ref=e311]:
+            - generic [ref=e312]:
+              - text: Tulio Cunha
+              - img "Tulio Cunha" [ref=e313]
+          - paragraph [ref=e314]: Full stack developer building native and web experiences through precise tooling and considerate interfaces.
+        - generic "Footer links" [ref=e315]:
+          - link "Projects" [ref=e316] [cursor=pointer]:
+            - /url: /projects
+          - link "Blog" [ref=e317] [cursor=pointer]:
+            - /url: /blog/
+          - link "About" [ref=e318] [cursor=pointer]:
+            - /url: /about
+          - link "Portfolio" [ref=e319] [cursor=pointer]:
+            - /url: https://portfolio.tuliocunha.dev
+          - link "Email" [ref=e320] [cursor=pointer]:
+            - /url: mailto:contact@tuliocunha.dev
+        - paragraph [ref=e321]: © 2026 Tulio Cunha. Built with Astro.
+  - button "Scroll to top" [ref=e322] [cursor=pointer]:
+    - img [ref=e324]
+  - generic [ref=e328]:
+    - button "Menu" [ref=e329]:
+      - img [ref=e331]
+      - generic: Menu
+    - button "Inspect" [ref=e335]:
+      - img [ref=e337]
+      - generic: Inspect
+    - button "Audit" [ref=e339]:
+      - generic [ref=e340]:
+        - img [ref=e341]
+        - img [ref=e344]
+      - generic: Audit
+    - button "Settings" [ref=e347]:
+      - img [ref=e349]
+      - generic: Settings

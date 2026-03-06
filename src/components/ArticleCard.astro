@@ -43,6 +43,7 @@ const _readingTimeLabel =
   typeof readingTimeMinutes === "number" && Number.isFinite(readingTimeMinutes)
     ? `${Math.max(1, Math.round(readingTimeMinutes))} min read`
     : null;
+const _ctaLabel = featured ? "Read the feature" : "Open article";
 ---
 
 <article
@@ -68,7 +69,7 @@ const _readingTimeLabel =
             </span>
           )
         }
-        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
+        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New this week</span>}
         {
           _tagLabel && (
             <span class="articleCard__metaItem articleCard__metaTags" aria-label="Tags">
@@ -98,7 +99,7 @@ const _readingTimeLabel =
       }
     </div>
     <span class="articleCard__cta">
-      <span>Read</span>
+      <span>{_ctaLabel}</span>
       <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
     </span>
   </a>

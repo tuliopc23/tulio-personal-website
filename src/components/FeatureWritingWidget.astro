@@ -18,7 +18,7 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
       <article class="feature-writing-widget__card hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <p class="feature-writing-widget__eyebrow">
           <PhosphorIcon name="article" size={12} weight="regular" />
-          <span>Article</span>
+          <span>Latest note</span>
         </p>
         <h3 class="feature-writing-widget__title">{post.title}</h3>
         <p class="feature-writing-widget__summary">{post.summary}</p>
@@ -37,13 +37,13 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
           )}
         </div>
         <a class="feature-writing-widget__cta motion-cta-pill" href={post.href}>
-          <span>Read</span>
+          <span>Open note</span>
           <PhosphorIcon name="arrow-up-right" size={14} weight="regular" />
         </a>
       </article>
     ))
   ) : (
-    <p class="feature-writing-widget__empty">New long-form entries are being prepared.</p>
+    <p class="feature-writing-widget__empty">Fresh long-form notes are being edited and prepared.</p>
   )}
 </div>
 
