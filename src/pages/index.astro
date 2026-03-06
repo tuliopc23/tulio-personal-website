@@ -146,7 +146,7 @@ const sectionNavItems = [
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Portfolio and editorial notebook by Tulio Cunha with full-stack engineering craft, thoughtful interfaces, and visible proof of work.";
+  "Portfolio of Tulio Cunha with shipped apps, tooling, interface systems, and build notes.";
 ---
 
 <Base
@@ -161,7 +161,7 @@ const description =
     <div id="section-profile" class="widget-profile">
       <ProfileCard
         name="Tulio Cunha"
-        title="Full stack developer, command line junkie, dev tool addict."
+        title="Full-stack engineer building apps, tooling, and interface systems."
         location="Brazil"
         email="contact@tuliocunha.dev"
       />
@@ -175,10 +175,10 @@ const description =
             Working context
           </span>
           <h2 id="homepage-working-context-title" class="stage-intro__title">
-            The tools, languages, and setup that shape how I ship.
+            Tools, stack, and setup behind the work.
           </h2>
           <p class="stage-intro__caption">
-            A quick map of the day-to-day environment before the deeper proof-of-work and writing sections.
+            The day-to-day environment behind product work, developer tooling, and interface passes.
           </p>
         </div>
 
@@ -196,7 +196,7 @@ const description =
               <span>Tools</span>
               <PhosphorIcon name="toolbox" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption">Utilities, workflows, and interfaces that stay close to the build.</p>
+            <p class="widget-caption">Utilities, workflows, and interfaces I keep close to the build.</p>
           </div>
           <div class="tools-grid" role="list" aria-label="Tools">
             {toolLinks.map((link, index) => (
@@ -222,7 +222,7 @@ const description =
               <span>Stack</span>
               <PhosphorIcon name="code" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption">Core languages and frameworks behind the products, tooling, and experiments.</p>
+            <p class="widget-caption">Languages and frameworks behind the products, tooling, and experiments.</p>
           </div>
           <div class="tools-grid" role="list" aria-label="Stack">
             {stackLinks.map((link, index) => (
@@ -248,9 +248,9 @@ const description =
             <PhosphorIcon name="chart-bar" size={14} weight="regular" />
             Proof of work
           </span>
-          <h2 id="homepage-proof-title" class="stage-intro__title">Live momentum and recent shipping activity.</h2>
+          <h2 id="homepage-proof-title" class="stage-intro__title">Recent work and visible shipping activity.</h2>
           <p class="stage-intro__caption">
-            The GitHub surface remains the credibility check: active work, recent commits, and visible consistency.
+            GitHub is the live signal: active repos, recent commits, and delivery rhythm.
           </p>
         </div>
       </header>
@@ -265,7 +265,7 @@ const description =
             <span>GitHub</span>
             <PhosphorIcon name="github" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption">Live momentum, selected work, and the rhythm behind ongoing projects.</p>
+          <p class="widget-caption">Live momentum, active work, and the cadence behind ongoing projects.</p>
         </div>
         <GitHubActivityWidget large={true} limit={10} />
       </div>
@@ -278,9 +278,9 @@ const description =
             <PhosphorIcon name="article" size={14} weight="regular" />
             Exploration
           </span>
-          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing, experiments, and ideas still unfolding.</h2>
+          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing, experiments, and open threads.</h2>
           <p class="stage-intro__caption">
-            A final pass through essays, notes, and technical threads that extend the work beyond shipping.
+            Notes that sit next to the shipped work: essays, postmortems, and technical threads.
           </p>
         </div>
       </header>
@@ -292,10 +292,10 @@ const description =
             Exploration
           </span>
           <h2 class="widget-title">
-            <span>Feature Writing</span>
+              <span>Writing</span>
             <PhosphorIcon name="article" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption">Essays and experiments that keep the editorial side of the practice visible.</p>
+          <p class="widget-caption">Essays, experiments, and technical notes kept public.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
       </div>

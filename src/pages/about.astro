@@ -5,20 +5,19 @@ import { getAboutPageContent } from "../sanity/lib/page-content";
 const pageContent = await getAboutPageContent();
 
 const defaults = {
-  seoDescription:
-    "Tulio Cunha is a product engineer blending native craft with web precision and editorial design thinking.",
+  seoDescription: "Product engineer focused on apps, tooling, and interface quality.",
   heroEyebrow: "About",
-  heroTitle: "I engineer products that feel inevitable to use.",
+  heroTitle: "I build products with strong internals and sharp interfaces.",
   heroLede:
-    "My work combines system-level thinking, interface taste, and execution rigor. I care about reliability, motion, readability, and the product details users notice only when they are done right.",
+    "Most of my work sits between application engineering, tooling, and UI systems. I care about reliability, fast feedback loops, and software that feels deliberate in use.",
   manifestoLabel: "Core stance",
-  manifestoTitle: "Strong foundations first. Distinctive polish second.",
+  manifestoTitle: "Make the core path solid before polishing the edges.",
   manifestoCopy:
-    "Most teams choose between speed and quality because they sequence work poorly. I structure projects so architecture, UX, and delivery rhythm reinforce each other, instead of fighting for priority.",
+    "I bias toward simple architectures, readable interfaces, and delivery loops that stay close to real behavior. The goal is software that is easier to ship, debug, and extend.",
   proofBullets: [
-    "Product-context before implementation",
-    "Vertical slices with measurable checkpoints",
-    "Motion and accessibility as first-class quality gates",
+    "Map the system before styling it",
+    "Ship vertical slices, not mock progress",
+    "Treat motion and accessibility as quality gates",
   ],
   principles: [
     {
@@ -101,13 +100,13 @@ const _structuredData = {
   sidebar={true}
 >
   <div class="pageBento">
-  <section class="container blogHero pageWidget" data-reveal data-reveal-type="scale">
-    <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">{content.heroEyebrow}</span>
-      <h1 class="blogHero__title">{content.heroTitle}</h1>
-      <p class="blogHero__lede">{content.heroLede}</p>
-    </div>
-  </section>
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <div class="pageHero__copy">
+        <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+        <h1 class="pageHero__title">{content.heroTitle}</h1>
+        <p class="pageHero__lede">{content.heroLede}</p>
+      </div>
+    </section>
 
   <section class="container home__section about__manifesto pageWidget" data-reveal>
     <article class="about__manifestoCard hover-elevate motion-surface-standard" data-parallax-card>
@@ -121,6 +120,11 @@ const _structuredData = {
   </section>
 
   <section class="container home__section pageWidget" data-reveal>
+    <div class="pageWidget__header">
+      <span class="pageWidget__eyebrow">Operating model</span>
+      <h2 class="pageWidget__title">How I work</h2>
+      <p class="pageWidget__caption">Product, delivery, and interface constraints I optimize for.</p>
+    </div>
     <div class="cardGrid about__principles">
       {content.principles.map((principle) => (
         <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
@@ -136,9 +140,10 @@ const _structuredData = {
   </section>
 
   <section class="container home__section about__timeline pageWidget" data-reveal>
-    <div class="home__selectedHeader">
-      <h2 class="section-title">{content.timelineHeading}</h2>
-      <p class="home__selectedLede">{content.timelineLede}</p>
+    <div class="pageWidget__header">
+      <span class="pageWidget__eyebrow">Timeline</span>
+      <h2 class="pageWidget__title">{content.timelineHeading}</h2>
+      <p class="pageWidget__caption">{content.timelineLede}</p>
     </div>
     <ol class="about__timelineList">
       {content.timelineItems.map((item) => (

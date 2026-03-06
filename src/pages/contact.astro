@@ -4,7 +4,7 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
-const description = "Send a project inquiry, collaboration request, or a quick hello.";
+const description = "Project inquiry page for product engineering, tooling, and interface work.";
 const contactEmail = "contact@tuliocunha.dev";
 
 const structuredData = {
@@ -26,7 +26,7 @@ const structuredData = {
   sidebar={true}
 >
   <div class="pageBento">
-    <section class="container pageWidget" data-reveal data-reveal-type="scale">
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/", icon: "home" },
@@ -34,16 +34,24 @@ const structuredData = {
         ]}
       />
 
-      <div class="contactHero">
-        <span class="contactHero__eyebrow">Contact</span>
-        <h1 class="contactHero__title">Let's build something deliberate.</h1>
-        <p class="contactHero__lede">
-          Share your context and goals. I will reply by email.
+      <div class="pageHero__copy">
+        <span class="pageHero__eyebrow">Contact</span>
+        <h1 class="pageHero__title">Send scope, stack, and timeline.</h1>
+        <p class="pageHero__lede">
+          Use the form for project work, tooling, or a focused interface pass. It opens an email draft with the context already filled in.
         </p>
+        <div class="pageHero__meta" aria-label="Contact details">
+          <span class="pageHero__metaItem">Direct email: {contactEmail}</span>
+        </div>
       </div>
     </section>
 
     <section class="container pageWidget" data-reveal>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">Project inquiry</span>
+        <h2 class="pageWidget__title">What to send</h2>
+        <p class="pageWidget__caption">Enough context to answer quickly: the goal, platform, timeline, and any hard constraints.</p>
+      </div>
       <div class="contactCard card card--static">
         <div class="card__inner">
           <form class="contactForm" id="contact-form" data-contact-form>
@@ -116,33 +124,6 @@ const structuredData = {
 </Base>
 
 <style>
-  .contactHero {
-    display: grid;
-    gap: 10px;
-    max-width: 60ch;
-  }
-
-  .contactHero__eyebrow {
-    margin: 0;
-    font-size: var(--fs-eyebrow);
-    letter-spacing: var(--ls-eyebrow);
-    text-transform: uppercase;
-    color: var(--text-secondary);
-  }
-
-  .contactHero__title {
-    margin: 0;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-  }
-
-  .contactHero__lede {
-    margin: 0;
-    color: var(--text-secondary);
-    line-height: var(--lh-relaxed);
-  }
-
   .contactForm {
     display: grid;
     gap: 12px;

@@ -68,27 +68,26 @@ const isBlogCategoryRoute = normalizedPath.startsWith("/blog/category");
 const isBlogRoute = isBlogIndexRoute || normalizedPath.startsWith("/blog/");
 const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
 const topbarSubtitle = isArticleRoute
-  ? "Editorial · Reading mode"
+  ? "Engineering notes · reading mode"
   : isBlogRoute
-    ? "Developer journal · Essays & notes"
-    : "Software Developer";
-const topbarContextLabel =
-  normalizedPath === "/" ? null : isArticleRoute ? "Reading" : isBlogRoute ? "Notebook" : title;
-const sidebarEyebrow = isArticleRoute
-  ? "Editorial companion"
-  : isBlogRoute
-    ? "Developer journal"
-    : "Site navigation";
-const sidebarTitle = isArticleRoute
-  ? title
-  : isBlogIndexRoute
-    ? "Essays, notes, and build logs"
-    : title;
+    ? "Developer journal · systems & build notes"
+    : "Full-stack engineer · systems & tooling";
+const sidebarTitle = isBlogIndexRoute ? "Developer journal" : title;
 const sidebarMeta = isArticleRoute
-  ? "Keep the archive and contact surfaces close while you read."
-  : isBlogRoute
-    ? "A quieter map of posts, feeds, and contact points."
-    : "Primary routes and contact points stay within reach.";
+  ? "Tooling, systems, interfaces."
+  : isBlogIndexRoute
+    ? "Build notes, essays, release logs."
+    : isBlogCategoryRoute
+      ? "Posts filtered by topic."
+      : normalizedPath.startsWith("/projects")
+        ? "Apps, tooling, case studies."
+        : normalizedPath.startsWith("/about")
+          ? "Working style and engineering focus."
+          : normalizedPath.startsWith("/now")
+            ? "Current queue and experiments."
+            : normalizedPath.startsWith("/contact")
+              ? "Project inquiry and links."
+              : "Navigation and contact.";
 ---
 
 <html lang="en" data-theme="light">
@@ -282,13 +281,6 @@ const sidebarMeta = isArticleRoute
             <span class="topbar__brandName">Tulio Cunha</span>
             <span class="topbar__brandSubtitle">{topbarSubtitle}</span>
           </div>
-          {
-            topbarContextLabel && (
-              <span class:list={["topbar__context", isBlogRoute && "topbar__context--editorial"]}>
-                {topbarContextLabel}
-              </span>
-            )
-          }
         </div>
         <nav class="topbar__nav" aria-label="Global">
           <div
@@ -302,7 +294,7 @@ const sidebarMeta = isArticleRoute
                 <a
                   href="/"
                   class="topbar__navLink"
-                  aria-current={Astro.url.pathname === "/" ? "page" : undefined}
+                  aria-current={normalizedPath === "/" ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">Home</span>
                 </a>
@@ -311,9 +303,7 @@ const sidebarMeta = isArticleRoute
                 <a
                   href="/blog/"
                   class="topbar__navLink"
-                  aria-current={Astro.url.pathname.startsWith("/blog")
-                    ? "page"
-                    : undefined}
+                  aria-current={isBlogRoute ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">Blog</span>
                 </a>
@@ -322,7 +312,7 @@ const sidebarMeta = isArticleRoute
                 <a
                   href="/projects"
                   class="topbar__navLink"
-                  aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
+                  aria-current={normalizedPath === "/projects" ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">Projects</span>
                 </a>
@@ -331,7 +321,7 @@ const sidebarMeta = isArticleRoute
                 <a
                   href="/about"
                   class="topbar__navLink"
-                  aria-current={Astro.url.pathname.startsWith("/about") ? "page" : undefined}
+                  aria-current={normalizedPath.startsWith("/about") ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">About</span>
                 </a>
@@ -340,7 +330,7 @@ const sidebarMeta = isArticleRoute
                 <a
                   href="/now"
                   class="topbar__navLink"
-                  aria-current={Astro.url.pathname.startsWith("/now") ? "page" : undefined}
+                  aria-current={normalizedPath.startsWith("/now") ? "page" : undefined}
                 >
                   <span class="topbar__navLabel">Now</span>
                 </a>
@@ -361,8 +351,7 @@ const sidebarMeta = isArticleRoute
             <div class="sidebar__inner">
               <div class="sidebar__dragHandle" aria-hidden="true" />
               <div class="sidebar__header">
-                <p class="sidebar__eyebrow">{sidebarEyebrow}</p>
-                <p class="sidebar__title">{sidebarTitle}</p>
+                <h2 class="sidebar__title">{sidebarTitle}</h2>
                 <p class="sidebar__meta">{sidebarMeta}</p>
               </div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
@@ -371,7 +360,7 @@ const sidebarMeta = isArticleRoute
                   <a
                     class="sidebar__link"
                     href="/"
-                    aria-current={Astro.url.pathname === "/" ? "page" : undefined}
+                    aria-current={normalizedPath === "/" ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--indigo" aria-hidden="true">
                       <PhosphorIcon name="house" size={20} weight="regular" />
@@ -381,9 +370,7 @@ const sidebarMeta = isArticleRoute
                   <a
                     class="sidebar__link"
                     href="/blog/"
-                    aria-current={
-                      Astro.url.pathname.startsWith("/blog") ? "page" : undefined
-                    }
+                    aria-current={isBlogRoute ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--blue" aria-hidden="true">
                       <PhosphorIcon name="notebook" size={20} weight="regular" />
@@ -393,7 +380,7 @@ const sidebarMeta = isArticleRoute
                   <a
                     class="sidebar__link"
                     href="/projects"
-                    aria-current={Astro.url.pathname === "/projects" ? "page" : undefined}
+                    aria-current={normalizedPath === "/projects" ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--orange" aria-hidden="true">
                       <PhosphorIcon name="briefcase" size={20} weight="regular" />
@@ -403,7 +390,7 @@ const sidebarMeta = isArticleRoute
                   <a
                     class="sidebar__link"
                     href="/about"
-                    aria-current={Astro.url.pathname.startsWith("/about") ? "page" : undefined}
+                    aria-current={normalizedPath.startsWith("/about") ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--teal" aria-hidden="true">
                       <PhosphorIcon name="sparkle" size={20} weight="regular" />
@@ -413,7 +400,7 @@ const sidebarMeta = isArticleRoute
                   <a
                     class="sidebar__link"
                     href="/now"
-                    aria-current={Astro.url.pathname.startsWith("/now") ? "page" : undefined}
+                    aria-current={normalizedPath.startsWith("/now") ? "page" : undefined}
                   >
                     <span class="icon-tile icon-tile--orange" aria-hidden="true">
                       <PhosphorIcon name="calendar" size={20} weight="regular" />
@@ -445,7 +432,11 @@ const sidebarMeta = isArticleRoute
                     </span>
                     Instagram
                   </a>
-                  <a class="sidebar__link" href="/contact">
+                  <a
+                    class="sidebar__link"
+                    href="/contact"
+                    aria-current={normalizedPath.startsWith("/contact") ? "page" : undefined}
+                  >
                     <span class="icon-tile" aria-hidden="true">
                       <PhosphorIcon name="mail" size={22} weight="regular" />
                     </span>

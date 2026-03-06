@@ -51,7 +51,7 @@ const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
 const pageDescription =
   pageContent?.pageDescription ??
-  "Essays, field notes, and build logs by Tulio Cunha on engineering craft, product decisions, and interface feel.";
+  "Build notes, essays, and field reports on apps, tooling, and interface systems.";
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
   : (featured?.heroImage ?? null);
@@ -97,25 +97,6 @@ postEntries.forEach((entry) => {
 
 const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
 const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
-const _pillars = pageContent?.pillars?.length
-  ? pageContent.pillars
-  : [
-      {
-        icon: "briefcase",
-        title: "Product Engineering",
-        body: "Execution patterns, architecture decisions, and delivery tradeoffs from real builds.",
-      },
-      {
-        icon: "sparkle",
-        title: "Design Language",
-        body: "Interface systems, motion choices, and visual hierarchy tuned for clarity and feel.",
-      },
-      {
-        icon: "toolbox",
-        title: "Tooling And Workflows",
-        body: "Practical notes on editors, CI/CD, local automation, and sustainable shipping speed.",
-      },
-    ];
 const _byYear = postEntries.reduce((acc, post) => {
   const year = new Date(post.publishedAt).getFullYear();
   const current = acc.get(year) ?? { year, count: 0 };
@@ -130,31 +111,27 @@ const _placeholders = pageContent?.placeholderCards?.length
       {
         title: "Fresh case study in flight",
         summary:
-          "A new long-form breakdown is on the bench. Watch this space for the release notes and lessons learned.",
+          "A longer breakdown is being edited and will land here with the tradeoffs and release notes intact.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
-        title: "Tooling notebook",
+        title: "Tooling note in progress",
         summary:
-          "Documenting the latest experiments in automation, testing, and performance tuning before they ship here.",
+          "Current experiments around automation, testing, and developer workflows before they graduate into a full post.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
-        title: "Interface theory draft",
+        title: "Interface memo",
         summary:
-          "Collecting ideas about haptics, motion, and how hardware influences the feel of software interfaces.",
+          "Draft notes on motion, haptics, and the small interactions that change how software feels in use.",
         href: "/blog/",
         tags: ["Preview"],
       },
     ];
 
 const _sectionHeaders = {
-  editorial: {
-    eyebrow: "Reading map",
-    icon: "article",
-  },
   archive: {
     eyebrow: "Back issues",
     icon: "calendar",
@@ -162,7 +139,7 @@ const _sectionHeaders = {
   latest: {
     eyebrow: "From the notebook",
     title: "Recent entries",
-    lede: "Recent essays and build notes. Use the tags when you want a narrower slice of the archive.",
+    lede: "Recent notes and essays. Filter by topic when you want a narrower slice.",
     icon: "notebook",
   },
 } as const;
@@ -209,8 +186,8 @@ const _sectionHeaders = {
         <PhosphorIcon name="article" size={14} weight="regular" />
         {pageContent?.heroEyebrow ?? "Blog"}
       </span>
-      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Essays, field notes, and shipping lessons from the edge of product engineering."}</h1>
-      <p class="blogHero__lede">{pageContent?.heroLede ?? "A running notebook on interface systems, execution tradeoffs, and the small decisions that make software feel considered—published in the open and friendly to RSS and Atom readers."}</p>
+      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Build notes, essays, and systems work in public."}</h1>
+      <p class="blogHero__lede">{pageContent?.heroLede ?? "Writing on tooling, interface engineering, delivery tradeoffs, and the small decisions behind shipped software."}</p>
     </div>
     {
       featured ? (
@@ -223,6 +200,7 @@ const _sectionHeaders = {
             hook={featured.hook}
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
+            ctaLabel="Read"
             tags={featured.tags}
             categories={featured.categories}
             readingTimeMinutes={featured.readingTimeMinutes}
@@ -241,94 +219,28 @@ const _sectionHeaders = {
     }
   </section>
 
-  <section class="container home__section blogBrief pageWidget" data-reveal data-reveal-group="blog-brief">
-    <div class="home__selectedHeader blogSectionHeader">
-      <span class="blogSectionHeader__eyebrow">
-        <PhosphorIcon name={_sectionHeaders.editorial.icon} size={14} weight="regular" />
-        {_sectionHeaders.editorial.eyebrow}
-      </span>
-      <h2
-        id="blog-editorial-title"
-        class="blogSectionHeader__title"
-        data-reveal
-        data-reveal-group="blog-brief"
-        data-reveal-order={0}
-      >
-        {pageContent?.editorialDirectionHeading ?? "Editorial Direction"}
-      </h2>
-      <p class="blogSectionHeader__lede">
-        {pageContent?.editorialDirectionLede ?? "Three recurring lenses keep the archive opinionated, practical, and close to the work."}
-      </p>
-    </div>
-    <div class="cardGrid blogBrief__grid">
-      {_pillars.map((pillar, index) => (
-        <article
-          class="card hover-elevate motion-surface-standard blogBrief__card"
-          data-parallax-card
-          data-reveal
-          data-reveal-group="blog-brief"
-          data-reveal-order={index + 1}
-        >
-          <div class="card__inner">
-            <div class="card__content">
-              <h3 class="card-title blogBrief__title">
-                <PhosphorIcon name={pillar.icon} size={16} weight="regular" />
-                <span>{pillar.title}</span>
-              </h3>
-              <p class="card-body">{pillar.body}</p>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  {_archiveYears.length > 0 && (
-    <section class="container home__section blogArchive pageWidget" data-reveal data-reveal-group="blog-archive">
-      <div class="home__selectedHeader blogSectionHeader">
-        <span class="blogSectionHeader__eyebrow">
-          <PhosphorIcon name={_sectionHeaders.archive.icon} size={14} weight="regular" />
-          {_sectionHeaders.archive.eyebrow}
-        </span>
-        <h2
-          id="blog-archive-title"
-          class="blogSectionHeader__title"
-          data-reveal
-          data-reveal-group="blog-archive"
-          data-reveal-order={0}
-        >
-          {pageContent?.archiveHeading ?? "Archive Overview"}
-        </h2>
-        <p class="blogSectionHeader__lede">
-          {pageContent?.archiveLede ?? "A year-by-year record of what shipped, when it shipped, and where the thinking was headed."}
-        </p>
-      </div>
-      <ul class="blogArchive__list" role="list" aria-label="Posts by year">
-        {_archiveYears.map((item, index) => (
-          <li class="hover-elevate motion-surface-standard" data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1} data-parallax-card>
-            <span class="blogArchive__year">{item.year}</span>
-            <span class="blogArchive__count">{item.count} {item.count === 1 ? "entry" : "entries"}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
   {
     featured && rest.length > 0 && (
-      <section class="container blogSurface pageWidget" data-reveal data-reveal-group="blog-list">
-        <div class="blogSurface__header">
-          <span class="blogSectionHeader__eyebrow">
-            <PhosphorIcon name={_sectionHeaders.latest.icon} size={14} weight="regular" />
-            {_sectionHeaders.latest.eyebrow}
-          </span>
-          <h2 class="blogSectionHeader__title blogSectionHeader__title--compact">
-            {_sectionHeaders.latest.title}
-          </h2>
-          <p class="blogSectionHeader__lede blogSectionHeader__lede--compact">
-            {_sectionHeaders.latest.lede}
-          </p>
-        </div>
+      <section
+        class="container blogSurface pageWidget"
+        aria-labelledby="blog-latest-title"
+        data-reveal
+        data-reveal-group="blog-list"
+      >
+        <header class="blogStageIntro">
+          <div class="blogStageIntro__copy">
+            <span class="blogStageIntro__eyebrow">
+              <PhosphorIcon name={_sectionHeaders.latest.icon} size={14} weight="regular" />
+              {_sectionHeaders.latest.eyebrow}
+            </span>
+            <h2 id="blog-latest-title" class="blogStageIntro__title">
+              {_sectionHeaders.latest.title}
+            </h2>
+            <p class="blogStageIntro__caption">
+              {_sectionHeaders.latest.lede}
+            </p>
+          </div>
+        </header>
         <div class="blogFilters">
           <p class="blogFilters__label">Topic index</p>
           <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
@@ -382,6 +294,7 @@ const _sectionHeaders = {
                   hook={post.hook}
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
+                  ctaLabel="Read"
                   tags={post.tags}
                   categories={post.categories}
                   readingTimeMinutes={post.readingTimeMinutes}
@@ -400,6 +313,7 @@ const _sectionHeaders = {
                   hook={null}
                   dateISO={new Date().toISOString()}
                   dateLabel="On deck"
+                  ctaLabel="Read"
                   tags={placeholder.tags ?? []}
                   featured={false}
                 />
@@ -421,6 +335,44 @@ const _sectionHeaders = {
       </section>
     )
   }
+
+  {_archiveYears.length > 0 && (
+    <section
+      class="container home__section blogArchive pageWidget"
+      aria-labelledby="blog-archive-title"
+      data-reveal
+      data-reveal-group="blog-archive"
+    >
+      <header class="blogStageIntro">
+        <div class="blogStageIntro__copy">
+          <span class="blogStageIntro__eyebrow">
+            <PhosphorIcon name={_sectionHeaders.archive.icon} size={14} weight="regular" />
+            {_sectionHeaders.archive.eyebrow}
+          </span>
+          <h2
+            id="blog-archive-title"
+            class="blogStageIntro__title"
+            data-reveal
+            data-reveal-group="blog-archive"
+            data-reveal-order={0}
+          >
+            {pageContent?.archiveHeading ?? "Archive Overview"}
+          </h2>
+          <p class="blogStageIntro__caption">
+            {pageContent?.archiveLede ?? "A year-by-year view of what shipped and when."}
+          </p>
+        </div>
+      </header>
+      <ul class="blogArchive__list" role="list" aria-label="Posts by year">
+        {_archiveYears.map((item, index) => (
+          <li class="hover-elevate motion-surface-standard" data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1} data-parallax-card>
+            <span class="blogArchive__year">{item.year}</span>
+            <span class="blogArchive__count">{item.count} {item.count === 1 ? "entry" : "entries"}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <script is:inline>
     const list = document.querySelector("[data-article-list]");

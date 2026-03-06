@@ -10,15 +10,14 @@ const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
 
 const defaults = {
-  description: "A focused set of builds across native apps, web products, and design systems.",
+  description: "Selected builds across apps, backend systems, and developer tooling.",
   heroEyebrow: "Selected work",
   heroTitle: "Projects",
-  heroLede: "A focused set of builds across native apps, web products, and design systems.",
+  heroLede: "Selected builds across apps, backend systems, and developer tooling.",
   filterEmptyTitle: "No projects match this view",
-  filterEmptyBody: "Adjust the filter above or reach out for portfolio details:",
-  pageEmptyTitle: "Projects coming soon",
-  pageEmptyBody:
-    "I'm polishing case studies. In the meantime, reach out if you'd like to collaborate:",
+  filterEmptyBody: "Adjust the filter or email for the full case-study list:",
+  pageEmptyTitle: "Case studies in progress",
+  pageEmptyBody: "The write-ups are being cleaned up. Email for details:",
   contactEmail: "contact@tuliocunha.dev",
 };
 
@@ -62,7 +61,7 @@ const _structuredData = {
 >
   <div class="pageBento">
     <section
-      class="container projects__intro pageWidget"
+      class="container projects__intro pageHero pageWidget"
       data-reveal
       data-reveal-type="scale"
       data-reveal-group="projects-intro"
@@ -73,10 +72,14 @@ const _structuredData = {
           { label: "Projects", icon: "cube" },
         ]}
       />
-      <div class="projects__hero">
-        <span class="projects__eyebrow">{content.heroEyebrow}</span>
-        <h1 class="projects__title">{content.heroTitle}</h1>
-        <p class="projects__lede">{content.heroLede}</p>
+      <div class="pageHero__copy">
+        <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+        <h1 class="pageHero__title">{content.heroTitle}</h1>
+        <p class="pageHero__lede">{content.heroLede}</p>
+        <div class="pageHero__meta" aria-label="Projects overview">
+          <span class="pageHero__metaItem">{_hasProjects ? `${projects.length} builds` : "Case studies in progress"}</span>
+          <span class="pageHero__metaItem">{PROJECT_CATEGORIES.length} tracks</span>
+        </div>
       </div>
       {
         _hasProjects && (

@@ -6,44 +6,44 @@ import { getNowPageContent } from "../sanity/lib/page-content";
 const pageContent = await getNowPageContent();
 
 const defaults = {
-  seoDescription: "What Tulio Cunha is currently building, refining, and preparing next.",
+  seoDescription: "Current work queue, next bets, and active experiments.",
   heroEyebrow: "Now",
-  heroTitle: "Live priorities, not static intentions.",
+  heroTitle: "Current work, next queue, later bets.",
   heroLede:
-    "A transparent snapshot of what I am shipping now, what is queued next, and where my attention is headed.",
+    "A live snapshot of what I'm shipping now, what's next in line, and which experiments are getting time.",
   nowItems: [
-    "Portfolio redesign and storytelling depth expansion",
-    "Case studies with stronger context, tradeoffs, and impact",
-    "Motion and editorial polish across primary pages",
+    "Portfolio systems cleanup and case-study rollout",
+    "Shared page-shell and motion consistency work",
+    "Tooling notes and publishing pipeline cleanup",
   ],
   nextItems: [
-    "Blog templates with richer narrative and illustration blocks",
-    "Project-by-project technical postmortems",
-    "Better publishing pipeline ergonomics in Sanity",
+    "More technical write-ups and project postmortems",
+    "Richer blog blocks for diagrams and callouts",
+    "Sanity workflow improvements for faster publishing",
   ],
   laterItems: [
-    "Interactive showcase modules for selected product work",
-    "Expanded writing series on design systems and delivery",
-    "Public playbooks for engineering + interface quality",
+    "Interactive project modules for selected builds",
+    "Public notes on design systems and delivery",
+    "More experiments around local tooling and AI UI",
   ],
-  signalsHeading: "Execution Signals",
-  signalsLede: "What indicates this current direction is working.",
+  signalsHeading: "Success signals",
+  signalsLede: "What tells me the current direction is working.",
   executionSignals: [
     {
-      title: "Clearer narrative flow",
-      body: "Visitors can understand scope, depth, and outcomes quickly without losing detail.",
+      title: "Faster iteration",
+      body: "Shared systems reduce cleanup work and make page-level changes cheaper to ship.",
     },
     {
-      title: "Higher publishing cadence",
-      body: "More frequent articles and case-study updates with consistent editorial quality.",
+      title: "Clearer narrative",
+      body: "Projects, writing, and about-page context line up without needing extra explanation.",
     },
     {
-      title: "Stronger design consistency",
-      body: "Shared motion, spacing, and visual language across home, projects, and blog.",
+      title: "Stronger visual consistency",
+      body: "Home, blog, projects, and supporting pages read like one system instead of separate surfaces.",
     },
   ],
-  githubHeading: "Live GitHub Stream",
-  githubLede: "Real-time commit activity across active repositories.",
+  githubHeading: "GitHub activity",
+  githubLede: "Recent commits across active repositories.",
 };
 
 const content = {
@@ -91,16 +91,24 @@ const _structuredData = {
   sidebar={true}
 >
   <div class="pageBento">
-    <section class="container blogHero pageWidget" data-reveal data-reveal-type="scale">
-    <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">{content.heroEyebrow}</span>
-      <h1 class="blogHero__title">{content.heroTitle}</h1>
-      <p class="blogHero__lede">{content.heroLede}</p>
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+    <div class="pageHero__copy">
+      <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+      <h1 class="pageHero__title">{content.heroTitle}</h1>
+      <p class="pageHero__lede">{content.heroLede}</p>
+      <div class="pageHero__meta" aria-label="Now page overview">
+        <span class="pageHero__metaItem">Updated {_lastUpdated}</span>
+        <span class="pageHero__metaItem">Now / Next / Later</span>
+      </div>
     </div>
-    <p class="now__updated">Last updated: {_lastUpdated}</p>
     </section>
 
     <section class="container home__section now__roadmap pageWidget" data-reveal>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">Queue</span>
+        <h2 class="pageWidget__title">What has attention right now</h2>
+        <p class="pageWidget__caption">A rough split between active delivery, next in line, and later experiments.</p>
+      </div>
       <div class="now__columns" role="list" aria-label="Roadmap stages">
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
         <h2>Now</h2>
@@ -124,9 +132,10 @@ const _structuredData = {
     </section>
 
     <section class="container home__section now__signals pageWidget" data-reveal>
-      <div class="home__selectedHeader">
-        <h2 class="section-title">{content.signalsHeading}</h2>
-        <p class="home__selectedLede">{content.signalsLede}</p>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">Signals</span>
+        <h2 class="pageWidget__title">{content.signalsHeading}</h2>
+        <p class="pageWidget__caption">{content.signalsLede}</p>
       </div>
       <div class="now__signalGrid">
       {content.executionSignals.map((signal) => (
@@ -143,10 +152,10 @@ const _structuredData = {
     </section>
 
     <section class="container home__section now__github pageWidget" data-reveal>
-      <div class="home__selectedHeader">
+      <div class="pageWidget__header">
         <span class="pageWidget__eyebrow">Activity</span>
-        <h2 class="section-title">{content.githubHeading}</h2>
-        <p class="home__selectedLede">{content.githubLede}</p>
+        <h2 class="pageWidget__title">{content.githubHeading}</h2>
+        <p class="pageWidget__caption">{content.githubLede}</p>
       </div>
       <GitHubActivityWidget live={true} large={true} limit={12} />
     </section>
