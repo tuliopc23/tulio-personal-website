@@ -19,6 +19,8 @@ bun install
 bun run dev
 ```
 
+Use **Node 24 LTS** for Sanity CLI tasks in this repo. Node 25 currently surfaces an upstream `DEP0169` `url.parse()` deprecation from Sanity dependencies.
+
 ## Replace content
 
 - `public/avatar.svg`: your photo (use an image if you prefer)
@@ -28,6 +30,8 @@ bun run dev
 - `src/styles/theme.css`: design tokens (colors, radii, spacing)
 
 ## Sanity Studio workflow
+
+> Use Node 24 LTS when running `sanity` commands locally. The current published Sanity dependency chain still triggers `DEP0169` under Node 25, even though this repo does not call `url.parse()` directly.
 
 1. Authenticate the CLI with your paid account: `bunx sanity@latest login`. The updated CLI (v4.10.x) ships with the new hosted deployment flows and dashboard tooling (see the 2025-09-25 changelog entry _"Sanity Studio v4.10.1: Portable Text Input fixes"_ for the current release cadence).
 2. Deploy the Studio to Sanity's hosting: `bunx sanity@latest deploy`. Copy the generated `https://<project>.sanity.studio` URL.
