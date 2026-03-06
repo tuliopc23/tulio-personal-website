@@ -10,7 +10,8 @@ export const crosspostAction: DocumentActionComponent = (props) => {
   const client = useClient({ apiVersion: "2025-02-19" });
   const [isProcessing, setIsProcessing] = useState(false);
   const webhookBaseUrl = process.env.WEBHOOK_BASE_URL?.replace(/\/$/, "");
-  const webhookUrl = process.env.SANITY_STUDIO_WEBHOOK_URL ||
+  const webhookUrl =
+    process.env.SANITY_STUDIO_WEBHOOK_URL ||
     (webhookBaseUrl ? `${webhookBaseUrl}/api/auto-publish` : undefined);
 
   // Only show for published posts
@@ -55,9 +56,7 @@ export const crosspostAction: DocumentActionComponent = (props) => {
       }
 
       if (!webhookUrl) {
-        console.warn(
-          "Cross-posting skipped because no external automation webhook is configured.",
-        );
+        console.warn("Cross-posting skipped because no external automation webhook is configured.");
         props.onComplete();
         return;
       }
