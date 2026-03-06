@@ -9,6 +9,9 @@ import { type DocumentActionComponent, useClient } from "sanity";
 export const crosspostAction: DocumentActionComponent = (props) => {
   const client = useClient({ apiVersion: "2025-02-19" });
   const [isProcessing, setIsProcessing] = useState(false);
+  const webhookBaseUrl = process.env.WEBHOOK_BASE_URL?.replace(/\/$/, "");
+  const webhookUrl = process.env.SANITY_STUDIO_WEBHOOK_URL ||
+    (webhookBaseUrl ? `${webhookBaseUrl}/api/auto-publish` : undefined);
 
   // Only show for published posts
   if (!props.published) {
@@ -51,13 +54,17 @@ export const crosspostAction: DocumentActionComponent = (props) => {
         return;
       }
 
-      // In a real implementation, you would trigger an API endpoint here
+      if (!webhookUrl) {
+        console.warn(
+          "Cross-posting skipped because no external automation webhook is configured.",
+        );
+        props.onComplete();
+        return;
+      }
+
       console.log("Cross-posting triggered for:", post.title);
 
-      const WEBHOOK_URL =
-        process.env.SANITY_STUDIO_WEBHOOK_URL || "https://tuliocunha.dev/api/auto-publish";
-
-      const response = await fetch(WEBHOOK_URL, {
+      const response = await fetch(webhookUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,9 +101,11 @@ export const crosspostAction: DocumentActionComponent = (props) => {
     label: "Cross-post to Platforms",
     icon: PublishIcon,
     onHandle,
-    disabled: isProcessing,
+    disabled: isProcessing || !webhookUrl,
     title: isProcessing
       ? "Cross-posting..."
-      : "Manually trigger cross-posting to enabled platforms",
+      : webhookUrl
+        ? "Manually trigger cross-posting to enabled platforms"
+        : "Set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL to use manual cross-posting",
   };
 };

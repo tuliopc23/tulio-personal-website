@@ -11,9 +11,7 @@ const {
 
 const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
-const profilePhotoSrc = import.meta.env.DEV
-  ? "/profile-photo.png"
-  : "/cdn-cgi/image/width=384,height=384,fit=cover,quality=90,format=auto/profile-photo.png";
+const profilePhotoSrc = "/profile-photo.png";
 
 const contactCards = [
   {

@@ -57,6 +57,10 @@ PUBLIC_SANITY_DATASET=production
 # Webhook Integration (required for auto-deployment)
 SANITY_API_WRITE_TOKEN=your_sanity_write_token_here
 CLOUDFLARE_DEPLOY_HOOK_URL=your_cloudflare_deploy_hook_url_here
+
+# Optional: external content automation service
+# Use this only if you run cross-posting or other content workflows outside the static site.
+SANITY_STUDIO_WEBHOOK_URL=https://automation.example.com/api/auto-publish
 ```
 
 ### 2. Install Dependencies
@@ -78,6 +82,7 @@ This script will:
 - Create a GROQ-powered webhook named "Cloudflare Pages Deploy"
 - Configure it to trigger only on published posts (not drafts)
 - Link it to your Cloudflare Deploy Hook URL
+- Optionally create a second webhook for an external content automation service
 
 ## Testing the Setup
 

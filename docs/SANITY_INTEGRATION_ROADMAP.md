@@ -21,8 +21,7 @@ It also maps each page (excluding `/`) to content areas that should move to or e
 
 - API versions are split across `2024-01-01` and `2025-01-01`; newer release-era behavior and perspectives rely on `2025-02-19+`.
 - Custom scheduling (`scheduledPublishAt`, +1h action) overlaps with platform-native Scheduled Drafts/Releases.
-- Webhook endpoint currently lacks request-signature verification (`src/pages/api/auto-publish.ts`).
-- Rebuild workflow creates empty commits to trigger deployment (`.github/workflows/sanity-webhook.yml`), which pollutes history.
+- Direct Pages deploy hooks are the desired rebuild trigger; avoid re-introducing a GitHub relay or site-hosted webhook runtime without a clear runtime need.
 - Presentation resolver maps only `post`, not `project` or other route-driven content (`src/sanity/lib/resolve.ts`).
 - Production is static-first; full visual-editing behavior is strongest on an SSR/hybrid preview deployment.
 
@@ -41,8 +40,8 @@ This roadmap aligns with recent Sanity guidance:
 ## Phase 1 - Hardening and alignment (high value, low risk)
 
 1. Standardize Sanity API version to `2025-02-19` where compatible.
-2. Add webhook signature verification in `src/pages/api/auto-publish.ts`.
-3. Replace empty-commit rebuild trigger with deploy hook/API trigger (or cache purge).
+2. Keep rebuild automation on direct deploy hooks rather than a GitHub relay.
+3. If cross-posting or automation needs server execution, host it separately from the static site frontend.
 4. Expand `resolve.locations` to include `project` and category-aware routes.
 5. Add CI guardrails for `sanity schema validate` + `sanity typegen generate`.
 

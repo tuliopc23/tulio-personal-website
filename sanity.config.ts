@@ -23,7 +23,10 @@ import { schemaTypes } from "./src/sanity/schemaTypes";
 
 const projectId = "61249gtj";
 const dataset = "production";
-const previewUrl = "https://tulio-cunha-dev.vercel.app";
+const previewUrl =
+  process.env.SANITY_STUDIO_PREVIEW_URL ||
+  process.env.PUBLIC_SANITY_PREVIEW_URL ||
+  "https://www.tuliocunha.dev";
 
 const SINGLETONS = ["blogPage", "projectsPage", "aboutPage", "nowPage"] as const;
 const MANAGED_TYPES = ["post", "project", "category", "author", ...SINGLETONS] as const;

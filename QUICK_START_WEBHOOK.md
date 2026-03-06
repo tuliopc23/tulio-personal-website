@@ -1,14 +1,14 @@
-# Quick Start: Sanity Webhook Setup
+# Quick Start: Sanity → Cloudflare Pages Webhook Setup
 
-Follow these 3 steps to enable automatic deployments when you publish articles in Sanity.
+Follow these 3 steps to enable automatic Cloudflare Pages rebuilds when you publish articles in Sanity.
 
-## Step 1: Create GitHub Personal Access Token
+## Step 1: Create a Cloudflare Pages Deploy Hook
 
-1. Go to https://github.com/settings/tokens
-2. Click **"Generate new token (classic)"**
-3. Name: `Sanity Webhook`
-4. Permissions: Check **"repo"** (full control)
-5. **Copy the token** (starts with `ghp_...`)
+1. Go to https://dash.cloudflare.com
+2. Open **Workers & Pages** → your Pages project
+3. Go to **Settings** → **Builds & deployments**
+4. Create a deploy hook for your production branch
+5. **Copy the deploy hook URL**
 
 ## Step 2: Create Sanity API Token
 
@@ -24,7 +24,7 @@ Edit `.env` file:
 
 ```bash
 SANITY_API_WRITE_TOKEN=sk...your-sanity-token...
-GITHUB_PERSONAL_ACCESS_TOKEN=ghp...your-github-token...
+CLOUDFLARE_DEPLOY_HOOK_URL=https://api.cloudflare.com/client/v4/pages/webhooks/deploy/...
 ```
 
 Run setup:
@@ -39,9 +39,9 @@ You should see: ✅ Webhook created successfully!
 
 1. Go to Sanity Studio: https://tulio-cunha-dev.sanity.studio
 2. **Publish** or update an article
-3. Check GitHub → Your Repo → **Actions** tab
-4. You should see a workflow running: "Rebuild on Sanity Content Update"
-5. Cloudflare Pages will rebuild automatically (1-3 min)
+3. Check Cloudflare Pages → **Deployments**
+4. You should see a new build triggered by the deploy hook
+5. Your Pages site should rebuild automatically (1-3 min)
 
 ## Troubleshooting
 

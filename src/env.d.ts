@@ -8,9 +8,6 @@ interface ImportMetaEnv {
   readonly PUBLIC_SANITY_STUDIO_URL?: string;
   readonly PUBLIC_SANITY_VISUAL_EDITING_ENABLED?: string;
   readonly SANITY_API_READ_TOKEN?: string;
-  readonly GITHUB_PERSONAL_ACCESS_TOKEN?: string;
-  readonly GITHUB_REPOSITORY?: string;
-  readonly DEV_TO_API_KEY?: string;
 }
 
 interface ImportMeta {

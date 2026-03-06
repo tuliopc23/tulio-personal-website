@@ -430,7 +430,6 @@ src/components/SkeletonCard.astro
 src/components/VisualEditing.astro
 src/layouts/Base.astro
 src/pages/about.astro
-src/pages/api/auto-publish.ts
 src/pages/blog/[slug].astro
 src/pages/blog/atom.xml.ts
 src/pages/blog/category/[slug].astro

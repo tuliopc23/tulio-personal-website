@@ -45,28 +45,13 @@ With the deployment done you can log into the hosted Studio, use the latest Port
 
 Create a `.env` file (or copy `.env.example`) before running the site.
 
-### Secrets management (Doppler + Wrangler)
+### Cloudflare Pages + Sanity webhook variables
 
-This project uses **Doppler as the source of truth for secrets** and syncs them to Cloudflare Workers with Wrangler.
+This repo now treats **Cloudflare Pages** as the authoritative frontend deployment target.
 
-- Keep sensitive values (`*_TOKEN`, API keys, PATs) in Doppler configs.
-- Keep non-sensitive values (for example `PUBLIC_*`) in regular config (`.env`, `wrangler.toml`, or build vars).
-- Do not commit secrets to `wrangler.toml` under `[vars]`; use Workers secrets instead.
-- `bun run secrets:sync*` only uploads an allowlist of sensitive keys (non-sensitive values are intentionally excluded).
-
-Setup and sync flow:
-
-```bash
-# one-time setup
-doppler setup
-
-# sync currently selected Doppler config -> default Worker environment
-bun run secrets:sync
-
-# explicit environment sync + deploy
-bun run deploy:stg
-bun run deploy:prd
-```
+- Keep sensitive values in your local `.env`, CI provider, or secret manager.
+- The site itself is a **static Astro build**; it does **not** require Worker secrets for frontend deploys.
+- Use a Cloudflare Pages **deploy hook** for Sanity-triggered rebuilds.
 
 ### Required in all environments
 
@@ -91,9 +76,10 @@ If `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` is `true` and the read token is missin
 
 ### Deployment automation (optional)
 
-- `SANITY_API_WRITE_TOKEN` — Write token for webhook-triggered deployments.
-- `GITHUB_PERSONAL_ACCESS_TOKEN` — Token for GitHub-triggered deploy scripts.
-- `SANITY_WEBHOOK_SECRET` — Shared secret for webhook validation.
+- `SANITY_API_WRITE_TOKEN` — Write token used by `bun run sanity:webhook` to create/update Sanity webhooks.
+- `CLOUDFLARE_DEPLOY_HOOK_URL` — Direct Cloudflare Pages deploy hook URL for site rebuilds.
+- `SANITY_STUDIO_WEBHOOK_URL` / `WEBHOOK_BASE_URL` — Optional external automation service for cross-posting or content-side workflows.
+- `SANITY_WEBHOOK_SECRET` — Optional secret for external automation endpoints that validate webhook signatures.
 
 ## Verification checklist
 
@@ -104,58 +90,55 @@ bun run check            # Lint → typecheck → production build (fails if req
 bun run sanity:typegen   # Regenerates sanity.types.ts from current schema
 ```
 
-## Production deploy (Cloudflare Workers)
+## Production deploy (Cloudflare Pages)
 
-The site is built with Astro and deployed via **Wrangler** to Cloudflare Workers Assets (`wrangler.toml` → `./dist`).
+The site is built with Astro and deployed as a **static site on Cloudflare Pages**.
 
 ### CI / platform build settings
 
-**Install command:** use a non‑frozen install so dependencies can update. Set your platform’s **Install command** to:
+**Install command:**
 
 ```bash
 bun install
 ```
 
-or `bun run install:ci`. Do **not** use `bun install --frozen-lockfile` unless you explicitly want a locked, reproducible install.
+or `bun run install:ci`.
 
 **Build command:** `bun run build`
 
-**Deploy command:** use the project’s deploy script so the locked Wrangler version is used:
+**Build output directory:** `dist`
 
-```bash
-bun run deploy
-```
-
-**Do not** use `bunx wrangler deploy` in CI. That pulls a fresh Wrangler each run and can worsen flaky Cloudflare API behavior. Your platform’s deploy step should run `bun run deploy` (after the build step has run `bun run build`).
-
-When deploying environment-specific Workers and syncing secrets from Doppler, prefer:
-
-```bash
-bun run deploy:stg
-bun run deploy:prd
-```
+**Recommended deploy mode:** Cloudflare Pages Git integration
 
 ### If asset upload fails in CI
 
 Errors like:
 
-- `APIError: A request to the Cloudflare API (.../workers/assets/upload?base64=true) failed`
-- `An unknown error has occurred. Please contact support [code: -1]`
+- Pages build/install failures
+- intermittent provider-side build issues
 
-usually mean a **transient Cloudflare API/upload issue**, not a bug in this repo. Often they clear on retry.
+usually mean a provider-side build or dependency issue, not a problem with the Pages architecture itself.
 
 1. **Retry the deploy** (e.g. re-run the failed job or push an empty commit).
-2. **Use the project Wrangler** so the deploy command is `bun run deploy`, not `bunx wrangler deploy`.
-3. **Check `CLOUDFLARE_API_TOKEN`** in your CI env: it must be set and have permissions that include Workers Scripts Edit and deployment (e.g. “Workers Scripts” write, or a custom token with the right scopes). See [Cloudflare – Run Wrangler in CI/CD](https://developers.cloudflare.com/workers/ci-cd/).
+2. **Verify Pages settings** in Cloudflare:
+   - install command: `bun install`
+   - build command: `bun run build`
+   - output directory: `dist`
+3. **Check required environment variables** are available to the Pages build.
 
-### Local deploy
+### Sanity-triggered rebuilds
 
-From the repo root, after a successful build:
+Use a direct webhook path:
+
+`Sanity publish/update/delete -> Sanity webhook -> Cloudflare Pages deploy hook`
+
+Run this once after setting `SANITY_API_WRITE_TOKEN` and `CLOUDFLARE_DEPLOY_HOOK_URL`:
 
 ```bash
-bun run build
-bun run deploy
+bun run sanity:webhook
 ```
+
+This keeps rebuilds out of GitHub Actions and aligns Studio publishing with the active Cloudflare Pages deploy target.
 
 ## Additional docs
 

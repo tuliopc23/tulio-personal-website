@@ -14,7 +14,7 @@ function formatDate(input: string): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = (site ?? new URL("https://tulio-cunha-dev.vercel.app")).origin;
+  const origin = (site ?? new URL("https://www.tuliocunha.dev")).origin;
   const cleanedOrigin = origin.replace(/\/$/, "");
 
   const [postLocators, categories] = await Promise.all([getAllPostLocators(), getAllCategories()]);

@@ -23,22 +23,25 @@ async function setupWebhook() {
     process.exit(1);
   }
 
-  // Check for publishing platform credentials
-  const hasDevToKey = !!process.env.DEV_TO_API_KEY;
-  const hasMediumKey = !!process.env.MEDIUM_ACCESS_TOKEN;
+  const deployHookUrl = process.env.CLOUDFLARE_DEPLOY_HOOK_URL;
+  const automationBaseUrl = process.env.WEBHOOK_BASE_URL?.replace(/\/$/, "");
+  const automationWebhookUrl =
+    process.env.SANITY_STUDIO_WEBHOOK_URL ||
+    (automationBaseUrl ? `${automationBaseUrl}/api/auto-publish` : undefined);
 
   console.log("\n🔑 Available Integrations:");
-  console.log(`  Dev.to: ${hasDevToKey ? "✅ Configured" : "❌ Not set (optional)"}`);
-  console.log(`  Medium: ${hasMediumKey ? "✅ Configured" : "❌ Not set (optional)"}`);
+  console.log(
+    `  Cloudflare Pages deploy hook: ${deployHookUrl ? "✅ Configured" : "❌ Missing"}`
+  );
+  console.log(
+    `  External content automation webhook: ${automationWebhookUrl ? "✅ Configured" : "❌ Not set (optional)"}`
+  );
 
-  // GitHub integration (for site rebuild)
-  const githubToken = process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
   const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
-  const githubRepo = process.env.GITHUB_REPOSITORY || "tuliopc23/tulio-personal-website";
 
-  if (!githubToken) {
-    console.log("\n⚠️  GITHUB_PERSONAL_ACCESS_TOKEN not set");
-    console.log("   Site rebuilds will not be triggered automatically");
+  if (!deployHookUrl) {
+    console.log("\n⚠️  CLOUDFLARE_DEPLOY_HOOK_URL not set");
+    console.log("   Automatic Pages rebuilds will not be configured");
   }
 
   try {
@@ -48,90 +51,77 @@ async function setupWebhook() {
       uri: "/hooks",
     });
 
-    // 1. Create/Update GitHub webhook for site rebuild
-    if (githubToken) {
-      const existingGitHubHook = existingHooks.find(
-        (hook) => hook.name === "GitHub Actions Deploy"
+    // 1. Create/Update direct Cloudflare Pages deploy webhook
+    if (deployHookUrl) {
+      const existingPagesHook = existingHooks.find(
+        (hook) => hook.name === "Cloudflare Pages Deploy"
       );
 
-      if (existingGitHubHook) {
-        console.log("🗑️  Deleting existing GitHub webhook...");
+      if (existingPagesHook) {
+        console.log("🗑️  Deleting existing Cloudflare Pages deploy webhook...");
         await client.request({
           method: "DELETE",
-          uri: `/hooks/${existingGitHubHook.id}`,
+          uri: `/hooks/${existingPagesHook.id}`,
         });
       }
 
-      const githubWebhookUrl = `https://api.github.com/repos/${githubRepo}/dispatches`;
-
-      const githubWebhook = await client.request({
+      const pagesWebhook = await client.request({
         method: "POST",
         uri: "/hooks",
         body: {
-          name: "GitHub Actions Deploy",
-          description:
-            "Triggers GitHub Actions to rebuild site when articles are published",
-          url: githubWebhookUrl,
+          name: "Cloudflare Pages Deploy",
+          description: "Triggers a direct Cloudflare Pages rebuild when published content changes",
+          url: deployHookUrl,
           httpMethod: "POST",
           filter: '_type == "post" && !(_id in path("drafts.**"))',
           projection: `{
-            "event_type": "sanity-content-update",
-            "client_payload": {
-              "documentId": _id,
-              "documentType": _type,
-              "title": title,
-              "slug": slug.current,
-              "publishedAt": publishedAt,
-              "operation": select(
-                delta::operation() == "create" => "created",
-                delta::operation() == "update" => "updated",
-                delta::operation() == "delete" => "deleted"
-              )
-            }
+            "documentId": _id,
+            "documentType": _type,
+            "title": title,
+            "slug": slug.current,
+            "publishedAt": publishedAt,
+            "operation": select(
+              delta::operation() == "create" => "created",
+              delta::operation() == "update" => "updated",
+              delta::operation() == "delete" => "deleted"
+            )
           }`,
           on: ["create", "update", "delete"],
           includeDrafts: false,
           apiVersion: "2025-02-19",
-          ...(webhookSecret ? { secret: webhookSecret } : {}),
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${githubToken}`,
-            Accept: "application/vnd.github.v3+json",
-            "X-Sanity-Webhook": "github-deploy",
+            "X-Sanity-Webhook": "cloudflare-pages-deploy",
           },
         },
       });
 
-      console.log("✅ GitHub webhook created successfully!");
-      console.log(`    ID: ${githubWebhook.id}`);
-      console.log(`    URL: ${githubWebhook.url}`);
+      console.log("✅ Cloudflare Pages deploy webhook created successfully!");
+      console.log(`    ID: ${pagesWebhook.id}`);
+      console.log(`    URL: ${pagesWebhook.url}`);
     }
 
-    // 2. Create auto-publishing webhook if any publishing platform is configured
-    if (hasDevToKey || hasMediumKey) {
+    // 2. Optional: create/update external automation webhook
+    if (automationWebhookUrl) {
       const existingAutoPublishHook = existingHooks.find(
-        (hook) => hook.name === "Auto-Publish to Platforms"
+        (hook) => hook.name === "Content Automation"
       );
 
       if (existingAutoPublishHook) {
-        console.log("🗑️  Deleting existing auto-publishing webhook...");
+        console.log("🗑️  Deleting existing content automation webhook...");
         await client.request({
           method: "DELETE",
           uri: `/hooks/${existingAutoPublishHook.id}`,
         });
       }
 
-      // Create webhook that triggers on publishing platform or GitHub webhook endpoint
-      const webhookBaseUrl =
-        process.env.WEBHOOK_BASE_URL || "https://your-deployed-function-url.vercel.app";
-
       await client.request({
         method: "POST",
         uri: "/hooks",
         body: {
-          name: "Auto-Publish to Platforms",
-          description: "Auto-publish articles to Dev.to, Medium and other platforms",
-          url: `${webhookBaseUrl}/api/auto-publish`,
+          name: "Content Automation",
+          description: "Optional external automation for cross-posting or other content-side workflows",
+          url: automationWebhookUrl,
           httpMethod: "POST",
           filter: '_type == "post" && !(_id in path("drafts.**"))',
           projection: `{
@@ -171,41 +161,41 @@ async function setupWebhook() {
         },
       });
 
-      console.log("✅ Auto-publishing webhook created successfully!");
+      console.log("✅ Content automation webhook created successfully!");
     }
 
     console.log("\n🎉 Webhook setup complete!");
     console.log("\n📋 Summary:");
 
-    if (githubToken) {
-      console.log("  ✅ Site rebuild webhook configured");
+    if (deployHookUrl) {
+      console.log("  ✅ Direct Cloudflare Pages rebuild webhook configured");
     }
 
-    if (hasDevToKey || hasMediumKey) {
-      console.log("  ✅ Auto-publishing webhook configured");
-      console.log("     This will trigger when you publish articles in Sanity");
+    if (automationWebhookUrl) {
+      console.log("  ✅ Optional content automation webhook configured");
+      console.log("     This will forward published post payloads to your external automation service");
     }
 
-    if (!githubToken && !hasDevToKey && !hasMediumKey) {
-      console.log("  ⚠️  No integrations configured");
-      console.log("     Set up at least one platform to get started");
+    if (!deployHookUrl && !automationWebhookUrl) {
+      console.log("  ⚠️  No webhooks configured");
+      console.log("     Set CLOUDFLARE_DEPLOY_HOOK_URL to enable direct Pages rebuilds");
     }
 
     console.log("\n🚀 Next steps:");
 
-    if (hasDevToKey || hasMediumKey) {
-      console.log("  1. Deploy the auto-publishing function");
-      console.log("  2. Test by publishing an article in Sanity Studio");
+    if (deployHookUrl) {
+      console.log("  1. Publish or update a post in Sanity Studio");
+      console.log("  2. Confirm Cloudflare Pages receives a deploy-hook build");
     }
 
-    if (githubToken) {
-      console.log("  3. Site rebuilds will trigger automatically");
+    if (automationWebhookUrl) {
+      console.log("  3. Test your external content automation endpoint with a published post");
     }
 
     console.log("\n💡 Environment variables you can set:");
-    console.log("  DEV_TO_API_KEY=<your-devto-api-key>");
-    console.log("  MEDIUM_ACCESS_TOKEN=<your-medium-token>");
-    console.log("  WEBHOOK_BASE_URL=<your-deployed-function-url>");
+    console.log("  CLOUDFLARE_DEPLOY_HOOK_URL=<your-pages-deploy-hook-url>");
+    console.log("  SANITY_STUDIO_WEBHOOK_URL=<full external automation webhook URL>");
+    console.log("  WEBHOOK_BASE_URL=<base URL for an external /api/auto-publish service>");
   } catch (error) {
     console.error("❌ Error creating webhook:", error);
 
