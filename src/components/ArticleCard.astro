@@ -36,14 +36,17 @@ const {
   readingTimeMinutes,
   isNew = false,
 }: Props = Astro.props;
-const _tagLabel = tags.join(" · ");
 const _revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
+const _tags = Array.isArray(tags) ? tags : [];
+const _categories = Array.isArray(categories) ? categories : [];
+const _displayTags = _tags.slice(0, featured ? 3 : 2);
+const _hasTaxonomy = _categories.length > 0 || _displayTags.length > 0;
 const _readingTimeLabel =
   typeof readingTimeMinutes === "number" && Number.isFinite(readingTimeMinutes)
-    ? `${Math.max(1, Math.round(readingTimeMinutes))} min read`
+    ? `${Math.max(1, Math.round(readingTimeMinutes))} min`
     : null;
-const _ctaLabel = featured ? "Read the feature" : "Open article";
+const _ctaLabel = featured ? "Read entry" : "Open entry";
 ---
 
 <article
@@ -56,6 +59,31 @@ const _ctaLabel = featured ? "Read the feature" : "Open article";
 >
   <a class="articleCard__link" href={href}>
     <header class="articleCard__header">
+      {
+        _hasTaxonomy && (
+          <div class="articleCard__taxonomy" aria-label="Topics and categories">
+            <CategoryBadges categories={_categories} limit={2} variant="inline" />
+            {
+              _displayTags.length > 0 && (
+                <ul class="articleCard__tags" aria-label="Tags">
+                  {_displayTags.map((tag) => (
+                    <li class="articleCard__tag">{tag}</li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
+        )
+      }
+      <h3 class="articleCard__title">{title}</h3>
+    </header>
+    <p class="articleCard__summary">{summary}</p>
+    {
+      hook && (
+        <p class="articleCard__hook">{hook}</p>
+      )
+    }
+    <div class="articleCard__footer">
       <div class="articleCard__meta" aria-label="Post metadata">
         <span class="articleCard__metaItem">
           <PhosphorIcon name="calendar" size={14} weight="regular" />
@@ -69,49 +97,17 @@ const _ctaLabel = featured ? "Read the feature" : "Open article";
             </span>
           )
         }
-        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New this week</span>}
-        {
-          _tagLabel && (
-            <span class="articleCard__metaItem articleCard__metaTags" aria-label="Tags">
-              {_tagLabel}
-            </span>
-          )
-        }
+        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
       </div>
-      <h3 class="articleCard__title">{title}</h3>
-    </header>
-    <p class="articleCard__summary">{summary}</p>
-    {
-      hook && (
-        <p class="articleCard__hook">{hook}</p>
-      )
-    }
-    <div class="articleCard__taxonomy">
-      <CategoryBadges categories={categories} limit={2} />
-      {
-        tags.length > 0 && (
-          <ul class="articleCard__tags" aria-label="Tags">
-            {tags.map((tag) => (
-              <li class="articleCard__tag">{tag}</li>
-            ))}
-          </ul>
-        )
-      }
+      <span class="articleCard__cta">
+        <span>{_ctaLabel}</span>
+        <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
+      </span>
     </div>
-    <span class="articleCard__cta">
-      <span>{_ctaLabel}</span>
-      <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
-    </span>
   </a>
 </article>
 
 <style>
-  .articleCard__taxonomy {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
   .articleCard__hook {
     margin: 0;
     font-size: var(--fs--2);

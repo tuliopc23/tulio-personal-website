@@ -149,6 +149,23 @@ const _placeholders = pageContent?.placeholderCards?.length
         tags: ["Preview"],
       },
     ];
+
+const _sectionHeaders = {
+  editorial: {
+    eyebrow: "Reading map",
+    icon: "article",
+  },
+  archive: {
+    eyebrow: "Back issues",
+    icon: "calendar",
+  },
+  latest: {
+    eyebrow: "From the notebook",
+    title: "Recent entries",
+    lede: "Recent essays and build notes. Use the tags when you want a narrower slice of the archive.",
+    icon: "notebook",
+  },
+} as const;
 ---
 
 <Base
@@ -225,11 +242,21 @@ const _placeholders = pageContent?.placeholderCards?.length
   </section>
 
   <section class="container home__section blogBrief pageWidget" data-reveal data-reveal-group="blog-brief">
-    <div class="home__selectedHeader">
-        <h2 class="section-title" data-reveal data-reveal-group="blog-brief" data-reveal-order={0}
-          >{pageContent?.editorialDirectionHeading ?? "Editorial Direction"}</h2
-        >
-      <p class="home__selectedLede">
+    <div class="home__selectedHeader blogSectionHeader">
+      <span class="blogSectionHeader__eyebrow">
+        <PhosphorIcon name={_sectionHeaders.editorial.icon} size={14} weight="regular" />
+        {_sectionHeaders.editorial.eyebrow}
+      </span>
+      <h2
+        id="blog-editorial-title"
+        class="blogSectionHeader__title"
+        data-reveal
+        data-reveal-group="blog-brief"
+        data-reveal-order={0}
+      >
+        {pageContent?.editorialDirectionHeading ?? "Editorial Direction"}
+      </h2>
+      <p class="blogSectionHeader__lede">
         {pageContent?.editorialDirectionLede ?? "Three recurring lenses keep the archive opinionated, practical, and close to the work."}
       </p>
     </div>
@@ -258,11 +285,21 @@ const _placeholders = pageContent?.placeholderCards?.length
 
   {_archiveYears.length > 0 && (
     <section class="container home__section blogArchive pageWidget" data-reveal data-reveal-group="blog-archive">
-      <div class="home__selectedHeader">
-        <h2 class="section-title" data-reveal data-reveal-group="blog-archive" data-reveal-order={0}
-          >{pageContent?.archiveHeading ?? "Archive Overview"}</h2
+      <div class="home__selectedHeader blogSectionHeader">
+        <span class="blogSectionHeader__eyebrow">
+          <PhosphorIcon name={_sectionHeaders.archive.icon} size={14} weight="regular" />
+          {_sectionHeaders.archive.eyebrow}
+        </span>
+        <h2
+          id="blog-archive-title"
+          class="blogSectionHeader__title"
+          data-reveal
+          data-reveal-group="blog-archive"
+          data-reveal-order={0}
         >
-        <p class="home__selectedLede">
+          {pageContent?.archiveHeading ?? "Archive Overview"}
+        </h2>
+        <p class="blogSectionHeader__lede">
           {pageContent?.archiveLede ?? "A year-by-year record of what shipped, when it shipped, and where the thinking was headed."}
         </p>
       </div>
@@ -270,7 +307,7 @@ const _placeholders = pageContent?.placeholderCards?.length
         {_archiveYears.map((item, index) => (
           <li class="hover-elevate motion-surface-standard" data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1} data-parallax-card>
             <span class="blogArchive__year">{item.year}</span>
-            <span class="blogArchive__count">{item.count} {item.count === 1 ? "article" : "articles"}</span>
+            <span class="blogArchive__count">{item.count} {item.count === 1 ? "entry" : "entries"}</span>
           </li>
         ))}
       </ul>
@@ -280,22 +317,33 @@ const _placeholders = pageContent?.placeholderCards?.length
   {
     featured && rest.length > 0 && (
       <section class="container blogSurface pageWidget" data-reveal data-reveal-group="blog-list">
-        <div class="blogFilters" role="toolbar" aria-label="Filter posts by tag">
-          <button
-            class="blogFilters__link motion-chip is-active"
-            data-blog-filter="all"
-            type="button"
-          >
-            {pageContent?.allArticlesLabel ?? "All articles"}
-          </button>
-          {_uniqueTags.map((tag) => {
-            const slug = tag.toLowerCase().replace(/\s+/g, "-");
-            return (
-              <button class="blogFilters__link motion-chip" data-blog-filter={slug} type="button">
-                {tag}
-              </button>
-            );
-          })}
+        <div class="blogSurface__header">
+          <span class="blogSectionHeader__eyebrow">
+            <PhosphorIcon name={_sectionHeaders.latest.icon} size={14} weight="regular" />
+            {_sectionHeaders.latest.eyebrow}
+          </span>
+          <h2 class="blogSectionHeader__title blogSectionHeader__title--compact">
+            {_sectionHeaders.latest.title}
+          </h2>
+          <p class="blogSectionHeader__lede blogSectionHeader__lede--compact">
+            {_sectionHeaders.latest.lede}
+          </p>
+        </div>
+        <div class="blogFilters">
+          <p class="blogFilters__label">Topic index</p>
+          <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
+            <button class="blogFilters__link is-active" data-blog-filter="all" type="button">
+              {pageContent?.allArticlesLabel ?? "All articles"}
+            </button>
+            {_uniqueTags.map((tag) => {
+              const slug = tag.toLowerCase().replace(/\s+/g, "-");
+              return (
+                <button class="blogFilters__link" data-blog-filter={slug} type="button">
+                  {tag}
+                </button>
+              );
+            })}
+          </div>
         </div>
         <div
           class="sr-only"
@@ -351,7 +399,7 @@ const _placeholders = pageContent?.placeholderCards?.length
                   summary={placeholder.summary}
                   hook={null}
                   dateISO={new Date().toISOString()}
-                  dateLabel="Coming soon"
+                  dateLabel="On deck"
                   tags={placeholder.tags ?? []}
                   featured={false}
                 />

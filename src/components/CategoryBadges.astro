@@ -5,9 +5,10 @@ import type { Category } from "../sanity/lib/posts";
 interface Props {
   categories?: Category[] | null;
   limit?: number;
+  variant?: "pill" | "inline";
 }
 
-const { categories = [], limit } = Astro.props;
+const { categories = [], limit, variant = "pill" } = Astro.props as Props;
 const validCategories = Array.isArray(categories) ? categories : [];
 const _displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
 
@@ -30,9 +31,12 @@ const getCategoryIcon = (slug: string) => {
 
 {
   _displayCategories.length > 0 && (
-    <div class="categoryBadges">
+    <div class:list={["categoryBadges", `categoryBadges--${variant}`]}>
       {_displayCategories.map((category) => (
-        <a href={`/blog/category/${category.slug}/`} class="categoryBadge">
+        <a
+          href={`/blog/category/${category.slug}/`}
+          class:list={["categoryBadge", `categoryBadge--${variant}`]}
+        >
           <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="bold" />
           <span>{category.title}</span>
         </a>
@@ -46,6 +50,11 @@ const getCategoryIcon = (slug: string) => {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-xs);
+  }
+
+  .categoryBadges--inline {
+    gap: 0.45rem;
+    align-items: center;
   }
 
   .categoryBadge {
@@ -68,10 +77,41 @@ const getCategoryIcon = (slug: string) => {
       border-color 0.2s ease;
   }
 
+  .categoryBadge--inline {
+    gap: 0.3rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-size: var(--fs--2);
+    letter-spacing: 0.12em;
+  }
+
+  [data-theme="dark"] .categoryBadge--inline {
+    color: rgba(235, 235, 245, 0.52);
+  }
+
+  [data-theme="light"] .categoryBadge--inline {
+    color: rgba(60, 60, 67, 0.54);
+  }
+
   .categoryBadge:hover {
     color: var(--accent-bright);
     background: var(--accent-surface-hover);
     border-color: var(--accent);
+  }
+
+  .categoryBadge--inline:hover {
+    background: none;
+    border-color: transparent;
+  }
+
+  [data-theme="dark"] .categoryBadge--inline:hover {
+    color: rgba(235, 235, 245, 0.76);
+  }
+
+  [data-theme="light"] .categoryBadge--inline:hover {
+    color: rgba(60, 60, 67, 0.8);
   }
 
   @media (prefers-reduced-motion: reduce) {

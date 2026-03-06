@@ -136,11 +136,11 @@ const stackLinks = [
 ];
 
 const sectionNavItems = [
-  { id: "section-profile", label: "Identity" },
+  { id: "section-profile", label: "Hello" },
   { id: "section-tools", label: "Tools" },
   { id: "section-stack", label: "Stack" },
   { id: "section-github", label: "Proof" },
-  { id: "section-writing", label: "Explore" },
+  { id: "section-writing", label: "Writing" },
 ];
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
@@ -161,7 +161,7 @@ const description =
     <div id="section-profile" class="widget-profile">
       <ProfileCard
         name="Tulio Cunha"
-        title="Full Stack Developer"
+        title="Full stack developer, command line junkie, dev tool addict."
         location="Brazil"
         email="contact@tuliocunha.dev"
       />
@@ -170,7 +170,10 @@ const description =
     <section class="homepage-stage homepage-stage--context" aria-labelledby="homepage-working-context-title">
       <header class="stage-intro">
         <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">Working context</span>
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="terminal-window" size={14} weight="regular" />
+            Working context
+          </span>
           <h2 id="homepage-working-context-title" class="stage-intro__title">
             The tools, languages, and setup that shape how I ship.
           </h2>
@@ -241,7 +244,10 @@ const description =
     <section class="homepage-stage" aria-labelledby="homepage-proof-title">
       <header class="stage-intro stage-intro--single">
         <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">Proof of work</span>
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="chart-bar" size={14} weight="regular" />
+            Proof of work
+          </span>
           <h2 id="homepage-proof-title" class="stage-intro__title">Live momentum and recent shipping activity.</h2>
           <p class="stage-intro__caption">
             The GitHub surface remains the credibility check: active work, recent commits, and visible consistency.
@@ -268,7 +274,10 @@ const description =
     <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
       <header class="stage-intro stage-intro--single">
         <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">Exploration</span>
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="article" size={14} weight="regular" />
+            Exploration
+          </span>
           <h2 id="homepage-exploration-title" class="stage-intro__title">Writing, experiments, and ideas still unfolding.</h2>
           <p class="stage-intro__caption">
             A final pass through essays, notes, and technical threads that extend the work beyond shipping.
@@ -333,7 +342,7 @@ const description =
 
   .stage-intro__copy {
     display: grid;
-    gap: 8px;
+    gap: 10px;
     max-width: 62ch;
     min-width: 0;
   }
@@ -346,8 +355,13 @@ const description =
     font-size: var(--fs-eyebrow);
     letter-spacing: var(--ls-eyebrow);
     text-transform: uppercase;
-    font-weight: var(--fw-medium);
+    font-weight: var(--fw-semibold);
     color: var(--text-secondary);
+  }
+
+  .stage-intro__eyebrow :global(svg) {
+    flex: none;
+    opacity: 0.82;
   }
 
   .stage-intro__title {
@@ -355,12 +369,13 @@ const description =
     font-size: clamp(28px, 2.4vw, 40px);
     line-height: 1.05;
     letter-spacing: -0.03em;
+    font-weight: 800;
     color: var(--text-primary);
   }
 
   .stage-intro__caption {
     margin: 0;
-    max-width: 58ch;
+    max-width: 56ch;
     font-size: var(--fs-subheadline);
     line-height: var(--lh-relaxed);
     color: var(--text-tertiary);
@@ -383,14 +398,14 @@ const description =
       var(--shadow-card-glow),
       0 0 0 1px rgba(255, 255, 255, 0.08),
       0 0 100px rgba(10, 132, 255, 0.08);
-    --hover-elevate-border: var(--panel-border-strong);
+    --hover-elevate-border: color-mix(in srgb, var(--panel-border-strong) 82%, transparent);
     position: relative;
     display: flex;
     flex-direction: column;
     gap: clamp(var(--space-xs), 1.2vw, var(--space-sm));
     padding: clamp(14px, 1.5vw, 18px);
     background: color-mix(in srgb, var(--surface-elevated) 96%, transparent);
-    border: 1px solid var(--panel-border);
+    border: 1px solid color-mix(in srgb, var(--panel-border) 84%, transparent);
     border-radius: 26px;
     box-shadow:
       var(--shadow-card),
@@ -410,10 +425,10 @@ const description =
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 80%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 80%);
     mix-blend-mode: screen;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.48;
   }
 
   .widget-header {

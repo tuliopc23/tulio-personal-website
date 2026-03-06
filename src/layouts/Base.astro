@@ -70,24 +70,24 @@ const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
 const topbarSubtitle = isArticleRoute
   ? "Editorial · Reading mode"
   : isBlogRoute
-    ? "Editorial · Writing archive"
+    ? "Developer journal · Essays & notes"
     : "Software Developer";
 const topbarContextLabel =
-  normalizedPath === "/" ? null : isArticleRoute ? "Reading" : isBlogRoute ? "Journal" : title;
+  normalizedPath === "/" ? null : isArticleRoute ? "Reading" : isBlogRoute ? "Notebook" : title;
 const sidebarEyebrow = isArticleRoute
   ? "Editorial companion"
   : isBlogRoute
-    ? "Journal navigation"
+    ? "Developer journal"
     : "Site navigation";
 const sidebarTitle = isArticleRoute
   ? title
   : isBlogIndexRoute
-    ? "Browse the writing archive"
+    ? "Essays, notes, and build logs"
     : title;
 const sidebarMeta = isArticleRoute
   ? "Keep the archive and contact surfaces close while you read."
   : isBlogRoute
-    ? "Writing, feeds, and contact points in one place."
+    ? "A quieter map of posts, feeds, and contact points."
     : "Primary routes and contact points stay within reach.";
 ---
 
@@ -484,8 +484,8 @@ const sidebarMeta = isArticleRoute
                 <input
                   id="sidebarFilter"
                   type="search"
-                  placeholder="Filter"
-                  aria-label="Filter sidebar"
+                  placeholder="Find a link"
+                  aria-label="Find a link in the sidebar"
                 />
                 <kbd class="slash">/</kbd>
                 <span
@@ -515,12 +515,10 @@ const sidebarMeta = isArticleRoute
                 </span>
               </p>
               <p class="footer__copy">
-                Full stack developer building native and web experiences through precise
-                tooling and considerate interfaces.
+                I'm a full stack developer, command line junkie, and dev tool addict.
               </p>
             </div>
             <div class="footer__actions">
-              <p class="footer__groupLabel">Explore</p>
               <nav class="footer__links" aria-label="Footer links">
                 <a href="/projects">Projects</a>
                 <a href="/blog/">Blog</a>
@@ -534,7 +532,7 @@ const sidebarMeta = isArticleRoute
               </nav>
             </div>
             <div class="footer__meta">
-              <p class="footer__status">Available for select product, platform, and interface work.</p>
+              <p class="footer__status">Usually building apps, backend systems, or tweaking the toolchain.</p>
               <p class="footer__legal">
                 © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
               </p>

@@ -15,13 +15,13 @@ const heroSectionId = sections[0]?.id ?? "top";
 {sections.length > 0 && (
   <nav
     class="section-quick-nav"
-    aria-label="Quick navigation"
+    aria-label="Homepage section index"
     data-section-nav-root
     data-hero-section={heroSectionId}
   >
     <div class="section-quick-nav__meta">
-      <p class="section-quick-nav__label">Quick navigation</p>
-      <p class="section-quick-nav__hint">Jump between homepage sections without losing the thread.</p>
+      <p class="section-quick-nav__label">Section index</p>
+      <p class="section-quick-nav__hint">Jump between homepage sections.</p>
     </div>
     <div class="section-quick-nav__scroll" data-section-nav-scroll>
       <ul class="section-quick-nav__list" data-section-nav role="list">
@@ -33,7 +33,7 @@ const heroSectionId = sections[0]?.id ?? "top";
             data-section="top"
             aria-current="true"
           >
-            Overview
+            Top
           </a>
         </li>
         {sections.map((section) => (
@@ -136,13 +136,13 @@ const heroSectionId = sections[0]?.id ?? "top";
 <style>
   .section-quick-nav {
     display: grid;
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
   }
 
   .section-quick-nav__meta {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
     width: min(100%, 560px);
@@ -161,8 +161,8 @@ const heroSectionId = sections[0]?.id ?? "top";
 
   .section-quick-nav__hint {
     margin: 0;
-    max-width: 34ch;
-    font-size: var(--fs-caption);
+    max-width: 28ch;
+    font-size: var(--fs-footnote);
     color: var(--muted);
     text-align: right;
   }
@@ -179,20 +179,18 @@ const heroSectionId = sections[0]?.id ?? "top";
   .section-quick-nav__list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    padding: 8px;
+    gap: 6px;
+    padding: 6px;
     margin: 0;
     list-style: none;
-    border-radius: 22px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 58%),
-      color-mix(in srgb, var(--surface-card) 76%, transparent);
-    border: 1px solid color-mix(in srgb, var(--surface-card-border) 88%, transparent);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+    border: 1px solid color-mix(in srgb, var(--panel-border) 88%, transparent);
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(14px) saturate(125%);
-    -webkit-backdrop-filter: blur(14px) saturate(125%);
+      0 10px 24px rgba(0, 0, 0, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px) saturate(118%);
+    -webkit-backdrop-filter: blur(12px) saturate(118%);
     width: max-content;
     min-width: min(100%, 520px);
   }
@@ -206,14 +204,15 @@ const heroSectionId = sections[0]?.id ?? "top";
     align-items: center;
     justify-content: center;
     min-width: 44px;
-    min-height: 38px;
-    padding: 8px 14px;
+    min-height: 36px;
+    padding: 7px 12px;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--surface-card) 78%, transparent);
+    background: transparent;
     border: 1px solid transparent;
-    color: var(--text-primary);
-    font-size: var(--fs-caption);
+    color: var(--text-secondary);
+    font-size: var(--fs-footnote);
     font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
     text-decoration: none;
     transition:
       background var(--motion-duration-sm) var(--motion-ease-out),
@@ -224,20 +223,20 @@ const heroSectionId = sections[0]?.id ?? "top";
   }
 
   .section-quick-nav__link:hover {
-    background: color-mix(in srgb, var(--surface-card) 98%, transparent);
+    background: color-mix(in srgb, var(--surface-card) 54%, transparent);
+    border-color: color-mix(in srgb, var(--panel-border) 68%, transparent);
+    color: var(--text-primary);
     transform: translateY(-1px);
-    box-shadow:
-      0 4px 10px rgba(0, 0, 0, 0.16),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: none;
   }
 
   .section-quick-nav__link.is-active {
-    background: color-mix(in srgb, var(--blue) 18%, var(--surface-card) 82%);
-    color: #f7f9ff;
-    border-color: color-mix(in srgb, var(--blue) 45%, transparent);
+    background: color-mix(in srgb, var(--surface-card) 88%, transparent);
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--blue) 22%, var(--panel-border));
     box-shadow:
-      0 4px 12px rgba(10, 132, 255, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      0 8px 16px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
 
   .section-quick-nav__link:focus-visible {
@@ -266,7 +265,7 @@ const heroSectionId = sections[0]?.id ?? "top";
     .section-quick-nav__list {
       flex-wrap: nowrap;
       gap: var(--space-1);
-      padding: 8px;
+      padding: 6px;
       overflow-x: visible;
       scrollbar-width: none;
       min-width: 100%;
@@ -277,8 +276,8 @@ const heroSectionId = sections[0]?.id ?? "top";
     }
 
     .section-quick-nav__link {
-      padding: 8px 14px;
-      font-size: var(--fs-caption);
+      padding: 7px 12px;
+      font-size: var(--fs-footnote);
     }
   }
 </style>
