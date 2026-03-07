@@ -10,11 +10,19 @@
   const status = document.querySelector<HTMLElement>("[data-sidebar-status]");
   const sidebar = document.querySelector<HTMLElement>(".sidebar");
   const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
+  if (!sidebar) {
+    return;
+  }
+
   const dragHandle = sidebar?.querySelector<HTMLElement>(".sidebar__dragHandle") ?? null;
   const totalLinks = links.length;
   const mobileDrawerQuery = window.matchMedia("(max-width: 1024px)");
   const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const INTERACTIVE_SELECTOR =
+    'a, button, input, textarea, select, label, summary, [role="button"], [role="link"], [contenteditable="true"]';
+  const OPEN_GESTURE_EDGE = 56;
+  const OPEN_GESTURE_MIN_DISTANCE = 72;
 
   let backdrop: HTMLDivElement | null = null;
   let previousFocusedElement: HTMLElement | null = null;
@@ -24,14 +32,26 @@
   let dragLastY = 0;
   let dragLastTimestamp = 0;
   let dragVelocity = 0;
+  let openGesturePointerId: number | null = null;
+  let openGestureStartX = 0;
+  let openGestureStartY = 0;
 
-  const isMobileDrawer = (): boolean => mobileDrawerQuery.matches;
+  const hasMobileDrawer = (): boolean => body.dataset.hasMobileDrawer === "true";
+  const isMobileDrawer = (): boolean => hasMobileDrawer() && mobileDrawerQuery.matches;
 
   const isEditableTarget = (target: EventTarget | null): boolean => {
     if (!(target instanceof HTMLElement)) {
       return false;
     }
     return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
+  };
+
+  const isInteractiveTarget = (target: EventTarget | null): boolean => {
+    if (!(target instanceof HTMLElement)) {
+      return false;
+    }
+
+    return Boolean(target.closest(INTERACTIVE_SELECTOR));
   };
 
   const getFocusableSidebarElements = (): HTMLElement[] => {
@@ -132,8 +152,15 @@
     dragVelocity = 0;
   };
 
+  const clearOpenGesture = (): void => {
+    openGesturePointerId = null;
+    openGestureStartX = 0;
+    openGestureStartY = 0;
+  };
+
   const close = (): void => {
     clearDragState();
+    clearOpenGesture();
     sidebar?.classList.remove("is-open");
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
@@ -168,6 +195,7 @@
     }
 
     clearDragState();
+    clearOpenGesture();
     sidebar?.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
     toggle?.setAttribute("aria-expanded", "true");
@@ -282,6 +310,58 @@
     activePointerId = null;
   };
 
+  const startOpenGesture = (event: PointerEvent): void => {
+    if (!isMobileDrawer() || sidebar.classList.contains("is-open")) {
+      return;
+    }
+
+    if (event.pointerType === "mouse" || event.button !== 0) {
+      return;
+    }
+
+    if (isInteractiveTarget(event.target)) {
+      return;
+    }
+
+    if (window.innerHeight - event.clientY > OPEN_GESTURE_EDGE) {
+      return;
+    }
+
+    openGesturePointerId = event.pointerId;
+    openGestureStartX = event.clientX;
+    openGestureStartY = event.clientY;
+  };
+
+  const updateOpenGesture = (event: PointerEvent): void => {
+    if (openGesturePointerId !== event.pointerId || sidebar.classList.contains("is-open")) {
+      return;
+    }
+
+    const deltaY = openGestureStartY - event.clientY;
+    const deltaX = Math.abs(event.clientX - openGestureStartX);
+
+    if (deltaY <= 0) {
+      return;
+    }
+
+    if (deltaX > 24 && deltaX > deltaY) {
+      clearOpenGesture();
+      return;
+    }
+
+    if (deltaY >= OPEN_GESTURE_MIN_DISTANCE && deltaY > deltaX * 1.25) {
+      open();
+    }
+  };
+
+  const endOpenGesture = (event: PointerEvent): void => {
+    if (openGesturePointerId !== event.pointerId) {
+      return;
+    }
+
+    clearOpenGesture();
+  };
+
   filter?.addEventListener("input", (event: Event) => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) return;
@@ -320,6 +400,10 @@
   sidebar?.addEventListener("pointermove", updateDrag);
   sidebar?.addEventListener("pointerup", endDrag);
   sidebar?.addEventListener("pointercancel", cancelDrag);
+  window.addEventListener("pointerdown", startOpenGesture, { passive: true });
+  window.addEventListener("pointermove", updateOpenGesture, { passive: true });
+  window.addEventListener("pointerup", endOpenGesture, { passive: true });
+  window.addEventListener("pointercancel", endOpenGesture, { passive: true });
 
   window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
@@ -370,6 +454,7 @@
       close();
     }
     clearDragState();
+    clearOpenGesture();
   };
 
   if (typeof mobileDrawerQuery.addEventListener === "function") {

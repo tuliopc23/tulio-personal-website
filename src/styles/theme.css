@@ -1531,7 +1531,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   html,
   body {
     overflow-x: clip;
@@ -1607,26 +1607,26 @@ body[data-sidebar-state="open"] .topbar__menu svg {
     border-radius: var(--radius-md);
   }
 
-  body[data-has-sidebar="true"] .topbar__nav {
+  body[data-has-mobile-drawer="true"] .topbar__nav {
     display: none;
   }
 
-  body[data-has-sidebar="true"] .topbar__brandGroup {
+  body[data-has-mobile-drawer="true"] .topbar__brandGroup {
     flex: 1 1 auto;
     min-width: 0;
   }
 
-  body[data-has-sidebar="false"] .topbar__brandName {
+  body[data-has-mobile-drawer="false"] .topbar__brandName {
     display: none;
   }
 
-  body[data-has-sidebar="false"] .topbar__nav {
+  body[data-has-mobile-drawer="false"] .topbar__nav {
     flex: 1 1 auto;
     min-width: 0;
     max-width: 100%;
   }
 
-  body[data-has-sidebar="false"] .topbar {
+  body[data-has-mobile-drawer="false"] .topbar {
     overflow: hidden;
   }
 }
@@ -1657,6 +1657,12 @@ body[data-has-sidebar="false"] .topbar__brandGroup {
 
   body[data-sidebar-state="open"] .topbar__actions {
     opacity: 0.7;
+  }
+}
+
+@media (min-width: 1025px) {
+  .sidebar--mobileOnly {
+    display: none;
   }
 }
 .content {
@@ -3813,12 +3819,15 @@ kbd.slash {
 /* ======= Article Reader ======= */
 .article {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(var(--space-md), 2.6vw, var(--space-lg));
   padding-bottom: clamp(var(--space-md), 3vw, var(--space-lg));
+  min-width: 0;
 }
 
 .article__header {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-sm);
   padding-top: clamp(var(--space-xs), 1.6vw, var(--space-sm));
   padding-inline: 0;
@@ -3831,6 +3840,7 @@ kbd.slash {
   box-shadow: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  min-width: 0;
 }
 
 .article__breadcrumbs {
@@ -3869,7 +3879,8 @@ kbd.slash {
 
 .article__summary {
   margin: 0;
-  max-width: var(--measure-reading);
+  width: min(100%, var(--measure-reading));
+  max-width: 100%;
   color: var(--muted);
   font-size: var(--fs-0);
   font-weight: 500; /* Medium - article lede text prominence */
@@ -4007,9 +4018,11 @@ kbd.slash {
 
 .article__body {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
   width: 100%;
   margin-inline: 0;
+  min-width: 0;
   padding-inline: 0;
   border-radius: 0;
   border: 0;
@@ -4025,6 +4038,7 @@ kbd.slash {
   width: 100%;
   margin-inline: 0;
   margin-top: 0;
+  min-width: 0;
   padding: clamp(var(--space-xs), 1.6vw, var(--space-sm));
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card), var(--shadow-card-highlight);
@@ -4053,9 +4067,10 @@ kbd.slash {
   font-size: var(--fs-0);
   line-height: var(--lh-base);
   color: var(--text-primary);
-  max-width: var(--measure-reading);
+  max-width: min(100%, var(--measure-reading));
   width: min(100%, var(--measure-reading));
   margin-inline: 0;
+  min-width: 0;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
   text-wrap: pretty;
@@ -4243,10 +4258,12 @@ kbd.slash {
 
 .article__footer {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-sm);
   padding-bottom: clamp(var(--space-xs), 2vw, var(--space-sm));
   width: 100%;
   margin-inline: 0;
+  min-width: 0;
   padding-inline: 0;
   border-radius: 0;
   border: 0;
@@ -4283,12 +4300,49 @@ kbd.slash {
 }
 
 @media (max-width: 768px) {
+  .article.pageWidget.container {
+    border-radius: 22px;
+    padding-inline: clamp(12px, 4vw, 16px);
+    padding-block: clamp(12px, 3vw, 16px);
+  }
+
   .article__title {
     font-size: clamp(30px, 5.2vw + 16px, 40px);
   }
 
+  .article__meta {
+    gap: 6px 10px;
+  }
+
+  .article__hero {
+    border-radius: 18px;
+  }
+
+  .article__takeaways {
+    padding: var(--space-sm);
+  }
+
+  .articlePortable {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .articlePortable :where(h2) {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .articlePortable :where(h3) {
+    font-size: clamp(20px, 4.6vw, 26px);
+  }
+
+  .articlePortable :where(blockquote) {
+    padding: 16px 16px 16px 20px;
+    border-radius: 18px;
+  }
+
   .articlePortable__figure {
     padding: var(--space-sm);
+    margin: clamp(var(--space-md), 7vw, var(--space-lg)) auto;
   }
 
   .articlePortable__codeCaption {
@@ -4297,6 +4351,7 @@ kbd.slash {
 
   .articlePortable__pre {
     padding-inline: var(--space-sm);
+    font-size: 0.88em;
   }
 }
 

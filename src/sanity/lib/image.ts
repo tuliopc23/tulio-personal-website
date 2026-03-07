@@ -21,6 +21,70 @@ export function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
+function mapSanityFit(fit: CloudflareImageOptions["fit"]): string | null {
+  switch (fit) {
+    case "cover":
+      return "crop";
+    case "contain":
+      return "fillmax";
+    case "crop":
+      return "crop";
+    case "pad":
+      return "fill";
+    case "scale-down":
+    default:
+      return "max";
+  }
+}
+
+function buildSourceUrl(
+  source: SanityImageSource,
+  {
+    width,
+    height,
+    quality = 85,
+    fit = "scale-down",
+  }: Pick<CloudflareImageOptions, "width" | "height" | "quality" | "fit"> = {},
+): string {
+  if (typeof source === "string") {
+    const directUrl = new URL(source);
+    directUrl.searchParams.set("auto", "format");
+    directUrl.searchParams.set("q", String(Math.max(30, Math.min(quality, 100))));
+
+    if (width && width > 0) {
+      directUrl.searchParams.set("w", String(Math.round(width)));
+    }
+
+    if (height && height > 0) {
+      directUrl.searchParams.set("h", String(Math.round(height)));
+    }
+
+    const sanityFit = mapSanityFit(fit);
+    if (sanityFit) {
+      directUrl.searchParams.set("fit", sanityFit);
+    }
+
+    return directUrl.toString();
+  }
+
+  let imageBuilder = urlFor(source).auto("format").quality(quality);
+
+  if (width) {
+    imageBuilder = imageBuilder.width(width);
+  }
+
+  if (height) {
+    imageBuilder = imageBuilder.height(height);
+  }
+
+  const sanityFit = mapSanityFit(fit);
+  if (sanityFit) {
+    imageBuilder = imageBuilder.fit(sanityFit as "crop" | "fill" | "fillmax" | "max");
+  }
+
+  return imageBuilder.url();
+}
+
 export function cloudflareImageUrl(
   sourceUrl: string,
   { width, height, quality = 86, sharpen = 1, fit = "scale-down" }: CloudflareImageOptions = {},
@@ -29,7 +93,7 @@ export function cloudflareImageUrl(
     return sourceUrl;
   }
 
-  if (!CLOUDFLARE_IMAGE_BASE && import.meta.env.DEV) {
+  if (!CLOUDFLARE_IMAGE_BASE) {
     return sourceUrl;
   }
 
@@ -62,11 +126,13 @@ export function generateSrcset(
   source: SanityImageSource,
   widths: number[] = [320, 640, 768, 1024, 1280, 1920],
 ): string {
-  const baseUrl = urlFor(source).auto("format").quality(85).url();
   return widths
     .map(
       (width) =>
-        `${cloudflareImageUrl(baseUrl, { width, quality: 86, sharpen: 1, fit: "scale-down" })} ${width}w`,
+        `${cloudflareImageUrl(
+          buildSourceUrl(source, { width, quality: 86, fit: "scale-down" }),
+          { width, quality: 86, sharpen: 1, fit: "scale-down" },
+        )} ${width}w`,
     )
     .join(", ");
 }
@@ -84,17 +150,14 @@ export function optimizedImageUrl(
   height?: number,
   options: Pick<CloudflareImageOptions, "quality" | "sharpen" | "fit"> = {},
 ): string {
-  let imageBuilder = urlFor(source).auto("format").quality(85);
+  const resolvedUrl = buildSourceUrl(source, {
+    width,
+    height,
+    quality: options.quality ?? 85,
+    fit: options.fit ?? "scale-down",
+  });
 
-  if (width) {
-    imageBuilder = imageBuilder.width(width);
-  }
-
-  if (height) {
-    imageBuilder = imageBuilder.height(height);
-  }
-
-  return cloudflareImageUrl(imageBuilder.url(), {
+  return cloudflareImageUrl(resolvedUrl, {
     width,
     height,
     quality: options.quality ?? 86,

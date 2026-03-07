@@ -30,6 +30,7 @@ interface BaseProps {
   noIndex?: boolean;
   structuredData?: Record<string, unknown> | string | null;
   sidebar?: boolean;
+  mobileDrawer?: boolean;
 }
 
 const {
@@ -47,6 +48,7 @@ const {
   noIndex = false,
   structuredData,
   sidebar = true,
+  mobileDrawer,
 } = Astro.props as BaseProps;
 
 const fullTitle = `${title} • Tulio Cunha`;
@@ -67,6 +69,7 @@ const isBlogIndexRoute = normalizedPath === "/blog";
 const isBlogCategoryRoute = normalizedPath.startsWith("/blog/category");
 const isBlogRoute = isBlogIndexRoute || normalizedPath.startsWith("/blog/");
 const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
+const hasMobileDrawer = mobileDrawer ?? sidebar;
 const topbarSubtitle = isArticleRoute
   ? "Engineering notes · reading mode"
   : isBlogRoute
@@ -255,6 +258,7 @@ const sidebarMeta = isArticleRoute
     data-page-state="ready"
     data-glass-state="rest"
     data-has-sidebar={sidebar ? "true" : "false"}
+    data-has-mobile-drawer={hasMobileDrawer ? "true" : "false"}
   >
     <div class="liquid-glass-reflector" aria-hidden="true"></div>
     <a href="#main" class="sr-only">Skip to content</a>
@@ -262,11 +266,11 @@ const sidebarMeta = isArticleRoute
       <div class="topbar__inner">
         <div class="topbar__brandGroup">
           {
-            sidebar && (
+            hasMobileDrawer && (
               <button
                 type="button"
                 class="topbar__menu"
-                aria-label="Toggle sidebar"
+                aria-label="Toggle navigation drawer"
                 aria-expanded="false"
                 aria-controls="site-sidebar"
               >
@@ -346,8 +350,12 @@ const sidebarMeta = isArticleRoute
 
     <main class:list={["layout", !sidebar && "layout--noSidebar"]}>
       {
-        sidebar && (
-          <aside id="site-sidebar" class="sidebar" aria-label="Sidebar">
+        hasMobileDrawer && (
+          <aside
+            id="site-sidebar"
+            class:list={["sidebar", !sidebar && "sidebar--mobileOnly"]}
+            aria-label="Navigation drawer"
+          >
             <div class="sidebar__inner">
               <div class="sidebar__dragHandle" aria-hidden="true" />
               <div class="sidebar__header">

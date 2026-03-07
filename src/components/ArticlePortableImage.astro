@@ -14,7 +14,6 @@ interface Props {
 }
 
 const { value }: Props = Astro.props;
-const hasAsset = Boolean(value?.url);
 
 const alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
 const loading = "lazy";
@@ -37,10 +36,11 @@ const srcset = imageSource
 
 // Use LQIP (Low Quality Image Placeholder) for blur-up effect
 const placeholder = value.lqip;
+const hasImage = Boolean(src);
 ---
 
 {
-  hasAsset && (
+  hasImage && (
     <figure class="articlePortable__figure">
       {placeholder && (
         <img
