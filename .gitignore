@@ -39,3 +39,7 @@ Sf fonts/
 .github/skills/
 CLAUDE.md
 openspec/AGENTS.md
+
+# wrangler files
+.wrangler
+!.dev.vars.example
