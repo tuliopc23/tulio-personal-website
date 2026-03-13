@@ -77,8 +77,8 @@ const _structuredData = {
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
         <div class="pageHero__meta" aria-label="Projects overview">
-          <span class="pageHero__metaItem">{_hasProjects ? `${projects.length} builds` : "Case studies in progress"}</span>
-          <span class="pageHero__metaItem">{PROJECT_CATEGORIES.length} tracks</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>{_hasProjects ? `${projects.length} builds` : "Case studies in progress"}</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">{PROJECT_CATEGORIES.length} tracks</span>
         </div>
       </div>
       {
@@ -87,7 +87,13 @@ const _structuredData = {
             {_projectFilters.map((filter, index) => (
               <button
                 type="button"
-                class={`projectsFilter__button${index === 0 ? " is-active" : ""}`}
+                class:list={[
+                  "projectsFilter__button",
+                  "chip-pill",
+                  "chip-pill--interactive",
+                  "motion-chip",
+                  index === 0 && "is-active",
+                ]}
                 data-project-filter={filter.id}
                 aria-pressed={index === 0 ? "true" : "false"}
               >

@@ -66,9 +66,9 @@ const _readingTimeLabel =
             <CategoryBadges categories={_categories} limit={2} variant="inline" />
             {
               _displayTags.length > 0 && (
-                <ul class="articleCard__tags" aria-label="Tags">
+                <ul class:list={["articleCard__tags", "taxonomy-labels"]} aria-label="Tags">
                   {_displayTags.map((tag) => (
-                    <li class="articleCard__tag">{tag}</li>
+                    <li class:list={["articleCard__tag", "taxonomy-label"]}>{tag}</li>
                   ))}
                 </ul>
               )
@@ -86,35 +86,24 @@ const _readingTimeLabel =
     }
     <div class="articleCard__footer">
       <div class="articleCard__meta" aria-label="Post metadata">
-        <span class="articleCard__metaItem">
+        <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
           <PhosphorIcon name="calendar" size={14} weight="regular" />
           <time datetime={dateISO}>{dateLabel}</time>
         </span>
         {
           _readingTimeLabel && (
-            <span class="articleCard__metaItem">
+            <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
               <PhosphorIcon name="clock" size={14} weight="regular" />
               {_readingTimeLabel}
             </span>
           )
         }
-        {isNew && <span class="articleCard__metaItem articleCard__newBadge">New</span>}
+        {isNew && <span class:list={["articleCard__metaItem", "articleCard__newBadge", "meta-chip", "meta-chip--compact", "meta-chip--accent"]}>New</span>}
       </div>
-      <span class="articleCard__cta">
+      <span class="articleCard__cta cta-pill cta-pill--accent motion-cta-pill">
         <span>{ctaLabel}</span>
         <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
       </span>
     </div>
   </a>
 </article>
-
-<style>
-  .articleCard__hook {
-    margin: 0;
-    font-size: var(--fs--2);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--blue);
-  }
-</style>

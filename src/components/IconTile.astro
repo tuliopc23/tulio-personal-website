@@ -2,6 +2,7 @@
 import BrandIcon from "./BrandIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 import SFIcon from "./SFIcon.astro";
+import styles from "./IconTile.module.css";
 
 type IconAsset =
   | string
@@ -83,16 +84,24 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 ---
 
 <span
-  class={`symbol symbol--${tint} ${context === "dock" ? "symbol--dock" : ""} ${iconContext === "stack" ? "symbol--stack-icon" : ""}`}
+  class:list={[
+    "symbol",
+    `symbol--${tint}`,
+    context === "dock" && "symbol--dock",
+    iconContext === "stack" && "symbol--stack-icon",
+    styles.root,
+  ]}
   aria-hidden="true"
   style={symbolStyle}
   data-icon={iconKey ?? undefined}
   data-icon-source={iconAsset ? "asset" : "icon"}
   data-icon-context={iconContext}
+  data-dock={context === "dock" ? "true" : undefined}
+  data-stack-icon={iconContext === "stack" ? "true" : undefined}
 >
   {
     iconAsset ? (
-      <div class="symbol__media">
+      <div class={styles.media}>
         {assetLight && (
           <img
             src={assetLight}
@@ -117,7 +126,7 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
     ) : sfIcon ? (
       <SFIcon name={sfIcon} size={24} stroke={1.8} />
     ) : icon ? (
-      <div class="symbol__media">
+      <div class={styles.media}>
         {hasDarkVariant && iconSrc && iconDarkSrc ? (
           <>
             <img
@@ -144,165 +153,3 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
     )
   }
 </span>
-
-<style>
-  .symbol__media {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .symbol[data-icon] .symbol__media img {
-    width: 112%;
-    height: 112%;
-    object-fit: contain;
-    object-position: center;
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    transition: opacity 0.2s ease;
-  }
-
-  .symbol--dock .symbol__media img {
-    width: var(--dock-icon-scale, 126%);
-    height: var(--dock-icon-scale, 126%);
-  }
-
-  .symbol--dock .symbol__media::before,
-  .symbol--dock .symbol__media::after {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border-radius: 12px;
-    pointer-events: none;
-  }
-
-  .symbol--dock .symbol__media::before {
-    background: radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 70%);
-    opacity: 0.5;
-  }
-
-  .symbol--dock .symbol__media::after {
-    border-top: 1px solid rgba(255, 255, 255, 0.26);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
-    opacity: 0.36;
-  }
-
-  .symbol[data-icon="apple-containerization"] .symbol__media img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .symbol--dock[data-icon="apple-containerization-upscayl-2x-digital-art-4x"] {
-    --dock-icon-scale: 112%;
-  }
-
-  .symbol--dock[data-icon="ghostty-dark-upscayl-2x-digital-art-4x-wrapped"],
-  .symbol--dock[data-icon="codeedit-upscayl-2x-digital-art-4x-wrapped"] {
-    --dock-icon-scale: 120%;
-  }
-
-  .symbol--dock[data-icon="tower"],
-  .symbol--dock[data-icon="xcodelogh-upscayl-2x-digital-art-4x"],
-  .symbol--dock[data-icon="orbstack"] {
-    --dock-icon-scale: 118%;
-  }
-
-  .symbol--dock[data-icon="neovimlight-upscayl-2x-digital-art-4x-wrapped"],
-  .symbol--dock[data-icon="transmit-upscayl-2x-digital-art-4x"] {
-    --dock-icon-scale: 122%;
-  }
-
-  /* ---- Stack icon containment ---- */
-  /* Stack icons are raw brand SVGs that need to sit inside the gradient
-     squircle with breathing room, unlike Tools which are pre-wrapped macOS icons. */
-  .symbol--stack-icon.symbol--dock {
-    --dock-icon-scale: 74%;
-  }
-
-  .symbol--stack-icon .symbol__media {
-    padding: 4px;
-  }
-
-  .symbol--stack-icon .symbol__media img {
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
-    border-radius: 4px;
-  }
-
-  /* Per-icon optical tuning — icons with baked-in backgrounds (Swift, TS, Docker) */
-  .symbol--stack-icon[data-icon="swift"],
-  .symbol--stack-icon[data-icon="typescript"] {
-    --dock-icon-scale: 70%;
-  }
-
-  .symbol--stack-icon[data-icon="docker"] {
-    --dock-icon-scale: 72%;
-  }
-
-  /* Complex illustration — needs more room */
-  .symbol--stack-icon[data-icon="go"] {
-    --dock-icon-scale: 68%;
-  }
-
-  /* Transparent logos — slightly larger */
-  .symbol--stack-icon[data-icon="react"] {
-    --dock-icon-scale: 76%;
-  }
-
-  .symbol--stack-icon[data-icon="svelte"] {
-    --dock-icon-scale: 74%;
-  }
-
-  .symbol--stack-icon[data-icon="rust"] {
-    --dock-icon-scale: 72%;
-  }
-
-  .symbol--stack-icon[data-icon="vuejs"] {
-    --dock-icon-scale: 76%;
-  }
-
-  .symbol--stack-icon[data-icon="zig"] {
-    --dock-icon-scale: 76%;
-  }
-
-  .symbol--dock[data-icon="email"],
-  .symbol--dock[data-icon="location"],
-  .symbol--dock[data-icon="linkedin-light"],
-  .symbol--dock[data-icon="instagram-light"],
-  .symbol--dock[data-icon="calendar-light"],
-  .symbol--dock[data-icon="github"],
-  .symbol--dock[data-icon="mastodon"],
-  .symbol--dock[data-icon="profile-portfolio"] {
-    --dock-icon-scale: 122%;
-  }
-
-  .symbol__media img[data-variant="dark"] {
-    opacity: 0;
-  }
-
-  html.dark .symbol__media img[data-variant="light"],
-  [data-theme="dark"] .symbol__media img[data-variant="light"] {
-    opacity: 0;
-  }
-
-  html.dark .symbol__media img[data-variant="dark"],
-  [data-theme="dark"] .symbol__media img[data-variant="dark"] {
-    opacity: 1;
-  }
-
-  html.light .symbol__media img[data-variant="light"],
-  [data-theme="light"] .symbol__media img[data-variant="light"] {
-    opacity: 1;
-  }
-
-  html.light .symbol__media img[data-variant="dark"],
-  [data-theme="light"] .symbol__media img[data-variant="dark"] {
-    opacity: 0;
-  }
-</style>

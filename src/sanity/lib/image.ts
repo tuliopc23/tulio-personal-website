@@ -31,7 +31,6 @@ function mapSanityFit(fit: CloudflareImageOptions["fit"]): string | null {
       return "crop";
     case "pad":
       return "fill";
-    case "scale-down":
     default:
       return "max";
   }
@@ -129,10 +128,12 @@ export function generateSrcset(
   return widths
     .map(
       (width) =>
-        `${cloudflareImageUrl(
-          buildSourceUrl(source, { width, quality: 86, fit: "scale-down" }),
-          { width, quality: 86, sharpen: 1, fit: "scale-down" },
-        )} ${width}w`,
+        `${cloudflareImageUrl(buildSourceUrl(source, { width, quality: 86, fit: "scale-down" }), {
+          width,
+          quality: 86,
+          sharpen: 1,
+          fit: "scale-down",
+        })} ${width}w`,
     )
     .join(", ");
 }

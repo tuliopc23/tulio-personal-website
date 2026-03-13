@@ -1,4 +1,6 @@
 ---
+import styles from "./PersonalIcon.module.css";
+
 interface Props {
   size?: number;
   class?: string;
@@ -9,143 +11,17 @@ const { size = 24, class: className = "" } = Astro.props;
 
 <button
   type="button"
-  class={`personal-icon ${className}`}
+  class:list={[styles.personalIcon, className]}
   style={`--pi-size: ${size}px`}
   aria-label="Toggle theme"
   data-theme-toggle-icon
 >
   <!-- Dark mode shows the light icon -->
-  <img src="/icons/IconLightMode.svg" class="pi__dark" alt="" decoding="async" />
+  <img src="/icons/IconLightMode.svg" class={styles.piDark} alt="" decoding="async" />
   
   <!-- Light mode shows the dark icon -->
-  <img src="/icons/IconDarkMode.svg" class="pi__light" alt="" decoding="async" />
+  <img src="/icons/IconDarkMode.svg" class={styles.piLight} alt="" decoding="async" />
 </button>
-
-<style>
-  .personal-icon {
-    /* Reset button styles */
-    appearance: none;
-    border: none;
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    
-    /* Layout */
-    display: inline-grid;
-    place-items: center;
-    width: var(--pi-size, 24px);
-    height: var(--pi-size, 24px);
-    /* Tahoe 26 - Fixed radius for better sub-pixel rendering */
-    border-radius: 10px;
-    
-    /* Surface background to ground the icon */
-    background: var(--surface-raised);
-    
-    /* Multilayer shadow for visibility and depth */
-    box-shadow: 
-      /* Inner border/highlight */
-      inset 0 0 0 1px var(--hairline),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      /* Depth shadows */
-      0 1px 2px rgba(0, 0, 0, 0.15),
-      0 4px 12px rgba(0, 0, 0, 0.12),
-      0 8px 24px rgba(0, 0, 0, 0.1);
-    
-    /* Smooth animations */
-    transition:
-      transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
-    
-    /* Performance hints */
-    will-change: transform, box-shadow;
-    transform: translateZ(0);
-    
-    /* Ensure proper stacking */
-    position: relative;
-    isolation: isolate;
-  }
-
-  /* Enhanced hover state - scale and elevation */
-  .personal-icon:hover {
-    transform: translateY(-1px) scale(1.04) translateZ(0);
-    box-shadow: 
-      inset 0 0 0 1px var(--panel-border-strong),
-      0 2px 4px rgba(0, 0, 0, 0.18),
-      0 8px 24px rgba(0, 0, 0, 0.15),
-      0 16px 48px rgba(0, 0, 0, 0.12);
-  }
-
-  /* Active/pressed state - Apple-like press down */
-  .personal-icon:active {
-    transform: scale(0.96) translateZ(0);
-    transition-duration: 80ms;
-  }
-
-  /* Focus state - accessible outline */
-  .personal-icon:focus-visible {
-    outline: 2px solid var(--pi-focus-ring);
-    outline-offset: 3px;
-  }
-
-  /* Stacked images and HTML icons with grid overlay */
-  .personal-icon img,
-  .personal-icon > div {
-    grid-area: 1 / 1;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
-    
-    /* Remove all borders, frames, and backgrounds */
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    background-color: transparent !important;
-    
-    /* Smooth cross-fade transition */
-    opacity: 0;
-    transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  
-  .personal-icon img {
-    /* Image-specific styles */
-    box-shadow: none !important;
-    object-fit: contain;
-    object-position: center;
-  }
-
-  /* Theme-based visibility - controlled by global CSS variables */
-  .personal-icon .pi__dark {
-    opacity: var(--pi-dark, 1);
-  }
-
-  .personal-icon .pi__light {
-    opacity: var(--pi-light, 0);
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .personal-icon,
-    .personal-icon img {
-      transition: none !important;
-    }
-    
-    .personal-icon:hover,
-    .personal-icon:active {
-      transform: none !important;
-    }
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .personal-icon {
-      outline: 1px solid currentColor;
-      outline-offset: 2px;
-    }
-  }
-</style>
 
 <script type="module">
   const bindThemeToggleIcons = () => {

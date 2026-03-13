@@ -1,0 +1,122 @@
+.sectionQuickNav {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(100%, 560px);
+  max-width: 100%;
+  justify-self: end;
+}
+
+.label {
+  margin: 0;
+  font-weight: var(--fw-semibold);
+}
+
+.hint {
+  margin: 0;
+  max-width: 28ch;
+  text-align: right;
+}
+
+.scroll {
+  width: min(100%, 560px);
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.list {
+  --surface-panel-radius: 18px;
+  --surface-panel-bg: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+  --surface-panel-border: color-mix(in srgb, var(--panel-border) 88%, transparent);
+  --surface-panel-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --surface-panel-highlight-opacity: 0.34;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  width: max-content;
+  min-width: min(100%, 520px);
+}
+
+.item {
+  flex: 0 0 auto;
+}
+
+.link {
+  --chip-min-height: 36px;
+  --chip-padding-block: 7px;
+  --chip-padding-inline: 12px;
+  background: transparent;
+  color: var(--text-secondary);
+  --chip-font-size: var(--fs-footnote);
+  font-weight: var(--fw-semibold);
+  --chip-letter-spacing: -0.01em;
+  text-decoration: none;
+  --chip-border: transparent;
+  --chip-bg: transparent;
+}
+
+.link[data-active="true"] {
+  --chip-color: var(--text-primary);
+  --chip-color-hover: var(--text-primary);
+  --chip-color-active: var(--text-primary);
+  --chip-bg-active: color-mix(in srgb, var(--surface-card) 88%, transparent);
+  --chip-border-active: color-mix(in srgb, var(--blue) 22%, var(--panel-border));
+}
+
+.link:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--blue) 70%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--blue) 55%, transparent),
+    0 0 0 4px color-mix(in srgb, var(--blue) 25%, transparent);
+}
+
+@media (max-width: 768px) {
+  .meta {
+    width: 100%;
+    justify-self: stretch;
+    align-items: center;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .scroll {
+    width: 100%;
+  }
+
+  .list {
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    padding: 6px;
+    overflow-x: visible;
+    scrollbar-width: none;
+    min-width: 100%;
+  }
+
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .link {
+    --chip-padding-block: 7px;
+    --chip-padding-inline: 12px;
+    --chip-font-size: var(--fs-footnote);
+  }
+}

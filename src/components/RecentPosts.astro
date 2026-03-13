@@ -1,5 +1,7 @@
 ---
+import ArticleCard from "./ArticleCard.astro";
 import { getAllPosts } from "../sanity/lib/posts";
+import styles from "./RecentPosts.module.css";
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -24,25 +26,25 @@ const recentPosts = (await getAllPosts()).slice(0, 3).map((post) => {
   };
 });
 
-const _hasPost = recentPosts.length > 0;
+const hasPost = recentPosts.length > 0;
 ---
 
 <section
-  class="container recentPosts"
+  class:list={["container", styles.recentPosts]}
   data-reveal
   data-reveal-type="scale"
   data-reveal-group="recent-posts"
 >
-  <div class="recentPosts__header">
-    <h2 class="recentPosts__title">Latest Writing</h2>
-    <p class="recentPosts__subtitle">
+  <div class:list={[styles.header, "surface-header"]}>
+    <h2 class:list={[styles.title, "surface-title"]}>Latest Writing</h2>
+    <p class:list={[styles.subtitle, "surface-caption"]}>
       Thoughts on engineering, design, and building products.
     </p>
   </div>
 
   {
     hasPost ? (
-      <div class="recentPosts__grid">
+      <div class={styles.grid}>
         {recentPosts.map((post, index) => (
           <ArticleCard
             href={post.href}
@@ -60,11 +62,11 @@ const _hasPost = recentPosts.length > 0;
         ))}
       </div>
     ) : (
-      <div class="recentPosts__empty card">
+      <div class:list={[styles.empty, "surface-panel", "surface-panel--nested"]}>
         <h3>No posts yet</h3>
         <p>
           Articles are on the way. Subscribe via{" "}
-          <a href="/blog/feed.xml" class="recentPosts__link">
+          <a href="/blog/feed.xml" class={styles.link}>
             RSS
           </a>{" "}
           to be notified when the first story lands.
@@ -73,8 +75,8 @@ const _hasPost = recentPosts.length > 0;
     )
   }
 
-  <div class="recentPosts__footer">
-    <a href="/blog" class="recentPosts__viewAll">
+  <div class={styles.footer}>
+    <a href="/blog" class:list={[styles.viewAll, "cta-pill", "cta-pill--neutral", "motion-cta-pill"]}>
       View all articles
       <svg
         width="16"
@@ -94,113 +96,3 @@ const _hasPost = recentPosts.length > 0;
     </a>
   </div>
 </section>
-
-<style>
-  .recentPosts {
-    padding-block: var(--space-xl);
-  }
-
-  .recentPosts__header {
-    text-align: center;
-    margin-bottom: var(--space-xl);
-  }
-
-  .recentPosts__title {
-    font-size: var(--fs-h2);
-    font-weight: 600;
-    line-height: var(--lh-tight);
-    color: var(--text);
-    margin: 0 0 var(--space-xs);
-  }
-
-  .recentPosts__subtitle {
-    font-size: var(--fs-0);
-    color: var(--muted);
-    margin: 0;
-  }
-
-  .recentPosts__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    gap: var(--space-lg);
-    margin-bottom: var(--space-lg);
-  }
-
-  .recentPosts__empty {
-    text-align: center;
-    padding: var(--space-xl);
-    background: var(--surface-elevated);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--panel-border);
-  }
-
-  .recentPosts__empty h3 {
-    font-size: var(--fs-h3);
-    margin: 0 0 var(--space-sm);
-  }
-
-  .recentPosts__empty p {
-    color: var(--muted);
-    margin: 0;
-  }
-
-  .recentPosts__link {
-    color: var(--link);
-    text-decoration: underline;
-  }
-
-  .recentPosts__footer {
-    display: flex;
-    justify-content: center;
-    margin-top: var(--space-lg);
-  }
-
-  .recentPosts__viewAll {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xxs);
-    padding: var(--space-sm) var(--space-md);
-    background: var(--surface-elevated);
-    color: var(--text);
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--panel-border);
-    font-weight: 500;
-    transition:
-      background var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-spring-out);
-  }
-
-  .recentPosts__viewAll:hover {
-    background: var(--surface-raised);
-    border-color: var(--panel-border-strong);
-    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
-    transform: translateY(-4px);
-  }
-
-  .recentPosts__viewAll svg {
-    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .recentPosts__viewAll:hover svg {
-    opacity: 0.88;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .recentPosts__viewAll,
-    .recentPosts__viewAll:hover,
-    .recentPosts__viewAll:focus-visible {
-      transition: none;
-      transform: none;
-      box-shadow: var(--shadow-card);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .recentPosts__grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

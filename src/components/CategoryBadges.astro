@@ -1,6 +1,7 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
 import type { Category } from "../sanity/lib/posts";
+import styles from "./CategoryBadges.module.css";
 
 interface Props {
   categories?: Category[] | null;
@@ -31,11 +32,24 @@ const getCategoryIcon = (slug: string) => {
 
 {
   _displayCategories.length > 0 && (
-    <div class:list={["categoryBadges", `categoryBadges--${variant}`]}>
+    <div
+      class:list={[
+        styles.categoryBadges,
+        variant === "inline" && styles.inlineContainer,
+      ]}
+    >
       {_displayCategories.map((category) => (
         <a
           href={`/blog/category/${category.slug}/`}
-          class:list={["categoryBadge", `categoryBadge--${variant}`]}
+          class:list={[
+            styles.categoryBadge,
+            variant === "pill" && "chip-pill",
+            variant === "pill" && "chip-pill--accent",
+            variant === "pill" && "motion-chip",
+            variant === "inline" && "taxonomy-label",
+            variant === "inline" && "taxonomy-label--accent",
+            variant === "inline" && styles.inlineBadge,
+          ]}
         >
           <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="bold" />
           <span>{category.title}</span>
@@ -44,83 +58,3 @@ const getCategoryIcon = (slug: string) => {
     </div>
   )
 }
-
-<style>
-  .categoryBadges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-  }
-
-  .categoryBadges--inline {
-    gap: 0.45rem;
-    align-items: center;
-  }
-
-  .categoryBadge {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    padding: var(--space-2xs) var(--space-sm);
-    font-size: var(--fs--2);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-    background: var(--accent-surface);
-    border: 1px solid var(--accent-hairline);
-    border-radius: var(--radius-full);
-    text-decoration: none;
-    transition:
-      color 0.2s ease,
-      background 0.2s ease,
-      border-color 0.2s ease;
-  }
-
-  .categoryBadge--inline {
-    gap: 0.3rem;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-    font-size: var(--fs--2);
-    letter-spacing: 0.12em;
-  }
-
-  [data-theme="dark"] .categoryBadge--inline {
-    color: rgba(235, 235, 245, 0.52);
-  }
-
-  [data-theme="light"] .categoryBadge--inline {
-    color: rgba(60, 60, 67, 0.54);
-  }
-
-  .categoryBadge:hover {
-    color: var(--accent-bright);
-    background: var(--accent-surface-hover);
-    border-color: var(--accent);
-  }
-
-  .categoryBadge--inline:hover {
-    background: none;
-    border-color: transparent;
-  }
-
-  [data-theme="dark"] .categoryBadge--inline:hover {
-    color: rgba(235, 235, 245, 0.76);
-  }
-
-  [data-theme="light"] .categoryBadge--inline:hover {
-    color: rgba(60, 60, 67, 0.8);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .categoryBadge {
-      transition: none;
-    }
-
-    .categoryBadge:hover {
-      color: var(--accent-bright);
-    }
-  }
-</style>

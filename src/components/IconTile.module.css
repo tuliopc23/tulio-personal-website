@@ -1,0 +1,155 @@
+.root {}
+
+.media {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.root[data-icon] .media img {
+  width: 112%;
+  height: 112%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.root[data-dock="true"] .media img {
+  width: var(--dock-icon-scale, 126%);
+  height: var(--dock-icon-scale, 126%);
+}
+
+.root[data-dock="true"] .media::before,
+.root[data-dock="true"] .media::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.root[data-dock="true"] .media::before {
+  background: radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 70%);
+  opacity: 0.5;
+}
+
+.root[data-dock="true"] .media::after {
+  border-top: 1px solid rgba(255, 255, 255, 0.26);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  opacity: 0.36;
+}
+
+.root[data-icon="apple-containerization"] .media img {
+  width: 100%;
+  height: 100%;
+}
+
+.root[data-dock="true"][data-icon="apple-containerization-upscayl-2x-digital-art-4x"] {
+  --dock-icon-scale: 112%;
+}
+
+.root[data-dock="true"][data-icon="ghostty-dark-upscayl-2x-digital-art-4x-wrapped"],
+.root[data-dock="true"][data-icon="codeedit-upscayl-2x-digital-art-4x-wrapped"] {
+  --dock-icon-scale: 120%;
+}
+
+.root[data-dock="true"][data-icon="tower"],
+.root[data-dock="true"][data-icon="xcodelogh-upscayl-2x-digital-art-4x"],
+.root[data-dock="true"][data-icon="orbstack"] {
+  --dock-icon-scale: 118%;
+}
+
+.root[data-dock="true"][data-icon="neovimlight-upscayl-2x-digital-art-4x-wrapped"],
+.root[data-dock="true"][data-icon="transmit-upscayl-2x-digital-art-4x"] {
+  --dock-icon-scale: 122%;
+}
+
+.root[data-dock="true"][data-stack-icon="true"] {
+  --dock-icon-scale: 74%;
+}
+
+.root[data-stack-icon="true"] .media {
+  padding: 4px;
+}
+
+.root[data-stack-icon="true"] .media img {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  border-radius: 4px;
+}
+
+.root[data-stack-icon="true"][data-icon="swift"],
+.root[data-stack-icon="true"][data-icon="typescript"] {
+  --dock-icon-scale: 70%;
+}
+
+.root[data-stack-icon="true"][data-icon="docker"] {
+  --dock-icon-scale: 72%;
+}
+
+.root[data-stack-icon="true"][data-icon="go"] {
+  --dock-icon-scale: 68%;
+}
+
+.root[data-stack-icon="true"][data-icon="react"] {
+  --dock-icon-scale: 76%;
+}
+
+.root[data-stack-icon="true"][data-icon="svelte"] {
+  --dock-icon-scale: 74%;
+}
+
+.root[data-stack-icon="true"][data-icon="rust"] {
+  --dock-icon-scale: 72%;
+}
+
+.root[data-stack-icon="true"][data-icon="vuejs"] {
+  --dock-icon-scale: 76%;
+}
+
+.root[data-stack-icon="true"][data-icon="zig"] {
+  --dock-icon-scale: 76%;
+}
+
+.root[data-dock="true"][data-icon="email"],
+.root[data-dock="true"][data-icon="location"],
+.root[data-dock="true"][data-icon="linkedin-light"],
+.root[data-dock="true"][data-icon="instagram-light"],
+.root[data-dock="true"][data-icon="calendar-light"],
+.root[data-dock="true"][data-icon="github"],
+.root[data-dock="true"][data-icon="mastodon"],
+.root[data-dock="true"][data-icon="profile-portfolio"] {
+  --dock-icon-scale: 122%;
+}
+
+.media img[data-variant="dark"] {
+  opacity: 0;
+}
+
+:global(html.dark) .media img[data-variant="light"],
+:global([data-theme="dark"]) .media img[data-variant="light"] {
+  opacity: 0;
+}
+
+:global(html.dark) .media img[data-variant="dark"],
+:global([data-theme="dark"]) .media img[data-variant="dark"] {
+  opacity: 1;
+}
+
+:global(html.light) .media img[data-variant="light"],
+:global([data-theme="light"]) .media img[data-variant="light"] {
+  opacity: 1;
+}
+
+:global(html.light) .media img[data-variant="dark"],
+:global([data-theme="light"]) .media img[data-variant="dark"] {
+  opacity: 0;
+}

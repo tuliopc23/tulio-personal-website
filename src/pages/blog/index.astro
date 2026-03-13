@@ -182,7 +182,7 @@ const _sectionHeaders = {
       ]}
     />
     <div class="blogHero__copy">
-      <span class="blogHero__eyebrow">
+      <span class="blogHero__eyebrow meta-chip meta-chip--eyebrow">
         <PhosphorIcon name="article" size={14} weight="regular" />
         {pageContent?.heroEyebrow ?? "Blog"}
       </span>
@@ -226,16 +226,16 @@ const _sectionHeaders = {
         data-reveal
         data-reveal-group="blog-list"
       >
-        <header class="blogStageIntro">
-          <div class="blogStageIntro__copy">
-            <span class="blogStageIntro__eyebrow">
+        <header class="stage-intro stage-intro--single">
+          <div class="stage-intro__copy">
+            <span class="stage-intro__eyebrow">
               <PhosphorIcon name={_sectionHeaders.latest.icon} size={14} weight="regular" />
               {_sectionHeaders.latest.eyebrow}
             </span>
-            <h2 id="blog-latest-title" class="blogStageIntro__title">
+            <h2 id="blog-latest-title" class="stage-intro__title">
               {_sectionHeaders.latest.title}
             </h2>
-            <p class="blogStageIntro__caption">
+            <p class="stage-intro__caption">
               {_sectionHeaders.latest.lede}
             </p>
           </div>
@@ -243,13 +243,21 @@ const _sectionHeaders = {
         <div class="blogFilters">
           <p class="blogFilters__label">Topic index</p>
           <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
-            <button class="blogFilters__link is-active" data-blog-filter="all" type="button">
+            <button
+              class:list={["blogFilters__link", "chip-pill", "chip-pill--interactive", "motion-chip", "is-active"]}
+              data-blog-filter="all"
+              type="button"
+            >
               {pageContent?.allArticlesLabel ?? "All articles"}
             </button>
             {_uniqueTags.map((tag) => {
               const slug = tag.toLowerCase().replace(/\s+/g, "-");
               return (
-                <button class="blogFilters__link" data-blog-filter={slug} type="button">
+                <button
+                  class:list={["blogFilters__link", "chip-pill", "chip-pill--interactive", "motion-chip"]}
+                  data-blog-filter={slug}
+                  type="button"
+                >
                   {tag}
                 </button>
               );
@@ -327,7 +335,7 @@ const _sectionHeaders = {
         </div>
 
         <div class="blogActions">
-          <button class="blogActions__load motion-cta-pill" data-blog-load-more type="button">
+          <button class="blogActions__load cta-pill cta-pill--neutral motion-cta-pill" data-blog-load-more type="button">
             {pageContent?.loadOlderLabel ?? "Load more from the archive"}
           </button>
         </div>
@@ -342,22 +350,22 @@ const _sectionHeaders = {
       data-reveal
       data-reveal-group="blog-archive"
     >
-      <header class="blogStageIntro">
-        <div class="blogStageIntro__copy">
-          <span class="blogStageIntro__eyebrow">
+      <header class="stage-intro stage-intro--single">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">
             <PhosphorIcon name={_sectionHeaders.archive.icon} size={14} weight="regular" />
             {_sectionHeaders.archive.eyebrow}
           </span>
           <h2
             id="blog-archive-title"
-            class="blogStageIntro__title"
+            class="stage-intro__title"
             data-reveal
             data-reveal-group="blog-archive"
             data-reveal-order={0}
           >
             {pageContent?.archiveHeading ?? "Archive Overview"}
           </h2>
-          <p class="blogStageIntro__caption">
+          <p class="stage-intro__caption">
             {pageContent?.archiveLede ?? "A year-by-year view of what shipped and when."}
           </p>
         </div>

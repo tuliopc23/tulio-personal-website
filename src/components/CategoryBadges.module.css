@@ -1,0 +1,54 @@
+.categoryBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.inlineContainer {
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.categoryBadge {
+  --chip-color-active: var(--accent);
+  --chip-color-hover: var(--accent-bright);
+  --chip-bg-active: var(--accent-surface);
+  --chip-bg-hover: var(--accent-surface-hover);
+  --chip-border-active: var(--accent-hairline);
+  --chip-border-hover: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--fs--2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.inlineBadge {
+  gap: 0.3rem;
+}
+
+.categoryBadge:hover {
+  color: var(--accent-bright);
+}
+
+.inlineBadge:hover {
+  background: none;
+  border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .categoryBadge {
+    transition: none;
+  }
+
+  .categoryBadge:hover {
+    color: var(--accent-bright);
+  }
+}

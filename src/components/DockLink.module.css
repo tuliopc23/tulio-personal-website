@@ -1,0 +1,30 @@
+.dockLink {
+  --hover-elevate-translate: -4px;
+  --hover-elevate-scale: 1.015;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.dockPremium {
+  min-height: 104px;
+  gap: 10px;
+}
+
+.name {
+  font-size: var(--fs-footnote);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  text-align: center;
+  line-height: var(--lh-snug);
+  margin: 0;
+  letter-spacing: var(--ls-footnote);
+}
+
+.dockPremium .name {
+  font-size: var(--fs-caption);
+}

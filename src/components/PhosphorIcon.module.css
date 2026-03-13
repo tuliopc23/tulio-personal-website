@@ -1,0 +1,11 @@
+.phosphorIcon {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.phosphorIcon :global(svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+

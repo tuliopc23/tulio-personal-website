@@ -1,0 +1,26 @@
+.divider {
+  margin: var(--space-xl) auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border: none;
+  background: var(--hairline);
+  opacity: 0.5;
+}
+
+.dots,
+.asterisks {
+  color: var(--muted);
+  font-size: var(--fs-0);
+  letter-spacing: 0.5em;
+  text-align: center;
+}
+
+.space {
+  height: var(--space-xl);
+}

@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import styles from "./contact.module.css";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
@@ -41,7 +42,7 @@ const structuredData = {
           Use the form for project work, tooling, or a focused interface pass. It opens an email draft with the context already filled in.
         </p>
         <div class="pageHero__meta" aria-label="Contact details">
-          <span class="pageHero__metaItem">Direct email: {contactEmail}</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Direct email: {contactEmail}</span>
         </div>
       </div>
     </section>
@@ -52,47 +53,45 @@ const structuredData = {
         <h2 class="pageWidget__title">What to send</h2>
         <p class="pageWidget__caption">Enough context to answer quickly: the goal, platform, timeline, and any hard constraints.</p>
       </div>
-      <div class="contactCard card card--static">
-        <div class="card__inner">
-          <form class="contactForm" id="contact-form" data-contact-form>
-            <label class="contactForm__field">
-              <span>Name</span>
-              <input name="name" type="text" required autocomplete="name" />
-            </label>
+      <div class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}>
+        <form class={styles.contactForm} id="contact-form" data-contact-form>
+          <label class={styles.contactFormField}>
+            <span>Name</span>
+            <input name="name" type="text" required autocomplete="name" />
+          </label>
 
-            <label class="contactForm__field">
-              <span>Email</span>
-              <input name="email" type="email" required autocomplete="email" />
-            </label>
+          <label class={styles.contactFormField}>
+            <span>Email</span>
+            <input name="email" type="email" required autocomplete="email" />
+          </label>
 
-            <label class="contactForm__field">
-              <span>Subject</span>
-              <input
-                name="subject"
-                type="text"
-                required
-                placeholder="Project, consultation, or collaboration"
-              />
-            </label>
+          <label class={styles.contactFormField}>
+            <span>Subject</span>
+            <input
+              name="subject"
+              type="text"
+              required
+              placeholder="Project, consultation, or collaboration"
+            />
+          </label>
 
-            <label class="contactForm__field contactForm__field--full">
-              <span>Message</span>
-              <textarea
-                name="message"
-                rows="7"
-                required
-                placeholder="Tell me what you're building, timeline, and expected outcome."
-              ></textarea>
-            </label>
+          <label class:list={[styles.contactFormField, styles.contactFormFieldFull]}>
+            <span>Message</span>
+            <textarea
+              name="message"
+              rows="7"
+              required
+              placeholder="Tell me what you're building, timeline, and expected outcome."
+            ></textarea>
+          </label>
 
-            <div class="contactForm__actions">
-              <button type="submit" class="btn contactForm__submit">Open email draft</button>
-              <p class="contactForm__hint">
-                This opens your default email app prefilled to {contactEmail}.
-              </p>
-            </div>
-          </form>
-        </div>
+          <div class={styles.contactFormActions}>
+            <button type="submit" class="btn">Open email draft</button>
+            <p class={styles.contactFormHint}>
+              This opens your default email app prefilled to {contactEmail}.
+            </p>
+          </div>
+        </form>
       </div>
     </section>
   </div>
@@ -122,64 +121,3 @@ const structuredData = {
     }
   </script>
 </Base>
-
-<style>
-  .contactForm {
-    display: grid;
-    gap: 12px;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .contactForm__field {
-    display: grid;
-    gap: 6px;
-  }
-
-  .contactForm__field--full {
-    grid-column: 1 / -1;
-  }
-
-  .contactForm__field span {
-    font-size: var(--fs-footnote);
-    color: var(--text-secondary);
-    font-weight: var(--fw-medium);
-  }
-
-  .contactForm input,
-  .contactForm textarea {
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid var(--panel-border);
-    background: color-mix(in srgb, var(--surface-card) 92%, transparent);
-    color: var(--text-primary);
-    padding: 10px 12px;
-    font: inherit;
-    transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .contactForm input:focus-visible,
-  .contactForm textarea:focus-visible {
-    outline: none;
-    border-color: var(--blue);
-    box-shadow: var(--focus-ring);
-  }
-
-  .contactForm__actions {
-    grid-column: 1 / -1;
-    display: grid;
-    gap: 8px;
-    justify-items: start;
-  }
-
-  .contactForm__hint {
-    margin: 0;
-    color: var(--text-tertiary);
-    font-size: var(--fs-footnote);
-  }
-
-  @media (max-width: 760px) {
-    .contactForm {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

@@ -224,13 +224,13 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               </div>
             )}
             {(_tags.length > 0 || (post.categories && post.categories.length > 0)) && (
-              <ul class="article__tags">
-                {_series && <li class="article__tag article__tag--category">Series: {_series}</li>}
+              <ul class:list={["article__tags", "taxonomy-labels"]}>
+                {_series && <li class:list={["article__tag", "article__tag--category", "taxonomy-label", "taxonomy-label--accent"]}>Series: {_series}</li>}
                 {post.categories?.map((category) => (
-                  <li class="article__tag article__tag--category">{category.title}</li>
+                  <li class:list={["article__tag", "article__tag--category", "taxonomy-label", "taxonomy-label--accent"]}>{category.title}</li>
                 ))}
                 {_tags.map((tag) => (
-                  <li class="article__tag">{tag}</li>
+                  <li class:list={["article__tag", "taxonomy-label"]}>{tag}</li>
                 ))}
               </ul>
             )}

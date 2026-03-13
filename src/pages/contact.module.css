@@ -1,0 +1,62 @@
+.contactCard {
+  padding: clamp(14px, 1.6vw, 20px);
+}
+
+.contactForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.contactFormField {
+  display: grid;
+  gap: 6px;
+}
+
+.contactFormFieldFull {
+  grid-column: 1 / -1;
+}
+
+.contactFormField span {
+  font-size: var(--fs-footnote);
+  color: var(--text-secondary);
+  font-weight: var(--fw-medium);
+}
+
+.contactFormField input,
+.contactFormField textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  font: inherit;
+  transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
+}
+
+.contactFormField input:focus-visible,
+.contactFormField textarea:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: var(--focus-ring);
+}
+
+.contactFormActions {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.contactFormHint {
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: var(--fs-footnote);
+}
+
+@media (max-width: 760px) {
+  .contactForm {
+    grid-template-columns: 1fr;
+  }
+}

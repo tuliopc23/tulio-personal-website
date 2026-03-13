@@ -1,9 +1,10 @@
 ---
 // Reading progress indicator component
+import styles from "./ReadingProgress.module.css";
 ---
 
-<div class="reading-progress" aria-hidden="true">
-  <div class="reading-progress__bar" data-reading-progress></div>
+<div class={styles.readingProgress} aria-hidden="true">
+  <div class={styles.bar} data-reading-progress></div>
 </div>
 
 <script>
@@ -46,29 +47,3 @@
     updateProgress(); // Initial update
   }
 </script>
-
-<style>
-  .reading-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: transparent;
-    z-index: 100;
-    pointer-events: none;
-  }
-
-  .reading-progress__bar {
-    height: 100%;
-    width: 0%;
-    background: var(--blue);
-    transition: width 0.1s ease-out;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reading-progress__bar {
-      transition: none;
-    }
-  }
-</style>

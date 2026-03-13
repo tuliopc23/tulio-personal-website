@@ -97,8 +97,8 @@ const _structuredData = {
       <h1 class="pageHero__title">{content.heroTitle}</h1>
       <p class="pageHero__lede">{content.heroLede}</p>
       <div class="pageHero__meta" aria-label="Now page overview">
-        <span class="pageHero__metaItem">Updated {_lastUpdated}</span>
-        <span class="pageHero__metaItem">Now / Next / Later</span>
+        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Updated {_lastUpdated}</span>
+        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">Now / Next / Later</span>
       </div>
     </div>
     </section>

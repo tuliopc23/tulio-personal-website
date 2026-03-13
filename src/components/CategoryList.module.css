@@ -1,0 +1,125 @@
+.categoryList {
+  padding-block: var(--space-xl);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.title {
+  font-size: var(--fs-3);
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-md);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s var(--motion-spring-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px) scale(var(--motion-scale-sm));
+}
+
+.cardTitle {
+  font-size: var(--fs-1);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.description {
+  font-size: var(--fs--1);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  flex: 1;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--fs--1);
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: var(--space-xs);
+}
+
+.card:hover .cta {
+  color: var(--accent-bright);
+}
+
+.cta svg {
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .cta svg {
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .card::before,
+  .cta svg {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: var(--fs-4);
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}

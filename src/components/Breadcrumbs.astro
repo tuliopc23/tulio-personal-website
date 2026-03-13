@@ -1,5 +1,6 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
+import styles from "./Breadcrumbs.module.css";
 
 interface BreadcrumbItem {
   label: string;
@@ -14,32 +15,32 @@ interface Props {
 const { items } = Astro.props as Props;
 ---
 
-<nav class="breadcrumbs" aria-label="Breadcrumb navigation">
-  <ol class="breadcrumbs__list">
+<nav class={styles.breadcrumbs} aria-label="Breadcrumb navigation">
+  <ol class={styles.list}>
     {
       items.map((item, index) => (
-        <li class="breadcrumbs__item">
+        <li class={styles.item}>
           {index > 0 && (
             <PhosphorIcon
               name="chevron-right"
               size={14}
               weight="regular"
-              class="breadcrumbs__separator"
+              class={styles.separator}
             />
           )}
           {item.href ? (
-            <a href={item.href} class="breadcrumbs__link">
+            <a href={item.href} class={styles.link}>
               {item.icon && (
-                <span class="breadcrumbs__icon" aria-hidden="true">
+                <span class={styles.icon} aria-hidden="true">
                   <PhosphorIcon name={item.icon} size={16} weight="regular" />
                 </span>
               )}
               <span>{item.label}</span>
             </a>
           ) : (
-            <span class="breadcrumbs__current" aria-current="page">
+            <span class={styles.current} aria-current="page">
               {item.icon && (
-                <span class="breadcrumbs__icon" aria-hidden="true">
+                <span class={styles.icon} aria-hidden="true">
                   <PhosphorIcon name={item.icon} size={16} weight="regular" />
                 </span>
               )}
@@ -51,102 +52,3 @@ const { items } = Astro.props as Props;
     }
   </ol>
 </nav>
-
-<style>
-  .breadcrumbs {
-    margin-bottom: var(--space-md);
-    animation: breadcrumb-reveal 160ms var(--motion-ease-out) both;
-  }
-
-  .breadcrumbs__list {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: var(--fs--1);
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .breadcrumbs__list::-webkit-scrollbar {
-    display: none;
-  }
-
-  .breadcrumbs__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-  }
-
-  .breadcrumbs__separator {
-    color: var(--muted);
-    opacity: 0.6;
-  }
-
-  .breadcrumbs__link {
-    color: var(--muted);
-    text-decoration: none;
-    transition: color var(--motion-duration-sm) var(--motion-ease-out);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 46px;
-    padding: 8px 10px;
-    border-radius: 10px;
-    white-space: nowrap;
-  }
-
-  .breadcrumbs__link:hover {
-    color: var(--text);
-  }
-
-  .breadcrumbs__current {
-    color: var(--text);
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    min-height: 46px;
-    padding: 8px 10px;
-    white-space: nowrap;
-  }
-
-  .breadcrumbs__link:focus-visible {
-    outline: none;
-    box-shadow: var(--focus-ring);
-    border-radius: 10px;
-  }
-
-  .breadcrumbs__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-  }
-
-  .breadcrumbs__current .breadcrumbs__icon {
-    color: var(--text);
-  }
-
-  @keyframes breadcrumb-reveal {
-    from {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .breadcrumbs {
-      animation: none;
-    }
-  }
-</style>

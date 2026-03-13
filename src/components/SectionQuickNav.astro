@@ -1,4 +1,6 @@
 ---
+import styles from "./SectionQuickNav.module.css";
+
 interface SectionItem {
   id: string;
   label: string;
@@ -14,31 +16,37 @@ const heroSectionId = sections[0]?.id ?? "top";
 
 {sections.length > 0 && (
   <nav
-    class="section-quick-nav"
+    class={styles.sectionQuickNav}
     aria-label="Homepage section index"
     data-section-nav-root
     data-hero-section={heroSectionId}
   >
-    <div class="section-quick-nav__meta">
-      <p class="section-quick-nav__label">Section index</p>
-      <p class="section-quick-nav__hint">Jump between homepage sections.</p>
+    <div class={styles.meta}>
+      <p class:list={[styles.label, "surface-eyebrow"]}>Section index</p>
+      <p class:list={[styles.hint, "surface-caption"]}>Jump between homepage sections.</p>
     </div>
-    <div class="section-quick-nav__scroll" data-section-nav-scroll>
-      <ul class="section-quick-nav__list" data-section-nav role="list">
-        <li class="section-quick-nav__item" role="listitem">
+    <div class={styles.scroll} data-section-nav-scroll>
+      <ul class:list={[styles.list, "surface-panel"]} data-section-nav role="list">
+        <li class={styles.item} role="listitem">
           <a
-            class="section-quick-nav__link section-quick-nav__link--top is-active"
+            class:list={[styles.link, "chip-pill", "chip-pill--interactive", "motion-chip"]}
             href="#top"
             data-nav-top
             data-section="top"
+            data-active="true"
             aria-current="true"
           >
             Top
           </a>
         </li>
         {sections.map((section) => (
-          <li class="section-quick-nav__item" role="listitem">
-            <a class="section-quick-nav__link" href={`#${section.id}`} data-nav-item data-section={section.id}>
+          <li class={styles.item} role="listitem">
+            <a
+              class:list={[styles.link, "chip-pill", "chip-pill--interactive", "motion-chip"]}
+              href={`#${section.id}`}
+              data-nav-item
+              data-section={section.id}
+            >
               {section.label}
             </a>
           </li>
@@ -63,7 +71,7 @@ const heroSectionId = sections[0]?.id ?? "top";
     const setActive = (sectionId) => {
       allItems.forEach((item) => {
         const isActive = item.dataset.section === sectionId;
-        item.classList.toggle("is-active", isActive);
+        item.dataset.active = String(isActive);
         if (isActive) {
           item.setAttribute("aria-current", "true");
         } else {
@@ -132,152 +140,3 @@ const heroSectionId = sections[0]?.id ?? "top";
     initSectionQuickNav();
   }
 </script>
-
-<style>
-  .section-quick-nav {
-    display: grid;
-    gap: 8px;
-    min-width: 0;
-  }
-
-  .section-quick-nav__meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: min(100%, 560px);
-    max-width: 100%;
-    justify-self: end;
-  }
-
-  .section-quick-nav__label {
-    margin: 0;
-    font-size: var(--fs-caption);
-    letter-spacing: var(--ls-eyebrow);
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    font-weight: var(--fw-semibold);
-  }
-
-  .section-quick-nav__hint {
-    margin: 0;
-    max-width: 28ch;
-    font-size: var(--fs-footnote);
-    color: var(--muted);
-    text-align: right;
-  }
-
-  .section-quick-nav__scroll {
-    width: min(100%, 560px);
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-  }
-
-  .section-quick-nav__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    padding: 6px;
-    margin: 0;
-    list-style: none;
-    border-radius: 18px;
-    background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
-    border: 1px solid color-mix(in srgb, var(--panel-border) 88%, transparent);
-    box-shadow:
-      0 10px 24px rgba(0, 0, 0, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(12px) saturate(118%);
-    -webkit-backdrop-filter: blur(12px) saturate(118%);
-    width: max-content;
-    min-width: min(100%, 520px);
-  }
-
-  .section-quick-nav__item {
-    flex: 0 0 auto;
-  }
-
-  .section-quick-nav__link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 44px;
-    min-height: 36px;
-    padding: 7px 12px;
-    border-radius: 999px;
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-secondary);
-    font-size: var(--fs-footnote);
-    font-weight: var(--fw-semibold);
-    letter-spacing: -0.01em;
-    text-decoration: none;
-    transition:
-      background var(--motion-duration-sm) var(--motion-ease-out),
-      color var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .section-quick-nav__link:hover {
-    background: color-mix(in srgb, var(--surface-card) 54%, transparent);
-    border-color: color-mix(in srgb, var(--panel-border) 68%, transparent);
-    color: var(--text-primary);
-    transform: translateY(-1px);
-    box-shadow: none;
-  }
-
-  .section-quick-nav__link.is-active {
-    background: color-mix(in srgb, var(--surface-card) 88%, transparent);
-    color: var(--text-primary);
-    border-color: color-mix(in srgb, var(--blue) 22%, var(--panel-border));
-    box-shadow:
-      0 8px 16px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  }
-
-  .section-quick-nav__link:focus-visible {
-    outline: none;
-    border-color: color-mix(in srgb, var(--blue) 70%, transparent);
-    box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--blue) 55%, transparent),
-      0 0 0 4px color-mix(in srgb, var(--blue) 25%, transparent);
-  }
-
-  @media (max-width: 768px) {
-    .section-quick-nav__meta {
-      width: 100%;
-      justify-self: stretch;
-      align-items: center;
-    }
-
-    .section-quick-nav__hint {
-      display: none;
-    }
-
-    .section-quick-nav__scroll {
-      width: 100%;
-    }
-
-    .section-quick-nav__list {
-      flex-wrap: nowrap;
-      gap: var(--space-1);
-      padding: 6px;
-      overflow-x: visible;
-      scrollbar-width: none;
-      min-width: 100%;
-    }
-
-    .section-quick-nav__list::-webkit-scrollbar {
-      display: none;
-    }
-
-    .section-quick-nav__link {
-      padding: 7px 12px;
-      font-size: var(--fs-footnote);
-    }
-  }
-</style>

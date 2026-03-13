@@ -1,4 +1,6 @@
 ---
+import styles from "./ScrollIndicator.module.css";
+
 interface Props {
   containerClass?: string;
   ariaLabel?: string;
@@ -8,14 +10,15 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
 ---
 
 <div
-  class={`scrollIndicator ${containerClass}`}
+  class:list={[styles.scrollIndicator, containerClass]}
   data-scroll-indicator
   data-motion="normal"
   aria-label={ariaLabel}
 >
   <button 
-    class="scrollIndicator__arrow scrollIndicator__arrow--left" 
+    class:list={[styles.arrow, styles.left]}
     data-scroll-arrow="left"
+    data-visible="false"
     aria-hidden="true"
     tabindex="-1"
   >
@@ -24,8 +27,9 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
     </svg>
   </button>
   <button 
-    class="scrollIndicator__arrow scrollIndicator__arrow--right" 
+    class:list={[styles.arrow, styles.right]}
     data-scroll-arrow="right"
+    data-visible="false"
     aria-hidden="true"
     tabindex="-1"
   >
@@ -33,131 +37,10 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
       <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <div class="scrollIndicator__hint" data-scroll-hint aria-live="polite" role="status">
+  <div class={styles.hint} data-scroll-hint data-visible="false" aria-live="polite" role="status">
     <span>Scroll for more →</span>
   </div>
 </div>
-
-<style>
-  .scrollIndicator {
-    position: relative;
-    pointer-events: none;
-  }
-
-  .scrollIndicator__arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--panel-border);
-    background: var(--surface-elevated);
-    backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-    -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: auto;
-    cursor: pointer;
-    transition: 
-      opacity var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out);
-    z-index: 2;
-    box-shadow: var(--shadow-card-soft);
-  }
-
-  .scrollIndicator__arrow--left {
-    left: var(--space-sm);
-  }
-
-  .scrollIndicator__arrow--right {
-    right: var(--space-sm);
-  }
-
-  .scrollIndicator__arrow.is-visible {
-    opacity: 1;
-  }
-
-  .scrollIndicator__arrow:hover {
-    border-color: var(--panel-border-strong);
-    transform: translateY(-50%) scale(1.05);
-  }
-
-  .scrollIndicator__arrow:active {
-    transform: translateY(-50%) scale(0.95);
-  }
-
-  .scrollIndicator__hint {
-    position: absolute;
-    bottom: var(--space-md);
-    right: var(--space-md);
-    padding: var(--space-xs) var(--space-md);
-    border-radius: var(--radius-sm);
-    background: var(--surface-elevated);
-    backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-    -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-    border: 1px solid var(--panel-border);
-    color: var(--muted);
-    font-size: var(--fs--2);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-    box-shadow: var(--shadow-card-soft);
-  }
-
-  .scrollIndicator__hint.is-visible {
-    opacity: 1;
-  }
-
-  /* Hide indicators on desktop */
-  @media (min-width: 1024px) {
-    .scrollIndicator__arrow,
-    .scrollIndicator__hint {
-      display: none;
-    }
-  }
-
-  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow,
-  .scrollIndicator[data-motion="reduced"] .scrollIndicator__hint {
-    transition: none;
-  }
-
-  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow:hover,
-  .scrollIndicator[data-motion="reduced"] .scrollIndicator__arrow:active {
-    transform: translateY(-50%);
-  }
-
-  .scrollIndicator[data-motion="reduced"] .scrollIndicator__hint {
-    display: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow,
-    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__hint {
-      transition: none;
-    }
-
-    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow:hover,
-    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__arrow:active {
-      transform: translateY(-50%);
-    }
-
-    .scrollIndicator:not([data-motion="normal"]) .scrollIndicator__hint {
-      display: none;
-    }
-
-    .scrollIndicator__arrow,
-    .scrollIndicator__hint {
-      transition: none;
-    }
-  }
-</style>
 
 <script>
   (() => {
@@ -235,7 +118,7 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
 
           if (reduced) {
             clearHintTimers();
-            hint?.classList.remove('is-visible');
+            hint?.setAttribute('data-visible', 'false');
           }
 
           return reduced;
@@ -245,8 +128,8 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
           updateMotionState();
 
           if (window.innerWidth >= 1024) {
-            leftArrow?.classList.remove('is-visible');
-            rightArrow?.classList.remove('is-visible');
+            leftArrow?.setAttribute('data-visible', 'false');
+            rightArrow?.setAttribute('data-visible', 'false');
             return;
           }
 
@@ -254,8 +137,8 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
           const atStart = scrollLeft <= 10;
           const atEnd = scrollLeft + clientWidth >= scrollWidth - 10;
 
-          leftArrow?.classList.toggle('is-visible', !atStart);
-          rightArrow?.classList.toggle('is-visible', !atEnd);
+          leftArrow?.setAttribute('data-visible', String(!atStart));
+          rightArrow?.setAttribute('data-visible', String(!atEnd));
         };
 
         const markInteracted = () => {
@@ -269,7 +152,7 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
           }
 
           clearHintTimers();
-          hint?.classList.remove('is-visible');
+          hint?.setAttribute('data-visible', 'false');
         };
 
         const showHintIfNeeded = () => {
@@ -286,9 +169,9 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
           }
 
           showHintTimeout = window.setTimeout(() => {
-            hint.classList.add('is-visible');
+            hint.setAttribute('data-visible', 'true');
             hideHintTimeout = window.setTimeout(() => {
-              hint.classList.remove('is-visible');
+              hint.setAttribute('data-visible', 'false');
             }, 3000);
           }, 500);
         };

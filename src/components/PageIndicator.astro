@@ -1,4 +1,6 @@
 ---
+import styles from "./PageIndicator.module.css";
+
 interface Props {
   containerSelector: string;
   itemSelector?: string;
@@ -13,7 +15,7 @@ const {
 ---
 
 <div 
-  class="pageIndicator" 
+  class={styles.pageIndicator}
   data-page-indicator
   data-motion="normal"
   data-container={containerSelector}
@@ -21,257 +23,11 @@ const {
   role="group"
   aria-label={ariaLabel}
 >
-  <div class="pageIndicator__track" data-page-indicator-track>
-    <div class="pageIndicator__slider" data-page-indicator-slider></div>
+  <div class={styles.track} data-page-indicator-track>
+    <div class={styles.slider} data-page-indicator-slider></div>
     <!-- Dots will be generated dynamically -->
   </div>
 </div>
-
-<style>
-  /*
-   * Apple Human Interface Guidelines-compliant Page Indicator
-   * 
-   * - iOS-style translucent material with backdrop blur and saturation
-   * - 7×7px inactive dots, 20×7px active pill (matches iOS page control)
-   * - Blue accent (#0d8aff) for active state
-   * - Smooth cubic-bezier transitions (0.25, 0.1, 0.25, 1)
-   * - 44×44px minimum touch targets for accessibility
-   * - Reduced motion support
-   */
-
-  .pageIndicator {
-    /* HIG Design Tokens */
-    --pi-dot-size: 6px;
-    --pi-dot-active-size: 8px;
-    --pi-gap: 6px;
-    --pi-radius-pill: 100px;
-    
-    /* Motion */
-    --pi-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-    --pi-dur: 250ms;
-    --pi-press-scale: 0.85;
-    
-    /* Colors */
-    --pi-active: var(--blue, #0d8aff);
-    --pi-inactive-dark: rgba(235, 235, 245, 0.3);
-    --pi-inactive-light: rgba(60, 60, 67, 0.18);
-    --pi-bg-dark: rgba(28, 28, 30, 0.72);
-    --pi-bg-light: rgba(255, 255, 255, 0.88);
-    
-    /* Material */
-    --pi-saturation: 1.8;
-    --pi-blur: 20px;
-    
-    /* Shadows and borders */
-    --pi-border-light: rgba(255, 255, 255, 0.28);
-    --pi-border-dark: rgba(0, 0, 0, 0.12);
-    --pi-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.2);
-    --pi-shadow-2: 0 8px 20px rgba(0, 0, 0, 0.35);
-    
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: var(--space-sm) 0;
-    pointer-events: none;
-  }
-
-  .pageIndicator__track {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--pi-gap);
-    padding: 6px 10px;
-    border-radius: var(--pi-radius-pill);
-    background: rgba(28, 28, 30, 0.68);
-    backdrop-filter: saturate(1.8) blur(20px);
-    -webkit-backdrop-filter: saturate(1.8) blur(20px);
-    box-shadow: 
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      0 4px 12px rgba(0, 0, 0, 0.16),
-      inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
-    pointer-events: auto;
-  }
-
-  .pageIndicator__slider {
-    position: absolute !important;
-    top: 6px !important;
-    left: 10px !important;
-    width: calc(var(--pi-dot-size) + 8px) !important;
-    height: var(--pi-dot-size) !important;
-    background: var(--pi-active) !important;
-    border-radius: var(--pi-radius-pill) !important;
-    transition: transform var(--pi-dur) var(--pi-ease), width var(--pi-dur) var(--pi-ease) !important;
-    pointer-events: none !important;
-    z-index: 1 !important;
-    box-shadow: 
-      0 0 0 1px rgba(13, 138, 255, 0.25),
-      0 0 8px rgba(13, 138, 255, 0.4),
-      0 1px 3px rgba(0, 0, 0, 0.2) !important;
-  }
-
-  [data-theme="light"] .pageIndicator__track {
-    background: rgba(255, 255, 255, 0.84);
-    box-shadow: 
-      0 1px 3px rgba(0, 0, 0, 0.08),
-      0 4px 12px rgba(0, 0, 0, 0.06),
-      inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
-  }
-
-  @media (prefers-color-scheme: light) {
-    .pageIndicator__track {
-      background: rgba(255, 255, 255, 0.84);
-      box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.06),
-        inset 0 0 0 0.5px rgba(0, 0, 0, 0.06);
-    }
-  }
-
-  .pageIndicator__dot {
-    position: relative;
-    width: var(--pi-dot-size) !important;
-    height: var(--pi-dot-size) !important;
-    border-radius: 50% !important;
-    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.3), rgba(235, 235, 245, 0.25)) !important;
-    cursor: pointer !important;
-    border: none;
-    padding: 0;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    flex: 0 0 auto;
-    box-shadow: 
-      inset 0 0.5px 1px rgba(255, 255, 255, 0.25),
-      inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.2),
-      0 1px 2px rgba(0, 0, 0, 0.15) !important;
-    transition: 
-      width var(--pi-dur) var(--pi-ease),
-      height var(--pi-dur) var(--pi-ease),
-      background var(--pi-dur) var(--pi-ease),
-      transform var(--pi-dur) var(--pi-ease),
-      box-shadow var(--pi-dur) var(--pi-ease);
-    will-change: width, height, transform;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Expand touch target to 44×44px for accessibility */
-  .pageIndicator__dot::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
-    background: transparent;
-  }
-
-  [data-theme="light"] .pageIndicator__dot {
-    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(60, 60, 67, 0.2));
-    box-shadow: 
-      inset 0 0.5px 1px rgba(255, 255, 255, 0.7),
-      inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.12),
-      0 1px 1.5px rgba(0, 0, 0, 0.08);
-  }
-
-  @media (prefers-color-scheme: light) {
-    .pageIndicator__dot {
-      background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.9), rgba(60, 60, 67, 0.2));
-      box-shadow: 
-        inset 0 0.5px 1px rgba(255, 255, 255, 0.7),
-        inset 0 -0.5px 0.5px rgba(0, 0, 0, 0.12),
-        0 1px 1.5px rgba(0, 0, 0, 0.08);
-    }
-  }
-
-  .pageIndicator__dot:active {
-    transform: scale(var(--pi-press-scale));
-  }
-
-  .pageIndicator__dot:focus-visible {
-    outline: 2px solid var(--pi-active);
-    outline-offset: 2px;
-  }
-
-  .pageIndicator__dot.is-active {
-    width: var(--pi-dot-active-size) !important;
-    height: var(--pi-dot-active-size) !important;
-    background: radial-gradient(circle at 35% 35%, rgba(120, 200, 255, 1), #0d8aff) !important;
-    box-shadow: 
-      inset 0 0.5px 1.5px rgba(255, 255, 255, 0.7),
-      inset 0 -0.5px 1px rgba(0, 0, 0, 0.25),
-      0 0 0 1px rgba(13, 138, 255, 0.25),
-      0 0 8px rgba(13, 138, 255, 0.4),
-      0 1px 3px rgba(0, 0, 0, 0.2) !important;
-  }
-
-  [data-theme="light"] .pageIndicator__dot.is-active {
-    background: radial-gradient(circle at 35% 35%, rgba(140, 210, 255, 1), #0d8aff);
-    box-shadow: 
-      inset 0 0.5px 1.5px rgba(255, 255, 255, 0.9),
-      inset 0 -0.5px 1px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(13, 138, 255, 0.2),
-      0 0 6px rgba(13, 138, 255, 0.35),
-      0 1px 2px rgba(0, 0, 0, 0.12);
-  }
-
-  @media (prefers-color-scheme: light) {
-    .pageIndicator__dot.is-active {
-      background: radial-gradient(circle at 35% 35%, rgba(140, 210, 255, 1), #0d8aff);
-      box-shadow: 
-        inset 0 0.5px 1.5px rgba(255, 255, 255, 0.9),
-        inset 0 -0.5px 1px rgba(0, 0, 0, 0.2),
-        0 0 0 1px rgba(13, 138, 255, 0.2),
-        0 0 6px rgba(13, 138, 255, 0.35),
-        0 1px 2px rgba(0, 0, 0, 0.12);
-    }
-  }
-
-  @media (max-width: 1023px) {
-    .pageIndicator {
-      display: flex !important;
-    }
-  }
-
-  .pageIndicator[data-motion="reduced"] .pageIndicator__slider {
-    display: none !important;
-    transition: none !important;
-  }
-
-  .pageIndicator[data-motion="reduced"] .pageIndicator__dot {
-    transition: none;
-    will-change: auto;
-  }
-
-  .pageIndicator[data-motion="reduced"] .pageIndicator__dot:active {
-    transform: none;
-  }
-
-  .pageIndicator[data-motion="reduced"] .pageIndicator__dot.is-active {
-    width: var(--pi-dot-size) !important;
-    height: var(--pi-dot-size) !important;
-    background: var(--pi-active) !important;
-    box-shadow:
-      0 0 0 1px rgba(13, 138, 255, 0.24),
-      0 1px 2px rgba(0, 0, 0, 0.18) !important;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pageIndicator:not([data-motion="normal"]) .pageIndicator__slider {
-      display: none !important;
-      transition: none !important;
-    }
-
-    .pageIndicator:not([data-motion="normal"]) .pageIndicator__dot {
-      transition: none;
-      will-change: auto;
-    }
-
-    .pageIndicator:not([data-motion="normal"]) .pageIndicator__dot:active {
-      transform: none;
-    }
-  }
-</style>
 
 <script>
   (() => {
@@ -369,7 +125,7 @@ const {
         const syncDots = (activeIndex) => {
           dots.forEach((dot, index) => {
             const isActive = index === activeIndex;
-            dot.classList.toggle('is-active', isActive);
+            dot.dataset.active = String(isActive);
             dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             dot.setAttribute('tabindex', isActive ? '0' : '-1');
           });
@@ -395,14 +151,11 @@ const {
           items.forEach((_, index) => {
             const dot = document.createElement('button');
             dot.type = 'button';
-            dot.className = 'pageIndicator__dot';
+            dot.dataset.pageIndicatorDot = '';
+            dot.dataset.active = String(index === 0);
             dot.setAttribute('tabindex', index === 0 ? '0' : '-1');
             dot.setAttribute('aria-label', `Go to item ${index + 1}`);
             dot.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
-
-            if (index === 0) {
-              dot.classList.add('is-active');
-            }
 
             dot.addEventListener('click', () => {
               scrollToIndex(index);

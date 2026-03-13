@@ -4,6 +4,7 @@
  * Uses @phosphor-icons/core for consistent outline iconography
  * Supports multiple weights: thin, light, regular, bold, fill
  */
+import styles from "./PhosphorIcon.module.css";
 
 type IconWeight = "thin" | "light" | "regular" | "bold" | "fill";
 
@@ -113,23 +114,10 @@ try {
 {
   svgContent && (
     <span
-      class:list={["phosphor-icon", className]}
+      class:list={[styles.phosphorIcon, className]}
       style={`display: inline-block; width: ${size}px; height: ${size}px;`}
       aria-hidden="true"
       set:html={svgContent}
     />
   )
 }
-
-<style>
-  .phosphor-icon {
-    line-height: 1;
-    vertical-align: middle;
-  }
-
-  .phosphor-icon :global(svg) {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-</style>

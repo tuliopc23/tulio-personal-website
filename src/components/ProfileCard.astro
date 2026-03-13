@@ -1,10 +1,11 @@
 ---
 import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
+import styles from "./ProfileCard.module.css";
 
 const {
   name = "Tulio Cunha",
-  title = "Full stack developer, command line junkie, dev tool addict.",
+  title = "Full Stack Developer . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict.",
   location = "Brazil",
   email = "contact@tuliocunha.dev",
 } = Astro.props;
@@ -86,35 +87,45 @@ const socialCards = [
 ];
 ---
 
-<section class="profileCard" aria-label={`Profile information for ${name}`} data-reveal>
-  <div class="profileCard__hero">
+<section
+  class:list={[styles.profileCard, "surface-panel", "surface-panel--premium"]}
+  aria-label={`Profile information for ${name}`}
+  data-reveal
+>
+  <div class={styles.profileCardHero}>
     <article
-      class="profileCard__identity hover-elevate motion-surface-premium"
+      class:list={[
+        styles.profileCardIdentity,
+        "surface-panel",
+        "surface-panel--nested",
+        "hover-elevate",
+        "motion-surface-premium",
+      ]}
       data-reveal
       data-reveal-order="0"
       data-parallax-card
     >
-      <figure class="profileCard__photo">
+      <figure class={styles.profileCardPhoto}>
         <img src={profilePhotoSrc} alt={name} width={192} height={192} loading="eager" decoding="async" />
       </figure>
 
-      <div class="profileCard__copy">
-        <p class="profileCard__eyebrow">
+      <div class={styles.profileCardCopy}>
+        <p class:list={[styles.profileCardEyebrow, "surface-eyebrow"]}>
           <PhosphorIcon name="terminal-window" size={14} weight="regular" />
           <span>Hello</span>
         </p>
-        <h2 class="profileCard__name">{name}</h2>
-        <p class="profileCard__title">{title}</p>
-        <p class="profileCard__lead">
-          I build Apple platform apps, full-stack web apps, and the backend systems behind them.
+        <h2 class={styles.profileCardName}>{name}</h2>
+        <p class={styles.profileCardTitle}>{title}</p>
+        <p class={styles.profileCardLead}>
+          Building Apple platform apps, product interfaces, and the systems that keep shipping work moving.
         </p>
       </div>
 
-      <div class="profileCard__contactList" role="navigation" aria-label="Primary contact methods">
+      <div class={styles.profileCardContactList} role="navigation" aria-label="Primary contact methods">
         {
           contactCards.map((card) => (
             <a
-              class="profileCard__contact motion-chip"
+              class:list={[styles.profileCardContact, "motion-chip"]}
               data-tint={card.tint}
               data-parallax-card
               href={card.href}
@@ -127,7 +138,7 @@ const socialCards = [
                 label={card.label}
                 asset={card.asset}
               />
-              <span class="profileCard__contactCopy">
+              <span class={styles.profileCardContactCopy}>
                 <strong>{card.label}</strong>
                 <span>{card.value}</span>
               </span>
@@ -138,27 +149,40 @@ const socialCards = [
     </article>
 
     <article
-      class="profileCard__social hover-elevate motion-surface-premium"
+      class:list={[
+        styles.profileCardSocial,
+        "surface-panel",
+        "surface-panel--nested",
+        "hover-elevate",
+        "motion-surface-premium",
+      ]}
       data-reveal
       data-reveal-order="1"
       data-parallax-card
     >
-      <header class="profileCard__socialHeader">
-        <p class="profileCard__eyebrow">
+      <header class:list={[styles.profileCardSocialHeader, "surface-header"]}>
+        <p class:list={[styles.profileCardEyebrow, "surface-eyebrow"]}>
           <PhosphorIcon name="share" size={14} weight="regular" />
           <span>Connect</span>
         </p>
-        <h3>
+        <h3 class="surface-title">
           <span>Socials</span>
           <PhosphorIcon name="users-three" size={18} weight="regular" />
         </h3>
-        <p>Direct channels for collaboration, consulting, and following the work in public.</p>
+        <p class="surface-caption">Direct channels for collaboration, consulting, and following the work in public.</p>
       </header>
-      <div class="profileCard__socialGrid" role="list" aria-label="Social channels">
+      <div class={styles.profileCardSocialGrid} role="list" aria-label="Social channels">
         {
           socialCards.map((card) => (
             <a
-              class="profileCard__socialCard hover-elevate motion-surface-standard"
+              class:list={[
+                styles.profileCardSocialCard,
+                "surface-tile",
+                "surface-tile--centered",
+                "surface-tile--premium",
+                "hover-elevate",
+                "motion-surface-standard",
+              ]}
               data-tint={card.tint}
               data-parallax-card
               href={card.href}
@@ -182,422 +206,3 @@ const socialCards = [
     </article>
   </div>
 </section>
-
-<style>
-  .profileCard {
-    --profile-radius: clamp(26px, 3vw, 34px);
-    position: relative;
-    border-radius: var(--profile-radius);
-    border: 1px solid var(--panel-border);
-    background: color-mix(in srgb, var(--surface-elevated) 96%, transparent);
-    box-shadow:
-      var(--shadow-card),
-      var(--shadow-card-highlight),
-      0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 20px 56px rgba(44, 74, 132, 0.2);
-    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-    padding: clamp(16px, 2vw, 24px);
-    overflow: hidden;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .profileCard::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 76%);
-    opacity: 0.55;
-  }
-
-  .profileCard__hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
-    gap: clamp(16px, 1.8vw, 24px);
-    align-items: stretch;
-    position: relative;
-    z-index: 1;
-    min-width: 0;
-  }
-
-  .profileCard__identity,
-  .profileCard__social {
-    --hover-elevate-translate: -6px;
-    --hover-elevate-scale: 1.012;
-    --hover-shadow:
-      var(--shadow-card-hover),
-      var(--shadow-card-highlight),
-      0 26px 44px rgba(4, 9, 20, 0.42),
-      0 0 50px rgba(77, 166, 255, 0.1);
-    --hover-border: var(--panel-border-strong);
-    border-radius: clamp(20px, 1.8vw, 26px);
-    border: 1px solid var(--panel-border);
-    background: color-mix(in srgb, var(--surface-card) 95%, transparent);
-    padding: clamp(14px, 1.6vw, 20px);
-    box-shadow:
-      var(--shadow-card),
-      var(--shadow-card-highlight),
-      0 18px 36px rgba(6, 10, 22, 0.32);
-    min-width: 0;
-  }
-
-  .profileCard__identity {
-    display: grid;
-    grid-template-columns: minmax(148px, 192px) 1fr;
-    gap: clamp(12px, 1.2vw, 16px);
-    align-items: start;
-  }
-
-  .profileCard__photo {
-    margin: 0;
-    width: min(100%, 184px);
-    aspect-ratio: 1 / 1;
-    border-radius: 28px;
-    overflow: hidden;
-    border: 1px solid var(--panel-border);
-    box-shadow: var(--shadow-card);
-  }
-
-  .profileCard__photo :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .profileCard__copy {
-    display: grid;
-    gap: 6px;
-    align-content: start;
-  }
-
-  .profileCard__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 0;
-    font-size: var(--fs-eyebrow);
-    letter-spacing: var(--ls-eyebrow);
-    text-transform: uppercase;
-    font-weight: var(--fw-medium);
-    color: var(--text-secondary);
-  }
-
-  .profileCard__name {
-    margin: 0;
-    font-size: clamp(32px, 2vw, 44px);
-    letter-spacing: -0.025em;
-    line-height: 1.02;
-  }
-
-  .profileCard__title {
-    margin: 0;
-    font-size: var(--fs-title-3);
-    color: var(--text-secondary);
-  }
-
-  .profileCard__lead {
-    margin: 2px 0 0;
-    max-width: 31ch;
-    color: var(--text-primary);
-    line-height: 1.14;
-    font-size: clamp(18px, 1.25vw, 24px);
-    font-weight: var(--fw-semibold);
-    letter-spacing: -0.02em;
-  }
-
-  .profileCard__contactList {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(200px, 1fr));
-    gap: 10px;
-    margin-top: 2px;
-  }
-
-  .profileCard__contact {
-    --parallax-rotate-x: 0deg;
-    --parallax-rotate-y: 0deg;
-    --parallax-translate: 0px;
-    position: relative;
-    isolation: isolate;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    border-radius: 16px;
-    border: 1px solid rgba(108, 168, 255, 0.28);
-    background: var(--surface-translucent-2);
-    background: color-mix(in srgb, var(--surface-translucent-2) 96%, rgba(70, 124, 220, 0.06));
-    padding: 8px 11px;
-    text-decoration: none;
-    color: var(--text-primary);
-    min-height: 42px;
-    min-width: 0;
-    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.1);
-    backdrop-filter: blur(var(--glass-regular-blur)) saturate(150%);
-    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(150%);
-    transform:
-      perspective(900px)
-      rotateX(var(--parallax-rotate-x))
-      rotateY(var(--parallax-rotate-y))
-      translateY(var(--parallax-translate));
-    transition:
-      transform var(--motion-duration-spring-xs) var(--spring-responsive),
-      border-color var(--motion-duration-sm) var(--motion-ease-out),
-      background-color var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .profileCard__contact::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(
-      circle at 24% 28%,
-      rgba(10, 132, 255, 0.26) 0%,
-      rgba(10, 132, 255, 0.12) 42%,
-      rgba(10, 132, 255, 0) 76%
-    );
-    opacity: 0;
-    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-    z-index: -1;
-  }
-
-  .profileCard__contact:hover,
-  .profileCard__contact:focus-visible {
-    transform: translateY(-2px);
-    border-color: rgba(128, 184, 255, 0.4);
-    background: color-mix(in srgb, var(--blue) 16%, var(--surface-translucent-2));
-    box-shadow:
-      0 6px 16px rgba(10, 132, 255, 0.24),
-      inset 0 0 0 1px rgba(120, 180, 255, 0.18);
-  }
-
-  .profileCard__contact:hover::after,
-  .profileCard__contact:focus-visible::after {
-    opacity: 1;
-  }
-
-  .profileCard__contact:focus-visible {
-    box-shadow: var(--focus-ring);
-  }
-
-  .profileCard__contactCopy {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    line-height: 1.15;
-  }
-
-  .profileCard__contact :global(.symbol) {
-    width: 36px;
-    height: 36px;
-    border-radius: 11px;
-  }
-
-  .profileCard__contactCopy strong {
-    font-size: var(--fs-footnote);
-    font-weight: var(--fw-semibold);
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-  }
-
-  .profileCard__contactCopy span {
-    font-size: 10px;
-    color: var(--text-tertiary);
-    letter-spacing: 0.02em;
-    line-height: 1.3;
-    font-weight: var(--fw-regular);
-    opacity: 0.8;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .profileCard__social {
-    display: grid;
-    gap: clamp(12px, 1.4vw, 16px);
-    align-content: start;
-  }
-
-  .profileCard__socialHeader {
-    display: grid;
-    gap: 5px;
-  }
-
-  .profileCard__socialHeader .profileCard__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .profileCard__socialHeader h3 {
-    margin: 0;
-    font-size: clamp(24px, 1.3vw, 32px);
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .profileCard__socialHeader p {
-    margin: 0;
-    color: var(--text-tertiary);
-    font-size: var(--fs-subheadline);
-    max-width: 30ch;
-  }
-
-  .profileCard__socialGrid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .profileCard__socialCard {
-    --tile-accent-base: rgba(255, 255, 255, 0.08);
-    --tile-accent-hover: rgba(255, 255, 255, 0.16);
-    --tile-glow-rgb: 10, 132, 255;
-    --tile-hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
-    --parallax-rotate-x: 0deg;
-    --parallax-rotate-y: 0deg;
-    --parallax-translate: 0px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    border: 1px solid color-mix(in srgb, var(--panel-border) 68%, transparent);
-    background: color-mix(in srgb, var(--surface-card) 96%, transparent);
-    text-decoration: none;
-    color: var(--text-primary);
-    padding: 12px 12px 10px;
-    min-height: 90px;
-    box-shadow:
-      var(--shadow-card),
-      var(--shadow-card-highlight),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 0 48px rgba(var(--tile-glow-rgb), 0.09);
-    transform:
-      perspective(900px)
-      rotateX(var(--parallax-rotate-x))
-      rotateY(var(--parallax-rotate-y))
-      translateY(var(--parallax-translate));
-    display: grid;
-    justify-items: center;
-    align-content: center;
-    text-align: center;
-    gap: 10px;
-    transition:
-      transform var(--motion-duration-sm) var(--motion-ease-out),
-      border-color var(--motion-duration-sm) var(--motion-ease-out),
-      background var(--motion-duration-sm) var(--motion-ease-out),
-      box-shadow var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .profileCard__socialCard::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    background: radial-gradient(circle at 50% 14%, var(--tile-accent-base), rgba(0, 0, 0, 0) 72%);
-    opacity: 0.22;
-    pointer-events: none;
-    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .profileCard__socialCard span:last-child {
-    font-size: var(--fs-caption);
-    font-weight: var(--fw-semibold);
-    letter-spacing: var(--ls-footnote);
-  }
-
-  .profileCard__socialCard:hover {
-    transform: translateY(-2px);
-    border-color: var(--panel-border-strong);
-    background: color-mix(in srgb, var(--surface-card) 98%, transparent);
-    box-shadow: var(--tile-hover-shadow);
-  }
-
-  .profileCard__socialCard:hover::before {
-    opacity: 0.44;
-    background: radial-gradient(circle at 50% 14%, var(--tile-accent-hover), rgba(0, 0, 0, 0) 72%);
-  }
-
-  .profileCard__socialCard[data-tint="blue"] {
-    --tile-glow-rgb: 10, 132, 255;
-  }
-
-  .profileCard__socialCard[data-tint="indigo"] {
-    --tile-glow-rgb: 94, 92, 232;
-  }
-
-  .profileCard__socialCard[data-tint="cyan"] {
-    --tile-glow-rgb: 0, 173, 216;
-  }
-
-  .profileCard__socialCard[data-tint="green"] {
-    --tile-glow-rgb: 66, 184, 131;
-  }
-
-  .profileCard__socialCard[data-tint="orange"] {
-    --tile-glow-rgb: 255, 120, 60;
-  }
-
-  .profileCard__socialCard[data-tint="pink"] {
-    --tile-glow-rgb: 255, 56, 97;
-  }
-
-  .profileCard__socialCard[data-tint="purple"] {
-    --tile-glow-rgb: 194, 91, 244;
-  }
-
-  @media (max-width: 1240px) {
-    .profileCard__hero {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .profileCard {
-      padding: 14px;
-      border-radius: 24px;
-    }
-
-    .profileCard__identity {
-      grid-template-columns: 1fr;
-    }
-
-    .profileCard__photo {
-      width: 156px;
-    }
-
-    .profileCard__contactList {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .profileCard__socialGrid {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .profileCard__socialCard {
-      min-height: 84px;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .profileCard__contactList,
-    .profileCard__socialGrid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .profileCard__name {
-      font-size: clamp(28px, 9vw, 36px);
-    }
-
-    .profileCard__socialHeader h3 {
-      font-size: clamp(26px, 9vw, 34px);
-    }
-  }
-</style>

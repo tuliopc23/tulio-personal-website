@@ -2,6 +2,7 @@
 import type { PortableTextBlock } from "@portabletext/types";
 import { PortableText } from "astro-portabletext";
 import PhosphorIcon from "../PhosphorIcon.astro";
+import styles from "./Callout.module.css";
 
 interface Props {
   value: {
@@ -20,103 +21,23 @@ const iconName: Record<string, string> = {
   success: "check-circle",
   error: "x-circle",
 };
+
+const variantClassMap = {
+  info: styles.calloutInfo,
+  warning: styles.calloutWarning,
+  success: styles.calloutSuccess,
+  error: styles.calloutError,
+} as const;
 ---
 
-<div class={`callout callout--${variant}`} role="note" aria-label={`${variant} callout`}>
-  <div class="callout__icon" aria-hidden="true">
+<div class:list={[styles.callout, variantClassMap[variant]]} role="note" aria-label={`${variant} callout`}>
+  <div class={styles.calloutIcon} aria-hidden="true">
     <PhosphorIcon name={iconName[variant]} size={20} weight="regular" />
   </div>
-  <div class="callout__content">
-    {title && <div class="callout__title">{title}</div>}
-    <div class="callout__body">
+  <div class={styles.calloutContent}>
+    {title && <div class={styles.calloutTitle}>{title}</div>}
+    <div class={styles.calloutBody}>
       <PortableText value={body} />
     </div>
   </div>
 </div>
-
-<style>
-  .callout {
-    display: flex;
-    gap: var(--space-sm);
-    padding: clamp(var(--space-sm), 2.2vw, var(--space-md));
-    border-radius: clamp(18px, 2.2vw, 24px);
-    margin: var(--space-lg) 0;
-    border: 1px solid var(--panel-border);
-    backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-    -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-    box-shadow:
-      var(--shadow-card),
-      var(--shadow-card-highlight);
-  }
-
-  .callout--info {
-    background: var(--info-bg);
-    border-color: var(--info-border);
-    color: var(--info-text);
-  }
-
-  .callout--warning {
-    background: var(--warning-bg);
-    border-color: var(--warning-border);
-    color: var(--warning-text);
-  }
-
-  .callout--success {
-    background: var(--success-bg);
-    border-color: var(--success-border);
-    color: var(--success-text);
-  }
-
-  .callout--error {
-    background: var(--danger-bg);
-    border-color: var(--danger-border);
-    color: var(--danger-text);
-  }
-
-  .callout__icon {
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .callout__content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .callout__title {
-    font-weight: 600;
-    font-size: var(--fs-0);
-    margin-bottom: var(--space-xs);
-  }
-
-  .callout__body {
-    font-size: var(--fs--1);
-    line-height: 1.6;
-  }
-
-  .callout__body :global(p) {
-    margin: 0;
-  }
-
-  .callout__body :global(p + p) {
-    margin-top: var(--space-xs);
-  }
-
-  .callout__body :global(strong) {
-    font-weight: 600;
-  }
-
-  .callout__body :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-    padding: 2px 4px;
-    border-radius: 4px;
-    background: rgba(235, 235, 245, 0.08);
-  }
-
-  .callout__body :global(a) {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-</style>

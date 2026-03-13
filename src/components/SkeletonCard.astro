@@ -1,87 +1,15 @@
 ---
 // Skeleton loading card component
+import styles from "./SkeletonCard.module.css";
 ---
 
-<div class="skeleton-card" aria-hidden="true">
-  <div class="skeleton-card__inner">
-    <div class="skeleton-card__icon"></div>
-    <div class="skeleton-card__content">
-      <div class="skeleton-card__title"></div>
-      <div class="skeleton-card__body"></div>
-      <div class="skeleton-card__cta"></div>
+<div class={styles.skeletonCard} aria-hidden="true">
+  <div class={styles.inner}>
+    <div class={styles.icon}></div>
+    <div class={styles.content}>
+      <div class={styles.title}></div>
+      <div class={styles.body}></div>
+      <div class={styles.cta}></div>
     </div>
   </div>
 </div>
-
-<style>
-  .skeleton-card {
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--panel-border);
-    padding: var(--space-md);
-    background: var(--card-bg);
-    box-shadow: var(--shadow-card);
-    animation: skeleton-pulse 1.5s ease-in-out infinite;
-  }
-
-  .skeleton-card__inner {
-    display: flex;
-    gap: var(--space-sm);
-    align-items: flex-start;
-  }
-
-  .skeleton-card__icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(28, 28, 30, 0.80);
-  }
-
-  .skeleton-card__content {
-    display: grid;
-    gap: var(--space-xs);
-    flex: 1;
-    min-width: 0;
-  }
-
-  .skeleton-card__title {
-    height: 24px;
-    border-radius: 4px;
-    background: rgba(28, 28, 30, 0.80);
-    width: 70%;
-  }
-
-  .skeleton-card__body {
-    height: 16px;
-    border-radius: 4px;
-    background: rgba(28, 28, 30, 0.80);
-    width: 100%;
-  }
-
-  .skeleton-card__cta {
-    height: 14px;
-    border-radius: 4px;
-    background: rgba(28, 28, 30, 0.80);
-    width: 40%;
-    margin-top: var(--space-xs);
-  }
-
-  @keyframes skeleton-pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.6;
-    }
-  }
-
-  :root[data-motion="reduced"] .skeleton-card {
-    animation: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .skeleton-card {
-      animation: none;
-    }
-  }
-</style>
