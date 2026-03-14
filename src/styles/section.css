@@ -1,8 +1,9 @@
 .section-title {
-  font-size: var(--fs-h2);
-  font-weight: 700; /* Bold - section headings match H2 hierarchy */
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
   margin: clamp(var(--space-lg), 5vw, var(--space-xl)) 0 var(--space-md);
-  letter-spacing: var(--ls-h2); /* -0.025em HIG precision */
-  line-height: 1.12;
-  max-width: 22ch;
+  letter-spacing: var(--type-section-tracking);
+  line-height: var(--type-section-leading);
+  max-width: var(--measure-section);
+  text-wrap: balance;
 }

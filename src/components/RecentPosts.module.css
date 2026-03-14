@@ -9,16 +9,23 @@
 
 .title {
   justify-content: center;
-  font-size: var(--fs-h2);
-  font-weight: 600;
-  line-height: var(--lh-tight);
+  font-size: var(--type-section-size);
+  font-weight: var(--type-section-weight);
+  line-height: var(--type-section-leading);
+  letter-spacing: var(--type-section-tracking);
   margin: 0 0 var(--space-xs);
+  max-width: min(18ch, 100%);
+  text-wrap: balance;
 }
 
 .subtitle {
-  max-width: 42ch;
+  max-width: var(--measure-lede);
   margin: 0;
   margin-inline: auto;
+  font-size: var(--type-lede-size);
+  font-weight: var(--type-lede-weight);
+  line-height: var(--type-lede-leading);
+  text-wrap: pretty;
 }
 
 .grid {
@@ -34,7 +41,10 @@
 }
 
 .empty h3 {
-  font-size: var(--fs-h3);
+  font-size: var(--type-surface-size);
+  font-weight: var(--type-surface-weight);
+  letter-spacing: var(--type-surface-tracking);
+  line-height: var(--type-surface-leading);
   margin: 0 0 var(--space-sm);
 }
 

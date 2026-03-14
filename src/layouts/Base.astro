@@ -71,26 +71,26 @@ const isBlogRoute = isBlogIndexRoute || normalizedPath.startsWith("/blog/");
 const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
 const hasMobileDrawer = mobileDrawer ?? sidebar;
 const topbarSubtitle = isArticleRoute
-  ? "Engineering notes · reading mode"
+  ? "Developer notes · reading view"
   : isBlogRoute
-    ? "Software developer journal · systems & build notes"
-    : "Software developer · systems & tooling";
-const sidebarTitle = isBlogIndexRoute ? "Developer journal" : title;
+    ? "Programming essays · apps, web, and systems"
+    : "Full stack developer · Apple, web, and systems";
+const sidebarTitle = isBlogIndexRoute ? "Programming essays" : title;
 const sidebarMeta = isArticleRoute
-  ? "Tooling, systems, interfaces."
+  ? "Posts on apps, systems, and tools."
   : isBlogIndexRoute
-    ? "Build notes, essays, release logs."
+    ? "Programming essays and technical notes."
     : isBlogCategoryRoute
-      ? "Posts filtered by topic."
+      ? "Posts grouped by topic."
       : normalizedPath.startsWith("/projects")
-        ? "Apps, tooling, case studies."
+        ? "Apple apps, web builds, backend systems."
         : normalizedPath.startsWith("/about")
-          ? "Working style and engineering focus."
+          ? "Background, approach, and current interests."
           : normalizedPath.startsWith("/now")
-            ? "Current queue and experiments."
+            ? "Current work and next threads."
             : normalizedPath.startsWith("/contact")
-              ? "Project inquiry and links."
-              : "Navigation and contact.";
+              ? "Email, project context, and links."
+              : "Navigation, links, and contact.";
 ---
 
 <html lang="en" data-theme="light">
@@ -483,8 +483,8 @@ const sidebarMeta = isArticleRoute
                 <input
                   id="sidebarFilter"
                   type="search"
-                  placeholder="Find a link"
-                  aria-label="Find a link in the sidebar"
+                  placeholder="Jump to a page"
+                  aria-label="Jump to a page from the sidebar"
                 />
                 <kbd class="slash">/</kbd>
                 <span
@@ -506,7 +506,7 @@ const sidebarMeta = isArticleRoute
         <footer class="footer">
           <div class="footer__inner">
             <div class="footer__about">
-              <p class="footer__eyebrow">Closing note</p>
+              <p class="footer__eyebrow">Elsewhere</p>
               <p class="footer__title">
                 <span class="footer__titleRow">
                   Tulio Cunha
@@ -514,7 +514,7 @@ const sidebarMeta = isArticleRoute
                 </span>
               </p>
               <p class="footer__copy">
-                I'm a full stack developer, command line junkie, and dev tool addict.
+                Full stack developer working across Apple platforms, the web, backend, and systems.
               </p>
             </div>
             <div class="footer__actions">
@@ -531,7 +531,7 @@ const sidebarMeta = isArticleRoute
               </nav>
             </div>
             <div class="footer__meta">
-              <p class="footer__status">Usually building apps, backend systems, or tweaking the toolchain.</p>
+              <p class="footer__status">Usually in Swift, TypeScript, Go, Rust, or a terminal tab that has gone too far.</p>
               <p class="footer__legal">
                 © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
               </p>

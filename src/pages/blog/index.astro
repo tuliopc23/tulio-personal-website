@@ -17,6 +17,23 @@ const formatter = new Intl.DateTimeFormat("en", {
   year: "numeric",
 });
 
+const defaults = {
+  pageDescription:
+    "Essays and programming notes on Apple platforms, web development, backend systems, and tooling.",
+  heroEyebrow: "Essays",
+  heroTitle: "Programming essays on Apple platforms, web development, systems, and tools.",
+  heroLede:
+    "Writing about Swift and Apple platform development, full-stack web work, backend systems, programming tools, and the tradeoffs behind real implementation choices.",
+  emptyStateTitle: "No posts yet",
+  emptyStateBody:
+    "The essays are still in draft. RSS and Atom will pick up the first post as soon as it lands.",
+  archiveHeading: "By year",
+  archiveLede: "A simple view of what was published and when.",
+  allArticlesLabel: "All posts",
+  loadOlderLabel: "Load older posts",
+  filterEmptyState: "No essays match this topic yet. Try another tag or browse all posts.",
+};
+
 const postEntries: Array<
   PostSummary & {
     href: string;
@@ -43,15 +60,14 @@ const postEntries: Array<
 const [featured, ...rest] = postEntries;
 const spotlightTags = pageContent?.spotlightTags?.length
   ? pageContent.spotlightTags
-  : ["projects", "tools", "open source", "opinion"];
+  : ["swift", "tooling", "backend", "opinion"];
 const tagSet = new Set<string>(spotlightTags);
 
 const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
-const pageDescription =
-  pageContent?.pageDescription ??
-  "Build notes, essays, and field reports on apps, tooling, and interface systems.";
+const content = defaults;
+const pageDescription = content.pageDescription;
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
   : (featured?.heroImage ?? null);
@@ -109,23 +125,23 @@ const _placeholders = pageContent?.placeholderCards?.length
   ? pageContent.placeholderCards
   : [
       {
-        title: "Fresh case study in flight",
+        title: "Swift and Apple platforms",
         summary:
-          "A longer breakdown is being edited and will land here with the tradeoffs and release notes intact.",
+          "Programming notes on native apps, platform changes, APIs, and what matters once the release notes meet real code.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
-        title: "Tooling note in progress",
+        title: "Backend and systems",
         summary:
-          "Current experiments around automation, testing, and developer workflows before they graduate into a full post.",
+          "Essays on APIs, background work, runtimes, local tooling, and the less visible parts that keep software working.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
-        title: "Interface memo",
+        title: "Tooling and workflow",
         summary:
-          "Draft notes on motion, haptics, and the small interactions that change how software feels in use.",
+          "Programming workflow notes on editors, automation, terminals, and the habits that make daily development smoother.",
         href: "/blog/",
         tags: ["Preview"],
       },
@@ -133,13 +149,13 @@ const _placeholders = pageContent?.placeholderCards?.length
 
 const _sectionHeaders = {
   archive: {
-    eyebrow: "Back issues",
+    eyebrow: "Archive",
     icon: "calendar",
   },
   latest: {
-    eyebrow: "From the notebook",
-    title: "Recent entries",
-    lede: "Recent notes and essays. Filter by topic when you want a narrower slice.",
+    eyebrow: "Recent posts",
+    title: "Latest entries",
+    lede: "Recent essays on programming, toolchains, platform changes, and implementation tradeoffs.",
     icon: "notebook",
   },
 } as const;
@@ -184,10 +200,10 @@ const _sectionHeaders = {
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow meta-chip meta-chip--eyebrow">
         <PhosphorIcon name="article" size={14} weight="regular" />
-        {pageContent?.heroEyebrow ?? "Blog"}
+        {content.heroEyebrow}
       </span>
-      <h1 class="blogHero__title">{pageContent?.heroTitle ?? "Build notes, essays, and systems work in public."}</h1>
-      <p class="blogHero__lede">{pageContent?.heroLede ?? "Writing on tooling, interface engineering, delivery tradeoffs, and the small decisions behind shipped software."}</p>
+      <h1 class="blogHero__title">{content.heroTitle}</h1>
+      <p class="blogHero__lede">{content.heroLede}</p>
     </div>
     {
       featured ? (
@@ -199,7 +215,7 @@ const _sectionHeaders = {
             hook={featured.hook}
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
-            ctaLabel="Read"
+            ctaLabel="Read post"
             tags={featured.tags}
             categories={featured.categories}
             readingTimeMinutes={featured.readingTimeMinutes}
@@ -211,8 +227,8 @@ const _sectionHeaders = {
         </div>
       ) : (
         <div class="blogHero__empty card">
-          <h2>{pageContent?.emptyStateTitle ?? "No posts yet"}</h2>
-          <p>{pageContent?.emptyStateBody ?? "Articles are on the bench. Subscribe via RSS or Atom and the next one will meet you there."}</p>
+          <h2>{content.emptyStateTitle}</h2>
+          <p>{content.emptyStateBody}</p>
         </div>
       )
     }
@@ -241,14 +257,14 @@ const _sectionHeaders = {
           </div>
         </header>
         <div class="blogFilters">
-          <p class="blogFilters__label">Topic index</p>
+          <p class="blogFilters__label">Topics</p>
           <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
             <button
               class:list={["blogFilters__link", "chip-pill", "chip-pill--interactive", "motion-chip", "is-active"]}
               data-blog-filter="all"
               type="button"
             >
-              {pageContent?.allArticlesLabel ?? "All articles"}
+              {content.allArticlesLabel}
             </button>
             {_uniqueTags.map((tag) => {
               const slug = tag.toLowerCase().replace(/\s+/g, "-");
@@ -274,7 +290,7 @@ const _sectionHeaders = {
 
         {rest.length > 0 && (
           <div class="blogEmpty" data-blog-empty hidden>
-            {pageContent?.filterEmptyState ?? "No articles match this filter yet. Try another tag or check back soon."}
+            {content.filterEmptyState}
           </div>
         )}
 
@@ -301,7 +317,7 @@ const _sectionHeaders = {
                   hook={post.hook}
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
-                  ctaLabel="Read"
+                  ctaLabel="Read post"
                   tags={post.tags}
                   categories={post.categories}
                   readingTimeMinutes={post.readingTimeMinutes}
@@ -320,7 +336,7 @@ const _sectionHeaders = {
                   hook={null}
                   dateISO={new Date().toISOString()}
                   dateLabel="On deck"
-                  ctaLabel="Read"
+                  ctaLabel="Read post"
                   tags={placeholder.tags ?? []}
                   featured={false}
                 />
@@ -336,7 +352,7 @@ const _sectionHeaders = {
 
         <div class="blogActions">
           <button class="blogActions__load cta-pill cta-pill--neutral motion-cta-pill" data-blog-load-more type="button">
-            {pageContent?.loadOlderLabel ?? "Load more from the archive"}
+            {content.loadOlderLabel}
           </button>
         </div>
       </section>
@@ -363,10 +379,10 @@ const _sectionHeaders = {
             data-reveal-group="blog-archive"
             data-reveal-order={0}
           >
-            {pageContent?.archiveHeading ?? "Archive Overview"}
+            {content.archiveHeading}
           </h2>
           <p class="stage-intro__caption">
-            {pageContent?.archiveLede ?? "A year-by-year view of what shipped and when."}
+            {content.archiveLede}
           </p>
         </div>
       </header>

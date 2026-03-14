@@ -538,19 +538,22 @@
   box-shadow: var(--shadow-0);
 }
 .card-title {
-  font-size: clamp(1rem, 0.95vw + 0.9rem, 1.25rem);
-  font-weight: 750;
-  letter-spacing: var(--ls-h3); /* -0.018em - precision */
-  line-height: var(--lh-card-title); /* 1.22 - tighter card title rhythm */
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-leading);
   margin: 0 0 var(--space-xxs);
   color: var(--text); /* Override link color inheritance */
+  text-wrap: balance;
+  max-width: var(--measure-card-title);
 }
 .card-body {
-  font-size: var(--fs--1);
-  font-weight: 500; /* Medium - card descriptions are lede text, not body copy */
-  line-height: var(--lh-compact); /* 1.45 - Apple HIG compact text */
-  max-width: 56ch;
+  font-size: var(--type-card-summary-size);
+  font-weight: var(--type-card-summary-weight);
+  line-height: var(--type-card-summary-leading);
+  max-width: var(--measure-card-summary);
   margin: 0;
+  text-wrap: pretty;
 }
 
 [data-theme="dark"] .card-body {
@@ -1289,17 +1292,23 @@
   align-items: center;
   gap: 8px;
   margin: 0;
-  font-size: var(--fs-title-3);
-  font-weight: 800;
-  letter-spacing: var(--ls-title);
+  font-size: var(--type-surface-size);
+  font-weight: var(--type-surface-weight);
+  letter-spacing: var(--type-surface-tracking);
+  line-height: var(--type-surface-leading);
   color: var(--text-primary);
+  text-wrap: balance;
+  max-width: var(--measure-surface);
 }
 
 .surface-caption {
   margin: 0;
-  max-width: 42ch;
-  font-size: var(--fs-subheadline);
+  max-width: 36ch;
+  font-size: var(--type-card-summary-size);
+  font-weight: var(--type-card-summary-weight);
+  line-height: var(--type-card-summary-leading);
   color: var(--text-tertiary);
+  text-wrap: pretty;
 }
 
 .meta-chip {

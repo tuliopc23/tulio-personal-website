@@ -5,56 +5,56 @@ import { getAboutPageContent } from "../sanity/lib/page-content";
 const pageContent = await getAboutPageContent();
 
 const defaults = {
-  seoDescription: "Product engineer focused on apps, tooling, and interface quality.",
+  seoDescription: "Developer working across Apple platform apps, full-stack web, backend systems, and tooling.",
   heroEyebrow: "About",
-  heroTitle: "I build products with strong internals and sharp interfaces.",
+  heroTitle: "I’m a developer working across Apple platforms, the web, and backend systems.",
   heroLede:
-    "Most of my work sits between application engineering, tooling, and UI systems. I care about reliability, fast feedback loops, and software that feels deliberate in use.",
+    "Most of my work sits where Swift apps, web software, APIs, and developer infrastructure meet. I care about reliable internals, clear interfaces, and software that holds up once it reaches real users.",
   manifestoLabel: "Core stance",
-  manifestoTitle: "Make the core path solid before polishing the edges.",
+  manifestoTitle: "Strong internals first. Clear interfaces second.",
   manifestoCopy:
-    "I bias toward simple architectures, readable interfaces, and delivery loops that stay close to real behavior. The goal is software that is easier to ship, debug, and extend.",
+    "I start with the parts that make software dependable: structure, data flow, performance, and maintenance. Once the core path is solid, the interface can be simpler, faster, and easier to trust.",
   proofBullets: [
-    "Map the system before styling it",
-    "Ship vertical slices, not mock progress",
-    "Treat motion and accessibility as quality gates",
+    "Understand the system before dressing it up",
+    "Ship vertical slices that touch real code",
+    "Treat performance, motion, and accessibility as core engineering work",
   ],
   principles: [
     {
-      title: "Systems Thinking",
-      body: "Information architecture, component contracts, and content models are designed together so interfaces stay coherent as products scale.",
+      title: "System boundaries",
+      body: "Data flow, component contracts, and page structure should stay readable long after the first release.",
     },
     {
-      title: "Execution Discipline",
-      body: "I keep implementation close to real behavior with pragmatic validation loops, not speculative complexity.",
+      title: "Delivery rhythm",
+      body: "I prefer small, testable slices and fast feedback over big rewrites and presentation debt.",
     },
     {
-      title: "Design Language",
-      body: "Apple-inspired clarity, precise spacing, and restrained visual hierarchy shape products that feel premium without being ornamental.",
+      title: "Interface restraint",
+      body: "The interface should make the work legible. Precision matters more than decoration.",
     },
     {
-      title: "Editorial Communication",
-      body: "I document tradeoffs and decisions in plain language so teams can move faster with shared understanding.",
+      title: "Technical writing",
+      body: "I write down tradeoffs, behavior, and implementation details so future work starts with context instead of guesswork.",
     },
   ],
-  timelineHeading: "Current Arc",
+  timelineHeading: "Current arc",
   timelineLede:
-    "The present focus across product engineering, portfolio work, and technical writing.",
+    "The mix of work I keep returning to across apps, the web, systems, and public notes.",
   timelineItems: [
     {
       year: "2026",
-      title: "Portfolio and case-study expansion",
-      body: "Rebuilding this site as a more cinematic portfolio and stronger narrative layer for project outcomes.",
+      title: "Developer-first portfolio rebuild",
+      body: "Turning this site into a cleaner record of shipped work, current programming interests, and the stack behind both.",
     },
     {
       year: "2025",
-      title: "Native + web product convergence",
-      body: "Bridged workflows between Apple-platform development and modern web systems to ship faster with consistent quality.",
+      title: "Native and web in the same practice",
+      body: "More time spent moving between Swift apps, modern web stacks, and the backend pieces that support them.",
     },
     {
       year: "Ongoing",
-      title: "Tooling, performance, and interface craft",
-      body: "Investing in reliable delivery pipelines and refined interaction design that hold up under real-world constraints.",
+      title: "Systems, tooling, and platform notes",
+      body: "Writing about Apple platforms, programming tools, runtimes, and the tradeoffs that show up once software leaves the draft stage.",
     },
   ],
 };
@@ -109,12 +109,17 @@ const _structuredData = {
     </section>
 
   <section class="container home__section about__manifesto pageWidget" data-reveal>
-    <article class="about__manifestoCard hover-elevate motion-surface-standard" data-parallax-card>
-      <p class="about__manifestoLabel">{content.manifestoLabel}</p>
-      <h2 class="section-title">{content.manifestoTitle}</h2>
+    <article
+      class="about__manifestoCard surface-panel surface-panel--nested hover-elevate motion-surface-standard"
+      data-parallax-card
+    >
+      <p class="about__manifestoLabel surface-eyebrow">{content.manifestoLabel}</p>
+      <h2 class="pageWidget__title about__manifestoTitle">{content.manifestoTitle}</h2>
       <p class="about__manifestoCopy">{content.manifestoCopy}</p>
       <ul class="about__proof" role="list" aria-label="Working principles">
-        {content.proofBullets.map((item) => <li role="listitem">{item}</li>)}
+        {content.proofBullets.map((item) => (
+          <li class="chip-pill" role="listitem">{item}</li>
+        ))}
       </ul>
     </article>
   </section>
@@ -123,7 +128,7 @@ const _structuredData = {
     <div class="pageWidget__header">
       <span class="pageWidget__eyebrow">Operating model</span>
       <h2 class="pageWidget__title">How I work</h2>
-      <p class="pageWidget__caption">Product, delivery, and interface constraints I optimize for.</p>
+      <p class="pageWidget__caption">The engineering constraints I optimize for when building software.</p>
     </div>
     <div class="cardGrid about__principles">
       {content.principles.map((principle) => (

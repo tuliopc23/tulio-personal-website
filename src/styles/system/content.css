@@ -1,26 +1,35 @@
 /* ======= Prose ======= */
 .prose {
   padding: 10px 0;
-  max-width: var(--measure-reading);
-  width: min(100%, var(--measure-reading));
+  max-width: var(--measure-prose);
+  width: min(100%, var(--measure-prose));
   margin-inline: 0;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
   text-wrap: pretty;
   color: var(--text-primary);
-  line-height: var(--lh-base);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
 }
 .prose h1,
 .prose h2,
 .prose h3 {
-  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 .prose h2 {
-  font-size: clamp(30px, 2.6vw, 44px);
+  font-size: var(--type-reader-h2-size);
+  font-weight: var(--type-reader-h2-weight);
+  letter-spacing: var(--type-reader-h2-tracking);
+  line-height: var(--type-reader-h2-leading);
   margin: clamp(32px, 4vw, 52px) 0 var(--space-sm);
+  max-width: 18ch;
 }
 .prose h3 {
-  font-size: clamp(24px, 2vw, 34px);
+  font-size: var(--type-reader-h3-size);
+  font-weight: var(--type-reader-h3-weight);
+  letter-spacing: var(--type-reader-h3-tracking);
+  line-height: var(--type-reader-h3-leading);
   margin: clamp(24px, 3vw, 34px) 0 var(--space-xs);
 }
 .prose pre {
@@ -99,20 +108,23 @@
 }
 
 .article__title {
-  font-size: clamp(34px, 4vw + 14px, 46px);
-  font-weight: 800; /* Extrabold - article hero impact */
-  line-height: var(--lh-hero); /* 1.08 */
-  letter-spacing: var(--ls-hero); /* -0.039em - HIG precision */
+  font-size: var(--type-reader-title-size);
+  font-weight: var(--type-reader-title-weight);
+  line-height: var(--type-reader-title-leading);
+  letter-spacing: var(--type-reader-title-tracking);
+  max-width: 16ch;
+  text-wrap: balance;
 }
 
 .article__summary {
   margin: 0;
-  width: min(100%, var(--measure-reading));
+  width: min(100%, var(--measure-lede));
   max-width: 100%;
   color: var(--muted);
-  font-size: var(--fs-0);
-  font-weight: 500; /* Medium - article lede text prominence */
-  line-height: var(--lh-base); /* 1.65 - comfortable reading */
+  font-size: var(--type-lede-size);
+  font-weight: var(--type-lede-weight);
+  line-height: var(--type-lede-leading);
+  text-wrap: pretty;
 }
 
 .article__meta {
@@ -246,11 +258,12 @@
 }
 
 .articlePortable {
-  font-size: var(--fs-0);
-  line-height: var(--lh-base);
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
   color: var(--text-primary);
-  max-width: min(100%, var(--measure-reading));
-  width: min(100%, var(--measure-reading));
+  max-width: min(100%, var(--measure-prose));
+  width: min(100%, var(--measure-prose));
   margin-inline: 0;
   min-width: 0;
   font-kerning: normal;
@@ -264,17 +277,21 @@
 
 .articlePortable :where(h2) {
   margin: clamp(var(--space-lg), 4vw, 52px) 0 var(--space-sm);
-  font-size: clamp(30px, 2.8vw + 18px, 48px);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  font-size: var(--type-reader-h2-size);
+  font-weight: var(--type-reader-h2-weight);
+  line-height: var(--type-reader-h2-leading);
+  letter-spacing: var(--type-reader-h2-tracking);
+  max-width: 18ch;
+  text-wrap: balance;
 }
 
 .articlePortable :where(h3) {
   margin: clamp(var(--space-md), 3vw, 34px) 0 var(--space-xs);
-  font-size: clamp(24px, 2vw + 16px, 34px);
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: var(--type-reader-h3-size);
+  font-weight: var(--type-reader-h3-weight);
+  line-height: var(--type-reader-h3-leading);
+  letter-spacing: var(--type-reader-h3-tracking);
+  text-wrap: balance;
 }
 
 .articlePortable :where(blockquote) {
@@ -455,8 +472,12 @@
 }
 
 .article__relatedTitle {
-  font-size: clamp(22px, 2vw + 16px, 30px);
+  font-size: var(--type-surface-size);
+  font-weight: var(--type-surface-weight);
+  letter-spacing: var(--type-surface-tracking);
+  line-height: var(--type-surface-leading);
   margin: 0;
+  text-wrap: balance;
 }
 
 .article__relatedGrid {
@@ -489,7 +510,7 @@
   }
 
   .article__title {
-    font-size: clamp(30px, 5.2vw + 16px, 40px);
+    font-size: clamp(2.125rem, 6vw + 1rem, 2.75rem);
   }
 
   .article__meta {
@@ -510,11 +531,11 @@
   }
 
   .articlePortable :where(h2) {
-    font-size: clamp(24px, 6vw, 32px);
+    font-size: clamp(1.875rem, 6.2vw, 2.35rem);
   }
 
   .articlePortable :where(h3) {
-    font-size: clamp(20px, 4.6vw, 26px);
+    font-size: clamp(1.375rem, 4.8vw, 1.75rem);
   }
 
   .articlePortable :where(blockquote) {

@@ -54,7 +54,7 @@ const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
 const seoDescription =
-  seo?.metaDescription ?? post?.summary ?? "Thoughts and updates from Tulio Cunha.";
+  seo?.metaDescription ?? post?.summary ?? "Programming notes from Tulio Cunha on Apple platforms, web development, systems, and tools.";
 const canonical = seo?.canonicalUrl ?? shareUrl;
 const _noIndex = Boolean(seo?.noIndex);
 const preferredSocialImage = seo?.socialImage?.url ? seo.socialImage : (heroImage ?? null);
@@ -204,7 +204,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
           >
             <a class="article__backLink motion-link-inline" href="/blog">
               <PhosphorIcon name="arrow-left" size={18} weight="regular" />
-              <span>Back to the archive</span>
+              <span>Back to all posts</span>
             </a>
             <h1 class="article__title">{post.title}</h1>
             {post.summary && <p class="article__summary">{post.summary}</p>}
@@ -212,7 +212,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               <div class="article__meta">
                 {post.author && (
                   <>
-                    <span>Written by {post.author.name}</span>
+                    <span>By {post.author.name}</span>
                     <span aria-hidden="true">•</span>
                   </>
                 )}
@@ -238,7 +238,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
 
           {_takeaways.length > 0 && (
             <section class="article__takeaways" aria-label="Key takeaways">
-              <h2 class="article__relatedTitle">Key takeaways</h2>
+              <h2 class="article__relatedTitle">Key points</h2>
               <ul class="article__takeawayList">
                 {_takeaways.map((takeaway) => (
                   <li>{takeaway}</li>
@@ -304,10 +304,10 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   Share on LinkedIn
                 </a>
                 <a class="articlePortable__link motion-link-inline" href="/blog/feed.xml">
-                  RSS feed
+                  RSS
                 </a>
                 <a class="articlePortable__link motion-link-inline" href="/blog/atom.xml">
-                  Atom feed
+                  Atom
                 </a>
               </div>
             </section>

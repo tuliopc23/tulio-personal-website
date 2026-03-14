@@ -66,4 +66,58 @@
 	--ls-eyebrow: 0.06em;
 	--ls-profile-name: -0.028em;
 	--ls-profile-title: -0.018em;
+
+	/* ---- Editorial Hierarchy Roles ---- */
+	--type-display-size: clamp(2.5rem, 3.4vw + 1.35rem, 3.35rem);
+	--type-display-weight: 800;
+	--type-display-tracking: -0.04em;
+	--type-display-leading: 1.05;
+	--measure-display: 15ch;
+
+	--type-section-size: clamp(2rem, 2.4vw + 1rem, 2.75rem);
+	--type-section-weight: 800;
+	--type-section-tracking: -0.034em;
+	--type-section-leading: 1.05;
+	--measure-section: 18ch;
+
+	--type-surface-size: clamp(1.75rem, 1.35vw + 1.1rem, 2.25rem);
+	--type-surface-weight: 780;
+	--type-surface-tracking: -0.03em;
+	--type-surface-leading: 1.08;
+	--measure-surface: 22ch;
+
+	--type-card-title-size: clamp(1.375rem, 0.95vw + 1rem, 1.875rem);
+	--type-card-title-featured-size: clamp(1.625rem, 1.05vw + 1.08rem, 2.125rem);
+	--type-card-title-weight: 800;
+	--type-card-title-tracking: -0.028em;
+	--type-card-title-leading: 1.1;
+	--measure-card-title: 18ch;
+
+	--type-lede-size: clamp(1.03125rem, 0.55vw + 0.96rem, 1.1875rem);
+	--type-lede-weight: 480;
+	--type-lede-leading: 1.58;
+	--measure-lede: 60ch;
+
+	--type-card-summary-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
+	--type-card-summary-weight: 460;
+	--type-card-summary-leading: 1.52;
+	--measure-card-summary: 34ch;
+
+	--type-reader-title-size: clamp(2.5rem, 3vw + 1.15rem, 3.4rem);
+	--type-reader-title-weight: 800;
+	--type-reader-title-tracking: -0.04em;
+	--type-reader-title-leading: 1.04;
+	--type-reader-h2-size: clamp(2rem, 2.1vw + 1.1rem, 2.75rem);
+	--type-reader-h2-weight: 780;
+	--type-reader-h2-tracking: -0.032em;
+	--type-reader-h2-leading: 1.08;
+	--type-reader-h3-size: clamp(1.5rem, 1.15vw + 1rem, 1.95rem);
+	--type-reader-h3-weight: 700;
+	--type-reader-h3-tracking: -0.022em;
+	--type-reader-h3-leading: 1.12;
+
+	--type-body-size: clamp(1.03125rem, 0.3vw + 1rem, 1.125rem);
+	--type-body-weight: 430;
+	--type-body-leading: 1.72;
+	--measure-prose: 62ch;
 }

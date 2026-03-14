@@ -15,7 +15,7 @@
   --hover-elevate-scale: 1.01;
   display: grid;
   grid-template-rows: auto auto 1fr auto auto;
-  gap: 6px;
+  gap: 8px;
   padding: clamp(12px, 1.2vw, 16px);
   min-height: clamp(198px, 20vw, 250px);
   transform-style: preserve-3d;
@@ -35,27 +35,40 @@
 .eyebrow {
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-eyebrow);
+  font-size: var(--fs-eyebrow);
   color: var(--text-tertiary);
   font-weight: var(--fw-medium);
 }
 
 .title {
   margin: 0;
-  font-size: clamp(20px, 0.8vw + 16px, 25px);
-  letter-spacing: -0.02em;
-  font-weight: 800;
-  line-height: 1.06;
+  font-size: var(--type-card-title-size);
+  letter-spacing: var(--type-card-title-tracking);
+  font-weight: var(--type-card-title-weight);
+  line-height: var(--type-card-title-leading);
   text-wrap: balance;
+  max-width: var(--measure-card-title);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .summary {
   margin: 0;
   color: var(--text-secondary);
-  font-size: var(--fs-callout);
-  line-height: var(--lh-snug);
-  max-width: 34ch;
+  font-size: var(--type-card-summary-size);
+  font-weight: var(--type-card-summary-weight);
+  line-height: var(--type-card-summary-leading);
+  max-width: var(--measure-card-summary);
+  text-wrap: pretty;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .meta {
@@ -72,6 +85,7 @@
 
 .cta {
   justify-self: start;
+  margin-top: var(--space-xxs);
 }
 
 .empty {

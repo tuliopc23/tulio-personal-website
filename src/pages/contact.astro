@@ -5,7 +5,7 @@ import styles from "./contact.module.css";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
-const description = "Project inquiry page for product engineering, tooling, and interface work.";
+const description = "Contact page for Apple apps, web development, backend systems, and tooling work.";
 const contactEmail = "contact@tuliocunha.dev";
 
 const structuredData = {
@@ -37,21 +37,21 @@ const structuredData = {
 
       <div class="pageHero__copy">
         <span class="pageHero__eyebrow">Contact</span>
-        <h1 class="pageHero__title">Send scope, stack, and timeline.</h1>
+        <h1 class="pageHero__title">Send the problem, stack, and timeline.</h1>
         <p class="pageHero__lede">
-          Use the form for project work, tooling, or a focused interface pass. It opens an email draft with the context already filled in.
+          Use this for Apple platform work, web development, backend systems, tooling, or a direct programming question. It opens an email draft with the essentials filled in.
         </p>
         <div class="pageHero__meta" aria-label="Contact details">
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Direct email: {contactEmail}</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Email: {contactEmail}</span>
         </div>
       </div>
     </section>
 
     <section class="container pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">Project inquiry</span>
-        <h2 class="pageWidget__title">What to send</h2>
-        <p class="pageWidget__caption">Enough context to answer quickly: the goal, platform, timeline, and any hard constraints.</p>
+        <span class="pageWidget__eyebrow">Contact</span>
+        <h2 class="pageWidget__title">What helps</h2>
+        <p class="pageWidget__caption">A short description of the problem, stack, timeline, and constraints is enough to start.</p>
       </div>
       <div class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}>
         <form class={styles.contactForm} id="contact-form" data-contact-form>
@@ -71,7 +71,7 @@ const structuredData = {
               name="subject"
               type="text"
               required
-              placeholder="Project, consultation, or collaboration"
+              placeholder="App, web, backend, or tooling work"
             />
           </label>
 
@@ -81,14 +81,14 @@ const structuredData = {
               name="message"
               rows="7"
               required
-              placeholder="Tell me what you're building, timeline, and expected outcome."
+              placeholder="What are you building, where is it stuck, and what kind of help do you need?"
             ></textarea>
           </label>
 
           <div class={styles.contactFormActions}>
-            <button type="submit" class="btn">Open email draft</button>
+            <button type="submit" class="btn">Draft email</button>
             <p class={styles.contactFormHint}>
-              This opens your default email app prefilled to {contactEmail}.
+              This opens your mail app with a prefilled draft to {contactEmail}.
             </p>
           </div>
         </form>

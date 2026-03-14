@@ -54,7 +54,7 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
   <channel>
     <title>Tulio Cunha — Blog</title>
     <link>${escapeXml(homepageUrl)}</link>
-    <description>Apple-inspired engineering, design, and tooling notes by Tulio Cunha.</description>
+    <description>Programming essays on Apple platforms, web development, backend systems, and tooling.</description>
     <language>en</language>
     <generator>Astro</generator>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>

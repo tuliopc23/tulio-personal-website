@@ -29,7 +29,7 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
       >
         <p class={styles.eyebrow}>
           <PhosphorIcon name="article" size={12} weight="regular" />
-          <span>Latest note</span>
+          <span>Recent post</span>
         </p>
         <h3 class={styles.title}>{post.title}</h3>
         <p class={styles.summary}>{post.summary}</p>
@@ -48,12 +48,12 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
           )}
         </div>
         <a class:list={[styles.cta, "cta-pill", "cta-pill--accent", "motion-cta-pill"]} href={post.href}>
-          <span>Open note</span>
+          <span>Read post</span>
           <PhosphorIcon name="arrow-up-right" size={14} weight="regular" />
         </a>
       </article>
     ))
   ) : (
-    <p class={styles.empty}>Fresh long-form notes are being edited and prepared.</p>
+    <p class={styles.empty}>New notes are in draft.</p>
   )}
 </div>

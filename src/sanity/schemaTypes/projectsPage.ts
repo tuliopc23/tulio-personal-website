@@ -37,7 +37,7 @@ export default defineType({
       name: "filterEmptyTitle",
       title: "Filter Empty Title",
       type: "string",
-      initialValue: "No projects match this view",
+      initialValue: "No projects in this slice yet",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -45,13 +45,14 @@ export default defineType({
       title: "Filter Empty Body",
       type: "text",
       rows: 3,
+      initialValue: "Try another track, or email if you want technical context on work that is not written up here:",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "pageEmptyTitle",
       title: "Page Empty Title",
       type: "string",
-      initialValue: "Projects coming soon",
+      initialValue: "Project notes are being prepared",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -59,6 +60,7 @@ export default defineType({
       title: "Page Empty Body",
       type: "text",
       rows: 3,
+      initialValue: "The work exists. The write-ups are catching up. Email if you want implementation details:",
       validation: (rule) => rule.required(),
     }),
     defineField({

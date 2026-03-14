@@ -5,7 +5,7 @@ import styles from "./ProfileCard.module.css";
 
 const {
   name = "Tulio Cunha",
-  title = "Full Stack Developer . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict.",
+  title = "Full stack developer",
   location = "Brazil",
   email = "contact@tuliocunha.dev",
 } = Astro.props;
@@ -17,7 +17,7 @@ const profilePhotoSrc = "/profile-photo.png";
 const contactCards = [
   {
     label: "Contact",
-    value: "Start a conversation",
+    value: "Email and project context",
     href: "/contact",
     tint: "indigo",
     asset: "/icons/Socials/Email.webp",
@@ -41,15 +41,15 @@ const socialCards = [
     href: "https://github.com/tuliopc23",
     tint: "indigo",
     icon: "github",
-    ariaLabel: "Explore Tulio projects on GitHub",
+    ariaLabel: "Open Tulio's GitHub",
     external: true,
   },
   {
-    title: "My Portfolio",
+    title: "Portfolio",
     href: "https://portfolio.tuliocunha.dev",
     tint: "cyan",
     icon: "profile-portfolio",
-    ariaLabel: "Explore Tulio portfolio work",
+    ariaLabel: "Open Tulio's portfolio",
     external: true,
   },
   {
@@ -57,7 +57,7 @@ const socialCards = [
     href: "https://linkedin.com/in/tuliopinheirocunha",
     tint: "blue",
     asset: "/icons/Socials/linkedin-light.svg",
-    ariaLabel: "Connect with Tulio on LinkedIn",
+    ariaLabel: "Open Tulio's LinkedIn",
     external: true,
   },
   {
@@ -65,7 +65,7 @@ const socialCards = [
     href: "https://instagram.com/tuliopinheirocunha",
     tint: "pink",
     asset: "/icons/Socials/instagram-light.svg",
-    ariaLabel: "Follow Tulio on Instagram",
+    ariaLabel: "Open Tulio's Instagram",
     external: true,
   },
   {
@@ -73,15 +73,15 @@ const socialCards = [
     href: "https://mastodon.social/@tuliocunhadev",
     tint: "purple",
     icon: "mastodon",
-    ariaLabel: "Follow Tulio on Mastodon",
+    ariaLabel: "Open Tulio's Mastodon",
     external: true,
   },
   {
-    title: "Book meeting",
+    title: "Schedule time",
     href: "https://fantastical.app/tuliopinheirocunha",
     tint: "orange",
     asset: "/icons/Socials/calendar-light.svg",
-    ariaLabel: "Book a meeting with Tulio",
+    ariaLabel: "Schedule time with Tulio",
     external: true,
   },
 ];
@@ -117,7 +117,7 @@ const socialCards = [
         <h2 class={styles.profileCardName}>{name}</h2>
         <p class={styles.profileCardTitle}>{title}</p>
         <p class={styles.profileCardLead}>
-          Building Apple platform apps, product interfaces, and the systems that keep shipping work moving.
+          Swift, Apple platforms, web, backend, and systems work, with a bias for clear interfaces and reliable internals.
         </p>
       </div>
 
@@ -163,13 +163,13 @@ const socialCards = [
       <header class:list={[styles.profileCardSocialHeader, "surface-header"]}>
         <p class:list={[styles.profileCardEyebrow, "surface-eyebrow"]}>
           <PhosphorIcon name="share" size={14} weight="regular" />
-          <span>Connect</span>
+          <span>Profiles</span>
         </p>
         <h3 class="surface-title">
-          <span>Socials</span>
+          <span>Links</span>
           <PhosphorIcon name="users-three" size={18} weight="regular" />
         </h3>
-        <p class="surface-caption">Direct channels for collaboration, consulting, and following the work in public.</p>
+        <p class="surface-caption">Public profiles, portfolio links, and a direct way to reach me.</p>
       </header>
       <div class={styles.profileCardSocialGrid} role="list" aria-label="Social channels">
         {

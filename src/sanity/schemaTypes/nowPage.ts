@@ -103,14 +103,14 @@ export default defineType({
       name: "githubHeading",
       title: "GitHub Heading",
       type: "string",
-      initialValue: "Live GitHub Stream",
+      initialValue: "GitHub activity",
     }),
     defineField({
       name: "githubLede",
       title: "GitHub Lede",
       type: "text",
       rows: 2,
-      initialValue: "Real-time commit activity across active repositories.",
+      initialValue: "Recent commits across active repositories.",
     }),
   ],
   preview: {

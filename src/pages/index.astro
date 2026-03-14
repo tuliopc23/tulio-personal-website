@@ -146,7 +146,7 @@ const sectionNavItems = [
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Portfolio of Tulio Cunha with shipped apps, tooling, interface systems, and build notes.";
+  "Home of Tulio Cunha: Apple platform apps, full-stack web work, backend systems, and developer notes.";
 ---
 
 <Base
@@ -162,7 +162,7 @@ const description =
     <div id="section-profile" class="widget-profile">
       <ProfileCard
         name="Tulio Cunha"
-        title="Full Stack Developer . Command Line Junkie . Mac Head . Unix Enthusiast . Tool Addict."
+        title="Full stack developer"
         location="Brazil"
         email="contact@tuliocunha.dev"
       />
@@ -173,20 +173,20 @@ const description =
         <div class="stage-intro__copy">
           <span class="stage-intro__eyebrow">
             <PhosphorIcon name="terminal-window" size={14} weight="regular" />
-            Working context
+            Daily setup
           </span>
           <h2 id="homepage-working-context-title" class="stage-intro__title">
-            Tools, stack, and setup behind the work.
+            Tools, stack, and the machines behind the work.
           </h2>
           <p class="stage-intro__caption">
-            The day-to-day environment behind product work, developer tooling, and interface passes.
+            The setup I use for Apple platform apps, web work, backend services, and day-to-day development.
           </p>
         </div>
 
         <SectionQuickNav sections={sectionNavItems} />
       </header>
 
-      <div class="widget-carousel widget-carousel--context" role="region" aria-label="Working context widgets">
+      <div class="widget-carousel widget-carousel--context" role="region" aria-label="Daily setup widgets">
         <div
           id="section-tools"
           class="widget-box widget-tools surface-panel surface-panel--premium hover-elevate"
@@ -202,7 +202,7 @@ const description =
               <span>Tools</span>
               <PhosphorIcon name="toolbox" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption surface-caption">Utilities, workflows, and interfaces I keep close to the build.</p>
+            <p class="widget-caption surface-caption">Editors, terminals, and utilities I keep close while shipping.</p>
           </div>
           <div class="tools-grid" role="list" aria-label="Tools">
             {toolLinks.map((link, index) => (
@@ -233,7 +233,7 @@ const description =
               <span>Stack</span>
               <PhosphorIcon name="code" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption surface-caption">Languages and frameworks behind the products, tooling, and experiments.</p>
+            <p class="widget-caption surface-caption">Languages and frameworks I reach for across native, web, and systems work.</p>
           </div>
           <div class="tools-grid" role="list" aria-label="Stack">
             {stackLinks.map((link, index) => (
@@ -259,9 +259,9 @@ const description =
             <PhosphorIcon name="chart-bar" size={14} weight="regular" />
             Proof of work
           </span>
-          <h2 id="homepage-proof-title" class="stage-intro__title">Recent work and visible shipping activity.</h2>
+          <h2 id="homepage-proof-title" class="stage-intro__title">Recent shipping and public work.</h2>
           <p class="stage-intro__caption">
-            GitHub is the live signal: active repos, recent commits, and delivery rhythm.
+            GitHub is the live signal: repositories, commits, and what is moving right now.
           </p>
         </div>
       </header>
@@ -281,7 +281,7 @@ const description =
             <span>GitHub</span>
             <PhosphorIcon name="github" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption surface-caption">Live momentum, active work, and the cadence behind ongoing projects.</p>
+          <p class="widget-caption surface-caption">Live momentum, active work, and the cadence behind current projects.</p>
         </div>
         <GitHubActivityWidget large={true} limit={10} />
       </div>
@@ -292,11 +292,11 @@ const description =
         <div class="stage-intro__copy">
           <span class="stage-intro__eyebrow">
             <PhosphorIcon name="article" size={14} weight="regular" />
-            Exploration
+            Journal
           </span>
-          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing, experiments, and open threads.</h2>
+          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing and current topics.</h2>
           <p class="stage-intro__caption">
-            Notes that sit next to the shipped work: essays, postmortems, and technical threads.
+            Notes on platform changes, developer tools, shipped work, and the opinions that come out of building.
           </p>
         </div>
       </header>
@@ -310,13 +310,13 @@ const description =
         <div class="widget-header surface-header">
           <span class="widget-eyebrow surface-eyebrow">
             <PhosphorIcon name="article" size={13} weight="regular" />
-            Exploration
+            Journal
           </span>
           <h2 class="widget-title surface-title">
             <span>Writing</span>
             <PhosphorIcon name="article" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption surface-caption">Essays, experiments, and technical notes kept public.</p>
+          <p class="widget-caption surface-caption">Recent posts on Apple platforms, web work, systems, and tooling.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
       </div>

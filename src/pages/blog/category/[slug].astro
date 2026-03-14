@@ -65,8 +65,8 @@ const postEntries: Array<
 const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL(`/blog/category/${slug}/`, siteOrigin).toString();
-const pageTitle = `${category.title} Articles`;
-const pageDescription = category.description || `Articles about ${category.title} by Tulio Cunha`;
+const pageTitle = `${category.title} Posts`;
+const pageDescription = category.description || `Programming posts about ${category.title} by Tulio Cunha`;
 const _latestDate =
   postEntries.length > 0 ? formatter.format(new Date(postEntries[0].publishedAt)) : null;
 
@@ -108,14 +108,14 @@ const structuredData = {
     />
 
     <div class="categoryHero__copy">
-      <span class="categoryHero__eyebrow">Category</span>
+      <span class="categoryHero__eyebrow">Topic</span>
       <h1 class="categoryHero__title">{category.title}</h1>
       {category.description && <p class="categoryHero__description">{category.description}</p>}
     </div>
 
     <div class="categoryHero__meta" role="list" aria-label="Category metadata">
-      <span role="listitem">{postEntries.length} {postEntries.length === 1 ? "article" : "articles"}</span>
-      {_latestDate && <span role="listitem">Latest: {_latestDate}</span>}
+      <span role="listitem">{postEntries.length} {postEntries.length === 1 ? "post" : "posts"}</span>
+      {_latestDate && <span role="listitem">Latest post: {_latestDate}</span>}
     </div>
   </section>
 
@@ -150,9 +150,9 @@ const structuredData = {
       <div class="categoryEmpty card card--static">
         <div class="card__inner">
           <div class="card__content">
-            <h2 class="card-title">No articles in this category yet</h2>
+            <h2 class="card-title">No posts in this topic yet</h2>
             <p class="card-body">
-              New entries are in progress. Explore all posts on the <a href="/blog/">blog index</a>.
+              New essays are in progress. Browse the full blog index on the <a href="/blog/">blog index</a>.
             </p>
           </div>
         </div>

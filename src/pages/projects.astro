@@ -10,14 +10,14 @@ const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
 
 const defaults = {
-  description: "Selected builds across apps, backend systems, and developer tooling.",
+  description: "Selected work across Apple apps, full-stack web products, backend services, and developer tooling.",
   heroEyebrow: "Selected work",
   heroTitle: "Projects",
-  heroLede: "Selected builds across apps, backend systems, and developer tooling.",
-  filterEmptyTitle: "No projects match this view",
-  filterEmptyBody: "Adjust the filter or email for the full case-study list:",
-  pageEmptyTitle: "Case studies in progress",
-  pageEmptyBody: "The write-ups are being cleaned up. Email for details:",
+  heroLede: "A selection of Apple apps, web software, backend services, and developer tools I have built or contributed to.",
+  filterEmptyTitle: "No projects in this slice yet",
+  filterEmptyBody: "Try another track, or email if you want technical context on work that is not written up here:",
+  pageEmptyTitle: "Project notes are being prepared",
+  pageEmptyBody: "The work exists. The write-ups are catching up. Email if you want implementation details:",
   contactEmail: "contact@tuliocunha.dev",
 };
 
@@ -77,8 +77,8 @@ const _structuredData = {
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
         <div class="pageHero__meta" aria-label="Projects overview">
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>{_hasProjects ? `${projects.length} builds` : "Case studies in progress"}</span>
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">{PROJECT_CATEGORIES.length} tracks</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>{_hasProjects ? `${projects.length} projects` : "Project notes in progress"}</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">{PROJECT_CATEGORIES.length} areas</span>
         </div>
       </div>
       {

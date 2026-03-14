@@ -6,40 +6,40 @@ import { getNowPageContent } from "../sanity/lib/page-content";
 const pageContent = await getNowPageContent();
 
 const defaults = {
-  seoDescription: "Current work queue, next bets, and active experiments.",
+  seoDescription: "What I am building now across Apple apps, web work, backend systems, and developer notes.",
   heroEyebrow: "Now",
-  heroTitle: "Current work, next queue, later bets.",
+  heroTitle: "What I’m building now, what’s next, and what’s on deck.",
   heroLede:
-    "A live snapshot of what I'm shipping now, what's next in line, and which experiments are getting time.",
+    "A working snapshot of the code, platforms, tools, and essays that currently have attention.",
   nowItems: [
-    "Portfolio systems cleanup and case-study rollout",
-    "Shared page-shell and motion consistency work",
-    "Tooling notes and publishing pipeline cleanup",
+    "Swift work for Apple platforms, especially macOS-first ideas",
+    "Full-stack web and backend work that shares the same engineering discipline",
+    "Essays on platform changes, tooling, and current programming topics",
   ],
   nextItems: [
-    "More technical write-ups and project postmortems",
-    "Richer blog blocks for diagrams and callouts",
-    "Sanity workflow improvements for faster publishing",
+    "More project write-ups with architecture and implementation detail",
+    "More essays on Apple platforms, local AI, and implementation tradeoffs",
+    "Small improvements to the publishing flow and project index",
   ],
   laterItems: [
-    "Interactive project modules for selected builds",
-    "Public notes on design systems and delivery",
-    "More experiments around local tooling and AI UI",
+    "Small tools in Zig, Rust, and Go",
+    "More experiments around local tooling, automation, and developer UX",
+    "Deeper comparisons between native and web implementation patterns",
   ],
-  signalsHeading: "Success signals",
-  signalsLede: "What tells me the current direction is working.",
+  signalsHeading: "What success looks like",
+  signalsLede: "The signals I watch to know the current mix of work is healthy.",
   executionSignals: [
     {
-      title: "Faster iteration",
-      body: "Shared systems reduce cleanup work and make page-level changes cheaper to ship.",
+      title: "Shipped code stays visible",
+      body: "Projects, commits, and notes should reflect real work rather than placeholder narrative.",
     },
     {
-      title: "Clearer narrative",
-      body: "Projects, writing, and about-page context line up without needing extra explanation.",
+      title: "One practice across platforms",
+      body: "The same standards should hold across Swift apps, web products, backend work, and systems code.",
     },
     {
-      title: "Stronger visual consistency",
-      body: "Home, blog, projects, and supporting pages read like one system instead of separate surfaces.",
+      title: "Writing stays close to the work",
+      body: "The blog should track current platform changes, tools, and opinions that come directly from programming work.",
     },
   ],
   githubHeading: "GitHub activity",
@@ -107,7 +107,7 @@ const _structuredData = {
       <div class="pageWidget__header">
         <span class="pageWidget__eyebrow">Queue</span>
         <h2 class="pageWidget__title">What has attention right now</h2>
-        <p class="pageWidget__caption">A rough split between active delivery, next in line, and later experiments.</p>
+        <p class="pageWidget__caption">A rough split between active engineering work, near-term follow-ups, and ideas I want to earn time for.</p>
       </div>
       <div class="now__columns" role="list" aria-label="Roadmap stages">
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
