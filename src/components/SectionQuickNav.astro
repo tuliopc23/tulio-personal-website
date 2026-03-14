@@ -74,6 +74,11 @@ const heroSectionId = sections[0]?.id ?? "top";
         item.dataset.active = String(isActive);
         if (isActive) {
           item.setAttribute("aria-current", "true");
+          item.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+            block: "nearest",
+            inline: "center",
+          });
         } else {
           item.removeAttribute("aria-current");
         }
@@ -83,10 +88,13 @@ const heroSectionId = sections[0]?.id ?? "top";
     const scrollToTarget = (sectionId) => {
       const target = sectionId === "top" ? document.getElementById("top") : document.getElementById(sectionId);
       if (!target) return;
-      target.scrollIntoView({
+      const topbar = document.querySelector(".topbar");
+      const topbarOffset = topbar instanceof HTMLElement ? topbar.getBoundingClientRect().height : 0;
+      const extraOffset = window.innerWidth <= 768 ? 18 : 12;
+      const top = target.getBoundingClientRect().top + window.scrollY - topbarOffset - extraOffset;
+      window.scrollTo({
+        top: Math.max(top, 0),
         behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "start",
-        inline: "nearest",
       });
     };
 

@@ -30,9 +30,15 @@
   border: 1px solid var(--panel-border);
   background: color-mix(in srgb, var(--surface-card) 92%, transparent);
   color: var(--text-primary);
-  padding: 10px 12px;
+  padding: 14px 16px;
+  min-height: 52px;
   font: inherit;
   transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
+}
+
+.contactFormField textarea {
+  min-height: 176px;
+  resize: vertical;
 }
 
 .contactFormField input:focus-visible,
@@ -58,5 +64,14 @@
 @media (max-width: 760px) {
   .contactForm {
     grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .contactFormActions {
+    justify-items: stretch;
+  }
+
+  .contactFormActions :global(.btn) {
+    width: 100%;
   }
 }

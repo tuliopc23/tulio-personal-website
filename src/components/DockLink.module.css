@@ -28,3 +28,18 @@
 .dockPremium .name {
   font-size: var(--fs-caption);
 }
+
+@media (max-width: 768px) {
+  .dockLink {
+    gap: 8px;
+  }
+
+  .dockPremium {
+    min-height: 88px;
+    gap: 8px;
+  }
+
+  .dockPremium .name {
+    font-size: 0.72rem;
+  }
+}

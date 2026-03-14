@@ -247,37 +247,44 @@
 
 @media (width <= 760px) {
   .profileCard {
-    padding: 14px;
-    border-radius: 24px;
+    padding: 12px;
+    border-radius: 22px;
   }
 
   .profileCardIdentity {
     grid-template-columns: 1fr;
+    justify-items: start;
   }
 
   .profileCardPhoto {
-    width: 156px;
+    width: 132px;
   }
 
   .profileCardContactList {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .profileCardSocialGrid {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .profileCardSocialCard {
-    min-height: 84px;
+    min-height: 78px;
+  }
+
+  .profileCardContact {
+    min-height: 54px;
+    padding: 10px 12px;
+  }
+
+  .profileCardContactCopy span {
+    white-space: normal;
   }
 }
 
 @media (width <= 520px) {
-  .profileCardContactList,
-  .profileCardSocialGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .profileCardName {
     font-size: clamp(32px, 9vw, 40px);
   }

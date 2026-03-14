@@ -260,7 +260,7 @@ const _sectionHeaders = {
   {
     featured && rest.length > 0 && (
       <section
-        class="container blogSurface pageWidget"
+        class="container blogSurface blogSurface--feed pageWidget"
         aria-labelledby="blog-latest-title"
         data-reveal
         data-reveal-group="blog-list"
@@ -279,7 +279,7 @@ const _sectionHeaders = {
             </p>
           </div>
         </header>
-        <div class="blogFilters">
+        <div class="blogFilters blogFilters--feed">
           <p class="blogFilters__label">Topics</p>
           <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
             <button
@@ -317,7 +317,7 @@ const _sectionHeaders = {
           </div>
         )}
 
-        <div class="articleCarousel">
+        <div class="articleCarousel articleCarousel--feed">
           <ScrollHint target=".articleGrid" variant="all" />
           <ul
             class="articleGrid"
@@ -355,7 +355,7 @@ const _sectionHeaders = {
               </li>
             ))}
             {_placeholders.map((placeholder) => (
-              <li class="articleGrid__item" aria-hidden="true">
+              <li class="articleGrid__item articleGrid__item--placeholder" aria-hidden="true">
                 <ArticleCard
                   href={placeholder.href}
                   title={placeholder.title}
@@ -372,11 +372,13 @@ const _sectionHeaders = {
               </li>
             ))}
           </ul>
-          <PageIndicator
-            containerSelector=".articleGrid"
-            itemSelector=".articleGrid__item:not([hidden])"
-            ariaLabel="Articles navigation"
-          />
+          <div class="blogSurface__indicator">
+            <PageIndicator
+              containerSelector=".articleGrid"
+              itemSelector=".articleGrid__item:not([hidden])"
+              ariaLabel="Articles navigation"
+            />
+          </div>
         </div>
 
         <div class="blogActions">
@@ -439,6 +441,7 @@ const _sectionHeaders = {
       let activeTag = "all";
 
       const fadeDuration = 200;
+      const phoneQuery = window.matchMedia("(max-width: 767px)");
       const applyFilters = () => {
         let shown = 0;
         let matches = 0;
@@ -512,7 +515,11 @@ const _sectionHeaders = {
         resetLimit();
         filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
         applyFilters();
-        list.scrollTo({ left: 0, behavior: "smooth" });
+        if (phoneQuery.matches) {
+          list.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          list.scrollTo({ left: 0, behavior: "smooth" });
+        }
       };
 
       filters.forEach((button, index) => {
@@ -556,5 +563,59 @@ const _sectionHeaders = {
       applyFilters();
     }
   </script>
+  <style>
+    @media (max-width: 767px) {
+      .blogSurface--feed {
+        gap: var(--space-md);
+      }
+
+      .blogSurface--feed .stage-intro {
+        gap: var(--space-sm);
+      }
+
+      .blogSurface--feed .blogFilters--feed {
+        gap: 10px;
+      }
+
+      .blogSurface--feed .blogFilters__label {
+        font-size: var(--fs--2);
+        letter-spacing: 0.08em;
+      }
+
+      .blogSurface--feed .blogFilters__scroller {
+        padding: 6px;
+        border-radius: 20px;
+      }
+
+      .blogSurface--feed .articleCarousel--feed {
+        gap: 0;
+      }
+
+      .blogSurface--feed .articleGrid {
+        display: grid;
+        gap: var(--space-sm);
+        padding: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+        scroll-padding-inline: 0;
+      }
+
+      .blogSurface--feed .articleGrid__item {
+        flex: none;
+        max-width: none;
+        width: 100%;
+        animation: none;
+      }
+
+      .blogSurface--feed .articleGrid__item--placeholder {
+        display: none;
+      }
+
+      .blogSurface--feed :global(.scrollHint),
+      .blogSurface__indicator {
+        display: none;
+      }
+    }
+  </style>
   </div>
 </Base>

@@ -1,5 +1,6 @@
 const isBrowser = typeof window !== "undefined";
 const THEME_OVERRIDE_KEY = "theme-override";
+
 export {};
 
 type ThemeMode = "light" | "dark";

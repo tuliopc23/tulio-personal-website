@@ -80,6 +80,11 @@
   min-width: 0;
 }
 
+.article__breadcrumbsWrap {
+  width: 100%;
+  min-width: 0;
+}
+
 .article__breadcrumbs {
   display: inline-flex;
   align-items: center;
@@ -231,7 +236,7 @@
 .article__takeaways {
   width: 100%;
   margin-inline: 0;
-  margin-top: 0;
+  margin-top: clamp(var(--space-xs), 1.4vw, var(--space-sm));
   min-width: 0;
   padding: clamp(var(--space-xs), 1.6vw, var(--space-sm));
   border-radius: var(--radius-md);
@@ -505,16 +510,35 @@
 @media (max-width: 768px) {
   .article.pageWidget.container {
     border-radius: 22px;
-    padding-inline: clamp(12px, 4vw, 16px);
-    padding-block: clamp(12px, 3vw, 16px);
+    padding-inline: clamp(10px, 4vw, 14px);
+    padding-block: clamp(10px, 3vw, 14px);
+  }
+
+  .article {
+    gap: var(--space-sm);
+  }
+
+  .article__header {
+    gap: 10px;
+    padding-top: 0;
+  }
+
+  .article__breadcrumbsWrap {
+    order: -1;
   }
 
   .article__title {
     font-size: clamp(2.125rem, 6vw + 1rem, 2.75rem);
+    max-width: 100%;
   }
 
   .article__meta {
     gap: 6px 10px;
+    font-size: var(--fs--2);
+  }
+
+  .article__summary {
+    font-size: clamp(1rem, 1.8vw + 0.95rem, 1.125rem);
   }
 
   .article__hero {
@@ -523,6 +547,12 @@
 
   .article__takeaways {
     padding: var(--space-sm);
+    border-radius: 18px;
+  }
+
+  .article__takeawayList {
+    gap: 0.5rem;
+    font-size: var(--fs--2);
   }
 
   .articlePortable {
@@ -539,21 +569,28 @@
   }
 
   .articlePortable :where(blockquote) {
-    padding: 16px 16px 16px 20px;
+    margin-block: clamp(var(--space-sm), 5vw, var(--space-md));
+    padding: 14px 14px 14px 18px;
     border-radius: 18px;
   }
 
   .articlePortable__figure {
-    padding: var(--space-sm);
-    margin: clamp(var(--space-md), 7vw, var(--space-lg)) auto;
+    padding: 10px;
+    margin: clamp(var(--space-sm), 7vw, var(--space-md)) auto;
+    border-radius: 20px;
+  }
+
+  .articlePortable__codeBlock {
+    margin: clamp(var(--space-md), 6vw, var(--space-lg)) 0;
+    border-radius: 18px;
   }
 
   .articlePortable__codeCaption {
-    padding-inline: var(--space-sm);
+    padding-inline: 12px;
   }
 
   .articlePortable__pre {
-    padding-inline: var(--space-sm);
+    padding-inline: 12px;
     font-size: 0.88em;
   }
 }

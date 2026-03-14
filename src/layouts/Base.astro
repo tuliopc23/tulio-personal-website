@@ -344,11 +344,12 @@ const sidebarSocialLinks = [
               <button
                 type="button"
                 class="topbar__menu"
-                aria-label="Toggle navigation drawer"
+                aria-label="Open menu"
                 aria-expanded="false"
                 aria-controls="site-sidebar"
               >
                 <PhosphorIcon name="sidebar-left" size={22} weight="regular" />
+                <span class="topbar__menuLabel">Menu</span>
               </button>
             )
           }
@@ -428,17 +429,29 @@ const sidebarSocialLinks = [
           <aside
             id="site-sidebar"
             class:list={["sidebar", !sidebar && "sidebar--mobileOnly"]}
-            aria-label="Navigation drawer"
+            aria-label="Site navigation"
           >
             <div class="sidebar__inner">
-              <div class="sidebar__dragHandle" aria-hidden="true" />
               <div class="sidebar__header">
-                <h2 class="sidebar__title">{sidebarTitle}</h2>
+                <div class="sidebar__headerTop">
+                  <div>
+                    <p class="sidebar__eyebrow">Menu</p>
+                    <h2 class="sidebar__title">{sidebarTitle}</h2>
+                  </div>
+                  <button
+                    type="button"
+                    class="sidebar__close"
+                    aria-label="Close menu"
+                    data-sidebar-close
+                  >
+                    <PhosphorIcon name="x" size={20} weight="regular" />
+                  </button>
+                </div>
                 <p class="sidebar__meta">{sidebarMeta}</p>
               </div>
               <nav class="sidebar__nav" role="navigation" aria-label="Sections">
                 <div class="sidebar__group sidebar__group--site">
-                  <div class="sidebar__groupLabel">Site</div>
+                  <div class="sidebar__groupLabel">Explore</div>
                   {sidebarSiteLinks.map((link) => (
                     <a
                       class="sidebar__link"
@@ -452,41 +465,48 @@ const sidebarSocialLinks = [
                     </a>
                   ))}
                 </div>
-                <div class="sidebar__group sidebar__group--social">
-                  <div class="sidebar__groupLabel">Social</div>
-                  {sidebarSocialLinks.map((link) => (
-                    <a
-                      class="sidebar__link"
-                      href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noreferrer noopener" : undefined}
-                      aria-current={link.current ? "page" : undefined}
-                    >
-                      <span
-                        class:list={["icon-tile", link.tint && `icon-tile--${link.tint}`]}
-                        aria-hidden="true"
-                      >
-                        <PhosphorIcon name={link.icon} size={20} weight="regular" />
-                      </span>
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
               </nav>
-              <div class="sidebar__filter">
-                <input
-                  id="sidebarFilter"
-                  type="search"
-                  placeholder="Jump to a page"
-                  aria-label="Jump to a page from the sidebar"
-                />
-                <kbd class="slash">/</kbd>
-                <span
-                  class="sr-only"
-                  data-sidebar-status
-                  aria-live="polite"
-                  role="status"
-                />
+              <div class="sidebar__footer">
+                <div class="sidebar__group sidebar__group--social">
+                  <div class="sidebar__groupLabel">Elsewhere</div>
+                  <div class="sidebar__socialGrid">
+                    {sidebarSocialLinks.map((link) => (
+                      <a
+                        class="sidebar__link sidebar__link--secondary"
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        rel={link.external ? "noreferrer noopener" : undefined}
+                        aria-current={link.current ? "page" : undefined}
+                      >
+                        <span
+                          class:list={["icon-tile", link.tint && `icon-tile--${link.tint}`]}
+                          aria-hidden="true"
+                        >
+                          <PhosphorIcon name={link.icon} size={20} weight="regular" />
+                        </span>
+                        {link.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <div class="sidebar__filter">
+                  <label class="sidebar__filterLabel" for="sidebarFilter">Quick jump</label>
+                  <div class="sidebar__filterField">
+                    <input
+                      id="sidebarFilter"
+                      type="search"
+                      placeholder="Jump to a page"
+                      aria-label="Jump to a page from the menu"
+                    />
+                    <kbd class="slash">/</kbd>
+                  </div>
+                  <span
+                    class="sr-only"
+                    data-sidebar-status
+                    aria-live="polite"
+                    role="status"
+                  />
+                </div>
               </div>
             </div>
           </aside>

@@ -10,31 +10,19 @@
   const status = document.querySelector<HTMLElement>("[data-sidebar-status]");
   const sidebar = document.querySelector<HTMLElement>(".sidebar");
   const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
+  const closeButton = document.querySelector<HTMLButtonElement>("[data-sidebar-close]");
+
   if (!sidebar) {
     return;
   }
 
-  const dragHandle = sidebar?.querySelector<HTMLElement>(".sidebar__dragHandle") ?? null;
   const totalLinks = links.length;
   const mobileDrawerQuery = window.matchMedia("(max-width: 1024px)");
   const FOCUSABLE_SELECTOR =
     'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-  const INTERACTIVE_SELECTOR =
-    'a, button, input, textarea, select, label, summary, [role="button"], [role="link"], [contenteditable="true"]';
-  const OPEN_GESTURE_EDGE = 56;
-  const OPEN_GESTURE_MIN_DISTANCE = 72;
 
   let backdrop: HTMLDivElement | null = null;
   let previousFocusedElement: HTMLElement | null = null;
-
-  let activePointerId: number | null = null;
-  let dragStartY = 0;
-  let dragLastY = 0;
-  let dragLastTimestamp = 0;
-  let dragVelocity = 0;
-  let openGesturePointerId: number | null = null;
-  let openGestureStartX = 0;
-  let openGestureStartY = 0;
 
   const hasMobileDrawer = (): boolean => body.dataset.hasMobileDrawer === "true";
   const isMobileDrawer = (): boolean => hasMobileDrawer() && mobileDrawerQuery.matches;
@@ -43,51 +31,37 @@
     if (!(target instanceof HTMLElement)) {
       return false;
     }
+
     return Boolean(target.closest('input, textarea, select, [contenteditable="true"]'));
   };
 
-  const isInteractiveTarget = (target: EventTarget | null): boolean => {
-    if (!(target instanceof HTMLElement)) {
-      return false;
-    }
+  const getFocusableSidebarElements = (): HTMLElement[] =>
+    Array.from(sidebar.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter((element) => {
+      if (element.hasAttribute("disabled") || element.getAttribute("aria-hidden") === "true") {
+        return false;
+      }
 
-    return Boolean(target.closest(INTERACTIVE_SELECTOR));
-  };
+      const style = window.getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0;
+    });
 
-  const getFocusableSidebarElements = (): HTMLElement[] => {
-    if (!sidebar) {
-      return [];
-    }
-
-    return Array.from(sidebar.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
-      (element) => {
-        if (element.hasAttribute("disabled")) {
-          return false;
-        }
-        if (element.getAttribute("aria-hidden") === "true") {
-          return false;
-        }
-
-        const style = window.getComputedStyle(element);
-        const rect = element.getBoundingClientRect();
-        return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0;
-      },
-    );
-  };
-
-  const focusDrawerEntry = (): void => {
-    const fallback = getFocusableSidebarElements()[0] ?? null;
-    const target = filter && filter.offsetParent !== null ? filter : fallback;
-    target?.focus();
+  const focusMenuEntry = (): void => {
+    const preferred = closeButton && closeButton.offsetParent !== null ? closeButton : null;
+    const fallback =
+      filter && filter.offsetParent !== null ? filter : (getFocusableSidebarElements()[0] ?? null);
+    (preferred ?? fallback)?.focus();
   };
 
   const restorePreviousFocus = (): void => {
     if (!previousFocusedElement) {
       return;
     }
+
     if (document.contains(previousFocusedElement)) {
       previousFocusedElement.focus();
     }
+
     previousFocusedElement = null;
   };
 
@@ -95,14 +69,12 @@
     anchor.style.setProperty("--sidebar-order", String(index));
   });
 
-  if (body.dataset && !body.dataset.sidebarState) {
+  if (!body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
   }
 
   const apply = (query: string | null): void => {
-    const rawQuery = query ?? "";
-    const trimmedQuery = rawQuery.trim();
-    const needle = trimmedQuery.toLowerCase();
+    const needle = (query ?? "").trim().toLowerCase();
     let visibleCount = 0;
 
     links.forEach((anchor) => {
@@ -115,62 +87,27 @@
     });
 
     groups.forEach((groupEl) => {
-      if (groupEl.classList.contains("sidebar__group--site")) {
-        groupEl.style.setProperty("display", "block", "important");
-        return;
-      }
-
       const hasVisible = Array.from(
         groupEl.querySelectorAll<HTMLAnchorElement>(".sidebar__link"),
-      ).some((anchor) => {
-        const computed = getComputedStyle(anchor);
-        return computed.display !== "none" && anchor.style.display !== "none";
-      });
+      ).some(
+        (anchor) => anchor.style.display !== "none" && getComputedStyle(anchor).display !== "none",
+      );
       groupEl.style.display = hasVisible ? "block" : "none";
     });
 
-    if (status) {
-      if (needle.length === 0) {
-        status.textContent = `Showing all ${totalLinks} sidebar links.`;
-      } else if (visibleCount === 0) {
-        status.textContent = `No sidebar links match "${trimmedQuery}".`;
-      } else if (visibleCount === 1) {
-        status.textContent = `Showing 1 sidebar link for "${trimmedQuery}".`;
-      } else {
-        status.textContent = `Showing ${visibleCount} sidebar links for "${trimmedQuery}".`;
-      }
+    if (!status) {
+      return;
     }
-  };
 
-  const clearDragState = (): void => {
-    sidebar?.classList.remove("is-dragging");
-    sidebar?.style.removeProperty("--sidebar-offset");
-    activePointerId = null;
-    dragStartY = 0;
-    dragLastY = 0;
-    dragLastTimestamp = 0;
-    dragVelocity = 0;
-  };
-
-  const clearOpenGesture = (): void => {
-    openGesturePointerId = null;
-    openGestureStartX = 0;
-    openGestureStartY = 0;
-  };
-
-  const close = (): void => {
-    clearDragState();
-    clearOpenGesture();
-    sidebar?.classList.remove("is-open");
-    backdrop?.classList.remove("is-open");
-    toggle?.setAttribute("aria-expanded", "false");
-    body.classList.remove("is-locked");
-    sidebar?.setAttribute("aria-hidden", "true");
-    backdrop?.setAttribute("aria-hidden", "true");
-    if (body.dataset) {
-      body.dataset.sidebarState = "closed";
+    if (needle.length === 0) {
+      status.textContent = `Showing all ${totalLinks} menu links.`;
+    } else if (visibleCount === 0) {
+      status.textContent = `No menu links match "${query?.trim() ?? ""}".`;
+    } else if (visibleCount === 1) {
+      status.textContent = `Showing 1 menu link for "${query?.trim() ?? ""}".`;
+    } else {
+      status.textContent = `Showing ${visibleCount} menu links for "${query?.trim() ?? ""}".`;
     }
-    restorePreviousFocus();
   };
 
   const ensureBackdrop = (): HTMLDivElement => {
@@ -178,41 +115,52 @@
       backdrop = document.createElement("div");
       backdrop.className = "backdrop";
       backdrop.setAttribute("aria-hidden", "true");
-      backdrop.addEventListener("click", close);
+      backdrop.addEventListener("click", () => {
+        close();
+      });
       document.body.appendChild(backdrop);
     }
 
     return backdrop;
   };
 
+  const close = (): void => {
+    sidebar.classList.remove("is-open");
+    backdrop?.classList.remove("is-open");
+    toggle?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-label", "Open menu");
+    body.classList.remove("is-locked");
+    sidebar.setAttribute("aria-hidden", "true");
+    backdrop?.setAttribute("aria-hidden", "true");
+    body.dataset.sidebarState = "closed";
+    restorePreviousFocus();
+  };
+
   const open = (): void => {
-    const nextBackdrop = ensureBackdrop();
     if (
       !(document.activeElement instanceof HTMLElement) ||
-      !sidebar?.contains(document.activeElement)
+      !sidebar.contains(document.activeElement)
     ) {
       previousFocusedElement = document.activeElement as HTMLElement | null;
     }
 
-    clearDragState();
-    clearOpenGesture();
-    sidebar?.classList.add("is-open");
+    const nextBackdrop = ensureBackdrop();
+    sidebar.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
     toggle?.setAttribute("aria-expanded", "true");
+    toggle?.setAttribute("aria-label", "Close menu");
     body.classList.add("is-locked");
-    sidebar?.setAttribute("aria-hidden", "false");
+    sidebar.setAttribute("aria-hidden", "false");
     nextBackdrop.setAttribute("aria-hidden", "false");
-    if (body.dataset) {
-      body.dataset.sidebarState = "open";
-    }
+    body.dataset.sidebarState = "open";
 
     requestAnimationFrame(() => {
-      focusDrawerEntry();
+      focusMenuEntry();
     });
   };
 
   const trapFocus = (event: KeyboardEvent): void => {
-    if (!sidebar?.classList.contains("is-open") || event.key !== "Tab") {
+    if (!sidebar.classList.contains("is-open") || event.key !== "Tab") {
       return;
     }
 
@@ -239,140 +187,20 @@
     }
   };
 
-  const startDrag = (event: PointerEvent): void => {
-    if (!sidebar || !sidebar.classList.contains("is-open") || !isMobileDrawer()) {
-      return;
-    }
-
-    if (event.pointerType === "mouse" && event.button !== 0) {
-      return;
-    }
-
-    activePointerId = event.pointerId;
-    dragStartY = event.clientY;
-    dragLastY = event.clientY;
-    dragLastTimestamp = performance.now();
-    dragVelocity = 0;
-
-    sidebar.classList.add("is-dragging");
-    sidebar.style.setProperty("--sidebar-offset", "0px");
-
-    if (dragHandle?.setPointerCapture) {
-      dragHandle.setPointerCapture(event.pointerId);
-    }
-  };
-
-  const updateDrag = (event: PointerEvent): void => {
-    if (!sidebar || activePointerId !== event.pointerId) {
-      return;
-    }
-
-    const now = performance.now();
-    const deltaY = event.clientY - dragStartY;
-    const offset = deltaY > 0 ? deltaY : deltaY * 0.2;
-
-    const elapsed = Math.max(now - dragLastTimestamp, 1);
-    dragVelocity = (event.clientY - dragLastY) / elapsed;
-    dragLastY = event.clientY;
-    dragLastTimestamp = now;
-
-    sidebar.style.setProperty("--sidebar-offset", `${offset}px`);
-  };
-
-  const endDrag = (event: PointerEvent): void => {
-    if (!sidebar || activePointerId !== event.pointerId) {
-      return;
-    }
-
-    const dragDistance = Math.max(event.clientY - dragStartY, 0);
-    const closeThreshold = Math.min(Math.max(sidebar.clientHeight * 0.24, 90), 180);
-    const shouldClose = dragDistance > closeThreshold || dragVelocity > 0.8;
-
-    if (shouldClose) {
-      close();
-      return;
-    }
-
-    sidebar.classList.remove("is-dragging");
-    sidebar.style.setProperty("--sidebar-offset", "0px");
-    requestAnimationFrame(() => {
-      sidebar?.style.removeProperty("--sidebar-offset");
-    });
-    activePointerId = null;
-  };
-
-  const cancelDrag = (event: PointerEvent): void => {
-    if (activePointerId !== event.pointerId) {
-      return;
-    }
-    sidebar?.classList.remove("is-dragging");
-    sidebar?.style.removeProperty("--sidebar-offset");
-    activePointerId = null;
-  };
-
-  const startOpenGesture = (event: PointerEvent): void => {
-    if (!isMobileDrawer() || sidebar.classList.contains("is-open")) {
-      return;
-    }
-
-    if (event.pointerType === "mouse" || event.button !== 0) {
-      return;
-    }
-
-    if (isInteractiveTarget(event.target)) {
-      return;
-    }
-
-    if (window.innerHeight - event.clientY > OPEN_GESTURE_EDGE) {
-      return;
-    }
-
-    openGesturePointerId = event.pointerId;
-    openGestureStartX = event.clientX;
-    openGestureStartY = event.clientY;
-  };
-
-  const updateOpenGesture = (event: PointerEvent): void => {
-    if (openGesturePointerId !== event.pointerId || sidebar.classList.contains("is-open")) {
-      return;
-    }
-
-    const deltaY = openGestureStartY - event.clientY;
-    const deltaX = Math.abs(event.clientX - openGestureStartX);
-
-    if (deltaY <= 0) {
-      return;
-    }
-
-    if (deltaX > 24 && deltaX > deltaY) {
-      clearOpenGesture();
-      return;
-    }
-
-    if (deltaY >= OPEN_GESTURE_MIN_DISTANCE && deltaY > deltaX * 1.25) {
-      open();
-    }
-  };
-
-  const endOpenGesture = (event: PointerEvent): void => {
-    if (openGesturePointerId !== event.pointerId) {
-      return;
-    }
-
-    clearOpenGesture();
-  };
-
   filter?.addEventListener("input", (event: Event) => {
     const target = event.target;
-    if (!(target instanceof HTMLInputElement)) return;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+
     apply(target.value ?? null);
   });
 
-  sidebar?.setAttribute("aria-hidden", "true");
+  sidebar.setAttribute("aria-hidden", "true");
   toggle?.setAttribute("aria-expanded", "false");
 
-  toggle?.addEventListener("click", () => {
-    if (!sidebar) {
+  const toggleMenu = (): void => {
+    if (!isMobileDrawer()) {
       return;
     }
 
@@ -381,9 +209,14 @@
     } else {
       open();
     }
+  };
+
+  toggle?.addEventListener("click", toggleMenu);
+  closeButton?.addEventListener("click", () => {
+    close();
   });
 
-  sidebar?.addEventListener("click", (event) => {
+  sidebar.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) {
       return;
@@ -394,17 +227,6 @@
     }
   });
 
-  if (dragHandle) {
-    dragHandle.addEventListener("pointerdown", startDrag);
-  }
-  sidebar?.addEventListener("pointermove", updateDrag);
-  sidebar?.addEventListener("pointerup", endDrag);
-  sidebar?.addEventListener("pointercancel", cancelDrag);
-  window.addEventListener("pointerdown", startOpenGesture, { passive: true });
-  window.addEventListener("pointermove", updateOpenGesture, { passive: true });
-  window.addEventListener("pointerup", endOpenGesture, { passive: true });
-  window.addEventListener("pointercancel", endOpenGesture, { passive: true });
-
   window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       close();
@@ -413,48 +235,36 @@
 
     trapFocus(event);
 
-    if (event.key === "/" && !event.metaKey && !event.ctrlKey && !event.altKey) {
-      if (isEditableTarget(event.target)) {
-        return;
-      }
-
-      if (!filter) {
-        return;
-      }
-
-      if (!isMobileDrawer()) {
-        filter.focus();
-        event.preventDefault();
-        return;
-      }
-
-      const isOpen = Boolean(sidebar?.classList.contains("is-open"));
-      if (isOpen) {
-        filter.focus();
-        event.preventDefault();
-        return;
-      }
-
-      if (sidebar && toggle) {
-        open();
-        requestAnimationFrame(() => {
-          filter.focus();
-        });
-        event.preventDefault();
-      }
-    }
-  });
-
-  const syncOnViewportChange = (): void => {
-    if (isMobileDrawer()) {
+    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) {
       return;
     }
 
-    if (sidebar?.classList.contains("is-open")) {
+    if (isEditableTarget(event.target) || !filter) {
+      return;
+    }
+
+    if (!isMobileDrawer()) {
+      filter.focus();
+      event.preventDefault();
+      return;
+    }
+
+    if (!sidebar.classList.contains("is-open")) {
+      open();
+      requestAnimationFrame(() => {
+        filter.focus();
+      });
+    } else {
+      filter.focus();
+    }
+
+    event.preventDefault();
+  });
+
+  const syncOnViewportChange = (): void => {
+    if (!isMobileDrawer() && sidebar.classList.contains("is-open")) {
       close();
     }
-    clearDragState();
-    clearOpenGesture();
   };
 
   if (typeof mobileDrawerQuery.addEventListener === "function") {

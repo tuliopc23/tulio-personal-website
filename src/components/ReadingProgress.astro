@@ -12,12 +12,14 @@ import styles from "./ReadingProgress.module.css";
 
   if (progressBar) {
     const updateProgress = () => {
-      const article =
-        document.querySelector("article") || document.querySelector(".articlePortable");
-      if (!article) return;
+      const articleBody =
+        document.querySelector("[data-reading-body] .articlePortable") ||
+        document.querySelector("[data-reading-body]") ||
+        document.querySelector(".articlePortable");
+      if (!articleBody) return;
 
-      const articleTop = article.offsetTop;
-      const articleHeight = article.offsetHeight;
+      const articleTop = articleBody.offsetTop;
+      const articleHeight = articleBody.offsetHeight;
       const windowHeight = window.innerHeight;
       const scrollTop = window.pageYOffset;
 

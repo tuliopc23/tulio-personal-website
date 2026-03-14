@@ -191,13 +191,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
     {
       post ? (
         <>
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Blog", href: "/blog/" },
-              { label: post.title },
-            ]}
-          />
           <header
             class="article__header"
             data-reveal
@@ -208,6 +201,15 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               <PhosphorIcon name="arrow-left" size={18} weight="regular" />
               <span>Back to all posts</span>
             </a>
+            <div class="article__breadcrumbsWrap">
+              <Breadcrumbs
+                items={[
+                  { label: "Home", href: "/" },
+                  { label: "Blog", href: "/blog/" },
+                  { label: post.title },
+                ]}
+              />
+            </div>
             <h1 class="article__title">{post.title}</h1>
             {post.summary && <p class="article__summary">{post.summary}</p>}
             {(_dateISO || _readingLabel || post.author) && (
@@ -238,17 +240,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             )}
           </header>
 
-          {_takeaways.length > 0 && (
-            <section class="article__takeaways" aria-label="Key takeaways">
-              <h2 class="article__relatedTitle">Key points</h2>
-              <ul class="article__takeawayList">
-                {_takeaways.map((takeaway) => (
-                  <li>{takeaway}</li>
-                ))}
-              </ul>
-            </section>
-          )}
-
           {heroImage?.url && (
             <div
               class="article__hero"
@@ -278,12 +269,24 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
 
           <section
             class="article__body"
+            data-reading-body
             data-reveal
             data-reveal-group="post-shell"
             data-reveal-order={2}
           >
             <ArticlePortableText blocks={post.content} />
           </section>
+
+          {_takeaways.length > 0 && (
+            <section class="article__takeaways" aria-label="Key takeaways">
+              <h2 class="article__relatedTitle">Key points</h2>
+              <ul class="article__takeawayList">
+                {_takeaways.map((takeaway) => (
+                  <li>{takeaway}</li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <footer class="article__footer" aria-label="Article footer">
             <section data-reveal data-reveal-group="post-shell" data-reveal-order={3}>

@@ -95,7 +95,7 @@ const structuredData = {
   sidebar={true}
 >
   <section
-    class="container categoryHero"
+    class="container categoryHero categoryHero--feed pageWidget"
     data-reveal
     data-reveal-type="scale"
     data-reveal-group="category-hero"
@@ -121,9 +121,13 @@ const structuredData = {
   </section>
 
   {postEntries.length > 0 ? (
-    <section class="container categorySurface" data-reveal data-reveal-group="category-list">
+    <section
+      class="container categorySurface categorySurface--feed pageWidget"
+      data-reveal
+      data-reveal-group="category-list"
+    >
       <ScrollHint target=".categorySurface .articleGrid" variant="all" />
-      <div class="articleCarousel">
+      <div class="articleCarousel articleCarousel--category">
         <ul class="articleGrid">
           {postEntries.map((post, index) => (
             <li class="articleGrid__item">
@@ -160,4 +164,47 @@ const structuredData = {
       </div>
     </section>
   )}
+  <style>
+    @media (max-width: 767px) {
+      .categoryHero--feed {
+        gap: var(--space-sm);
+      }
+
+      .categoryHero--feed .categoryHero__copy {
+        gap: var(--space-xs);
+      }
+
+      .categoryHero--feed .categoryHero__meta {
+        gap: 8px;
+      }
+
+      .categorySurface--feed {
+        gap: var(--space-sm);
+      }
+
+      .categorySurface--feed .articleCarousel--category {
+        gap: 0;
+      }
+
+      .categorySurface--feed .articleGrid {
+        display: grid;
+        gap: var(--space-sm);
+        padding: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+        scroll-padding-inline: 0;
+      }
+
+      .categorySurface--feed .articleGrid__item {
+        flex: none;
+        max-width: none;
+        width: 100%;
+        animation: none;
+      }
+
+      .categorySurface--feed :global(.scrollHint) {
+        display: none;
+      }
+    }
+  </style>
 </Base>

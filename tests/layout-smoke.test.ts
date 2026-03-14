@@ -13,7 +13,8 @@ describe("shared layout smoke", () => {
     const html = readBuiltHtml("blog", "index.html");
     expect(html).toMatch(/<h2 class="sidebar__title">\s*Programming essays\s*<\/h2>/);
     expect(html).toContain("Programming essays and technical notes.");
-    expect(html).not.toContain("sidebar__eyebrow");
+    expect(html).toContain("sidebar__eyebrow");
+    expect(html).toContain(">Menu<");
     expect(html).toMatch(/<a[^>]*href="\/blog\/"[^>]*aria-current="page"/);
   });
 
