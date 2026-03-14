@@ -1,13 +1,22 @@
 ---
+import ArticleCard from "./ArticleCard.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./FeatureWritingWidget.module.css";
+import type { Category, SanityImageWithMetadata } from "../sanity/lib/posts";
 
 interface PostItem {
   title: string;
   summary: string;
   href: string;
+  hook?: string | null;
   dateLabel?: string;
+  dateISO?: string;
   readingTimeMinutes?: number;
+  tags?: string[];
+  categories?: Category[] | null;
+  heroImage?: SanityImageWithMetadata | null;
+  coverVariant?: "default" | "cinematic" | "minimal" | null;
+  isNew?: boolean;
 }
 
 const { posts = [] } = Astro.props as { posts: PostItem[] };
@@ -16,42 +25,26 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
 <div class={styles.featureWritingWidget} role="list" aria-label="Featured writing articles">
   {posts.length > 0 ? (
     posts.slice(0, 3).map((post) => (
-      <article
-        class:list={[
-          styles.card,
-          "surface-panel",
-          "surface-panel--nested",
-          "hover-elevate",
-          "motion-surface-standard",
-        ]}
-        role="listitem"
-        data-parallax-card
-      >
-        <p class={styles.eyebrow}>
-          <PhosphorIcon name="article" size={12} weight="regular" />
-          <span>Recent post</span>
-        </p>
-        <h3 class={styles.title}>{post.title}</h3>
-        <p class={styles.summary}>{post.summary}</p>
-        <div class={styles.meta}>
-          {post.dateLabel && (
-            <span class="chip-pill">
-              <PhosphorIcon name="calendar" size={13} weight="regular" />
-              {post.dateLabel}
-            </span>
-          )}
-          {typeof post.readingTimeMinutes === "number" && (
-            <span class="chip-pill">
-              <PhosphorIcon name="clock" size={13} weight="regular" />
-              {post.readingTimeMinutes} min read
-            </span>
-          )}
-        </div>
-        <a class:list={[styles.cta, "cta-pill", "cta-pill--accent", "motion-cta-pill"]} href={post.href}>
-          <span>Read post</span>
-          <PhosphorIcon name="arrow-up-right" size={14} weight="regular" />
-        </a>
-      </article>
+      <div class={styles.card} role="listitem">
+        <ArticleCard
+          href={post.href}
+          title={post.title}
+          summary={post.summary}
+          hook={post.hook}
+          dateISO={post.dateISO ?? new Date().toISOString()}
+          dateLabel={post.dateLabel ?? "Recent post"}
+          ctaLabel="Read post"
+          tags={post.tags ?? []}
+          categories={post.categories}
+          readingTimeMinutes={post.readingTimeMinutes}
+          isNew={post.isNew ?? false}
+          heroImage={post.heroImage}
+          coverVariant={post.coverVariant}
+          editorialLayout="featured-editorial"
+          editorialSize="standard"
+          revealGroup="home-writing"
+        />
+      </div>
     ))
   ) : (
     <p class={styles.empty}>New notes are in draft.</p>

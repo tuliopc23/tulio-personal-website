@@ -1,12 +1,12 @@
 ---
 /**
- * PhosphorIcon - Apple SF Symbols-style outline icons
- * Uses @phosphor-icons/core for consistent outline iconography
- * Supports multiple weights: thin, light, regular, bold, fill
+ * PhosphorIcon
+ * Canonical renderer for semantic UI icons across the site.
+ * Uses @phosphor-icons/core and normalizes app-specific aliases to a single icon set.
  */
 import styles from "./PhosphorIcon.module.css";
 
-type IconWeight = "thin" | "light" | "regular" | "bold" | "fill";
+type IconWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
 
 interface Props {
   name: string;
@@ -18,7 +18,9 @@ interface Props {
 
 const { name, size = 24, weight = "regular", stroke = 1.5, class: className = "" } = Astro.props;
 
-// Map common icon names to Phosphor equivalents (kebab-case)
+const normalizedName = name.trim().toLowerCase();
+
+// Map site-level semantic icon ids to Phosphor asset names.
 const iconMap: Record<string, string> = {
   // Time & Calendar
   clock: "clock",
@@ -54,6 +56,9 @@ const iconMap: Record<string, string> = {
   article: "article",
   code: "code",
   "paint-brush": "paint-brush",
+  "terminal-window": "terminal-window",
+  "chart-bar": "chart-bar",
+  toolbox: "toolbox",
 
   // UI Elements
   sparkle: "sparkle",
@@ -62,6 +67,11 @@ const iconMap: Record<string, string> = {
   share: "share-network",
   link: "link",
   "link-simple": "link-simple",
+  info: "info",
+  warning: "warning",
+  "check-circle": "check-circle",
+  "x-circle": "x-circle",
+  "users-three": "users-three",
 
   // Location & Places
   "map-pin": "map-pin",
@@ -88,25 +98,34 @@ const iconMap: Record<string, string> = {
 };
 
 // Get the actual Phosphor icon name
-const phosphorName = iconMap[name.toLowerCase()] || name;
+const phosphorName = iconMap[normalizedName] || normalizedName;
 
 // Import SVG dynamically from Phosphor using fs (server-side only)
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 let svgContent = "";
-try {
-  const iconPath = resolve(
-    process.cwd(),
-    "node_modules",
-    "@phosphor-icons",
-    "core",
-    "assets",
-    weight,
-    `${phosphorName}.svg`,
-  );
-  svgContent = readFileSync(iconPath, "utf-8");
-} catch (e) {
+const candidateWeights = [...new Set<IconWeight>([weight, "regular"])];
+
+for (const candidateWeight of candidateWeights) {
+  try {
+    const iconPath = resolve(
+      process.cwd(),
+      "node_modules",
+      "@phosphor-icons",
+      "core",
+      "assets",
+      candidateWeight,
+      `${phosphorName}.svg`,
+    );
+    svgContent = readFileSync(iconPath, "utf-8");
+    break;
+  } catch {
+    // Fall through to the next candidate weight.
+  }
+}
+
+if (!svgContent) {
   console.warn(`Phosphor icon not found: ${phosphorName} (${weight})`);
 }
 ---

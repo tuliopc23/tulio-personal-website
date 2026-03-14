@@ -1,7 +1,8 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
 import CategoryBadges from "./CategoryBadges.astro";
-import type { Category } from "../sanity/lib/posts";
+import { generateSrcset, optimizedImageUrl } from "../sanity/lib/image";
+import type { Category, SanityImageWithMetadata } from "../sanity/lib/posts";
 
 interface Props {
   href: string;
@@ -19,6 +20,11 @@ interface Props {
   revealDelay?: string;
   readingTimeMinutes?: number;
   isNew?: boolean;
+  heroImage?: SanityImageWithMetadata | null;
+  coverVariant?: "default" | "cinematic" | "minimal" | null;
+  imagePriority?: boolean;
+  editorialLayout?: "default" | "featured-editorial";
+  editorialSize?: "hero" | "standard";
 }
 
 const {
@@ -37,6 +43,11 @@ const {
   revealDelay,
   readingTimeMinutes,
   isNew = false,
+  heroImage = null,
+  coverVariant = "default",
+  imagePriority = false,
+  editorialLayout = "default",
+  editorialSize = "standard",
 }: Props = Astro.props;
 const _revealOrderAttr =
   revealOrder === undefined || revealOrder === null ? undefined : String(revealOrder);
@@ -44,14 +55,50 @@ const _tags = Array.isArray(tags) ? tags : [];
 const _categories = Array.isArray(categories) ? categories : [];
 const _displayTags = _tags.slice(0, featured ? 3 : 2);
 const _hasTaxonomy = _categories.length > 0 || _displayTags.length > 0;
+const _isFeaturedEditorial = editorialLayout === "featured-editorial";
+const _heroImageUrl = heroImage?.url ?? null;
+const _hasHeroImage = !!_heroImageUrl;
+const _editorialSource = _categories[0]?.title ?? _displayTags[0] ?? "Essay";
+const _editorialContext =
+  _categories[1]?.title ?? (_categories.length > 0 ? _displayTags[0] : _displayTags[1]) ?? null;
 const _readingTimeLabel =
   typeof readingTimeMinutes === "number" && Number.isFinite(readingTimeMinutes)
     ? `${Math.max(1, Math.round(readingTimeMinutes))} min`
     : null;
+const _editorialMediaFit = "cover";
+const _imageLoading = imagePriority ? "eager" : "lazy";
+const _imageFetchPriority = imagePriority ? "high" : "auto";
+const _imageSrc = _hasHeroImage
+  ? optimizedImageUrl(_heroImageUrl, 1440, 860, {
+      quality: 88,
+      sharpen: 1.2,
+      fit: _editorialMediaFit,
+    })
+  : null;
+const _imageSrcSet = _hasHeroImage
+  ? generateSrcset(_heroImageUrl, [640, 960, 1280, 1440, 1920], {
+      quality: 88,
+      sharpen: 1.2,
+      fit: _editorialMediaFit,
+    })
+  : null;
+const _imageSizes =
+  editorialSize === "hero"
+    ? "(max-width: 480px) calc(100vw - 32px), (max-width: 820px) calc(100vw - 48px), 760px"
+    : "(max-width: 480px) calc(100vw - 32px), (max-width: 900px) calc(100vw - 48px), (max-width: 1280px) min(42vw, 420px), 420px";
+const _imagePlaceholderStyle = heroImage?.lqip
+  ? `background-image: url('${heroImage.lqip}'); background-size: cover; background-position: center;`
+  : undefined;
+const _placeholderIcons =
+  coverVariant === "cinematic"
+    ? ["planet", "cube", "sparkle"]
+    : coverVariant === "minimal"
+      ? ["article", "terminal-window", "arrow-square-out"]
+      : ["laptop", "stack", "toolbox"];
 ---
 
 <article
-  class={`articleCard hover-elevate ${featured ? "motion-surface-premium articleCard--featured" : "motion-surface-standard"}`}
+  class={`articleCard hover-elevate ${featured ? "motion-surface-premium articleCard--featured" : "motion-surface-standard"} ${_hasHeroImage ? "articleCard--hasMedia" : ""} ${_isFeaturedEditorial ? "articleCard--featuredEditorial" : ""} ${_isFeaturedEditorial ? `articleCard--cover-${coverVariant ?? "default"}` : ""} ${_isFeaturedEditorial ? `articleCard--editorial-${editorialSize}` : ""}`}
   data-parallax-card
   data-reveal
   data-reveal-group={revealGroup}
@@ -59,51 +106,104 @@ const _readingTimeLabel =
   data-reveal-delay={revealDelay ?? undefined}
 >
   <a class="articleCard__link" href={href}>
-    <header class="articleCard__header">
-      {
-        _hasTaxonomy && (
-          <div class="articleCard__taxonomy" aria-label="Topics and categories">
-            <CategoryBadges categories={_categories} limit={2} variant="inline" />
-            {
-              _displayTags.length > 0 && (
-                <ul class:list={["articleCard__tags", "taxonomy-labels"]} aria-label="Tags">
-                  {_displayTags.map((tag) => (
-                    <li class:list={["articleCard__tag", "taxonomy-label"]}>{tag}</li>
-                  ))}
-                </ul>
-              )
-            }
-          </div>
-        )
-      }
-      <h3 class="articleCard__title">{title}</h3>
-    </header>
-    <p class="articleCard__summary">{summary}</p>
     {
-      hook && (
-        <p class="articleCard__hook">{hook}</p>
+      _hasHeroImage && _imageSrc && (
+        <figure class="articleCard__media" style={_imagePlaceholderStyle}>
+          <img
+            src={_imageSrc}
+            srcset={_imageSrcSet ?? undefined}
+            sizes={_imageSizes}
+            alt={heroImage?.alt ?? ""}
+            loading={_imageLoading}
+            fetchpriority={_imageFetchPriority}
+            decoding="async"
+            width={heroImage?.width}
+            height={heroImage?.height}
+          />
+        </figure>
       )
     }
-    <div class="articleCard__footer">
-      <div class="articleCard__meta" aria-label="Post metadata">
-        <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
-          <PhosphorIcon name="calendar" size={14} weight="regular" />
-          <time datetime={dateISO}>{dateLabel}</time>
-        </span>
+    {
+      _isFeaturedEditorial && !_hasHeroImage && (
+        <figure class="articleCard__media articleCard__media--placeholder" aria-hidden="true">
+          <div class="articleCard__placeholderCluster">
+            {_placeholderIcons.map((iconName, index) => (
+              <span
+                class="articleCard__placeholderOrb"
+                data-placeholder-index={index}
+              >
+                <PhosphorIcon name={iconName} size={editorialSize === "hero" ? 28 : 22} weight="regular" />
+              </span>
+            ))}
+          </div>
+        </figure>
+      )
+    }
+    <div class="articleCard__body">
+      <header class="articleCard__header">
         {
-          _readingTimeLabel && (
-            <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
-              <PhosphorIcon name="clock" size={14} weight="regular" />
-              {_readingTimeLabel}
-            </span>
+          _isFeaturedEditorial && (
+            <div class="articleCard__sourceRow" aria-label="Article context">
+              <span class="articleCard__source">
+                <PhosphorIcon name="article" size={13} weight="regular" />
+                <span>{_editorialSource}</span>
+              </span>
+              {
+                _editorialContext && (
+                  <>
+                    <span class="articleCard__sourceDot" aria-hidden="true"></span>
+                    <span class="articleCard__sourceContext">{_editorialContext}</span>
+                  </>
+                )
+              }
+            </div>
           )
         }
-        {isNew && <span class:list={["articleCard__metaItem", "articleCard__newBadge", "meta-chip", "meta-chip--compact", "meta-chip--accent"]}>New</span>}
+        {
+          _hasTaxonomy && (
+            <div class="articleCard__taxonomy" aria-label="Topics and categories">
+              <CategoryBadges categories={_categories} limit={2} variant="inline" />
+              {
+                _displayTags.length > 0 && (
+                  <ul class:list={["articleCard__tags", "taxonomy-labels"]} aria-label="Tags">
+                    {_displayTags.map((tag) => (
+                      <li class:list={["articleCard__tag", "taxonomy-label"]}>{tag}</li>
+                    ))}
+                  </ul>
+                )
+              }
+            </div>
+          )
+        }
+        <h3 class="articleCard__title">{title}</h3>
+      </header>
+      <p class="articleCard__summary">{summary}</p>
+      {
+        hook && (
+          <p class="articleCard__hook">{hook}</p>
+        )
+      }
+      <div class="articleCard__footer">
+        <div class="articleCard__meta" aria-label="Post metadata">
+          <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
+            <PhosphorIcon name="calendar" size={14} weight="regular" />
+            <time datetime={dateISO}>{dateLabel}</time>
+          </span>
+          {
+            _readingTimeLabel && (
+              <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
+                <PhosphorIcon name="clock" size={14} weight="regular" />
+                {_readingTimeLabel}
+              </span>
+            )
+          }
+          {isNew && <span class:list={["articleCard__metaItem", "articleCard__newBadge", "meta-chip", "meta-chip--compact", "meta-chip--accent"]}>New</span>}
+        </div>
+        <span class="articleCard__cta cta-pill cta-pill--accent motion-cta-pill">
+          <span>{ctaLabel}</span>
+          <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
+        </span>
       </div>
-      <span class="articleCard__cta cta-pill cta-pill--accent motion-cta-pill">
-        <span>{ctaLabel}</span>
-        <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
-      </span>
     </div>
   </a>
 </article>

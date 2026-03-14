@@ -124,16 +124,24 @@ export function cloudflareImageUrl(
 export function generateSrcset(
   source: SanityImageSource,
   widths: number[] = [320, 640, 768, 1024, 1280, 1920],
+  options: Pick<CloudflareImageOptions, "quality" | "sharpen" | "fit"> = {},
 ): string {
   return widths
     .map(
       (width) =>
-        `${cloudflareImageUrl(buildSourceUrl(source, { width, quality: 86, fit: "scale-down" }), {
-          width,
-          quality: 86,
-          sharpen: 1,
-          fit: "scale-down",
-        })} ${width}w`,
+        `${cloudflareImageUrl(
+          buildSourceUrl(source, {
+            width,
+            quality: options.quality ?? 86,
+            fit: options.fit ?? "scale-down",
+          }),
+          {
+            width,
+            quality: options.quality ?? 86,
+            sharpen: options.sharpen ?? 1,
+            fit: options.fit ?? "scale-down",
+          },
+        )} ${width}w`,
     )
     .join(", ");
 }

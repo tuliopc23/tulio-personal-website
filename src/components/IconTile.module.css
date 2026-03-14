@@ -124,6 +124,7 @@
 .root[data-dock="true"][data-icon="linkedin-light"],
 .root[data-dock="true"][data-icon="instagram-light"],
 .root[data-dock="true"][data-icon="calendar-light"],
+.root[data-dock="true"][data-icon="calendar"],
 .root[data-dock="true"][data-icon="github"],
 .root[data-dock="true"][data-icon="mastodon"],
 .root[data-dock="true"][data-icon="profile-portfolio"] {

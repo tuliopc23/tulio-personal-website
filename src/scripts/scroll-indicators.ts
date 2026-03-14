@@ -1,10 +1,11 @@
 (() => {
   const cleanupKey = "__edgeFadeCleanups";
+  type CleanupWindow = Window & {
+    __edgeFadeCleanups?: Array<() => void>;
+  };
 
   const getCleanups = (): Array<() => void> => {
-    const windowWithCleanups = window as Window & {
-      [cleanupKey]?: Array<() => void>;
-    };
+    const windowWithCleanups = window as CleanupWindow;
 
     if (!Array.isArray(windowWithCleanups[cleanupKey])) {
       windowWithCleanups[cleanupKey] = [];

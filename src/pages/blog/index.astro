@@ -7,7 +7,7 @@ import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import { optimizedImageUrl } from "../../sanity/lib/image";
 import { getBlogPageContent } from "../../sanity/lib/page-content";
-import { getAllPosts, type PostSummary } from "../../sanity/lib/posts";
+import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../sanity/lib/posts";
 
 const pageContent = await getBlogPageContent();
 
@@ -34,15 +34,7 @@ const defaults = {
   filterEmptyState: "No essays match this topic yet. Try another tag or browse all posts.",
 };
 
-const postEntries: Array<
-  PostSummary & {
-    href: string;
-    dateISO: string;
-    dateLabel: string;
-    readingTimeMinutes: number;
-    isNew: boolean;
-  }
-> = (await getAllPosts()).map((post) => {
+function toPostEntry(post: PostSummary) {
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
@@ -55,9 +47,23 @@ const postEntries: Array<
     readingTimeMinutes: post.readingTimeMinutes ?? estimatedReadingTime,
     isNew,
   };
-});
+}
 
-const [featured, ...rest] = postEntries;
+const featuredCandidates = await getFeaturedPosts();
+const allPosts = await getAllPosts();
+const postEntries: Array<
+  PostSummary & {
+    href: string;
+    dateISO: string;
+    dateLabel: string;
+    readingTimeMinutes: number;
+    isNew: boolean;
+  }
+> = allPosts.map(toPostEntry);
+
+const featuredPost = featuredCandidates[0] ?? allPosts[0] ?? null;
+const featured = featuredPost ? toPostEntry(featuredPost) : null;
+const rest = featured ? postEntries.filter((post) => post.slug !== featured.slug) : postEntries;
 const spotlightTags = pageContent?.spotlightTags?.length
   ? pageContent.spotlightTags
   : ["swift", "tooling", "backend", "opinion"];
@@ -66,7 +72,19 @@ const tagSet = new Set<string>(spotlightTags);
 const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
-const content = defaults;
+const content = {
+  pageDescription: pageContent?.pageDescription ?? defaults.pageDescription,
+  heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
+  heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
+  heroLede: pageContent?.heroLede ?? defaults.heroLede,
+  emptyStateTitle: pageContent?.emptyStateTitle ?? defaults.emptyStateTitle,
+  emptyStateBody: pageContent?.emptyStateBody ?? defaults.emptyStateBody,
+  archiveHeading: pageContent?.archiveHeading ?? defaults.archiveHeading,
+  archiveLede: pageContent?.archiveLede ?? defaults.archiveLede,
+  allArticlesLabel: pageContent?.allArticlesLabel ?? defaults.allArticlesLabel,
+  loadOlderLabel: pageContent?.loadOlderLabel ?? defaults.loadOlderLabel,
+  filterEmptyState: pageContent?.filterEmptyState ?? defaults.filterEmptyState,
+};
 const pageDescription = content.pageDescription;
 const featuredSocial = featured?.seo?.socialImage?.url
   ? featured.seo.socialImage
@@ -221,6 +239,11 @@ const _sectionHeaders = {
             readingTimeMinutes={featured.readingTimeMinutes}
             isNew={featured.isNew}
             featured={true}
+            heroImage={featured.heroImage}
+            coverVariant={featured.coverVariant}
+            imagePriority={true}
+            editorialLayout="featured-editorial"
+            editorialSize="hero"
             revealGroup="blog-hero"
             revealOrder={0}
           />
@@ -322,6 +345,10 @@ const _sectionHeaders = {
                   categories={post.categories}
                   readingTimeMinutes={post.readingTimeMinutes}
                   isNew={post.isNew}
+                  heroImage={post.heroImage}
+                  coverVariant={post.coverVariant}
+                  editorialLayout="featured-editorial"
+                  editorialSize="standard"
                   revealGroup="blog-list"
                   revealOrder={index}
                 />
@@ -338,6 +365,8 @@ const _sectionHeaders = {
                   dateLabel="On deck"
                   ctaLabel="Read post"
                   tags={placeholder.tags ?? []}
+                  editorialLayout="featured-editorial"
+                  editorialSize="standard"
                   featured={false}
                 />
               </li>

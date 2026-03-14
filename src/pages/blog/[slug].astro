@@ -54,7 +54,9 @@ const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
 const seoDescription =
-  seo?.metaDescription ?? post?.summary ?? "Programming notes from Tulio Cunha on Apple platforms, web development, systems, and tools.";
+  seo?.metaDescription ??
+  post?.summary ??
+  "Programming notes from Tulio Cunha on Apple platforms, web development, systems, and tools.";
 const canonical = seo?.canonicalUrl ?? shareUrl;
 const _noIndex = Boolean(seo?.noIndex);
 const preferredSocialImage = seo?.socialImage?.url ? seo.socialImage : (heroImage ?? null);

@@ -45,7 +45,8 @@ export default defineType({
       title: "Filter Empty Body",
       type: "text",
       rows: 3,
-      initialValue: "Try another track, or email if you want technical context on work that is not written up here:",
+      initialValue:
+        "Try another track, or email if you want technical context on work that is not written up here:",
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -60,7 +61,8 @@ export default defineType({
       title: "Page Empty Body",
       type: "text",
       rows: 3,
-      initialValue: "The work exists. The write-ups are catching up. Email if you want implementation details:",
+      initialValue:
+        "The work exists. The write-ups are catching up. Email if you want implementation details:",
       validation: (rule) => rule.required(),
     }),
     defineField({
