@@ -1,0 +1,68 @@
+src/components/SectionQuickNav.astro
+  f0086fdf90d044fa 77-81,91-96
+src/scripts/sidebar.ts
+  f0086fdf90d044fa 13-14,38-42,44,47,49-53,60,64,72,77,93,98-99,102-109,118-120,127-136,142,147-148,151,153,155,158,163,190-192,199,202-203,212-216,219,238,242,252-254,256-258,260-261,265
+src/components/ProfileCard.module.css
+  f0086fdf90d044fa 250-251,256,260,264-265,269-270,274,277-279,282-283,285,287
+src/styles/system/content.css
+  f0086fdf90d044fa 83-87,239,513-527,532,537-541,550-555,572-573,578-585,589,593
+src/components/Breadcrumbs.module.css
+  f0086fdf90d044fa 29,65-69,104-137
+src/styles/system/routes.css
+  f0086fdf90d044fa 250-253,260,268-277,279-285,416,532-548,735-740,782-783,3041-3054
+src/styles/system/shell.css
+  f0086fdf90d044fa 131,152-157,849-852,906-907,910,914-919,921-924,926-930,932-934,938-940,942-944,956,964-966,970,989,993-994,999-1000,1041-1045,1048-1056,1067-1097,1175-1178,1540-1565,1605-1633
+src/pages/blog/[slug].astro
+  f0086fdf90d044fa 204,212,272
+src/scripts/theme.ts
+  f0086fdf90d044fa 3
+src/pages/blog/index.astro
+  f0086fdf90d044fa 263,282,320,358,375-376,380-381,444,518-520,522,566-619
+src/pages/projects.astro
+  f0086fdf90d044fa 149-150,155-157,174-175
+src/pages/contact.module.css
+  f0086fdf90d044fa 33-34,39-43,67-75
+src/components/ReadingProgress.astro
+  f0086fdf90d044fa 15-19,21-22
+src/pages/blog/category/[slug].astro
+  f0086fdf90d044fa 98,125,130,167-209
+tests/layout-smoke.test.ts
+  f0086fdf90d044fa 16-17
+src/components/DockLink.module.css
+  f0086fdf90d044fa 31-45
+src/layouts/Base.astro
+  f0086fdf90d044fa 347,352,432,436-449,454,468-469,471-472,475,479,481-485,490,492-494,499,501-502,508
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "93c7dbbe685bd2b6ce5d74722e0868c990f173db",
+  "prompts": {
+    "63d6a94ed1d5f85c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cedee-11a1-7552-8043-f3e349dd8c8e",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 1,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    },
+    "f0086fdf90d044fa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cee5b-2171-70c1-906b-6d6027e79a2e",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 686,
+      "total_deletions": 442,
+      "accepted_lines": 625,
+      "overriden_lines": 0
+    }
+  }
+}
