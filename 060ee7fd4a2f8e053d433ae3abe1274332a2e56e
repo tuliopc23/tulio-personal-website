@@ -1,0 +1,84 @@
+.gitignore
+  578f08de1918bd4e 13
+README.md
+  69af4331a0cb29ab 135-153
+  1455f6321af9d67d 119
+  578f08de1918bd4e 113-118,120-134
+wrangler.jsonc
+  578f08de1918bd4e 1-6
+package.json
+  ce433a349cb944a4 12
+  578f08de1918bd4e 11,13,81-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "060ee7fd4a2f8e053d433ae3abe1274332a2e56e",
+  "prompts": {
+    "1455f6321af9d67d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cedc2-489c-7303-a929-52859a4b540d",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "2f5f0f9eba326882": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d7047431-6233-4cf4-90c1-57de260f4889",
+        "model": "<synthetic>"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 3,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    },
+    "578f08de1918bd4e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cedcc-320a-7f10-bf02-f70bfe08da2d",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 34,
+      "total_deletions": 1,
+      "accepted_lines": 32,
+      "overriden_lines": 0
+    },
+    "69af4331a0cb29ab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cede3-6fdf-7ff0-85f3-3614f68faf43",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 0,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    },
+    "ce433a349cb944a4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cedd4-716e-7293-83e1-e99f058d0a87",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
