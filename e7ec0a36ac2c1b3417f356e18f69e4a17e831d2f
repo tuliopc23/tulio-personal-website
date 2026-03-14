@@ -1,0 +1,38 @@
+src/components/IconTile.module.css
+  63d6a94ed1d5f85c 128,135-136
+src/components/ProfileCard.astro
+  63d6a94ed1d5f85c 51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "e7ec0a36ac2c1b3417f356e18f69e4a17e831d2f",
+  "prompts": {
+    "63d6a94ed1d5f85c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cedee-11a1-7552-8043-f3e349dd8c8e",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "f70758a09d75a7d6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cee5b-7e6f-74d2-983f-40ce3957aadc",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
