@@ -132,25 +132,6 @@ bun run cf:download-config     # Pull the current Pages project config into wran
 
 Do **not** use `wrangler deploy` here. That command targets Workers, tries to add the Astro Cloudflare adapter, and can break this static Pages setup by expecting a Worker entrypoint such as `dist/_worker.js/index.js`.
 
-### Push-to-deploy via GitHub Actions
-
-This repo can also deploy to the existing Pages project on every push to `main` via [deploy-cloudflare-pages.yml](/Users/tuliopinheirocunha/Developer/tulio-personal-website/.github/workflows/deploy-cloudflare-pages.yml).
-
-Required GitHub secrets:
-
-- `CLOUDFLARE_API_TOKEN`
-- `CLOUDFLARE_ACCOUNT_ID`
-- `PUBLIC_SANITY_PROJECT_ID`
-- `PUBLIC_SANITY_DATASET`
-
-Optional GitHub secrets:
-
-- `PUBLIC_SANITY_VISUAL_EDITING_ENABLED`
-- `SANITY_API_READ_TOKEN`
-- `PUBLIC_SANITY_STUDIO_URL`
-- `PUBLIC_SANITY_PREVIEW_URL`
-- `SANITY_STUDIO_PREVIEW_URL`
-
 ### If asset upload fails in CI
 
 Errors like:
