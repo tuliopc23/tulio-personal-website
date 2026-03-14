@@ -49,4 +49,3 @@ jobs:
             --project-name=tulio-personal-website
             --branch=main
             --commit-hash=${{ github.sha }}
-            --commit-message=${{ github.event.head_commit.message || github.sha }}
