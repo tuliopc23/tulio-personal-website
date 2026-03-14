@@ -125,10 +125,15 @@
 .root[data-dock="true"][data-icon="instagram-light"],
 .root[data-dock="true"][data-icon="calendar-light"],
 .root[data-dock="true"][data-icon="calendar"],
+.root[data-dock="true"][data-icon="www"],
 .root[data-dock="true"][data-icon="github"],
 .root[data-dock="true"][data-icon="mastodon"],
 .root[data-dock="true"][data-icon="profile-portfolio"] {
   --dock-icon-scale: 122%;
+}
+
+.root[data-dock="true"][data-icon="www"] {
+  --dock-icon-scale: 114%;
 }
 
 .media img[data-variant="dark"] {
