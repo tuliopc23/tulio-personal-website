@@ -20,11 +20,11 @@
 */
 
 :root {
-  --breakpoint-xs: 480px;   /* Tiny phones (iPhone SE) */
-  --breakpoint-sm: 600px;   /* Small phones */
-  --breakpoint-md: 768px;   /* Tablets portrait (iPad Mini) */
-  --breakpoint-lg: 1024px;  /* Tablets landscape / small laptops (iPad Pro) */
-  --breakpoint-xl: 1280px;  /* Desktops */
+  --breakpoint-xs: 480px; /* Tiny phones (iPhone SE) */
+  --breakpoint-sm: 600px; /* Small phones */
+  --breakpoint-md: 768px; /* Tablets portrait (iPad Mini) */
+  --breakpoint-lg: 1024px; /* Tablets landscape / small laptops (iPad Pro) */
+  --breakpoint-xl: 1280px; /* Desktops */
   --breakpoint-2xl: 1680px; /* Large desktops / ultrawide */
 }
 

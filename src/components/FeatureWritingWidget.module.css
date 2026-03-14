@@ -27,12 +27,14 @@
   max-width: 13ch;
 }
 
-.card :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__summary) {
+.card
+  :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__summary) {
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
 
-.card :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__footer) {
+.card
+  :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__footer) {
   padding-top: 2px;
 }
 
@@ -56,7 +58,8 @@
     min-height: clamp(320px, 82vw, 372px);
   }
 
-  .card :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__media) {
+  .card
+    :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__media) {
     aspect-ratio: 1.58 / 1;
   }
 }

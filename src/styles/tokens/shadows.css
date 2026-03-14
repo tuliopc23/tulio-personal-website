@@ -3,246 +3,170 @@
 /* Single source of truth: all shadow, elevation, and focus-ring tokens */
 
 :root {
-	/* ---- Generic layered elevation system ---- */
-	--shadow-0:
-		0 0.6px 1.2px rgba(0, 0, 0, 0.6),
-		0 0 8px rgba(0, 0, 0, 0.15);
+  /* ---- Generic layered elevation system ---- */
+  --shadow-0: 0 0.6px 1.2px rgba(0, 0, 0, 0.6), 0 0 8px rgba(0, 0, 0, 0.15);
 
-	--shadow-1:
-		0 1px 2px rgba(0, 0, 0, 0.6),
-		0 2px 4px rgba(0, 0, 0, 0.5),
-		0 12px 24px rgba(0, 0, 0, 0.38),
-		0 24px 48px rgba(0, 0, 0, 0.25);
+  --shadow-1:
+    0 1px 2px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5), 0 12px 24px rgba(0, 0, 0, 0.38),
+    0 24px 48px rgba(0, 0, 0, 0.25);
 
-	--shadow-2:
-		0 2px 4px rgba(0, 0, 0, 0.65),
-		0 6px 12px rgba(0, 0, 0, 0.52),
-		0 20px 40px rgba(0, 0, 0, 0.34),
-		0 40px 80px rgba(0, 0, 0, 0.22);
+  --shadow-2:
+    0 2px 4px rgba(0, 0, 0, 0.65), 0 6px 12px rgba(0, 0, 0, 0.52), 0 20px 40px rgba(0, 0, 0, 0.34),
+    0 40px 80px rgba(0, 0, 0, 0.22);
 
-	--shadow-3:
-		0 4px 8px rgba(0, 0, 0, 0.7),
-		0 12px 24px rgba(0, 0, 0, 0.56),
-		0 30px 60px rgba(0, 0, 0, 0.38),
-		0 60px 120px rgba(0, 0, 0, 0.26);
+  --shadow-3:
+    0 4px 8px rgba(0, 0, 0, 0.7), 0 12px 24px rgba(0, 0, 0, 0.56), 0 30px 60px rgba(0, 0, 0, 0.38),
+    0 60px 120px rgba(0, 0, 0, 0.26);
 
-	--shadow-4:
-		0 8px 16px rgba(0, 0, 0, 0.75),
-		0 24px 48px rgba(0, 0, 0, 0.6),
-		0 80px 160px rgba(0, 0, 0, 0.32);
+  --shadow-4:
+    0 8px 16px rgba(0, 0, 0, 0.75), 0 24px 48px rgba(0, 0, 0, 0.6), 0 80px 160px rgba(0, 0, 0, 0.32);
 
-	/* ---- Card shadows — Tahoe 26 ---- */
-	--shadow-card:
-		0 2px 4px rgba(0, 0, 0, 0.08),
-		0 8px 16px rgba(0, 0, 0, 0.12),
-		0 20px 48px rgba(0, 0, 0, 0.55),
-		inset 0 1px 0 rgba(255, 255, 255, 0.06);
-	--shadow-card-hover:
-		0 4px 8px rgba(0, 0, 0, 0.1),
-		0 12px 24px rgba(0, 0, 0, 0.16),
-		0 28px 56px rgba(0, 0, 0, 0.6),
-		inset 0 1px 0 rgba(255, 255, 255, 0.08);
-	--shadow-card-soft:
-		0 1px 2px rgba(0, 0, 0, 0.06),
-		0 4px 8px rgba(0, 0, 0, 0.1),
-		0 14px 34px rgba(0, 0, 0, 0.42),
-		inset 0 1px 0 rgba(255, 255, 255, 0.05);
-	--shadow-card-highlight:
-		0 4px 8px rgba(0, 0, 0, 0.7),
-		0 12px 24px rgba(0, 0, 0, 0.56),
-		0 30px 60px rgba(0, 0, 0, 0.38),
-		0 60px 120px rgba(0, 0, 0, 0.26);
-	--shadow-card-glow:
-		0 8px 16px rgba(0, 0, 0, 0.75),
-		0 24px 48px rgba(0, 0, 0, 0.6),
-		0 80px 160px rgba(0, 0, 0, 0.32),
-		0 0 120px rgba(10, 132, 255, 0.18),
-		inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* ---- Card shadows — Tahoe 26 ---- */
+  --shadow-card:
+    0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.12), 0 20px 48px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-card-hover:
+    0 4px 8px rgba(0, 0, 0, 0.1), 0 12px 24px rgba(0, 0, 0, 0.16), 0 28px 56px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-card-soft:
+    0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.1), 0 14px 34px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-highlight:
+    0 4px 8px rgba(0, 0, 0, 0.7), 0 12px 24px rgba(0, 0, 0, 0.56), 0 30px 60px rgba(0, 0, 0, 0.38),
+    0 60px 120px rgba(0, 0, 0, 0.26);
+  --shadow-card-glow:
+    0 8px 16px rgba(0, 0, 0, 0.75),
+    0 24px 48px rgba(0, 0, 0, 0.6),
+    0 80px 160px rgba(0, 0, 0, 0.32),
+    0 0 120px rgba(10, 132, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-	/* ---- Interactive element shadows — Tahoe 26 ---- */
-	--shadow-interactive:
-		0 2px 4px rgba(0, 122, 255, 0.12),
-		0 6px 12px rgba(0, 122, 255, 0.18),
-		0 10px 26px rgba(0, 122, 255, 0.25),
-		inset 0 1px 0 rgba(255, 255, 255, 0.2);
-	--shadow-interactive-hover:
-		0 4px 8px rgba(0, 122, 255, 0.16),
-		0 10px 20px rgba(0, 122, 255, 0.24),
-		0 16px 32px rgba(0, 122, 255, 0.35),
-		inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  /* ---- Interactive element shadows — Tahoe 26 ---- */
+  --shadow-interactive:
+    0 2px 4px rgba(0, 122, 255, 0.12), 0 6px 12px rgba(0, 122, 255, 0.18),
+    0 10px 26px rgba(0, 122, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --shadow-interactive-hover:
+    0 4px 8px rgba(0, 122, 255, 0.16), 0 10px 20px rgba(0, 122, 255, 0.24),
+    0 16px 32px rgba(0, 122, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.24);
 
-	/* ---- Structural shadows — Tahoe 26 ---- */
-	--shadow-topbar:
-		0 2px 4px rgba(0, 0, 0, 0.06),
-		0 8px 16px rgba(0, 0, 0, 0.1),
-		0 16px 34px rgba(0, 0, 0, 0.38),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.05);
-	--shadow-topbar-elevated:
-		0 4px 8px rgba(0, 0, 0, 0.08),
-		0 12px 24px rgba(0, 0, 0, 0.14),
-		0 24px 48px rgba(0, 0, 0, 0.48),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.08);
-	--shadow-sidebar:
-		0 2px 4px rgba(0, 0, 0, 0.06),
-		0 8px 16px rgba(0, 0, 0, 0.12),
-		0 18px 42px rgba(0, 0, 0, 0.42),
-		inset -1px 0 0 rgba(255, 255, 255, 0.05);
-	--shadow-footer:
-		0 -2px 4px rgba(0, 0, 0, 0.06),
-		0 -8px 16px rgba(0, 0, 0, 0.1),
-		0 -18px 36px rgba(0, 0, 0, 0.38),
-		inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* ---- Structural shadows — Tahoe 26 ---- */
+  --shadow-topbar:
+    0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.1), 0 16px 34px rgba(0, 0, 0, 0.38),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-topbar-elevated:
+    0 4px 8px rgba(0, 0, 0, 0.08), 0 12px 24px rgba(0, 0, 0, 0.14), 0 24px 48px rgba(0, 0, 0, 0.48),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-sidebar:
+    0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.12), 0 18px 42px rgba(0, 0, 0, 0.42),
+    inset -1px 0 0 rgba(255, 255, 255, 0.05);
+  --shadow-footer:
+    0 -2px 4px rgba(0, 0, 0, 0.06), 0 -8px 16px rgba(0, 0, 0, 0.1),
+    0 -18px 36px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-	/* ---- Elevation Tokens — Semantic Z-axis ---- */
-	--elevation-0: 0;
-	--elevation-1: var(--shadow-card-soft);
-	--elevation-2: var(--shadow-card);
-	--elevation-3: var(--shadow-card-hover);
-	--elevation-4: var(--shadow-topbar-elevated);
-	--elevation-5:
-		0 8px 16px rgba(0, 0, 0, 0.12),
-		0 16px 32px rgba(0, 0, 0, 0.18),
-		0 32px 64px rgba(0, 0, 0, 0.65),
-		inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* ---- Elevation Tokens — Semantic Z-axis ---- */
+  --elevation-0: 0;
+  --elevation-1: var(--shadow-card-soft);
+  --elevation-2: var(--shadow-card);
+  --elevation-3: var(--shadow-card-hover);
+  --elevation-4: var(--shadow-topbar-elevated);
+  --elevation-5:
+    0 8px 16px rgba(0, 0, 0, 0.12), 0 16px 32px rgba(0, 0, 0, 0.18),
+    0 32px 64px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-	/* ---- Colored Shadow Tokens ---- */
-	--shadow-blue:
-		0 2px 4px rgba(10, 132, 255, 0.2),
-		0 6px 12px rgba(10, 132, 255, 0.25),
-		0 12px 24px rgba(10, 132, 255, 0.3);
-	--shadow-green:
-		0 2px 4px rgba(50, 215, 75, 0.2),
-		0 6px 12px rgba(50, 215, 75, 0.25),
-		0 12px 24px rgba(50, 215, 75, 0.3);
-	--shadow-indigo:
-		0 2px 4px rgba(94, 92, 230, 0.2),
-		0 6px 12px rgba(94, 92, 230, 0.25),
-		0 12px 24px rgba(94, 92, 230, 0.3);
-	--shadow-teal:
-		0 2px 4px rgba(100, 210, 255, 0.2),
-		0 6px 12px rgba(100, 210, 255, 0.25),
-		0 12px 24px rgba(100, 210, 255, 0.3);
-	--shadow-orange:
-		0 2px 4px rgba(255, 159, 10, 0.2),
-		0 6px 12px rgba(255, 159, 10, 0.25),
-		0 12px 24px rgba(255, 159, 10, 0.3);
+  /* ---- Colored Shadow Tokens ---- */
+  --shadow-blue:
+    0 2px 4px rgba(10, 132, 255, 0.2), 0 6px 12px rgba(10, 132, 255, 0.25),
+    0 12px 24px rgba(10, 132, 255, 0.3);
+  --shadow-green:
+    0 2px 4px rgba(50, 215, 75, 0.2), 0 6px 12px rgba(50, 215, 75, 0.25),
+    0 12px 24px rgba(50, 215, 75, 0.3);
+  --shadow-indigo:
+    0 2px 4px rgba(94, 92, 230, 0.2), 0 6px 12px rgba(94, 92, 230, 0.25),
+    0 12px 24px rgba(94, 92, 230, 0.3);
+  --shadow-teal:
+    0 2px 4px rgba(100, 210, 255, 0.2), 0 6px 12px rgba(100, 210, 255, 0.25),
+    0 12px 24px rgba(100, 210, 255, 0.3);
+  --shadow-orange:
+    0 2px 4px rgba(255, 159, 10, 0.2), 0 6px 12px rgba(255, 159, 10, 0.25),
+    0 12px 24px rgba(255, 159, 10, 0.3);
 
-	/* ---- Icon tile shadows ---- */
-	--shadow-symbol-dark:
-		0 0.8px 1.6px rgba(0, 0, 0, 0.66),
-		0 3px 9px rgba(0, 0, 0, 0.52),
-		0 10px 22px rgba(0, 0, 0, 0.38),
-		0 24px 42px rgba(0, 0, 0, 0.26),
-		0 0 36px rgba(0, 0, 0, 0.22),
-		inset 0 1px 0 rgba(255, 255, 255, 0.22),
-		inset 0 -1px 0 rgba(0, 0, 0, 0.14);
-	--shadow-symbol-dark-hover:
-		0 1.6px 3px rgba(0, 0, 0, 0.72),
-		0 5px 12px rgba(0, 0, 0, 0.56),
-		0 16px 30px rgba(0, 0, 0, 0.4),
-		0 34px 62px rgba(0, 0, 0, 0.28),
-		0 0 52px rgba(0, 0, 0, 0.24),
-		inset 0 1px 0 rgba(255, 255, 255, 0.26),
-		inset 0 -1px 0 rgba(0, 0, 0, 0.18);
-	--shadow-symbol-light:
-		inset 0 1px 0 rgba(255, 255, 255, 0.74),
-		0 1.2px 2.5px rgba(31, 35, 53, 0.2),
-		0 6px 14px rgba(31, 35, 53, 0.24),
-		0 18px 32px rgba(31, 35, 53, 0.26);
-	--shadow-symbol-light-hover:
-		inset 0 1px 0 rgba(255, 255, 255, 0.82),
-		0 1.8px 3.6px rgba(31, 35, 53, 0.22),
-		0 10px 20px rgba(31, 35, 53, 0.26),
-		0 26px 44px rgba(31, 35, 53, 0.28);
+  /* ---- Icon tile shadows ---- */
+  --shadow-symbol-dark:
+    0 0.8px 1.6px rgba(0, 0, 0, 0.66),
+    0 3px 9px rgba(0, 0, 0, 0.52),
+    0 10px 22px rgba(0, 0, 0, 0.38),
+    0 24px 42px rgba(0, 0, 0, 0.26),
+    0 0 36px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.14);
+  --shadow-symbol-dark-hover:
+    0 1.6px 3px rgba(0, 0, 0, 0.72),
+    0 5px 12px rgba(0, 0, 0, 0.56),
+    0 16px 30px rgba(0, 0, 0, 0.4),
+    0 34px 62px rgba(0, 0, 0, 0.28),
+    0 0 52px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  --shadow-symbol-light:
+    inset 0 1px 0 rgba(255, 255, 255, 0.74), 0 1.2px 2.5px rgba(31, 35, 53, 0.2),
+    0 6px 14px rgba(31, 35, 53, 0.24), 0 18px 32px rgba(31, 35, 53, 0.26);
+  --shadow-symbol-light-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82), 0 1.8px 3.6px rgba(31, 35, 53, 0.22),
+    0 10px 20px rgba(31, 35, 53, 0.26), 0 26px 44px rgba(31, 35, 53, 0.28);
 
-	/* ---- Focus ring — 2-Layer Composition ---- */
-	--focus-ring:
-		0 0 0 4px rgba(10, 132, 255, 0.36),
-		0 0 0 6px rgba(10, 132, 255, 0.12);
-	--focus-ring-error:
-		0 0 0 4px rgba(255, 69, 58, 0.36),
-		0 0 0 6px rgba(255, 69, 58, 0.12);
-	--focus-ring-success:
-		0 0 0 4px rgba(50, 215, 75, 0.36),
-		0 0 0 6px rgba(50, 215, 75, 0.12);
+  /* ---- Focus ring — 2-Layer Composition ---- */
+  --focus-ring: 0 0 0 4px rgba(10, 132, 255, 0.36), 0 0 0 6px rgba(10, 132, 255, 0.12);
+  --focus-ring-error: 0 0 0 4px rgba(255, 69, 58, 0.36), 0 0 0 6px rgba(255, 69, 58, 0.12);
+  --focus-ring-success: 0 0 0 4px rgba(50, 215, 75, 0.36), 0 0 0 6px rgba(50, 215, 75, 0.12);
 
-	/* ---- Glass surface shadows ---- */
-	--shadow-glass:
-		0 1px 0 rgba(255, 255, 255, 0.05),
-		0 10px 18px rgba(0, 0, 0, 0.32);
+  /* ---- Glass surface shadows ---- */
+  --shadow-glass: 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 18px rgba(0, 0, 0, 0.32);
 }
 
 /* ---- Light mode overrides ---- */
 [data-theme="light"] {
-	--shadow-0: 0 0.4px 0.8px rgba(34, 48, 88, 0.24);
-	--shadow-1:
-		0 1px 3px rgba(34, 48, 88, 0.17),
-		0 10px 20px rgba(34, 48, 88, 0.11);
-	--shadow-2:
-		0 2px 4px rgba(38, 54, 104, 0.26),
-		0 16px 28px rgba(34, 48, 88, 0.25),
-		0 32px 48px rgba(34, 48, 88, 0.24);
-	--shadow-3:
-		0 20px 46px rgba(48, 68, 128, 0.25),
-		0 42px 84px rgba(52, 74, 140, 0.23);
-	--shadow-4:
-		0 48px 120px rgba(96, 144, 240, 0.25),
-		inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --shadow-0: 0 0.4px 0.8px rgba(34, 48, 88, 0.24);
+  --shadow-1: 0 1px 3px rgba(34, 48, 88, 0.17), 0 10px 20px rgba(34, 48, 88, 0.11);
+  --shadow-2:
+    0 2px 4px rgba(38, 54, 104, 0.26), 0 16px 28px rgba(34, 48, 88, 0.25),
+    0 32px 48px rgba(34, 48, 88, 0.24);
+  --shadow-3: 0 20px 46px rgba(48, 68, 128, 0.25), 0 42px 84px rgba(52, 74, 140, 0.23);
+  --shadow-4: 0 48px 120px rgba(96, 144, 240, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.38);
 
-	--shadow-card:
-		0 2px 4px rgba(31, 35, 53, 0.08),
-		0 8px 16px rgba(31, 35, 53, 0.1),
-		0 18px 36px rgba(31, 35, 53, 0.12),
-		inset 0 1px 0 rgba(255, 255, 255, 0.8);
-	--shadow-card-hover:
-		0 4px 8px rgba(31, 35, 53, 0.1),
-		0 12px 24px rgba(31, 35, 53, 0.12),
-		0 26px 48px rgba(31, 35, 53, 0.16),
-		inset 0 1px 0 rgba(255, 255, 255, 0.9);
-	--shadow-card-soft:
-		0 1px 3px rgba(31, 35, 53, 0.07),
-		0 4px 8px rgba(31, 35, 53, 0.09),
-		0 12px 28px rgba(31, 35, 53, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.75);
-	--shadow-card-highlight: var(--shadow-3);
-	--shadow-card-glow: var(--shadow-4);
+  --shadow-card:
+    0 2px 4px rgba(31, 35, 53, 0.08), 0 8px 16px rgba(31, 35, 53, 0.1),
+    0 18px 36px rgba(31, 35, 53, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-card-hover:
+    0 4px 8px rgba(31, 35, 53, 0.1), 0 12px 24px rgba(31, 35, 53, 0.12),
+    0 26px 48px rgba(31, 35, 53, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-card-soft:
+    0 1px 3px rgba(31, 35, 53, 0.07), 0 4px 8px rgba(31, 35, 53, 0.09),
+    0 12px 28px rgba(31, 35, 53, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  --shadow-card-highlight: var(--shadow-3);
+  --shadow-card-glow: var(--shadow-4);
 
-	--shadow-interactive:
-		0 10px 26px rgba(0, 122, 255, 0.18),
-		inset 0 1px 0 rgba(255, 255, 255, 0.6);
-	--shadow-interactive-hover:
-		0 18px 32px rgba(0, 122, 255, 0.26),
-		inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-interactive: 0 10px 26px rgba(0, 122, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-interactive-hover:
+    0 18px 32px rgba(0, 122, 255, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 
-	--shadow-topbar:
-		0 14px 30px rgba(31, 35, 53, 0.14),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.65);
-	--shadow-topbar-elevated:
-		0 22px 44px rgba(31, 35, 53, 0.18),
-		inset 0 -1px 0 rgba(255, 255, 255, 0.8);
-	--shadow-sidebar:
-		0 18px 42px rgba(31, 35, 53, 0.12),
-		inset -1px 0 0 rgba(255, 255, 255, 0.6);
-	--shadow-footer:
-		0 -18px 36px rgba(31, 35, 53, 0.12),
-		inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-topbar: 0 14px 30px rgba(31, 35, 53, 0.14), inset 0 -1px 0 rgba(255, 255, 255, 0.65);
+  --shadow-topbar-elevated:
+    0 22px 44px rgba(31, 35, 53, 0.18), inset 0 -1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-sidebar: 0 18px 42px rgba(31, 35, 53, 0.12), inset -1px 0 0 rgba(255, 255, 255, 0.6);
+  --shadow-footer: 0 -18px 36px rgba(31, 35, 53, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 
-	--focus-ring:
-		0 0 0 4px rgba(0, 122, 255, 0.40),
-		0 0 0 6px rgba(0, 122, 255, 0.16);
+  --focus-ring: 0 0 0 4px rgba(0, 122, 255, 0.4), 0 0 0 6px rgba(0, 122, 255, 0.16);
 
-	--shadow-glass:
-		0 0.5px 0 rgba(255, 255, 255, 0.52),
-		0 1px 3px rgba(34, 48, 88, 0.24);
+  --shadow-glass: 0 0.5px 0 rgba(255, 255, 255, 0.52), 0 1px 3px rgba(34, 48, 88, 0.24);
 }
 
 /* ---- Mobile shadow optimization — 2-layer instead of 4-layer ---- */
 @media (max-width: 1024px) {
-	:root {
-		--shadow-card: 0 4px 8px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.2);
-		--shadow-card-hover: 0 6px 12px rgba(0, 0, 0, 0.14), 0 16px 32px rgba(0, 0, 0, 0.22);
-		--shadow-card-soft: 0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.12);
-		--shadow-topbar: 0 4px 8px rgba(0, 0, 0, 0.08), 0 12px 20px rgba(0, 0, 0, 0.12);
-		--shadow-sidebar: 0 4px 8px rgba(0, 0, 0, 0.1), 0 12px 20px rgba(0, 0, 0, 0.14);
-	}
+  :root {
+    --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.2);
+    --shadow-card-hover: 0 6px 12px rgba(0, 0, 0, 0.14), 0 16px 32px rgba(0, 0, 0, 0.22);
+    --shadow-card-soft: 0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.12);
+    --shadow-topbar: 0 4px 8px rgba(0, 0, 0, 0.08), 0 12px 20px rgba(0, 0, 0, 0.12);
+    --shadow-sidebar: 0 4px 8px rgba(0, 0, 0, 0.1), 0 12px 20px rgba(0, 0, 0, 0.14);
+  }
 }

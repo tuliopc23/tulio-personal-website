@@ -1,138 +1,138 @@
 /* ======= Apple HIG Materials & Glass Effects — Tahoe 26 ======= */
 
 :root {
-	/* === Base Glass Properties === */
-	--glass-blur-base: 28px;
-	--glass-blur-active: 42px;
-	--glass-saturation-base: 2.1;
-	--glass-saturation-active: 2.4;
-	--glass-opacity-base: 72%;
-	--glass-opacity-active: 88%;
+  /* === Base Glass Properties === */
+  --glass-blur-base: 28px;
+  --glass-blur-active: 42px;
+  --glass-saturation-base: 2.1;
+  --glass-saturation-active: 2.4;
+  --glass-opacity-base: 72%;
+  --glass-opacity-active: 88%;
 
-	/* Glass borders */
-	--glass-border: var(--panel-border);
-	--glass-border-strong: var(--panel-border-strong);
+  /* Glass borders */
+  --glass-border: var(--panel-border);
+  --glass-border-strong: var(--panel-border-strong);
 
-	/* Glass noise */
-	--glass-noise-opacity: 0.03;
-	--glass-noise-opacity-base: 0.028;
-	--glass-noise-opacity-active: 0.042;
-	--glass-noise-scale: 1.2;
+  /* Glass noise */
+  --glass-noise-opacity: 0.03;
+  --glass-noise-opacity-base: 0.028;
+  --glass-noise-opacity-active: 0.042;
+  --glass-noise-scale: 1.2;
 
-	/* === Tahoe 26 Spectrum Variants === */
-	/* Ultra-thin */
-	--glass-ultra-thin-blur: 12px;
-	--glass-ultra-thin-opacity: 60%;
-	--glass-ultra-thin-saturation: 1.6;
+  /* === Tahoe 26 Spectrum Variants === */
+  /* Ultra-thin */
+  --glass-ultra-thin-blur: 12px;
+  --glass-ultra-thin-opacity: 60%;
+  --glass-ultra-thin-saturation: 1.6;
 
-	/* Thin */
-	--glass-thin-blur: 20px;
-	--glass-thin-opacity: 68%;
-	--glass-thin-saturation: 1.9;
+  /* Thin */
+  --glass-thin-blur: 20px;
+  --glass-thin-opacity: 68%;
+  --glass-thin-saturation: 1.9;
 
-	/* Regular */
-	--glass-regular-blur: 28px;
-	--glass-regular-opacity: 72%;
-	--glass-regular-saturation: 2.1;
+  /* Regular */
+  --glass-regular-blur: 28px;
+  --glass-regular-opacity: 72%;
+  --glass-regular-saturation: 2.1;
 
-	/* Thick */
-	--glass-thick-blur: 36px;
-	--glass-thick-opacity: 80%;
-	--glass-thick-saturation: 2.3;
+  /* Thick */
+  --glass-thick-blur: 36px;
+  --glass-thick-opacity: 80%;
+  --glass-thick-saturation: 2.3;
 
-	/* Ultra-thick */
-	--glass-ultra-thick-blur: 48px;
-	--glass-ultra-thick-opacity: 90%;
-	--glass-ultra-thick-saturation: 2.5;
+  /* Ultra-thick */
+  --glass-ultra-thick-blur: 48px;
+  --glass-ultra-thick-opacity: 90%;
+  --glass-ultra-thick-saturation: 2.5;
 
-	/* === Advanced Variants === */
-	--glass-adaptive-blur: var(--glass-regular-blur);
-	--glass-adaptive-opacity: var(--glass-regular-opacity);
-	--glass-adaptive-saturation: var(--glass-regular-saturation);
+  /* === Advanced Variants === */
+  --glass-adaptive-blur: var(--glass-regular-blur);
+  --glass-adaptive-opacity: var(--glass-regular-opacity);
+  --glass-adaptive-saturation: var(--glass-regular-saturation);
 
-	--glass-frosted-blur: 64px;
-	--glass-frosted-opacity: 92%;
-	--glass-frosted-saturation: 2.8;
+  --glass-frosted-blur: 64px;
+  --glass-frosted-opacity: 92%;
+  --glass-frosted-saturation: 2.8;
 
-	--glass-crystal-blur: 18px;
-	--glass-crystal-opacity: 65%;
-	--glass-crystal-saturation: 2.6;
-	--glass-crystal-brightness: 1.08;
+  --glass-crystal-blur: 18px;
+  --glass-crystal-opacity: 65%;
+  --glass-crystal-saturation: 2.6;
+  --glass-crystal-brightness: 1.08;
 
-	/* === Saturation Enhancements === */
-	--glass-saturation-subtle: 140%;
-	--glass-saturation-vibrant: 220%;
+  /* === Saturation Enhancements === */
+  --glass-saturation-subtle: 140%;
+  --glass-saturation-vibrant: 220%;
 
-	/* === Vibrancy Effects — Dark Mode === */
-	--glass-ultra-thin: rgba(24, 24, 27, 0.55);
-	--glass-thin: rgba(26, 27, 31, 0.68);
-	--glass-base: rgba(28, 30, 34, 0.78);
-	--glass-thick: rgba(30, 32, 36, 0.85);
-	--glass-ultra-thick: rgba(32, 34, 38, 0.92);
+  /* === Vibrancy Effects — Dark Mode === */
+  --glass-ultra-thin: rgba(24, 24, 27, 0.55);
+  --glass-thin: rgba(26, 27, 31, 0.68);
+  --glass-base: rgba(28, 30, 34, 0.78);
+  --glass-thick: rgba(30, 32, 36, 0.85);
+  --glass-ultra-thick: rgba(32, 34, 38, 0.92);
 
-	/* Tinted Glass Materials */
-	--glass-tinted-blue: rgba(42, 82, 140, 0.22);
-	--glass-tinted-purple: rgba(68, 56, 120, 0.2);
-	--glass-tinted-pink: rgba(112, 52, 94, 0.18);
-	--glass-tinted-green: rgba(54, 96, 72, 0.18);
-	--glass-tinted-orange: rgba(112, 74, 38, 0.18);
+  /* Tinted Glass Materials */
+  --glass-tinted-blue: rgba(42, 82, 140, 0.22);
+  --glass-tinted-purple: rgba(68, 56, 120, 0.2);
+  --glass-tinted-pink: rgba(112, 52, 94, 0.18);
+  --glass-tinted-green: rgba(54, 96, 72, 0.18);
+  --glass-tinted-orange: rgba(112, 74, 38, 0.18);
 
-	/* Frosted Glass Overlays */
-	--frosted-light: rgba(76, 76, 80, 0.08);
-	--frosted-medium: rgba(76, 76, 80, 0.12);
-	--frosted-heavy: rgba(76, 76, 80, 0.18);
+  /* Frosted Glass Overlays */
+  --frosted-light: rgba(76, 76, 80, 0.08);
+  --frosted-medium: rgba(76, 76, 80, 0.12);
+  --frosted-heavy: rgba(76, 76, 80, 0.18);
 
-	/* Material Elevation Shadows */
-	--elevation-sm: 0 1px 2px rgba(4, 10, 24, 0.6), 0 8px 16px rgba(6, 14, 30, 0.34);
-	--elevation-md: 0 4px 12px rgba(6, 16, 34, 0.5), 0 20px 30px rgba(10, 20, 42, 0.32);
-	--elevation-lg: 0 14px 28px rgba(10, 22, 46, 0.42), 0 36px 60px rgba(12, 26, 52, 0.3);
-	--elevation-xl: 0 28px 56px rgba(12, 26, 52, 0.4), 0 64px 100px rgba(16, 30, 58, 0.28);
+  /* Material Elevation Shadows */
+  --elevation-sm: 0 1px 2px rgba(4, 10, 24, 0.6), 0 8px 16px rgba(6, 14, 30, 0.34);
+  --elevation-md: 0 4px 12px rgba(6, 16, 34, 0.5), 0 20px 30px rgba(10, 20, 42, 0.32);
+  --elevation-lg: 0 14px 28px rgba(10, 22, 46, 0.42), 0 36px 60px rgba(12, 26, 52, 0.3);
+  --elevation-xl: 0 28px 56px rgba(12, 26, 52, 0.4), 0 64px 100px rgba(16, 30, 58, 0.28);
 
-	/* Backdrop Filter Utilities */
-	--backdrop-blur-sm: blur(20px);
-	--backdrop-blur-md: blur(40px);
-	--backdrop-blur-lg: blur(60px);
-	--backdrop-blur-xl: blur(80px);
+  /* Backdrop Filter Utilities */
+  --backdrop-blur-sm: blur(20px);
+  --backdrop-blur-md: blur(40px);
+  --backdrop-blur-lg: blur(60px);
+  --backdrop-blur-xl: blur(80px);
 
-	/* Overlay Materials */
-	--overlay-subtle: rgba(0, 0, 0, 0.28);
-	--overlay-medium: rgba(0, 0, 0, 0.42);
-	--overlay-heavy: rgba(0, 0, 0, 0.58);
-	--overlay-modal: rgba(0, 0, 0, 0.72);
+  /* Overlay Materials */
+  --overlay-subtle: rgba(0, 0, 0, 0.28);
+  --overlay-medium: rgba(0, 0, 0, 0.42);
+  --overlay-heavy: rgba(0, 0, 0, 0.58);
+  --overlay-modal: rgba(0, 0, 0, 0.72);
 }
 
 /* Light Mode Materials */
 [data-theme="light"] {
-	--glass-ultra-thin: rgba(255, 255, 255, 0.5);
-	--glass-thin: rgba(255, 255, 255, 0.6);
-	--glass-base: rgba(255, 255, 255, 0.7);
-	--glass-thick: rgba(255, 255, 255, 0.8);
-	--glass-ultra-thick: rgba(255, 255, 255, 0.9);
+  --glass-ultra-thin: rgba(255, 255, 255, 0.5);
+  --glass-thin: rgba(255, 255, 255, 0.6);
+  --glass-base: rgba(255, 255, 255, 0.7);
+  --glass-thick: rgba(255, 255, 255, 0.8);
+  --glass-ultra-thick: rgba(255, 255, 255, 0.9);
 
-	--glass-tinted-blue: rgba(0, 122, 255, 0.12);
-	--glass-tinted-purple: rgba(175, 82, 222, 0.12);
-	--glass-tinted-pink: rgba(255, 45, 85, 0.12);
-	--glass-tinted-green: rgba(52, 199, 89, 0.12);
-	--glass-tinted-orange: rgba(255, 149, 0, 0.12);
+  --glass-tinted-blue: rgba(0, 122, 255, 0.12);
+  --glass-tinted-purple: rgba(175, 82, 222, 0.12);
+  --glass-tinted-pink: rgba(255, 45, 85, 0.12);
+  --glass-tinted-green: rgba(52, 199, 89, 0.12);
+  --glass-tinted-orange: rgba(255, 149, 0, 0.12);
 
-	--frosted-light: rgba(0, 0, 0, 0.03);
-	--frosted-medium: rgba(0, 0, 0, 0.05);
-	--frosted-heavy: rgba(0, 0, 0, 0.08);
+  --frosted-light: rgba(0, 0, 0, 0.03);
+  --frosted-medium: rgba(0, 0, 0, 0.05);
+  --frosted-heavy: rgba(0, 0, 0, 0.08);
 
-	--overlay-subtle: rgba(255, 255, 255, 0.3);
-	--overlay-medium: rgba(255, 255, 255, 0.5);
-	--overlay-heavy: rgba(255, 255, 255, 0.7);
-	--overlay-modal: rgba(0, 0, 0, 0.5);
+  --overlay-subtle: rgba(255, 255, 255, 0.3);
+  --overlay-medium: rgba(255, 255, 255, 0.5);
+  --overlay-heavy: rgba(255, 255, 255, 0.7);
+  --overlay-modal: rgba(0, 0, 0, 0.5);
 }
 
 /* Mobile Glass Performance */
 @media (max-width: 1024px) {
-	:root {
-		--glass-blur-base: 20px;
-		--glass-blur-active: 28px;
-		--glass-saturation-base: 1.9;
-		--glass-saturation-active: 2.2;
-		--glass-opacity-base: 72%;
-		--glass-opacity-active: 86%;
-	}
+  :root {
+    --glass-blur-base: 20px;
+    --glass-blur-active: 28px;
+    --glass-saturation-base: 1.9;
+    --glass-saturation-active: 2.2;
+    --glass-opacity-base: 72%;
+    --glass-opacity-active: 86%;
+  }
 }

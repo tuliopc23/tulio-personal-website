@@ -4,9 +4,7 @@
   border: 1px solid var(--panel-border-strong);
   border-radius: clamp(18px, 2.4vw, 24px);
   background: color-mix(in srgb, var(--surface-card) 95%, transparent);
-  box-shadow:
-    var(--shadow-card),
-    var(--shadow-card-highlight);
+  box-shadow: var(--shadow-card), var(--shadow-card-highlight);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
 }
@@ -107,7 +105,7 @@
   margin: 0;
   overflow-x: auto;
   padding: var(--space-md);
-  background: transparent !important;
+  background: transparent;
   font-family: var(--font-mono);
   font-size: var(--fs--1);
   line-height: 1.6;
@@ -123,14 +121,6 @@
   width: 100%;
 }
 
-:global(.light) .codeBlockContent :global([data-theme="dark"]) {
-  display: none;
-}
-
-:global(.dark) .codeBlockContent :global([data-theme="light"]) {
-  display: none;
-}
-
 @media (prefers-color-scheme: light) {
   .codeBlockContent :global([data-theme="dark"]) {
     display: none;
@@ -143,3 +133,10 @@
   }
 }
 
+:global(.light) .codeBlockContent :global([data-theme="dark"]) {
+  display: none;
+}
+
+:global(.dark) .codeBlockContent :global([data-theme="light"]) {
+  display: none;
+}

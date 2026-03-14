@@ -33,6 +33,7 @@ export const crosspostAction: DocumentActionComponent = (props) => {
           summary,
           "slug": slug.current,
           tags,
+          markdownContent,
           content,
           seo,
           crossposting
@@ -74,6 +75,7 @@ export const crosspostAction: DocumentActionComponent = (props) => {
           title: post.title,
           summary: post.summary,
           tags: post.tags,
+          markdownContent: post.markdownContent,
           content: post.content,
           seo: post.seo,
           operation: "manual",

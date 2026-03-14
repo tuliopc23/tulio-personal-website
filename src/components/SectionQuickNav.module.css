@@ -38,9 +38,7 @@
   --surface-panel-radius: 18px;
   --surface-panel-bg: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
   --surface-panel-border: color-mix(in srgb, var(--panel-border) 88%, transparent);
-  --surface-panel-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --surface-panel-shadow: 0 10px 24px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   --surface-panel-highlight-opacity: 0.34;
   display: flex;
   flex-wrap: wrap;

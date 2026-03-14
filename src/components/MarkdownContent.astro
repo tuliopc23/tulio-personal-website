@@ -1,5 +1,7 @@
 ---
 import { marked } from "marked";
+
+import { parseMarkdownDocument } from "../lib/markdown";
 import styles from "./MarkdownContent.module.css";
 
 interface Props {
@@ -7,14 +9,38 @@ interface Props {
 }
 
 const { content } = Astro.props;
+const { body } = parseMarkdownDocument(content);
+const renderer = new marked.Renderer();
+const defaultBlockquote = renderer.blockquote.bind(renderer);
 
-// Configure marked for better HTML output
-marked.setOptions({
+renderer.html = () => "";
+renderer.blockquote = (token) => {
+  const blockquoteSource = token.raw.replace(/^> ?/gm, "").trim();
+  const alertMatch = blockquoteSource.match(
+    /^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*([\s\S]*)$/i,
+  );
+
+  if (!alertMatch) {
+    return defaultBlockquote(token);
+  }
+
+  const variant = alertMatch[1].toLowerCase();
+  const title = variant.charAt(0).toUpperCase() + variant.slice(1);
+  const bodyMarkdown = alertMatch[2].trim();
+  const bodyHtml = marked.parse(bodyMarkdown, {
+    breaks: true,
+    gfm: true,
+    renderer: new marked.Renderer(),
+  });
+
+  return `<aside class="markdown-alert markdown-alert--${variant}"><p class="markdown-alert__title">${title}</p>${bodyHtml}</aside>`;
+};
+
+const htmlContent = await marked.parse(body, {
   breaks: true,
   gfm: true,
+  renderer,
 });
-
-const htmlContent = marked(content);
 ---
 
 <div class={styles.markdownContent} set:html={htmlContent} />

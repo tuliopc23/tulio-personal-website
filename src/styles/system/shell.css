@@ -5,8 +5,7 @@
   z-index: 60;
   background: var(--topbar-bg);
   backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
-    blur(var(--glass-blur-base));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: var(--shadow-topbar);
   transition:
@@ -51,9 +50,7 @@ body[data-glass-state="scrolled"] .topbar {
 }
 
 body[data-glass-state="scrolled"] .topbar::before {
-  opacity: calc(
-    var(--glass-noise-opacity) * 1.2
-  ); /* Enhance noise visibility on scroll */
+  opacity: calc(var(--glass-noise-opacity) * 1.2); /* Enhance noise visibility on scroll */
 }
 .topbar__inner {
   display: flex;
@@ -507,12 +504,8 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   --liquid-highlight-dark: rgba(77, 166, 255, 0.18);
   --liquid-highlight-light: rgba(54, 129, 238, 0.24);
   --thumb-scale: 1;
-  --thumb-translate: calc(
-    (var(--complete) / 100) * (100cqi - 100% - (2 * var(--liquid-border)))
-  );
-  --mask-translate: calc(
-    (var(--complete) / 100) * (100cqi - 58% - (2 * var(--liquid-border)))
-  );
+  --thumb-translate: calc((var(--complete) / 100) * (100cqi - 100% - (2 * var(--liquid-border))));
+  --mask-translate: calc((var(--complete) / 100) * (100cqi - 58% - (2 * var(--liquid-border))));
   appearance: none;
   width: var(--liquid-width);
   height: var(--liquid-height);
@@ -546,11 +539,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.14),
-    rgba(255, 255, 255, 0.02)
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02));
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   overflow: hidden;
@@ -618,7 +607,6 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   border-radius: inherit;
   background: var(--liquid-thumb-bg);
   box-shadow: var(--liquid-thumb-shadow);
-  inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -629,11 +617,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   inset: 0;
   border-radius: inherit;
   background:
-    radial-gradient(
-      120% 100% at 50% 0%,
-      rgba(255, 255, 255, 0.85),
-      rgba(255, 255, 255, 0.05) 60%
-    ),
+    radial-gradient(120% 100% at 50% 0%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.05) 60%),
     linear-gradient(120deg, rgba(77, 166, 255, 0.18), rgba(255, 255, 255, 0.02));
   opacity: 0.8;
   transform: translateX(calc((var(--complete) / 100) * 6px));
@@ -645,11 +629,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.88),
-    rgba(255, 255, 255, 0.06)
-  );
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.06));
   mix-blend-mode: screen;
   opacity: 0.5;
 }
@@ -732,11 +712,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
 }
 :root[data-theme="light"] .liquidToggle__thumbLiquid {
   background:
-    radial-gradient(
-      110% 90% at 60% 0%,
-      rgba(255, 255, 255, 0.88),
-      rgba(200, 227, 255, 0.1) 70%
-    ),
+    radial-gradient(110% 90% at 60% 0%, rgba(255, 255, 255, 0.88), rgba(200, 227, 255, 0.1) 70%),
     linear-gradient(120deg, rgba(54, 129, 238, 0.25), rgba(90, 168, 255, 0.05));
 }
 .topbar__actions .themeToggle--liquid {
@@ -892,8 +868,7 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   position: relative;
   box-shadow: var(--shadow-sidebar);
   backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
-    blur(var(--glass-blur-base));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   transition:
     background var(--motion-duration-sm) var(--motion-ease-out),
     backdrop-filter var(--motion-duration-sm) var(--motion-ease-out),
@@ -903,19 +878,18 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   transform: translateZ(0);
 }
 
-body.is-locked {
+body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
   overflow: hidden;
 }
 
 /* Mobile menu transformation */
 @media (max-width: 1024px) {
   .sidebar {
-    position: fixed !important;
+    position: fixed;
     inset: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + 8px)
-      max(var(--safe-area-right), 12px)
-      max(var(--safe-area-bottom), 12px)
-      max(var(--safe-area-left), 12px) !important;
-    width: auto !important;
+      max(var(--safe-area-right), 12px) max(var(--safe-area-bottom), 12px)
+      max(var(--safe-area-left), 12px);
+    width: auto;
     max-height: none;
     z-index: 50;
     opacity: 0;
@@ -1013,8 +987,7 @@ body.is-locked {
 [data-theme="dark"] body[data-glass-state="scrolled"] .sidebar {
   background: rgba(22, 22, 24, 0.86);
   backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-active))
-    blur(var(--glass-blur-active));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
   border-right-color: var(--glass-border-strong);
   box-shadow:
     var(--shadow-sidebar),
@@ -1025,8 +998,7 @@ body.is-locked {
 [data-theme="light"] body[data-glass-state="scrolled"] .sidebar {
   background: rgba(255, 255, 255, 0.86);
   backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-active))
-    blur(var(--glass-blur-active));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
   border-right-color: var(--glass-border-strong);
   box-shadow:
     var(--shadow-sidebar),
@@ -1277,8 +1249,7 @@ body.is-locked {
 [data-theme="dark"] .icon-tile {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(29, 29, 32, 0.92), rgba(29, 29, 32, 0.88)),
-    rgba(29, 29, 32, 0.9);
+    linear-gradient(135deg, rgba(29, 29, 32, 0.92), rgba(29, 29, 32, 0.88)), rgba(29, 29, 32, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
@@ -1321,16 +1292,12 @@ body.is-locked {
   position: absolute;
   inset: -1px;
   border-radius: var(--radius-md);
-  background: radial-gradient(
-    circle at 50% 20%,
-    rgba(255, 255, 255, 0.4) 0%,
-    transparent 70%
-  );
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
   pointer-events: none;
 }
 
-.icon-tile :global(svg) {
+.icon-tile svg {
   width: 20px;
   height: 20px;
   display: block;
@@ -1373,27 +1340,23 @@ body.is-locked {
   opacity: 0;
 }
 
-html.dark .icon-tile__media img[data-variant="light"],
-[data-theme="dark"] .icon-tile__media img[data-variant="light"] {
+html[data-theme="dark"] .icon-tile__media img[data-variant="light"] {
   opacity: 0;
 }
 
-html.dark .icon-tile__media img[data-variant="dark"],
-[data-theme="dark"] .icon-tile__media img[data-variant="dark"] {
+html[data-theme="dark"] .icon-tile__media img[data-variant="dark"] {
   opacity: 1;
 }
 
-html.light .icon-tile__media img[data-variant="light"],
-[data-theme="light"] .icon-tile__media img[data-variant="light"] {
+html[data-theme="light"] .icon-tile__media img[data-variant="light"] {
   opacity: 1;
 }
 
-html.light .icon-tile__media img[data-variant="dark"],
-[data-theme="light"] .icon-tile__media img[data-variant="dark"] {
+html[data-theme="light"] .icon-tile__media img[data-variant="dark"] {
   opacity: 0;
 }
 
-.icon-tile:hover :global(svg) {
+.icon-tile:hover svg {
   font-variation-settings: "wght" 600;
 }
 
@@ -1415,8 +1378,7 @@ html.light .icon-tile__media img[data-variant="dark"],
   animation: iconTileBounce 220ms var(--motion-ease-out) forwards;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(29, 29, 32, 0.96), rgba(29, 29, 32, 0.92)),
-    rgba(29, 29, 32, 0.94);
+    linear-gradient(135deg, rgba(29, 29, 32, 0.96), rgba(29, 29, 32, 0.92)), rgba(29, 29, 32, 0.94);
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.16),
@@ -1439,7 +1401,14 @@ html.light .icon-tile__media img[data-variant="dark"],
 }
 
 /* Active press-down state */
-.icon-tile:active,
+.icon-tile:active {
+  transform: scale(var(--motion-scale-active)); /* 0.984 - press-down effect */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.24);
+  transition-duration: var(--motion-duration-instant);
+}
+
 .sidebar__link:active .icon-tile {
   transform: scale(var(--motion-scale-active)); /* 0.984 - press-down effect */
   box-shadow:

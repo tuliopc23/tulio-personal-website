@@ -27,7 +27,7 @@ body {
   text-rendering: optimizeLegibility;
   text-wrap: pretty;
   position: relative;
-  min-height: 100vh;
+  min-block-size: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
 }
@@ -46,8 +46,7 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image:
-    var(--bg-radial-primary), var(--bg-radial-secondary), var(--bg-radial-tertiary);
+  background-image: var(--bg-radial-primary), var(--bg-radial-secondary), var(--bg-radial-tertiary);
   background-repeat: no-repeat, no-repeat, no-repeat;
   background-size:
     140% 140%,
@@ -85,7 +84,7 @@ body::after {
 }
 
 @media (max-width: 1024px) {
-  body.is-locked {
+  body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
     overflow: hidden;
     overscroll-behavior: contain;
   }
@@ -118,13 +117,9 @@ a:hover {
     box-shadow var(--motion-duration-sm) var(--motion-ease-out),
     border-color var(--motion-duration-sm) var(--motion-ease-out),
     background-color var(--motion-duration-sm) var(--motion-ease-out);
-  transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
-    rotateY(var(--parallax-rotate-y))
+  transform: perspective(1100px) rotateX(var(--parallax-rotate-x)) rotateY(var(--parallax-rotate-y))
     translateY(
-      calc(
-        (var(--reveal-translate, 0px)) + var(--hover-translate) +
-          var(--parallax-translate)
-      )
+      calc((var(--reveal-translate, 0px)) + var(--hover-translate) + var(--parallax-translate))
     )
     scale(var(--hover-scale));
 }
@@ -140,12 +135,12 @@ a:hover {
 }
 
 .hover-elevate:active {
-  transform: perspective(1100px) rotateX(var(--parallax-rotate-x))
-    rotateY(var(--parallax-rotate-y))
+  transform: perspective(1100px) rotateX(var(--parallax-rotate-x)) rotateY(var(--parallax-rotate-y))
     translateY(
       calc(
-        (var(--reveal-translate, 0px)) + (var(--hover-elevate-translate) * 0.3) +
-          var(--parallax-translate)
+        (var(--reveal-translate, 0px)) +
+        (var(--hover-elevate-translate) * 0.3) +
+        var(--parallax-translate)
       )
     )
     scale(var(--motion-scale-active));
@@ -155,8 +150,7 @@ a:hover {
 .motion-surface-premium {
   --hover-elevate-translate: -6px;
   --hover-elevate-scale: 1.014;
-  --hover-shadow:
-    var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
+  --hover-shadow: var(--shadow-card-hover), var(--shadow-card-highlight), var(--shadow-card-glow);
   --hover-border: var(--panel-border-strong);
 }
 
@@ -320,4 +314,3 @@ code,
 pre {
   font-family: var(--font-mono);
 }
-

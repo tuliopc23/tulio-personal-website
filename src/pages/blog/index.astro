@@ -34,6 +34,18 @@ const defaults = {
   filterEmptyState: "No essays match this topic yet. Try another tag or browse all posts.",
 };
 
+function refineHeroLede(lede: string) {
+  const normalized = lede.trim();
+  if (
+    normalized ===
+    "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward."
+  ) {
+    return "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward. The focus stays on systems, product decisions, and the realities of shipping software that has to hold up outside the happy path.";
+  }
+
+  return lede;
+}
+
 function toPostEntry(post: PostSummary) {
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
@@ -76,7 +88,7 @@ const content = {
   pageDescription: pageContent?.pageDescription ?? defaults.pageDescription,
   heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
   heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
-  heroLede: pageContent?.heroLede ?? defaults.heroLede,
+  heroLede: refineHeroLede(pageContent?.heroLede ?? defaults.heroLede),
   emptyStateTitle: pageContent?.emptyStateTitle ?? defaults.emptyStateTitle,
   emptyStateBody: pageContent?.emptyStateBody ?? defaults.emptyStateBody,
   archiveHeading: pageContent?.archiveHeading ?? defaults.archiveHeading,
@@ -209,12 +221,14 @@ const _sectionHeaders = {
     data-reveal-type="scale"
     data-reveal-group="blog-hero"
   >
-    <Breadcrumbs
-      items={[
-        { label: "Home", href: "/", icon: "home" },
-        { label: "Blog", icon: "book" },
-      ]}
-    />
+    <div class="blogHero__breadcrumbs">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "Blog", icon: "book" },
+        ]}
+      />
+    </div>
     <div class="blogHero__copy">
       <span class="blogHero__eyebrow meta-chip meta-chip--eyebrow">
         <PhosphorIcon name="article" size={14} weight="regular" />

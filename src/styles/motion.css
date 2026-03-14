@@ -16,8 +16,7 @@
 
 /* Scale variant - subtle scale animation */
 :root[data-motion="normal"] body [data-reveal][data-reveal-type="scale"] {
-  transform: 
-    translateY(calc((1 - var(--scroll-progress)) * var(--motion-distance-sm)))
+  transform: translateY(calc((1 - var(--scroll-progress)) * var(--motion-distance-sm)))
     scale(calc(var(--scroll-scale-min) + (var(--scroll-progress) * (1 - var(--scroll-scale-min)))));
 }
 

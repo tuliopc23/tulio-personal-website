@@ -6,7 +6,7 @@ import styles from "./Callout.module.css";
 
 interface Props {
   value: {
-    variant: "info" | "warning" | "success" | "error";
+    variant: "info" | "tip" | "warning" | "success" | "error";
     title?: string;
     body: PortableTextBlock[];
   };
@@ -17,6 +17,7 @@ const { variant, title, body } = value;
 
 const iconName: Record<string, string> = {
   info: "info",
+  tip: "lightbulb",
   warning: "warning",
   success: "check-circle",
   error: "x-circle",
@@ -24,6 +25,7 @@ const iconName: Record<string, string> = {
 
 const variantClassMap = {
   info: styles.calloutInfo,
+  tip: styles.calloutTip,
   warning: styles.calloutWarning,
   success: styles.calloutSuccess,
   error: styles.calloutError,

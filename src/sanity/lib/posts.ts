@@ -1,6 +1,7 @@
 import type { PortableTextBlock } from "@portabletext/types";
 import { toPlainText } from "astro-portabletext";
 
+import { markdownToPlainText } from "../../lib/markdown";
 import { loadQuery } from "./load-query";
 
 export interface SanityImageWithMetadata {
@@ -59,6 +60,7 @@ export interface PostSummary {
 
 export interface PostDetail extends PostSummary {
   content: PortableTextBlock[];
+  markdownContent?: string | null;
   readingTimeMinutes: number;
 }
 
@@ -146,6 +148,7 @@ const DETAIL_PROJECTION = `{
   keyTakeaways,
   coverVariant,
   series,
+  markdownContent,
   content[]{
     ...,
     _type == "image" => {
@@ -203,7 +206,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
 
   if (!data) return null;
 
-  const readingTimeMinutes = calculateReadingTimeMinutes(data.content);
+  const readingTimeMinutes = calculateReadingTimeMinutes(data.content, data.markdownContent);
 
   return {
     ...data,
@@ -220,9 +223,14 @@ export async function getRecentPosts(excludeSlug: string, limit = 3): Promise<Po
   return data ?? [];
 }
 
-export function calculateReadingTimeMinutes(blocks: PortableTextBlock[]): number {
-  if (!Array.isArray(blocks)) return 1;
-  const plainText = toPlainText(blocks);
+export function calculateReadingTimeMinutes(
+  blocks: PortableTextBlock[],
+  markdownContent?: string | null,
+): number {
+  const plainText =
+    Array.isArray(blocks) && blocks.length > 0
+      ? toPlainText(blocks)
+      : markdownToPlainText(markdownContent);
   const words = plainText.split(/\s+/).filter(Boolean);
   const minutes = Math.max(1, Math.round(words.length / 225));
   return minutes;

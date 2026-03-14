@@ -308,8 +308,7 @@
   border: 1px solid var(--panel-border);
   border-left: 4px solid var(--link);
   background: color-mix(in srgb, var(--surface-card) 94%, transparent);
-  backdrop-filter: saturate(var(--glass-saturation-base))
-    blur(calc(var(--glass-blur-base) * 0.5));
+  backdrop-filter: saturate(var(--glass-saturation-base)) blur(calc(var(--glass-blur-base) * 0.5));
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
     blur(calc(var(--glass-blur-base) * 0.5));
   box-shadow:
@@ -375,8 +374,7 @@
   padding: clamp(var(--space-sm), 3vw, var(--space-md));
   box-shadow: var(--shadow-card), var(--shadow-card-highlight);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
-    saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
 }
 
 .articlePortable__figure {
@@ -421,8 +419,7 @@
     var(--shadow-card),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
-    saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
 }
 
 [data-theme="light"] .articlePortable__codeBlock {

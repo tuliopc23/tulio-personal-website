@@ -435,11 +435,11 @@ export default defineType({
 
     defineField({
       name: "markdownContent",
-      title: "Markdown Content (Alternative)",
+      title: "Markdown Content (Legacy Fallback)",
       type: "markdown",
       fieldset: "editorial",
       description:
-        "Write your article in Markdown. This is an alternative to the rich text editor below.",
+        "Legacy Markdown input for imported posts. Frontmatter here does not populate title, summary, SEO, or other dedicated Sanity fields.",
       options: {
         imageUrl: (imageAsset) => `${imageAsset.url}?w=800&fit=max`,
       },
@@ -451,7 +451,7 @@ export default defineType({
 
           // If neither field has content, return error
           if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {
-            return "Either Markdown Content or Rich Text Content is required";
+            return "Either Markdown Content or Content is required";
           }
 
           return true;
@@ -459,73 +459,20 @@ export default defineType({
     }),
     defineField({
       name: "content",
-      title: "Content (Rich Text)",
-      type: "array",
+      title: "Content",
+      type: "blockContent",
       fieldset: "editorial",
-      of: [
-        defineArrayMember({
-          type: "block",
-          styles: [
-            { title: "Paragraph", value: "normal" },
-            { title: "Heading 2", value: "h2" },
-            { title: "Heading 3", value: "h3" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          lists: [
-            { title: "Bullet", value: "bullet" },
-            { title: "Numbered", value: "number" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Bold", value: "strong" },
-              { title: "Italic", value: "em" },
-              { title: "Code", value: "code" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [
-                  defineField({
-                    name: "href",
-                    title: "URL",
-                    type: "url",
-                    validation: (rule) => rule.required(),
-                  }),
-                ],
-              },
-            ],
-          },
-        }),
-        defineArrayMember({
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            defineField({
-              name: "alt",
-              title: "Alt text",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-          ],
-        }),
-        defineArrayMember({
-          type: "code",
-          options: {
-            withFilename: true,
-          },
-        }),
-      ],
+      description:
+        "Canonical article body. Supports Portable Text blocks, images, code blocks, callouts, video embeds, and dividers.",
       validation: (rule) =>
         rule.custom((value, context) => {
-          const richTextContent = value;
+          const richTextContent = Array.isArray(value) ? value : [];
           const doc = context.document as { markdownContent?: string };
           const markdownContent = doc?.markdownContent;
 
           // If neither field has content, return error
-          if (!markdownContent && (!richTextContent || richTextContent.length === 0)) {
-            return "Either Markdown Content or Rich Text Content is required";
+          if (!markdownContent && richTextContent.length === 0) {
+            return "Either Markdown Content or Content is required";
           }
 
           return true;

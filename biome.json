@@ -9,26 +9,13 @@
   "files": {
     "ignoreUnknown": false,
     "includes": [
-      "src/components/**/*.ts",
-      "src/components/**/*.tsx",
-      "src/components/**/*.js",
-      "src/components/**/*.jsx",
-      "src/components/**/*.astro",
-      "src/layouts/**/*.ts",
-      "src/layouts/**/*.tsx",
-      "src/layouts/**/*.astro",
-      "src/pages/**/*.ts",
-      "src/pages/**/*.tsx",
-      "src/pages/**/*.astro",
-      "src/lib/**/*.ts",
-      "src/lib/**/*.tsx",
-      "src/utils/**/*.ts",
-      "src/utils/**/*.tsx",
-      "src/data/**/*.ts",
-      "src/scripts/**/*.js",
-      "src/scripts/**/*.ts",
-      "src/sanity/**/*.ts",
-      "src/sanity/**/*.tsx",
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "src/**/*.astro",
+      "src/**/*.css",
+      "*.config.js",
       "*.config.ts",
       "*.config.mjs"
     ]
@@ -58,6 +45,7 @@
       },
       "style": {
         "noDefaultExport": "off",
+        "noDescendingSpecificity": "off",
         "noImplicitBoolean": "off",
         "noInferrableTypes": "warn",
         "noNonNullAssertion": "warn",
@@ -67,7 +55,8 @@
         "useImportType": "warn"
       },
       "complexity": {
-        "noForEach": "off"
+        "noForEach": "off",
+        "noImportantStyles": "off"
       },
       "a11y": {
         "recommended": true,

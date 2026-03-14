@@ -39,7 +39,7 @@ button {
   position: relative;
   width: 320px;
   height: 10px;
-  background: #D6D6DA;
+  background: #d6d6da;
   border-radius: 999px;
 }
 
@@ -62,9 +62,13 @@ button {
   cursor: pointer;
   z-index: 2;
   background-color: #fff;
-  box-shadow: 0 1px 8px 0 rgba(0, 30, 63, 0.1), 0 0 2px 0 rgba(0, 9, 20, 0.1);
+  box-shadow:
+    0 1px 8px 0 rgba(0, 30, 63, 0.1),
+    0 0 2px 0 rgba(0, 9, 20, 0.1);
   overflow: hidden;
-  transition: transform 0.15s ease, height 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    height 0.15s ease;
 }
 
 .slider-thumb-glass-filter {

@@ -26,6 +26,11 @@
 
   const hasMobileDrawer = (): boolean => body.dataset.hasMobileDrawer === "true";
   const isMobileDrawer = (): boolean => hasMobileDrawer() && mobileDrawerQuery.matches;
+  const syncScrollLock = (): void => {
+    const shouldLock = isMobileDrawer() && sidebar.classList.contains("is-open");
+    body.classList.toggle("is-locked", shouldLock);
+    body.dataset.sidebarState = shouldLock ? "open" : "closed";
+  };
 
   const isEditableTarget = (target: EventTarget | null): boolean => {
     if (!(target instanceof HTMLElement)) {
@@ -129,10 +134,9 @@
     backdrop?.classList.remove("is-open");
     toggle?.setAttribute("aria-expanded", "false");
     toggle?.setAttribute("aria-label", "Open menu");
-    body.classList.remove("is-locked");
     sidebar.setAttribute("aria-hidden", "true");
     backdrop?.setAttribute("aria-hidden", "true");
-    body.dataset.sidebarState = "closed";
+    syncScrollLock();
     restorePreviousFocus();
   };
 
@@ -149,10 +153,9 @@
     nextBackdrop.classList.add("is-open");
     toggle?.setAttribute("aria-expanded", "true");
     toggle?.setAttribute("aria-label", "Close menu");
-    body.classList.add("is-locked");
     sidebar.setAttribute("aria-hidden", "false");
     nextBackdrop.setAttribute("aria-hidden", "false");
-    body.dataset.sidebarState = "open";
+    syncScrollLock();
 
     requestAnimationFrame(() => {
       focusMenuEntry();
@@ -198,6 +201,7 @@
 
   sidebar.setAttribute("aria-hidden", "true");
   toggle?.setAttribute("aria-expanded", "false");
+  syncScrollLock();
 
   const toggleMenu = (): void => {
     if (!isMobileDrawer()) {
@@ -264,7 +268,10 @@
   const syncOnViewportChange = (): void => {
     if (!isMobileDrawer() && sidebar.classList.contains("is-open")) {
       close();
+      return;
     }
+
+    syncScrollLock();
   };
 
   if (typeof mobileDrawerQuery.addEventListener === "function") {

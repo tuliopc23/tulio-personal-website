@@ -23,23 +23,63 @@ if (visualEditingEnabled && !token) {
   );
 }
 
+function isSanityNetworkError(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  const message = error.message.toUpperCase();
+  const codes = ["ENOTFOUND", "ECONNREFUSED", "ECONNRESET", "ETIMEDOUT", "EAI_AGAIN"];
+
+  if (codes.some((code) => message.includes(code))) {
+    return true;
+  }
+
+  const cause = "cause" in error ? error.cause : undefined;
+  if (cause && typeof cause === "object" && "code" in cause) {
+    const code = String(cause.code).toUpperCase();
+    return codes.includes(code);
+  }
+
+  return message.includes("FETCH FAILED");
+}
+
 export async function loadQuery<QueryResponse>({
   query,
   params,
 }: LoadQueryArgs): Promise<LoadQueryResult<QueryResponse>> {
   const perspective: Perspective = visualEditingEnabled ? "drafts" : "published";
 
-  const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(query, params ?? {}, {
-    filterResponse: false,
-    perspective,
-    resultSourceMap: visualEditingEnabled ? "withKeyArraySelector" : false,
-    stega: visualEditingEnabled,
-    ...(visualEditingEnabled ? { token } : {}),
-  });
+  try {
+    const { result, resultSourceMap } = await sanityClient.fetch<QueryResponse>(
+      query,
+      params ?? {},
+      {
+        filterResponse: false,
+        perspective,
+        resultSourceMap: visualEditingEnabled ? "withKeyArraySelector" : false,
+        stega: visualEditingEnabled,
+        ...(visualEditingEnabled ? { token } : {}),
+      },
+    );
 
-  return {
-    data: result,
-    sourceMap: resultSourceMap,
-    perspective,
-  };
+    return {
+      data: result,
+      sourceMap: resultSourceMap,
+      perspective,
+    };
+  } catch (error) {
+    if (!isSanityNetworkError(error)) {
+      throw error;
+    }
+
+    console.warn(
+      `[sanity] Network fetch failed during build; returning empty data for query: ${query.slice(0, 80).replace(/\s+/g, " ")}...`,
+    );
+
+    return {
+      data: null as QueryResponse,
+      perspective,
+    };
+  }
 }

@@ -12,6 +12,7 @@ export default defineType({
       options: {
         list: [
           { title: "Info", value: "info" },
+          { title: "Tip", value: "tip" },
           { title: "Warning", value: "warning" },
           { title: "Success", value: "success" },
           { title: "Error", value: "error" },
@@ -51,7 +52,14 @@ export default defineType({
                   {
                     name: "href",
                     type: "url",
-                    validation: (rule) => rule.required().uri({ scheme: ["http", "https"] }),
+                    validation: (rule) =>
+                      rule.required().uri({ scheme: ["http", "https", "mailto", "tel"] }),
+                  },
+                  {
+                    name: "openInNewTab",
+                    title: "Open in new tab",
+                    type: "boolean",
+                    initialValue: false,
                   },
                 ],
               },
@@ -72,6 +80,7 @@ export default defineType({
       const { title, variant, body } = selection;
       const icons = {
         info: "ℹ️",
+        tip: "💡",
         warning: "⚠️",
         success: "✅",
         error: "❌",

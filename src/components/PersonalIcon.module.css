@@ -49,10 +49,10 @@
   display: block;
   width: 100%;
   height: 100%;
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
+  border: none;
+  outline: none;
+  background: transparent;
+  background-color: transparent;
   opacity: 0;
   pointer-events: none;
   user-select: none;
@@ -61,28 +61,28 @@
 }
 
 .personalIcon img {
-  box-shadow: none !important;
+  box-shadow: none;
   object-fit: contain;
   object-position: center;
 }
 
 .piDark {
-  opacity: var(--pi-dark, 1) !important;
+  opacity: var(--pi-dark, 1);
 }
 
 .piLight {
-  opacity: var(--pi-light, 0) !important;
+  opacity: var(--pi-light, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .personalIcon,
   .personalIcon img {
-    transition: none !important;
+    transition: none;
   }
 
   .personalIcon:hover,
   .personalIcon:active {
-    transform: none !important;
+    transform: none;
   }
 }
 
@@ -92,4 +92,3 @@
     outline-offset: 2px;
   }
 }
-

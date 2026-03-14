@@ -91,12 +91,12 @@
 
   /* Multi-layer shadow system (Apple HIG compliant) */
   --pi-shadow:
-    0 0.5px 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.03);
+    0 0.5px 1px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.03);
 
   --pi-shadow-hover:
-    0 1px 1.5px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06), 0 16px 32px rgba(0, 0, 0, 0.05);
+    0 1px 1.5px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.06),
+    0 16px 32px rgba(0, 0, 0, 0.05);
 
   --accent: var(--blue);
   --accent-bright: color-mix(in srgb, var(--blue) 78%, #ffffff 22%);
@@ -243,37 +243,39 @@
 }
 
 :root[data-motion="normal"].theme-transition body,
-:root[data-motion="normal"].theme-transition body :where(
-  a,
-  button,
-  input,
-  textarea,
-  select,
-  summary,
-  svg,
-  svg *,
-  [role="button"],
-  [data-theme-toggle-root],
-  [data-parallax-card],
-  [class*="Card"],
-  [class*="card"],
-  [class*="Surface"],
-  [class*="surface"],
-  [class*="Panel"],
-  [class*="panel"],
-  [class*="Glass"],
-  [class*="glass"],
-  [class*="Chip"],
-  [class*="chip"],
-  [class*="Badge"],
-  [class*="badge"],
-  [class*="Tag"],
-  [class*="tag"],
-  [class*="Toggle"],
-  [class*="toggle"],
-  [class*="Nav"],
-  [class*="nav"]
-) {
+:root[data-motion="normal"].theme-transition
+  body
+  :where(
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    summary,
+    svg,
+    svg *,
+    [role="button"],
+    [data-theme-toggle-root],
+    [data-parallax-card],
+    [class*="Card"],
+    [class*="card"],
+    [class*="Surface"],
+    [class*="surface"],
+    [class*="Panel"],
+    [class*="panel"],
+    [class*="Glass"],
+    [class*="glass"],
+    [class*="Chip"],
+    [class*="chip"],
+    [class*="Badge"],
+    [class*="badge"],
+    [class*="Tag"],
+    [class*="tag"],
+    [class*="Toggle"],
+    [class*="toggle"],
+    [class*="Nav"],
+    [class*="nav"]
+  ) {
   transition:
     background-color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
     color var(--motion-duration-md, 240ms) var(--motion-ease-in-out, ease),
@@ -385,7 +387,8 @@
   --topbar-bg-active: rgba(22, 22, 24, 0.88);
   --hero-highlight: rgba(94, 92, 230, 0.28);
 
-  --toggle-track: --toggle-thumb: #ffffff;
+  --toggle-track: rgba(28, 28, 30, 0.85);
+  --toggle-thumb: #ffffff;
   --toggle-shadow:
     0 3px 10px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.12),
     inset 0 0 0 1px rgba(255, 255, 255, 0.3);
@@ -411,7 +414,8 @@
   --topbar-bg-active: rgba(255, 255, 255, 0.88);
   --hero-highlight: rgba(94, 92, 230, 0.2);
 
-  --toggle-track: --toggle-thumb: #ffffff;
+  --toggle-track: rgba(230, 230, 235, 0.6);
+  --toggle-thumb: #ffffff;
   --toggle-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04), 0 3px 15px rgba(0, 0, 0, 0.08),
     inset 0 0 0 0.5px rgba(0, 0, 0, 0.04);

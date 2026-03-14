@@ -6,6 +6,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
+import MarkdownContent from "../../components/MarkdownContent.astro";
 import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
 import {
   calculateReadingTimeMinutes,
@@ -50,6 +51,8 @@ const _tags = post?.tags ?? [];
 const _takeaways = post?.keyTakeaways?.filter(Boolean) ?? [];
 const _series = post?.series ?? null;
 const _coverVariant = post?.coverVariant ?? "default";
+const _hasPortableContent = Boolean(post?.content?.length);
+const _hasMarkdownFallback = Boolean(post?.markdownContent?.trim());
 const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
@@ -104,7 +107,9 @@ const articleStructuredData = post
       image: ogImage?.url ? ogImage.url : undefined,
       keywords: post.tags?.join(", "),
       articleSection: post.categories?.[0]?.title,
-      wordCount: post.content ? calculateReadingTimeMinutes(post.content) * 225 : undefined,
+      wordCount: post
+        ? calculateReadingTimeMinutes(post.content, post.markdownContent) * 225
+        : undefined,
       inLanguage: "en",
     }
   : null;
@@ -274,7 +279,13 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             data-reveal-group="post-shell"
             data-reveal-order={2}
           >
-            <ArticlePortableText blocks={post.content} />
+            {_hasPortableContent ? (
+              <ArticlePortableText blocks={post.content} />
+            ) : _hasMarkdownFallback ? (
+              <MarkdownContent content={post.markdownContent ?? ""} />
+            ) : (
+              <ArticlePortableText blocks={post.content} />
+            )}
           </section>
 
           {_takeaways.length > 0 && (

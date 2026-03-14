@@ -28,8 +28,8 @@ function scrollTo(element, to, duration) {
 //c = change in value
 //d = duration
 Math.easeInOutQuad = (t, b, c, d) => {
-  t /= d / 2;
-  if (t < 1) return (c / 2) * t * t + b;
-  t--;
-  return (-c / 2) * (t * (t - 2) - 1) + b;
+  let progress = t / (d / 2);
+  if (progress < 1) return (c / 2) * progress * progress + b;
+  progress -= 1;
+  return (-c / 2) * (progress * (progress - 2) - 1) + b;
 };

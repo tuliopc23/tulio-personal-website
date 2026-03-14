@@ -2,122 +2,122 @@
 /* Tahoe 26 — Single source of truth for all typography tokens */
 
 :root {
-	/* ---- Font Families ---- */
-	--font-sans:
-		"SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto,
-		"Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-	--font-mono:
-		"SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
-		"Liberation Mono", "Courier New", monospace;
+  /* ---- Font Families ---- */
+  --font-sans:
+    "SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --font-mono:
+    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", "Courier New", monospace;
 
-	/* ---- Font Sizes — Fluid Typography (Dynamic Type aligned) ---- */
-	--fs-large-title: clamp(2.125rem, 4.2vw + 1.2rem, 2.75rem);
-	--fs-title-1: clamp(1.9375rem, 3.4vw + 1rem, 2.375rem);
-	--fs-title-2: clamp(1.625rem, 2.6vw + 0.92rem, 1.9375rem);
-	--fs-title-3: clamp(1.3125rem, 2.1vw + 0.82rem, 1.5rem);
-	--fs-1: clamp(1.125rem, 1.4vw + 0.92rem, 1.3125rem);
-	--fs-headline: clamp(1.125rem, 1.5vw + 0.95rem, 1.25rem);
-	--fs-body: clamp(1.0625rem, 1vw + 0.95rem, 1.1875rem);
-	--fs-body-sm: var(--fs-subheadline);
-	--fs-callout: clamp(1rem, 0.8vw + 0.9rem, 1.0625rem);
-	--fs-subheadline: clamp(0.9375rem, 0.7vw + 0.875rem, 1rem);
-	--fs-footnote: clamp(0.8125rem, 0.6vw + 0.75rem, 0.875rem);
-	--fs-caption: clamp(0.75rem, 0.5vw + 0.7rem, 0.8125rem);
-	--fs-caption-1: var(--fs-caption);
-	--fs-caption-2: clamp(0.6875rem, 0.4vw + 0.64rem, 0.75rem);
-	--fs-eyebrow: clamp(0.6875rem, 0.45vw + 0.66rem, 0.75rem);
+  /* ---- Font Sizes — Fluid Typography (Dynamic Type aligned) ---- */
+  --fs-large-title: clamp(2.125rem, 4.2vw + 1.2rem, 2.75rem);
+  --fs-title-1: clamp(1.9375rem, 3.4vw + 1rem, 2.375rem);
+  --fs-title-2: clamp(1.625rem, 2.6vw + 0.92rem, 1.9375rem);
+  --fs-title-3: clamp(1.3125rem, 2.1vw + 0.82rem, 1.5rem);
+  --fs-1: clamp(1.125rem, 1.4vw + 0.92rem, 1.3125rem);
+  --fs-headline: clamp(1.125rem, 1.5vw + 0.95rem, 1.25rem);
+  --fs-body: clamp(1.0625rem, 1vw + 0.95rem, 1.1875rem);
+  --fs-body-sm: var(--fs-subheadline);
+  --fs-callout: clamp(1rem, 0.8vw + 0.9rem, 1.0625rem);
+  --fs-subheadline: clamp(0.9375rem, 0.7vw + 0.875rem, 1rem);
+  --fs-footnote: clamp(0.8125rem, 0.6vw + 0.75rem, 0.875rem);
+  --fs-caption: clamp(0.75rem, 0.5vw + 0.7rem, 0.8125rem);
+  --fs-caption-1: var(--fs-caption);
+  --fs-caption-2: clamp(0.6875rem, 0.4vw + 0.64rem, 0.75rem);
+  --fs-eyebrow: clamp(0.6875rem, 0.45vw + 0.66rem, 0.75rem);
 
-	/* Profile-specific sizes */
-	--fs-profile-name: clamp(26px, 1.8vw + 16px, 36px);
-	--fs-profile-title: 17px;
-	--fs-profile-bio: 16px;
+  /* Profile-specific sizes */
+  --fs-profile-name: clamp(26px, 1.8vw + 16px, 36px);
+  --fs-profile-title: 17px;
+  --fs-profile-bio: 16px;
 
-	/* ---- Font Weights ---- */
-	--fw-regular: 400;
-	--fw-medium: 500;
-	--fw-semibold: 600;
-	--fw-bold: 700;
+  /* ---- Font Weights ---- */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
 
-	/* ---- Line Heights — Tahoe 26 ---- */
-	--lh: 1.65;
-	--lh-hero: 1.08;
-	--lh-heading: 1.2;
-	--lh-tight: 1.382;
-	--lh-snug: 1.34;
-	--lh-base: 1.65;
-	--lh-compact: 1.45;
-	--lh-relaxed: 1.68;
-	--lh-profile-name: 1.16;
-	--lh-eyebrow: 1.4;
-	--lh-card-title: 1.22;
+  /* ---- Line Heights — Tahoe 26 ---- */
+  --lh: 1.65;
+  --lh-hero: 1.08;
+  --lh-heading: 1.2;
+  --lh-tight: 1.382;
+  --lh-snug: 1.34;
+  --lh-base: 1.65;
+  --lh-compact: 1.45;
+  --lh-relaxed: 1.68;
+  --lh-profile-name: 1.16;
+  --lh-eyebrow: 1.4;
+  --lh-card-title: 1.22;
 
-	/* ---- Letter Spacing — Apple HIG precision (WWDC 2020) ---- */
-	--ls-hero: -0.039em;
-	--ls-h2: -0.025em;
-	--ls-h3: -0.015em;
-	--ls-tight: -0.01em;
-	--ls-normal: 0;
-	--ls-title: -0.025em;
-	--ls-headline: -0.02em;
-	--ls-body: -0.01em;
-	--ls-caption: -0.006em;
-	--ls-footnote: var(--ls-caption);
-	--ls-button: 0.004em;
-	--ls-eyebrow: 0.06em;
-	--ls-profile-name: -0.028em;
-	--ls-profile-title: -0.018em;
+  /* ---- Letter Spacing — Apple HIG precision (WWDC 2020) ---- */
+  --ls-hero: -0.039em;
+  --ls-h2: -0.025em;
+  --ls-h3: -0.015em;
+  --ls-tight: -0.01em;
+  --ls-normal: 0;
+  --ls-title: -0.025em;
+  --ls-headline: -0.02em;
+  --ls-body: -0.01em;
+  --ls-caption: -0.006em;
+  --ls-footnote: var(--ls-caption);
+  --ls-button: 0.004em;
+  --ls-eyebrow: 0.06em;
+  --ls-profile-name: -0.028em;
+  --ls-profile-title: -0.018em;
 
-	/* ---- Editorial Hierarchy Roles ---- */
-	--type-display-size: clamp(2.5rem, 3.4vw + 1.35rem, 3.35rem);
-	--type-display-weight: 800;
-	--type-display-tracking: -0.04em;
-	--type-display-leading: 1.05;
-	--measure-display: 15ch;
+  /* ---- Editorial Hierarchy Roles ---- */
+  --type-display-size: clamp(2.5rem, 3.4vw + 1.35rem, 3.35rem);
+  --type-display-weight: 800;
+  --type-display-tracking: -0.04em;
+  --type-display-leading: 1.05;
+  --measure-display: 15ch;
 
-	--type-section-size: clamp(2rem, 2.4vw + 1rem, 2.75rem);
-	--type-section-weight: 800;
-	--type-section-tracking: -0.034em;
-	--type-section-leading: 1.05;
-	--measure-section: 18ch;
+  --type-section-size: clamp(2rem, 2.4vw + 1rem, 2.75rem);
+  --type-section-weight: 800;
+  --type-section-tracking: -0.034em;
+  --type-section-leading: 1.05;
+  --measure-section: 18ch;
 
-	--type-surface-size: clamp(1.75rem, 1.35vw + 1.1rem, 2.25rem);
-	--type-surface-weight: 780;
-	--type-surface-tracking: -0.03em;
-	--type-surface-leading: 1.08;
-	--measure-surface: 22ch;
+  --type-surface-size: clamp(1.75rem, 1.35vw + 1.1rem, 2.25rem);
+  --type-surface-weight: 780;
+  --type-surface-tracking: -0.03em;
+  --type-surface-leading: 1.08;
+  --measure-surface: 22ch;
 
-	--type-card-title-size: clamp(1.375rem, 0.95vw + 1rem, 1.875rem);
-	--type-card-title-featured-size: clamp(1.625rem, 1.05vw + 1.08rem, 2.125rem);
-	--type-card-title-weight: 800;
-	--type-card-title-tracking: -0.028em;
-	--type-card-title-leading: 1.1;
-	--measure-card-title: 18ch;
+  --type-card-title-size: clamp(1.375rem, 0.95vw + 1rem, 1.875rem);
+  --type-card-title-featured-size: clamp(1.625rem, 1.05vw + 1.08rem, 2.125rem);
+  --type-card-title-weight: 800;
+  --type-card-title-tracking: -0.028em;
+  --type-card-title-leading: 1.1;
+  --measure-card-title: 18ch;
 
-	--type-lede-size: clamp(1.03125rem, 0.55vw + 0.96rem, 1.1875rem);
-	--type-lede-weight: 480;
-	--type-lede-leading: 1.58;
-	--measure-lede: 60ch;
+  --type-lede-size: clamp(1.03125rem, 0.55vw + 0.96rem, 1.1875rem);
+  --type-lede-weight: 480;
+  --type-lede-leading: 1.58;
+  --measure-lede: 60ch;
 
-	--type-card-summary-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
-	--type-card-summary-weight: 460;
-	--type-card-summary-leading: 1.52;
-	--measure-card-summary: 34ch;
+  --type-card-summary-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
+  --type-card-summary-weight: 460;
+  --type-card-summary-leading: 1.52;
+  --measure-card-summary: 34ch;
 
-	--type-reader-title-size: clamp(2.5rem, 3vw + 1.15rem, 3.4rem);
-	--type-reader-title-weight: 800;
-	--type-reader-title-tracking: -0.04em;
-	--type-reader-title-leading: 1.04;
-	--type-reader-h2-size: clamp(2rem, 2.1vw + 1.1rem, 2.75rem);
-	--type-reader-h2-weight: 780;
-	--type-reader-h2-tracking: -0.032em;
-	--type-reader-h2-leading: 1.08;
-	--type-reader-h3-size: clamp(1.5rem, 1.15vw + 1rem, 1.95rem);
-	--type-reader-h3-weight: 700;
-	--type-reader-h3-tracking: -0.022em;
-	--type-reader-h3-leading: 1.12;
+  --type-reader-title-size: clamp(2.5rem, 3vw + 1.15rem, 3.4rem);
+  --type-reader-title-weight: 800;
+  --type-reader-title-tracking: -0.04em;
+  --type-reader-title-leading: 1.04;
+  --type-reader-h2-size: clamp(2rem, 2.1vw + 1.1rem, 2.75rem);
+  --type-reader-h2-weight: 780;
+  --type-reader-h2-tracking: -0.032em;
+  --type-reader-h2-leading: 1.08;
+  --type-reader-h3-size: clamp(1.5rem, 1.15vw + 1rem, 1.95rem);
+  --type-reader-h3-weight: 700;
+  --type-reader-h3-tracking: -0.022em;
+  --type-reader-h3-leading: 1.12;
 
-	--type-body-size: clamp(1.03125rem, 0.3vw + 1rem, 1.125rem);
-	--type-body-weight: 430;
-	--type-body-leading: 1.72;
-	--measure-prose: 62ch;
+  --type-body-size: clamp(1.03125rem, 0.3vw + 1rem, 1.125rem);
+  --type-body-weight: 430;
+  --type-body-leading: 1.72;
+  --measure-prose: 62ch;
 }

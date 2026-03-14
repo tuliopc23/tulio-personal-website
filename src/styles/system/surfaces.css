@@ -163,8 +163,7 @@
   padding: var(--space-xxs) var(--space-xs);
   border-radius: 9999px;
   backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
-    blur(var(--glass-blur-base));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   font-weight: 600;
   font-size: var(--fs--2);
   color: var(--text);
@@ -239,14 +238,8 @@
 .chip-pill--interactive:hover,
 .chip-pill--interactive:focus-visible {
   color: var(--chip-color-hover, var(--text-primary));
-  background: var(
-    --chip-bg-hover,
-    color-mix(in srgb, var(--surface-card) 54%, transparent)
-  );
-  border-color: var(
-    --chip-border-hover,
-    color-mix(in srgb, var(--panel-border) 68%, transparent)
-  );
+  background: var(--chip-bg-hover, color-mix(in srgb, var(--surface-card) 54%, transparent));
+  border-color: var(--chip-border-hover, color-mix(in srgb, var(--panel-border) 68%, transparent));
 }
 
 .chip-pill--active,
@@ -254,14 +247,8 @@
 .chip-pill--interactive[data-active="true"],
 .chip-pill--interactive[aria-current="true"] {
   color: var(--chip-color-active, var(--text-primary));
-  background: var(
-    --chip-bg-active,
-    color-mix(in srgb, var(--surface-card) 88%, transparent)
-  );
-  border-color: var(
-    --chip-border-active,
-    color-mix(in srgb, var(--blue) 22%, var(--panel-border))
-  );
+  background: var(--chip-bg-active, color-mix(in srgb, var(--surface-card) 88%, transparent));
+  border-color: var(--chip-border-active, color-mix(in srgb, var(--blue) 22%, var(--panel-border)));
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
@@ -289,8 +276,7 @@
   padding: var(--space-md);
   box-shadow: var(--shadow-card);
   backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base))
-    blur(var(--glass-blur-base));
+  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   transition:
     transform var(--motion-duration-fast) var(--motion-ease-out),
     border-color var(--motion-duration-sm) var(--motion-ease-out),
@@ -589,11 +575,7 @@
 
 [data-theme="dark"] .projectCard__media {
   border: 1px solid rgba(255, 255, 255, 0.09);
-  background: linear-gradient(
-    145deg,
-    rgba(28, 28, 30, 0.88) 0%,
-    rgba(28, 28, 30, 0.96) 100%
-  );
+  background: linear-gradient(145deg, rgba(28, 28, 30, 0.88) 0%, rgba(28, 28, 30, 0.96) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 18px 36px rgba(0, 0, 0, 0.25);
@@ -601,11 +583,7 @@
 
 [data-theme="light"] .projectCard__media {
   border: 1px solid rgba(60, 60, 67, 0.12);
-  background: linear-gradient(
-    145deg,
-    rgba(230, 230, 235, 0.88) 0%,
-    rgba(240, 240, 245, 0.96) 100%
-  );
+  background: linear-gradient(145deg, rgba(230, 230, 235, 0.88) 0%, rgba(240, 240, 245, 0.96) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 18px 36px rgba(31, 35, 53, 0.12);
@@ -662,11 +640,7 @@
 }
 
 [data-theme="light"] .projectCard__chrome {
-  background: linear-gradient(
-    180deg,
-    rgba(235, 235, 240, 0.92),
-    rgba(230, 230, 235, 0.88)
-  );
+  background: linear-gradient(180deg, rgba(235, 235, 240, 0.92), rgba(230, 230, 235, 0.88));
   border-bottom: 1px solid rgba(60, 60, 67, 0.12);
   box-shadow:
     0 1px 2px rgba(31, 35, 53, 0.06),
@@ -865,11 +839,7 @@
 
 [data-theme="dark"] .projectCard__meta {
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(
-    180deg,
-    rgba(60, 60, 67, 0.28) 0%,
-    rgba(48, 48, 52, 0.38) 100%
-  );
+  background: linear-gradient(180deg, rgba(60, 60, 67, 0.28) 0%, rgba(48, 48, 52, 0.38) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 0.25),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.16),
@@ -882,11 +852,7 @@
 
 [data-theme="light"] .projectCard__meta {
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(250, 250, 252, 0.88) 100%
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(250, 250, 252, 0.88) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 0.8),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.9),
@@ -1011,11 +977,7 @@
 
 [data-theme="dark"] .projectCard__tag {
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: linear-gradient(
-    180deg,
-    rgba(60, 60, 67, 0.32) 0%,
-    rgba(48, 48, 52, 0.42) 100%
-  );
+  background: linear-gradient(180deg, rgba(60, 60, 67, 0.32) 0%, rgba(48, 48, 52, 0.42) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 0.2),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.14),
@@ -1029,11 +991,7 @@
 
 [data-theme="light"] .projectCard__tag {
   border: 1px solid rgba(0, 0, 0, 0.06);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(250, 250, 252, 0.9) 100%
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 252, 0.9) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 0.9),
     inset 0 0.5px 0 rgba(255, 255, 255, 1),
@@ -1093,10 +1051,7 @@
   overflow: hidden;
   border-radius: var(--surface-panel-radius, 28px);
   border: 1px solid var(--surface-panel-border, var(--panel-border));
-  background: var(
-    --surface-panel-bg,
-    color-mix(in srgb, var(--surface-elevated) 96%, transparent)
-  );
+  background: var(--surface-panel-bg, color-mix(in srgb, var(--surface-elevated) 96%, transparent));
   box-shadow: var(
     --surface-panel-shadow,
     var(--shadow-card),
@@ -1105,8 +1060,7 @@
     0 0 60px rgba(10, 132, 255, 0.03)
   );
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
-  -webkit-backdrop-filter: blur(var(--glass-regular-blur))
-    saturate(var(--glass-saturation-base));
+  -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
 }
 
 .surface-panel::before {
@@ -1122,24 +1076,17 @@
 
 .surface-panel--premium {
   --surface-panel-shadow:
-    var(--shadow-card),
-    var(--shadow-card-highlight),
-    0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 22px 44px rgba(5, 8, 18, 0.42),
-    0 0 80px rgba(10, 132, 255, 0.08);
+    var(--shadow-card), var(--shadow-card-highlight), 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 22px 44px rgba(5, 8, 18, 0.42), 0 0 80px rgba(10, 132, 255, 0.08);
 }
 
 .surface-panel--nested {
   --surface-panel-radius: clamp(20px, 1.8vw, 26px);
   --surface-panel-bg: color-mix(in srgb, var(--surface-card) 95%, transparent);
   --surface-panel-shadow:
-    var(--shadow-card),
-    var(--shadow-card-highlight),
-    0 18px 36px rgba(6, 10, 22, 0.32);
+    var(--shadow-card), var(--shadow-card-highlight), 0 18px 36px rgba(6, 10, 22, 0.32);
   --hover-shadow:
-    var(--shadow-card-hover),
-    var(--shadow-card-highlight),
-    0 26px 44px rgba(4, 9, 20, 0.42),
+    var(--shadow-card-hover), var(--shadow-card-highlight), 0 26px 44px rgba(4, 9, 20, 0.42),
     0 0 50px rgba(77, 166, 255, 0.1);
   --hover-border: var(--panel-border-strong);
 }
@@ -1153,8 +1100,7 @@
   --surface-tile-padding-inline: 10px;
   --surface-tile-min-height: 0;
   --surface-tile-hover-shadow:
-    var(--shadow-card-hover),
-    var(--shadow-card-highlight),
+    var(--shadow-card-hover), var(--shadow-card-highlight),
     0 0 42px rgba(var(--surface-tile-glow-rgb), 0.1);
   --surface-tile-hover-border: color-mix(in srgb, var(--panel-border-strong) 62%, transparent);
   position: relative;
@@ -1223,8 +1169,7 @@
   --surface-tile-padding-block: 12px;
   --surface-tile-padding-inline: 12px;
   --surface-tile-hover-shadow:
-    var(--shadow-card-hover),
-    var(--shadow-card-highlight),
+    var(--shadow-card-hover), var(--shadow-card-highlight),
     0 0 54px rgba(var(--surface-tile-glow-rgb), 0.12);
   box-shadow:
     var(--shadow-card),
@@ -1399,11 +1344,7 @@
 
 [data-theme="dark"] .meta-chip--accent {
   border-color: rgba(10, 132, 255, 0.34);
-  background: linear-gradient(
-    180deg,
-    rgba(10, 132, 255, 0.12) 0%,
-    rgba(10, 132, 255, 0.08) 100%
-  );
+  background: linear-gradient(180deg, rgba(10, 132, 255, 0.12) 0%, rgba(10, 132, 255, 0.08) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 0.18),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.14),
@@ -1412,11 +1353,7 @@
 
 [data-theme="light"] .meta-chip--accent {
   border-color: rgba(0, 113, 227, 0.22);
-  background: linear-gradient(
-    180deg,
-    rgba(10, 132, 255, 0.08) 0%,
-    rgba(10, 132, 255, 0.05) 100%
-  );
+  background: linear-gradient(180deg, rgba(10, 132, 255, 0.08) 0%, rgba(10, 132, 255, 0.05) 100%);
   box-shadow:
     0 0.5px 0 rgba(255, 255, 255, 1),
     inset 0 0.5px 0 rgba(255, 255, 255, 1),
@@ -1522,11 +1459,7 @@
 /* Light mode: vibrant filled icons with 4-layer shadows */
 [data-theme="light"] .symbol {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  background: linear-gradient(
-    135deg,
-    var(--symbol-bg-start) 0%,
-    var(--symbol-bg-end) 100%
-  );
+  background: linear-gradient(135deg, var(--symbol-bg-start) 0%, var(--symbol-bg-end) 100%);
   /* 4-layer shadow system */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.4),
@@ -1578,11 +1511,7 @@
 
 [data-theme="light"] .projectCard:hover .projectCard__chrome,
 [data-theme="light"] .projectCard:focus-visible .projectCard__chrome {
-  background: linear-gradient(
-    180deg,
-    rgba(235, 235, 240, 0.96),
-    rgba(230, 230, 235, 0.92)
-  );
+  background: linear-gradient(180deg, rgba(235, 235, 240, 0.96), rgba(230, 230, 235, 0.92));
 }
 .projectCard:hover .projectCard__mediaGlow,
 .projectCard:focus-visible .projectCard__mediaGlow {
@@ -1685,8 +1614,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--blue,
 [data-theme="dark"] .profileCard__contact:hover .symbol--blue,
 [data-theme="dark"] .dock-link:hover .symbol--blue {
-  border: 1px solid
-    color-mix(in srgb, rgba(10, 132, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(10, 132, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(10, 132, 255, 0.95) 25%, transparent);
@@ -1705,8 +1633,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--indigo,
 [data-theme="dark"] .profileCard__contact:hover .symbol--indigo,
 [data-theme="dark"] .dock-link:hover .symbol--indigo {
-  border: 1px solid
-    color-mix(in srgb, rgba(36, 150, 237, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(36, 150, 237, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(36, 150, 237, 0.95) 25%, transparent);
@@ -1724,8 +1651,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--teal,
 [data-theme="dark"] .profileCard__contact:hover .symbol--teal,
 [data-theme="dark"] .dock-link:hover .symbol--teal {
-  border: 1px solid
-    color-mix(in srgb, rgba(100, 210, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(100, 210, 255, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(100, 210, 255, 0.95) 25%, transparent);
@@ -1744,8 +1670,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--orange,
 [data-theme="dark"] .profileCard__contact:hover .symbol--orange,
 [data-theme="dark"] .dock-link:hover .symbol--orange {
-  border: 1px solid
-    color-mix(in srgb, rgba(255, 120, 60, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(255, 120, 60, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(255, 120, 60, 0.95) 25%, transparent);
@@ -1763,8 +1688,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--pink,
 [data-theme="dark"] .profileCard__contact:hover .symbol--pink,
 [data-theme="dark"] .dock-link:hover .symbol--pink {
-  border: 1px solid
-    color-mix(in srgb, rgba(255, 80, 120, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(255, 80, 120, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(255, 80, 120, 0.95) 25%, transparent);
@@ -1783,8 +1707,7 @@
 [data-theme="dark"] .profileCard__socialCard:hover .symbol--green,
 [data-theme="dark"] .profileCard__contact:hover .symbol--green,
 [data-theme="dark"] .dock-link:hover .symbol--green {
-  border: 1px solid
-    color-mix(in srgb, rgba(66, 194, 140, 0.95) 75%, rgba(255, 255, 255, 0.45));
+  border: 1px solid color-mix(in srgb, rgba(66, 194, 140, 0.95) 75%, rgba(255, 255, 255, 0.45));
   box-shadow:
     var(--shadow-symbol-dark-hover),
     0 0 30px color-mix(in srgb, rgba(66, 194, 140, 0.95) 25%, transparent);

@@ -1,6 +1,13 @@
 .scrollHint {
   --scroll-hint-color: var(--blue, #0d8aff);
-  --scroll-hint-font: var(--font-sans, "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  --scroll-hint-font: var(
+    --font-sans,
+    "SF Pro Text",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif
+  );
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -13,8 +20,10 @@
   opacity: 0;
   transform: translateY(4px);
   transition:
-    opacity var(--motion-duration-sm, 180ms) var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1)),
-    transform var(--motion-duration-sm, 180ms) var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1));
+    opacity var(--motion-duration-sm, 180ms)
+    var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1)),
+    transform var(--motion-duration-sm, 180ms)
+    var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1));
   pointer-events: none;
   user-select: none;
   will-change: opacity, transform;
@@ -66,9 +75,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .scrollHint {
-    display: none !important;
+    display: none;
     opacity: 0;
     transition: none;
-    transform: none !important;
+    transform: none;
   }
 }

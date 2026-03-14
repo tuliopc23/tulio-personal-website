@@ -1,8 +1,9 @@
 (() => {
   var btnSwitchColor = document.getElementsByClassName("fs-section_color_button");
   var boxSwitchColor = document.getElementsByClassName("fs-section_switch-color-box")[0];
+  var i;
 
-  for (var i = 0; i < btnSwitchColor.length; i++) {
+  for (i = 0; i < btnSwitchColor.length; i++) {
     btnSwitchColor[i].addEventListener("click", function () {
       var colorOne = this.getAttribute("data-color-one");
       var colorTwo = this.getAttribute("data-color-two");
@@ -11,7 +12,8 @@
 
       // Add color to the font
       var fontColorSwitchBox = document.getElementsByClassName("fs-switch-box_font-color");
-      for (var j = 0; j < fontColorSwitchBox.length; j++) {
+      var j;
+      for (j = 0; j < fontColorSwitchBox.length; j++) {
         fontColorSwitchBox[j].style.cssText = `color:${fontColor} !important`;
       }
     });
