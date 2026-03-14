@@ -1,0 +1,6 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tulio-personal-website",
+  "compatibility_date": "2026-03-14",
+  "pages_build_output_dir": "./dist"
+}

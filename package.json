@@ -8,6 +8,9 @@
     "build": "astro build",
     "test:smoke": "bun run build && bun test tests/layout-smoke.test.ts",
     "preview": "astro preview",
+    "cf:dev": "wrangler pages dev dist",
+    "cf:deploy": "bun run build && wrangler pages deploy dist --project-name tulio-personal-website --commit-dirty=true",
+    "cf:download-config": "wrangler pages download config tulio-personal-website",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
@@ -75,7 +78,8 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "sanity-codegen": "^0.9.8",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wrangler": "^4.73.0"
   },
   "engines": {
     "bun": "1.3.x"
