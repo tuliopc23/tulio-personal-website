@@ -40,3 +40,22 @@ Sf fonts/
 .github/skills/
 CLAUDE.md
 openspec/AGENTS.md
+
+# Additional local agent skill caches (do not version)
+.adal/
+.augment/
+.commandcode/
+.cortex/
+.crush/
+.goose/
+.junie/
+.kilocode/
+.mux/
+.neovate/
+.openhands/
+.pi/
+.pochi/
+.vexp/
+.vibe/
+.zencoder/
+.agents/skills/
