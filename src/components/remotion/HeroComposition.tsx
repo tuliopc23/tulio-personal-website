@@ -22,19 +22,28 @@ import {
 /*  Props                                                              */
 /* ------------------------------------------------------------------ */
 
-export type HeroCompositionProps = Record<string, never>;
+export type HeroCompositionProps = {
+  theme?: "dark" | "light";
+};
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
-const MACINTOSH_IMAGE = "/images/hero/macintosh-cleaned.png";
-const BG_COLOR = "#050505";
+const MACINTOSH_IMAGES = {
+  dark: "/images/hero/macintosh-cleaned.png",
+  light: "/images/hero/macintosh-cleaned-light.png",
+} as const;
 
-/*  Screen area coordinates — measured from the cleaned image.
-    The image (3072×2048, 3:2) renders via object-fit:contain in a
-    1920×1080 composition at 1620×1080, centered with 150px black
-    bars on each side.
+const BG_COLORS = {
+  dark: "#050505",
+  light: "#f5f5f7",
+} as const;
+
+/*  Screen area coordinates — measured from both cleaned images.
+    Both images are 3072x2048 (3:2) and render via object-fit:contain
+    in a 1920x1080 composition at 1620x1080, centered with 150px bars.
+    Screen position verified identical between dark and light variants.
 
     White screen bounds in composition space:
       top: 23.05%  left: 39.23%  width: 22.30%  height: 26.17%       */
@@ -59,38 +68,43 @@ const HELLO_POSITION = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/*  Macintosh Image — fade in with scale settle                        */
+/*  Macintosh Image — clip-path circle reveal with subtle scale settle */
 /* ------------------------------------------------------------------ */
 
-function MacintoshLayer() {
+function MacintoshLayer({ theme }: { theme: "dark" | "light" }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const opacity = interpolate(frame, [0, 1.4 * fps], [0, 1], {
+  /* Clip-path reveal: circle expands from 0% to 80% radius over 1.0s.
+     Center at 50% 45% — slightly above center, near the Mac screen.
+     80% of the reference length guarantees full corner coverage. */
+  const revealEnd = Math.round(1.0 * fps); // frame 30
+  const revealRadius = interpolate(frame, [0, revealEnd], [0, 80], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: Easing.out(Easing.quad),
+    easing: Easing.out(Easing.cubic),
   });
 
+  /* Subtle scale settle for organic weight after reveal */
   const scaleProgress = spring({
     frame,
     fps,
-    config: { damping: 200, stiffness: 80, mass: 1.5 },
-    durationInFrames: Math.round(2 * fps),
+    config: { damping: 200, stiffness: 90, mass: 1.3 },
+    durationInFrames: Math.round(1.4 * fps),
   });
-  const scale = interpolate(scaleProgress, [0, 1], [1.05, 1]);
+  const scale = interpolate(scaleProgress, [0, 1], [1.02, 1]);
 
   return (
     <AbsoluteFill
       style={{
-        opacity,
+        clipPath: `circle(${revealRadius}% at 50% 45%)`,
         transform: `scale(${scale})`,
         justifyContent: "center",
         alignItems: "center",
       }}
     >
       <Img
-        src={MACINTOSH_IMAGE}
+        src={MACINTOSH_IMAGES[theme]}
         style={{
           width: "100%",
           height: "100%",
@@ -110,9 +124,9 @@ function HelloDraw() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const drawStart = 1.2 * fps;
-  const drawEnd = 3.5 * fps;
-  const dotAppear = 3.4 * fps;
+  const drawStart = Math.round(0.9 * fps); // frame 27 — starts as reveal nears completion
+  const drawEnd = Math.round(3.2 * fps); // frame 96
+  const dotAppear = Math.round(3.1 * fps); // frame 93
 
   const drawProgress = interpolate(frame, [drawStart, drawEnd], [0, HELLO_PATH_LENGTH], {
     extrapolateLeft: "clamp",
@@ -126,28 +140,34 @@ function HelloDraw() {
   });
 
   const dotScale = spring({
-    frame: frame - Math.round(dotAppear),
+    frame: frame - dotAppear,
     fps,
     config: { damping: 12, stiffness: 200, mass: 0.5 },
   });
 
-  const imageOpacity = interpolate(frame, [0, 1.4 * fps], [0, 1], {
+  /* Match the Mac layer's clip-path so the hello is clipped during
+     the reveal, then its own stroke fade-in begins at drawStart.
+     Also match the scale settle for lockstep movement. */
+  const revealEnd = Math.round(1.0 * fps);
+  const revealRadius = interpolate(frame, [0, revealEnd], [0, 80], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
+    easing: Easing.out(Easing.cubic),
   });
 
   const scaleProgress = spring({
     frame,
     fps,
-    config: { damping: 200, stiffness: 80, mass: 1.5 },
-    durationInFrames: Math.round(2 * fps),
+    config: { damping: 200, stiffness: 90, mass: 1.3 },
+    durationInFrames: Math.round(1.4 * fps),
   });
-  const parentScale = interpolate(scaleProgress, [0, 1], [1.05, 1]);
+  const parentScale = interpolate(scaleProgress, [0, 1], [1.02, 1]);
 
   return (
     <AbsoluteFill
       style={{
-        opacity: imageOpacity * strokeOpacity,
+        opacity: strokeOpacity,
+        clipPath: `circle(${revealRadius}% at 50% 45%)`,
         transform: `scale(${parentScale})`,
         pointerEvents: "none",
       }}
@@ -212,10 +232,12 @@ function HelloDraw() {
 /*  Main Composition                                                   */
 /* ------------------------------------------------------------------ */
 
-export function HeroComposition(_props: HeroCompositionProps) {
+export function HeroComposition({ theme = "dark" }: HeroCompositionProps) {
+  const bgColor = BG_COLORS[theme];
+
   return (
-    <AbsoluteFill style={{ backgroundColor: BG_COLOR }}>
-      <MacintoshLayer />
+    <AbsoluteFill style={{ backgroundColor: bgColor }}>
+      <MacintoshLayer theme={theme} />
       <HelloDraw />
     </AbsoluteFill>
   );

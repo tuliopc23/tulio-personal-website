@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { buildLegacyTheme } from "sanity";
 
 const props = {

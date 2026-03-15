@@ -129,8 +129,7 @@
 .root[data-dock="true"][data-icon="calendar"],
 .root[data-dock="true"][data-icon="www"],
 .root[data-dock="true"][data-icon="github"],
-.root[data-dock="true"][data-icon="mastodon"],
-.root[data-dock="true"][data-icon="profile-portfolio"] {
+.root[data-dock="true"][data-icon="mastodon"] {
   --dock-icon-scale: 122%;
 }
 
@@ -142,34 +141,34 @@
   opacity: 0;
 }
 
-:global([data-theme="dark"]) .media img[data-variant="light"] {
+:global([data-theme="dark"]) .root[data-has-dark-asset="true"] .media img[data-variant="light"] {
   opacity: 0;
 }
 
-:global(html.dark) .media img[data-variant="light"] {
+:global(html.dark) .root[data-has-dark-asset="true"] .media img[data-variant="light"] {
   opacity: 0;
 }
 
-:global([data-theme="dark"]) .media img[data-variant="dark"] {
+:global([data-theme="dark"]) .root[data-has-dark-asset="true"] .media img[data-variant="dark"] {
   opacity: 1;
 }
 
-:global(html.dark) .media img[data-variant="dark"] {
+:global(html.dark) .root[data-has-dark-asset="true"] .media img[data-variant="dark"] {
   opacity: 1;
 }
 
-:global([data-theme="light"]) .media img[data-variant="light"] {
+:global([data-theme="light"]) .root[data-has-dark-asset="true"] .media img[data-variant="light"] {
   opacity: 1;
 }
 
-:global(html.light) .media img[data-variant="light"] {
+:global(html.light) .root[data-has-dark-asset="true"] .media img[data-variant="light"] {
   opacity: 1;
 }
 
-:global([data-theme="light"]) .media img[data-variant="dark"] {
+:global([data-theme="light"]) .root[data-has-dark-asset="true"] .media img[data-variant="dark"] {
   opacity: 0;
 }
 
-:global(html.light) .media img[data-variant="dark"] {
+:global(html.light) .root[data-has-dark-asset="true"] .media img[data-variant="dark"] {
   opacity: 0;
 }

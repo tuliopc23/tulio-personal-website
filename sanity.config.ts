@@ -1,5 +1,6 @@
 import "./src/sanity/studio.css";
 
+import { assist } from "@sanity/assist";
 import { codeInput } from "@sanity/code-input";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
@@ -42,6 +43,7 @@ export default defineConfig({
     presentationTool({ resolve, previewUrl }),
     codeInput(),
     markdownSchema(),
+    assist(),
   ],
   schema: {
     types: schemaTypes,

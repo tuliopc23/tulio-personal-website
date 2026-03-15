@@ -9,13 +9,34 @@ const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
 const profilePhotoSrc = "/profile-photo.png";
 
-const contactCards = [
+type ContactCard = {
+  label: string;
+  value: string;
+  href: string;
+  tint: string;
+  ariaLabel: string;
+  external: boolean;
+  icon?: string;
+  asset?: string;
+};
+
+type SocialCard = {
+  title: string;
+  href: string;
+  tint: string;
+  ariaLabel: string;
+  external: boolean;
+  icon?: string;
+  asset?: string;
+};
+
+const contactCards: ContactCard[] = [
   {
     label: "Contact",
     value: "Email and project context",
     href: "/contact",
     tint: "indigo",
-    icon: "mail",
+    asset: "/icons/Socials/Email.webp",
     ariaLabel: `Open contact form for ${name}`,
     external: false,
   },
@@ -24,13 +45,13 @@ const contactCards = [
     value: location,
     href: locationHref,
     tint: "cyan",
-    icon: "map-pin",
+    asset: "/icons/Socials/Location.svg",
     ariaLabel: `Open ${name}'s location in Maps`,
     external: true,
   },
 ];
 
-const socialCards = [
+const socialCards: SocialCard[] = [
   {
     title: "GitHub",
     href: "https://github.com/tuliopc23",
@@ -43,7 +64,7 @@ const socialCards = [
     title: "Portfolio",
     href: "https://portfolio.tuliocunha.dev",
     tint: "cyan",
-    icon: "portfolio",
+    asset: "/icons/Socials/www.webp",
     ariaLabel: "Open Tulio's portfolio",
     external: true,
   },
@@ -75,7 +96,7 @@ const socialCards = [
     title: "Schedule time",
     href: "https://fantastical.app/tuliopinheirocunha",
     tint: "orange",
-    icon: "calendar",
+    asset: "/icons/Socials/calendar.webp",
     ariaLabel: "Schedule time with Tulio",
     external: true,
   },
@@ -130,7 +151,7 @@ const socialCards = [
             >
                 <IconTile
                   tint={card.tint}
-                  icon={card.icon ?? null}
+                  asset={card.asset ?? null}
                   loading="eager"
                 />
               <span class={styles.profileCardContactCopy}>
@@ -190,6 +211,7 @@ const socialCards = [
                   tint={card.tint}
                   label={card.title}
                   icon={card.icon ?? null}
+                  asset={card.asset ?? null}
                   context="dock"
                   loading="eager"
                 />

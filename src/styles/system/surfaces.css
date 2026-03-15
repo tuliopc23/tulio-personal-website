@@ -8,7 +8,7 @@
   height: 100vh;
   overflow: hidden;
   z-index: 0;
-  background-color: #050505;
+  background-color: var(--bg, #050505);
 
   /*  Pull the hero up to bleed behind the topbar.
       Must negate: topbar height + layout padding-top + content padding-top.
@@ -73,12 +73,36 @@
   }
 }
 
-/* The Player fills the hero container */
+/* The Player fills the hero container.
+   Remotion Player preserves 16:9 aspect ratio internally, which
+   creates letterbox bars in viewports taller than 16:9. The hero
+   section's background-color matches the composition bg, so the
+   bars are invisible — seamless bleed. */
 .hero-remotion__player {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Remotion Player wrapper: ensure it fills the container fully */
+.hero-remotion__player > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Remotion Player renders a wrapper div; scale it to cover the parent */
+.hero-remotion__player > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* The inner container (iframe/canvas) needs cover-like scaling */
+.hero-remotion__player > div > div {
+  width: 100% !important;
+  height: 100% !important;
+  transform: scale(max(calc(100vw / 1920), calc(100vh / 1080))) !important;
+  transform-origin: center center;
 }
 
 .hero-remotion__fallback,
