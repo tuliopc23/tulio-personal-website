@@ -1,0 +1,23 @@
+.gitignore
+  bf767b254e56e291 43-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "e2e167ca8757b68093855dcad9fbe22b7c2a59a5",
+  "prompts": {
+    "bf767b254e56e291": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f4d37e46-c647-41b7-818e-17ea50a19d72",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 0,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}
