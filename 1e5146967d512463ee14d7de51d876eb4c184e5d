@@ -1,0 +1,27 @@
+src/components/HeroPlayer.tsx
+  61b8c85b85e85490 2,16-63,68,76-79,83,103-104,116-140,143,150
+src/components/remotion/HeroComposition.tsx
+  61b8c85b85e85490 25-27,33-36,38-41,43-46,71,74,78-82,85,88,92-93,95,100,107,127-129,148-152,155,161-162,164,169-170,235-236,239-240
+src/styles/system/surfaces.css
+  61b8c85b85e85490 11,76-80,88-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "1e5146967d512463ee14d7de51d876eb4c184e5d",
+  "prompts": {
+    "61b8c85b85e85490": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_30d73c7b5ffetgCAIgla099FOT",
+        "model": "anthropic/claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 226,
+      "total_deletions": 102,
+      "accepted_lines": 160,
+      "overriden_lines": 0
+    }
+  }
+}
