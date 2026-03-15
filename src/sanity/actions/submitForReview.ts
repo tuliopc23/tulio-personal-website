@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import * as sanity from "sanity";
 
 export const submitForReviewAction: sanity.DocumentActionComponent = (props) => {
@@ -10,7 +9,7 @@ export const submitForReviewAction: sanity.DocumentActionComponent = (props) => 
     return null;
   }
 
-  const onHandle = useCallback(async () => {
+  const onHandle = async () => {
     const docId = props.id.replace(/^drafts\./, "");
 
     // Update status and timestamp
@@ -21,8 +20,7 @@ export const submitForReviewAction: sanity.DocumentActionComponent = (props) => 
         lastReviewedAt: new Date().toISOString(),
       })
       .commit();
-
-  }, [client, props]);
+  };
 
   return {
     label: "Submit for Review",

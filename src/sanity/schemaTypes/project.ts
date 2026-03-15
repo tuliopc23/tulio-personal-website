@@ -41,6 +41,7 @@ export default defineType({
       title: "Title",
       type: "string",
       fieldset: "meta",
+
       validation: (rule) => rule.required().min(2).max(80),
     }),
     defineField({
@@ -48,6 +49,7 @@ export default defineType({
       title: "Slug",
       type: "slug",
       fieldset: "meta",
+
       options: {
         source: "title",
         maxLength: 96,
@@ -59,6 +61,7 @@ export default defineType({
       title: "Role",
       type: "string",
       fieldset: "meta",
+
       description: 'Your role on this project, e.g. "Creator & UI Engineer"',
       validation: (rule) => rule.required().max(80),
     }),
@@ -67,6 +70,7 @@ export default defineType({
       title: "Summary",
       type: "text",
       fieldset: "meta",
+
       rows: 3,
       description: "Card lede — aim for 1–2 sentences, max 160 characters.",
       validation: (rule) => rule.required().max(160),
@@ -76,6 +80,7 @@ export default defineType({
       title: "Status",
       type: "string",
       fieldset: "meta",
+
       options: {
         list: STATUS_OPTIONS,
         layout: "radio",
@@ -88,6 +93,7 @@ export default defineType({
       title: "External URL",
       type: "url",
       fieldset: "meta",
+
       description: "Link to the live project, GitHub repo, or case study.",
       validation: (rule) => rule.required(),
     }),
@@ -96,6 +102,7 @@ export default defineType({
       title: "CTA Label",
       type: "string",
       fieldset: "meta",
+
       description: 'Call-to-action text, e.g. "Explore LiqUIdify"',
       validation: (rule) => rule.required().max(60),
     }),

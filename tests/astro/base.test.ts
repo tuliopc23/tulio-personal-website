@@ -25,5 +25,7 @@ describe("Base layout", () => {
     expect(html).toContain('rel="canonical" href="https://www.tuliocunha.dev/projects/"');
     expect(html).toMatch(/href="\/projects"[^>]*aria-current="page"/);
     expect(html).toContain("Apple apps, web builds, backend systems.");
+    expect(html).toContain("data-site-search-open");
+    expect(html).toContain('id="site-search"');
   });
 });

@@ -10,10 +10,10 @@ interface Props {
   };
 }
 
-const { value }: Props = Astro.props;
-const code = value.code ?? "";
-const language = value.language?.toLowerCase() ?? "plaintext";
-const filename = value.filename;
+const input = (Astro.props.value ?? Astro.props) as Partial<Props["value"]>;
+const code = input.code ?? "";
+const language = input.language?.toLowerCase() ?? "plaintext";
+const filename = input.filename;
 
 // Generate syntax-highlighted HTML
 const highlightedHtml = code ? await highlightCode(code, language) : "";

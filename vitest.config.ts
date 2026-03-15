@@ -2,7 +2,7 @@
 
 import { getViteConfig } from "astro/config";
 
-export default getViteConfig({
+const config = {
   test: {
     globals: true,
     setupFiles: ["./tests/setup/vitest.setup.ts"],
@@ -33,4 +33,6 @@ export default getViteConfig({
       },
     },
   },
-} as any);
+} as const;
+
+export default getViteConfig(config as unknown as Parameters<typeof getViteConfig>[0]);

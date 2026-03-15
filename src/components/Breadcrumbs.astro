@@ -10,12 +10,13 @@ interface BreadcrumbItem {
 
 interface Props {
   items: BreadcrumbItem[];
+  variant?: "default" | "editorial";
 }
 
-const { items } = Astro.props as Props;
+const { items, variant = "default" } = Astro.props as Props;
 ---
 
-<nav class={styles.breadcrumbs} aria-label="Breadcrumb navigation">
+<nav class={styles.breadcrumbs} data-variant={variant} aria-label="Breadcrumb navigation">
   <ol class={styles.list}>
     {
       items.map((item, index) => (

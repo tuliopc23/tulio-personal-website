@@ -2,6 +2,8 @@
 import Base from "../../../layouts/Base.astro";
 import Breadcrumbs from "../../../components/Breadcrumbs.astro";
 import ArticleCard from "../../../components/ArticleCard.astro";
+import PageIndicator from "../../../components/PageIndicator.astro";
+import PhosphorIcon from "../../../components/PhosphorIcon.astro";
 import ScrollHint from "../../../components/ScrollHint.astro";
 import {
   getAllCategories,
@@ -104,19 +106,30 @@ const structuredData = {
       items={[
         { label: "Home", href: "/", icon: "home" },
         { label: "Blog", href: "/blog/", icon: "book" },
-        { label: category.title },
+        { label: category.title, icon: "folder" },
       ]}
     />
 
     <div class="categoryHero__copy">
-      <span class="categoryHero__eyebrow">Topic</span>
+      <span class="categoryHero__eyebrow">
+        <PhosphorIcon name="folder" size={14} weight="regular" />
+        Topic
+      </span>
       <h1 class="categoryHero__title">{category.title}</h1>
       {category.description && <p class="categoryHero__description">{category.description}</p>}
     </div>
 
     <div class="categoryHero__meta" role="list" aria-label="Category metadata">
-      <span role="listitem">{postEntries.length} {postEntries.length === 1 ? "post" : "posts"}</span>
-      {_latestDate && <span role="listitem">Latest post: {_latestDate}</span>}
+      <span role="listitem" class:list={["meta-chip", "meta-chip--signal"]}>
+        <PhosphorIcon name="article" size={14} weight="regular" />
+        {postEntries.length} {postEntries.length === 1 ? "post" : "posts"}
+      </span>
+      {_latestDate && (
+        <span role="listitem" class:list={["meta-chip", "meta-chip--signal"]}>
+          <PhosphorIcon name="calendar" size={14} weight="regular" />
+          Latest post: {_latestDate}
+        </span>
+      )}
     </div>
   </section>
 
@@ -138,16 +151,28 @@ const structuredData = {
                 hook={post.hook}
                 dateISO={post.dateISO}
                 dateLabel={post.dateLabel}
+                ctaLabel="Read post"
                 tags={post.tags}
                 categories={post.categories}
                 readingTimeMinutes={post.readingTimeMinutes}
                 isNew={post.isNew}
+                heroImage={post.heroImage}
+                coverVariant={post.coverVariant}
+                editorialLayout="featured-editorial"
+                editorialSize="standard"
                 revealGroup="category-list"
                 revealOrder={index}
               />
             </li>
           ))}
         </ul>
+        <div class="blogSurface__indicator">
+          <PageIndicator
+            containerSelector=".categorySurface .articleGrid"
+            itemSelector=".categorySurface .articleGrid__item"
+            ariaLabel="Category articles navigation"
+          />
+        </div>
       </div>
     </section>
   ) : (
@@ -155,6 +180,9 @@ const structuredData = {
       <div class="categoryEmpty card card--static">
         <div class="card__inner">
           <div class="card__content">
+            <span class="categoryEmpty__icon" aria-hidden="true">
+              <PhosphorIcon name="folder" size={20} weight="regular" />
+            </span>
             <h2 class="card-title">No posts in this topic yet</h2>
             <p class="card-body">
               New essays are in progress. Browse the full blog index on the <a href="/blog/">blog index</a>.
@@ -165,7 +193,7 @@ const structuredData = {
     </section>
   )}
   <style>
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
       .categoryHero--feed {
         gap: var(--space-sm);
       }

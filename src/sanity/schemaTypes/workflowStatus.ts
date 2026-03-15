@@ -6,11 +6,11 @@ export default defineType({
   type: "string",
   options: {
     list: [
-      { title: "📝 Draft", value: "draft" },
-      { title: "👀 In Review", value: "in-review" },
-      { title: "✅ Approved", value: "approved" },
-      { title: "🚀 Published", value: "published" },
-      { title: "📦 Archived", value: "archived" },
+      { title: "Draft", value: "draft" },
+      { title: "In Review", value: "in-review" },
+      { title: "Approved", value: "approved" },
+      { title: "Published", value: "published" },
+      { title: "Archived", value: "archived" },
     ],
     layout: "radio",
   },

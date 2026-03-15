@@ -1,5 +1,5 @@
 import { PublishIcon } from "@sanity/icons";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import * as sanity from "sanity";
 
 /**
@@ -19,7 +19,7 @@ export const crosspostAction: sanity.DocumentActionComponent = (props) => {
     return null;
   }
 
-  const onHandle = useCallback(async () => {
+  const onHandle = async () => {
     setIsProcessing(true);
 
     try {
@@ -90,7 +90,7 @@ export const crosspostAction: sanity.DocumentActionComponent = (props) => {
     } finally {
       setIsProcessing(false);
     }
-  }, [client, props]);
+  };
 
   return {
     label: "Cross-post to Platforms",

@@ -5,6 +5,7 @@
   interface BodyDataset extends DOMStringMap {
     pageState?: PageState;
     glassState?: GlassState;
+    heroActive?: string;
   }
 
   interface RevealDataset extends DOMStringMap {
@@ -130,7 +131,11 @@
   const updateGlassState = (): void => {
     glassFrame = 0;
 
-    const nextState: GlassState = window.scrollY > 32 ? "scrolled" : "rest";
+    // On hero pages, use a larger threshold (half viewport) so the topbar
+    // stays transparent while the hero is visible.
+    const isHeroPage = body.dataset.heroActive === "true";
+    const threshold = isHeroPage ? window.innerHeight * 0.5 : 32;
+    const nextState: GlassState = window.scrollY > threshold ? "scrolled" : "rest";
     if (body.dataset.glassState !== nextState) {
       body.dataset.glassState = nextState;
     }

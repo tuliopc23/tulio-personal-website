@@ -20,9 +20,7 @@ const loading = "lazy";
 const placeholder = value.lqip;
 const hasImage = Boolean(value.url);
 const imageStyle =
-  value.width && value.height
-    ? `aspect-ratio: ${value.width} / ${value.height};`
-    : undefined;
+  value.width && value.height ? `aspect-ratio: ${value.width} / ${value.height};` : undefined;
 const placeholderStyle = [
   placeholder ? `background-image: url('${placeholder}')` : undefined,
   imageStyle,

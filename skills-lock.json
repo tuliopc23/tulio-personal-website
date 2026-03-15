@@ -5,6 +5,11 @@
       "source": "paulirish/dotfiles",
       "sourceType": "github",
       "computedHash": "04b1fd69e3c088949827e7c2af748402b2b7f798fc8742e9a7315ed506b161cc"
+    },
+    "sanity-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "462e01667b4f0a10d4f8cceb8c328131bce5413b004db7685e8a065b538c8112"
     }
   }
 }

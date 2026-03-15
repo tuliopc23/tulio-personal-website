@@ -294,7 +294,10 @@ const _sectionHeaders = {
           </div>
         </header>
         <div class="blogFilters blogFilters--feed">
-          <p class="blogFilters__label">Topics</p>
+          <p class="blogFilters__label">
+            <PhosphorIcon name="folder" size={14} weight="regular" />
+            Topics
+          </p>
           <div class="blogFilters__scroller" role="toolbar" aria-label="Filter posts by tag">
             <button
               class:list={["blogFilters__link", "chip-pill", "chip-pill--interactive", "motion-chip", "is-active"]}
@@ -327,6 +330,7 @@ const _sectionHeaders = {
 
         {rest.length > 0 && (
           <div class="blogEmpty" data-blog-empty hidden>
+            <PhosphorIcon name="folder" size={18} weight="regular" />
             {content.filterEmptyState}
           </div>
         )}
@@ -361,6 +365,7 @@ const _sectionHeaders = {
                   isNew={post.isNew}
                   heroImage={post.heroImage}
                   coverVariant={post.coverVariant}
+                  imagePriority={index < _initialDisplayCount}
                   editorialLayout="featured-editorial"
                   editorialSize="standard"
                   revealGroup="blog-list"
@@ -455,7 +460,7 @@ const _sectionHeaders = {
       let activeTag = "all";
 
       const fadeDuration = 200;
-      const phoneQuery = window.matchMedia("(max-width: 767px)");
+      const phoneQuery = window.matchMedia("(max-width: 768px)");
       const applyFilters = () => {
         let shown = 0;
         let matches = 0;
@@ -578,7 +583,7 @@ const _sectionHeaders = {
     }
   </script>
   <style>
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
       .blogSurface--feed {
         gap: var(--space-md);
       }

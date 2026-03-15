@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "./ArticleCard.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 import { getAllPosts } from "../sanity/lib/posts";
 import styles from "./RecentPosts.module.css";
 
@@ -78,21 +79,7 @@ const hasPost = recentPosts.length > 0;
   <div class={styles.footer}>
     <a href="/blog" class:list={[styles.viewAll, "cta-pill", "cta-pill--neutral", "motion-cta-pill"]}>
       See all posts
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          d="M6 12l4-4-4-4"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
+      <PhosphorIcon name="arrow-right" size={16} weight="regular" />
     </a>
   </div>
 </section>

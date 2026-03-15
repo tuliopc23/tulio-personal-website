@@ -1,6 +1,6 @@
 ---
 import BrandIcon from "./BrandIcon.astro";
-import SFIcon from "./SFIcon.astro";
+import PhosphorIcon from "./PhosphorIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 
 const email = "contact@tuliocunha.dev";
@@ -60,7 +60,7 @@ const decoratedSocials = socials.map((entry) => {
               {getBrandIcon(entry.icon) ? (
                 <BrandIcon name={entry.icon} size={18} />
               ) : (
-                <SFIcon name={entry.icon} size={18} stroke={1.6} />
+                <PhosphorIcon name={entry.icon} size={18} weight="regular" />
               )}
             </span>
             {entry.label}

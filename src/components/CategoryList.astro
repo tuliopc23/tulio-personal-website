@@ -1,5 +1,6 @@
 ---
 import { getAllCategories } from "../sanity/lib/posts";
+import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./CategoryList.module.css";
 
 const _categories = await getAllCategories();
@@ -20,21 +21,7 @@ const _categories = await getAllCategories();
             )}
             <span class:list={[styles.cta, "motion-link-inline"]}>
               <span>View articles</span>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 12l4-4-4-4"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <PhosphorIcon name="arrow-right" size={16} weight="regular" />
             </span>
           </a>
         ))}

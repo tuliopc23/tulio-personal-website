@@ -21,10 +21,10 @@ interface PostItem {
 const { posts = [] } = Astro.props as { posts: PostItem[] };
 ---
 
-<div class={styles.featureWritingWidget} role="list" aria-label="Featured writing articles">
+<ul class={styles.featureWritingWidget} aria-label="Featured writing articles">
   {posts.length > 0 ? (
     posts.slice(0, 3).map((post) => (
-      <div class={styles.card} role="listitem">
+      <li class={styles.card}>
         <ArticleCard
           href={post.href}
           title={post.title}
@@ -43,9 +43,9 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
           editorialSize="standard"
           revealGroup="home-writing"
         />
-      </div>
+      </li>
     ))
   ) : (
-    <p class={styles.empty}>New notes are in draft.</p>
+    <li class={styles.empty}>New notes are in draft.</li>
   )}
-</div>
+</ul>

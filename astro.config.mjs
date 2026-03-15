@@ -1,4 +1,5 @@
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import solidJs from "@astrojs/solid-js";
 import sanity from "@sanity/astro";
 import { defineConfig } from "astro/config";
@@ -22,5 +23,10 @@ export default defineConfig({
       { protocol: "https", hostname: "**.sanity.io" },
     ],
   },
-  integrations: [mdx(), sanity(sanityOptions), solidJs()],
+  integrations: [
+    mdx(),
+    sanity(sanityOptions),
+    react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
+    solidJs({ include: ["**/solid/**", "**/GitHubActivity*"] }),
+  ],
 });

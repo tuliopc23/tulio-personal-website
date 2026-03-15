@@ -1,35 +1,44 @@
 .sectionQuickNav {
+  --section-quick-nav-width: min(100%, 560px);
+  --section-quick-nav-bleed-block: 12px;
+  --section-quick-nav-bleed-inline: 4px;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
+  justify-items: end;
 }
 
 .meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: min(100%, 560px);
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  width: var(--section-quick-nav-width);
   max-width: 100%;
-  justify-self: end;
 }
 
 .label {
   margin: 0;
   font-weight: var(--fw-semibold);
+  letter-spacing: 0.12em;
 }
 
 .hint {
   margin: 0;
-  max-width: 28ch;
+  max-width: 22ch;
+  font-size: var(--fs-caption);
+  line-height: 1.35;
   text-align: right;
 }
 
 .scroll {
-  width: min(100%, 560px);
+  width: var(--section-quick-nav-width);
   max-width: 100%;
+  padding: var(--section-quick-nav-bleed-block) var(--section-quick-nav-bleed-inline);
+  margin: calc(var(--section-quick-nav-bleed-block) * -1)
+    calc(var(--section-quick-nav-bleed-inline) * -1);
   overflow-x: auto;
   overflow-y: hidden;
+  overflow-clip-margin: var(--section-quick-nav-bleed-block) var(--section-quick-nav-bleed-inline);
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
 }
@@ -42,7 +51,7 @@
   --surface-panel-highlight-opacity: 0.34;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
   padding: 6px;
   margin: 0;
   list-style: none;
@@ -55,14 +64,14 @@
 }
 
 .link {
-  --chip-min-height: 36px;
-  --chip-padding-block: 7px;
+  --chip-min-height: 34px;
+  --chip-padding-block: 6px;
   --chip-padding-inline: 12px;
   background: transparent;
   color: var(--text-secondary);
-  --chip-font-size: var(--fs-footnote);
+  --chip-font-size: var(--fs-caption);
   font-weight: var(--fw-semibold);
-  --chip-letter-spacing: -0.01em;
+  --chip-letter-spacing: 0.01em;
   text-decoration: none;
   --chip-border: transparent;
   --chip-bg: transparent;
@@ -72,8 +81,9 @@
   --chip-color: var(--text-primary);
   --chip-color-hover: var(--text-primary);
   --chip-color-active: var(--text-primary);
-  --chip-bg-active: color-mix(in srgb, var(--surface-card) 88%, transparent);
-  --chip-border-active: color-mix(in srgb, var(--blue) 22%, var(--panel-border));
+  --chip-bg-active: color-mix(in srgb, var(--surface-card) 92%, transparent);
+  --chip-border-active: color-mix(in srgb, var(--blue) 28%, var(--panel-border));
+  box-shadow: 0 10px 18px rgba(6, 12, 24, 0.12);
 }
 
 .link:focus-visible {
@@ -88,7 +98,7 @@
   .meta {
     width: 100%;
     justify-self: stretch;
-    align-items: center;
+    justify-items: start;
   }
 
   .hint {
@@ -97,6 +107,9 @@
 
   .scroll {
     width: 100%;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-clip-margin: var(--section-quick-nav-bleed-block);
   }
 
   .list {

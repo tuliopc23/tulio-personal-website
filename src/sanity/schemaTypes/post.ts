@@ -16,39 +16,19 @@ export default defineType({
   title: "Article",
   icon: DocumentTextIcon,
   type: "document",
-  fieldsets: [
-    {
-      name: "editorial",
-      title: "Editorial Framing",
-      options: { collapsible: true, collapsed: false },
-    },
-    {
-      name: "publication",
-      title: "Publication",
-      options: { collapsible: true, collapsed: false },
-    },
-    {
-      name: "workflow",
-      title: "Workflow",
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: "distribution",
-      title: "Distribution",
-      options: { collapsible: true, collapsed: true },
-    },
-    {
-      name: "metrics",
-      title: "Performance Metrics",
-      options: { collapsible: true, collapsed: true },
-    },
+  groups: [
+    { name: "content", title: "Content", default: true },
+    { name: "publication", title: "Publication" },
+    { name: "seo", title: "SEO & Distribution" },
+    { name: "workflow", title: "Workflow" },
+    { name: "analytics", title: "Analytics" },
   ],
   fields: [
     defineField({
       name: "title",
       title: "Title",
       type: "string",
-      fieldset: "editorial",
+      group: "content",
       description: "Clear promise-led headline, ideally 40-90 characters.",
       validation: (rule) =>
         rule
@@ -61,7 +41,7 @@ export default defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      fieldset: "editorial",
+      group: "content",
       options: {
         source: "title",
         maxLength: 96,
@@ -72,7 +52,7 @@ export default defineType({
       name: "summary",
       title: "Summary",
       type: "text",
-      fieldset: "editorial",
+      group: "content",
       rows: 3,
       description: "Card lede and SEO fallback. Aim for one concise, high-signal paragraph.",
       validation: (rule) =>
@@ -86,7 +66,7 @@ export default defineType({
       name: "hook",
       title: "Card Hook",
       type: "string",
-      fieldset: "editorial",
+      group: "content",
       description: "Optional short teaser line used in editorial cards and featured sections.",
       validation: (rule) =>
         rule
@@ -101,7 +81,7 @@ export default defineType({
       name: "author",
       title: "Author",
       type: "reference",
-      fieldset: "publication",
+      group: "publication",
       to: [{ type: "author" }],
       validation: (rule) => rule.required(),
     }),
@@ -109,7 +89,7 @@ export default defineType({
       name: "categories",
       title: "Categories",
       type: "array",
-      fieldset: "publication",
+      group: "publication",
       of: [{ type: "reference", to: [{ type: "category" }] }],
       validation: (rule) => rule.max(3),
     }),
@@ -117,7 +97,7 @@ export default defineType({
       name: "tags",
       title: "Tags",
       type: "array",
-      fieldset: "publication",
+      group: "publication",
       of: [{ type: "string" }],
       options: {
         list: TAG_OPTIONS,
@@ -130,7 +110,7 @@ export default defineType({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
-      fieldset: "editorial",
+      group: "content",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -151,7 +131,7 @@ export default defineType({
       name: "seo",
       title: "SEO",
       type: "seo",
-      fieldset: "distribution",
+      group: "seo",
       options: {
         collapsible: true,
         collapsed: true,
@@ -161,7 +141,7 @@ export default defineType({
       name: "publishedAt",
       title: "Published Date",
       type: "datetime",
-      fieldset: "publication",
+      group: "publication",
       initialValue: () => new Date().toISOString(),
       validation: (rule) => rule.required(),
     }),
@@ -169,14 +149,14 @@ export default defineType({
       name: "featured",
       title: "Featured Article",
       type: "boolean",
-      fieldset: "publication",
+      group: "publication",
       initialValue: false,
     }),
     defineField({
       name: "status",
       title: "Workflow Status",
       type: "workflowStatus",
-      fieldset: "workflow",
+      group: "workflow",
       initialValue: "draft",
       description: "Used by custom Studio actions to manage review and publishing flow.",
     }),
@@ -184,21 +164,21 @@ export default defineType({
       name: "lastReviewedAt",
       title: "Last Reviewed",
       type: "datetime",
-      fieldset: "workflow",
+      group: "workflow",
       readOnly: true,
     }),
     defineField({
       name: "approvedAt",
       title: "Approved At",
       type: "datetime",
-      fieldset: "workflow",
+      group: "workflow",
       readOnly: true,
     }),
     defineField({
       name: "keyTakeaways",
       title: "Key Takeaways",
       type: "array",
-      fieldset: "editorial",
+      group: "content",
       description: "Optional key bullets highlighted at the top of the article.",
       of: [
         defineArrayMember({
@@ -212,7 +192,7 @@ export default defineType({
       name: "coverVariant",
       title: "Cover Variant",
       type: "string",
-      fieldset: "editorial",
+      group: "content",
       initialValue: "default",
       options: {
         list: [
@@ -227,7 +207,7 @@ export default defineType({
       name: "series",
       title: "Series",
       type: "string",
-      fieldset: "editorial",
+      group: "content",
       description: "Optional series name for grouped editorial publishing.",
       validation: (rule) => rule.max(80),
     }),
@@ -237,7 +217,7 @@ export default defineType({
       name: "scheduledPublishAt",
       title: "Schedule Publish",
       type: "datetime",
-      fieldset: "workflow",
+      group: "workflow",
       description: "Deprecated. Use Sanity Scheduled Drafts or Content Releases for scheduling.",
       readOnly: true,
       hidden: ({ value }) => value === undefined,
@@ -252,7 +232,7 @@ export default defineType({
       name: "crossposting",
       title: "Cross-posting Settings",
       type: "object",
-      fieldset: "distribution",
+      group: "seo",
       description: "Configure automatic cross-posting to external platforms",
       options: {
         collapsible: true,
@@ -372,7 +352,7 @@ export default defineType({
       name: "analytics",
       title: "Analytics",
       type: "object",
-      fieldset: "metrics",
+      group: "analytics",
       description: "Article performance metrics",
       options: {
         collapsible: true,
@@ -437,7 +417,7 @@ export default defineType({
       name: "markdownContent",
       title: "Markdown Content (Legacy Fallback)",
       type: "markdown",
-      fieldset: "editorial",
+      group: "content",
       description:
         "Legacy Markdown input for imported posts. Frontmatter here does not populate title, summary, SEO, or other dedicated Sanity fields.",
       options: {
@@ -461,7 +441,7 @@ export default defineType({
       name: "content",
       title: "Content",
       type: "blockContent",
-      fieldset: "editorial",
+      group: "content",
       description:
         "Canonical article body. Supports Portable Text blocks, images, code blocks, callouts, video embeds, and dividers.",
       validation: (rule) =>
@@ -482,17 +462,13 @@ export default defineType({
   preview: {
     select: {
       title: "title",
-      subtitle: "summary",
       media: "heroImage",
       date: "publishedAt",
       featured: "featured",
       status: "status",
-      series: "series",
-      coverVariant: "coverVariant",
     },
     prepare(selection) {
-      const { title, subtitle, media, date, featured, status, series, coverVariant } = selection;
-      const featuredPrefix = featured ? "Featured · " : "";
+      const { title, media, date, featured, status } = selection;
       const statusLabel =
         status === "in-review"
           ? "In review"
@@ -503,16 +479,10 @@ export default defineType({
               : status === "archived"
                 ? "Archived"
                 : "Draft";
-      const seriesLabel = series ? `Series: ${series}` : null;
-      const variantLabel =
-        coverVariant && coverVariant !== "default" ? `Cover: ${coverVariant}` : null;
-      const meta = [statusLabel, seriesLabel, variantLabel].filter(Boolean).join(" · ");
 
       return {
-        title: `${featuredPrefix}${title ?? "Untitled"}`,
-        subtitle: date
-          ? `${new Date(date).toLocaleDateString()} · ${meta}${subtitle ? ` — ${subtitle}` : ""}`
-          : `${meta}${subtitle ? ` — ${subtitle}` : ""}`,
+        title: `${featured ? "★ " : ""}${title ?? "Untitled"}`,
+        subtitle: date ? `${new Date(date).toLocaleDateString()} · ${statusLabel}` : statusLabel,
         media,
       };
     },

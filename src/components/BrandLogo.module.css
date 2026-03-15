@@ -27,6 +27,18 @@
     0 16px 48px rgba(0, 0, 0, 0.12);
 }
 
+.bare {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: drop-shadow(0 10px 24px rgba(6, 12, 24, 0.18));
+}
+
+.bare:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: none;
+}
+
 .brandLogo img {
   grid-area: 1 / 1;
   width: 100%;
@@ -48,5 +60,9 @@
 @media (prefers-reduced-motion: reduce) {
   .brandLogo img {
     transition: none;
+  }
+
+  .bare:hover {
+    transform: none;
   }
 }

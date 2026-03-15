@@ -7,9 +7,10 @@ interface Props {
   categories?: Category[] | null;
   limit?: number;
   variant?: "pill" | "inline";
+  linked?: boolean;
 }
 
-const { categories = [], limit, variant = "pill" } = Astro.props as Props;
+const { categories = [], limit, variant = "pill", linked = true } = Astro.props as Props;
 const validCategories = Array.isArray(categories) ? categories : [];
 const _displayCategories = limit ? validCategories.slice(0, limit) : validCategories;
 
@@ -38,23 +39,29 @@ const getCategoryIcon = (slug: string) => {
         variant === "inline" && styles.inlineContainer,
       ]}
     >
-      {_displayCategories.map((category) => (
-        <a
-          href={`/blog/category/${category.slug}/`}
-          class:list={[
-            styles.categoryBadge,
-            variant === "pill" && "chip-pill",
-            variant === "pill" && "chip-pill--accent",
-            variant === "pill" && "motion-chip",
-            variant === "inline" && "taxonomy-label",
-            variant === "inline" && "taxonomy-label--accent",
-            variant === "inline" && styles.inlineBadge,
-          ]}
-        >
-          <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="regular" />
-          <span>{category.title}</span>
-        </a>
-      ))}
+      {_displayCategories.map((category) => {
+        const badgeClass = [
+          styles.categoryBadge,
+          variant === "pill" && "chip-pill",
+          variant === "pill" && "chip-pill--accent",
+          variant === "pill" && "motion-chip",
+          variant === "inline" && "taxonomy-label",
+          variant === "inline" && "taxonomy-label--accent",
+          variant === "inline" && styles.inlineBadge,
+        ];
+
+        return linked ? (
+          <a href={`/blog/category/${category.slug}/`} class:list={badgeClass}>
+            <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="regular" />
+            <span>{category.title}</span>
+          </a>
+        ) : (
+          <span class:list={badgeClass}>
+            <PhosphorIcon name={getCategoryIcon(category.slug)} size={12} weight="regular" />
+            <span>{category.title}</span>
+          </span>
+        );
+      })}
     </div>
   )
 }

@@ -25,7 +25,41 @@
   let previousFocusedElement: HTMLElement | null = null;
 
   const hasMobileDrawer = (): boolean => body.dataset.hasMobileDrawer === "true";
+  const hasDesktopSidebar = (): boolean => body.dataset.hasSidebar === "true";
   const isMobileDrawer = (): boolean => hasMobileDrawer() && mobileDrawerQuery.matches;
+  const isDesktopSidebar = (): boolean => hasDesktopSidebar() && !mobileDrawerQuery.matches;
+  const isDesktopSidebarVisible = (): boolean => body.dataset.sidebarVisibility !== "hidden";
+
+  const syncDesktopSidebar = (visible: boolean): void => {
+    const nextState = visible ? "visible" : "hidden";
+    body.dataset.sidebarVisibility = nextState;
+    sidebar.classList.toggle("is-desktop-hidden", !visible);
+    sidebar.setAttribute("aria-hidden", visible ? "false" : "true");
+  };
+
+  const syncToggleState = (): void => {
+    if (!toggle) {
+      return;
+    }
+
+    if (isMobileDrawer()) {
+      const expanded = sidebar.classList.contains("is-open");
+      toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      toggle.setAttribute("aria-label", expanded ? "Close menu" : "Open menu");
+      return;
+    }
+
+    if (isDesktopSidebar()) {
+      const visible = isDesktopSidebarVisible();
+      toggle.setAttribute("aria-expanded", visible ? "true" : "false");
+      toggle.setAttribute("aria-label", visible ? "Hide sidebar" : "Show sidebar");
+      return;
+    }
+
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+  };
+
   const syncScrollLock = (): void => {
     const shouldLock = isMobileDrawer() && sidebar.classList.contains("is-open");
     body.classList.toggle("is-locked", shouldLock);
@@ -76,6 +110,10 @@
 
   if (!body.dataset.sidebarState) {
     body.dataset.sidebarState = "closed";
+  }
+
+  if (!body.dataset.sidebarVisibility) {
+    body.dataset.sidebarVisibility = "visible";
   }
 
   const apply = (query: string | null): void => {
@@ -130,17 +168,32 @@
   };
 
   const close = (): void => {
+    if (isDesktopSidebar()) {
+      syncDesktopSidebar(false);
+      syncToggleState();
+      restorePreviousFocus();
+      return;
+    }
+
     sidebar.classList.remove("is-open");
     backdrop?.classList.remove("is-open");
-    toggle?.setAttribute("aria-expanded", "false");
-    toggle?.setAttribute("aria-label", "Open menu");
     sidebar.setAttribute("aria-hidden", "true");
     backdrop?.setAttribute("aria-hidden", "true");
     syncScrollLock();
+    syncToggleState();
     restorePreviousFocus();
   };
 
   const open = (): void => {
+    if (isDesktopSidebar()) {
+      syncDesktopSidebar(true);
+      syncToggleState();
+      requestAnimationFrame(() => {
+        focusMenuEntry();
+      });
+      return;
+    }
+
     if (
       !(document.activeElement instanceof HTMLElement) ||
       !sidebar.contains(document.activeElement)
@@ -151,11 +204,10 @@
     const nextBackdrop = ensureBackdrop();
     sidebar.classList.add("is-open");
     nextBackdrop.classList.add("is-open");
-    toggle?.setAttribute("aria-expanded", "true");
-    toggle?.setAttribute("aria-label", "Close menu");
     sidebar.setAttribute("aria-hidden", "false");
     nextBackdrop.setAttribute("aria-hidden", "false");
     syncScrollLock();
+    syncToggleState();
 
     requestAnimationFrame(() => {
       focusMenuEntry();
@@ -200,11 +252,23 @@
   });
 
   sidebar.setAttribute("aria-hidden", "true");
-  toggle?.setAttribute("aria-expanded", "false");
+  if (isDesktopSidebar()) {
+    syncDesktopSidebar(isDesktopSidebarVisible());
+  }
   syncScrollLock();
+  syncToggleState();
 
   const toggleMenu = (): void => {
-    if (!isMobileDrawer()) {
+    if (!isMobileDrawer() && !isDesktopSidebar()) {
+      return;
+    }
+
+    if (isDesktopSidebar()) {
+      if (isDesktopSidebarVisible()) {
+        close();
+      } else {
+        open();
+      }
       return;
     }
 
@@ -218,6 +282,7 @@
   toggle?.addEventListener("click", toggleMenu);
   closeButton?.addEventListener("click", () => {
     close();
+    toggle?.focus();
   });
 
   sidebar.addEventListener("click", (event) => {
@@ -233,6 +298,10 @@
 
   window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
+      if (!isMobileDrawer()) {
+        return;
+      }
+
       close();
       return;
     }
@@ -248,6 +317,10 @@
     }
 
     if (!isMobileDrawer()) {
+      if (!isDesktopSidebarVisible()) {
+        open();
+      }
+
       filter.focus();
       event.preventDefault();
       return;
@@ -266,12 +339,22 @@
   });
 
   const syncOnViewportChange = (): void => {
+    if (isDesktopSidebar()) {
+      syncDesktopSidebar(isDesktopSidebarVisible());
+      sidebar.classList.remove("is-open");
+      backdrop?.classList.remove("is-open");
+      syncScrollLock();
+      syncToggleState();
+      return;
+    }
+
     if (!isMobileDrawer() && sidebar.classList.contains("is-open")) {
       close();
       return;
     }
 
     syncScrollLock();
+    syncToggleState();
   };
 
   mobileDrawerQuery.addEventListener("change", syncOnViewportChange);

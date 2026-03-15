@@ -6,6 +6,9 @@
   --font-sans:
     "SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --font-reader-serif:
+    "New York Reader", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Libre Baskerville",
+    Georgia, serif;
   --font-mono:
     "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
     "Liberation Mono", "Courier New", monospace;
@@ -93,31 +96,35 @@
   --type-card-title-leading: 1.1;
   --measure-card-title: 18ch;
 
-  --type-lede-size: clamp(1.03125rem, 0.55vw + 0.96rem, 1.1875rem);
-  --type-lede-weight: 480;
-  --type-lede-leading: 1.58;
-  --measure-lede: 60ch;
+  --type-lede-size: clamp(1.0625rem, 0.7vw + 0.98rem, 1.25rem);
+  --type-lede-weight: 460;
+  --type-lede-leading: 1.62;
+  --measure-lede: 58ch;
 
   --type-card-summary-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
   --type-card-summary-weight: 460;
   --type-card-summary-leading: 1.52;
   --measure-card-summary: 34ch;
 
-  --type-reader-title-size: clamp(2.5rem, 3vw + 1.15rem, 3.4rem);
-  --type-reader-title-weight: 800;
+  --type-reader-title-size: clamp(1.9rem, 1.6vw + 1.05rem, 2.9rem);
+  --type-reader-title-weight: 820;
   --type-reader-title-tracking: -0.04em;
   --type-reader-title-leading: 1.04;
-  --type-reader-h2-size: clamp(2rem, 2.1vw + 1.1rem, 2.75rem);
+  --type-reader-h2-size: clamp(1.55rem, 1.1vw + 1rem, 2.1rem);
   --type-reader-h2-weight: 780;
   --type-reader-h2-tracking: -0.032em;
   --type-reader-h2-leading: 1.08;
-  --type-reader-h3-size: clamp(1.5rem, 1.15vw + 1rem, 1.95rem);
-  --type-reader-h3-weight: 700;
-  --type-reader-h3-tracking: -0.022em;
-  --type-reader-h3-leading: 1.12;
+  --type-reader-h3-size: clamp(1.22rem, 0.75vw + 0.98rem, 1.55rem);
+  --type-reader-h3-weight: 760;
+  --type-reader-h3-tracking: -0.02em;
+  --type-reader-h3-leading: 1.14;
+  --type-reader-meta-size: clamp(0.72rem, 0.14vw + 0.7rem, 0.78rem);
+  --type-reader-meta-tracking: 0.11em;
+  --type-reader-kicker-size: clamp(0.7rem, 0.16vw + 0.68rem, 0.76rem);
+  --type-reader-kicker-tracking: 0.12em;
 
-  --type-body-size: clamp(1.03125rem, 0.3vw + 1rem, 1.125rem);
-  --type-body-weight: 430;
-  --type-body-leading: 1.72;
-  --measure-prose: 62ch;
+  --type-body-size: clamp(0.98rem, 0.14vw + 0.96rem, 1.04rem);
+  --type-body-weight: 400;
+  --type-body-leading: 1.7;
+  --measure-prose: 57ch;
 }

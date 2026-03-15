@@ -1,5 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getAboutPageContent } from "../sanity/lib/page-content";
 
 const pageContent = await getAboutPageContent();
@@ -102,8 +104,17 @@ const _structuredData = {
 >
   <div class="pageBento">
     <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "About", icon: "info" },
+        ]}
+      />
       <div class="pageHero__copy">
-        <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+        <span class="pageHero__eyebrow">
+          <PhosphorIcon name="info" size={14} weight="regular" />
+          {content.heroEyebrow}
+        </span>
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
       </div>
@@ -114,7 +125,10 @@ const _structuredData = {
       class="about__manifestoCard surface-panel surface-panel--nested hover-elevate motion-surface-standard"
       data-parallax-card
     >
-      <p class="about__manifestoLabel surface-eyebrow">{content.manifestoLabel}</p>
+      <p class="about__manifestoLabel surface-eyebrow">
+        <PhosphorIcon name="sparkle" size={14} weight="regular" />
+        {content.manifestoLabel}
+      </p>
       <h2 class="pageWidget__title about__manifestoTitle">{content.manifestoTitle}</h2>
       <p class="about__manifestoCopy">{content.manifestoCopy}</p>
       <ul class="about__proof" role="list" aria-label="Working principles">
@@ -126,11 +140,14 @@ const _structuredData = {
   </section>
 
   <section class="container home__section pageWidget" data-reveal>
-    <div class="pageWidget__header">
-      <span class="pageWidget__eyebrow">Operating model</span>
-      <h2 class="pageWidget__title">How I work</h2>
-      <p class="pageWidget__caption">The engineering constraints I optimize for when building software.</p>
-    </div>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="briefcase" size={14} weight="regular" />
+          Operating model
+        </span>
+        <h2 class="pageWidget__title">How I work</h2>
+        <p class="pageWidget__caption">The engineering constraints I optimize for when building software.</p>
+      </div>
     <div class="cardGrid about__principles">
       {content.principles.map((principle) => (
         <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
@@ -146,17 +163,23 @@ const _structuredData = {
   </section>
 
   <section class="container home__section about__timeline pageWidget" data-reveal>
-    <div class="pageWidget__header">
-      <span class="pageWidget__eyebrow">Timeline</span>
-      <h2 class="pageWidget__title">{content.timelineHeading}</h2>
-      <p class="pageWidget__caption">{content.timelineLede}</p>
-    </div>
-    <ol class="about__timelineList">
-      {content.timelineItems.map((item) => (
-        <li class="hover-elevate motion-surface-standard" data-parallax-card>
-          <span class="about__timelineYear">{item.year}</span>
-          <div>
-            <h3>{item.title}</h3>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="clock" size={14} weight="regular" />
+          Timeline
+        </span>
+        <h2 class="pageWidget__title">{content.timelineHeading}</h2>
+        <p class="pageWidget__caption">{content.timelineLede}</p>
+      </div>
+      <ol class="about__timelineList">
+        {content.timelineItems.map((item) => (
+          <li class="hover-elevate motion-surface-standard" data-parallax-card>
+            <span class="about__timelineYear">
+              <PhosphorIcon name="clock" size={14} weight="regular" />
+              {item.year}
+            </span>
+            <div>
+              <h3>{item.title}</h3>
             <p>{item.body}</p>
           </div>
         </li>

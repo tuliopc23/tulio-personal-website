@@ -55,13 +55,23 @@
   justify-items: start;
 }
 
-.contactFormHint {
-  margin: 0;
-  color: var(--text-tertiary);
-  font-size: var(--fs-footnote);
+.contactFormButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@media (max-width: 760px) {
+.contactFormHint {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-tertiary);
+  font-size: var(--fs-footnote);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
   .contactForm {
     grid-template-columns: 1fr;
     gap: 14px;

@@ -60,4 +60,35 @@ describe("sidebar script", () => {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "/", bubbles: true }));
     expect(document.activeElement?.id).toBe("sidebarFilter");
   });
+
+  test("toggles desktop sidebar visibility from close button and menu button", async () => {
+    installAnimationStubs();
+    const media = installMatchMediaStub();
+    media.setMatches("(max-width: 1024px)", false);
+
+    document.body.dataset.hasSidebar = "true";
+    document.body.dataset.hasMobileDrawer = "true";
+    document.body.innerHTML = `
+      <aside class="sidebar">
+        <button data-sidebar-close>Close</button>
+        <input id="sidebarFilter" />
+        <div class="sidebar__group">
+          <a class="sidebar__link">Home</a>
+        </div>
+        <p data-sidebar-status></p>
+      </aside>
+      <button class="topbar__menu">Menu</button>
+    `;
+
+    vi.resetModules();
+    await import("../../src/scripts/sidebar");
+
+    expect(document.body.dataset.sidebarVisibility).toBe("visible");
+
+    (document.querySelector("[data-sidebar-close]") as HTMLButtonElement).click();
+    expect(document.body.dataset.sidebarVisibility).toBe("hidden");
+
+    (document.querySelector(".topbar__menu") as HTMLButtonElement).click();
+    expect(document.body.dataset.sidebarVisibility).toBe("visible");
+  });
 });

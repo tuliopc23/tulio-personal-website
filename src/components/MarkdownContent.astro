@@ -2,7 +2,6 @@
 import { marked } from "marked";
 
 import { parseMarkdownDocument } from "../lib/markdown";
-import styles from "./MarkdownContent.module.css";
 
 interface Props {
   content: string;
@@ -43,4 +42,4 @@ const htmlContent = await marked.parse(body, {
 });
 ---
 
-<div class={styles.markdownContent} set:html={htmlContent} />
+<div class:list={["articlePortable", "markdownContent"]} set:html={htmlContent} />

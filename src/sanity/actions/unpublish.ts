@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import * as sanity from "sanity";
 
 export const unpublishAction: sanity.DocumentActionComponent = (props) => {
@@ -11,18 +11,18 @@ export const unpublishAction: sanity.DocumentActionComponent = (props) => {
     return null;
   }
 
-  const onHandle = useCallback(() => {
+  const onHandle = () => {
     setDialogOpen(true);
-  }, []);
+  };
 
-  const handleConfirm = useCallback(async () => {
+  const handleConfirm = async () => {
     const docId = props.id.replace(/^drafts\./, "");
 
     // Move to archived status
     await client.patch(docId).set({ status: "archived" }).commit();
 
     setDialogOpen(false);
-  }, [client, props]);
+  };
 
   return {
     label: "Unpublish",

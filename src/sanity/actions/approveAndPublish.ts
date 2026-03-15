@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import * as sanity from "sanity";
 
 export const approveAndPublishAction: sanity.DocumentActionComponent = (props) => {
@@ -10,7 +9,7 @@ export const approveAndPublishAction: sanity.DocumentActionComponent = (props) =
     return null;
   }
 
-  const onHandle = useCallback(async () => {
+  const onHandle = async () => {
     const docId = props.id.replace(/^drafts\./, "");
     const now = new Date().toISOString();
 
@@ -23,8 +22,7 @@ export const approveAndPublishAction: sanity.DocumentActionComponent = (props) =
         approvedAt: now,
       })
       .commit();
-
-  }, [client, props]);
+  };
 
   return {
     label: "Approve & Publish",

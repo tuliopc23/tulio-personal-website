@@ -12,8 +12,10 @@ interface Props {
   };
 }
 
-const { value } = Astro.props;
-const { variant, title, body } = value;
+const input = (Astro.props.value ?? Astro.props) as Partial<Props["value"]>;
+const variant = input.variant ?? "info";
+const title = input.title;
+const body = Array.isArray(input.body) ? input.body : [];
 
 const iconName: Record<string, string> = {
   info: "info",

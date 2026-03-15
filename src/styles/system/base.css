@@ -28,9 +28,14 @@ body {
   text-wrap: pretty;
   position: relative;
   min-height: 100vh;
-  min-height: 100dvh;
   overflow-x: clip;
   overflow-y: visible;
+}
+
+@supports (min-height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
 }
 
 body::before {

@@ -21,13 +21,13 @@
   gap: var(--pi-gap);
   padding: 6px 10px;
   border-radius: var(--pi-radius-pill);
-  background: rgba(28, 28, 30, 0.68);
-  backdrop-filter: saturate(1.8) blur(20px);
-  -webkit-backdrop-filter: saturate(1.8) blur(20px);
+  background: color-mix(in srgb, var(--surface-card) 40%, transparent);
+  backdrop-filter: saturate(1.45) blur(18px);
+  -webkit-backdrop-filter: saturate(1.45) blur(18px);
   box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.16),
-    inset 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+    0 10px 20px rgba(6, 12, 24, 0.1),
+    inset 0 0 0 1px color-mix(in srgb, var(--panel-border) 38%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
   pointer-events: auto;
 }
 
@@ -35,7 +35,7 @@
   position: absolute;
   top: 6px;
   left: 10px;
-  width: calc(var(--pi-dot-size) + 8px);
+  width: calc(var(--pi-dot-size) + 10px);
   height: var(--pi-dot-size);
   background: var(--pi-active);
   border-radius: var(--pi-radius-pill);
@@ -46,8 +46,8 @@
   z-index: 1;
   box-shadow:
     0 0 0 1px rgba(13, 138, 255, 0.25),
-    0 0 8px rgba(13, 138, 255, 0.4),
-    0 1px 3px rgba(0, 0, 0, 0.2);
+    0 0 10px rgba(13, 138, 255, 0.34),
+    0 2px 4px rgba(0, 0, 0, 0.16);
 }
 
 :global([data-theme="light"]) .track {
@@ -72,7 +72,7 @@
   position: relative;
   width: var(--pi-dot-size);
   height: var(--pi-dot-size);
-  border-radius: 50%;
+  border-radius: 999px;
   background: radial-gradient(
     circle at 35% 35%,
     rgba(255, 255, 255, 0.3),
@@ -145,7 +145,7 @@
     inset 0 0.5px 1.5px rgba(255, 255, 255, 0.7),
     inset 0 -0.5px 1px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(13, 138, 255, 0.25),
-    0 0 8px rgba(13, 138, 255, 0.4),
+    0 0 10px rgba(13, 138, 255, 0.34),
     0 1px 3px rgba(0, 0, 0, 0.2);
 }
 

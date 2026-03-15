@@ -1,13 +1,21 @@
+import { UserIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "author",
   title: "Author",
   type: "document",
+  icon: UserIcon,
+  fieldsets: [
+    { name: "identity", title: "Identity", options: { collapsible: true, collapsed: false } },
+    { name: "profile", title: "Profile", options: { collapsible: true, collapsed: false } },
+    { name: "links", title: "Links", options: { collapsible: true, collapsed: true } },
+  ],
   fields: [
     defineField({
       name: "name",
       title: "Name",
+      fieldset: "identity",
       type: "string",
       validation: (rule) => rule.required(),
     }),
@@ -15,6 +23,7 @@ export default defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
+      fieldset: "identity",
       options: {
         source: "name",
         maxLength: 96,
@@ -25,6 +34,7 @@ export default defineType({
       name: "bio",
       title: "Bio",
       type: "array",
+      fieldset: "profile",
       of: [
         {
           type: "block",
@@ -45,6 +55,7 @@ export default defineType({
       name: "avatar",
       title: "Avatar",
       type: "image",
+      fieldset: "profile",
       options: { hotspot: true },
       fields: [
         defineField({
@@ -59,6 +70,7 @@ export default defineType({
       name: "socialLinks",
       title: "Social links",
       type: "object",
+      fieldset: "links",
       fields: [
         defineField({
           name: "github",

@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import HeroPlayer from "../components/HeroPlayer";
 import ProfileCard from "../components/ProfileCard.astro";
 import DockLink from "../components/DockLink.astro";
 import SectionQuickNav from "../components/SectionQuickNav.astro";
@@ -164,7 +165,39 @@ const description =
   ogImage={{ url: "/terminal-favicon.svg", alt: "Tulio Cunha portfolio" }}
   sidebar={false}
   mobileDrawer={true}
+  heroPage={true}
 >
+  <section class="hero-remotion" aria-label="Hero">
+    <div class="hero-remotion__player">
+      <HeroPlayer client:only="react">
+        <div class="hero-remotion__fallback" aria-hidden="true">
+          <img src="/images/hero/macintosh-cleaned.png" alt="" loading="eager" decoding="async" />
+        </div>
+      </HeroPlayer>
+    </div>
+    <div class="hero-remotion__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="hero-remotion__scrollLine"></span>
+    </div>
+  </section>
+
+  <section class="homepage-stage homepage-stage--hero-bridge" aria-labelledby="homepage-hello-title">
+    <header class="stage-intro stage-intro--single">
+      <div class="stage-intro__copy">
+        <span class="stage-intro__eyebrow">
+          <PhosphorIcon name="user" size={14} weight="regular" />
+          Who am I
+        </span>
+        <h2 id="homepage-hello-title" class="stage-intro__title">
+          Building across platforms, from native to web.
+        </h2>
+        <p class="stage-intro__caption">
+          Full stack developer working with Swift, Apple platforms, the web, backend services, and systems — with a bias for clear interfaces and reliable internals.
+        </p>
+      </div>
+    </header>
+  </section>
+
   <section id="top" class="bento-grid">
     <div id="section-profile" class="widget-profile">
       <ProfileCard
@@ -220,7 +253,7 @@ const description =
                 iconAsset={link.iconAsset}
                 revealOrder={index}
                 sizeVariant="dock-premium"
-                imageLoading={index < 6 ? "eager" : "lazy"}
+                imageLoading="eager"
               />
             ))}
           </ul>
@@ -253,7 +286,7 @@ const description =
                 revealOrder={index}
                 sizeVariant="dock-premium"
                 iconContext="stack"
-                imageLoading={index < 6 ? "eager" : "lazy"}
+                imageLoading="eager"
               />
             ))}
           </ul>

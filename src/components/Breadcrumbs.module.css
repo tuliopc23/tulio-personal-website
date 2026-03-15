@@ -3,6 +3,10 @@
   animation: breadcrumb-reveal 160ms var(--motion-ease-out) both;
 }
 
+.breadcrumbs[data-variant="editorial"] {
+  margin-bottom: 0;
+}
+
 .list {
   display: flex;
   align-items: center;
@@ -51,6 +55,10 @@
   color: var(--text);
 }
 
+.breadcrumbs[data-variant="editorial"] .link:hover {
+  color: var(--text-primary);
+}
+
 .current {
   color: var(--text);
   font-weight: 500;
@@ -82,6 +90,41 @@
 
 .current .icon {
   color: var(--text);
+}
+
+.breadcrumbs[data-variant="editorial"] .list {
+  gap: 4px;
+  font-size: var(--fs-caption);
+}
+
+.breadcrumbs[data-variant="editorial"] .item {
+  gap: 4px;
+}
+
+.breadcrumbs[data-variant="editorial"] .separator {
+  opacity: 0.42;
+}
+
+.breadcrumbs[data-variant="editorial"] .link,
+.breadcrumbs[data-variant="editorial"] .current {
+  min-height: auto;
+  padding: 0;
+  border-radius: 0;
+  color: var(--text-tertiary);
+}
+
+.breadcrumbs[data-variant="editorial"] .current {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.breadcrumbs[data-variant="editorial"] .icon {
+  color: inherit;
+}
+
+.breadcrumbs[data-variant="editorial"] .link:focus-visible {
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--link) 22%, transparent);
 }
 
 @keyframes breadcrumb-reveal {

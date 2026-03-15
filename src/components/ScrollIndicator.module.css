@@ -9,11 +9,11 @@
   transform: translateY(-50%);
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--panel-border);
-  background: var(--surface-elevated);
-  backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--panel-border) 44%, transparent);
+  background: color-mix(in srgb, var(--surface-card) 40%, transparent);
+  backdrop-filter: saturate(1.45) blur(18px);
+  -webkit-backdrop-filter: saturate(1.45) blur(18px);
   color: var(--text);
   display: flex;
   align-items: center;
@@ -26,7 +26,9 @@
     transform var(--motion-duration-sm) var(--motion-ease-out),
     border-color var(--motion-duration-sm) var(--motion-ease-out);
   z-index: 2;
-  box-shadow: var(--shadow-card-soft);
+  box-shadow:
+    0 10px 20px rgba(6, 12, 24, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .left {
@@ -54,20 +56,23 @@
   position: absolute;
   bottom: var(--space-md);
   right: var(--space-md);
-  padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-sm);
-  background: var(--surface-elevated);
-  backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
-  border: 1px solid var(--panel-border);
-  color: var(--muted);
-  font-size: var(--fs--2);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-card) 42%, transparent);
+  backdrop-filter: saturate(1.45) blur(18px);
+  -webkit-backdrop-filter: saturate(1.45) blur(18px);
+  border: 1px solid color-mix(in srgb, var(--panel-border) 44%, transparent);
+  color: var(--text-tertiary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-  box-shadow: var(--shadow-card-soft);
+  box-shadow:
+    0 10px 20px rgba(6, 12, 24, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hint[data-visible="true"] {

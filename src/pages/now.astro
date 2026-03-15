@@ -1,6 +1,8 @@
 ---
 import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getNowPageContent } from "../sanity/lib/page-content";
 
 const pageContent = await getNowPageContent();
@@ -93,38 +95,65 @@ const _structuredData = {
 >
   <div class="pageBento">
     <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/", icon: "home" },
+        { label: "Now", icon: "clock" },
+      ]}
+    />
     <div class="pageHero__copy">
-      <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+      <span class="pageHero__eyebrow">
+        <PhosphorIcon name="clock" size={14} weight="regular" />
+        {content.heroEyebrow}
+      </span>
       <h1 class="pageHero__title">{content.heroTitle}</h1>
       <p class="pageHero__lede">{content.heroLede}</p>
       <div class="pageHero__meta" aria-label="Now page overview">
-        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Updated {_lastUpdated}</span>
-        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">Now / Next / Later</span>
+        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+          <PhosphorIcon name="calendar-check" size={14} weight="regular" />
+          Updated {_lastUpdated}
+        </span>
+        <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+          <PhosphorIcon name="notebook" size={14} weight="regular" />
+          Now / Next / Later
+        </span>
       </div>
     </div>
     </section>
 
     <section class="container home__section now__roadmap pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">Queue</span>
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="notebook" size={14} weight="regular" />
+          Queue
+        </span>
         <h2 class="pageWidget__title">What has attention right now</h2>
         <p class="pageWidget__caption">A rough split between active engineering work, near-term follow-ups, and ideas I want to earn time for.</p>
       </div>
       <div class="now__columns" role="list" aria-label="Roadmap stages">
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
-        <h2>Now</h2>
+        <h2>
+          <PhosphorIcon name="sparkle" size={16} weight="regular" />
+          Now
+        </h2>
         <ul>
           {content.nowItems.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
-        <h2>Next</h2>
+        <h2>
+          <PhosphorIcon name="arrow-right" size={16} weight="regular" />
+          Next
+        </h2>
         <ul>
           {content.nextItems.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>
-        <h2>Later</h2>
+        <h2>
+          <PhosphorIcon name="clock" size={16} weight="regular" />
+          Later
+        </h2>
         <ul>
           {content.laterItems.map((item) => <li>{item}</li>)}
         </ul>
@@ -134,7 +163,10 @@ const _structuredData = {
 
     <section class="container home__section now__signals pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">Signals</span>
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="chart-bar" size={14} weight="regular" />
+          Signals
+        </span>
         <h2 class="pageWidget__title">{content.signalsHeading}</h2>
         <p class="pageWidget__caption">{content.signalsLede}</p>
       </div>
@@ -154,7 +186,10 @@ const _structuredData = {
 
     <section class="container home__section now__github pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">Activity</span>
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="github" size={14} weight="regular" />
+          Activity
+        </span>
         <h2 class="pageWidget__title">{content.githubHeading}</h2>
         <p class="pageWidget__caption">{content.githubLede}</p>
       </div>

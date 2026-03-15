@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../sanity/lib/projects";
 import { getProjectsPageContent } from "../sanity/lib/page-content";
@@ -78,17 +79,31 @@ const _structuredData = {
         ]}
       />
       <div class="pageHero__copy">
-        <span class="pageHero__eyebrow">{content.heroEyebrow}</span>
+        <span class="pageHero__eyebrow">
+          <PhosphorIcon name="briefcase" size={14} weight="regular" />
+          {content.heroEyebrow}
+        </span>
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
         <div class="pageHero__meta" aria-label="Projects overview">
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>{_hasProjects ? `${projects.length} projects` : "Project notes in progress"}</span>
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} data-dot="teal">{PROJECT_CATEGORIES.length} areas</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+            <PhosphorIcon name="briefcase" size={14} weight="regular" />
+            {_hasProjects ? `${projects.length} projects` : "Project notes in progress"}
+          </span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+            <PhosphorIcon name="folder" size={14} weight="regular" />
+            {PROJECT_CATEGORIES.length} areas
+          </span>
         </div>
       </div>
       {
         _hasProjects && (
-          <div class="projects__filters" role="toolbar" aria-label="Filter projects">
+          <div class="projects__filtersWrap">
+            <p class="projects__filtersLabel">
+              <PhosphorIcon name="folder" size={14} weight="regular" />
+              Filter by area
+            </p>
+            <div class="projects__filters" role="toolbar" aria-label="Filter projects">
             {_projectFilters.map((filter, index) => (
               <button
                 type="button"
@@ -105,6 +120,7 @@ const _structuredData = {
                 {filter.label}
               </button>
             ))}
+            </div>
           </div>
         )
       }
@@ -115,6 +131,9 @@ const _structuredData = {
         _hasProjects ? (
           <Fragment>
             <div class="projects__filterEmpty card" data-project-empty hidden>
+              <span class="projects__emptyIcon" aria-hidden="true">
+                <PhosphorIcon name="folder" size={20} weight="regular" />
+              </span>
               <h2>{content.filterEmptyTitle}</h2>
               <p>
                 {content.filterEmptyBody}
@@ -130,6 +149,9 @@ const _structuredData = {
           </Fragment>
         ) : (
           <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
+            <span class="projects__emptyIcon" aria-hidden="true">
+              <PhosphorIcon name="sparkle" size={20} weight="regular" />
+            </span>
             <h2>{content.pageEmptyTitle}</h2>
             <p>
               {content.pageEmptyBody}

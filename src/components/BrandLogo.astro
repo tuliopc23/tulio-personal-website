@@ -11,13 +11,15 @@ import styles from "./BrandLogo.module.css";
 interface Props {
   size?: number;
   class?: string;
+  priority?: boolean;
+  variant?: "default" | "bare";
 }
 
-const { size = 24, class: className = "" } = Astro.props;
+const { size = 24, class: className = "", priority = false, variant = "default" } = Astro.props;
 ---
 
 <span
-  class:list={[styles.brandLogo, className]}
+  class:list={[styles.brandLogo, variant === "bare" && styles.bare, className]}
   style={`--brand-logo-size: ${size}px`}
   role="img"
   aria-label="Tulio Cunha"
@@ -29,7 +31,7 @@ const { size = 24, class: className = "" } = Astro.props;
     class={styles.light}
     width={size}
     height={size}
-    priority
+    priority={priority}
   />
   <!-- Light mode: show dark icon -->
   <Image
@@ -38,6 +40,6 @@ const { size = 24, class: className = "" } = Astro.props;
     class={styles.dark}
     width={size}
     height={size}
-    priority
+    priority={priority}
   />
 </span>

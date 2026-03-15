@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import BrandIcon from "./BrandIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 import SFIcon from "./SFIcon.astro";
@@ -60,6 +59,10 @@ const symbolMap: Record<string, string> = {
   projects: "constellation",
   home: "home",
   link: "link",
+  mail: "mail",
+  calendar: "calendar",
+  "map-pin": "pin",
+  location: "pin",
   portfolio: "briefcase",
   sparkle: "sparkle-trio",
   writing: "sparkle-trio",
@@ -106,23 +109,25 @@ const assetSize = context === "dock" ? 96 : 72;
     iconAsset ? (
       <div class={styles.media}>
         {assetLight && (
-          <Image
+          <img
             src={assetLight}
             alt={decorativeAlt}
             width={assetSize}
             height={assetSize}
             loading={loading}
+            decoding="async"
             data-variant="light"
             style="z-index:1;"
           />
         )}
         {assetDark && (
-          <Image
+          <img
             src={assetDark}
             alt={decorativeAlt}
             width={assetSize}
             height={assetSize}
             loading={loading}
+            decoding="async"
             data-variant="dark"
             style="z-index:2;"
           />
@@ -136,27 +141,38 @@ const assetSize = context === "dock" ? 96 : 72;
       <div class={styles.media}>
         {hasDarkVariant && iconSrc && iconDarkSrc ? (
           <>
-            <Image
+            <img
               src={iconSrc}
               alt={decorativeAlt}
               width={assetSize}
               height={assetSize}
               loading={loading}
+              decoding="async"
               data-variant="light"
               style="z-index:1;"
             />
-            <Image
+            <img
               src={iconDarkSrc}
               alt={decorativeAlt}
               width={assetSize}
               height={assetSize}
               loading={loading}
+              decoding="async"
               data-variant="dark"
               style="z-index:2;"
             />
           </>
         ) : (
-          iconSrc && <Image src={iconSrc} alt={decorativeAlt} width={assetSize} height={assetSize} loading={loading} />
+          iconSrc && (
+            <img
+              src={iconSrc}
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
+              decoding="async"
+            />
+          )
         )}
       </div>
     ) : (

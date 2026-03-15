@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
 import styles from "./contact.module.css";
 import contactFormScriptHref from "../scripts/contact-form.ts?url";
 
@@ -38,20 +39,29 @@ const structuredData = {
       />
 
       <div class="pageHero__copy">
-        <span class="pageHero__eyebrow">Contact</span>
+        <span class="pageHero__eyebrow">
+          <PhosphorIcon name="mail" size={14} weight="regular" />
+          Contact
+        </span>
         <h1 class="pageHero__title">Send the problem, stack, and timeline.</h1>
         <p class="pageHero__lede">
           Use this for Apple platform work, web development, backend systems, tooling, or a direct programming question. It opens an email draft with the essentials filled in.
         </p>
         <div class="pageHero__meta" aria-label="Contact details">
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>Email: {contactEmail}</span>
+          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+            <PhosphorIcon name="mail" size={14} weight="regular" />
+            {contactEmail}
+          </span>
         </div>
       </div>
     </section>
 
     <section class="container pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">Contact</span>
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="info" size={14} weight="regular" />
+          Contact
+        </span>
         <h2 class="pageWidget__title">What helps</h2>
         <p class="pageWidget__caption">A short description of the problem, stack, timeline, and constraints is enough to start.</p>
       </div>
@@ -88,8 +98,12 @@ const structuredData = {
           </label>
 
           <div class={styles.contactFormActions}>
-            <button type="submit" class="btn">Draft email</button>
+            <button type="submit" class:list={["btn", styles.contactFormButton]}>
+              <PhosphorIcon name="paper-plane-tilt" size={16} weight="regular" />
+              <span>Draft email</span>
+            </button>
             <p class={styles.contactFormHint}>
+              <PhosphorIcon name="mail" size={14} weight="regular" />
               This opens your mail app with a prefilled draft to {contactEmail}.
             </p>
           </div>

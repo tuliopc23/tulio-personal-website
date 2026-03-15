@@ -8,10 +8,7 @@ interface Props {
   size?: number;
 }
 
-const {
-  name,
-  size = 24,
-} = Astro.props as Props;
+const { name, size = 24 } = Astro.props as Props;
 
 const entry = getBrandIcon(name);
 

@@ -1,14 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ProfileCard.module.css";
 
-const {
-  name = "Tulio Cunha",
-  title = "Full stack developer",
-  location = "Brazil",
-} = Astro.props;
+const { name = "Tulio Cunha", title = "Full stack developer", location = "Brazil" } = Astro.props;
 
 const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
@@ -20,7 +15,7 @@ const contactCards = [
     value: "Email and project context",
     href: "/contact",
     tint: "indigo",
-    asset: "/icons/Socials/Email.webp",
+    icon: "mail",
     ariaLabel: `Open contact form for ${name}`,
     external: false,
   },
@@ -29,7 +24,7 @@ const contactCards = [
     value: location,
     href: locationHref,
     tint: "cyan",
-    asset: "/icons/Socials/Location.svg",
+    icon: "map-pin",
     ariaLabel: `Open ${name}'s location in Maps`,
     external: true,
   },
@@ -48,7 +43,7 @@ const socialCards = [
     title: "Portfolio",
     href: "https://portfolio.tuliocunha.dev",
     tint: "cyan",
-    asset: "/icons/Socials/www.webp",
+    icon: "portfolio",
     ariaLabel: "Open Tulio's portfolio",
     external: true,
   },
@@ -56,7 +51,7 @@ const socialCards = [
     title: "LinkedIn",
     href: "https://linkedin.com/in/tuliopinheirocunha",
     tint: "blue",
-    asset: "/icons/Socials/linkedin-light.svg",
+    icon: "linkedin",
     ariaLabel: "Open Tulio's LinkedIn",
     external: true,
   },
@@ -64,7 +59,7 @@ const socialCards = [
     title: "Instagram",
     href: "https://instagram.com/tuliopinheirocunha",
     tint: "pink",
-    asset: "/icons/Socials/instagram-light.svg",
+    icon: "instagram",
     ariaLabel: "Open Tulio's Instagram",
     external: true,
   },
@@ -80,7 +75,7 @@ const socialCards = [
     title: "Schedule time",
     href: "https://fantastical.app/tuliopinheirocunha",
     tint: "orange",
-    asset: "/icons/Socials/calendar.webp",
+    icon: "calendar",
     ariaLabel: "Schedule time with Tulio",
     external: true,
   },
@@ -106,7 +101,7 @@ const socialCards = [
       data-parallax-card
     >
       <figure class={styles.profileCardPhoto}>
-        <Image src={profilePhotoSrc} alt={name} width={192} height={192} loading="eager" />
+        <img src={profilePhotoSrc} alt={name} width="192" height="192" loading="eager" decoding="async" />
       </figure>
 
       <div class={styles.profileCardCopy}>
@@ -133,12 +128,11 @@ const socialCards = [
               rel={card.external ? "noreferrer noopener" : undefined}
               aria-label={card.ariaLabel}
             >
-              <IconTile
-                tint={card.tint}
-                label={card.label}
-                asset={card.asset}
-                loading="eager"
-              />
+                <IconTile
+                  tint={card.tint}
+                  icon={card.icon ?? null}
+                  loading="eager"
+                />
               <span class={styles.profileCardContactCopy}>
                 <strong>{card.label}</strong>
                 <span>{card.value}</span>
@@ -196,7 +190,6 @@ const socialCards = [
                   tint={card.tint}
                   label={card.title}
                   icon={card.icon ?? null}
-                  asset={card.asset ?? null}
                   context="dock"
                   loading="eager"
                 />
