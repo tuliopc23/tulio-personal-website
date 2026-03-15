@@ -1,0 +1,38 @@
+vitest.config.ts
+  a4641860df015529 17
+tests/dom/theme.test.ts
+  bb82a6e5dfc171f5 42-69,134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "fb97cefd66035bee85fd029dc07d5e79dd339a84",
+  "prompts": {
+    "a4641860df015529": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cee8f-d24d-70b1-b896-ce639a808c8c",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "bb82a6e5dfc171f5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ceed3-6a02-7f73-abb1-860539950d70",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 120,
+      "total_deletions": 0,
+      "accepted_lines": 119,
+      "overriden_lines": 0
+    }
+  }
+}
