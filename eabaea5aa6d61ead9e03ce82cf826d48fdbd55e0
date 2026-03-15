@@ -1,0 +1,146 @@
+src/scripts/motion.ts
+  a7da155ac3878d13 8,134-138
+src/styles/system/layout.css
+  b7e513382bee9333 89-94
+src/components/BrandLogo.astro
+  a4641860df015529 14,34,43
+  cf9831b2af28b5a7 15,18,22
+src/components/HeroPlayer.tsx
+  5411417044d8803a 3,28,52,70,72,78
+  b7e513382bee9333 13,32
+  a7da155ac3878d13 1-2,4-12,14-27,29-31,33-35,37-50,53-54,56-63,65-69,71,73-77,79-88
+src/components/remotion/HeroComposition.tsx
+  5411417044d8803a 22-27,32,40,197,215,217
+  a7da155ac3878d13 1-21,28-30,33,37,47-48,55,59-105,107-138,146-147,149,152-154,156,160-161,168-170,172-196,198-205,208-214,216,218-222
+  b7e513382bee9333 31,34-36,38-39,41-46,49-54,56-58,106,139-145,148,150-151,155,157-159,162-167,171,206-207
+src/pages/blog/index.astro
+  242f1f8f9423a33f 463,586
+  a4641860df015529 368
+  5be26e2e9c3d1ac6 298,333
+src/layouts/Base.astro
+  a72414d307d27cf6 52
+  a7da155ac3878d13 33,382
+  cf9831b2af28b5a7 74,81-83,91-93,101-103,111-113,121-123,147,157-158,167-168,177-178,187-188,197-198,201-212,404,412-414,420,423,425,427,430-432,437-448,453-538,641
+src/components/remotion/HelloPathData.ts
+  a7da155ac3878d13 1-41
+src/styles/system/surfaces.css
+  b7e513382bee9333 1,11-24,26-31,33-35,38-41,47,108
+  a7da155ac3878d13 2-10,42-46,48-57,76-81,100-107,109-112,114-126,128-160,162,166-172,175-181,191-194,196-197,201-204,207-218
+  5411417044d8803a 25,32,36-37,113,127,161,163-165,173-174,182-190,195,198-200,205-206
+src/pages/index.astro
+  a7da155ac3878d13 3,168,170-171,177-183
+  5411417044d8803a 184-200
+astro.config.mjs
+  a7da155ac3878d13 2,29-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "eabaea5aa6d61ead9e03ce82cf826d48fdbd55e0",
+  "prompts": {
+    "242f1f8f9423a33f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cefd6-dfee-75c0-a258-28be01c1053e",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    },
+    "5411417044d8803a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_30f918b52ffeI1Ju7hVyK182dN",
+        "model": "anthropic/claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 109,
+      "total_deletions": 150,
+      "accepted_lines": 61,
+      "overriden_lines": 0
+    },
+    "5be26e2e9c3d1ac6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ceffd-21e5-73f0-9ac3-cd66aec99803",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 1,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    },
+    "a4641860df015529": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cee8f-d24d-70b1-b896-ce639a808c8c",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 6,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "a72414d307d27cf6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cf00a-82e0-76b1-bf7a-bd2e0b56dcb8",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "a7da155ac3878d13": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_310066939ffePZNXJ6683OYoYr",
+        "model": "anthropic/claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 889,
+      "total_deletions": 254,
+      "accepted_lines": 430,
+      "overriden_lines": 4
+    },
+    "b7e513382bee9333": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_30fbde628ffe3rZogf0PzBPFPD",
+        "model": "anthropic/claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 173,
+      "total_deletions": 186,
+      "accepted_lines": 83,
+      "overriden_lines": 0
+    },
+    "cf9831b2af28b5a7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cef0b-cc61-76d1-a618-aae9a81c2fae",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 192,
+      "total_deletions": 85,
+      "accepted_lines": 154,
+      "overriden_lines": 0
+    }
+  }
+}
