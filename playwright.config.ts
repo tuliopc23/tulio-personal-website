@@ -6,13 +6,13 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [["html"], ["github"]] : [["list"]],
   use: {
-    baseURL: "http://127.0.0.1:4321",
+    baseURL: "http://127.0.0.1:4331",
     trace: "on-first-retry",
   },
   webServer: {
-    command: "bun run dev --host 127.0.0.1 --port 4321",
-    url: "http://127.0.0.1:4321",
-    reuseExistingServer: !process.env.CI,
+    command: "bun run dev --host 127.0.0.1 --port 4331",
+    url: "http://127.0.0.1:4331",
+    reuseExistingServer: false,
     timeout: 120000,
   },
   projects: [

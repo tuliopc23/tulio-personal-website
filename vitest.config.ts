@@ -14,6 +14,7 @@ export default getViteConfig({
       reportsDirectory: "coverage",
       include: [
         "src/lib/*.ts",
+        "src/components/github-activity-utils.ts",
         "src/sanity/lib/{image,load-query,posts,resolve}.ts",
         "src/scripts/{contact-form,projects-filters,sidebar,theme}.ts",
       ],
@@ -25,10 +26,10 @@ export default getViteConfig({
         "**/*.d.ts",
       ],
       thresholds: {
-        lines: 40,
-        functions: 35,
-        branches: 30,
-        statements: 40,
+        lines: 60,
+        functions: 70,
+        branches: 50,
+        statements: 60,
       },
     },
   },

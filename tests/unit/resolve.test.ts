@@ -12,4 +12,30 @@ describe("sanity presentation resolve", () => {
       { title: "Blog Index", href: "/blog/" },
     ]);
   });
+
+  test("maps remaining document types to website locations", () => {
+    const locations = resolve?.locations as any;
+
+    expect(
+      locations.category.resolve({ title: "Astro", slug: "astro" }).locations
+    ).toEqual([
+      { title: "Astro", href: "/blog/category/astro/" },
+      { title: "Blog Index", href: "/blog/" },
+    ]);
+    expect(locations.project.resolve({ title: "Atlas" }).locations).toEqual([
+      { title: "Atlas", href: "/projects/" },
+    ]);
+    expect(locations.aboutPage.resolve({}).locations).toEqual([
+      { title: "About", href: "/about/" },
+    ]);
+    expect(locations.nowPage.resolve({}).locations).toEqual([
+      { title: "Now", href: "/now/" },
+    ]);
+    expect(locations.blogPage.resolve({}).locations).toEqual([
+      { title: "Blog", href: "/blog/" },
+    ]);
+    expect(locations.projectsPage.resolve({}).locations).toEqual([
+      { title: "Projects", href: "/projects/" },
+    ]);
+  });
 });
