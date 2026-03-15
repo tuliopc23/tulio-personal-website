@@ -15,5 +15,12 @@ const sanityOptions = {
 
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
+  image: {
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.sanity.io" },
+      { protocol: "https", hostname: "apicdn.sanity.io" },
+      { protocol: "https", hostname: "**.sanity.io" },
+    ],
+  },
   integrations: [mdx(), sanity(sanityOptions), solidJs()],
 });

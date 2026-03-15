@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import BrandIcon from "./BrandIcon.astro";
 import { getBrandIcon } from "./brand-icons";
 import SFIcon from "./SFIcon.astro";
@@ -13,18 +14,18 @@ type IconAsset =
 
 const {
   tint = "blue",
-  label = "",
   icon = null,
   asset = null,
   context = "default",
   iconContext = "tools",
+  loading = "lazy",
 }: {
   tint?: string;
-  label?: string;
   icon?: string | null;
   asset?: IconAsset | null;
   context?: "default" | "dock";
   iconContext?: "tools" | "stack";
+  loading?: "eager" | "lazy";
 } = Astro.props;
 
 const iconAsset = asset
@@ -81,6 +82,8 @@ const darkVariantIcons = new Set<string>(["profile-github"]);
 const hasDarkVariant = !iconAsset && icon ? darkVariantIcons.has(icon) : false;
 const iconSrc = !iconAsset && icon ? `/icons/${icon}.svg` : null;
 const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
+const decorativeAlt = "";
+const assetSize = context === "dock" ? 96 : 72;
 ---
 
 <span
@@ -103,19 +106,23 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
     iconAsset ? (
       <div class={styles.media}>
         {assetLight && (
-          <img
+          <Image
             src={assetLight}
-            alt={label}
-            loading="lazy"
+            alt={decorativeAlt}
+            width={assetSize}
+            height={assetSize}
+            loading={loading}
             data-variant="light"
             style="z-index:1;"
           />
         )}
         {assetDark && (
-          <img
+          <Image
             src={assetDark}
-            alt={label}
-            loading="lazy"
+            alt={decorativeAlt}
+            width={assetSize}
+            height={assetSize}
+            loading={loading}
             data-variant="dark"
             style="z-index:2;"
           />
@@ -129,23 +136,27 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
       <div class={styles.media}>
         {hasDarkVariant && iconSrc && iconDarkSrc ? (
           <>
-            <img
+            <Image
               src={iconSrc}
-              alt={label}
-              loading="lazy"
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
               data-variant="light"
               style="z-index:1;"
             />
-            <img
+            <Image
               src={iconDarkSrc}
-              alt={label}
-              loading="lazy"
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
               data-variant="dark"
               style="z-index:2;"
             />
           </>
         ) : (
-          iconSrc && <img src={iconSrc} alt={label} loading="lazy" />
+          iconSrc && <Image src={iconSrc} alt={decorativeAlt} width={assetSize} height={assetSize} loading={loading} />
         )}
       </div>
     ) : (

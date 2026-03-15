@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import VisualEditing from "../../components/VisualEditing.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
@@ -7,7 +8,7 @@ import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import MarkdownContent from "../../components/MarkdownContent.astro";
-import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
+import { optimizedImageUrl } from "../../sanity/lib/image";
 import {
   calculateReadingTimeMinutes,
   getAllPostSlugs,
@@ -53,6 +54,10 @@ const _series = post?.series ?? null;
 const _coverVariant = post?.coverVariant ?? "default";
 const _hasPortableContent = Boolean(post?.content?.length);
 const _hasMarkdownFallback = Boolean(post?.markdownContent?.trim());
+const _heroImageDimensions =
+  heroImage?.width && heroImage?.height
+    ? { width: heroImage.width, height: heroImage.height }
+    : { inferSize: true as const };
 const seo = post?.seo ?? null;
 const baseTitle = post?.title ?? "Article not found";
 const seoTitle = seo?.metaTitle ?? baseTitle;
@@ -252,22 +257,15 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               data-reveal-group="post-shell"
               data-reveal-order={1}
             >
-              <img
-                src={optimizedImageUrl(heroImage.url, 1920, undefined, {
-                  quality: 88,
-                  sharpen: 1.2,
-                  fit: "scale-down",
-                })}
-                srcset={generateSrcset(heroImage.url, [640, 1024, 1280, 1920, 2560])}
+              <Image
+                src={heroImage.url}
+                widths={[640, 1024, 1280, 1920, 2560]}
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1920px"
                 alt={heroImage.alt ?? ""}
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
-                width={heroImage.width}
-                height={heroImage.height}
+                priority
                 data-image-loading
                 onload="this.setAttribute('data-loaded','true')"
+                {..._heroImageDimensions}
               />
             </div>
           )}

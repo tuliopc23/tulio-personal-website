@@ -10,6 +10,7 @@ interface Props {
   revealOrder?: number | string;
   sizeVariant?: "default" | "dock-premium";
   iconContext?: "tools" | "stack";
+  imageLoading?: "eager" | "lazy";
 }
 
 const {
@@ -20,29 +21,31 @@ const {
   revealOrder,
   sizeVariant = "default",
   iconContext = "tools",
+  imageLoading = "lazy",
 } = Astro.props as Props;
 ---
 
-<a
-  class:list={[
-    "dock-link",
-    sizeVariant === "dock-premium" && "dock-link--dock-premium",
-    "surface-tile",
-    "surface-tile--centered",
-    sizeVariant === "dock-premium" && "surface-tile--premium",
-    styles.dockLink,
-    sizeVariant === "dock-premium" && styles.dockPremium,
-    "hover-elevate",
-    sizeVariant === "dock-premium" ? "motion-surface-premium" : "motion-surface-standard",
-  ]}
-  data-tint={tint}
-  href={href}
-  data-reveal
-  data-reveal-order={revealOrder}
-  role="listitem"
-  target={href.startsWith("http") ? "_blank" : undefined}
-  rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
->
-  <IconTile tint={tint} label={title} asset={iconAsset} context={sizeVariant === "dock-premium" ? "dock" : "default"} iconContext={iconContext} />
-  <span class={styles.name}>{title}</span>
-</a>
+<li>
+  <a
+    class:list={[
+      "dock-link",
+      sizeVariant === "dock-premium" && "dock-link--dock-premium",
+      "surface-tile",
+      "surface-tile--centered",
+      sizeVariant === "dock-premium" && "surface-tile--premium",
+      styles.dockLink,
+      sizeVariant === "dock-premium" && styles.dockPremium,
+      "hover-elevate",
+      sizeVariant === "dock-premium" ? "motion-surface-premium" : "motion-surface-standard",
+    ]}
+    data-tint={tint}
+    href={href}
+    data-reveal
+    data-reveal-order={revealOrder}
+    target={href.startsWith("http") ? "_blank" : undefined}
+    rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+  >
+    <IconTile tint={tint} label={title} asset={iconAsset} context={sizeVariant === "dock-premium" ? "dock" : "default"} iconContext={iconContext} loading={imageLoading} />
+    <span class={styles.name}>{title}</span>
+  </a>
+</li>

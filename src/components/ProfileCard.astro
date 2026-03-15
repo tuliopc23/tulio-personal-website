@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ProfileCard.module.css";
@@ -105,7 +106,7 @@ const socialCards = [
       data-parallax-card
     >
       <figure class={styles.profileCardPhoto}>
-        <img src={profilePhotoSrc} alt={name} width={192} height={192} loading="eager" decoding="async" />
+        <Image src={profilePhotoSrc} alt={name} width={192} height={192} loading="eager" />
       </figure>
 
       <div class={styles.profileCardCopy}>
@@ -136,6 +137,7 @@ const socialCards = [
                 tint={card.tint}
                 label={card.label}
                 asset={card.asset}
+                loading="eager"
               />
               <span class={styles.profileCardContactCopy}>
                 <strong>{card.label}</strong>
@@ -170,38 +172,40 @@ const socialCards = [
         </h3>
         <p class="surface-caption">Public profiles, portfolio links, and a direct way to reach me.</p>
       </header>
-      <div class={styles.profileCardSocialGrid} role="list" aria-label="Social channels">
+      <ul class={styles.profileCardSocialGrid} aria-label="Social channels">
         {
           socialCards.map((card) => (
-            <a
-              class:list={[
-                styles.profileCardSocialCard,
-                "surface-tile",
-                "surface-tile--centered",
-                "surface-tile--premium",
-                "hover-elevate",
-                "motion-surface-standard",
-              ]}
-              data-tint={card.tint}
-              data-parallax-card
-              href={card.href}
-              target={card.external ? "_blank" : undefined}
-              rel={card.external ? "noreferrer noopener" : undefined}
-              aria-label={card.ariaLabel}
-              role="listitem"
-            >
-              <IconTile
-                tint={card.tint}
-                label={card.title}
-                icon={card.icon ?? null}
-                asset={card.asset ?? null}
-                context="dock"
-              />
-              <span>{card.title}</span>
-            </a>
+            <li>
+              <a
+                class:list={[
+                  styles.profileCardSocialCard,
+                  "surface-tile",
+                  "surface-tile--centered",
+                  "surface-tile--premium",
+                  "hover-elevate",
+                  "motion-surface-standard",
+                ]}
+                data-tint={card.tint}
+                data-parallax-card
+                href={card.href}
+                target={card.external ? "_blank" : undefined}
+                rel={card.external ? "noreferrer noopener" : undefined}
+                aria-label={card.ariaLabel}
+              >
+                <IconTile
+                  tint={card.tint}
+                  label={card.title}
+                  icon={card.icon ?? null}
+                  asset={card.asset ?? null}
+                  context="dock"
+                  loading="eager"
+                />
+                <span>{card.title}</span>
+              </a>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </article>
   </div>
 </section>

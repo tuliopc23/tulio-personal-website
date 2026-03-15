@@ -5,6 +5,7 @@
  * - Light mode: Brand-icon-dark.webp (dark logo on light background)
  * Sizing: use `size` for display dimensions (header 32px, footer 20px, favicon via link tags).
  */
+import { Image } from "astro:assets";
 import styles from "./BrandLogo.module.css";
 
 interface Props {
@@ -22,23 +23,21 @@ const { size = 24, class: className = "" } = Astro.props;
   aria-label="Tulio Cunha"
 >
   <!-- Dark mode: show light icon -->
-  <img
+  <Image
     src="/Brand-icon-light.webp"
     alt=""
     class={styles.light}
     width={size}
     height={size}
-    decoding="async"
-    fetchpriority="high"
+    priority
   />
   <!-- Light mode: show dark icon -->
-  <img
+  <Image
     src="/Brand-icon-dark.webp"
     alt=""
     class={styles.dark}
     width={size}
     height={size}
-    decoding="async"
-    fetchpriority="high"
+    priority
   />
 </span>

@@ -1,5 +1,5 @@
 ---
-import { generateSrcset, optimizedImageUrl } from "../sanity/lib/image";
+import { Image } from "astro:assets";
 
 interface Props {
   value: {
@@ -17,59 +17,43 @@ const { value }: Props = Astro.props;
 
 const alt = value.alt && value.alt.trim().length > 0 ? value.alt : "";
 const loading = "lazy";
-const decoding = "async";
-
-// Generate optimized image URLs with Sanity CDN
-const imageSource = value.asset || value.url;
-const src = imageSource
-  ? optimizedImageUrl(imageSource, 1280, undefined, {
-      quality: 86,
-      sharpen: 1.2,
-      fit: "scale-down",
-    })
-  : value.url;
-
-// Generate responsive srcset for different viewport sizes
-const srcset = imageSource
-  ? generateSrcset(imageSource, [320, 640, 768, 1024, 1280, 1920])
-  : undefined;
-
-// Use LQIP (Low Quality Image Placeholder) for blur-up effect
 const placeholder = value.lqip;
-const hasImage = Boolean(src);
+const hasImage = Boolean(value.url);
+const imageStyle =
+  value.width && value.height
+    ? `aspect-ratio: ${value.width} / ${value.height};`
+    : undefined;
+const placeholderStyle = [
+  placeholder ? `background-image: url('${placeholder}')` : undefined,
+  imageStyle,
+]
+  .filter(Boolean)
+  .join(";");
+const imageDimensions =
+  value.width && value.height
+    ? { width: value.width, height: value.height }
+    : { inferSize: true as const };
 ---
 
 {
   hasImage && (
     <figure class="articlePortable__figure">
       {placeholder && (
-        <img
-          src={placeholder}
-          alt=""
+        <div
           aria-hidden="true"
           class="articlePortable__placeholder"
-          style={
-            value.width && value.height
-              ? `aspect-ratio: ${value.width} / ${value.height};`
-              : undefined
-          }
+          style={placeholderStyle}
         />
       )}
-      <img
-        src={src}
-        srcset={srcset}
+      <Image
+        src={value.url!}
+        widths={[320, 640, 768, 1024, 1280, 1920]}
         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 768px, 1024px"
         alt={alt}
         loading={loading}
-        decoding={decoding}
-        width={value.width}
-        height={value.height}
-        style={
-          value.width && value.height
-            ? `aspect-ratio: ${value.width} / ${value.height};`
-            : undefined
-        }
+        style={imageStyle}
         data-image-loading
+        {...imageDimensions}
       />
       {value.caption && (
         <figcaption class="articlePortable__caption">{value.caption}</figcaption>

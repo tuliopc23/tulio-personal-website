@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import type { SanityProject } from "../sanity/lib/projects";
 
@@ -13,6 +14,13 @@ const { project, revealGroup = "projects-grid", revealOrder }: Props = Astro.pro
 const _categoriesAttr = (project.categories ?? []).join(",");
 const _hasImage = !!project.coverImage?.url;
 const _statusKey = project.status?.toLowerCase() ?? "exploration";
+const _imageDimensions =
+  project.coverImage?.dimensions?.width && project.coverImage?.dimensions?.height
+    ? {
+        width: project.coverImage.dimensions.width,
+        height: project.coverImage.dimensions.height,
+      }
+    : { inferSize: true as const };
 
 const _categoryColors: Record<string, string> = {
   native: "#5e5ce8",
@@ -41,17 +49,19 @@ const _fallbackColor = _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "
   <div class="projectCard__media">
     {
       _hasImage ? (
-        <img
+        <Image
           src={project.coverImage!.url!}
           alt={project.coverImage?.alt ?? project.title}
           class="projectCard__image"
+          widths={[480, 640, 800, 960]}
+          sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 420px"
           loading="lazy"
-          decoding="async"
           style={
             project.coverImage?.lqip
               ? `background-image: url('${project.coverImage.lqip}'); background-size: cover;`
               : undefined
           }
+          {..._imageDimensions}
         />
       ) : (
         <div

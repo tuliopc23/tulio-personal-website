@@ -24,7 +24,7 @@
 
 .card :global(.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__title) {
   font-size: clamp(1.12rem, 0.38vw + 0.98rem, 1.38rem);
-  max-width: 13ch;
+  max-width: 100%;
 }
 
 .card

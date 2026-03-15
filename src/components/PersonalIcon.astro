@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import styles from "./PersonalIcon.module.css";
 
 interface Props {
@@ -17,10 +18,10 @@ const { size = 24, class: className = "" } = Astro.props;
   data-theme-toggle-icon
 >
   <!-- Dark mode shows the light icon -->
-  <img src="/icons/IconLightMode.svg" class={styles.piDark} alt="" decoding="async" />
+  <Image src="/icons/IconLightMode.svg" class={styles.piDark} alt="" width={28} height={28} loading="eager" />
   
   <!-- Light mode shows the dark icon -->
-  <img src="/icons/IconDarkMode.svg" class={styles.piLight} alt="" decoding="async" />
+  <Image src="/icons/IconDarkMode.svg" class={styles.piLight} alt="" width={28} height={28} loading="eager" />
 </button>
 
 <script is:inline type="module">

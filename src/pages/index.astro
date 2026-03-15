@@ -211,7 +211,7 @@ const description =
             </h2>
             <p class="widget-caption surface-caption">Editors, terminals, and utilities I keep close while shipping.</p>
           </div>
-          <div class="tools-grid" role="list" aria-label="Tools">
+          <ul class="tools-grid" aria-label="Tools">
             {toolLinks.map((link, index) => (
               <DockLink
                 href={link.href}
@@ -220,9 +220,10 @@ const description =
                 iconAsset={link.iconAsset}
                 revealOrder={index}
                 sizeVariant="dock-premium"
+                imageLoading={index < 6 ? "eager" : "lazy"}
               />
             ))}
-          </div>
+          </ul>
         </div>
 
         <div
@@ -242,7 +243,7 @@ const description =
             </h2>
             <p class="widget-caption surface-caption">Languages and frameworks I reach for across native, web, and systems work.</p>
           </div>
-          <div class="tools-grid" role="list" aria-label="Stack">
+          <ul class="tools-grid" aria-label="Stack">
             {stackLinks.map((link, index) => (
               <DockLink
                 href={link.href}
@@ -252,9 +253,10 @@ const description =
                 revealOrder={index}
                 sizeVariant="dock-premium"
                 iconContext="stack"
+                imageLoading={index < 6 ? "eager" : "lazy"}
               />
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
