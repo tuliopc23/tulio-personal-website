@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { type DocumentActionComponent, useClient } from "sanity";
+import * as sanity from "sanity";
 
-export const unpublishAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-02-19" });
+export const unpublishAction: sanity.DocumentActionComponent = (props) => {
+  const client = sanity.useClient({ apiVersion: "2025-02-19" });
   const [dialogOpen, setDialogOpen] = useState(false);
 
   // Only show for published posts
@@ -22,7 +22,6 @@ export const unpublishAction: DocumentActionComponent = (props) => {
     await client.patch(docId).set({ status: "archived" }).commit();
 
     setDialogOpen(false);
-    props.onComplete();
   }, [client, props]);
 
   return {
@@ -36,7 +35,6 @@ export const unpublishAction: DocumentActionComponent = (props) => {
         "Are you sure you want to unpublish this post? It will be moved to archived status and removed from the public site.",
       onCancel: () => {
         setDialogOpen(false);
-        props.onComplete();
       },
       onConfirm: handleConfirm,
     },

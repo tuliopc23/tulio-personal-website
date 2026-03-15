@@ -130,7 +130,7 @@ const breadcrumbStructuredData = {
       name: "Blog",
       item: `${shareOrigin}/blog/`,
     },
-    ...(post.categories?.[0]
+    ...(post?.categories?.[0]
       ? [
           {
             "@type": "ListItem",
@@ -142,10 +142,10 @@ const breadcrumbStructuredData = {
       : []),
     {
       "@type": "ListItem",
-      position: post.categories?.[0] ? 4 : 3,
-      name: post.title,
+      position: post?.categories?.[0] ? 4 : 3,
+      name: post?.title ?? "Article",
       item: shareUrl,
-    },
+    }
   ],
 };
 

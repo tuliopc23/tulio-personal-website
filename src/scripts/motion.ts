@@ -436,20 +436,10 @@
       );
     };
 
-    if (typeof fallbackMotionQuery.addEventListener === "function") {
-      fallbackMotionQuery.addEventListener("change", fallbackHandler);
-      cleanupFallbackMotionListener = () => {
-        fallbackMotionQuery.removeEventListener("change", fallbackHandler);
-      };
-      return;
-    }
-
-    if (typeof fallbackMotionQuery.addListener === "function") {
-      fallbackMotionQuery.addListener(fallbackHandler);
-      cleanupFallbackMotionListener = () => {
-        fallbackMotionQuery.removeListener(fallbackHandler);
-      };
-    }
+    fallbackMotionQuery.addEventListener("change", fallbackHandler);
+    cleanupFallbackMotionListener = () => {
+      fallbackMotionQuery.removeEventListener("change", fallbackHandler);
+    };
   };
 
   bindMotionPreference();

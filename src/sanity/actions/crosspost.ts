@@ -1,13 +1,13 @@
 import { PublishIcon } from "@sanity/icons";
 import { useCallback, useState } from "react";
-import { type DocumentActionComponent, useClient } from "sanity";
+import * as sanity from "sanity";
 
 /**
  * Manual Cross-posting Action
  * Allows manually triggering cross-posting to Dev.to and Hashnode
  */
-export const crosspostAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-02-19" });
+export const crosspostAction: sanity.DocumentActionComponent = (props) => {
+  const client = sanity.useClient({ apiVersion: "2025-02-19" });
   const [isProcessing, setIsProcessing] = useState(false);
   const webhookBaseUrl = process.env.WEBHOOK_BASE_URL?.replace(/\/$/, "");
   const webhookUrl =
@@ -42,7 +42,6 @@ export const crosspostAction: DocumentActionComponent = (props) => {
       );
 
       if (!post) {
-        props.onComplete();
         return;
       }
 
@@ -52,13 +51,11 @@ export const crosspostAction: DocumentActionComponent = (props) => {
 
       if (!devtoEnabled && !hashnodeEnabled && !linkedinEnabled) {
         // No platforms enabled
-        props.onComplete();
         return;
       }
 
       if (!webhookUrl) {
         console.warn("Cross-posting skipped because no external automation webhook is configured.");
-        props.onComplete();
         return;
       }
 
@@ -88,11 +85,8 @@ export const crosspostAction: DocumentActionComponent = (props) => {
 
       const result = await response.json();
       console.log("Cross-posting result:", result);
-
-      props.onComplete();
     } catch (error) {
       console.error("Cross-posting error:", error);
-      props.onComplete();
     } finally {
       setIsProcessing(false);
     }

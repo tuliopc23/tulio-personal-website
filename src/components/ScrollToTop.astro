@@ -11,18 +11,18 @@ import styles from "./ScrollToTop.module.css";
 
 <script>
   (() => {
-    const cleanupKey = '__scrollToTopCleanups';
+    const win = window as Window & { __scrollToTopCleanups?: Array<() => void> };
 
-    const getCleanups = () => {
-      if (!Array.isArray(window[cleanupKey])) {
-        window[cleanupKey] = [];
+    const getCleanups = (): Array<() => void> => {
+      if (!Array.isArray(win.__scrollToTopCleanups)) {
+        win.__scrollToTopCleanups = [];
       }
 
-      return window[cleanupKey];
+      return win.__scrollToTopCleanups;
     };
 
     const cleanupAll = () => {
-      getCleanups().splice(0).forEach((cleanup) => {
+      getCleanups().splice(0).forEach((cleanup: () => void) => {
         cleanup();
       });
     };
@@ -81,20 +81,12 @@ import styles from "./ScrollToTop.module.css";
       scrollButton.addEventListener('click', handleClick);
       window.addEventListener('scroll', throttledUpdate, { passive: true });
 
-      if (typeof prefersReduced.addEventListener === 'function') {
-        prefersReduced.addEventListener('change', handlePreferenceChange);
-      } else if (typeof prefersReduced.addListener === 'function') {
-        prefersReduced.addListener(handlePreferenceChange);
-      }
+      prefersReduced.addEventListener('change', handlePreferenceChange);
 
       getCleanups().push(() => {
         scrollButton.removeEventListener('click', handleClick);
         window.removeEventListener('scroll', throttledUpdate);
-        if (typeof prefersReduced.removeEventListener === 'function') {
-          prefersReduced.removeEventListener('change', handlePreferenceChange);
-        } else if (typeof prefersReduced.removeListener === 'function') {
-          prefersReduced.removeListener(handlePreferenceChange);
-        }
+        prefersReduced.removeEventListener('change', handlePreferenceChange);
       });
 
       updateScrollState();

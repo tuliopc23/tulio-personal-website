@@ -134,6 +134,7 @@ const sidebarSocialLinks = [
     label: "GitHub",
     icon: "github",
     tint: "indigo",
+    current: false,
     external: true,
   },
   {
@@ -141,12 +142,14 @@ const sidebarSocialLinks = [
     label: "Instagram",
     icon: "instagram",
     tint: "pink",
+    current: false,
     external: true,
   },
   {
     href: "/contact",
     label: "Contact",
     icon: "mail",
+    tint: "indigo",
     current: normalizedPath.startsWith("/contact"),
     external: false,
   },
@@ -155,6 +158,7 @@ const sidebarSocialLinks = [
     label: "LinkedIn",
     icon: "linkedin",
     tint: "blue",
+    current: false,
     external: true,
   },
   {
@@ -162,6 +166,7 @@ const sidebarSocialLinks = [
     label: "Book Time",
     icon: "calendar-check",
     tint: "orange",
+    current: false,
     external: true,
   },
 ] as const;
@@ -321,7 +326,7 @@ const sidebarSocialLinks = [
     {ogImage?.url && <meta name="twitter:image" content={ogImage.url} />}
     {
       structuredDataJson && (
-        <script type="application/ld+json" set:html={structuredDataJson} />
+        <script is:inline type="application/ld+json" set:html={structuredDataJson} />
       )
     }
 

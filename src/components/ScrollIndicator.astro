@@ -44,18 +44,18 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
 
 <script>
   (() => {
-    const cleanupKey = '__scrollIndicatorCleanups';
+    const win = window as Window & { __scrollIndicatorCleanups?: Array<() => void> };
 
-    const getCleanups = () => {
-      if (!Array.isArray(window[cleanupKey])) {
-        window[cleanupKey] = [];
+    const getCleanups = (): Array<() => void> => {
+      if (!Array.isArray(win.__scrollIndicatorCleanups)) {
+        win.__scrollIndicatorCleanups = [];
       }
 
-      return window[cleanupKey];
+      return win.__scrollIndicatorCleanups;
     };
 
     const cleanupAll = () => {
-      getCleanups().splice(0).forEach((cleanup) => {
+      getCleanups().splice(0).forEach((cleanup: () => void) => {
         cleanup();
       });
     };
@@ -214,11 +214,7 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
         scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('resize', handleResize, { passive: true });
 
-        if (typeof motionQuery.addEventListener === 'function') {
-          motionQuery.addEventListener('change', handleMotionChange);
-        } else if (typeof motionQuery.addListener === 'function') {
-          motionQuery.addListener(handleMotionChange);
-        }
+        motionQuery.addEventListener('change', handleMotionChange);
 
         getCleanups().push(() => {
           clearHintTimers();
@@ -227,11 +223,7 @@ const { containerClass = "", ariaLabel = "Scroll for more content" } = Astro.pro
           scrollContainer.removeEventListener('scroll', handleScroll);
           window.removeEventListener('resize', handleResize);
 
-          if (typeof motionQuery.removeEventListener === 'function') {
-            motionQuery.removeEventListener('change', handleMotionChange);
-          } else if (typeof motionQuery.removeListener === 'function') {
-            motionQuery.removeListener(handleMotionChange);
-          }
+          motionQuery.removeEventListener('change', handleMotionChange);
         });
 
         updateArrows();

@@ -23,7 +23,7 @@ const { size = 24, class: className = "" } = Astro.props;
   <img src="/icons/IconDarkMode.svg" class={styles.piLight} alt="" decoding="async" />
 </button>
 
-<script type="module">
+<script is:inline type="module">
   const bindThemeToggleIcons = () => {
     if (typeof window === "undefined" || !window.themeController) {
       return;

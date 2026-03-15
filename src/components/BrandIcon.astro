@@ -3,19 +3,34 @@ import logos from "@iconify-json/logos/icons.json";
 import simpleIcons from "@iconify-json/simple-icons/icons.json";
 import { getBrandIcon } from "./brand-icons";
 
+interface Props {
+  name: string;
+  size?: number;
+}
+
 const {
   name,
   size = 24,
-}: {
-  name: string;
-  size?: number;
-} = Astro.props;
+} = Astro.props as Props;
 
 const entry = getBrandIcon(name);
 
-const iconSets: Record<string, typeof logos> = {
-  logos,
-  "simple-icons": simpleIcons,
+type IconifySet = {
+  width?: number;
+  height?: number;
+  icons?: Record<
+    string,
+    {
+      body: string;
+      width?: number;
+      height?: number;
+    }
+  >;
+};
+
+const iconSets: Record<string, IconifySet> = {
+  logos: logos as IconifySet,
+  "simple-icons": simpleIcons as IconifySet,
 };
 
 type ResolvedGlyph = {
@@ -37,8 +52,7 @@ const resolveGlyph = (identifier?: string | null): ResolvedGlyph | null => {
   return { body: glyph.body, width, height, prefix };
 };
 
-// Use logos for colored icons, except GitHub and Instagram which stay monochrome
-let resolved: any;
+let resolved: ResolvedGlyph | null = null;
 if (name === "github" || name === "instagram") {
   // Keep GitHub and Instagram monochrome for theme switching
   resolved = resolveGlyph(entry?.fallback);

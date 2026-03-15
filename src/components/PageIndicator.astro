@@ -31,23 +31,23 @@ const {
 
 <script>
   (() => {
-    const cleanupKey = '__pageIndicatorCleanups';
+    const win = window as Window & { __pageIndicatorCleanups?: Array<() => void> };
 
-    const getCleanups = () => {
-      if (!Array.isArray(window[cleanupKey])) {
-        window[cleanupKey] = [];
+    const getCleanups = (): Array<() => void> => {
+      if (!Array.isArray(win.__pageIndicatorCleanups)) {
+        win.__pageIndicatorCleanups = [];
       }
 
-      return window[cleanupKey];
+      return win.__pageIndicatorCleanups;
     };
 
     const cleanupAll = () => {
-      getCleanups().splice(0).forEach((cleanup) => {
+      getCleanups().splice(0).forEach((cleanup: () => void) => {
         cleanup();
       });
     };
 
-    const resolveItemSelector = (selector) => {
+    const resolveItemSelector = (selector?: string | null) => {
       const normalized = (selector || ':scope > *').trim();
       return normalized.startsWith('>') ? `:scope ${normalized}` : normalized;
     };
@@ -82,7 +82,7 @@ const {
           return;
         }
 
-        let dots = [];
+        let dots: HTMLButtonElement[] = [];
         let ticking = false;
 
         const updateMotionState = () => {
@@ -94,7 +94,7 @@ const {
         const getItems = () =>
           Array.from(container.querySelectorAll(itemSelector)).filter((item) => item instanceof HTMLElement);
 
-        const scrollToIndex = (index) => {
+        const scrollToIndex = (index: number) => {
           const items = getItems();
           const item = items[index];
           if (!(item instanceof HTMLElement)) return;
@@ -106,7 +106,7 @@ const {
           });
         };
 
-        const updateSlider = (activeDot) => {
+        const updateSlider = (activeDot: HTMLElement | undefined) => {
           if (!(activeDot instanceof HTMLElement)) return;
 
           if (updateMotionState()) {
@@ -122,7 +122,7 @@ const {
           slider.style.width = getComputedStyle(activeDot).width;
         };
 
-        const syncDots = (activeIndex) => {
+        const syncDots = (activeIndex: number) => {
           dots.forEach((dot, index) => {
             const isActive = index === activeIndex;
             dot.dataset.active = String(isActive);
@@ -248,21 +248,13 @@ const {
           updateActiveDot();
         };
 
-        if (typeof motionQuery.addEventListener === 'function') {
-          motionQuery.addEventListener('change', handleMotionChange);
-        } else if (typeof motionQuery.addListener === 'function') {
-          motionQuery.addListener(handleMotionChange);
-        }
+        motionQuery.addEventListener('change', handleMotionChange);
 
         getCleanups().push(() => {
           observer.disconnect();
           container.removeEventListener('scroll', updateActiveDot);
           window.removeEventListener('resize', updateActiveDot);
-          if (typeof motionQuery.removeEventListener === 'function') {
-            motionQuery.removeEventListener('change', handleMotionChange);
-          } else if (typeof motionQuery.removeListener === 'function') {
-            motionQuery.removeListener(handleMotionChange);
-          }
+          motionQuery.removeEventListener('change', handleMotionChange);
         });
 
         buildDots();

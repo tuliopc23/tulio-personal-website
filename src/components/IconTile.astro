@@ -121,7 +121,7 @@ const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
           />
         )}
       </div>
-    ) : brandEntry ? (
+    ) : brandEntry && icon ? (
       <BrandIcon name={icon} size={24} />
     ) : sfIcon ? (
       <SFIcon name={sfIcon} size={24} stroke={1.8} />

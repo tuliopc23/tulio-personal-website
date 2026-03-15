@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import styles from "./contact.module.css";
+import contactFormScriptHref from "../scripts/contact-form.ts?url";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
@@ -97,28 +98,5 @@ const structuredData = {
     </section>
   </div>
 
-  <script is:inline>
-    const form = document.querySelector("[data-contact-form]");
-    if (form instanceof HTMLFormElement) {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const data = new FormData(form);
-
-        const name = (data.get("name") || "").toString().trim();
-        const email = (data.get("email") || "").toString().trim();
-        const subject = (data.get("subject") || "").toString().trim();
-        const message = (data.get("message") || "").toString().trim();
-
-        const body = [
-          `Name: ${name}`,
-          `Email: ${email}`,
-          "",
-          message,
-        ].join("\n");
-
-        const mailto = `mailto:${"contact@tuliocunha.dev"}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailto;
-      });
-    }
-  </script>
+  <script is:inline type="module" src={contactFormScriptHref}></script>
 </Base>

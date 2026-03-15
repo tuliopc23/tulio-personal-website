@@ -61,6 +61,7 @@ const heroSectionId = sections[0]?.id ?? "top";
     const root = document.querySelector("[data-section-nav-root]");
     if (!(root instanceof HTMLElement)) return;
 
+    const scrollContainer = root.querySelector("[data-section-nav-scroll]");
     const topChip = root.querySelector("[data-nav-top]");
     const navItems = Array.from(root.querySelectorAll("[data-nav-item]"));
     const allItems = [topChip, ...navItems].filter((node) => node instanceof HTMLAnchorElement);
@@ -68,24 +69,36 @@ const heroSectionId = sections[0]?.id ?? "top";
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const setActive = (sectionId) => {
+    const centerItemInRail = (item: HTMLAnchorElement) => {
+      if (!(scrollContainer instanceof HTMLElement)) return;
+      if (scrollContainer.scrollWidth <= scrollContainer.clientWidth + 4) return;
+
+      const itemRect = item.getBoundingClientRect();
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const offset = itemRect.left - containerRect.left;
+      const targetLeft =
+        scrollContainer.scrollLeft + offset - (containerRect.width - itemRect.width) / 2;
+
+      scrollContainer.scrollTo({
+        left: Math.max(targetLeft, 0),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    };
+
+    const setActive = (sectionId: string) => {
       allItems.forEach((item) => {
         const isActive = item.dataset.section === sectionId;
         item.dataset.active = String(isActive);
         if (isActive) {
           item.setAttribute("aria-current", "true");
-          item.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            block: "nearest",
-            inline: "center",
-          });
+          centerItemInRail(item);
         } else {
           item.removeAttribute("aria-current");
         }
       });
     };
 
-    const scrollToTarget = (sectionId) => {
+    const scrollToTarget = (sectionId: string) => {
       const target = sectionId === "top" ? document.getElementById("top") : document.getElementById(sectionId);
       if (!target) return;
       const topbar = document.querySelector(".topbar");
@@ -98,7 +111,7 @@ const heroSectionId = sections[0]?.id ?? "top";
       });
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event: Event) => {
       event.preventDefault();
       const item = event.currentTarget;
       if (!(item instanceof HTMLAnchorElement)) return;
@@ -127,7 +140,13 @@ const heroSectionId = sections[0]?.id ?? "top";
       { threshold: [0.3, 0.5, 0.7], rootMargin: "-15% 0px -45% 0px" },
     );
 
-    const observedIds = new Set(["top", ...navItems.map((item) => item.dataset.section).filter(Boolean)]);
+    const observedIds = new Set([
+      "top",
+      ...navItems
+        .filter((item): item is HTMLAnchorElement => item instanceof HTMLAnchorElement)
+        .map((item) => item.dataset.section)
+        .filter((id): id is string => Boolean(id)),
+    ]);
     observedIds.forEach((id) => {
       const node = document.getElementById(id);
       if (node) observer.observe(node);

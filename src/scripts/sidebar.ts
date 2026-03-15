@@ -274,11 +274,9 @@
     syncScrollLock();
   };
 
-  if (typeof mobileDrawerQuery.addEventListener === "function") {
-    mobileDrawerQuery.addEventListener("change", syncOnViewportChange);
-  } else {
-    mobileDrawerQuery.addListener(syncOnViewportChange);
-  }
+  mobileDrawerQuery.addEventListener("change", syncOnViewportChange);
 
   apply(filter?.value ?? null);
 })();
+
+export {};

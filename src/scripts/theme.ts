@@ -57,11 +57,7 @@ class ThemeController {
     };
 
     if (this.mediaQuery) {
-      if (typeof this.mediaQuery.addEventListener === "function") {
-        this.mediaQuery.addEventListener("change", handleMediaChange);
-      } else if (typeof this.mediaQuery.addListener === "function") {
-        this.mediaQuery.addListener(handleMediaChange);
-      }
+      this.mediaQuery.addEventListener("change", handleMediaChange);
     }
 
     const handleReduceMotionChange = (event: MediaQueryListEvent): void => {
@@ -69,11 +65,7 @@ class ThemeController {
     };
 
     if (this.reduceMotionQuery) {
-      if (typeof this.reduceMotionQuery.addEventListener === "function") {
-        this.reduceMotionQuery.addEventListener("change", handleReduceMotionChange);
-      } else if (typeof this.reduceMotionQuery.addListener === "function") {
-        this.reduceMotionQuery.addListener(handleReduceMotionChange);
-      }
+      this.reduceMotionQuery.addEventListener("change", handleReduceMotionChange);
     }
 
     return this.current;

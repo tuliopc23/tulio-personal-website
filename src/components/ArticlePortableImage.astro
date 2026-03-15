@@ -79,7 +79,9 @@ const hasImage = Boolean(src);
 }
 
 <script>
-  const images = Array.from(document.querySelectorAll("[data-image-loading]"));
+  const images = Array.from(document.querySelectorAll("[data-image-loading]")).filter(
+    (img) => img instanceof HTMLImageElement,
+  );
   images.forEach((img) => {
     const show = () => img.setAttribute("data-loaded", "true");
     if (img.complete) show();

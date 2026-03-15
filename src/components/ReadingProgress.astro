@@ -10,13 +10,13 @@ import styles from "./ReadingProgress.module.css";
 <script>
   const progressBar = document.querySelector("[data-reading-progress]");
 
-  if (progressBar) {
+  if (progressBar instanceof HTMLElement) {
     const updateProgress = () => {
       const articleBody =
         document.querySelector("[data-reading-body] .articlePortable") ||
         document.querySelector("[data-reading-body]") ||
         document.querySelector(".articlePortable");
-      if (!articleBody) return;
+      if (!(articleBody instanceof HTMLElement)) return;
 
       const articleTop = articleBody.offsetTop;
       const articleHeight = articleBody.offsetHeight;

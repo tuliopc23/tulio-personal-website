@@ -6,6 +6,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "astro:check": "astro check",
+    "test": "bun run test:unit && bun run test:astro",
+    "test:watch": "vitest tests/unit tests/dom",
+    "test:unit": "vitest run tests/unit tests/dom",
+    "test:astro": "vitest run --environment node tests/astro",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage tests/unit tests/dom",
     "test:smoke": "bun run build && bun test tests/layout-smoke.test.ts",
     "preview": "astro preview",
     "cf:dev": "wrangler pages dev dist",
@@ -35,6 +42,7 @@
     "install:ci": "bun install"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.7",
     "@astrojs/mdx": "^5.0.0",
     "@astrojs/solid-js": "^6.0.0",
     "@iconify-json/logos": "^1.2.10",
@@ -70,16 +78,20 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.7",
+    "@playwright/test": "^1.58.2",
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
+    "@vitest/coverage-v8": "^4.1.0",
     "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
     "globals": "^17.4.0",
+    "jsdom": "^28.1.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "sanity-codegen": "^0.9.8",
     "typescript": "^5.9.3",
+    "vitest": "^4.1.0",
     "wrangler": "^4.73.0"
   },
   "engines": {

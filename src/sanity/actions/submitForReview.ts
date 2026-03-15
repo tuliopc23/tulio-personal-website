@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { type DocumentActionComponent, useClient } from "sanity";
+import * as sanity from "sanity";
 
-export const submitForReviewAction: DocumentActionComponent = (props) => {
-  const client = useClient({ apiVersion: "2025-02-19" });
+export const submitForReviewAction: sanity.DocumentActionComponent = (props) => {
+  const client = sanity.useClient({ apiVersion: "2025-02-19" });
 
   // Only show for draft posts
   const status = (props.draft || props.published)?.status;
@@ -22,7 +22,6 @@ export const submitForReviewAction: DocumentActionComponent = (props) => {
       })
       .commit();
 
-    props.onComplete();
   }, [client, props]);
 
   return {

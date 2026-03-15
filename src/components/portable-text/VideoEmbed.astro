@@ -51,7 +51,6 @@ const videoInfo = getVideoInfo(url);
         <iframe
           src={videoInfo.embedUrl}
           title={caption || `${videoInfo.platform} video`}
-          frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
           loading="lazy"
