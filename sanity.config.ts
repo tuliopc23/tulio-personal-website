@@ -13,6 +13,7 @@ import {
   unpublishAction,
 } from "./src/sanity/actions";
 import StudioLogo from "./src/sanity/components/StudioLogo";
+import StudioNavbar from "./src/sanity/components/StudioNavbar";
 import { WorkflowBadge } from "./src/sanity/components/WorkflowBadge";
 import { resolve } from "./src/sanity/lib/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
@@ -36,6 +37,7 @@ export default defineConfig({
   studio: {
     components: {
       logo: StudioLogo,
+      navbar: StudioNavbar,
     },
   },
   plugins: [

@@ -4,16 +4,6 @@ import RepoCard from "./RepoCard.astro";
 import { getMergedGitHubData, type NormalizedRepoCard } from "../../lib/github-data";
 import styles from "./github-section.module.css";
 
-interface Props {
-  title?: string;
-  description?: string;
-}
-
-const {
-  title = "GitHub",
-  description = "Live momentum, active work, and the cadence behind current projects.",
-} = Astro.props as Props;
-
 let repos: NormalizedRepoCard[] = [];
 let error: string | null = null;
 
@@ -26,11 +16,6 @@ try {
 ---
 
 <section class={styles.githubSection} id="section-github">
-  <header class={styles.header}>
-    <h2 class={styles.title}>{title}</h2>
-    <p class={styles.description}>{description}</p>
-  </header>
-
   {error ? (
     <div class={styles.errorState}>
        <p>{error}</p>

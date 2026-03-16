@@ -2,14 +2,7 @@
 import { buildLegacyTheme } from "sanity";
 
 const props = {
-  "--black": "#050505",
-  "--white": "#f5f5f7",
-  "--gray": "#050505",
-  "--gray-base": "#161618",
-  "--component-bg": "#161618",
-  "--component-text-color": "#f5f5f7",
   "--brand-primary": "#0d8aff",
-  "--default-button-color": "#f5f5f7",
   "--default-button-primary-color": "#0d8aff",
   "--default-button-success-color": "#30d948",
   "--default-button-warning-color": "#ffa00d",

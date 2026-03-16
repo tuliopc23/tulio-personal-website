@@ -1,6 +1,7 @@
 ---
 import type { NormalizedRepoCard } from "../../lib/github-data";
 import RepoCommitList from "./RepoCommitList.astro";
+import PhosphorIcon from "../PhosphorIcon.astro";
 import styles from "./github-section.module.css";
 
 interface Props {
@@ -12,35 +13,77 @@ const { repo } = Astro.props;
 
 <article class={styles.repoCard}>
   <div class={styles.repoCardEditorial}>
-    <header class={styles.repoCardHeader}>
+    <div class={styles.editorialContent}>
+      <span class={styles.repoEyebrow}>
+        <PhosphorIcon name="folder-simple" size={13} weight="regular" />
+        {repo.category}
+      </span>
+
       <h3 class={styles.repoTitle}>
         {repo.showRepositoryLink ? (
           <a href={repo.repoUrl} target="_blank" rel="noopener noreferrer">
+            <span class={styles.repoTitleIcon} aria-hidden="true">
+              <PhosphorIcon name="github-logo" size={28} weight="fill" />
+            </span>
             {repo.displayTitle}
           </a>
         ) : (
-          repo.displayTitle
+          <>
+            <span class={styles.repoTitleIcon} aria-hidden="true">
+              <PhosphorIcon name="code" size={28} weight="bold" />
+            </span>
+            {repo.displayTitle}
+          </>
         )}
       </h3>
-      
+
       {repo.description && (
         <p class={styles.repoDescription}>{repo.description}</p>
       )}
-      
-      <div class={styles.repoMeta}>
-        <span class={styles.repoCategory}>{repo.category}</span>
-        {repo.primaryLanguage && (
-          <>
-            <span class={styles.metaSeparator}>·</span>
-            <span class={styles.repoLanguage}>{repo.primaryLanguage}</span>
-          </>
-        )}
-      </div>
-    </header>
+    </div>
+
+    <div class={styles.repoMeta}>
+      {repo.primaryLanguage && (
+        <span class={styles.metaTag}>
+          <span class={styles.metaTagDot}></span>
+          {repo.primaryLanguage}
+        </span>
+      )}
+
+      {repo.isPrivate && (
+        <span class={styles.metaTag}>
+          <PhosphorIcon name="lock-simple" size={10} weight="regular" />
+          Private
+        </span>
+      )}
+
+      {repo.showRepositoryLink && (
+        <a
+          href={repo.repoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-pill cta-pill--accent motion-cta-pill"
+        >
+          <span>View repository</span>
+          <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
+        </a>
+      )}
+    </div>
   </div>
 
   <div class={styles.repoCardActivity}>
-    <h4 class={styles.activityLabel}>LATEST COMMITS</h4>
+    <div class={styles.activityHeader}>
+      <h4 class={styles.activityLabel}>
+        <PhosphorIcon name="git-commit" size={13} weight="bold" />
+        Recent commits
+      </h4>
+      {repo.commits.length > 0 && (
+        <span class={styles.activityBadge}>
+          <span class={styles.activityBadgeDot}></span>
+          Active
+        </span>
+      )}
+    </div>
     <RepoCommitList commits={repo.commits} repoName={repo.repoName} />
   </div>
 </article>
