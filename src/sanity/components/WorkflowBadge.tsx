@@ -5,7 +5,7 @@ const STATUS_MAP: Record<string, DocumentBadgeDescription> = {
   "in-review": { label: "In Review", color: "warning", title: "Awaiting editorial review" },
   approved: { label: "Approved", color: "success", title: "Approved for publishing" },
   published: { label: "Published", color: "primary", title: "Live on the website" },
-  archived: { label: "Archived", title: "No longer active" },
+  archived: { label: "Archived", color: "danger", title: "Removed from the public site" },
 };
 
 export const WorkflowBadge: DocumentBadgeComponent = (props) => {

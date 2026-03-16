@@ -1,106 +1,35 @@
 import { PublishIcon } from "@sanity/icons";
-import { useState } from "react";
 import * as sanity from "sanity";
 
-/**
- * Manual Cross-posting Action
- * Allows manually triggering cross-posting to Dev.to and Hashnode
- */
 export const crosspostAction: sanity.DocumentActionComponent = (props) => {
-  const client = sanity.useClient({ apiVersion: "2025-02-19" });
-  const [isProcessing, setIsProcessing] = useState(false);
-  const webhookBaseUrl = process.env.WEBHOOK_BASE_URL?.replace(/\/$/, "");
-  const webhookUrl =
-    process.env.SANITY_STUDIO_WEBHOOK_URL ||
-    (webhookBaseUrl ? `${webhookBaseUrl}/api/auto-publish` : undefined);
+  const documentId = props.id.replace(/^drafts\./, "");
+  const operations = sanity.useDocumentOperation(documentId, "post");
+  const doc = (props.draft || props.published) as Record<string, unknown> | undefined;
+  const status = doc?.status;
+  const crossposting = doc?.crossposting as Record<string, Record<string, unknown>> | undefined;
+  const hasPlatforms = Boolean(
+    crossposting?.devto?.enabled ||
+      crossposting?.hashnode?.enabled ||
+      crossposting?.linkedin?.enabled,
+  );
 
-  // Only show for published posts
-  if (!props.published) {
+  if (status !== "published" || !hasPlatforms) {
     return null;
   }
 
-  const onHandle = async () => {
-    setIsProcessing(true);
-
-    try {
-      const docId = props.id.replace(/^drafts\./, "");
-
-      // Fetch the current document with cross-posting settings
-      const post = await client.fetch(
-        `*[_id == $id][0]{
-          _id,
-          title,
-          summary,
-          "slug": slug.current,
-          tags,
-          markdownContent,
-          content,
-          seo,
-          crossposting
-        }`,
-        { id: docId },
-      );
-
-      if (!post) {
-        return;
-      }
-
-      const devtoEnabled = post.crossposting?.devto?.enabled;
-      const hashnodeEnabled = post.crossposting?.hashnode?.enabled;
-      const linkedinEnabled = post.crossposting?.linkedin?.enabled;
-
-      if (!devtoEnabled && !hashnodeEnabled && !linkedinEnabled) {
-        // No platforms enabled
-        return;
-      }
-
-      if (!webhookUrl) {
-        console.warn("Cross-posting skipped because no external automation webhook is configured.");
-        return;
-      }
-
-      console.log("Cross-posting triggered for:", post.title);
-
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          documentId: docId,
-          slug: post.slug,
-          title: post.title,
-          summary: post.summary,
-          tags: post.tags,
-          markdownContent: post.markdownContent,
-          content: post.content,
-          seo: post.seo,
-          operation: "manual",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to trigger cross-posting: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      console.log("Cross-posting result:", result);
-    } catch (error) {
-      console.error("Cross-posting error:", error);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
   return {
-    label: "Cross-post to Platforms",
+    label: "Retry Cross-post",
     icon: PublishIcon,
-    onHandle,
-    disabled: isProcessing || !webhookUrl,
-    title: isProcessing
-      ? "Cross-posting..."
-      : webhookUrl
-        ? "Manually trigger cross-posting to enabled platforms"
-        : "Set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL to use manual cross-posting",
+    title: "Trigger the Sanity document function to retry any missing platform publishes.",
+    onHandle: () => {
+      operations.patch.execute([
+        {
+          set: {
+            "crossposting.manualTriggerAt": new Date().toISOString(),
+          },
+        },
+      ]);
+      props.onComplete();
+    },
   };
 };

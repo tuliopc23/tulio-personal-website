@@ -88,7 +88,7 @@ export default defineType({
         list: TAG_OPTIONS,
       },
       description:
-        "Tags will be automatically generated based on your article content when you create or update this post.",
+        "AI will suggest tags from your content. Use the Refresh Tags action when you want to rerun the tag function explicitly.",
       validation: (rule) => rule.max(6),
     }),
     defineField({
@@ -143,7 +143,7 @@ export default defineType({
       type: "workflowStatus",
       group: "workflow",
       initialValue: "draft",
-      description: "Used by custom Studio actions to manage review and publishing flow.",
+      description: "The editorial path is draft → in review → approved → published → archived.",
     }),
     defineField({
       name: "lastReviewedAt",
@@ -158,6 +158,15 @@ export default defineType({
       type: "datetime",
       group: "workflow",
       readOnly: true,
+    }),
+    defineField({
+      name: "tagRefreshRequestedAt",
+      title: "Tag Refresh Requested",
+      type: "datetime",
+      group: "workflow",
+      description: "Internal signal used to trigger the tag generation function.",
+      readOnly: true,
+      hidden: ({ value }) => value === undefined,
     }),
     defineField({
       name: "keyTakeaways",
@@ -328,6 +337,14 @@ export default defineType({
               readOnly: true,
             }),
           ],
+        }),
+        defineField({
+          name: "manualTriggerAt",
+          title: "Manual Retry Requested",
+          type: "datetime",
+          description: "Internal signal used to retry cross-posting through the Sanity function.",
+          readOnly: true,
+          hidden: ({ value }) => value === undefined,
         }),
       ],
     }),

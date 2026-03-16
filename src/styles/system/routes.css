@@ -1441,11 +1441,11 @@
   display: flex;
   gap: clamp(var(--space-md), 3vw, var(--space-lg));
   list-style: none;
-  padding: clamp(8px, 1vw, 12px) clamp(4px, 0.5vw, 8px) clamp(var(--space-md), 2vw, var(--space-lg));
+  padding: clamp(24px, 3vw, 40px) clamp(4px, 0.5vw, 8px);
   margin: 0;
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: clip;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scroll-padding-inline: clamp(8px, 1vw, 12px);
@@ -1454,6 +1454,21 @@
   -webkit-overflow-scrolling: touch;
   position: relative;
   box-sizing: border-box;
+  /* Mask top & bottom edges to dissolve clip boundary into page bg */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black clamp(16px, 2.5vw, 32px),
+    black calc(100% - clamp(16px, 2.5vw, 32px)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black clamp(16px, 2.5vw, 32px),
+    black calc(100% - clamp(16px, 2.5vw, 32px)),
+    transparent
+  );
 }
 
 .articleGrid::-webkit-scrollbar {
@@ -1673,11 +1688,25 @@
 [data-theme="dark"] .articleCard {
   border: 1px solid rgba(255, 255, 255, 0.106);
   background: rgba(29, 29, 32, 0.95);
+  box-shadow:
+    var(--shadow-card),
+    var(--shadow-card-highlight),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 -6px 16px rgba(5, 8, 18, 0.18),
+    0 12px 24px rgba(5, 8, 18, 0.32),
+    0 24px 48px rgba(0, 0, 0, 0.2);
 }
 
 [data-theme="light"] .articleCard {
   border: 1px solid rgba(60, 60, 67, 0.106);
   background: rgba(248, 248, 251, 0.95);
+  box-shadow:
+    var(--shadow-card),
+    var(--shadow-card-highlight),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 -4px 12px rgba(31, 35, 53, 0.06),
+    0 10px 20px rgba(31, 35, 53, 0.12),
+    0 20px 40px rgba(31, 35, 53, 0.08);
 }
 
 /* Inset highlight for depth */
@@ -2200,8 +2229,12 @@
   border-color: rgba(255, 255, 255, 0.158);
   box-shadow:
     var(--shadow-card-hover),
+    var(--shadow-card-highlight),
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 24px 48px rgba(2, 4, 10, 0.46);
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 -8px 20px rgba(5, 8, 18, 0.22),
+    0 20px 40px rgba(5, 8, 18, 0.44),
+    0 40px 80px rgba(0, 0, 0, 0.28);
 }
 
 [data-theme="light"] .articleCard:hover,
@@ -2209,8 +2242,12 @@
   border-color: rgba(60, 60, 67, 0.158);
   box-shadow:
     var(--shadow-card-hover),
+    var(--shadow-card-highlight),
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 18px 36px rgba(31, 35, 53, 0.22);
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 -6px 16px rgba(31, 35, 53, 0.08),
+    0 16px 32px rgba(31, 35, 53, 0.18),
+    0 32px 64px rgba(31, 35, 53, 0.12);
 }
 
 [data-theme="dark"] .articleCard--featured:hover {

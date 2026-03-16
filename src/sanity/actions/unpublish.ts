@@ -1,8 +1,10 @@
+import { ArchiveIcon } from "@sanity/icons";
 import { useState } from "react";
 import * as sanity from "sanity";
 
 export const unpublishAction: sanity.DocumentActionComponent = (props) => {
-  const client = sanity.useClient({ apiVersion: "2025-02-19" });
+  const documentId = props.id.replace(/^drafts\./, "");
+  const operations = sanity.useDocumentOperation(documentId, "post");
   const [dialogOpen, setDialogOpen] = useState(false);
 
   // Only show for published posts
@@ -16,17 +18,22 @@ export const unpublishAction: sanity.DocumentActionComponent = (props) => {
   };
 
   const handleConfirm = async () => {
-    const docId = props.id.replace(/^drafts\./, "");
-
-    // Move to archived status
-    await client.patch(docId).set({ status: "archived" }).commit();
-
+    operations.patch.execute([
+      {
+        set: {
+          status: "archived",
+        },
+      },
+    ]);
+    operations.unpublish.execute();
     setDialogOpen(false);
+    props.onComplete();
   };
 
   return {
+    action: "unpublish",
     label: "Unpublish",
-    icon: () => "📦",
+    icon: ArchiveIcon,
     tone: "critical",
     onHandle,
     dialog: dialogOpen && {
@@ -37,6 +44,7 @@ export const unpublishAction: sanity.DocumentActionComponent = (props) => {
         setDialogOpen(false);
       },
       onConfirm: handleConfirm,
+      confirmButtonText: "Unpublish",
     },
   };
 };

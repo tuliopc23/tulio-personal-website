@@ -12,8 +12,15 @@
  * ---------------------------------------------------------------------------------
  */
 
+export declare const internalGroqTypeReferenceTo: unique symbol;
+
 // Source: schema.json
-export type WorkflowStatus = "draft" | "in-review" | "approved" | "published" | "archived";
+export type WorkflowStatus =
+  | "draft"
+  | "in-review"
+  | "approved"
+  | "published"
+  | "archived";
 
 export type VideoEmbed = {
   _type: "videoEmbed";
@@ -134,11 +141,12 @@ export type Post = {
   title?: string;
   slug?: Slug;
   summary?: string;
-  hook?: string;
   author?: AuthorReference;
-  categories?: Array<{
-    _key: string;
-  } & CategoryReference>;
+  categories?: Array<
+    {
+      _key: string;
+    } & CategoryReference
+  >;
   tags?: Array<string>;
   heroImage?: {
     asset?: SanityImageAssetReference;
@@ -154,6 +162,7 @@ export type Post = {
   status?: WorkflowStatus;
   lastReviewedAt?: string;
   approvedAt?: string;
+  tagRefreshRequestedAt?: string;
   keyTakeaways?: Array<string>;
   coverVariant?: "default" | "cinematic" | "minimal";
   series?: string;
@@ -178,6 +187,7 @@ export type Post = {
       url?: string;
       lastSyncedAt?: string;
     };
+    manualTriggerAt?: string;
   };
   analytics?: {
     views?: number;
@@ -191,35 +201,52 @@ export type Post = {
     lastUpdatedAt?: string;
   };
   markdownContent?: Markdown;
-  content?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2" | "h3" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  } | {
-    _key: string;
-  } & Code>;
+  content?: BlockContent;
 };
+
+export type BlockContent = Array<
+  | {
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        openInNewTab?: boolean;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }
+  | {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      caption?: string;
+      _type: "image";
+      _key: string;
+    }
+  | ({
+      _key: string;
+    } & Code)
+  | ({
+      _key: string;
+    } & Callout)
+  | ({
+      _key: string;
+    } & VideoEmbed)
+  | ({
+      _key: string;
+    } & Divider)
+>;
 
 export type Markdown = string;
 
@@ -256,6 +283,23 @@ export type NowPage = {
   githubLede?: string;
 };
 
+export type FeaturedGithubRepo = {
+  _id: string;
+  _type: "featuredGithubRepo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  repoFullName?: string;
+  displayTitle?: string;
+  description?: string;
+  category?: string;
+  featured?: boolean;
+  order?: number;
+  showRepositoryLink?: boolean;
+  showPrivate?: boolean;
+  visibleInProofOfWork?: boolean;
+};
+
 export type Divider = {
   _type: "divider";
   style?: "line" | "dots" | "asterisks" | "space";
@@ -274,7 +318,7 @@ export type Category = {
 
 export type Callout = {
   _type: "callout";
-  variant?: "info" | "warning" | "success" | "error";
+  variant?: "info" | "tip" | "warning" | "success" | "error";
   title?: string;
   body?: Array<{
     children?: Array<{
@@ -287,6 +331,7 @@ export type Callout = {
     listItem?: never;
     markDefs?: Array<{
       href?: string;
+      openInNewTab?: boolean;
       _type: "link";
       _key: string;
     }>;
@@ -295,43 +340,6 @@ export type Callout = {
     _key: string;
   }>;
 };
-
-export type BlockContent = Array<{
-  children?: Array<{
-    marks?: Array<string>;
-    text?: string;
-    _type: "span";
-    _key: string;
-  }>;
-  style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet" | "number";
-  markDefs?: Array<{
-    href?: string;
-    openInNewTab?: boolean;
-    _type: "link";
-    _key: string;
-  }>;
-  level?: number;
-  _type: "block";
-  _key: string;
-} | {
-  asset?: SanityImageAssetReference;
-  media?: unknown;
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  alt?: string;
-  caption?: string;
-  _type: "image";
-  _key: string;
-} | {
-  _key: string;
-} & Code | {
-  _key: string;
-} & Callout | {
-  _key: string;
-} & VideoEmbed | {
-  _key: string;
-} & Divider>;
 
 export type BlogPage = {
   _id: string;
@@ -343,8 +351,6 @@ export type BlogPage = {
   heroEyebrow?: string;
   heroTitle?: string;
   heroLede?: string;
-  emptyStateTitle?: string;
-  emptyStateBody?: string;
   editorialDirectionHeading?: string;
   editorialDirectionLede?: string;
   pillars?: Array<{
@@ -357,7 +363,6 @@ export type BlogPage = {
   archiveLede?: string;
   allArticlesLabel?: string;
   loadOlderLabel?: string;
-  filterEmptyState?: string;
   spotlightTags?: Array<string>;
   placeholderCards?: Array<{
     title?: string;
@@ -433,6 +438,143 @@ export type AboutPage = {
     body?: string;
     _key: string;
   }>;
+};
+
+export type SanityAssistInstructionTask = {
+  _type: "sanity.assist.instructionTask";
+  path?: string;
+  instructionKey?: string;
+  started?: string;
+  updated?: string;
+  info?: string;
+};
+
+export type SanityAssistTaskStatus = {
+  _type: "sanity.assist.task.status";
+  tasks?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstructionTask
+  >;
+};
+
+export type SanityAssistSchemaTypeAnnotations = {
+  _type: "sanity.assist.schemaType.annotations";
+  title?: string;
+  fields?: Array<
+    {
+      _key: string;
+    } & SanityAssistSchemaTypeField
+  >;
+};
+
+export type SanityAssistOutputType = {
+  _type: "sanity.assist.output.type";
+  type?: string;
+};
+
+export type SanityAssistOutputField = {
+  _type: "sanity.assist.output.field";
+  path?: string;
+};
+
+export type AssistInstructionContextReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "assist.instruction.context";
+};
+
+export type SanityAssistInstructionContext = {
+  _type: "sanity.assist.instruction.context";
+  reference?: AssistInstructionContextReference;
+};
+
+export type AssistInstructionContext = {
+  _id: string;
+  _type: "assist.instruction.context";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  context?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: never;
+    markDefs?: null;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+};
+
+export type SanityAssistInstructionUserInput = {
+  _type: "sanity.assist.instruction.userInput";
+  message?: string;
+  description?: string;
+};
+
+export type SanityAssistInstructionPrompt = Array<{
+  children?: Array<
+    | {
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }
+    | ({
+        _key: string;
+      } & SanityAssistInstructionFieldRef)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionContext)
+    | ({
+        _key: string;
+      } & SanityAssistInstructionUserInput)
+  >;
+  style?: "normal";
+  listItem?: never;
+  markDefs?: null;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
+export type SanityAssistInstructionFieldRef = {
+  _type: "sanity.assist.instruction.fieldRef";
+  path?: string;
+};
+
+export type SanityAssistInstruction = {
+  _type: "sanity.assist.instruction";
+  prompt?: SanityAssistInstructionPrompt;
+  icon?: string;
+  title?: string;
+  userId?: string;
+  createdById?: string;
+  output?: Array<
+    | ({
+        _key: string;
+      } & SanityAssistOutputField)
+    | ({
+        _key: string;
+      } & SanityAssistOutputType)
+  >;
+};
+
+export type SanityAssistSchemaTypeField = {
+  _type: "sanity.assist.schemaType.field";
+  path?: string;
+  instructions?: Array<
+    {
+      _key: string;
+    } & SanityAssistInstruction
+  >;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -532,7 +674,48 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = WorkflowStatus | VideoEmbed | SanityImageAssetReference | Seo | ProjectsPage | Project | SanityImageCrop | SanityImageHotspot | Slug | AuthorReference | CategoryReference | Post | Markdown | Code | NowPage | Divider | Category | Callout | BlockContent | BlogPage | Author | AboutPage | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
-
-export declare const internalGroqTypeReferenceTo: unique symbol;
-
+export type AllSanitySchemaTypes =
+  | WorkflowStatus
+  | VideoEmbed
+  | SanityImageAssetReference
+  | Seo
+  | ProjectsPage
+  | Project
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Slug
+  | AuthorReference
+  | CategoryReference
+  | Post
+  | BlockContent
+  | Markdown
+  | Code
+  | NowPage
+  | FeaturedGithubRepo
+  | Divider
+  | Category
+  | Callout
+  | BlogPage
+  | Author
+  | AboutPage
+  | SanityAssistInstructionTask
+  | SanityAssistTaskStatus
+  | SanityAssistSchemaTypeAnnotations
+  | SanityAssistOutputType
+  | SanityAssistOutputField
+  | AssistInstructionContextReference
+  | SanityAssistInstructionContext
+  | AssistInstructionContext
+  | SanityAssistInstructionUserInput
+  | SanityAssistInstructionPrompt
+  | SanityAssistInstructionFieldRef
+  | SanityAssistInstruction
+  | SanityAssistSchemaTypeField
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;

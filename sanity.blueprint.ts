@@ -11,7 +11,7 @@ export default defineBlueprint({
       event: {
         on: ["create", "update"],
         filter:
-          "_type == 'post' && delta::changedAny(['title', 'summary', 'content'])",
+          "_type == 'post' && delta::changedAny(['title', 'summary', 'content', 'tagRefreshRequestedAt'])",
         projection: "{_id}",
       },
     }),
@@ -23,8 +23,10 @@ export default defineBlueprint({
       timeout: 60,
       event: {
         on: ["create", "update"],
-        filter: '_type == "post" && !(_id in path("drafts.**"))',
-        projection: "{_id, title, summary, 'slug': slug.current, tags, content, seo, crossposting}",
+        filter:
+          '_type == "post" && !(_id in path("drafts.**")) && status == "published" && delta::changedAny(["status", "title", "summary", "content", "seo", "crossposting"])',
+        projection:
+          "{_id, title, summary, status, 'slug': slug.current, tags, content, seo, crossposting}",
       },
     }),
   ],

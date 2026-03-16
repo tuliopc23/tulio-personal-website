@@ -55,6 +55,42 @@ export const structure = (S: StructureBuilder) =>
                     .filter('_type == "post" && status == "in-review"'),
                 ),
               S.listItem()
+                .title("Approved")
+                .icon(CheckmarkCircleIcon)
+                .child(
+                  S.documentList()
+                    .title("Approved")
+                    .filter('_type == "post" && status == "approved"'),
+                ),
+              S.listItem()
+                .title("Needs SEO")
+                .icon(CogIcon)
+                .child(
+                  S.documentList()
+                    .title("Needs SEO")
+                    .filter(
+                      '_type == "post" && status != "archived" && (!defined(seo.metaTitle) || !defined(seo.metaDescription) || !defined(seo.socialImage.asset))',
+                    ),
+                ),
+              S.listItem()
+                .title("Needs Hero Media")
+                .icon(DocumentTextIcon)
+                .child(
+                  S.documentList()
+                    .title("Needs Hero Media")
+                    .filter(
+                      '_type == "post" && status != "archived" && (!defined(heroImage.asset) || !defined(heroImage.alt))',
+                    ),
+                ),
+              S.listItem()
+                .title("Needs Summary")
+                .icon(DocumentTextIcon)
+                .child(
+                  S.documentList()
+                    .title("Needs Summary")
+                    .filter('_type == "post" && status != "archived" && !defined(summary)'),
+                ),
+              S.listItem()
                 .title("Featured Articles")
                 .icon(CheckmarkCircleIcon)
                 .child(
@@ -84,6 +120,14 @@ export const structure = (S: StructureBuilder) =>
                     .filter(
                       '_type == "system.release" && metadata.releaseType == "scheduled" && state == "scheduled"',
                     ),
+                ),
+              S.listItem()
+                .title("Archived")
+                .icon(FolderIcon)
+                .child(
+                  S.documentList()
+                    .title("Archived")
+                    .filter('_type == "post" && status == "archived"'),
                 ),
               S.divider(),
               S.listItem()

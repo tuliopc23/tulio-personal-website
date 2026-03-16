@@ -38,7 +38,7 @@
     }
 
     if (!query) {
-      status.textContent = `Showing all ${items.length} quick search destinations.`;
+      status.textContent = "";
       return;
     }
 

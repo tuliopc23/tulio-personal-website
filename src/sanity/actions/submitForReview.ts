@@ -1,7 +1,9 @@
+import { ClockIcon } from "@sanity/icons";
 import * as sanity from "sanity";
 
 export const submitForReviewAction: sanity.DocumentActionComponent = (props) => {
-  const client = sanity.useClient({ apiVersion: "2025-02-19" });
+  const documentId = props.id.replace(/^drafts\./, "");
+  const operations = sanity.useDocumentOperation(documentId, "post");
 
   // Only show for draft posts
   const status = (props.draft || props.published)?.status;
@@ -9,22 +11,22 @@ export const submitForReviewAction: sanity.DocumentActionComponent = (props) => 
     return null;
   }
 
-  const onHandle = async () => {
-    const docId = props.id.replace(/^drafts\./, "");
-
-    // Update status and timestamp
-    await client
-      .patch(docId)
-      .set({
-        status: "in-review",
-        lastReviewedAt: new Date().toISOString(),
-      })
-      .commit();
+  const onHandle = () => {
+    operations.patch.execute([
+      {
+        set: {
+          status: "in-review",
+          lastReviewedAt: new Date().toISOString(),
+        },
+      },
+    ]);
+    props.onComplete();
   };
 
   return {
     label: "Submit for Review",
-    icon: () => "👀",
+    icon: ClockIcon,
     onHandle,
+    title: "Move this article into editorial review.",
   };
 };

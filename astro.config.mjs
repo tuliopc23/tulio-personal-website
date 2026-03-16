@@ -12,6 +12,7 @@ const sanityOptions = {
   dataset: DEFAULT_DATASET,
   useCdn: true,
   apiVersion: "2025-02-19",
+  studioBasePath: "/studio",
 };
 
 export default defineConfig({

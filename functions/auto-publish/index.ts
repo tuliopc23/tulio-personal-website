@@ -43,11 +43,24 @@ export const handler = documentEventHandler(async ({ context, event }) => {
   const { data: post } = event;
   const { local } = context;
 
+  if (post.status !== "published") {
+    console.log(
+      `⏭️  Auto-publish skipped: "${post.title || "Untitled"}" is in status "${post.status || "unknown"}".`,
+    );
+    return;
+  }
+
   // Configuration check
   const crossposting = post.crossposting || {};
   const devtoEnabled = crossposting.devto?.enabled;
   const hashnodeEnabled = crossposting.hashnode?.enabled;
   const linkedinEnabled = crossposting.linkedin?.enabled;
+
+  if (crossposting.manualTriggerAt) {
+    console.log(
+      `🔁 Cross-post retry requested at ${crossposting.manualTriggerAt} for "${post.title || "Untitled"}".`,
+    );
+  }
 
   if (!devtoEnabled && !hashnodeEnabled && !linkedinEnabled) {
     console.log("⏭️  Auto-publish skipped: no platforms enabled in crossposting settings.");
