@@ -46,6 +46,8 @@
     "@astrojs/mdx": "^5.0.0",
     "@astrojs/react": "^5.0.0",
     "@astrojs/solid-js": "^6.0.0",
+    "@grafana/faro-web-sdk": "^2.3.0",
+    "@grafana/faro-web-tracing": "^2.3.0",
     "@iconify-json/logos": "^1.2.10",
     "@iconify-json/simple-icons": "^1.2.74",
     "@phosphor-icons/core": "^2.1.1",
@@ -68,10 +70,12 @@
     "astro": "^6.0.4",
     "astro-portabletext": "^0.13.0",
     "atuin": "^0.2.0",
+    "bun": "^1.3.10",
     "cache": "^3.0.0",
     "clsx": "^2.1.1",
     "dotenv": "^17.3.1",
     "easymde": "^2.20.0",
+    "install": "^0.13.0",
     "marked": "^17.0.4",
     "mdast-util-from-markdown": "^2.0.3",
     "react": "^19.2.4",
@@ -98,7 +102,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.6.0",
     "globals": "^17.4.0",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.0.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "sanity-codegen": "^0.9.8",
@@ -111,6 +115,11 @@
   },
   "packageManager": "bun@1.3.10",
   "trustedDependencies": [
-    "@sentry/cli"
+    "@sentry/cli",
+    "bun",
+    "esbuild",
+    "protobufjs",
+    "sharp",
+    "workerd"
   ]
 }

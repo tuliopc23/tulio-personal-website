@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-03-15T00:00:00Z",
+  "libraries": {
+    "remotion": {
+      "files": [
+        {
+          "filename": "player-astro-react-hero.md",
+          "topic": "Player autoplay, final frame hold, PlayerRef, hero sizing",
+          "tech_stack": "Astro + React",
+          "fetched": "2026-03-15T00:00:00Z",
+          "source": "Official docs"
+        }
+      ]
+    }
+  }
+}
