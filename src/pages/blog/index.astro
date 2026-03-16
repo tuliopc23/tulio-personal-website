@@ -31,7 +31,6 @@ const defaults = {
   archiveLede: "A simple view of what was published and when.",
   allArticlesLabel: "All posts",
   loadOlderLabel: "Load older posts",
-  filterEmptyState: "No essays match this topic yet. Try another tag or browse all posts.",
 };
 
 function refineHeroLede(lede: string) {
@@ -95,7 +94,6 @@ const content = {
   archiveLede: pageContent?.archiveLede ?? defaults.archiveLede,
   allArticlesLabel: pageContent?.allArticlesLabel ?? defaults.allArticlesLabel,
   loadOlderLabel: pageContent?.loadOlderLabel ?? defaults.loadOlderLabel,
-  filterEmptyState: pageContent?.filterEmptyState ?? defaults.filterEmptyState,
 };
 const pageDescription = content.pageDescription;
 const featuredSocial = featured?.seo?.socialImage?.url
@@ -328,13 +326,6 @@ const _sectionHeaders = {
           data-blog-filter-status
         />
 
-        {rest.length > 0 && (
-          <div class="blogEmpty" data-blog-empty hidden>
-            <PhosphorIcon name="folder" size={18} weight="regular" />
-            {content.filterEmptyState}
-          </div>
-        )}
-
         <div class="articleCarousel articleCarousel--feed">
           <ScrollHint target=".articleGrid" variant="all" />
           <ul
@@ -451,7 +442,6 @@ const _sectionHeaders = {
     const list = document.querySelector("[data-article-list]");
     const filters = Array.from(document.querySelectorAll("[data-blog-filter]"));
     const loadMoreButton = document.querySelector("[data-blog-load-more]");
-    const emptyState = document.querySelector("[data-blog-empty]");
 
     if (list) {
       const cards = Array.from(list.querySelectorAll("[data-article]"));
@@ -508,10 +498,6 @@ const _sectionHeaders = {
           const shouldHide = !hasHidden || matches <= visibleLimit;
           loadMoreButton.hidden = shouldHide;
           loadMoreButton.disabled = shouldHide;
-        }
-
-        if (emptyState) {
-          emptyState.hidden = matches > 0;
         }
 
         // Update ARIA live region for screen readers
