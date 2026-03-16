@@ -167,45 +167,6 @@ export async function getMergedGitHubData(
 ): Promise<NormalizedRepoCard[]> {
   const sanityRepos = await fetchSanityRepos();
 
-  if (sanityRepos.length === 0 && import.meta.env.DEV) {
-    return [{
-      id: "mock-1",
-      repoFullName: "tuliopc23/tulio-personal-website",
-      repoName: "tulio-personal-website",
-      displayTitle: "tulio-personal-website",
-      description: "My personal website, integrated from Sanity and Astro.",
-      category: "Personal Portfolio",
-      primaryLanguage: "Astro",
-      updatedAt: new Date().toISOString(),
-      isPrivate: false,
-      repoUrl: "https://github.com/tuliopc23/tulio-personal-website",
-      showRepositoryLink: true,
-      commits: [
-        {
-          sha: "abcdef123456",
-          shortSha: "ABCDEF1",
-          message: "Redesign GitHub components into editorial islands",
-          url: "#",
-          committedAt: "2h ago"
-        },
-        {
-          sha: "fe3456789123",
-          shortSha: "FE34567",
-          message: "Refactor SolidJS out of proof of work",
-          url: "#",
-          committedAt: "5h ago"
-        },
-        {
-          sha: "dd890123456",
-          shortSha: "DD89012",
-          message: "Add CSS modules with container queries",
-          url: "#",
-          committedAt: "1d ago"
-        }
-      ]
-    }];
-  }
-
   const normalizedRepos: NormalizedRepoCard[] = [];
 
   for (const sanityRepo of sanityRepos) {

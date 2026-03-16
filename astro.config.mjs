@@ -27,6 +27,6 @@ export default defineConfig({
     mdx(),
     sanity(sanityOptions),
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
-    solidJs({ include: ["**/solid/**", "**/GitHubActivity*"] }),
+    solidJs({ include: ["**/solid/**"] }),
   ],
 });
