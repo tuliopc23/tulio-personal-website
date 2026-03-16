@@ -63,21 +63,6 @@ export default defineType({
           .warning("Keep summaries between 100-220 chars for better card rhythm."),
     }),
     defineField({
-      name: "hook",
-      title: "Card Hook",
-      type: "string",
-      group: "content",
-      description: "Optional short teaser line used in editorial cards and featured sections.",
-      validation: (rule) =>
-        rule
-          .max(120)
-          .custom((value) =>
-            !value || value.length >= 14
-              ? true
-              : "Hooks should be at least 14 chars when provided.",
-          ),
-    }),
-    defineField({
       name: "author",
       title: "Author",
       type: "reference",

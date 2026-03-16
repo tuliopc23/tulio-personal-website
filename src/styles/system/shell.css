@@ -1577,6 +1577,11 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
   gap: var(--space-sm);
 }
 
+.sidebar__headerTop > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .sidebar__eyebrow {
   margin: 0 0 6px;
   font-size: 0.72rem;
@@ -1594,6 +1599,8 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
   font-weight: 720;
   color: var(--text-primary);
   text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .sidebar__close {
@@ -1635,7 +1642,7 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
 
 .sidebar__meta {
   margin: 0;
-  max-width: 24ch;
+  max-width: 100%;
   font-size: clamp(0.92rem, 0.08vw + 0.9rem, 0.98rem);
   line-height: 1.48;
   font-weight: 500;
@@ -1663,7 +1670,7 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
   }
 
   .sidebar__meta {
-    max-width: 24ch;
+    max-width: 100%;
     font-size: 13px;
     line-height: 1.4;
   }

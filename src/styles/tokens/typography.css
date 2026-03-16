@@ -89,11 +89,11 @@
   --type-surface-leading: 1.08;
   --measure-surface: 22ch;
 
-  --type-card-title-size: clamp(1.375rem, 0.95vw + 1rem, 1.875rem);
-  --type-card-title-featured-size: clamp(1.625rem, 1.05vw + 1.08rem, 2.125rem);
-  --type-card-title-weight: 800;
-  --type-card-title-tracking: -0.028em;
-  --type-card-title-leading: 1.1;
+  --type-card-title-size: clamp(1.5rem, 1.2vw + 1.1rem, 2.125rem);
+  --type-card-title-featured-size: clamp(1.875rem, 1.35vw + 1.25rem, 2.5rem);
+  --type-card-title-weight: 880;
+  --type-card-title-tracking: -0.035em;
+  --type-card-title-leading: 1.08;
   --measure-card-title: 18ch;
 
   --type-lede-size: clamp(1.0625rem, 0.7vw + 0.98rem, 1.25rem);
@@ -101,9 +101,9 @@
   --type-lede-leading: 1.62;
   --measure-lede: 58ch;
 
-  --type-card-summary-size: clamp(1rem, 0.35vw + 0.95rem, 1.125rem);
-  --type-card-summary-weight: 460;
-  --type-card-summary-leading: 1.52;
+  --type-card-summary-size: clamp(0.95rem, 0.3vw + 0.9rem, 1.0625rem);
+  --type-card-summary-weight: 400;
+  --type-card-summary-leading: 1.5;
   --measure-card-summary: 34ch;
 
   --type-reader-title-size: clamp(1.9rem, 1.6vw + 1.05rem, 2.9rem);

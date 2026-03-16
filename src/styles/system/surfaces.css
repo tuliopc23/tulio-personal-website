@@ -8,7 +8,9 @@
   height: 100vh;
   overflow: hidden;
   z-index: 0;
-  background-color: var(--bg, #050505);
+  isolation: isolate;
+  --hero-blend-height: clamp(112px, 18vh, 220px);
+  background: transparent;
 
   /*  Pull the hero up to bleed behind the topbar.
       Must negate: topbar height + layout padding-top + content padding-top.
@@ -29,13 +31,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 18%;
+  height: var(--hero-blend-height);
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    color-mix(in srgb, var(--bg, #050505) 20%, transparent) 40%,
-    color-mix(in srgb, var(--bg, #050505) 65%, transparent) 70%,
-    var(--bg, #050505) 100%
+    color-mix(in srgb, var(--bg, #050505) 12%, transparent) 38%,
+    color-mix(in srgb, var(--bg, #050505) 34%, transparent) 62%,
+    color-mix(in srgb, var(--bg, #050505) 58%, transparent) 82%,
+    color-mix(in srgb, var(--bg, #050505) 74%, transparent) 100%
   );
   pointer-events: none;
   z-index: 3;
@@ -73,36 +76,26 @@
   }
 }
 
-/* The Player fills the hero container.
-   Remotion Player preserves 16:9 aspect ratio internally, which
-   creates letterbox bars in viewports taller than 16:9. The hero
-   section's background-color matches the composition bg, so the
-   bars are invisible — seamless bleed. */
 .hero-remotion__player {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
-/* Remotion Player wrapper: ensure it fills the container fully */
 .hero-remotion__player > div {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
   width: 100% !important;
   height: 100% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
-/* Remotion Player renders a wrapper div; scale it to cover the parent */
-.hero-remotion__player > div {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* The inner container (iframe/canvas) needs cover-like scaling */
 .hero-remotion__player > div > div {
   width: 100% !important;
   height: 100% !important;
-  transform: scale(max(calc(100vw / 1920), calc(100vh / 1080))) !important;
-  transform-origin: center center;
 }
 
 .hero-remotion__fallback,
@@ -119,8 +112,58 @@
 
 .hero-remotion__fallback img {
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
+}
+
+/* Theme-aware ambient lighting behind the hero composition */
+[data-theme="light"] .hero-remotion__player::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72%;
+  height: 80%;
+  background: radial-gradient(
+    ellipse at 50% 38%,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.04) 40%,
+    transparent 72%
+  );
+  filter: blur(32px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme="light"] {
+  --mac-drop-shadow: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+[data-theme="dark"] .hero-remotion__player::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72%;
+  height: 80%;
+  background: radial-gradient(
+    ellipse at 50% 38%,
+    rgba(10, 132, 255, 0.12) 0%,
+    rgba(10, 132, 255, 0.06) 40%,
+    transparent 72%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-theme="dark"] {
+  --mac-drop-shadow: drop-shadow(0 24px 48px rgba(255, 255, 255, 0.08))
+    drop-shadow(0 8px 16px rgba(255, 255, 255, 0.05))
+    drop-shadow(0 2px 6px rgba(255, 255, 255, 0.03));
 }
 
 /* Scroll indicator at the bottom of the hero */

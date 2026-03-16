@@ -125,14 +125,6 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "filterEmptyState",
-      title: "Filter Empty State",
-      type: "string",
-      fieldset: "empty",
-      initialValue: "No essays match this topic yet. Try another tag or browse all posts.",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: "spotlightTags",
       title: "Spotlight Tags",
       type: "array",

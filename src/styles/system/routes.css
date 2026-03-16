@@ -91,6 +91,29 @@
   min-width: 0;
 }
 
+.homepage-stage--hero-bridge {
+  position: relative;
+  z-index: 2;
+}
+
+.homepage-stage--hero-bridge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: clamp(48px, 9vh, 104px);
+  transform: translateY(calc(-100% + 1px));
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--bg) 14%, transparent) 40%,
+    color-mix(in srgb, var(--bg) 28%, transparent) 72%,
+    color-mix(in srgb, var(--bg) 42%, transparent) 100%
+  );
+  pointer-events: none;
+}
+
 .stage-intro {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1822,7 +1845,7 @@
 }
 
 .articleCard--featuredEditorial {
-  --article-card-title-weight: 820;
+  --article-card-title-weight: 860;
   --article-card-summary-weight: 430;
   padding: 0;
   overflow: clip;
@@ -2048,11 +2071,11 @@
 }
 
 [data-theme="dark"] .articleCard__summary {
-  color: rgba(235, 235, 245, 0.72);
+  color: rgba(235, 235, 245, 0.6);
 }
 
 [data-theme="light"] .articleCard__summary {
-  color: rgba(60, 60, 67, 0.72);
+  color: rgba(60, 60, 67, 0.6);
 }
 
 [data-theme="dark"] .articleCard__source {
@@ -2258,7 +2281,7 @@
 }
 
 .articleCard--editorial-standard {
-  --article-card-title-weight: 835;
+  --article-card-title-weight: 880;
   --article-card-summary-weight: 425;
   min-height: clamp(360px, 30vw, 420px);
 }
@@ -2346,14 +2369,14 @@
 }
 
 .articleCard--readerRelated .articleCard__media {
-  aspect-ratio: 1.68 / 1;
-  border-radius: 22px 22px 0 0;
+  aspect-ratio: 1.8 / 1;
+  border-radius: 20px 20px 0 0;
   box-shadow: none;
 }
 
 .articleCard--readerRelated .articleCard__body {
-  gap: 10px;
-  padding: 14px 14px 15px;
+  gap: 8px;
+  padding: 12px 12px 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 14%),
     color-mix(in srgb, var(--surface-raised) 94%, transparent);
@@ -2373,14 +2396,14 @@
 
 .articleCard--readerRelated .articleCard__source,
 .articleCard--readerRelated .articleCard__sourceContext {
-  font-size: var(--fs-caption);
+  font-size: 0.72rem;
 }
 
 .articleCard--readerRelated .articleCard__title {
   max-width: 100%;
-  font-size: clamp(1.08rem, 0.36vw + 0.98rem, 1.28rem);
-  line-height: 1.12;
-  letter-spacing: -0.022em;
+  font-size: clamp(0.98rem, 0.28vw + 0.92rem, 1.14rem);
+  line-height: 1.16;
+  letter-spacing: -0.015em;
   text-align: start;
   -webkit-line-clamp: 3;
   line-clamp: 3;
@@ -2388,8 +2411,8 @@
 
 .articleCard--readerRelated .articleCard__summary {
   max-width: 100%;
-  font-size: 0.94rem;
-  line-height: 1.46;
+  font-size: 0.88rem;
+  line-height: 1.4;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
@@ -2404,15 +2427,15 @@
 }
 
 .articleCard--readerRelated .articleCard__metaItem {
-  min-height: 24px;
-  padding-inline: 8px;
-  font-size: 0.67rem;
+  min-height: 22px;
+  padding-inline: 6px;
+  font-size: 0.62rem;
 }
 
 .articleCard--readerRelated .articleCard__cta {
-  min-height: 34px;
-  padding: 7px 12px;
-  font-size: 0.84rem;
+  min-height: 30px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
 }
 
 .articleCard--editorial-standard .articleCard__placeholderOrb {

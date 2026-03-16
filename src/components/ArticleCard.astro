@@ -32,7 +32,6 @@ const {
   href,
   title,
   summary,
-  hook = null,
   dateISO,
   dateLabel,
   tags = [],
@@ -181,11 +180,6 @@ const _placeholderIcons =
         <h3 class="articleCard__title">{title}</h3>
       </header>
       <p class="articleCard__summary">{summary}</p>
-      {
-        hook && (
-          <p class="articleCard__hook">{hook}</p>
-        )
-      }
       <div class="articleCard__footer">
         <div class="articleCard__meta" aria-label="Post metadata">
           <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
