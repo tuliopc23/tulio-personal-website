@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "7850bcd9766a40e082ed55c7a929f0962b4d1bed",
+  "prompts": {
+    "b6a304a05f002858": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "8b164b91-e172-4ca9-93c9-a82c6ec96fbc",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 2,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
