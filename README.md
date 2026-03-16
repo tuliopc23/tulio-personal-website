@@ -1,167 +1,138 @@
-# Apple-like Personal Developer Site (Astro)
+#  Tulio's Personal Developer Site
 
-This template gives you a personal, content‑driven website with an **Apple Developer Docs** feel:
+A high-performance, content-driven personal website and portfolio with a professional **Apple Developer Docs** aesthetic. Built with **Astro 6**, **Sanity**, and **Bun**, it features a refined design system, macOS-level visual effects, and AI-powered content workflows.
 
-- Apple‑style **navbar** with glass blur
-- **Sticky left sidebar** (docs vibe) with quick filter
-- Card‑driven layout with **symbol tiles**
-- Clean typography using the **system font stack** (SF on Apple devices)
-- **Light/dark mode**, prefers‑color‑scheme aware
-- Liquid glass theme toggle with drag + tap interactions
-- Blog powered by **Astro + MDX**
+---
 
-## Quick start
+## ✨ Core Feature Highlights
 
-```bash
-bun create astro@latest -- --template minimal
-# OR just use this folder directly:
-bun install
-bun run dev
-```
+### 🎨 macOS Tahoe 3D Shadows
+Experience dramatic 3D elevation with a **7-layer shadow system** matching the quality of macOS Tahoe and Sonoma.
+- **Split Inset Lighting**: Simulates a light source from above with top highlights and bottom depth shadows.
+- **Dual Ambient Glows**: Color-specific 2-layer halos for brand icons (LinkedIn blue, Instagram pink, etc.).
+- **DRAMATIC Hover States**: Smooth, spring-based transitions with up to 128px of shadow expansion.
+- **Surface Polish**: Inset highlight layers create a "beveled edge" effect on all interactive cards.
 
-Use **Node 24 LTS** for Sanity CLI tasks in this repo. Node 25 currently surfaces an upstream `DEP0169` `url.parse()` deprecation from Sanity dependencies.
+### 🍱 BentoLink Integration
+A full implementation of a "link-in-bio" style architecture seamlessly integrated into the site's design language.
+- **Symbol Tiles**: High-fidelity icon-driven layout for social links and professional tools.
+- **Reflector Treatment**: Atmospheric background layers and material language derived from the BentoLink design system.
+- **Unified Depth**: Social modules share the same 3D elevation tokens as the rest of the site.
 
-## Replace content
+### 🤖 AI-Powered Content Engine
+Content management is supercharged with native AI integrations and automated workflows.
+- **Sanity Auto-Tagging**: Powered by **Sanity Blueprints** and **AI Agents**, posts are automatically analyzed and tagged based on title, summary, and Portable Text content.
+- **Smart Reuse**: The AI prioritizes reusing existing tags (`Engineering`, `Design`, `Accessibility`, etc.) to maintain a clean taxonomy.
+- **Visual Editing**: Real-time previews and overlays via Sanity's Presentation tool for "what you see is what you get" authoring.
 
-- `public/avatar.svg`: your photo (use an image if you prefer)
-- `src/pages/index.astro`: landing sections
-- `src/pages/blog/`: posts & index
-- `src/components/`: UI building blocks
-- `src/styles/theme.css`: design tokens (colors, radii, spacing)
+### 📐 Robust Design System (Tokenized)
+A unified, strict token-based styling system that ensures 100% consistency.
+- **Tiered Spacing**: A 3-tier padding system (sm/md/lg) for cards, sections, and containers.
+- **Glassmorphism Tiers**: 4 standard levels of glass blur with optimized `backdrop-filter` usage.
+- **Typography Rhythm**: Standardized line-heights and font-size tokens derived from Apple's HIG.
+- **Interaction Easing**: Spring-based motion tokens (`var(--motion-ease-spring)`) for a "liquid" feel.
 
-## Sanity Studio workflow
+---
 
-> Use Node 24 LTS when running `sanity` commands locally. The current published Sanity dependency chain still triggers `DEP0169` under Node 25, even though this repo does not call `url.parse()` directly.
+## 🚀 The Tech Stack
 
-1. Authenticate the CLI with your paid account: `bunx sanity@latest login`. The updated CLI (v4.10.x) ships with the new hosted deployment flows and dashboard tooling (see the 2025-09-25 changelog entry _"Sanity Studio v4.10.1: Portable Text Input fixes"_ for the current release cadence).
-2. Deploy the Studio to Sanity's hosting: `bunx sanity@latest deploy`. Copy the generated `https://<project>.sanity.studio` URL.
-3. Update your environment variables (see [Environment configuration](#environment-configuration) for the full list).
-4. Run `bun run check` to verify linting, type generation, and the production build succeed with the current configuration.
-5. Visit `/studio` locally to embed the Studio during development, or click the "Open the hosted Sanity Studio" link on that route in production to jump into the hosted editor.
+### Frontend & Runtime
+- **Framework**: [Astro 6](https://astro.build/) (Static Site Generation with Islands Architecture)
+- **Runtime**: [Bun 1.3](https://bun.sh/) (Fastest execution for builds, tests, and dependency management)
+- **Islands**: **React 19** (Hero animations, Remotion players) and **SolidJS** (High-performance UI fragments)
+- **Content**: MDX and Portable Text (via `@portabletext/react`)
 
-With the deployment done you can log into the hosted Studio, use the latest Portable Text fixes, and author content that renders through the existing Apple-like typography and layout on the Astro front end.
+### CMS & Data
+- **Backend**: [Sanity v5](https://www.sanity.io/) (Headless CMS)
+- **Schema**: Type-safe definitions with automatic TypeScript generation.
+- **Blueprints**: Automated content-lake side-effects (like auto-tagging).
 
-## Environment configuration
+### Styling & Quality
+- **CSS**: Pure Vanilla CSS with a strict tokenized architecture (no Tailwind).
+- **Linting**: [Biome](https://biomejs.dev/) (25x faster than ESLint/Prettier).
+- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) with atomic builds and global edge delivery.
 
-Create a `.env` file (or copy `.env.example`) before running the site.
+---
 
-### Cloudflare Pages + Sanity webhook variables
-
-This repo now treats **Cloudflare Pages** as the authoritative frontend deployment target.
-
-- Keep sensitive values in your local `.env`, CI provider, or secret manager.
-- The site itself is a **static Astro build**; it does **not** require Worker secrets for frontend deploys.
-- Use a Cloudflare Pages **deploy hook** for Sanity-triggered rebuilds.
-
-### Required in all environments
-
-- `PUBLIC_SANITY_PROJECT_ID` — Sanity project ID used by Astro clients.
-- `PUBLIC_SANITY_DATASET` — Dataset serving published content.
-
-> **Production builds fail** if either variable is missing. Local development falls back to the defaults (`61249gtj` / `production`) but you should supply explicit values for staging/production.
-
-### Optional overrides & URLs
-
-- `SANITY_STUDIO_PROJECT_ID` / `SANITY_STUDIO_DATASET` — Use when the Studio needs to target a different project/dataset than the public site.
-- `SANITY_STUDIO_PREVIEW_URL` — Preferred Presentation preview URL (default falls back to `PUBLIC_SANITY_PREVIEW_URL`).
-- `PUBLIC_SANITY_STUDIO_URL` — Hosted Studio URL for the `/studio` route link.
-- `PUBLIC_SANITY_PREVIEW_URL` — Deployed site URL for Presentation previews.
-
-### Visual editing & tokens
-
-- `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` — Enable (`true`) or disable (`false`) Presentation overlays.
-- `SANITY_API_READ_TOKEN` — Required when visual editing is enabled or content datasets are private.
-
-If `PUBLIC_SANITY_VISUAL_EDITING_ENABLED` is `true` and the read token is missing the build/runtime will fail with a configuration error. Disable the flag or supply a token to continue.
-
-### Deployment automation (optional)
-
-- `SANITY_API_WRITE_TOKEN` — Write token used by `bun run sanity:webhook` to create/update Sanity webhooks.
-- `CLOUDFLARE_DEPLOY_HOOK_URL` — Direct Cloudflare Pages deploy hook URL for site rebuilds.
-- `SANITY_STUDIO_WEBHOOK_URL` / `WEBHOOK_BASE_URL` — Optional external automation service for cross-posting or content-side workflows.
-- `SANITY_WEBHOOK_SECRET` — Optional secret for external automation endpoints that validate webhook signatures.
-
-## Verification checklist
-
-Run these commands before deploying:
+## 🛠 Project Structure
 
 ```bash
-bun run check            # Lint → typecheck → production build (fails if required env vars missing)
-bun run sanity:typegen   # Regenerates sanity.types.ts from current schema
+├── functions/              # Sanity Blueprints & Cloudflare Workers
+│   └── auto-tag/           # AI-powered tagging logic
+├── openspec/               # Design specs and implementation plans
+├── public/                 # Static assets (fonts, icons, branding)
+├── src/
+│   ├── components/         # Atomic UI building blocks (Astro/React/Solid)
+│   ├── layouts/            # Base layouts with atmospheric shell logic
+│   ├── pages/              # Route definitions (Blog, Projects, Now)
+│   ├── sanity/             # Schema types and client configuration
+│   ├── scripts/            # Theme, motion, and visual-editing logic
+│   └── styles/
+│       ├── tokens/         # Canonical design tokens (colors, shadows, etc.)
+│       └── theme.css       # Style orchestrator
+├── tests/                  # Multi-layer testing suite
+└── wrangler.jsonc          # Cloudflare Pages configuration
 ```
 
-## Production deploy (Cloudflare Pages)
+---
 
-The site is built with Astro and deployed as a **static site on Cloudflare Pages**.
+## 📦 Developer Workflows
 
-### CI / platform build settings
+### Primary Commands
 
-**Install command:**
+| Command | Description |
+| :--- | :--- |
+| `bun run dev` | Start the Astro dev server with system certs. |
+| `bun run check` | Run Biome lint → TypeScript check → Production build. |
+| `bun run sanity:typegen` | Regenerate `sanity.types.ts` from the current schema. |
+| `bun run cf:deploy` | Build and deploy the `dist/` folder to Cloudflare Pages. |
+| `bun run test` | Execute unit and Astro-specific integration tests. |
+| `bun run test:e2e` | Run Playwright end-to-end browser tests. |
+
+### Testing Strategy
+
+- **Unit/DOM**: `vitest` for component logic and utility functions.
+- **Astro Integration**: `vitest` with Node environment for SSR/Page verification.
+- **E2E**: `playwright` for cross-browser visual and functional testing.
+- **Smoke Tests**: Custom script that builds and verifies layout integrity.
+
+---
+
+## 📂 Documentation Deep Dives
+
+- [**Design Audit Summary**](DESIGN_AUDIT_SUMMARY.md) — Breakdown of the 2026 design system overhaul.
+- [**Tahoe 3D Shadows**](TAHOE_3D_SHADOWS.md) — Technical details of the 7-layer elevation system.
+- [**Auto-Tagging Setup**](AUTO_TAGGING.md) — Deep dive into the AI-Agent integration.
+- [**BentoLink Implementation**](BENTOLINK_FULL_IMPLEMENTATION_MASTERPLAN.md) — Architectural parity plan.
+- [**Visual Language Reference**](BLOG_VISUAL_LANGUAGE_REFERENCE.md) — Editorial design patterns.
+
+---
+
+## 🔐 Environment Configuration
+
+Create a `.env` file based on `.env.example`:
 
 ```bash
-bun install
+# Required for Content
+PUBLIC_SANITY_PROJECT_ID="61249gtj"
+PUBLIC_SANITY_DATASET="production"
+
+# Required for Visual Editing & Private Datasets
+SANITY_API_READ_TOKEN="your_read_token"
+
+# Optional for Automation
+SANITY_API_WRITE_TOKEN="your_write_token"
+CLOUDFLARE_DEPLOY_HOOK_URL="your_hook_url"
 ```
 
-or `bun run install:ci`.
+---
 
-**Build command:** `bun run build`
+## 🍏 Quality Standards
 
-**Build output directory:** `dist`
+Every pixel is aligned to Apple's **Human Interface Guidelines**.
+1. **Performance**: 60fps interaction rhythm and sub-second TTI.
+2. **Accessibility**: 44x44px minimum touch targets, keyboard-nav ready, and `prefers-reduced-motion` support.
+3. **Consistency**: Zero hardcoded values; 100% token usage.
 
-**Recommended deploy mode:** Cloudflare Pages Git integration
-
-**Wrangler config:** `wrangler.jsonc`
-
-```jsonc
-{
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "tulio-personal-website",
-  "compatibility_date": "2026-03-14",
-  "pages_build_output_dir": "./dist"
-}
-```
-
-### Direct Wrangler deploys
-
-Use Pages commands for this repo:
-
-```bash
-bun run cf:deploy              # Build, then deploy dist/ to the existing Pages project
-bun run cf:download-config     # Pull the current Pages project config into wrangler.jsonc
-```
-
-Do **not** use `wrangler deploy` here. That command targets Workers, tries to add the Astro Cloudflare adapter, and can break this static Pages setup by expecting a Worker entrypoint such as `dist/_worker.js/index.js`.
-
-### If asset upload fails in CI
-
-Errors like:
-
-- Pages build/install failures
-- intermittent provider-side build issues
-
-usually mean a provider-side build or dependency issue, not a problem with the Pages architecture itself.
-
-1. **Retry the deploy** (e.g. re-run the failed job or push an empty commit).
-2. **Verify Pages settings** in Cloudflare:
-   - install command: `bun install`
-   - build command: `bun run build`
-   - output directory: `dist`
-3. **Check required environment variables** are available to the Pages build.
-
-### Sanity-triggered rebuilds
-
-Use a direct webhook path:
-
-`Sanity publish/update/delete -> Sanity webhook -> Cloudflare Pages deploy hook`
-
-Run this once after setting `SANITY_API_WRITE_TOKEN` and `CLOUDFLARE_DEPLOY_HOOK_URL`:
-
-```bash
-bun run sanity:webhook
-```
-
-This keeps rebuilds out of GitHub Actions and aligns Studio publishing with the active Cloudflare Pages deploy target.
-
-## Additional docs
-
-- [`docs/slider-evaluation.md`](docs/slider-evaluation.md) – analysis of where the liquid glass slider adds value (and when to defer it)
+---
+© 2026 Tulio. Built with precision.

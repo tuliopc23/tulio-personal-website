@@ -13,3 +13,7 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module "/@id/sanity:studio" {
+  export { SanityStudio } from "sanity:studio";
+}

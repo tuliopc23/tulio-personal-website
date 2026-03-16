@@ -1,28 +1,28 @@
 ---
-const isDev = import.meta.env.DEV;
-const STUDIO_MODULE_ID = "sanity:studio";
+const isLocalStudioHost = Astro.url.hostname === "localhost" || Astro.url.hostname === "127.0.0.1";
 let SanityStudioComponent = null;
-const _hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;
+const hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;
 
-if (isDev) {
-  const mod = await import(/* @vite-ignore */ STUDIO_MODULE_ID);
+if (isLocalStudioHost) {
+  // @ts-expect-error Resolved by Vite only during local embedded Studio development.
+  const mod = await import(/* @vite-ignore */ "/@id/sanity:studio");
   SanityStudioComponent = mod.SanityStudio;
 }
 ---
 
 {
-  isDev && SanityStudioComponent ? (
+  isLocalStudioHost && SanityStudioComponent ? (
     <SanityStudioComponent />
   ) : (
     <div class="container studioPlaceholder">
       <h1>Sanity Studio</h1>
       <p>
-        The embedded Sanity Studio is only available during local development. Deploy the
-        Studio separately if you require production editing.
+        The embedded Sanity Studio is available during local development. In production, use a
+        hosted Studio deployment for editing.
       </p>
-      {_hostedStudioUrl && (
+      {hostedStudioUrl && (
         <p>
-          <a href={_hostedStudioUrl} target="_blank" rel="noopener noreferrer">
+          <a href={hostedStudioUrl} target="_blank" rel="noopener noreferrer">
             Open the hosted Sanity Studio
           </a>{" "}
           to manage content on the web.

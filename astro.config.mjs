@@ -12,7 +12,7 @@ const sanityOptions = {
   dataset: DEFAULT_DATASET,
   useCdn: true,
   apiVersion: "2025-02-19",
-  studioBasePath: "/studio",
+  studioBasePath: process.env.NODE_ENV === "development" ? "/studio" : undefined,
 };
 
 export default defineConfig({
@@ -30,4 +30,17 @@ export default defineConfig({
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
     solidJs({ include: ["**/solid/**"] }),
   ],
+  vite: {
+    build: {
+      rollupOptions: {
+        external: ["/@id/sanity:studio"],
+      },
+    },
+    resolve: {
+      noExternal: ["easymde", "react-simplemde-editor"],
+    },
+    ssr: {
+      noExternal: ["easymde", "react-simplemde-editor"],
+    },
+  },
 });

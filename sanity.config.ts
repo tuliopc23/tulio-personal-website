@@ -6,7 +6,7 @@ import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
 import { geminiAIImages } from "sanity-plugin-gemini-ai-images";
-import { markdownSchema } from "sanity-plugin-markdown";
+import { markdownSchema } from "sanity-plugin-markdown/next";
 import {
   approveAction,
   crosspostAction,
@@ -27,17 +27,16 @@ import theme from "./src/sanity/theme";
 const projectId = "61249gtj";
 const dataset = "production";
 const previewUrl =
-  process.env.SANITY_STUDIO_PREVIEW_URL ||
-  process.env.PUBLIC_SANITY_PREVIEW_URL ||
+  import.meta.env.SANITY_STUDIO_PREVIEW_URL ||
+  import.meta.env.PUBLIC_SANITY_PREVIEW_URL ||
   "https://www.tuliocunha.dev";
-const geminiApiEndpoint = process.env.SANITY_STUDIO_GEMINI_API_ENDPOINT;
+const geminiApiEndpoint = import.meta.env.SANITY_STUDIO_GEMINI_API_ENDPOINT;
 
 export default defineConfig({
   name: "tulio-personal-website",
   title: "Tulio's Blog",
   projectId,
   dataset,
-  basePath: "/studio",
   theme,
   studio: {
     components: {
