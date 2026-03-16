@@ -1,0 +1,36 @@
+---
+import type { GitHubCommit } from "../../lib/github-data";
+import styles from "./github-section.module.css";
+
+interface Props {
+  commits: GitHubCommit[];
+  repoName: string;
+}
+
+const { commits, repoName } = Astro.props;
+---
+
+<ul class={styles.commitList} aria-label={`Recent commits for ${repoName}`}>
+  {commits.map((commit) => (
+    <li class={styles.commitItem}>
+      <a 
+        href={commit.url} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class={styles.commitLink}
+        aria-label={`View commit ${commit.shortSha} in ${repoName}`}
+      >
+        <div class={styles.commitContent}>
+          <p class={styles.commitMessage}>{commit.message}</p>
+          <div class={styles.commitMeta}>
+             <span class={styles.commitTime}>{commit.committedAt}</span>
+             <span class={styles.commitHash}>{commit.shortSha}</span>
+          </div>
+        </div>
+        <div class={styles.commitArrow} aria-hidden="true">
+           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>

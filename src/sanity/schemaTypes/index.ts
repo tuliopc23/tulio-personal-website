@@ -5,6 +5,7 @@ import blogPage from "./blogPage";
 import callout from "./callout";
 import category from "./category";
 import divider from "./divider";
+import featuredGithubRepo from "./featuredGithubRepo";
 import nowPage from "./nowPage";
 import post from "./post";
 import project from "./project";
@@ -21,6 +22,7 @@ export const schemaTypes = [
   callout,
   category,
   divider,
+  featuredGithubRepo,
   nowPage,
   post,
   project,

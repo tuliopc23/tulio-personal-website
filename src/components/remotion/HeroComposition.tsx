@@ -70,33 +70,27 @@ function MacintoshLayer() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  /* Clip-path reveal: circle expands from 0% to 80% radius over 1.0s.
-     Center at 50% 45% — slightly above center, near the Mac screen.
-     80% of the reference length guarantees full corner coverage. */
-  const revealEnd = Math.round(1.0 * fps); // frame 30
-  const revealRadius = interpolate(frame, [0, revealEnd], [0, 80], {
+  /* Cinematic fade-in: smooth, slow opacity ramp for a soft emergence */
+  const fadeStart = 0;
+  const fadeEnd = Math.round(2.0 * fps); // Extended duration for calm transition
+  const opacity = interpolate(frame, [fadeStart, fadeEnd], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: Easing.out(Easing.cubic),
+    easing: Easing.inOut(Easing.quad),
   });
 
-  /* Subtle scale settle for organic weight after reveal */
-  const scaleProgress = spring({
-    frame,
-    fps,
-    config: { damping: 200, stiffness: 90, mass: 1.3 },
-    durationInFrames: Math.round(1.4 * fps),
-  });
-  const scale = interpolate(scaleProgress, [0, 1], [1.04, 1], {
+  /* Extremely subtle blur-to-clear interpolation */
+  const blur = interpolate(frame, [fadeStart, fadeEnd], [8, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
+    easing: Easing.out(Easing.quad),
   });
 
   return (
     <AbsoluteFill
       style={{
-        clipPath: `circle(${revealRadius}% at 50% 45%)`,
-        transform: `scale(${scale})`,
+        opacity,
+        filter: `blur(${blur}px)`,
       }}
     >
       <div
@@ -168,20 +162,10 @@ function HelloDraw() {
     config: { damping: 12, stiffness: 200, mass: 0.5 },
   });
 
-  /* Match the Mac layer's clip-path so the hello is clipped during
-   the reveal, then its own stroke fade-in begins at drawStart. */
-  const revealEnd = Math.round(1.0 * fps);
-  const revealRadius = interpolate(frame, [0, revealEnd], [0, 80], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.cubic),
-  });
-
   return (
     <AbsoluteFill
       style={{
         opacity: strokeOpacity,
-        clipPath: `circle(${revealRadius}% at 50% 45%)`,
         pointerEvents: "none",
       }}
     >

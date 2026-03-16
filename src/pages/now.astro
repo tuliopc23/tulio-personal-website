@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
-import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
+import GitHubSection from "../components/github/GitHubSection.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getNowPageContent } from "../sanity/lib/page-content";
 
@@ -185,15 +185,7 @@ const _structuredData = {
     </section>
 
     <section class="container home__section now__github pageWidget" data-reveal>
-      <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">
-          <PhosphorIcon name="github" size={14} weight="regular" />
-          Activity
-        </span>
-        <h2 class="pageWidget__title">{content.githubHeading}</h2>
-        <p class="pageWidget__caption">{content.githubLede}</p>
-      </div>
-      <GitHubActivityWidget live={true} large={true} limit={12} />
+      <GitHubSection title={content.githubHeading} description={content.githubLede} />
     </section>
   </div>
 </Base>

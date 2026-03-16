@@ -1,0 +1,77 @@
+---
+import type { NormalizedRepoCard } from "../../lib/github-data";
+import styles from "./github-section.module.css";
+
+interface Props {
+  repos: NormalizedRepoCard[];
+}
+
+const { repos } = Astro.props;
+---
+
+<div class={styles.railContainer}>
+  <!-- Optional Scroll Hint -->
+  <div class={styles.scrollHint} aria-hidden="true">
+    <div class={styles.scrollHintBadge}>Scroll for more</div>
+  </div>
+
+  <div class={styles.railTrack} data-repo-rail>
+    <slot />
+  </div>
+  
+  <div class={styles.railControls}>
+    <div class={styles.progressBar}>
+      {repos.map((_, i) => (
+        <div
+          class={styles.progressSegment}
+          data-index={i}
+          data-progress-segment
+        />
+      ))}
+    </div>
+    <div class={styles.progressCount}>
+      <span data-current-index>1</span> / {repos.length}
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupRail() {
+    const track = document.querySelector('[data-repo-rail]');
+    const segments = document.querySelectorAll<HTMLElement>("[data-progress-segment]");
+    const countDisplay = document.querySelector('[data-current-index]');
+
+    if (!track) return;
+
+    const onScroll = () => {
+      // Find the card mostly in view
+      const cards = track.querySelectorAll('article');
+      if (!cards.length) return;
+      
+      const step = cards[0].clientWidth;
+      const index = Math.max(0, Math.round(track.scrollLeft / Math.max(step, 1)));
+      
+      // Update Segment UI
+      segments.forEach((seg, i) => {
+        if (i === index) {
+          seg.setAttribute('data-active', 'true');
+        } else {
+          seg.removeAttribute('data-active');
+        }
+      });
+      
+      if(countDisplay) {
+         countDisplay.textContent = String(Math.min(index + 1, cards.length));
+      }
+    };
+    
+    track.addEventListener('scroll', onScroll, { passive: true });
+    // Initialize properly
+    onScroll();
+  }
+  
+  // Re-run setup on View Transitions
+  document.addEventListener('astro:page-load', setupRail);
+  // Run initially
+  setupRail();
+</script>

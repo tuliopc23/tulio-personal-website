@@ -4,7 +4,7 @@ import HeroPlayer from "../components/HeroPlayer";
 import ProfileCard from "../components/ProfileCard.astro";
 import DockLink from "../components/DockLink.astro";
 import SectionQuickNav from "../components/SectionQuickNav.astro";
-import GitHubActivityWidget from "../components/GitHubActivityWidget.astro";
+import GitHubSection from "../components/github/GitHubSection.astro";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getAllPosts } from "../sanity/lib/posts";
@@ -308,25 +308,7 @@ const description =
         </div>
       </header>
 
-      <div
-        id="section-github"
-        class="widget-box widget-github surface-panel surface-panel--premium hover-elevate"
-        data-reveal
-        data-parallax-card
-      >
-        <div class="widget-header surface-header">
-          <span class="widget-eyebrow surface-eyebrow">
-            <PhosphorIcon name="chart-bar" size={13} weight="regular" />
-            Proof of work
-          </span>
-          <h2 class="widget-title surface-title">
-            <span>GitHub</span>
-            <PhosphorIcon name="github" size={18} weight="regular" />
-          </h2>
-          <p class="widget-caption surface-caption">Live momentum, active work, and the cadence behind current projects.</p>
-        </div>
-        <GitHubActivityWidget large={true} limit={10} />
-      </div>
+      <GitHubSection />
     </section>
 
     <section class="homepage-stage" aria-labelledby="homepage-exploration-title">

@@ -1,0 +1,46 @@
+---
+import type { NormalizedRepoCard } from "../../lib/github-data";
+import RepoCommitList from "./RepoCommitList.astro";
+import styles from "./github-section.module.css";
+
+interface Props {
+  repo: NormalizedRepoCard;
+}
+
+const { repo } = Astro.props;
+---
+
+<article class={styles.repoCard}>
+  <div class={styles.repoCardEditorial}>
+    <header class={styles.repoCardHeader}>
+      <h3 class={styles.repoTitle}>
+        {repo.showRepositoryLink ? (
+          <a href={repo.repoUrl} target="_blank" rel="noopener noreferrer">
+            {repo.displayTitle}
+          </a>
+        ) : (
+          repo.displayTitle
+        )}
+      </h3>
+      
+      {repo.description && (
+        <p class={styles.repoDescription}>{repo.description}</p>
+      )}
+      
+      <div class={styles.repoMeta}>
+        <span class={styles.repoCategory}>{repo.category}</span>
+        {repo.primaryLanguage && (
+          <>
+            <span class={styles.metaSeparator}>·</span>
+            <span class={styles.repoLanguage}>{repo.primaryLanguage}</span>
+          </>
+        )}
+      </div>
+    </header>
+  </div>
+
+  <div class={styles.repoCardActivity}>
+    <h4 class={styles.activityLabel}>LATEST COMMITS</h4>
+    <RepoCommitList commits={repo.commits} repoName={repo.repoName} />
+  </div>
+</article>

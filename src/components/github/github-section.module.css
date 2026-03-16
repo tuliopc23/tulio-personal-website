@@ -1,0 +1,346 @@
+/* github-section.module.css */
+
+/* Section Outer Constraints */
+.githubSection {
+  container: github-section / inline-size;
+  padding-block: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.eyebrowIcon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.7;
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: clamp(var(--text-xl), 4vw, var(--text-3xl));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-wrap: balance;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.sectionDescription {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 50ch;
+  text-wrap: pretty;
+  line-height: 1.6;
+}
+
+/* Fallback States */
+.errorState,
+.emptyState {
+  padding: var(--space-xl);
+  border-radius: var(--radius-l);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+/* Horizontal Rail Scroller */
+.railContainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.railTrack {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: var(--space-l);
+  padding-bottom: var(--space-xs); /* Scrollbar padding */
+  padding-inline: 1px; /* Prevent clipping focus rings */
+  -webkit-overflow-scrolling: touch;
+
+  /* Hide scrollbar for clean UI but maintain functionality */
+  scrollbar-width: none;
+}
+
+.railTrack::-webkit-scrollbar {
+  display: none;
+}
+
+/* Repo Card Architecture (The Core Split) */
+.repoCard {
+  flex: 0 0 calc(100% - var(--space-xl));
+  scroll-snap-align: start;
+
+  /* Surfacing the card using existing tokens */
+  background: var(--color-surface-elevated, light-dark(#ffffff, #111111));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+
+  /* Layout the split */
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+
+  /* Shadow for depth */
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .repoCard {
+    /* Full slide width */
+    flex: 0 0 100%;
+    /* Create the 60/40 split */
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+}
+
+.repoCard:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+/* Editorial Side (Left) */
+.repoCardEditorial {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+@media (min-width: 768px) {
+  .repoCardEditorial {
+    border-bottom: none;
+    border-right: 1px solid var(--color-border-subtle);
+    padding: var(--space-2xl);
+  }
+}
+
+.repoTitle {
+  font-family: var(--font-sans);
+  font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-block-end: var(--space-s);
+  line-height: 1.1;
+  text-box: trim-both cap alphabetic;
+}
+
+.repoTitle a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s ease;
+}
+
+.repoTitle a:hover {
+  color: var(--color-text-highlight);
+}
+
+.repoDescription {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  text-wrap: pretty;
+  margin-block-end: var(--space-l);
+  max-width: 45ch;
+}
+
+.repoMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: auto;
+}
+
+.metaSeparator {
+  opacity: 0.3;
+}
+
+/* Activity Side (Right) */
+.repoCardActivity {
+  padding: var(--space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  background: var(--color-surface-sunken, light-dark(#fafafa, #0a0a0a));
+}
+
+@media (min-width: 768px) {
+  .repoCardActivity {
+    padding: var(--space-xl);
+  }
+}
+
+.activityLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0;
+  /* Visual alignment with top of title */
+  margin-top: 4px;
+}
+
+/* Commit List */
+.commitList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.commitItem {
+  position: relative;
+}
+
+.commitLink {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding: var(--space-s);
+  border-radius: var(--radius-m);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.commitLink:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.commitLink:hover .commitArrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.commitContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0; /* for truncation */
+}
+
+.commitMessage {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: 1.4;
+  margin: 0;
+
+  /* Truncate strictly to one line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commitMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.commitHash {
+  opacity: 0.6;
+}
+
+.commitArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transform: translate(0, 0);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  margin-top: 2px;
+}
+
+/* Pagination / Controls */
+.railControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-m);
+  padding-block: var(--space-m);
+}
+
+.progressBar {
+  display: flex;
+  gap: 6px;
+}
+
+.progressSegment {
+  width: 24px;
+  height: 2px;
+  background: var(--color-border);
+  border-radius: 2px;
+  transition:
+    background 0.3s ease,
+    width 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.progressSegment[data-active="true"] {
+  background: var(--color-text);
+  width: 32px;
+}
+
+.progressCount {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  min-width: 3ch;
+  text-align: right;
+}
+
+/* Scroll Hint (Mobile UX) */
+.scrollHint {
+  position: absolute;
+  top: 50%;
+  right: var(--space-m);
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+  display: none; /* Hide by default, show if needed via JS later */
+}
