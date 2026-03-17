@@ -16,6 +16,8 @@ export default defineType({
       name: "metaTitle",
       title: "Meta title",
       type: "string",
+      description:
+        "Search title shown in results and social previews. Strongest when it adds search context without losing tone.",
       validation: (rule) => rule.max(70).warning("Keep meta titles under 70 characters."),
     }),
     defineField({
@@ -23,6 +25,8 @@ export default defineType({
       title: "Meta description",
       type: "text",
       rows: 3,
+      description:
+        "Search description used in previews. One compact sentence with a clear reader promise.",
       validation: (rule) => rule.max(160).warning("Keep descriptions under 160 characters."),
     }),
     defineField({
@@ -35,7 +39,12 @@ export default defineType({
       name: "socialImage",
       title: "Social image",
       type: "image",
-      options: { hotspot: true },
+      options: {
+        hotspot: true,
+        aiAssist: {
+          imageDescriptionField: "alt",
+        },
+      },
       fields: [
         defineField({
           name: "alt",

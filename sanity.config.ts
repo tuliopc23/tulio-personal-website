@@ -1,7 +1,7 @@
 import "./src/sanity/studio.css";
 
-import { assist } from "@sanity/assist";
 import { codeInput } from "@sanity/code-input";
+import { DocumentTextIcon, EditIcon } from "@sanity/icons";
 import { defineConfig } from "sanity";
 import { presentationTool } from "sanity/presentation";
 import { structureTool } from "sanity/structure";
@@ -16,13 +16,13 @@ import {
   unpublishAction,
 } from "./src/sanity/actions";
 import { EditorialReadinessBadge } from "./src/sanity/components/EditorialReadinessBadge";
+import { postAssistPlugin } from "./src/sanity/components/PostAssistFieldActions";
 import StudioLogo from "./src/sanity/components/StudioLogo";
 import StudioNavbar from "./src/sanity/components/StudioNavbar";
 import { WorkflowBadge } from "./src/sanity/components/WorkflowBadge";
 import { resolve } from "./src/sanity/lib/resolve";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
-import theme from "./src/sanity/theme";
 
 const projectId = "61249gtj";
 const dataset = "production";
@@ -37,7 +37,6 @@ export default defineConfig({
   title: "Tulio's Blog",
   projectId,
   dataset,
-  theme,
   studio: {
     components: {
       logo: StudioLogo,
@@ -49,11 +48,40 @@ export default defineConfig({
     presentationTool({ resolve, previewUrl }),
     codeInput(),
     markdownSchema(),
-    assist(),
+    postAssistPlugin,
     ...(geminiApiEndpoint ? [geminiAIImages({ apiEndpoint: geminiApiEndpoint })] : []),
   ],
   schema: {
     types: schemaTypes,
+    templates: (prev) => [
+      ...prev.filter((template) => template.id !== "post"),
+      {
+        id: "post-essay",
+        title: "Essay",
+        schemaType: "post",
+        icon: DocumentTextIcon,
+        value: {
+          status: "draft",
+          coverVariant: "default",
+          featured: false,
+          keyTakeaways: [],
+          tags: [],
+        },
+      },
+      {
+        id: "post-shipping-note",
+        title: "Shipping note",
+        schemaType: "post",
+        icon: EditIcon,
+        value: {
+          status: "draft",
+          coverVariant: "minimal",
+          featured: false,
+          keyTakeaways: [],
+          tags: ["Writing"],
+        },
+      },
+    ],
   },
   releases: {
     enabled: true,
@@ -85,6 +113,26 @@ export default defineConfig({
         return [...prev, WorkflowBadge, EditorialReadinessBadge];
       }
       return prev;
+    },
+    newDocumentOptions: (prev, context) => {
+      if (context.creationContext.schemaType !== "post") {
+        return prev;
+      }
+
+      return prev
+        .filter((item) => item.templateId !== "post")
+        .concat([
+          {
+            templateId: "post-essay",
+            title: "Essay",
+            icon: DocumentTextIcon,
+          },
+          {
+            templateId: "post-shipping-note",
+            title: "Shipping note",
+            icon: EditIcon,
+          },
+        ]);
     },
   },
 });

@@ -1,10 +1,12 @@
 import { ArchiveIcon } from "@sanity/icons";
+import { useToast } from "@sanity/ui";
 import { useState } from "react";
 import * as sanity from "sanity";
 
 export const unpublishAction: sanity.DocumentActionComponent = (props) => {
   const documentId = props.id.replace(/^drafts\./, "");
   const operations = sanity.useDocumentOperation(documentId, "post");
+  const toast = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   // Only show for published posts
@@ -27,7 +29,11 @@ export const unpublishAction: sanity.DocumentActionComponent = (props) => {
     ]);
     operations.unpublish.execute();
     setDialogOpen(false);
-    props.onComplete();
+    toast.push({
+      status: "success",
+      title: "Unpublished",
+      description: "The article has been removed from the public site and moved to archived.",
+    });
   };
 
   return {

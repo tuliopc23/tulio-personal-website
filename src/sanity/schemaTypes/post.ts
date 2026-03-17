@@ -63,6 +63,20 @@ export default defineType({
           .warning("Keep summaries between 100-220 chars for better card rhythm."),
     }),
     defineField({
+      name: "hook",
+      title: "Hook",
+      type: "string",
+      group: "content",
+      description:
+        "Short kicker used on article cards and the article hero. Aim for one crisp line with a clear angle.",
+      validation: (rule) =>
+        rule
+          .required()
+          .min(18)
+          .max(90)
+          .warning("Keep hooks compact so they fit cards and featured surfaces cleanly."),
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",
@@ -96,7 +110,12 @@ export default defineType({
       title: "Hero Image",
       type: "image",
       group: "content",
-      options: { hotspot: true },
+      options: {
+        hotspot: true,
+        aiAssist: {
+          imageDescriptionField: "alt",
+        },
+      },
       fields: [
         defineField({
           name: "alt",
@@ -173,7 +192,8 @@ export default defineType({
       title: "Key Takeaways",
       type: "array",
       group: "content",
-      description: "Optional key bullets highlighted at the top of the article.",
+      description:
+        "Recommended for approved and published posts. Use 2-4 concise bullets that capture what the reader should leave with.",
       of: [
         defineArrayMember({
           type: "string",
@@ -181,6 +201,46 @@ export default defineType({
         }),
       ],
       validation: (rule) => rule.max(6),
+    }),
+    defineField({
+      name: "furtherReading",
+      title: "Further Reading",
+      type: "array",
+      group: "content",
+      description:
+        "Optional references, follow-up links, or next steps shown near the end of the article.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required().max(120),
+            }),
+            defineField({
+              name: "href",
+              title: "URL",
+              type: "url",
+              validation: (rule) => rule.required().uri({ scheme: ["http", "https"] }),
+            }),
+            defineField({
+              name: "note",
+              title: "Note",
+              type: "string",
+              validation: (rule) => rule.max(180),
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "href",
+            },
+          },
+        }),
+      ],
+      validation: (rule) => rule.max(8),
     }),
     defineField({
       name: "coverVariant",

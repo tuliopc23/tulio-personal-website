@@ -1,10 +1,14 @@
 import { SparklesIcon } from "@sanity/icons";
+import { useToast } from "@sanity/ui";
 import * as sanity from "sanity";
+
+import { getCurrentPostDocument } from "./postActionUtils";
 
 export const refreshTagsAction: sanity.DocumentActionComponent = (props) => {
   const documentId = props.id.replace(/^drafts\./, "");
   const operations = sanity.useDocumentOperation(documentId, "post");
-  const doc = props.draft || props.published;
+  const toast = useToast();
+  const doc = getCurrentPostDocument(props);
   const hasContent = Boolean(
     doc?.title || doc?.summary || (Array.isArray(doc?.content) && doc.content.length),
   );
@@ -16,7 +20,7 @@ export const refreshTagsAction: sanity.DocumentActionComponent = (props) => {
   return {
     label: "Refresh Tags",
     icon: SparklesIcon,
-    title: "Request a fresh AI tag pass using the Sanity document function.",
+    title: "Request a fresh AI tag pass from the Sanity auto-tag function.",
     onHandle: () => {
       operations.patch.execute([
         {
@@ -25,7 +29,11 @@ export const refreshTagsAction: sanity.DocumentActionComponent = (props) => {
           },
         },
       ]);
-      props.onComplete();
+      toast.push({
+        status: "success",
+        title: "Tag refresh requested",
+        description: "The auto-tag function will generate a new tag pass for this article.",
+      });
     },
   };
 };

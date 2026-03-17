@@ -5,6 +5,7 @@
     "SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Helvetica Neue", Arial,
     sans-serif;
   --studio-accent: #0d8aff;
+  --studio-accent-soft: rgba(13, 138, 255, 0.14);
   --studio-success: #30d948;
   --studio-warning: #ffa00d;
   --studio-danger: #ff473c;
@@ -60,6 +61,14 @@ html[data-theme="light"] [data-ui="Navbar"] {
   padding: 0 1rem 0.75rem;
 }
 
+html[data-theme="dark"] .studioNavbar__utilityBar {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="light"] .studioNavbar__utilityBar {
+  border-top: 1px solid rgba(34, 48, 88, 0.08);
+}
+
 .studioNavbar__copy {
   letter-spacing: -0.01em;
 }
@@ -91,6 +100,14 @@ html[data-theme="light"] .studioNavbar__copy {
   border-radius: 999px;
 }
 
+html[data-theme="dark"] [data-ui="Badge"] {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="light"] [data-ui="Badge"] {
+  border-color: rgba(34, 48, 88, 0.12);
+}
+
 [data-ui="TabList"] {
   gap: 0.25rem;
 }
@@ -107,6 +124,27 @@ html[data-theme="light"] [data-ui="TabList"] [data-ui="Tab"][aria-selected="true
   background: rgba(13, 138, 255, 0.12);
 }
 
+[data-ui="Menu"],
+[data-ui="Popover"],
+[data-ui="Dialog"] {
+  backdrop-filter: saturate(150%) blur(18px);
+  -webkit-backdrop-filter: saturate(150%) blur(18px);
+}
+
+html[data-theme="dark"] [data-ui="Menu"],
+html[data-theme="dark"] [data-ui="Popover"],
+html[data-theme="dark"] [data-ui="Dialog"] {
+  background: color-mix(in srgb, rgba(16, 18, 24, 0.96) 92%, transparent);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="light"] [data-ui="Menu"],
+html[data-theme="light"] [data-ui="Popover"],
+html[data-theme="light"] [data-ui="Dialog"] {
+  background: color-mix(in srgb, rgba(255, 255, 255, 0.95) 94%, transparent);
+  border-color: rgba(34, 48, 88, 0.1);
+}
+
 [data-ui="TextInput"],
 [data-ui="TextArea"],
 [data-ui="Select"],
@@ -121,6 +159,16 @@ html[data-theme="light"] [data-ui="TabList"] [data-ui="Tab"][aria-selected="true
     "SF Mono", SFMono-Regular, ui-monospace, "Cascadia Code", Menlo, Consolas, monospace !important;
 }
 
+html[data-theme="dark"] [data-testid="code-input"] {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(12, 14, 18, 0.9);
+}
+
+html[data-theme="light"] [data-testid="code-input"] {
+  border-color: rgba(34, 48, 88, 0.12);
+  background: rgba(250, 251, 255, 0.96);
+}
+
 [data-ui="Button"]:focus-visible,
 [data-ui="Tab"]:focus-visible,
 [data-ui="MenuItem"]:focus-visible,
@@ -129,6 +177,15 @@ textarea:focus-visible,
 select:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--studio-accent) 42%, transparent);
+}
+
+[data-ui="Button"][data-tone="primary"] {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+[data-ui="Button"][data-mode="ghost"]:hover,
+[data-ui="MenuItem"]:hover {
+  background: var(--studio-accent-soft);
 }
 
 html[data-theme="dark"] input,
@@ -153,6 +210,20 @@ html[data-theme="dark"] textarea::placeholder {
 html[data-theme="light"] input::placeholder,
 html[data-theme="light"] textarea::placeholder {
   color: rgba(78, 96, 128, 0.46) !important;
+}
+
+html[data-theme="dark"] [data-testid="document-panel"] [data-ui="Card"],
+html[data-theme="dark"] [data-testid="document-header"] {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="light"] [data-testid="document-panel"] [data-ui="Card"],
+html[data-theme="light"] [data-testid="document-header"] {
+  border-color: rgba(34, 48, 88, 0.08);
+}
+
+[data-testid="pane-item"] [data-ui="Text"] {
+  letter-spacing: -0.01em;
 }
 
 @media (max-width: 900px) {

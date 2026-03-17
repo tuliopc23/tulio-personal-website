@@ -48,6 +48,24 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "emptyStateTitle",
+      title: "Empty State Title",
+      type: "string",
+      fieldset: "empty",
+      initialValue: "No posts yet",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "emptyStateBody",
+      title: "Empty State Body",
+      type: "text",
+      fieldset: "empty",
+      rows: 3,
+      initialValue:
+        "The essays are still in draft. RSS and Atom will pick up the first post as soon as it lands.",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "editorialDirectionHeading",
       title: "Editorial Direction Heading",
       type: "string",
@@ -122,6 +140,14 @@ export default defineType({
       type: "string",
       fieldset: "archive",
       initialValue: "Load older posts",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "filterEmptyState",
+      title: "Filtered Empty State",
+      type: "string",
+      fieldset: "empty",
+      initialValue: "No posts match this filter yet.",
       validation: (rule) => rule.required(),
     }),
     defineField({

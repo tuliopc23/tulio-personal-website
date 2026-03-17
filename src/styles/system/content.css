@@ -237,6 +237,18 @@
   text-wrap: balance;
 }
 
+.article__hook {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--article-kicker);
+  font-size: var(--fs--1);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
 .article__summary {
   margin: 0;
   width: min(100%, 48ch);
@@ -745,6 +757,45 @@
   line-height: 1.1;
   color: var(--text-primary);
   text-wrap: balance;
+}
+
+.article__resourceList {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.article__resourceItem {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--panel-border) 74%, transparent);
+  background: color-mix(in srgb, var(--surface-card) 88%, transparent);
+}
+
+.article__resourceLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--text-primary);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.article__resourceTitle {
+  text-wrap: pretty;
+}
+
+.article__resourceNote {
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: var(--fs--1);
+  line-height: 1.55;
+  text-wrap: pretty;
 }
 
 .article__actionGroup {

@@ -32,6 +32,7 @@ const {
   href,
   title,
   summary,
+  hook = null,
   dateISO,
   dateLabel,
   tags = [],
@@ -177,6 +178,7 @@ const _placeholderIcons =
             </div>
           )
         }
+        {hook && <p class="articleCard__hook">{hook}</p>}
         <h3 class="articleCard__title">{title}</h3>
       </header>
       <p class="articleCard__summary">{summary}</p>

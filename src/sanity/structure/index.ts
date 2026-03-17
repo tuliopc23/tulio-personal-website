@@ -63,6 +63,16 @@ export const structure = (S: StructureBuilder) =>
                     .filter('_type == "post" && status == "approved"'),
                 ),
               S.listItem()
+                .title("Ready To Publish")
+                .icon(CheckmarkCircleIcon)
+                .child(
+                  S.documentList()
+                    .title("Ready To Publish")
+                    .filter(
+                      '_type == "post" && status in ["approved", "published"] && defined(summary) && defined(hook) && defined(heroImage.asset) && defined(heroImage.alt) && defined(seo.metaTitle) && defined(seo.metaDescription) && defined(seo.socialImage.asset)',
+                    ),
+                ),
+              S.listItem()
                 .title("Needs SEO")
                 .icon(CogIcon)
                 .child(
@@ -89,6 +99,24 @@ export const structure = (S: StructureBuilder) =>
                   S.documentList()
                     .title("Needs Summary")
                     .filter('_type == "post" && status != "archived" && !defined(summary)'),
+                ),
+              S.listItem()
+                .title("Needs Hook")
+                .icon(DocumentTextIcon)
+                .child(
+                  S.documentList()
+                    .title("Needs Hook")
+                    .filter('_type == "post" && status != "archived" && !defined(hook)'),
+                ),
+              S.listItem()
+                .title("Needs Takeaways")
+                .icon(DocumentTextIcon)
+                .child(
+                  S.documentList()
+                    .title("Needs Takeaways")
+                    .filter(
+                      '_type == "post" && status in ["in-review", "approved", "published"] && (!defined(keyTakeaways) || count(keyTakeaways) == 0)',
+                    ),
                 ),
               S.listItem()
                 .title("Featured Articles")

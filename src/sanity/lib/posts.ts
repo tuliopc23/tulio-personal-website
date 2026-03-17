@@ -48,6 +48,11 @@ export interface PostSummary {
   publishedAt: string;
   tags: string[];
   keyTakeaways?: string[] | null;
+  furtherReading?: Array<{
+    title: string;
+    href: string;
+    note?: string | null;
+  }> | null;
   coverVariant?: "default" | "cinematic" | "minimal" | null;
   series?: string | null;
   heroImage?: SanityImageWithMetadata | null;
@@ -128,6 +133,11 @@ const SUMMARY_PROJECTION = `{
   tags,
   featured,
   keyTakeaways,
+  "furtherReading": furtherReading[]{
+    title,
+    href,
+    note
+  },
   coverVariant,
   series,
   ${HERO_IMAGE_PROJECTION},

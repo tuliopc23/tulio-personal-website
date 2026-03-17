@@ -1,54 +1,38 @@
 import type { DocumentBadgeComponent, DocumentBadgeDescription } from "sanity";
 
-type PostReadinessSnapshot = {
-  status?: string;
-  summary?: string;
-  heroImage?: {
-    alt?: string;
-    asset?: {
-      _ref?: string;
-    };
-  };
-  seo?: {
-    metaTitle?: string;
-    metaDescription?: string;
-    socialImage?: {
-      asset?: {
-        _ref?: string;
-      };
-    };
-  };
-};
+import {
+  getMissingReadinessItems,
+  isPostReadyForApproval,
+  type PostReadinessSnapshot,
+} from "../lib/postReadiness";
 
 function getReadiness(doc: PostReadinessSnapshot): DocumentBadgeDescription | null {
-  const hasSummary = Boolean(doc.summary?.trim());
-  const hasHeroImage = Boolean(doc.heroImage?.asset?._ref);
-  const hasHeroAlt = Boolean(doc.heroImage?.alt?.trim());
-  const hasMetaTitle = Boolean(doc.seo?.metaTitle?.trim());
-  const hasMetaDescription = Boolean(doc.seo?.metaDescription?.trim());
-  const hasSocialImage = Boolean(doc.seo?.socialImage?.asset?._ref);
-
-  if (!hasSummary) {
-    return { label: "Needs Summary", color: "warning", title: "Add a summary before review." };
-  }
-
-  if (!hasHeroImage || !hasHeroAlt) {
+  const missingRequired = getMissingReadinessItems(doc);
+  if (missingRequired.length > 0) {
+    const firstMissing = missingRequired[0];
     return {
-      label: "Needs Hero Media",
-      color: "warning",
-      title: "Add a hero image with descriptive alt text.",
+      label: `Needs ${firstMissing.label}`,
+      color: firstMissing.id === "seo" ? "primary" : "warning",
+      title: firstMissing.title,
     };
   }
 
-  if (!hasMetaTitle || !hasMetaDescription || !hasSocialImage) {
-    return { label: "Needs SEO", color: "primary", title: "SEO metadata is incomplete." };
+  const missingRecommended = getMissingReadinessItems(doc, { includeRecommended: true }).filter(
+    (item) => !item.requiredForApproval,
+  );
+  if (missingRecommended.length > 0) {
+    return {
+      label: `Recommended: ${missingRecommended[0].label}`,
+      color: "primary",
+      title: missingRecommended[0].title,
+    };
   }
 
-  if (doc.status === "approved") {
+  if (doc.status === "approved" || isPostReadyForApproval(doc)) {
     return {
       label: "Ready To Publish",
       color: "success",
-      title: "Editorial metadata is complete.",
+      title: "Approval requirements are complete and this article is ready to go live.",
     };
   }
 
