@@ -222,6 +222,41 @@ a:hover {
   transition-duration: var(--motion-duration-instant);
 }
 
+/* Disable hover elevation and parallax on touch-only devices */
+@media (hover: none) {
+  .hover-elevate {
+    --parallax-rotate-x: 0deg;
+    --parallax-rotate-y: 0deg;
+    --parallax-translate: 0px;
+  }
+
+  .hover-elevate:hover,
+  .hover-elevate:focus-visible,
+  .hover-elevate:focus-within {
+    --hover-translate: 0px;
+    --hover-scale: 1;
+    will-change: auto;
+  }
+
+  .motion-chip:hover,
+  .motion-chip:focus-visible {
+    transform: none;
+  }
+
+  .motion-cta-pill:hover,
+  .motion-cta-pill:focus-visible {
+    transform: none;
+  }
+}
+
+/* Prevent horizontal overflow on mobile */
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
+
 /* Typography rhythm */
 h1,
 h2,

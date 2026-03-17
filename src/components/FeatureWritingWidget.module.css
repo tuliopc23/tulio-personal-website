@@ -42,8 +42,8 @@
   }
 
   .card {
-    flex: 0 0 calc(100vw - 80px);
-    max-width: calc(100vw - 80px);
-    scroll-snap-align: start;
+    flex: 0 0 min(calc(100vw - 72px), 340px);
+    max-width: min(calc(100vw - 72px), 340px);
+    scroll-snap-align: center;
   }
 }
