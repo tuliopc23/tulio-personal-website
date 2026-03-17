@@ -6,6 +6,7 @@ export type BrandIconKey =
   | "mastodon"
   | "github"
   | "instagram"
+  | "javascript"
   | "linkedin"
   | "node"
   | "go"
@@ -67,6 +68,12 @@ const registry: Record<BrandIconKey, BrandEntry> = {
     fallback: "simple-icons:instagram",
     accent: "#E4405F",
     ink: "#E4405F",
+  },
+  javascript: {
+    icon: "simple-icons:javascript",
+    fallback: "simple-icons:javascript",
+    accent: "#F7DF1E",
+    ink: "#8A6A00",
   },
   linkedin: {
     icon: "logos:linkedin-icon",

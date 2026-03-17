@@ -1,5 +1,6 @@
 ---
 import type { NormalizedRepoCard } from "../../lib/github-data";
+import BrandIcon from "../BrandIcon.astro";
 import RepoCommitList from "./RepoCommitList.astro";
 import PhosphorIcon from "../PhosphorIcon.astro";
 import styles from "./github-section.module.css";
@@ -19,21 +20,26 @@ const { repo } = Astro.props;
         {repo.category}
       </span>
 
+      {repo.primaryLanguage && (
+        <span class={styles.repoLanguageEyebrow}>
+          <span class={styles.repoLanguageIcon} aria-hidden="true">
+            {repo.primaryLanguageIcon ? (
+              <BrandIcon name={repo.primaryLanguageIcon} size={14} />
+            ) : (
+              <PhosphorIcon name="code" size={14} weight="regular" />
+            )}
+          </span>
+          {repo.primaryLanguage}
+        </span>
+      )}
+
       <h3 class={styles.repoTitle}>
         {repo.showRepositoryLink ? (
           <a href={repo.repoUrl} target="_blank" rel="noopener noreferrer">
-            <span class={styles.repoTitleIcon} aria-hidden="true">
-              <PhosphorIcon name="github-logo" size={28} weight="fill" />
-            </span>
             {repo.displayTitle}
           </a>
         ) : (
-          <>
-            <span class={styles.repoTitleIcon} aria-hidden="true">
-              <PhosphorIcon name="code" size={28} weight="bold" />
-            </span>
-            {repo.displayTitle}
-          </>
+          repo.displayTitle
         )}
       </h3>
 
@@ -43,13 +49,6 @@ const { repo } = Astro.props;
     </div>
 
     <div class={styles.repoMeta}>
-      {repo.primaryLanguage && (
-        <span class={styles.metaTag}>
-          <span class={styles.metaTagDot}></span>
-          {repo.primaryLanguage}
-        </span>
-      )}
-
       {repo.isPrivate && (
         <span class={styles.metaTag}>
           <PhosphorIcon name="lock-simple" size={10} weight="regular" />
@@ -62,7 +61,7 @@ const { repo } = Astro.props;
           href={repo.repoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="cta-pill cta-pill--accent motion-cta-pill"
+          class:list={["cta-pill", "cta-pill--accent", "motion-cta-pill", styles.repoCta]}
         >
           <span>View repository</span>
           <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />

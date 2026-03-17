@@ -41,6 +41,7 @@ export interface NormalizedRepoCard {
   description: string;
   category: string;
   primaryLanguage: string;
+  primaryLanguageIcon: string | null;
   updatedAt: string;
   isPrivate: boolean;
   repoUrl: string;
@@ -57,6 +58,25 @@ interface GitHubRestCommit {
     message: string;
     author: { date: string };
   };
+}
+
+const curatedLanguageOverrides: Record<string, string> = {
+  "tuliopc23/tulio-personal-website": "TypeScript",
+};
+
+const languageIconMap: Record<string, string> = {
+  astro: "astro",
+  javascript: "javascript",
+  swift: "swift",
+  typescript: "typescript",
+};
+
+function resolvePrimaryLanguage(repoFullName: string, githubLanguage: string | null): string {
+  return curatedLanguageOverrides[repoFullName] || githubLanguage || "Code";
+}
+
+function resolveLanguageIcon(language: string): string | null {
+  return languageIconMap[language.trim().toLowerCase()] ?? null;
 }
 
 /**
@@ -211,6 +231,7 @@ export async function getMergedGitHubData(
     // category from Sanity overrides generic logic
     const finalCategory =
       sanityRepo.category || Object.keys(ghRepo.language || {}).join(", ") || "Code";
+    const finalLanguage = resolvePrimaryLanguage(ghRepo.full_name, ghRepo.language);
 
     normalizedRepos.push({
       id: sanityRepo._id,
@@ -219,7 +240,8 @@ export async function getMergedGitHubData(
       displayTitle: finalTitle,
       description: finalDesc,
       category: finalCategory,
-      primaryLanguage: ghRepo.language || "Code",
+      primaryLanguage: finalLanguage,
+      primaryLanguageIcon: resolveLanguageIcon(finalLanguage),
       updatedAt: ghRepo.updated_at,
       isPrivate: ghRepo.private,
       repoUrl: ghRepo.html_url,
