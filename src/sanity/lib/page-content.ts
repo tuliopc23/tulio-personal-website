@@ -84,6 +84,7 @@ export async function getAboutPageContent(): Promise<AboutPageContent | null> {
       timelineLede,
       timelineItems[]{_key,year,title,body}
     }`,
+    queryLabel: "about page content",
   });
 
   return data ?? null;
@@ -106,6 +107,7 @@ export async function getNowPageContent(): Promise<NowPageContent | null> {
       githubHeading,
       githubLede
     }`,
+    queryLabel: "now page content",
   });
 
   return data ?? null;
@@ -131,6 +133,7 @@ export async function getBlogPageContent(): Promise<BlogPageContent | null> {
       spotlightTags,
       placeholderCards[]{_key,title,summary,href,tags}
     }`,
+    queryLabel: "blog page content",
   });
 
   return data ?? null;
@@ -149,6 +152,7 @@ export async function getProjectsPageContent(): Promise<ProjectsPageContent | nu
       pageEmptyBody,
       contactEmail
     }`,
+    queryLabel: "projects page content",
   });
 
   return data ?? null;

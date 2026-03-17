@@ -45,6 +45,7 @@ const PROJECT_PROJECTION = `{
 export async function getAllProjects(): Promise<SanityProject[]> {
   const { data } = await loadQuery<SanityProject[]>({
     query: `*[_type == "project"] | order(coalesce(order, 9999) asc, releaseDate desc)${PROJECT_PROJECTION}`,
+    queryLabel: "projects",
   });
 
   return (data ?? []).map((project) => ({

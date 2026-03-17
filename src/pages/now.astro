@@ -7,6 +7,10 @@ import { getNowPageContent } from "../sanity/lib/page-content";
 
 const pageContent = await getNowPageContent();
 
+if (import.meta.env.PROD && !pageContent) {
+  throw new Error("[sanity] Missing required nowPage document for the /now route.");
+}
+
 const defaults = {
   seoDescription:
     "What I am building now across Apple apps, web work, backend systems, and developer notes.",

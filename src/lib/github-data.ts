@@ -101,6 +101,8 @@ async function fetchSanityRepos(): Promise<SanityFeaturedRepo[]> {
   try {
     const { data } = await loadQuery<SanityFeaturedRepo[]>({
       query,
+      failureMode: "fallback",
+      queryLabel: "featured GitHub repos",
     });
     return data ?? [];
   } catch (err) {

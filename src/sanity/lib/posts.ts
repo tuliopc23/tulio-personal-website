@@ -300,6 +300,7 @@ const DETAIL_PROJECTION = `{
 export async function getAllPostSlugs(): Promise<string[]> {
   const { data } = await loadQuery<Array<{ slug: string }>>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)]{ "slug": slug.current }`,
+    queryLabel: "post slugs",
   });
   return data?.map((entry) => entry.slug) ?? [];
 }
@@ -307,6 +308,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
 export async function getAllPostLocators(): Promise<PostLocator[]> {
   const { data } = await loadQuery<PostLocator[]>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc){ "slug": slug.current, "publishedAt": coalesce(_updatedAt, publishedAt) }`,
+    queryLabel: "post locators",
   });
 
   return data ?? [];
@@ -315,6 +317,7 @@ export async function getAllPostLocators(): Promise<PostLocator[]> {
 export async function getAllPosts(): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
+    queryLabel: "all posts",
   });
 
   return data ?? [];
@@ -323,6 +326,7 @@ export async function getAllPosts(): Promise<PostSummary[]> {
 export async function getFeaturedPosts(): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && featured == true && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
+    queryLabel: "featured posts",
   });
 
   return data ?? [];
@@ -332,6 +336,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
   const { data } = await loadQuery<PostDetail | null>({
     query: `*[_type == "post" && slug.current == $slug && !coalesce(seo.noIndex, false)][0]${DETAIL_PROJECTION}`,
     params: { slug },
+    queryLabel: `post by slug (${slug})`,
   });
 
   if (!data) return null;
@@ -348,6 +353,7 @@ export async function getRecentPosts(excludeSlug: string, limit = 3): Promise<Po
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && slug.current != $slug && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)[0...$limit]${SUMMARY_PROJECTION}`,
     params: { slug: excludeSlug, limit },
+    queryLabel: `recent posts excluding ${excludeSlug}`,
   });
 
   return data ?? [];
@@ -369,6 +375,7 @@ export function calculateReadingTimeMinutes(
 export async function getAllCategories(): Promise<Category[]> {
   const { data } = await loadQuery<Category[]>({
     query: `*[_type == "category"] | order(title asc){ _id, title, "slug": slug.current, description, archiveIntro }`,
+    queryLabel: "categories",
   });
 
   return data ?? [];
@@ -378,6 +385,7 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
   const { data } = await loadQuery<Category | null>({
     query: `*[_type == "category" && slug.current == $slug][0]{ _id, title, "slug": slug.current, description, archiveIntro }`,
     params: { slug },
+    queryLabel: `category by slug (${slug})`,
   });
 
   return data ?? null;
@@ -387,6 +395,7 @@ export async function getPostsByCategory(categorySlug: string): Promise<PostSumm
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && $categorySlug in categories[]->slug.current] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
     params: { categorySlug },
+    queryLabel: `posts by category (${categorySlug})`,
   });
 
   return data ?? [];

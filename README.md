@@ -84,8 +84,11 @@ A unified, strict token-based styling system that ensures 100% consistency.
 | :--- | :--- |
 | `bun run dev` | Start the Astro dev server with system certs. |
 | `bun run check` | Run Biome lint → TypeScript check → Production build. |
+| `bun run check:ci` | Run the production-oriented gate: Sanity health → Biome CI → TypeScript → build. |
+| `bun run sanity:health` | Verify Sanity environment, connectivity, and required singleton documents. |
+| `bun run deploy:preflight` | Run the full deployment preflight before Cloudflare Pages deploys. |
 | `bun run sanity:typegen` | Regenerate `sanity.types.ts` from the current schema. |
-| `bun run cf:deploy` | Build and deploy the `dist/` folder to Cloudflare Pages. |
+| `bun run cf:deploy` | Run deploy preflight and then deploy the `dist/` folder to Cloudflare Pages. |
 | `bun run test` | Execute unit and Astro-specific integration tests. |
 | `bun run test:e2e` | Run Playwright end-to-end browser tests. |
 
@@ -113,12 +116,19 @@ A unified, strict token-based styling system that ensures 100% consistency.
 Create a `.env` file based on `.env.example`:
 
 ```bash
-# Required for Content
+# Required for Sanity content access
 PUBLIC_SANITY_PROJECT_ID="61249gtj"
 PUBLIC_SANITY_DATASET="production"
 
-# Required for Visual Editing & Private Datasets
+# Required when:
+# - the dataset is private, or
+# - visual editing is enabled, or
+# - the build environment cannot read published content anonymously
 SANITY_API_READ_TOKEN="your_read_token"
+
+# Optional local-only escape hatch.
+# Lets development builds fall back when you are intentionally offline.
+SANITY_ALLOW_BUILD_FALLBACK="false"
 
 # Required for GitHub featured repo activity
 # Either variable name is accepted by the build.
@@ -129,6 +139,14 @@ GITHUB_TOKEN="your_github_token"
 SANITY_API_WRITE_TOKEN="your_write_token"
 CLOUDFLARE_DEPLOY_HOOK_URL="your_hook_url"
 ```
+
+### Deployment Checklist
+
+Before deploying to Cloudflare Pages:
+
+1. Run `bun run deploy:preflight`
+2. Confirm `bun run check:ci` is green
+3. Deploy only after both pass without Sanity connectivity warnings
 
 ---
 

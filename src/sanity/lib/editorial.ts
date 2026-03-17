@@ -103,6 +103,7 @@ const POST_CARD_PROJECTION = `{
 export async function getAllTopicSlugs(): Promise<string[]> {
   const { data } = await loadQuery<Array<{ slug: string }>>({
     query: `*[_type == "topic" && defined(slug.current)]{ "slug": slug.current }`,
+    queryLabel: "topic slugs",
   });
 
   return data?.map((entry) => entry.slug) ?? [];
@@ -112,6 +113,7 @@ export async function getTopicBySlug(slug: string): Promise<EditorialTopic | nul
   const { data } = await loadQuery<EditorialTopic | null>({
     query: `*[_type == "topic" && slug.current == $slug][0]${TOPIC_PROJECTION}`,
     params: { slug },
+    queryLabel: `topic by slug (${slug})`,
   });
 
   return data ?? null;
@@ -121,6 +123,7 @@ export async function getPostsByTopicSlug(slug: string): Promise<PostSummary[]> 
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && $slug in topics[]->slug.current] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
     params: { slug },
+    queryLabel: `posts by topic (${slug})`,
   });
 
   return data ?? [];
@@ -129,6 +132,7 @@ export async function getPostsByTopicSlug(slug: string): Promise<PostSummary[]> 
 export async function getAllSeriesSlugs(): Promise<string[]> {
   const { data } = await loadQuery<Array<{ slug: string }>>({
     query: `*[_type == "series" && defined(slug.current)]{ "slug": slug.current }`,
+    queryLabel: "series slugs",
   });
 
   return data?.map((entry) => entry.slug) ?? [];
@@ -138,6 +142,7 @@ export async function getSeriesBySlug(slug: string): Promise<EditorialSeries | n
   const { data } = await loadQuery<EditorialSeries | null>({
     query: `*[_type == "series" && slug.current == $slug][0]${SERIES_PROJECTION}`,
     params: { slug },
+    queryLabel: `series by slug (${slug})`,
   });
 
   return data ?? null;
@@ -147,6 +152,7 @@ export async function getPostsBySeriesSlug(slug: string): Promise<PostSummary[]>
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && ($slug in relatedSeries[]->slug.current || series match $seriesTitle)] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
     params: { slug, seriesTitle: slug.replace(/-/g, " ") },
+    queryLabel: `posts by series (${slug})`,
   });
 
   return data ?? [];

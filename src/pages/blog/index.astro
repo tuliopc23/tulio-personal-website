@@ -11,6 +11,10 @@ import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../sanity/li
 
 const pageContent = await getBlogPageContent();
 
+if (import.meta.env.PROD && !pageContent) {
+  throw new Error("[sanity] Missing required blogPage document for the /blog route.");
+}
+
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",

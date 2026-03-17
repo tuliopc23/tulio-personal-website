@@ -1,6 +1,40 @@
 import { createClient } from "@sanity/client";
 import { documentEventHandler } from "@sanity/functions";
 
+function json(payload: unknown, status = 200) {
+  return new Response(JSON.stringify(payload, null, 2), {
+    status,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
+}
+
+export async function onRequestGet() {
+  return json({
+    ok: true,
+    route: "/auto-publish",
+    runtime: "cloudflare-pages",
+    kind: "status-endpoint",
+    automationTrigger: "sanity blueprint document function",
+    note:
+      "This HTTP route exists for production diagnostics. Actual cross-posting is driven by Sanity document events, not direct GET requests.",
+  });
+}
+
+export async function onRequestPost() {
+  return json({
+    ok: true,
+    route: "/auto-publish",
+    runtime: "cloudflare-pages",
+    kind: "status-endpoint",
+    automationTrigger: "sanity blueprint document function",
+    note:
+      "This endpoint is reachable in production, but the real publishing workflow runs from Sanity document events.",
+  });
+}
+
 // Basic Portable Text to Markdown conversion for cross-posting
 function portableTextToMarkdown(blocks: any[]): string {
   if (!Array.isArray(blocks)) return "";

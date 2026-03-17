@@ -11,6 +11,10 @@ import projectsFiltersScriptHref from "../scripts/projects-filters.ts?url";
 const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
 
+if (import.meta.env.PROD && !pageContent) {
+  throw new Error("[sanity] Missing required projectsPage document for the /projects route.");
+}
+
 const defaults = {
   description:
     "Selected work across Apple apps, full-stack web products, backend services, and developer tooling.",

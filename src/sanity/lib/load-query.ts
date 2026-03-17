@@ -1,10 +1,13 @@
 import type { QueryParams } from "sanity";
 
 type Perspective = "published" | "drafts";
+type FailureMode = "fail" | "fallback";
 
 type LoadQueryArgs = {
   query: string;
   params?: QueryParams;
+  failureMode?: FailureMode;
+  queryLabel?: string;
 };
 
 type SanityQueryEnvelope<T> = {
@@ -25,6 +28,8 @@ const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? "production";
 const apiVersion = "2025-02-19";
 const apiHost = `https://${projectId}.apicdn.sanity.io`;
 const liveApiHost = `https://${projectId}.api.sanity.io`;
+const allowBuildFallback =
+  import.meta.env.DEV || import.meta.env.SANITY_ALLOW_BUILD_FALLBACK === "true";
 
 if (visualEditingEnabled && !token) {
   throw new Error(
@@ -105,9 +110,15 @@ function createRequestUrl(params: {
   return url.toString();
 }
 
+function formatQueryLabel(query: string, queryLabel?: string): string {
+  return queryLabel ?? query.slice(0, 80).replace(/\s+/g, " ");
+}
+
 export async function loadQuery<QueryResponse>({
   query,
   params,
+  failureMode = allowBuildFallback ? "fallback" : "fail",
+  queryLabel,
 }: LoadQueryArgs): Promise<LoadQueryResult<QueryResponse>> {
   const perspective: Perspective = visualEditingEnabled ? "drafts" : "published";
   const requestUrl = createRequestUrl({
@@ -125,7 +136,9 @@ export async function loadQuery<QueryResponse>({
     });
 
     if (!response.ok) {
-      throw new Error(`Sanity request failed with ${response.status} ${response.statusText}`);
+      throw new Error(
+        `[sanity] Request failed for ${formatQueryLabel(query, queryLabel)} (${response.status} ${response.statusText}). Check project, dataset, and token configuration.`,
+      );
     }
 
     const payload = (await response.json()) as SanityQueryEnvelope<QueryResponse>;
@@ -136,12 +149,12 @@ export async function loadQuery<QueryResponse>({
       perspective,
     };
   } catch (error) {
-    if (!isSanityNetworkError(error)) {
+    if (!isSanityNetworkError(error) || failureMode !== "fallback") {
       throw error;
     }
 
     console.warn(
-      `[sanity] Network fetch failed during build; returning empty data for query: ${query.slice(0, 80).replace(/\s+/g, " ")}...`,
+      `[sanity] Network fetch failed and fallback was allowed for ${formatQueryLabel(query, queryLabel)}. Returning empty data.`,
     );
 
     return {
