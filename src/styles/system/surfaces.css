@@ -44,17 +44,18 @@
   z-index: 3;
 }
 
-/* On mobile, reduce height so Mac isn't tiny in a tall viewport */
+/* On tablet, slightly reduce height */
 @media (max-width: 1024px) {
   .hero-remotion {
     margin-top: calc(-1 * var(--topbar-h, 56px) - var(--space-md, 24px) - var(--space-xs, 8px));
-    height: 56vh;
+    height: 100vh;
   }
 }
 
-@media (max-width: 600px) {
+/* Mobile: full screen hero */
+@media (max-width: 768px) {
   .hero-remotion {
-    height: 44vh;
+    height: 100vh;
   }
 }
 
@@ -65,13 +66,13 @@
 
   @media (max-width: 1024px) {
     .hero-remotion {
-      height: 56dvh;
+      height: 100dvh;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
     .hero-remotion {
-      height: 44dvh;
+      height: 100dvh;
     }
   }
 }
@@ -216,6 +217,14 @@
 [data-motion="reduced"] .hero-remotion__scroll {
   animation: none;
   opacity: 0.5;
+}
+
+/* Mobile: always show scroll indicator since hero is full screen */
+@media (max-width: 768px) {
+  .hero-remotion__scroll {
+    bottom: clamp(32px, 6vh, 56px);
+    animation-delay: 1.5s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

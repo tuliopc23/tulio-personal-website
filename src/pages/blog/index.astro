@@ -597,22 +597,32 @@ const _sectionHeaders = {
       }
 
       .blogSurface--feed .articleCarousel--feed {
-        gap: 0;
+        gap: var(--space-xs);
       }
 
+      /* Single-card horizontal carousel on mobile */
       .blogSurface--feed .articleGrid {
-        display: grid;
-        gap: var(--space-sm);
-        padding: 0;
-        overflow: visible;
-        scroll-snap-type: none;
-        scroll-padding-inline: 0;
+        display: flex;
+        gap: 16px;
+        padding: 12px 4px 16px;
+        overflow-x: auto;
+        overflow-y: clip;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scroll-padding-inline: 4px;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+      }
+
+      .blogSurface--feed .articleGrid::-webkit-scrollbar {
+        display: none;
       }
 
       .blogSurface--feed .articleGrid__item {
-        flex: none;
-        max-width: none;
-        width: 100%;
+        flex: 0 0 calc(100vw - 56px);
+        max-width: calc(100vw - 56px);
+        scroll-snap-align: center;
         animation: none;
       }
 
@@ -620,9 +630,9 @@ const _sectionHeaders = {
         display: none;
       }
 
-      .blogSurface--feed :global(.scrollHint),
+      /* Show the page indicator on mobile */
       .blogSurface__indicator {
-        display: none;
+        display: block;
       }
     }
   </style>

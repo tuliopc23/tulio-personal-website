@@ -538,25 +538,58 @@
 
 /* ═══════ Responsive — Mobile ═══════ */
 @media (max-width: 767px) {
+  .railTrack {
+    padding: clamp(16px, 3vw, 28px) clamp(16px, 3vw, 28px);
+    margin-inline: calc(-1 * clamp(16px, 3vw, 28px));
+    gap: var(--space-md);
+  }
+
   .repoCard {
+    flex: 0 0 calc(100vw - 48px);
     border-radius: 24px;
   }
 
   .repoTitle {
-    font-size: clamp(1.88rem, 5vw, 2.38rem);
+    font-size: clamp(1.6rem, 5vw, 2.1rem);
     max-width: 12ch;
+  }
+
+  .repoDescription {
+    font-size: clamp(0.92rem, 0.4vw + 0.88rem, 1rem);
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .repoCardEditorial {
     gap: var(--space-sm);
+    padding: 20px 20px 16px;
+  }
+
+  .repoCardActivity {
+    padding: 16px 20px 20px;
   }
 
   .repoMeta {
     align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .repoCta {
     margin-left: 0;
+    width: 100%;
+  }
+
+  .commitLink {
+    gap: var(--space-xs);
+    padding: var(--space-xxs) var(--space-xxs);
+  }
+
+  .commitMessage {
+    font-size: var(--fs-caption);
   }
 }
 

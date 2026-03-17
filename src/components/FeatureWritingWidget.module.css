@@ -23,8 +23,27 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .featureWritingWidget {
-    grid-template-columns: 1fr;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: clip;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 8px 2px 12px;
+  }
+
+  .featureWritingWidget::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: 0 0 calc(100vw - 80px);
+    max-width: calc(100vw - 80px);
+    scroll-snap-align: start;
   }
 }
