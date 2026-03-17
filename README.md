@@ -120,6 +120,11 @@ PUBLIC_SANITY_DATASET="production"
 # Required for Visual Editing & Private Datasets
 SANITY_API_READ_TOKEN="your_read_token"
 
+# Required for GitHub featured repo activity
+# Either variable name is accepted by the build.
+GITHUB_TOKEN="your_github_token"
+# GITHUB_PERSONAL_ACCESS_TOKEN="your_github_token"
+
 # Optional for Automation
 SANITY_API_WRITE_TOKEN="your_write_token"
 CLOUDFLARE_DEPLOY_HOOK_URL="your_hook_url"

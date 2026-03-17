@@ -35,6 +35,149 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
+export type TopicReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "topic";
+};
+
+export type Topic = {
+  _id: string;
+  _type: "topic";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  audience?: string;
+  positioning?: string;
+  seoFraming?: string;
+  description?: string;
+  archiveIntro?: string;
+  canonicalTags?: Array<string>;
+  accentImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  featuredPostRules?: string;
+  relatedTopics?: Array<
+    {
+      _key: string;
+    } & TopicReference
+  >;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type PostReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "post";
+};
+
+export type ContentBriefReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "contentBrief";
+};
+
+export type SourceReference = {
+  _id: string;
+  _type: "sourceReference";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  url?: string;
+  sourceType?:
+    | "article"
+    | "documentation"
+    | "video"
+    | "paper"
+    | "talk"
+    | "repository"
+    | "interview"
+    | "dataset";
+  author?: string;
+  reliability?: "high" | "medium" | "low";
+  confidenceNotes?: string;
+  capturedExcerpt?: string;
+  notes?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  relatedPosts?: Array<
+    {
+      _key: string;
+    } & PostReference
+  >;
+  relatedBriefs?: Array<
+    {
+      _key: string;
+    } & ContentBriefReference
+  >;
+};
+
+export type Series = {
+  _id: string;
+  _type: "series";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  positioning?: string;
+  description?: string;
+  order?: number;
+  canonicalCta?: string;
+  relatedPosts?: Array<
+    {
+      _key: string;
+    } & PostReference
+  >;
+};
+
 export type Seo = {
   _type: "seo";
   metaTitle?: string;
@@ -52,6 +195,94 @@ export type Seo = {
   jsonLd?: Code;
 };
 
+export type FeaturedGithubRepo = {
+  _id: string;
+  _type: "featuredGithubRepo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  repoFullName?: string;
+  displayTitle?: string;
+  description?: string;
+  category?: string;
+  featured?: boolean;
+  order?: number;
+  showRepositoryLink?: boolean;
+  showPrivate?: boolean;
+  visibleInProofOfWork?: boolean;
+};
+
+export type Divider = {
+  _type: "divider";
+  style?: "line" | "dots" | "asterisks" | "space";
+};
+
+export type ProjectReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "project";
+};
+
+export type BlogPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "blogPage";
+};
+
+export type AboutPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "aboutPage";
+};
+
+export type NowPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "nowPage";
+};
+
+export type ProjectsPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "projectsPage";
+};
+
+export type ContentBrief = {
+  _id: string;
+  _type: "contentBrief";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  status?:
+    | "idea"
+    | "briefed"
+    | "drafting"
+    | "in-review"
+    | "ready"
+    | "published"
+    | "archived";
+  audience?: string;
+  intent?: string;
+  thesis?: string;
+  targetKeyword?: string;
+  distributionGoals?: Array<string>;
+  dueDate?: string;
+  notes?: string;
+  linkedPost?: PostReference;
+  linkedProject?: ProjectReference;
+  linkedPage?:
+    | BlogPageReference
+    | AboutPageReference
+    | NowPageReference
+    | ProjectsPageReference;
+};
+
 export type ProjectsPage = {
   _id: string;
   _type: "projectsPage";
@@ -67,6 +298,37 @@ export type ProjectsPage = {
   pageEmptyTitle?: string;
   pageEmptyBody?: string;
   contactEmail?: string;
+  seo?: Seo;
+  pageIntent?: string;
+  changeNotes?: string;
+};
+
+export type NowPage = {
+  _id: string;
+  _type: "nowPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  seoDescription?: string;
+  heroEyebrow?: string;
+  heroTitle?: string;
+  heroLede?: string;
+  lastUpdated?: string;
+  nowItems?: Array<string>;
+  nextItems?: Array<string>;
+  laterItems?: Array<string>;
+  signalsHeading?: string;
+  signalsLede?: string;
+  executionSignals?: Array<{
+    title?: string;
+    body?: string;
+    _key: string;
+  }>;
+  githubHeading?: string;
+  githubLede?: string;
+  seo?: Seo;
+  pageIntent?: string;
+  changeNotes?: string;
 };
 
 export type Project = {
@@ -96,26 +358,11 @@ export type Project = {
   order?: number;
 };
 
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
+export type SeriesReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "series";
 };
 
 export type AuthorReference = {
@@ -132,6 +379,13 @@ export type CategoryReference = {
   [internalGroqTypeReferenceTo]?: "category";
 };
 
+export type SourceReferenceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sourceReference";
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -140,7 +394,20 @@ export type Post = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  summary?: string;
+  brief?: ContentBriefReference;
+  audience?: string;
+  intent?: string;
+  targetKeyword?: string;
+  topics?: Array<
+    {
+      _key: string;
+    } & TopicReference
+  >;
+  relatedSeries?: Array<
+    {
+      _key: string;
+    } & SeriesReference
+  >;
   author?: AuthorReference;
   categories?: Array<
     {
@@ -148,6 +415,29 @@ export type Post = {
     } & CategoryReference
   >;
   tags?: Array<string>;
+  featured?: boolean;
+  summary?: string;
+  hook?: string;
+  keyTakeaways?: Array<string>;
+  sourceReferences?: Array<
+    {
+      _key: string;
+    } & SourceReferenceReference
+  >;
+  pullQuotes?: Array<{
+    quote?: string;
+    attribution?: string;
+    sourceUrl?: string;
+    _key: string;
+  }>;
+  furtherReading?: Array<{
+    title?: string;
+    href?: string;
+    note?: string;
+    _key: string;
+  }>;
+  markdownContent?: Markdown;
+  content?: BlockContent;
   heroImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -156,22 +446,29 @@ export type Post = {
     alt?: string;
     _type: "image";
   };
-  seo?: Seo;
-  publishedAt?: string;
-  featured?: boolean;
-  status?: WorkflowStatus;
-  lastReviewedAt?: string;
-  approvedAt?: string;
-  tagRefreshRequestedAt?: string;
-  keyTakeaways?: Array<string>;
+  heroCreativeNotes?: string;
   coverVariant?: "default" | "cinematic" | "minimal";
-  series?: string;
-  scheduledPublishAt?: string;
+  seo?: Seo;
+  cta?: {
+    label?: string;
+    href?: string;
+    intent?: string;
+  };
+  distributionPackage?: {
+    newsletterBlurb?: string;
+    shortSocialPost?: string;
+    longSocialPost?: string;
+    teaserQuote?: string;
+    ctaLabel?: string;
+    generatedAt?: string;
+  };
   crossposting?: {
     devto?: {
       enabled?: boolean;
       articleId?: number;
       url?: string;
+      status?: string;
+      lastResultMessage?: string;
       lastSyncedAt?: string;
     };
     hashnode?: {
@@ -179,16 +476,30 @@ export type Post = {
       publicationId?: string;
       postId?: string;
       url?: string;
+      status?: string;
+      lastResultMessage?: string;
       lastSyncedAt?: string;
     };
     linkedin?: {
       enabled?: boolean;
       postId?: string;
       url?: string;
+      status?: string;
+      lastResultMessage?: string;
       lastSyncedAt?: string;
     };
     manualTriggerAt?: string;
   };
+  refreshCadence?: "monthly" | "quarterly" | "biannual" | "annual" | "evergreen";
+  evergreenStatus?: "current" | "needs-refresh" | "refreshing" | "timeless";
+  publishedAt?: string;
+  status?: WorkflowStatus;
+  lastReviewedAt?: string;
+  approvedAt?: string;
+  tagRefreshRequestedAt?: string;
+  distributionRequestedAt?: string;
+  refreshRequestedAt?: string;
+  scheduledPublishAt?: string;
   analytics?: {
     views?: number;
     uniqueVisitors?: number;
@@ -200,8 +511,13 @@ export type Post = {
     };
     lastUpdatedAt?: string;
   };
-  markdownContent?: Markdown;
-  content?: BlockContent;
+  refreshReview?: {
+    status?: "monitor" | "refresh-soon" | "rewrite" | "archive";
+    summary?: string;
+    recommendedChanges?: Array<string>;
+    generatedAt?: string;
+  };
+  series?: string;
 };
 
 export type BlockContent = Array<
@@ -250,61 +566,6 @@ export type BlockContent = Array<
 
 export type Markdown = string;
 
-export type Code = {
-  _type: "code";
-  language?: string;
-  filename?: string;
-  code?: string;
-  highlightedLines?: Array<number>;
-};
-
-export type NowPage = {
-  _id: string;
-  _type: "nowPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  seoDescription?: string;
-  heroEyebrow?: string;
-  heroTitle?: string;
-  heroLede?: string;
-  lastUpdated?: string;
-  nowItems?: Array<string>;
-  nextItems?: Array<string>;
-  laterItems?: Array<string>;
-  signalsHeading?: string;
-  signalsLede?: string;
-  executionSignals?: Array<{
-    title?: string;
-    body?: string;
-    _key: string;
-  }>;
-  githubHeading?: string;
-  githubLede?: string;
-};
-
-export type FeaturedGithubRepo = {
-  _id: string;
-  _type: "featuredGithubRepo";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  repoFullName?: string;
-  displayTitle?: string;
-  description?: string;
-  category?: string;
-  featured?: boolean;
-  order?: number;
-  showRepositoryLink?: boolean;
-  showPrivate?: boolean;
-  visibleInProofOfWork?: boolean;
-};
-
-export type Divider = {
-  _type: "divider";
-  style?: "line" | "dots" | "asterisks" | "space";
-};
-
 export type Category = {
   _id: string;
   _type: "category";
@@ -314,6 +575,9 @@ export type Category = {
   title?: string;
   slug?: Slug;
   description?: string;
+  positioning?: string;
+  canonicalTags?: Array<string>;
+  archiveIntro?: string;
 };
 
 export type Callout = {
@@ -351,6 +615,8 @@ export type BlogPage = {
   heroEyebrow?: string;
   heroTitle?: string;
   heroLede?: string;
+  emptyStateTitle?: string;
+  emptyStateBody?: string;
   editorialDirectionHeading?: string;
   editorialDirectionLede?: string;
   pillars?: Array<{
@@ -363,6 +629,7 @@ export type BlogPage = {
   archiveLede?: string;
   allArticlesLabel?: string;
   loadOlderLabel?: string;
+  filterEmptyState?: string;
   spotlightTags?: Array<string>;
   placeholderCards?: Array<{
     title?: string;
@@ -371,6 +638,9 @@ export type BlogPage = {
     tags?: Array<string>;
     _key: string;
   }>;
+  seo?: Seo;
+  pageIntent?: string;
+  changeNotes?: string;
 };
 
 export type Author = {
@@ -395,6 +665,14 @@ export type Author = {
     _type: "block";
     _key: string;
   }>;
+  role?: string;
+  expertise?: Array<string>;
+  voice?: string;
+  featuredTopics?: Array<
+    {
+      _key: string;
+    } & TopicReference
+  >;
   avatar?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -438,6 +716,61 @@ export type AboutPage = {
     body?: string;
     _key: string;
   }>;
+  seo?: Seo;
+  pageIntent?: string;
+  changeNotes?: string;
+};
+
+export type Code = {
+  _type: "code";
+  language?: string;
+  filename?: string;
+  code?: string;
+  highlightedLines?: Array<number>;
+};
+
+export type SanityVideoMetadataPlayback = {
+  _type: "sanity.videoMetadata.playback";
+  policy?: string;
+};
+
+export type SanityVideoMetadata = {
+  _type: "sanity.videoMetadata";
+  duration?: number;
+  framerate?: number;
+  aspectRatio?: number;
+  hasAudio?: boolean;
+  codec?: string;
+  bitrate?: number;
+};
+
+export type SanityVideoAsset = {
+  _id: string;
+  _type: "sanity.videoAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  creditLine?: string;
+  metadata?: SanityVideoMetadata;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+};
+
+export type SanityVideo = {
+  _type: "sanity.video";
+  asset?: unknown;
+  media?: unknown;
 };
 
 export type SanityAssistInstructionTask = {
@@ -678,26 +1011,44 @@ export type AllSanitySchemaTypes =
   | WorkflowStatus
   | VideoEmbed
   | SanityImageAssetReference
-  | Seo
-  | ProjectsPage
-  | Project
+  | TopicReference
+  | Topic
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | PostReference
+  | ContentBriefReference
+  | SourceReference
+  | Series
+  | Seo
+  | FeaturedGithubRepo
+  | Divider
+  | ProjectReference
+  | BlogPageReference
+  | AboutPageReference
+  | NowPageReference
+  | ProjectsPageReference
+  | ContentBrief
+  | ProjectsPage
+  | NowPage
+  | Project
+  | SeriesReference
   | AuthorReference
   | CategoryReference
+  | SourceReferenceReference
   | Post
   | BlockContent
   | Markdown
-  | Code
-  | NowPage
-  | FeaturedGithubRepo
-  | Divider
   | Category
   | Callout
   | BlogPage
   | Author
   | AboutPage
+  | Code
+  | SanityVideoMetadataPlayback
+  | SanityVideoMetadata
+  | SanityVideoAsset
+  | SanityVideo
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

@@ -6,9 +6,14 @@ import styles from "./github-section.module.css";
 
 let repos: NormalizedRepoCard[] = [];
 let error: string | null = null;
+const githubToken =
+  import.meta.env.GITHUB_TOKEN ??
+  import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN ??
+  process.env.GITHUB_TOKEN ??
+  process.env.GITHUB_PERSONAL_ACCESS_TOKEN;
 
 try {
-  repos = await getMergedGitHubData(import.meta.env.GITHUB_TOKEN);
+  repos = await getMergedGitHubData(githubToken);
 } catch (e) {
   error = "Failed to load GitHub activity.";
   console.error(e);

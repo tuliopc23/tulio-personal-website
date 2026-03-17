@@ -10,11 +10,14 @@ import { markdownSchema } from "sanity-plugin-markdown/next";
 import {
   approveAction,
   crosspostAction,
+  generateDistributionPackageAction,
+  generateRefreshDraftAction,
   publishApprovedAction,
   refreshTagsAction,
   submitForReviewAction,
   unpublishAction,
 } from "./src/sanity/actions";
+import { editorialHomeTool } from "./src/sanity/components/EditorialHomeTool";
 import { EditorialReadinessBadge } from "./src/sanity/components/EditorialReadinessBadge";
 import { postAssistPlugin } from "./src/sanity/components/PostAssistFieldActions";
 import StudioLogo from "./src/sanity/components/StudioLogo";
@@ -51,6 +54,7 @@ export default defineConfig({
     postAssistPlugin,
     ...(geminiApiEndpoint ? [geminiAIImages({ apiEndpoint: geminiApiEndpoint })] : []),
   ],
+  tools: (prev) => [editorialHomeTool, ...prev],
   schema: {
     types: schemaTypes,
     templates: (prev) => [
@@ -81,12 +85,32 @@ export default defineConfig({
           tags: ["Writing"],
         },
       },
+      {
+        id: "content-brief",
+        title: "Content brief",
+        schemaType: "contentBrief",
+        icon: DocumentTextIcon,
+        value: {
+          status: "idea",
+        },
+      },
     ],
+  },
+  apps: {
+    canvas: {
+      enabled: true,
+    },
+  },
+  tasks: {
+    enabled: true,
   },
   releases: {
     enabled: true,
   },
   scheduledDrafts: {
+    enabled: true,
+  },
+  mediaLibrary: {
     enabled: true,
   },
   document: {
@@ -100,6 +124,8 @@ export default defineConfig({
 
         return [
           ...baseActions,
+          generateDistributionPackageAction,
+          generateRefreshDraftAction,
           refreshTagsAction,
           crosspostAction,
           submitForReviewAction,
@@ -114,25 +140,50 @@ export default defineConfig({
       }
       return prev;
     },
+    comments: {
+      enabled: ({ documentType }) =>
+        [
+          "post",
+          "contentBrief",
+          "sourceReference",
+          "series",
+          "topic",
+          "project",
+          "blogPage",
+          "aboutPage",
+          "nowPage",
+          "projectsPage",
+        ].includes(documentType),
+    },
     newDocumentOptions: (prev, context) => {
-      if (context.creationContext.schemaType !== "post") {
-        return prev;
+      if (context.creationContext.schemaType === "post") {
+        return prev
+          .filter((item) => item.templateId !== "post")
+          .concat([
+            {
+              templateId: "post-essay",
+              title: "Essay",
+              icon: DocumentTextIcon,
+            },
+            {
+              templateId: "post-shipping-note",
+              title: "Shipping note",
+              icon: EditIcon,
+            },
+          ]);
       }
 
-      return prev
-        .filter((item) => item.templateId !== "post")
-        .concat([
+      if (context.creationContext.schemaType === "contentBrief") {
+        return prev.concat([
           {
-            templateId: "post-essay",
-            title: "Essay",
+            templateId: "content-brief",
+            title: "Content brief",
             icon: DocumentTextIcon,
           },
-          {
-            templateId: "post-shipping-note",
-            title: "Shipping note",
-            icon: EditIcon,
-          },
         ]);
+      }
+
+      return prev;
     },
   },
 });

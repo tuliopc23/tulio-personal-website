@@ -56,8 +56,13 @@ const _shareText = post ? encodeURIComponent(post.title) : "";
 const heroImage = post?.heroImage;
 const _tags = post?.tags ?? [];
 const _takeaways = post?.keyTakeaways?.filter(Boolean) ?? [];
+const _pullQuotes = post?.pullQuotes?.filter((entry) => entry?.quote) ?? [];
 const _furtherReading = post?.furtherReading?.filter((entry) => entry?.title && entry?.href) ?? [];
-const _series = post?.series ?? null;
+const _sourceReferences =
+  post?.sourceReferences?.filter((entry) => entry?.title && entry?.url) ?? [];
+const _topics = post?.topics ?? [];
+const _seriesRefs = post?.relatedSeries ?? [];
+const _series = _seriesRefs[0]?.title ?? post?.series ?? null;
 const _coverVariant = post?.coverVariant ?? "default";
 const _readerDensity = post
   ? post.readingTimeMinutes <= 5
@@ -66,10 +71,11 @@ const _readerDensity = post
       ? "long"
       : "medium"
   : "short";
-const _primaryTopic = post?.categories?.[0]?.title ?? "Article";
-const _secondaryTopic = _series ?? post?.categories?.[1]?.title ?? null;
+const _primaryTopic = _topics[0]?.title ?? post?.categories?.[0]?.title ?? "Article";
+const _secondaryTopic = _series ?? _topics[1]?.title ?? post?.categories?.[1]?.title ?? null;
 const _footerTopics = [
   ...(_series ? [`Series: ${_series}`] : []),
+  ...(_topics.map((topic) => topic.title) ?? []),
   ...(post?.categories?.map((category) => category.title) ?? []),
   ..._tags,
 ].filter((value, index, values) => values.indexOf(value) === index);
@@ -369,13 +375,39 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             )}
           </section>
 
+          {_pullQuotes.length > 0 && (
+            <section
+              class="article__panel surface-panel surface-panel--nested"
+              aria-label="Pull quotes"
+              data-reveal
+              data-reveal-group="post-shell"
+              data-reveal-order={4}
+            >
+              <div class="article__sectionHeader">
+                <span class="article__sectionEyebrow">
+                  <PhosphorIcon name="quotes" size={14} weight="regular" />
+                  Pull quotes
+                </span>
+                <h2 class="article__relatedTitle">Reusable lines</h2>
+              </div>
+              <ul class="article__resourceList">
+                {_pullQuotes.map((entry) => (
+                  <li class="article__resourceItem">
+                    <p class="article__resourceNote">“{entry.quote}”</p>
+                    {entry.attribution && <p class="article__resourceTitle">{entry.attribution}</p>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           {_takeaways.length > 0 && (
             <section
               class="article__takeaways article__panel surface-panel surface-panel--nested"
               aria-label="Key takeaways"
               data-reveal
               data-reveal-group="post-shell"
-              data-reveal-order={4}
+              data-reveal-order={5}
             >
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
@@ -397,7 +429,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               class="article__footerPanel article__footerPanel--cta surface-panel surface-panel--nested"
               data-reveal
               data-reveal-group="post-shell"
-              data-reveal-order={5}
+              data-reveal-order={6}
             >
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
@@ -462,7 +494,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 aria-label="Further reading"
                 data-reveal
                 data-reveal-group="post-shell"
-                data-reveal-order={6}
+                data-reveal-order={7}
               >
                 <div class="article__sectionHeader">
                   <span class="article__sectionEyebrow">
@@ -493,13 +525,54 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               </section>
             )}
 
+            {_sourceReferences.length > 0 && (
+              <section
+                class="article__footerPanel article__footerPanel--resources surface-panel surface-panel--nested"
+                aria-label="Source references"
+                data-reveal
+                data-reveal-group="post-shell"
+                data-reveal-order={8}
+              >
+                <div class="article__sectionHeader">
+                  <span class="article__sectionEyebrow">
+                    <PhosphorIcon name="link" size={14} weight="regular" />
+                    Research sources
+                  </span>
+                  <h2 class="article__relatedTitle">Source references</h2>
+                  <p class="article__sectionCaption">
+                    Structured references connected from the editorial workspace.
+                  </p>
+                </div>
+                <ul class="article__resourceList">
+                  {_sourceReferences.map((entry) => (
+                    <li class="article__resourceItem">
+                      <a
+                        class="article__resourceLink"
+                        href={entry.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span class="article__resourceTitle">{entry.title}</span>
+                        <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
+                      </a>
+                      {(entry.author || entry.sourceType) && (
+                        <p class="article__resourceNote">
+                          {[entry.author, entry.sourceType].filter(Boolean).join(" · ")}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
             {_related.length > 0 && (
               <section
                 class="article__footerPanel article__footerPanel--related surface-panel surface-panel--nested"
                 aria-label="Related posts"
                 data-reveal
                 data-reveal-group="post-shell"
-                data-reveal-order={7}
+                data-reveal-order={9}
               >
                 <div class="article__sectionHeader">
                   <span class="article__sectionEyebrow">

@@ -66,6 +66,59 @@ Write an SEO meta description for this article.
 - Avoid generic filler phrases.
 `,
   },
+  "distributionPackage.newsletterBlurb": {
+    title: "Draft newsletter blurb",
+    instruction: `
+Write a short newsletter blurb for this article.
+- Keep it to 2 or 3 compact sentences.
+- Use the title, hook, summary, and body as context.
+- Make it feel editorial and useful, not promotional fluff.
+`,
+  },
+  "distributionPackage.shortSocialPost": {
+    title: "Draft short social post",
+    instruction: `
+Write a short social post for this article.
+- Keep it punchy and compact.
+- Use the title, hook, and strongest takeaway as context.
+- Make it readable on X, LinkedIn, or similar feeds without sounding generic.
+`,
+  },
+  "distributionPackage.longSocialPost": {
+    title: "Draft long social post",
+    instruction: `
+Write a longer social post for this article.
+- Use 2 or 3 short paragraphs.
+- Lead with a sharp framing line.
+- Use the body and takeaways as context, but keep it skimmable.
+`,
+  },
+  "distributionPackage.teaserQuote": {
+    title: "Draft teaser quote",
+    instruction: `
+Write a teaser quote for this article.
+- Keep it to one compelling line.
+- Make it quotable, specific, and editorial.
+- Avoid generic inspirational language.
+`,
+  },
+  "distributionPackage.ctaLabel": {
+    title: "Draft CTA label",
+    instruction: `
+Write a CTA label for this article's distribution package.
+- Keep it to 2 to 5 words.
+- Make it feel direct, human, and high-signal.
+`,
+  },
+  "refreshReview.summary": {
+    title: "Draft refresh review",
+    instruction: `
+Review this article and write a compact refresh summary.
+- Look for stale framing, outdated examples, missing nuance, and better hooks.
+- Say whether it should be monitored, refreshed soon, rewritten, or archived.
+- Keep it editorial and practical.
+`,
+  },
 };
 
 export function usePostAssistFieldActions(props: AssistFieldActionProps) {

@@ -226,6 +226,108 @@ html[data-theme="light"] [data-testid="document-header"] {
   letter-spacing: -0.01em;
 }
 
+.editorialInputHint {
+  backdrop-filter: blur(14px);
+}
+
+.editorialHome__hero,
+.editorialHome__panel,
+.editorialHome__metric {
+  border-radius: 24px;
+}
+
+.editorialHome__quickLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--studio-accent) 18%, transparent);
+  background: var(--studio-accent-soft);
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.editorialHome__inlineLink,
+.editorialHome__listLink,
+.editorialHome__shortcut {
+  color: inherit;
+  text-decoration: none;
+}
+
+.editorialHome__inlineLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--studio-accent) 16%, transparent);
+  background: color-mix(in srgb, var(--studio-accent) 10%, transparent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.editorialHome__listLink {
+  display: block;
+}
+
+.editorialHome__shortcut {
+  display: block;
+  border-radius: 18px;
+}
+
+.editorialHome__shortcut [data-ui="Flex"] {
+  min-height: 3rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--studio-accent) 16%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--studio-accent) 8%, transparent);
+}
+
+.editorialHome__listLink [data-ui="Card"],
+.editorialHome__shortcut [data-ui="Flex"],
+.editorialHome__inlineLink {
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.editorialHome__listLink:hover [data-ui="Card"],
+.editorialHome__listLink:focus-visible [data-ui="Card"] {
+  transform: translateY(-1px);
+}
+
+.editorialHome__shortcut:hover [data-ui="Flex"],
+.editorialHome__shortcut:focus-visible [data-ui="Flex"],
+.editorialHome__inlineLink:hover,
+.editorialHome__inlineLink:focus-visible {
+  background: color-mix(in srgb, var(--studio-accent) 16%, transparent);
+}
+
+.editorialHome__hero {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--studio-accent) 18%, transparent),
+      transparent 58%
+    ),
+    color-mix(in srgb, var(--card-bg-color, white) 92%, white 8%);
+}
+
+html[data-theme="dark"] .editorialHome__hero {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--studio-accent) 22%, transparent),
+      transparent 58%
+    ),
+    color-mix(in srgb, var(--card-bg-color, #101114) 94%, black 6%);
+}
+
 @media (max-width: 900px) {
   .studioNavbar__utilityBar {
     padding-inline: 0.75rem;

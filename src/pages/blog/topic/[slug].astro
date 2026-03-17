@@ -1,0 +1,130 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Breadcrumbs from "../../../components/Breadcrumbs.astro";
+import ArticleCard from "../../../components/ArticleCard.astro";
+import PageIndicator from "../../../components/PageIndicator.astro";
+import PhosphorIcon from "../../../components/PhosphorIcon.astro";
+import ScrollHint from "../../../components/ScrollHint.astro";
+import {
+  getAllTopicSlugs,
+  getPostsByTopicSlug,
+  getTopicBySlug,
+} from "../../../sanity/lib/editorial";
+import type { PostSummary } from "../../../sanity/lib/posts";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const slugs = await getAllTopicSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+if (!slug) throw Astro.redirect("/404");
+
+const topic = await getTopicBySlug(slug);
+if (!topic) throw Astro.redirect("/404");
+
+const posts = await getPostsByTopicSlug(slug);
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+const postEntries: Array<
+  PostSummary & {
+    href: string;
+    dateISO: string;
+    dateLabel: string;
+    readingTimeMinutes: number;
+    isNew: boolean;
+  }
+> = posts.map((post) => {
+  const date = new Date(post.publishedAt);
+  const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
+  const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
+  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000;
+  return {
+    ...post,
+    href: `/blog/${post.slug}/`,
+    dateISO: date.toISOString(),
+    dateLabel: formatter.format(date),
+    readingTimeMinutes: post.readingTimeMinutes ?? estimatedReadingTime,
+    isNew,
+  };
+});
+
+const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
+const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
+const canonical = new URL(`/blog/topic/${slug}/`, siteOrigin).toString();
+const pageTitle = `${topic.title} Topic`;
+const pageDescription =
+  topic.archiveIntro || topic.description || `Programming posts about ${topic.title}.`;
+---
+
+<Base
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  ogDescription={pageDescription}
+  sidebar={true}
+>
+  <section class="container categoryHero categoryHero--feed pageWidget" data-reveal data-reveal-type="scale">
+    <Breadcrumbs
+      items={[
+        { label: "Home", href: "/", icon: "home" },
+        { label: "Blog", href: "/blog/", icon: "book" },
+        { label: topic.title, icon: "folder" },
+      ]}
+    />
+    <div class="categoryHero__copy">
+      <span class="categoryHero__eyebrow">
+        <PhosphorIcon name="hash" size={14} weight="regular" />
+        Topic
+      </span>
+      <h1 class="categoryHero__title">{topic.title}</h1>
+      <p class="categoryHero__description">{pageDescription}</p>
+    </div>
+  </section>
+
+  {postEntries.length > 0 ? (
+    <section class="container categorySurface categorySurface--feed pageWidget" data-reveal>
+      <ScrollHint target=".categorySurface .articleGrid" variant="all" />
+      <div class="articleCarousel articleCarousel--category">
+        <ul class="articleGrid">
+          {postEntries.map((post, index) => (
+            <li class="articleGrid__item">
+              <ArticleCard
+                href={post.href}
+                title={post.title}
+                summary={post.summary}
+                hook={post.hook}
+                dateISO={post.dateISO}
+                dateLabel={post.dateLabel}
+                ctaLabel="Read post"
+                tags={post.tags}
+                categories={post.categories}
+                readingTimeMinutes={post.readingTimeMinutes}
+                isNew={post.isNew}
+                heroImage={post.heroImage}
+                coverVariant={post.coverVariant}
+                editorialLayout="featured-editorial"
+                editorialSize="standard"
+                revealGroup="topic-list"
+                revealOrder={index}
+              />
+            </li>
+          ))}
+        </ul>
+        <div class="blogSurface__indicator">
+          <PageIndicator
+            containerSelector=".categorySurface .articleGrid"
+            itemSelector=".categorySurface .articleGrid__item"
+            ariaLabel="Topic articles navigation"
+          />
+        </div>
+      </div>
+    </section>
+  ) : null}
+</Base>

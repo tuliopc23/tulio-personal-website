@@ -22,8 +22,11 @@ function getReadiness(doc: PostReadinessSnapshot): DocumentBadgeDescription | nu
   );
   if (missingRecommended.length > 0) {
     return {
-      label: `Recommended: ${missingRecommended[0].label}`,
-      color: "primary",
+      label:
+        missingRecommended[0].id === "refresh"
+          ? "Refresh Opportunity"
+          : `Recommended: ${missingRecommended[0].label}`,
+      color: missingRecommended[0].id === "refresh" ? "warning" : "primary",
       title: missingRecommended[0].title,
     };
   }

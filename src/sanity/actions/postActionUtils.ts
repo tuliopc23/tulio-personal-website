@@ -5,6 +5,8 @@ export type PostActionDocument = {
   title?: string;
   summary?: string;
   hook?: string;
+  publishedAt?: string;
+  evergreenStatus?: string;
   keyTakeaways?: unknown[];
   content?: unknown[];
   heroImage?: {
@@ -21,6 +23,11 @@ export type PostActionDocument = {
         _ref?: string;
       };
     };
+  };
+  distributionPackage?: {
+    newsletterBlurb?: string;
+    shortSocialPost?: string;
+    ctaLabel?: string;
   };
   crossposting?: {
     devto?: {

@@ -15,6 +15,7 @@ export default defineType({
     },
     { name: "signals", title: "Signals", options: { collapsible: true, collapsed: false } },
     { name: "github", title: "GitHub", options: { collapsible: true, collapsed: true } },
+    { name: "ops", title: "Editorial Ops", options: { collapsible: true, collapsed: true } },
   ],
   fields: [
     defineField({
@@ -134,6 +135,32 @@ export default defineType({
       fieldset: "github",
       rows: 2,
       initialValue: "Recent commits across active repositories.",
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO Metadata",
+      type: "seo",
+      fieldset: "ops",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+    }),
+    defineField({
+      name: "pageIntent",
+      title: "Page Intent",
+      type: "text",
+      rows: 3,
+      fieldset: "ops",
+      validation: (rule) => rule.max(240),
+    }),
+    defineField({
+      name: "changeNotes",
+      title: "Change Notes",
+      type: "text",
+      rows: 4,
+      fieldset: "ops",
+      validation: (rule) => rule.max(480),
     }),
   ],
   preview: {

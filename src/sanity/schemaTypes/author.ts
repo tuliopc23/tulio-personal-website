@@ -9,6 +9,7 @@ export default defineType({
   fieldsets: [
     { name: "identity", title: "Identity", options: { collapsible: true, collapsed: false } },
     { name: "profile", title: "Profile", options: { collapsible: true, collapsed: false } },
+    { name: "editorial", title: "Editorial", options: { collapsible: true, collapsed: false } },
     { name: "links", title: "Links", options: { collapsible: true, collapsed: true } },
   ],
   fields: [
@@ -50,6 +51,38 @@ export default defineType({
         },
       ],
       validation: (rule) => rule.max(3),
+    }),
+    defineField({
+      name: "role",
+      title: "Role",
+      type: "string",
+      fieldset: "editorial",
+      validation: (rule) => rule.max(120),
+    }),
+    defineField({
+      name: "expertise",
+      title: "Expertise",
+      type: "array",
+      fieldset: "editorial",
+      of: [{ type: "string" }],
+      validation: (rule) => rule.max(8),
+    }),
+    defineField({
+      name: "voice",
+      title: "Editorial Voice",
+      type: "text",
+      rows: 3,
+      fieldset: "editorial",
+      description: "Short note to help AI and collaborators preserve tone.",
+      validation: (rule) => rule.max(240),
+    }),
+    defineField({
+      name: "featuredTopics",
+      title: "Featured Topics",
+      type: "array",
+      fieldset: "editorial",
+      of: [{ type: "reference", to: [{ type: "topic" }] }],
+      validation: (rule) => rule.max(6),
     }),
     defineField({
       name: "avatar",

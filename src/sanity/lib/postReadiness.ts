@@ -3,6 +3,8 @@ export type PostReadinessSnapshot = {
   title?: string;
   summary?: string;
   hook?: string;
+  publishedAt?: string;
+  evergreenStatus?: string;
   keyTakeaways?: unknown[];
   heroImage?: {
     alt?: string;
@@ -19,15 +21,40 @@ export type PostReadinessSnapshot = {
       };
     };
   };
+  distributionPackage?: {
+    newsletterBlurb?: string;
+    shortSocialPost?: string;
+    ctaLabel?: string;
+  };
 };
 
+export type ReadinessItemId =
+  | "summary"
+  | "hook"
+  | "media"
+  | "seo"
+  | "distribution"
+  | "takeaways"
+  | "refresh";
+
 export type ReadinessItem = {
-  id: "summary" | "hook" | "hero" | "seo" | "takeaways";
+  id: ReadinessItemId;
   label: string;
   title: string;
   requiredForApproval: boolean;
   complete: boolean;
 };
+
+const REFRESH_WINDOW_DAYS = 180;
+
+function isOlderThanRefreshWindow(publishedAt?: string): boolean {
+  if (!publishedAt) return false;
+
+  const publishedDate = new Date(publishedAt);
+  if (Number.isNaN(publishedDate.getTime())) return false;
+
+  return Date.now() - publishedDate.getTime() > REFRESH_WINDOW_DAYS * 24 * 60 * 60 * 1000;
+}
 
 export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem[] {
   const hasSummary = Boolean(doc.summary?.trim());
@@ -37,10 +64,16 @@ export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem
   const hasMetaTitle = Boolean(doc.seo?.metaTitle?.trim());
   const hasMetaDescription = Boolean(doc.seo?.metaDescription?.trim());
   const hasSocialImage = Boolean(doc.seo?.socialImage?.asset?._ref);
+  const hasNewsletterBlurb = Boolean(doc.distributionPackage?.newsletterBlurb?.trim());
+  const hasShortSocial = Boolean(doc.distributionPackage?.shortSocialPost?.trim());
+  const hasCtaLabel = Boolean(doc.distributionPackage?.ctaLabel?.trim());
   const takeawayCount = Array.isArray(doc.keyTakeaways)
     ? doc.keyTakeaways.filter((value) => typeof value === "string" && value.trim().length > 0)
         .length
     : 0;
+
+  const refreshDue = isOlderThanRefreshWindow(doc.publishedAt);
+  const refreshComplete = !refreshDue || doc.evergreenStatus === "timeless";
 
   return [
     {
@@ -60,7 +93,7 @@ export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem
       complete: hasHook,
     },
     {
-      id: "hero",
+      id: "media",
       label: "Hero Media",
       title:
         hasHeroImage && hasHeroAlt
@@ -80,6 +113,16 @@ export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem
       complete: hasMetaTitle && hasMetaDescription && hasSocialImage,
     },
     {
+      id: "distribution",
+      label: "Distribution",
+      title:
+        hasNewsletterBlurb && hasShortSocial && hasCtaLabel
+          ? "Distribution package is ready."
+          : "Generate a newsletter blurb, a short social post, and a CTA label.",
+      requiredForApproval: false,
+      complete: hasNewsletterBlurb && hasShortSocial && hasCtaLabel,
+    },
+    {
       id: "takeaways",
       label: "Key Takeaways",
       title:
@@ -88,6 +131,15 @@ export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem
           : "Add 2-4 takeaways to strengthen the article summary surface.",
       requiredForApproval: false,
       complete: takeawayCount > 0,
+    },
+    {
+      id: "refresh",
+      label: "Refresh Review",
+      title: refreshDue
+        ? "This published article is due for a refresh review."
+        : "No refresh review is currently due.",
+      requiredForApproval: false,
+      complete: refreshComplete,
     },
   ];
 }

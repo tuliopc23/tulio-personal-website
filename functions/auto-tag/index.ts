@@ -15,9 +15,29 @@ export const handler = documentEventHandler(async ({ context, event }) => {
     const result = await client.agent.action.generate({
       noWrite: local ? true : false, // if local is true, we don't write to the document, just return the result for logging
       instructionParams: {
+        title: {
+          type: "field",
+          path: "title",
+        },
+        summary: {
+          type: "field",
+          path: "summary",
+        },
+        hook: {
+          type: "field",
+          path: "hook",
+        },
         content: {
           type: "field",
           path: "content",
+        },
+        categories: {
+          type: "field",
+          path: "categories",
+        },
+        topics: {
+          type: "field",
+          path: "topics",
         },
         tagsUsedInOtherPosts: {
           type: "groq",
@@ -28,7 +48,7 @@ export const handler = documentEventHandler(async ({ context, event }) => {
           },
         },
       },
-      instruction: `Based on the $content, create 3 relevant tags. Attempt to use $tagsUsedInOtherPosts first if they fit the context. Tags should be simple single words (e.g., "Design", "Engineering", "Frontend") and no brackets or special characters.`,
+      instruction: `Based on the $title, $summary, $hook, $content, $categories, and $topics, create 3 relevant tags. Attempt to use $tagsUsedInOtherPosts first if they fit the context. Tags should be simple single words or compact compounds (e.g., "Design", "Engineering", "Frontend") and no brackets or special characters.`,
       target: {
         path: "tags",
       },

@@ -39,6 +39,42 @@ export const resolve: PresentationPluginOptions["resolve"] = {
         ],
       }),
     }),
+    topic: defineLocations({
+      select: {
+        title: "title",
+        slug: "slug.current",
+      },
+      resolve: (doc) => ({
+        locations: [
+          {
+            title: doc?.title || "Topic",
+            href: doc?.slug ? `/blog/topic/${doc.slug}/` : "/blog/",
+          },
+          {
+            title: "Blog Index",
+            href: "/blog/",
+          },
+        ],
+      }),
+    }),
+    series: defineLocations({
+      select: {
+        title: "title",
+        slug: "slug.current",
+      },
+      resolve: (doc) => ({
+        locations: [
+          {
+            title: doc?.title || "Series",
+            href: doc?.slug ? `/blog/series/${doc.slug}/` : "/blog/",
+          },
+          {
+            title: "Blog Index",
+            href: "/blog/",
+          },
+        ],
+      }),
+    }),
     project: defineLocations({
       select: {
         title: "title",

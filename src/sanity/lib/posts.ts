@@ -26,6 +26,8 @@ export interface Author {
   _id: string;
   name: string;
   slug: string;
+  role?: string | null;
+  expertise?: string[] | null;
   avatar?: {
     url: string | null;
     alt?: string | null;
@@ -37,6 +39,31 @@ export interface Category {
   title: string;
   slug: string;
   description?: string | null;
+  archiveIntro?: string | null;
+}
+
+export interface Topic {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  archiveIntro?: string | null;
+}
+
+export interface SeriesReference {
+  _id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+}
+
+export interface SourceReference {
+  _id: string;
+  title: string;
+  url: string;
+  sourceType?: string | null;
+  author?: string | null;
+  capturedExcerpt?: string | null;
 }
 
 export interface PostSummary {
@@ -47,7 +74,16 @@ export interface PostSummary {
   slug: string;
   publishedAt: string;
   tags: string[];
+  audience?: string | null;
+  intent?: string | null;
+  targetKeyword?: string | null;
+  evergreenStatus?: string | null;
   keyTakeaways?: string[] | null;
+  pullQuotes?: Array<{
+    quote: string;
+    attribution?: string | null;
+    sourceUrl?: string | null;
+  }> | null;
   furtherReading?: Array<{
     title: string;
     href: string;
@@ -58,6 +94,16 @@ export interface PostSummary {
   heroImage?: SanityImageWithMetadata | null;
   author?: Author | null;
   categories?: Category[] | null;
+  topics?: Topic[] | null;
+  relatedSeries?: SeriesReference[] | null;
+  sourceReferences?: SourceReference[] | null;
+  distributionPackage?: {
+    newsletterBlurb?: string | null;
+    shortSocialPost?: string | null;
+    longSocialPost?: string | null;
+    teaserQuote?: string | null;
+    ctaLabel?: string | null;
+  } | null;
   readingTimeMinutes?: number;
   seo?: PostSeoMeta | null;
   featured?: boolean;
@@ -107,6 +153,8 @@ const AUTHOR_PROJECTION = `
     _id,
     name,
     "slug": slug.current,
+    role,
+    expertise,
     "avatar": avatar{
       alt,
       "url": asset->url
@@ -119,7 +167,48 @@ const CATEGORIES_PROJECTION = `
     _id,
     title,
     "slug": slug.current,
+    description,
+    archiveIntro
+  }
+`;
+
+const TOPICS_PROJECTION = `
+  "topics": topics[]->{
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    archiveIntro
+  }
+`;
+
+const SERIES_PROJECTION = `
+  "relatedSeries": relatedSeries[]->{
+    _id,
+    title,
+    "slug": slug.current,
     description
+  }
+`;
+
+const SOURCE_REFERENCES_PROJECTION = `
+  "sourceReferences": sourceReferences[]->{
+    _id,
+    title,
+    url,
+    sourceType,
+    author,
+    capturedExcerpt
+  }
+`;
+
+const DISTRIBUTION_PROJECTION = `
+  "distributionPackage": distributionPackage{
+    newsletterBlurb,
+    shortSocialPost,
+    longSocialPost,
+    teaserQuote,
+    ctaLabel
   }
 `;
 
@@ -128,11 +217,20 @@ const SUMMARY_PROJECTION = `{
   title,
   summary,
   hook,
+  audience,
+  intent,
+  targetKeyword,
+  evergreenStatus,
   "slug": slug.current,
   publishedAt,
   tags,
   featured,
   keyTakeaways,
+  "pullQuotes": pullQuotes[]{
+    quote,
+    attribution,
+    sourceUrl
+  },
   "furtherReading": furtherReading[]{
     title,
     href,
@@ -143,6 +241,10 @@ const SUMMARY_PROJECTION = `{
   ${HERO_IMAGE_PROJECTION},
   ${AUTHOR_PROJECTION},
   ${CATEGORIES_PROJECTION},
+  ${TOPICS_PROJECTION},
+  ${SERIES_PROJECTION},
+  ${SOURCE_REFERENCES_PROJECTION},
+  ${DISTRIBUTION_PROJECTION},
   ${SEO_PROJECTION}
 }`;
 
@@ -151,11 +253,25 @@ const DETAIL_PROJECTION = `{
   title,
   summary,
   hook,
+  audience,
+  intent,
+  targetKeyword,
+  evergreenStatus,
   "slug": slug.current,
   publishedAt,
   tags,
   featured,
   keyTakeaways,
+  "pullQuotes": pullQuotes[]{
+    quote,
+    attribution,
+    sourceUrl
+  },
+  "furtherReading": furtherReading[]{
+    title,
+    href,
+    note
+  },
   coverVariant,
   series,
   markdownContent,
@@ -174,6 +290,10 @@ const DETAIL_PROJECTION = `{
   ${HERO_IMAGE_PROJECTION},
   ${AUTHOR_PROJECTION},
   ${CATEGORIES_PROJECTION},
+  ${TOPICS_PROJECTION},
+  ${SERIES_PROJECTION},
+  ${SOURCE_REFERENCES_PROJECTION},
+  ${DISTRIBUTION_PROJECTION},
   ${SEO_PROJECTION}
 }`;
 
@@ -248,7 +368,7 @@ export function calculateReadingTimeMinutes(
 
 export async function getAllCategories(): Promise<Category[]> {
   const { data } = await loadQuery<Category[]>({
-    query: `*[_type == "category"] | order(title asc){ _id, title, "slug": slug.current, description }`,
+    query: `*[_type == "category"] | order(title asc){ _id, title, "slug": slug.current, description, archiveIntro }`,
   });
 
   return data ?? [];
@@ -256,7 +376,7 @@ export async function getAllCategories(): Promise<Category[]> {
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   const { data } = await loadQuery<Category | null>({
-    query: `*[_type == "category" && slug.current == $slug][0]{ _id, title, "slug": slug.current, description }`,
+    query: `*[_type == "category" && slug.current == $slug][0]{ _id, title, "slug": slug.current, description, archiveIntro }`,
     params: { slug },
   });
 

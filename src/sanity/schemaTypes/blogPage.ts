@@ -15,6 +15,7 @@ export default defineType({
     },
     { name: "archive", title: "Archive Settings", options: { collapsible: true, collapsed: true } },
     { name: "empty", title: "Empty States", options: { collapsible: true, collapsed: true } },
+    { name: "ops", title: "Editorial Ops", options: { collapsible: true, collapsed: true } },
   ],
   fields: [
     defineField({
@@ -195,6 +196,32 @@ export default defineType({
         }),
       ],
       validation: (rule) => rule.max(6),
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO Metadata",
+      type: "seo",
+      fieldset: "ops",
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+    }),
+    defineField({
+      name: "pageIntent",
+      title: "Page Intent",
+      type: "text",
+      rows: 3,
+      fieldset: "ops",
+      validation: (rule) => rule.max(240),
+    }),
+    defineField({
+      name: "changeNotes",
+      title: "Change Notes",
+      type: "text",
+      rows: 4,
+      fieldset: "ops",
+      validation: (rule) => rule.max(480),
     }),
   ],
   preview: {
