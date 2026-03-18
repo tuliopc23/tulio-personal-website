@@ -1,0 +1,44 @@
+src/components/remotion/HeroComposition.tsx
+  b628fdf366870e17 44-52,54-63,72,75,103,106,144,147,180,183,248,251-252
+functions/generate-distribution-package/index.ts
+  bf4f31b2fed5e292 18,30
+functions/auto-publish/index.ts
+  bf4f31b2fed5e292 18,30
+functions/stale-content-review/index.ts
+  bf4f31b2fed5e292 18,30
+functions/auto-tag/index.ts
+  bf4f31b2fed5e292 18,30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "081b0d251b066399ee096ef09a3cc3c1911bca4e",
+  "prompts": {
+    "b628fdf366870e17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6ca2008e-63b3-4998-adba-02fb3e1a3dc2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 32,
+      "total_deletions": 29,
+      "accepted_lines": 30,
+      "overriden_lines": 0
+    },
+    "bf4f31b2fed5e292": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "656fa2fe-6a44-4f94-b41c-33ebd6e19047",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 8,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}
