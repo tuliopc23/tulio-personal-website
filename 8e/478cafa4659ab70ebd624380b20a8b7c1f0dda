@@ -1,0 +1,39 @@
+src/components/FeatureWritingWidget.astro
+  c9c45fdcc0a45045 62-65,74-76,87-98
+  c49cdaf2efceea3c 55
+public/icons/Tools/Emacs_LG3.svg
+  c49cdaf2efceea3c 4-5,10-12,35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "8e478cafa4659ab70ebd624380b20a8b7c1f0dda",
+  "prompts": {
+    "c49cdaf2efceea3c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6acddb04-5bda-42e0-8e64-5d81b758b5cd",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 44,
+      "total_deletions": 49,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    },
+    "c9c45fdcc0a45045": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cff85-5a1d-7f61-9781-e53c3e9236fc",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 0,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}
