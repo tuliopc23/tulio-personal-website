@@ -1,0 +1,29 @@
+src/styles/system/routes.css
+  b628fdf366870e17 302,1725,1734-1737,1742-1743,1800-1801,1806-1807
+src/pages/index.astro
+  b628fdf366870e17 75-78,86-91
+src/components/ProfileCard.module.css
+  b628fdf366870e17 264-265,278-281,284-291,295-296
+src/pages/blog/index.astro
+  b628fdf366870e17 392,597-613,615-616,619,622-623,628,632-634,642-643,652,655-720,722-733,739-740
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "d0d8a40e1c3b469b6aaeafe9d48f507bdcee1bc8",
+  "prompts": {
+    "b628fdf366870e17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6ca2008e-63b3-4998-adba-02fb3e1a3dc2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 162,
+      "total_deletions": 82,
+      "accepted_lines": 152,
+      "overriden_lines": 0
+    }
+  }
+}
