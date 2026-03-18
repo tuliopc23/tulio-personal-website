@@ -19,21 +19,11 @@ const POST_FIELD_INSTRUCTIONS: Record<
     title: "Draft summary",
     instruction: `
 Write a compact article summary for the "summary" field.
-- Use the article title, hook, body, categories, and tags as context.
+- Use the article title, body, categories, and tags as context.
 - Write one high-signal paragraph in English.
 - Keep it between 100 and 220 characters when possible.
 - Make it useful for blog cards, listings, and SEO fallback copy.
 - Do not repeat the title verbatim.
-`,
-  },
-  hook: {
-    title: "Draft hook",
-    instruction: `
-Write a short hook for the "hook" field.
-- The hook is a kicker used in article cards and the article hero.
-- Keep it to one sentence fragment or one compact line.
-- Aim for 6 to 14 words.
-- It should feel specific, sharp, and editorial rather than generic marketing copy.
 `,
   },
   keyTakeaways: {
@@ -62,7 +52,7 @@ Write an SEO meta title for this article.
 Write an SEO meta description for this article.
 - Keep it under 160 characters.
 - Make it informative, specific, and readable.
-- Use the title, hook, summary, and article body as context.
+- Use the title, summary, and article body as context.
 - Avoid generic filler phrases.
 `,
   },
@@ -71,7 +61,7 @@ Write an SEO meta description for this article.
     instruction: `
 Write a short newsletter blurb for this article.
 - Keep it to 2 or 3 compact sentences.
-- Use the title, hook, summary, and body as context.
+- Use the title, summary, and body as context.
 - Make it feel editorial and useful, not promotional fluff.
 `,
   },
@@ -80,7 +70,7 @@ Write a short newsletter blurb for this article.
     instruction: `
 Write a short social post for this article.
 - Keep it punchy and compact.
-- Use the title, hook, and strongest takeaway as context.
+- Use the title and strongest takeaway as context.
 - Make it readable on X, LinkedIn, or similar feeds without sounding generic.
 `,
   },
@@ -114,7 +104,7 @@ Write a CTA label for this article's distribution package.
     title: "Draft refresh review",
     instruction: `
 Review this article and write a compact refresh summary.
-- Look for stale framing, outdated examples, missing nuance, and better hooks.
+- Look for stale framing, outdated examples, and missing nuance.
 - Say whether it should be monitored, refreshed soon, rewritten, or archived.
 - Keep it editorial and practical.
 `,

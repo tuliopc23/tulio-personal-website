@@ -246,7 +246,6 @@ const _sectionHeaders = {
             href={featured.href}
             title={featured.title}
             summary={featured.summary}
-            hook={featured.hook}
             dateISO={featured.dateISO}
             dateLabel={featured.dateLabel}
             ctaLabel="Read post"
@@ -350,7 +349,6 @@ const _sectionHeaders = {
                   href={post.href}
                   title={post.title}
                   summary={post.summary}
-                  hook={post.hook}
                   dateISO={post.dateISO}
                   dateLabel={post.dateLabel}
                   ctaLabel="Read post"
@@ -374,7 +372,6 @@ const _sectionHeaders = {
                   href={placeholder.href}
                   title={placeholder.title}
                   summary={placeholder.summary}
-                  hook={null}
                   dateISO={new Date().toISOString()}
                   dateLabel="On deck"
                   ctaLabel="Read post"
@@ -575,15 +572,15 @@ const _sectionHeaders = {
   <style>
     @media (max-width: 768px) {
       .blogSurface--feed {
-        gap: var(--space-md);
-      }
-
-      .blogSurface--feed .stage-intro {
         gap: var(--space-sm);
       }
 
+      .blogSurface--feed .stage-intro {
+        gap: 8px;
+      }
+
       .blogSurface--feed .blogFilters--feed {
-        gap: 10px;
+        gap: 8px;
       }
 
       .blogSurface--feed .blogFilters__label {
@@ -593,18 +590,19 @@ const _sectionHeaders = {
 
       .blogSurface--feed .blogFilters__scroller {
         padding: 6px;
-        border-radius: 20px;
+        border-radius: 16px;
+        gap: 8px;
       }
 
       .blogSurface--feed .articleCarousel--feed {
-        gap: var(--space-xs);
+        gap: 8px;
       }
 
       /* Single-card horizontal carousel on mobile */
       .blogSurface--feed .articleGrid {
         display: flex;
-        gap: 16px;
-        padding: 12px 4px 16px;
+        gap: 12px;
+        padding: 8px 2px 12px;
         overflow-x: auto;
         overflow-y: clip;
         scroll-snap-type: x mandatory;
@@ -620,8 +618,8 @@ const _sectionHeaders = {
       }
 
       .blogSurface--feed .articleGrid__item {
-        flex: 0 0 calc(100vw - 56px);
-        max-width: calc(100vw - 56px);
+        flex: 0 0 calc(100vw - 40px);
+        max-width: calc(100vw - 40px);
         scroll-snap-align: center;
         animation: none;
       }
@@ -633,6 +631,18 @@ const _sectionHeaders = {
       /* Show the page indicator on mobile */
       .blogSurface__indicator {
         display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .blogSurface--feed .articleGrid__item {
+        flex: 0 0 calc(100vw - 28px);
+        max-width: calc(100vw - 28px);
+      }
+
+      .blogSurface--feed .blogFilters__scroller {
+        border-radius: 14px;
+        gap: 6px;
       }
     }
   </style>

@@ -176,23 +176,6 @@ export default defineType({
           .warning("Keep summaries between 100-220 chars for better card rhythm."),
     }),
     defineField({
-      name: "hook",
-      title: "Hook",
-      type: "string",
-      group: ["draft", "seo", "distribution"],
-      description:
-        "Short kicker used on article cards and the article hero. Aim for one crisp line with a clear angle.",
-      components: {
-        input: EditorialStringInput,
-      },
-      validation: (rule) =>
-        rule
-          .required()
-          .min(18)
-          .max(90)
-          .warning("Keep hooks compact so they fit cards and featured surfaces cleanly."),
-    }),
-    defineField({
       name: "keyTakeaways",
       title: "Key Takeaways",
       type: "array",

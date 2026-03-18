@@ -109,3 +109,34 @@
   --z-notification: 1700;
   --z-debug: 9999;
 }
+
+/* ======= Mobile Radius Scaling ======= */
+/* Prevent capsule/pill shapes on narrow cards by reducing radii proportionally */
+@media (max-width: 768px) {
+  :root {
+    --radius: 16px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 28px;
+    --radius-2xl: 32px;
+    --radius-3xl: 36px;
+    --radius-card: 16px;
+    --radius-widget: 16px;
+    --card-padding: clamp(1rem, 3vw, 1.5rem);
+    --card-padding-compact: clamp(0.875rem, 2.5vw, 1.25rem);
+    --widget-padding: clamp(0.875rem, 2.5vw, 1.25rem);
+    --widget-padding-sm: clamp(0.625rem, 2vw, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --radius: 14px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 24px;
+    --radius-2xl: 28px;
+    --radius-card: 14px;
+    --radius-widget: 14px;
+  }
+}

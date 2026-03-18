@@ -52,10 +52,10 @@
   }
 }
 
-/* Mobile: full screen hero */
+/* Mobile: shorter hero so Macintosh is dominant, not wasteful */
 @media (max-width: 768px) {
   .hero-remotion {
-    height: 100vh;
+    height: 85vh;
   }
 }
 
@@ -72,7 +72,7 @@
 
   @media (max-width: 768px) {
     .hero-remotion {
-      height: 100dvh;
+      height: 85dvh;
     }
   }
 }
@@ -115,6 +115,29 @@
   display: block;
   object-fit: cover;
   object-position: center;
+}
+
+/* Mobile: Make the Macintosh the hero asset, crop heavily so it takes up the screen */
+@media (max-width: 768px) {
+  .hero-remotion__fallback {
+    /* Ensure overflow is hidden if we scale up the image */
+    overflow: hidden;
+  }
+  .hero-remotion__fallback img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    /* Scale up the image to crop out the empty space around the Macintosh.
+       Adjust the translate to center the screen vertically if needed. */
+    transform: scale(2.8) translateY(-4%);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-remotion__fallback img {
+    transform: scale(3.2) translateY(-4%);
+  }
 }
 
 /* Theme-aware ambient lighting behind the hero composition */
@@ -1321,15 +1344,6 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   justify-self: start;
 }
 
-.articleCard__hook {
-  margin: 0;
-  color: var(--blue);
-  font-size: var(--fs--2);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .projectCard__mediaGlow {
   position: absolute;
   inset: 18%;
@@ -1362,6 +1376,19 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   );
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
+}
+
+/* Mobile: proportional surface panel radius */
+@media (max-width: 768px) {
+  .surface-panel {
+    --surface-panel-radius: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .surface-panel {
+    --surface-panel-radius: 16px;
+  }
 }
 
 .surface-panel::before {

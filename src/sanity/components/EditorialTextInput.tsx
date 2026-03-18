@@ -20,11 +20,6 @@ const FIELD_GUIDANCE: Record<string, GuidanceConfig> = {
     max: 220,
     ideal: "Compact, specific, and useful as card copy plus SEO fallback.",
   },
-  hook: {
-    min: 24,
-    max: 72,
-    ideal: "A sharp kicker that frames the article in one compact line.",
-  },
   metaTitle: {
     max: 70,
     ideal: "Search-friendly title that preserves the editorial voice.",

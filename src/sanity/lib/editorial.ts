@@ -37,7 +37,6 @@ const POST_CARD_PROJECTION = `{
   _id,
   title,
   summary,
-  hook,
   "slug": slug.current,
   publishedAt,
   tags,

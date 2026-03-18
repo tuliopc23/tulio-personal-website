@@ -26,7 +26,7 @@
 @media (max-width: 768px) {
   .featureWritingWidget {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     overflow-x: auto;
     overflow-y: clip;
     scroll-snap-type: x mandatory;
@@ -34,7 +34,7 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
-    padding: 8px 2px 12px;
+    padding: 6px 2px 10px;
   }
 
   .featureWritingWidget::-webkit-scrollbar {
@@ -42,8 +42,15 @@
   }
 
   .card {
-    flex: 0 0 min(calc(100vw - 72px), 340px);
-    max-width: min(calc(100vw - 72px), 340px);
+    flex: 0 0 min(calc(100vw - 48px), 340px);
+    max-width: min(calc(100vw - 48px), 340px);
     scroll-snap-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex: 0 0 calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
   }
 }

@@ -247,7 +247,7 @@
 @media (width <= 760px) {
   .profileCard {
     padding: 12px;
-    border-radius: 22px;
+    border-radius: 18px;
   }
 
   .profileCardIdentity {
@@ -256,26 +256,28 @@
   }
 
   .profileCardPhoto {
-    width: 132px;
+    width: 120px;
+    border-radius: 22px;
   }
 
   .profileCardContactList {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .profileCardSocialGrid {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .profileCardSocialCard {
-    min-height: 78px;
+    min-height: 72px;
   }
 
   .profileCardContact {
-    min-height: 54px;
+    min-height: 52px;
     padding: 10px 12px;
+    border-radius: 14px;
   }
 
   .profileCardContactCopy span {
@@ -284,11 +286,24 @@
 }
 
 @media (width <= 520px) {
+  .profileCard {
+    border-radius: 16px;
+  }
+
   .profileCardName {
-    font-size: clamp(32px, 9vw, 40px);
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  .profileCardPhoto {
+    width: 100px;
+    border-radius: 18px;
   }
 
   .profileCardSocialHeader h3 {
-    font-size: clamp(1.75rem, 8vw, 2.125rem);
+    font-size: clamp(1.5rem, 7vw, 1.875rem);
+  }
+
+  .profileCardContact {
+    border-radius: 12px;
   }
 }

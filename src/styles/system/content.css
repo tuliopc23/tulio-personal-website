@@ -237,18 +237,6 @@
   text-wrap: balance;
 }
 
-.article__hook {
-  margin: 0;
-  max-width: 40ch;
-  color: var(--article-kicker);
-  font-size: var(--fs--1);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.35;
-  text-transform: uppercase;
-  text-wrap: balance;
-}
-
 .article__summary {
   margin: 0;
   width: min(100%, 48ch);

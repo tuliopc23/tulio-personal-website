@@ -266,8 +266,8 @@
 @media (max-width: 768px) {
   .bento-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-    padding: 14px 10px 44px;
+    gap: 12px;
+    padding: 12px 8px 32px;
   }
 
   .homepage-stage--hero-bridge::before {
@@ -275,42 +275,62 @@
   }
 
   .stage-intro {
-    gap: 12px;
+    gap: 10px;
   }
 
   .stage-intro__title {
-    font-size: clamp(24px, 8vw, 32px);
+    font-size: clamp(22px, 7vw, 28px);
+  }
+
+  .stage-intro__caption {
+    font-size: clamp(0.875rem, 0.5vw + 0.82rem, 1rem);
   }
 
   .widget-box {
     grid-column: 1 / -1;
-    padding: 16px;
+    padding: 14px 12px;
+    gap: clamp(10px, 2vw, 14px);
   }
 
   .widget-github {
-    min-height: clamp(300px, 74vw, 420px);
+    min-height: clamp(280px, 68vw, 380px);
   }
 
+  /* Tools/Stack: proper 4-col grid, not broken horizontal scroller */
   .tools-grid {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 4px 2px 8px;
-    scrollbar-width: none;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-  }
-
-  .tools-grid::-webkit-scrollbar {
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding: 2px;
   }
 
   .tools-grid > * {
-    flex: 0 0 88px;
+    flex: none;
     min-width: 0;
-    scroll-snap-align: start;
+    scroll-snap-align: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .bento-grid {
+    gap: 10px;
+    padding: 10px 6px 28px;
+  }
+
+  .widget-box {
+    padding: 12px 10px;
+  }
+
+  .stage-intro__title {
+    font-size: clamp(20px, 6.5vw, 26px);
+  }
+
+  /* Smaller phones: 3-col grid for tools */
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
 }
 
@@ -1127,7 +1147,6 @@
   }
   .blogHero__featured .articleCard--featuredEditorial .articleCard__header,
   .blogHero__featured .articleCard--featuredEditorial .articleCard__summary,
-  .blogHero__featured .articleCard--featuredEditorial .articleCard__hook,
   .blogHero__featured .articleCard--featuredEditorial .articleCard__footer,
   .blogHero__featured .articleCard--featuredEditorial .articleCard__sourceRow,
   .blogHero__featured .articleCard--featuredEditorial .articleCard__taxonomy {
@@ -1177,12 +1196,40 @@
 }
 
 @media (max-width: 768px) {
+  .blogHero {
+    margin-top: clamp(16px, 3vw, 32px);
+    margin-bottom: clamp(12px, 2.5vw, 24px);
+    gap: 16px;
+  }
+
+  .blogHero__title {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    max-width: 100%;
+    line-height: 0.98;
+  }
+
+  .blogHero__lede {
+    max-width: 100%;
+    font-size: clamp(0.95rem, 0.3vw + 0.9rem, 1.06rem);
+  }
+
   .blogHero__featured {
     max-width: 100%;
   }
 
   .blogHero__featured .articleCard--featured {
     min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .blogHero {
+    gap: 14px;
+  }
+
+  .blogHero__title {
+    font-size: clamp(1.75rem, 7.5vw, 2.2rem);
+    letter-spacing: -0.04em;
   }
 }
 
@@ -1240,6 +1287,25 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .blogArchive__list {
+    gap: 10px;
+  }
+
+  .blogArchive__list li {
+    border-radius: 14px;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blogArchive__list li {
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
 }
 
 .categoryHero {
@@ -1650,19 +1716,104 @@
 /* Mobile: single-card carousel sizing */
 @media (max-width: 768px) {
   .articleGrid__item {
-    flex: 0 0 calc(100vw - 64px);
-    max-width: calc(100vw - 64px);
+    flex: 0 0 calc(100vw - 48px);
+    max-width: calc(100vw - 48px);
     scroll-snap-align: center;
   }
 
   .articleGrid {
-    scroll-padding-inline: 8px;
+    scroll-padding-inline: 6px;
+    padding: 8px 2px 12px;
   }
 
   .blogSurface .articleGrid__item,
   .categorySurface .articleGrid__item {
-    flex: 0 0 calc(100vw - 56px);
-    max-width: calc(100vw - 56px);
+    flex: 0 0 calc(100vw - 40px);
+    max-width: calc(100vw - 40px);
+  }
+
+  /* Proportional article card radii on mobile */
+  .articleCard {
+    border-radius: 18px;
+  }
+
+  .articleCard--featured {
+    border-radius: 22px;
+    min-height: auto;
+    padding: clamp(12px, 2vw, 16px);
+  }
+
+  .articleCard--featuredEditorial {
+    border-radius: 20px;
+  }
+
+  .articleCard--featuredEditorial .articleCard__media {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .articleCard__media {
+    border-radius: 16px;
+  }
+
+  .blogSurface .articleCard:not(.articleCard--featured),
+  .categorySurface .articleCard:not(.articleCard--featured) {
+    border-radius: 18px;
+    min-height: 180px;
+  }
+
+  .blogSurface .articleCard--featuredEditorial.articleCard--editorial-standard,
+  .categorySurface .articleCard--featuredEditorial.articleCard--editorial-standard {
+    border-radius: 20px;
+    min-height: clamp(320px, 80vw, 400px);
+  }
+
+  /* Reduce card body padding for mobile */
+  .articleCard--featuredEditorial .articleCard__body {
+    padding: 14px 14px 16px;
+    gap: 10px;
+  }
+
+  .articleCard--editorial-standard .articleCard__body {
+    padding: 14px 14px 16px;
+    gap: 10px;
+  }
+
+  .articleCard__link {
+    padding: 12px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .articleGrid__item {
+    flex: 0 0 calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+  }
+
+  .blogSurface .articleGrid__item,
+  .categorySurface .articleGrid__item {
+    flex: 0 0 calc(100vw - 28px);
+    max-width: calc(100vw - 28px);
+  }
+
+  .articleCard {
+    border-radius: 16px;
+  }
+
+  .articleCard--featured {
+    border-radius: 18px;
+  }
+
+  .articleCard--featuredEditorial {
+    border-radius: 16px;
+  }
+
+  .articleCard--featuredEditorial .articleCard__media {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .articleCard__media {
+    border-radius: 14px;
   }
 }
 
@@ -1948,16 +2099,14 @@
 
 .articleCard--featuredEditorial .articleCard__header,
 .articleCard--featuredEditorial .articleCard__title,
-.articleCard--featuredEditorial .articleCard__summary,
-.articleCard--featuredEditorial .articleCard__hook {
+.articleCard--featuredEditorial .articleCard__summary {
   justify-items: center;
   justify-self: center;
   text-align: center;
 }
 
 .articleCard--featuredEditorial .articleCard__header,
-.articleCard--featuredEditorial .articleCard__summary,
-.articleCard--featuredEditorial .articleCard__hook {
+.articleCard--featuredEditorial .articleCard__summary {
   width: min(100%, 38ch);
 }
 
@@ -2114,18 +2263,6 @@
   overflow: hidden;
 }
 
-.articleCard__hook {
-  margin: 0;
-  width: 100%;
-  max-width: min(100%, 38ch);
-  font-size: var(--fs--1);
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  line-height: 1.35;
-  text-transform: uppercase;
-  text-align: start;
-}
-
 .articleCard__summary {
   margin: 0;
   width: 100%;
@@ -2141,19 +2278,6 @@
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
-
-.articleCard--featuredEditorial .articleCard__hook {
-  max-width: min(100%, 40ch);
-  text-wrap: pretty;
-}
-
-[data-theme="dark"] .articleCard__hook {
-  color: color-mix(in srgb, var(--blue) 66%, rgba(255, 255, 255, 0.88));
-}
-
-[data-theme="light"] .articleCard__hook {
-  color: color-mix(in srgb, var(--blue) 72%, rgba(20, 26, 38, 0.82));
 }
 
 [data-theme="dark"] .articleCard__summary {
@@ -2231,14 +2355,6 @@
       transparent 30%
     ),
     color-mix(in srgb, #eef2fb 70%, var(--surface) 30%);
-}
-
-[data-theme="dark"] .articleCard--featuredEditorial .articleCard__hook {
-  color: rgba(235, 235, 245, 0.58);
-}
-
-[data-theme="light"] .articleCard--featuredEditorial .articleCard__hook {
-  color: rgba(60, 60, 67, 0.56);
 }
 
 .articleCard__tags {
@@ -2559,7 +2675,6 @@
 
 .articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__header,
 .articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__summary,
-.articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__hook,
 .articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__footer,
 .articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__sourceRow,
 .articleCard--featuredEditorial.articleCard--editorial-standard .articleCard__taxonomy {

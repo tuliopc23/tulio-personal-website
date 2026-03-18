@@ -5,7 +5,6 @@ export const richPostSummary: PostSummary = {
   _id: "post-1",
   title: "Building Better Astro Sites",
   summary: "A practical look at route design, performance, and testing.",
-  hook: "Astro tradeoffs in production.",
   slug: "building-better-astro-sites",
   publishedAt: "2026-03-10T12:00:00.000Z",
   tags: ["astro", "testing"],

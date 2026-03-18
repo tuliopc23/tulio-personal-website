@@ -20,7 +20,6 @@ const writingPosts = posts.slice(0, 3).map((post) => {
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   return {
-    hook: post.hook,
     title: post.title,
     summary: post.summary,
     href: `/blog/${post.slug}/`,

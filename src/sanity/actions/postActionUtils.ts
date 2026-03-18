@@ -4,7 +4,6 @@ export type PostActionDocument = {
   status?: string;
   title?: string;
   summary?: string;
-  hook?: string;
   publishedAt?: string;
   evergreenStatus?: string;
   keyTakeaways?: unknown[];

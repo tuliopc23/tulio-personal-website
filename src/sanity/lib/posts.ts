@@ -70,7 +70,6 @@ export interface PostSummary {
   _id: string;
   title: string;
   summary: string;
-  hook?: string | null;
   slug: string;
   publishedAt: string;
   tags: string[];
@@ -216,7 +215,6 @@ const SUMMARY_PROJECTION = `{
   _id,
   title,
   summary,
-  hook,
   audience,
   intent,
   targetKeyword,
@@ -252,7 +250,6 @@ const DETAIL_PROJECTION = `{
   _id,
   title,
   summary,
-  hook,
   audience,
   intent,
   targetKeyword,

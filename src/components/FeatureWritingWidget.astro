@@ -7,7 +7,6 @@ interface PostItem {
   title: string;
   summary: string;
   href: string;
-  hook?: string | null;
   dateLabel?: string;
   dateISO?: string;
   readingTimeMinutes?: number;
@@ -29,7 +28,6 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
           href={post.href}
           title={post.title}
           summary={post.summary}
-          hook={post.hook}
           dateISO={post.dateISO ?? new Date().toISOString()}
           dateLabel={post.dateLabel ?? "Recent post"}
           ctaLabel="Read post"

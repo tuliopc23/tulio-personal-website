@@ -287,7 +287,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 )}
               </p>
               <h1 class="article__title">{post.title}</h1>
-              {post.hook && <p class="article__hook">{post.hook}</p>}
               {post.summary && <p class="article__summary">{post.summary}</p>}
               {(_dateISO || _readingLabel || post.author) && (
                 <div class="article__metaRail">
@@ -594,7 +593,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                         href={`/blog/${entry.slug}/`}
                         title={entry.title}
                         summary={entry.summary}
-                        hook={entry.hook}
                         dateISO={relatedISO}
                         dateLabel={relatedLabel}
                         ctaLabel="Read post"

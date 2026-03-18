@@ -2,7 +2,6 @@ export type PostReadinessSnapshot = {
   status?: string;
   title?: string;
   summary?: string;
-  hook?: string;
   publishedAt?: string;
   evergreenStatus?: string;
   keyTakeaways?: unknown[];
@@ -30,7 +29,6 @@ export type PostReadinessSnapshot = {
 
 export type ReadinessItemId =
   | "summary"
-  | "hook"
   | "media"
   | "seo"
   | "distribution"
@@ -58,7 +56,6 @@ function isOlderThanRefreshWindow(publishedAt?: string): boolean {
 
 export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem[] {
   const hasSummary = Boolean(doc.summary?.trim());
-  const hasHook = Boolean(doc.hook?.trim());
   const hasHeroImage = Boolean(doc.heroImage?.asset?._ref);
   const hasHeroAlt = Boolean(doc.heroImage?.alt?.trim());
   const hasMetaTitle = Boolean(doc.seo?.metaTitle?.trim());
@@ -84,13 +81,6 @@ export function getPostReadinessItems(doc: PostReadinessSnapshot): ReadinessItem
         : "Add a summary before sending this through workflow.",
       requiredForApproval: true,
       complete: hasSummary,
-    },
-    {
-      id: "hook",
-      label: "Hook",
-      title: hasHook ? "Hook is in place." : "Add a short hook for cards and the article hero.",
-      requiredForApproval: true,
-      complete: hasHook,
     },
     {
       id: "media",

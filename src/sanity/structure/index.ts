@@ -116,7 +116,7 @@ export const structure = (S: StructureBuilder) =>
                           S.documentList()
                             .title("Ready To Publish")
                             .filter(
-                              '_type == "post" && status in ["approved", "published"] && defined(summary) && defined(hook) && defined(heroImage.asset) && defined(heroImage.alt) && defined(seo.metaTitle) && defined(seo.metaDescription) && defined(seo.socialImage.asset)',
+                              '_type == "post" && status in ["approved", "published"] && defined(summary)&& defined(heroImage.asset) && defined(heroImage.alt) && defined(seo.metaTitle) && defined(seo.metaDescription) && defined(seo.socialImage.asset)',
                             ),
                         ),
                       S.listItem()
@@ -146,14 +146,6 @@ export const structure = (S: StructureBuilder) =>
                           S.documentList()
                             .title("Needs Summary")
                             .filter('_type == "post" && status != "archived" && !defined(summary)'),
-                        ),
-                      S.listItem()
-                        .title("Needs Hook")
-                        .icon(DocumentTextIcon)
-                        .child(
-                          S.documentList()
-                            .title("Needs Hook")
-                            .filter('_type == "post" && status != "archived" && !defined(hook)'),
                         ),
                       S.listItem()
                         .title("Needs Takeaways")

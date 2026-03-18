@@ -331,21 +331,31 @@
 
 @media (max-width: 768px) {
   :root {
-    --space-xxs: 8px; /* Keep 8px grid even on mobile */
+    --space-xxs: 8px;
     --space-xs: 8px;
-    --space-sm: 16px; /* Keep multiples of 8 */
+    --space-sm: 16px;
     --space-md: 24px;
     --space-lg: 32px;
     --space-xl: 48px;
     --sidebar-width: 0px;
     --content-max: 100%;
-    --fs-0: clamp(1.0625rem, 1.5vw + 0.95rem, 1.125rem); /* 17px min iOS baseline */
-    --fs-hero: clamp(32px, 6vw + 18px, 48px); /* Increased min from 30px */
+    --fs-0: clamp(1.0625rem, 1.5vw + 0.95rem, 1.125rem);
+    --fs-hero: clamp(32px, 6vw + 18px, 48px);
     --fs-h2: clamp(22px, 3.4vw + 14px, 28px);
-    --fs-h3: clamp(18px, 2.2vw + 14px, 22px); /* Increased min from 17px */
-    --ls-h3: -0.008em; /* Reduce compression on small screens */
-    --ls-body: -0.005em; /* Nearly neutral on mobile */
-    --container-padding: clamp(var(--space-xs), 5vw, var(--space-md));
+    --fs-h3: clamp(18px, 2.2vw + 14px, 22px);
+    --ls-h3: -0.008em;
+    --ls-body: -0.005em;
+    --container-padding: clamp(10px, 4vw, 20px);
+    --topbar-h: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container-padding: clamp(8px, 3.5vw, 16px);
+    --fs-hero: clamp(28px, 7vw + 10px, 40px);
+    --fs-h2: clamp(20px, 4vw + 10px, 26px);
+    --fs-h3: clamp(17px, 3vw + 10px, 20px);
   }
 }
 

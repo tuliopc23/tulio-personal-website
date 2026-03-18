@@ -31,15 +31,27 @@
 
 @media (max-width: 768px) {
   .dockLink {
-    gap: 8px;
+    gap: 6px;
   }
 
   .dockPremium {
-    min-height: 88px;
-    gap: 8px;
+    min-height: 76px;
+    gap: 6px;
   }
 
   .dockPremium .name {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+@media (max-width: 480px) {
+  .dockPremium {
+    min-height: 68px;
+    gap: 5px;
+  }
+
+  .dockPremium .name {
+    font-size: 0.64rem;
   }
 }
