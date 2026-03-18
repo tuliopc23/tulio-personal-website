@@ -1,0 +1,165 @@
+---
+// Loading skeleton shown while GitHubSection server island renders
+---
+
+<section class="githubSkeleton" id="section-github" aria-busy="true" aria-label="Loading GitHub activity">
+  <div class="githubSkeleton__rail">
+    {[0, 1].map((i) => (
+      <div class="githubSkeleton__card" style={`animation-delay: ${i * 120}ms`}>
+        <div class="githubSkeleton__editorial">
+          <div class="githubSkeleton__line githubSkeleton__line--eyebrow"></div>
+          <div class="githubSkeleton__line githubSkeleton__line--title"></div>
+          <div class="githubSkeleton__line githubSkeleton__line--desc"></div>
+          <div class="githubSkeleton__line githubSkeleton__line--desc githubSkeleton__line--short"></div>
+        </div>
+        <div class="githubSkeleton__activity">
+          <div class="githubSkeleton__line githubSkeleton__line--eyebrow"></div>
+          {[0, 1, 2, 3].map(() => (
+            <div class="githubSkeleton__commit">
+              <div class="githubSkeleton__commitDot"></div>
+              <div class="githubSkeleton__commitLines">
+                <div class="githubSkeleton__line githubSkeleton__line--commit"></div>
+                <div class="githubSkeleton__line githubSkeleton__line--meta"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .githubSkeleton {
+    overflow: hidden;
+  }
+
+  .githubSkeleton__rail {
+    display: flex;
+    gap: var(--space-lg);
+    padding: clamp(28px, 3.5vw, 48px) clamp(32px, 4vw, 56px);
+    margin-inline: calc(-1 * clamp(32px, 4vw, 56px));
+    overflow: hidden;
+  }
+
+  .githubSkeleton__card {
+    flex: 0 0 min(calc(100% - var(--space-lg)), 980px);
+    border-radius: 32px;
+    border: 1px solid var(--panel-border);
+    background: var(--surface-panel-bg, var(--surface-elevated));
+    display: grid;
+    grid-template-columns: 1fr;
+    animation: skeleton-pulse 1.8s ease-in-out infinite;
+  }
+
+  @media (min-width: 768px) {
+    .githubSkeleton__card {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    }
+  }
+
+  .githubSkeleton__editorial {
+    padding: clamp(28px, 3vw, 40px) clamp(30px, 3.7vw, 44px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vw, 20px);
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  @media (min-width: 768px) {
+    .githubSkeleton__editorial {
+      border-bottom: none;
+      border-right: 1px solid var(--hairline);
+    }
+  }
+
+  .githubSkeleton__activity {
+    padding: clamp(24px, 3vw, 32px) clamp(28px, 3.5vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    background: color-mix(in srgb, var(--surface-card) 52%, transparent);
+  }
+
+  .githubSkeleton__commit {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    border-top: 1px solid color-mix(in srgb, var(--hairline) 60%, transparent);
+  }
+
+  .githubSkeleton__commit:first-of-type {
+    border-top: none;
+  }
+
+  .githubSkeleton__commitDot {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--fill-tertiary);
+    margin-top: 1px;
+  }
+
+  .githubSkeleton__commitLines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .githubSkeleton__line {
+    height: 10px;
+    border-radius: var(--radius-xs);
+    background: var(--fill-tertiary);
+  }
+
+  .githubSkeleton__line--eyebrow {
+    width: 30%;
+    height: 8px;
+  }
+
+  .githubSkeleton__line--title {
+    width: 55%;
+    height: 48px;
+    border-radius: var(--radius-sm);
+  }
+
+  .githubSkeleton__line--desc {
+    width: 80%;
+    height: 10px;
+  }
+
+  .githubSkeleton__line--short {
+    width: 55%;
+  }
+
+  .githubSkeleton__line--commit {
+    width: 75%;
+    height: 11px;
+  }
+
+  .githubSkeleton__line--meta {
+    width: 35%;
+    height: 8px;
+    opacity: 0.6;
+  }
+
+  @keyframes skeleton-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 767px) {
+    .githubSkeleton__card {
+      flex: 0 0 calc(100vw - 48px);
+      border-radius: 24px;
+    }
+
+    .githubSkeleton__rail {
+      padding: clamp(16px, 3vw, 28px);
+      margin-inline: calc(-1 * clamp(16px, 3vw, 28px));
+    }
+  }
+</style>

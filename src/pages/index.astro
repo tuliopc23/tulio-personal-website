@@ -4,7 +4,7 @@ import HeroPlayer from "../components/HeroPlayer";
 import ProfileCard from "../components/ProfileCard.astro";
 import DockLink from "../components/DockLink.astro";
 import SectionQuickNav from "../components/SectionQuickNav.astro";
-import GitHubSection from "../components/github/GitHubSection.astro";
+import GitHubLiveSection from "../components/github/GitHubLiveSection";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getAllPosts } from "../sanity/lib/posts";
@@ -307,7 +307,7 @@ const description =
         </div>
       </header>
 
-      <GitHubSection />
+      <GitHubLiveSection client:load />
     </section>
 
     <section class="homepage-stage" aria-labelledby="homepage-exploration-title">

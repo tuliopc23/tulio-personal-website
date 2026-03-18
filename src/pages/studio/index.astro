@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 const isLocalStudioHost = Astro.url.hostname === "localhost" || Astro.url.hostname === "127.0.0.1";
 let SanityStudioComponent = null;
 const hostedStudioUrl = import.meta.env.PUBLIC_SANITY_STUDIO_URL;

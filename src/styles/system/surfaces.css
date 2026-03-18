@@ -52,10 +52,10 @@
   }
 }
 
-/* Mobile: shorter hero so Macintosh is dominant, not wasteful */
+/* Mobile: full-height hero so Macintosh fills the screen */
 @media (max-width: 768px) {
   .hero-remotion {
-    height: 85vh;
+    height: 100vh;
   }
 }
 
@@ -72,7 +72,7 @@
 
   @media (max-width: 768px) {
     .hero-remotion {
-      height: 85dvh;
+      height: 100dvh;
     }
   }
 }

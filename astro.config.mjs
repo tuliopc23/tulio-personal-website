@@ -28,7 +28,7 @@ export default defineConfig({
     mdx(),
     sanity(sanityOptions),
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
-    solidJs({ include: ["**/solid/**"] }),
+    solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),
   ],
   vite: {
     build: {

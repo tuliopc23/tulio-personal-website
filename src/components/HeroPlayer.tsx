@@ -7,8 +7,11 @@ import { HeroComposition } from "./remotion/HeroComposition";
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
-const COMPOSITION_WIDTH = 1920;
-const COMPOSITION_HEIGHT = 1080;
+const DESKTOP_WIDTH = 1920;
+const DESKTOP_HEIGHT = 1080;
+const MOBILE_WIDTH = 1080;
+const MOBILE_HEIGHT = 1920;
+const MOBILE_BREAKPOINT = 768;
 const FPS = 30;
 const DURATION_SECONDS = 7;
 const DURATION_FRAMES = FPS * DURATION_SECONDS;
@@ -60,6 +63,9 @@ function StaticFallback() {
 
 export default function HeroPlayer() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(readReducedMotionPreference);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT,
+  );
   const playerRef = useRef<PlayerRef>(null);
 
   useEffect(() => {
@@ -67,6 +73,14 @@ export default function HeroPlayer() {
     setPrefersReducedMotion(mq.matches);
 
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
@@ -117,12 +131,15 @@ export default function HeroPlayer() {
     return <StaticFallback />;
   }
 
+  const compWidth = isMobile ? MOBILE_WIDTH : DESKTOP_WIDTH;
+  const compHeight = isMobile ? MOBILE_HEIGHT : DESKTOP_HEIGHT;
+
   return (
     <Player
       ref={playerRef}
       component={HeroComposition}
-      compositionWidth={COMPOSITION_WIDTH}
-      compositionHeight={COMPOSITION_HEIGHT}
+      compositionWidth={compWidth}
+      compositionHeight={compHeight}
       durationInFrames={DURATION_FRAMES}
       fps={FPS}
       loop={false}
@@ -131,6 +148,7 @@ export default function HeroPlayer() {
       initiallyMuted
       autoPlay
       acknowledgeRemotionLicense
+      inputProps={{ isMobile }}
       style={{
         width: "100%",
         height: "100%",

@@ -22,7 +22,9 @@ import {
 /*  Props                                                              */
 /* ------------------------------------------------------------------ */
 
-export type HeroCompositionProps = Record<string, never>;
+export type HeroCompositionProps = {
+  isMobile?: boolean;
+};
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -30,16 +32,8 @@ export type HeroCompositionProps = Record<string, never>;
 
 const MACINTOSH_IMAGE = "/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.png";
 
-/* Mac is centered horizontally and pushed slightly above center.
-   85% width gives a dominant, impactful presence. */
-const MAC_LAYOUT = {
-  top: 3,
-  width: 90,
-} as const;
-
 /* Transparent framed asset is 3072x2048 (3:2). Screen bounds measured
    against the asset itself so hello tracks the actual CRT opening. */
-
 const SCREEN = {
   top: 18.5,
   left: 32.5,
@@ -47,17 +41,26 @@ const SCREEN = {
   height: 31.0,
 } as const;
 
-const HELLO_SCALE = 0.76;
-const HELLO_WIDTH_PCT = SCREEN.width * HELLO_SCALE;
-const HELLO_LEFT_PCT = SCREEN.left + (SCREEN.width - HELLO_WIDTH_PCT) / 2;
-const HELLO_RENDERED_HEIGHT_PCT = (HELLO_WIDTH_PCT / 100 / 2.58) * 100;
-const HELLO_TOP_PCT = SCREEN.top + (SCREEN.height - HELLO_RENDERED_HEIGHT_PCT) / 2;
+/* Desktop: Mac at 90% of 1920×1080 landscape composition — fills width. */
+const DESKTOP_MAC = { top: 3, width: 90 } as const;
 
-const HELLO_POSITION = {
-  top: `${HELLO_TOP_PCT}%`,
-  left: `${HELLO_LEFT_PCT}%`,
-  width: `${HELLO_WIDTH_PCT}%`,
-} as const;
+/* Mobile: portrait 1080×1920 composition. The Mac must be massive to fill
+   the screen height. At 220% width (3:2 → height ~76% of 1920), the Mac
+   dominates vertically. Sides overflow and are clipped by composition bounds.
+   The CRT screen + bezel remain fully visible and centered. */
+const MOBILE_MAC = { top: 5, width: 220 } as const;
+
+const HELLO_SCALE = 0.76;
+
+function helloPosition() {
+  const wPct = SCREEN.width * HELLO_SCALE;
+  const lPct = SCREEN.left + (SCREEN.width - wPct) / 2;
+  const hPct = (wPct / 100 / 2.58) * 100;
+  const tPct = SCREEN.top + (SCREEN.height - hPct) / 2;
+  return { top: `${tPct}%`, left: `${lPct}%`, width: `${wPct}%` };
+}
+
+const HELLO_POSITION = helloPosition();
 
 /* Dramatic drop-shadow for the Mac — works on both themes since the
    asset has a transparent background. The shadow creates depth and
@@ -66,9 +69,10 @@ const HELLO_POSITION = {
 /*  Macintosh Image — clip-path circle reveal with subtle scale settle */
 /* ------------------------------------------------------------------ */
 
-function MacintoshLayer() {
+function MacintoshLayer({ isMobile }: { isMobile: boolean }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const mac = isMobile ? MOBILE_MAC : DESKTOP_MAC;
 
   /* Cinematic fade-in: smooth, slow opacity ramp for a soft emergence */
   const fadeStart = 0;
@@ -96,10 +100,10 @@ function MacintoshLayer() {
       <div
         style={{
           position: "absolute",
-          top: `${MAC_LAYOUT.top}%`,
+          top: `${mac.top}%`,
           left: "50%",
           transform: "translateX(-50%)",
-          width: `${MAC_LAYOUT.width}%`,
+          width: `${mac.width}%`,
           aspectRatio: "3 / 2",
           filter: "var(--mac-drop-shadow)",
         }}
@@ -137,9 +141,10 @@ function MacintoshLayer() {
 /*  Hello SVG Path Draw — renders inside the CRT screen area           */
 /* ------------------------------------------------------------------ */
 
-function HelloDraw() {
+function HelloDraw({ isMobile }: { isMobile: boolean }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const mac = isMobile ? MOBILE_MAC : DESKTOP_MAC;
 
   const drawStart = Math.round(0.9 * fps); // frame 27 — starts as reveal nears completion
   const drawEnd = Math.round(3.2 * fps); // frame 96
@@ -172,10 +177,10 @@ function HelloDraw() {
       <div
         style={{
           position: "absolute",
-          top: `${MAC_LAYOUT.top}%`,
+          top: `${mac.top}%`,
           left: "50%",
           transform: "translateX(-50%)",
-          width: `${MAC_LAYOUT.width}%`,
+          width: `${mac.width}%`,
           aspectRatio: "3 / 2",
           pointerEvents: "none",
         }}
@@ -240,11 +245,11 @@ function HelloDraw() {
 /*  Main Composition                                                   */
 /* ------------------------------------------------------------------ */
 
-export function HeroComposition() {
+export function HeroComposition({ isMobile = false }: HeroCompositionProps) {
   return (
     <AbsoluteFill style={{ backgroundColor: "transparent" }}>
-      <MacintoshLayer />
-      <HelloDraw />
+      <MacintoshLayer isMobile={isMobile} />
+      <HelloDraw isMobile={isMobile} />
     </AbsoluteFill>
   );
 }

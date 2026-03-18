@@ -15,7 +15,7 @@ export async function onRequestGet() {
   return json({
     ok: true,
     route: "/generate-distribution-package",
-    runtime: "cloudflare-pages",
+    runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
     note:
@@ -27,7 +27,7 @@ export async function onRequestPost() {
   return json({
     ok: true,
     route: "/generate-distribution-package",
-    runtime: "cloudflare-pages",
+    runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
     note:

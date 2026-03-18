@@ -15,9 +15,8 @@
     "test:coverage": "vitest run --coverage tests/unit tests/dom",
     "test:smoke": "bun run build && bun test tests/layout-smoke.test.ts",
     "preview": "node scripts/with-system-certs.mjs bunx astro preview",
-    "cf:dev": "wrangler pages dev dist",
-    "cf:deploy": "bun run deploy:preflight && wrangler pages deploy dist --project-name tulio-personal-website --commit-dirty=true",
-    "cf:download-config": "wrangler pages download config tulio-personal-website",
+    "cf:dev": "wrangler dev",
+    "cf:deploy": "bun run deploy:preflight && wrangler deploy",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
@@ -45,6 +44,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
+    "@astrojs/cloudflare": "^13.1.2",
     "@astrojs/mdx": "^5.0.1",
     "@astrojs/react": "^5.0.0",
     "@astrojs/solid-js": "^6.0.0",
@@ -94,6 +94,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.7",
+    "@cloudflare/workers-types": "^4.20260317.1",
     "@playwright/test": "^1.58.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
