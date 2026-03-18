@@ -52,12 +52,16 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
   </ul>
 </div>
 
-<script define:vars={{ wrapClass: styles.carouselWrap, listClass: styles.featureWritingWidget }}>
+<script is:inline define:vars={{ wrapClass: styles.carouselWrap, listClass: styles.featureWritingWidget }}>
   function initCarouselEdges() {
     const wraps = document.querySelectorAll(`.${wrapClass}`);
     wraps.forEach((wrap) => {
       const list = wrap.querySelector(`.${listClass}`);
       if (!list) return;
+
+      if (typeof list.__featureWritingCleanup === "function") {
+        list.__featureWritingCleanup();
+      }
 
       const update = () => {
         const atStart = list.scrollLeft <= 2;
@@ -67,6 +71,9 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
       };
 
       list.addEventListener("scroll", update, { passive: true });
+      list.__featureWritingCleanup = () => {
+        list.removeEventListener("scroll", update);
+      };
       update();
     });
   }
@@ -77,4 +84,16 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
     initCarouselEdges();
   }
   document.addEventListener("astro:page-load", initCarouselEdges);
+  document.addEventListener(
+    "astro:before-swap",
+    () => {
+      document.querySelectorAll(`.${listClass}`).forEach((list) => {
+        if (typeof list.__featureWritingCleanup === "function") {
+          list.__featureWritingCleanup();
+          delete list.__featureWritingCleanup;
+        }
+      });
+    },
+    { once: true },
+  );
 </script>
