@@ -3,8 +3,8 @@
  * Fetches real-time GitHub data from /api/github.json on mount.
  * Uses the same CSS module classes as the Astro static components.
  */
-import { createSignal, createResource, For, Show } from "solid-js";
-import type { NormalizedRepoCard, GitHubCommit } from "../../lib/github-data";
+import { createResource, createSignal, For, Show } from "solid-js";
+import type { GitHubCommit, NormalizedRepoCard } from "../../lib/github-data";
 import styles from "./github-section.module.css";
 
 // ─── Minimal inline SVGs (Phosphor icons used in this component) ───────────

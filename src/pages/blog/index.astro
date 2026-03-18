@@ -330,7 +330,6 @@ const _sectionHeaders = {
         />
 
         <div class="articleCarousel articleCarousel--feed">
-          <ScrollHint target=".articleGrid" variant="all" />
           <ul
             class="articleGrid"
             data-article-list
@@ -390,6 +389,7 @@ const _sectionHeaders = {
               ariaLabel="Articles navigation"
             />
           </div>
+          <ScrollHint target=".articleGrid" variant="mobile" />
         </div>
 
         <div class="blogActions">
@@ -594,23 +594,44 @@ const _sectionHeaders = {
         gap: 8px;
       }
 
-      .blogSurface--feed .articleCarousel--feed {
-        gap: 8px;
+      /* Strip the pageWidget box on mobile so cards float freely */
+      .blogSurface--feed.pageWidget {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        padding-inline: 0 !important;
+        padding-block: 0 !important;
       }
 
-      /* Single-card horizontal carousel on mobile */
+      .blogSurface--feed.pageWidget::before {
+        display: none !important;
+      }
+
+      .blogSurface--feed .articleCarousel--feed {
+        gap: 0;
+        position: relative;
+      }
+
+      /* Single-card horizontal carousel on mobile — seamless, no visible rail */
       .blogSurface--feed .articleGrid {
         display: flex;
-        gap: 12px;
-        padding: 8px 2px 12px;
+        gap: 16px;
+        padding: 12px 20px 16px;
         overflow-x: auto;
         overflow-y: clip;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
-        scroll-padding-inline: 4px;
+        scroll-padding-inline: 20px;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior-x: contain;
         scrollbar-width: none;
+        /* Remove the mask-image that creates visible rail boundaries */
+        -webkit-mask-image: none;
+        mask-image: none;
       }
 
       .blogSurface--feed .articleGrid::-webkit-scrollbar {
@@ -618,8 +639,8 @@ const _sectionHeaders = {
       }
 
       .blogSurface--feed .articleGrid__item {
-        flex: 0 0 calc(100vw - 40px);
-        max-width: calc(100vw - 40px);
+        flex: 0 0 calc(100vw - 48px);
+        max-width: calc(100vw - 48px);
         scroll-snap-align: center;
         animation: none;
       }
@@ -628,16 +649,95 @@ const _sectionHeaders = {
         display: none;
       }
 
-      /* Show the page indicator on mobile */
+      /* Minimal page indicator — no track background, just floating dots */
       .blogSurface__indicator {
         display: block;
+        padding: 8px 0 4px;
+      }
+
+      .blogSurface__indicator [data-page-indicator] {
+        padding: 4px 0;
+      }
+
+      .blogSurface__indicator [data-page-indicator-track] {
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        padding: 4px 8px;
+        gap: 5px;
+      }
+
+      .blogSurface__indicator [data-page-indicator-slider] {
+        display: none;
+      }
+
+      .blogSurface__indicator [data-page-indicator-dot] {
+        width: 5px;
+        height: 5px;
+        background: color-mix(in srgb, var(--text-tertiary) 40%, transparent);
+        box-shadow: none;
+        transition: background 200ms ease, transform 200ms ease;
+      }
+
+      .blogSurface__indicator [data-page-indicator-dot][data-active="true"] {
+        width: 6px;
+        height: 6px;
+        background: var(--blue, #0d8aff);
+        box-shadow: 0 0 6px rgba(13, 138, 255, 0.3);
+      }
+
+      /* Edge fades for seamless floating cards */
+      .blogSurface--feed .articleCarousel--feed::before,
+      .blogSurface--feed .articleCarousel--feed::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: clamp(20px, 5vw, 40px);
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
+      }
+
+      .blogSurface--feed .articleCarousel--feed::before {
+        left: 0;
+        opacity: 0;
+        background: linear-gradient(90deg, var(--bg) 0%, transparent 100%);
+      }
+
+      .blogSurface--feed .articleCarousel--feed::after {
+        right: 0;
+        opacity: 1;
+        background: linear-gradient(270deg, var(--bg) 0%, transparent 100%);
+      }
+
+      .blogSurface--feed .articleCarousel--feed[data-at-start="false"]::before {
+        opacity: 1;
+      }
+
+      .blogSurface--feed .articleCarousel--feed[data-at-end="true"]::after {
+        opacity: 0;
+      }
+
+      /* Scroll hint below dots — centered */
+      .blogSurface--feed .articleCarousel--feed [data-scroll-hint] {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 4px;
+      }
+
+      /* Separate load button from the carousel — standalone with spacing */
+      .blogSurface--feed .blogActions {
+        margin-top: var(--space-xs);
+        padding-inline: var(--container-padding, 16px);
       }
     }
 
     @media (max-width: 480px) {
       .blogSurface--feed .articleGrid__item {
-        flex: 0 0 calc(100vw - 28px);
-        max-width: calc(100vw - 28px);
+        flex: 0 0 calc(100vw - 36px);
+        max-width: calc(100vw - 36px);
       }
 
       .blogSurface--feed .blogFilters__scroller {

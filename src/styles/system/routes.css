@@ -299,7 +299,7 @@
   /* Tools/Stack: proper 4-col grid, not broken horizontal scroller */
   .tools-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     overflow: visible;
     scroll-snap-type: none;
@@ -1722,7 +1722,7 @@
   max-width: clamp(336px, 34vw, 420px);
 }
 
-/* Mobile: single-card carousel sizing */
+/* Mobile: single-card carousel sizing — seamless floating cards */
 @media (max-width: 768px) {
   .articleGrid__item {
     flex: 0 0 calc(100vw - 48px);
@@ -1731,14 +1731,16 @@
   }
 
   .articleGrid {
-    scroll-padding-inline: 6px;
-    padding: 8px 2px 12px;
+    scroll-padding-inline: 20px;
+    padding: 12px 20px 16px;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .blogSurface .articleGrid__item,
   .categorySurface .articleGrid__item {
-    flex: 0 0 calc(100vw - 40px);
-    max-width: calc(100vw - 40px);
+    flex: 0 0 calc(100vw - 48px);
+    max-width: calc(100vw - 48px);
   }
 
   /* Proportional article card radii on mobile */
@@ -1795,14 +1797,14 @@
 
 @media (max-width: 480px) {
   .articleGrid__item {
-    flex: 0 0 calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    flex: 0 0 calc(100vw - 36px);
+    max-width: calc(100vw - 36px);
   }
 
   .blogSurface .articleGrid__item,
   .categorySurface .articleGrid__item {
-    flex: 0 0 calc(100vw - 28px);
-    max-width: calc(100vw - 28px);
+    flex: 0 0 calc(100vw - 36px);
+    max-width: calc(100vw - 36px);
   }
 
   .articleCard {

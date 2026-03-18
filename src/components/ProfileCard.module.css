@@ -261,8 +261,8 @@
   }
 
   .profileCardContactList {
-    grid-template-columns: 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .profileCardSocialGrid {
@@ -275,13 +275,25 @@
   }
 
   .profileCardContact {
-    min-height: 52px;
-    padding: 10px 12px;
-    border-radius: 14px;
+    min-height: 38px;
+    padding: 6px 8px;
+    border-radius: 12px;
+    gap: 6px;
+  }
+
+  .profileCardContact :global(.symbol) {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  .profileCardContactCopy strong {
+    font-size: 0.8rem;
   }
 
   .profileCardContactCopy span {
-    white-space: normal;
+    font-size: 0.65rem;
+    white-space: nowrap;
   }
 }
 

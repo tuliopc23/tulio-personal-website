@@ -112,16 +112,6 @@ const globalNavLinks = [
     description: "Background, approach, and working style.",
     keywords: "profile bio background approach",
   },
-  {
-    href: "/now",
-    label: "Now",
-    icon: "calendar",
-    tint: "orange",
-    current: normalizedPath.startsWith("/now"),
-    external: false,
-    description: "Current priorities, workstreams, and next steps.",
-    keywords: "current now working on status updates",
-  },
 ] as const;
 const topbarSubtitle = isArticleRoute
   ? "Developer notes · reading view"
@@ -158,16 +148,6 @@ const sidebarSocialLinks = [
     keywords: "github code repositories open source",
   },
   {
-    href: "https://instagram.com/tuliopinheirocunha",
-    label: "Instagram",
-    icon: "instagram",
-    tint: "pink",
-    current: false,
-    external: true,
-    description: "Visual notes and personal updates.",
-    keywords: "instagram photos visuals social",
-  },
-  {
     href: "/contact",
     label: "Contact",
     icon: "mail",
@@ -176,26 +156,6 @@ const sidebarSocialLinks = [
     external: false,
     description: "Project inquiries, email, and direct contact.",
     keywords: "contact email reach out inquiry",
-  },
-  {
-    href: "https://linkedin.com/in/tuliocunha",
-    label: "LinkedIn",
-    icon: "linkedin",
-    tint: "blue",
-    current: false,
-    external: true,
-    description: "Professional profile and experience timeline.",
-    keywords: "linkedin career experience network",
-  },
-  {
-    href: "https://fantastical.app/tuliopinheirocunha",
-    label: "Book Time",
-    icon: "calendar-check",
-    tint: "orange",
-    current: false,
-    external: true,
-    description: "Schedule time for a project or a quick sync.",
-    keywords: "calendar schedule meeting booking",
   },
 ] as const;
 
