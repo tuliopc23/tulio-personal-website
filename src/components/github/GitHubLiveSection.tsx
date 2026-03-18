@@ -80,6 +80,8 @@ function CommitList(props: { commits: GitHubCommit[]; repoName: string }) {
                   stroke-width="2.5"
                   stroke-linecap="round"
                   stroke-linejoin="round"
+                  role="img"
+                  aria-label="Open commit"
                 >
                   <line x1="7" y1="17" x2="17" y2="7" />
                   <polyline points="7 7 17 7 17 17" />
@@ -171,28 +173,32 @@ function RepoCard(props: { repo: NormalizedRepoCard }) {
 function Skeleton() {
   return (
     <div class="ghLiveSkeleton__rail">
-      {[0, 1].map((i) => (
-        <div class="ghLiveSkeleton__card" style={`animation-delay:${i * 120}ms`}>
-          <div class="ghLiveSkeleton__editorial">
-            <div class="ghLiveSkeleton__line ghLiveSkeleton__line--eyebrow" />
-            <div class="ghLiveSkeleton__line ghLiveSkeleton__line--title" />
-            <div class="ghLiveSkeleton__line ghLiveSkeleton__line--desc" />
-            <div class="ghLiveSkeleton__line ghLiveSkeleton__line--desc ghLiveSkeleton__line--short" />
+      <For each={[0, 1]}>
+        {(i) => (
+          <div class="ghLiveSkeleton__card" style={`animation-delay:${i * 120}ms`}>
+            <div class="ghLiveSkeleton__editorial">
+              <div class="ghLiveSkeleton__line ghLiveSkeleton__line--eyebrow" />
+              <div class="ghLiveSkeleton__line ghLiveSkeleton__line--title" />
+              <div class="ghLiveSkeleton__line ghLiveSkeleton__line--desc" />
+              <div class="ghLiveSkeleton__line ghLiveSkeleton__line--desc ghLiveSkeleton__line--short" />
+            </div>
+            <div class="ghLiveSkeleton__activity">
+              <div class="ghLiveSkeleton__line ghLiveSkeleton__line--eyebrow" />
+              <For each={[0, 1, 2, 3]}>
+                {() => (
+                  <div class="ghLiveSkeleton__commit">
+                    <div class="ghLiveSkeleton__commitDot" />
+                    <div class="ghLiveSkeleton__commitLines">
+                      <div class="ghLiveSkeleton__line ghLiveSkeleton__line--commit" />
+                      <div class="ghLiveSkeleton__line ghLiveSkeleton__line--meta" />
+                    </div>
+                  </div>
+                )}
+              </For>
+            </div>
           </div>
-          <div class="ghLiveSkeleton__activity">
-            <div class="ghLiveSkeleton__line ghLiveSkeleton__line--eyebrow" />
-            {[0, 1, 2, 3].map(() => (
-              <div class="ghLiveSkeleton__commit">
-                <div class="ghLiveSkeleton__commitDot" />
-                <div class="ghLiveSkeleton__commitLines">
-                  <div class="ghLiveSkeleton__line ghLiveSkeleton__line--commit" />
-                  <div class="ghLiveSkeleton__line ghLiveSkeleton__line--meta" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+        )}
+      </For>
     </div>
   );
 }

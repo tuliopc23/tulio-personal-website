@@ -23,6 +23,11 @@
   }
 }
 
+/* Carousel wrapper for edge fades on mobile */
+.carouselWrap {
+  position: relative;
+}
+
 @media (max-width: 768px) {
   .featureWritingWidget {
     display: flex;
@@ -45,6 +50,39 @@
     flex: 0 0 min(calc(100vw - 48px), 340px);
     max-width: min(calc(100vw - 48px), 340px);
     scroll-snap-align: center;
+  }
+
+  /* Edge fade masking — matches desktop articleCarousel */
+  .carouselWrap::before,
+  .carouselWrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 6vw, 48px);
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity var(--motion-duration-sm, 180ms) var(--motion-ease-out, ease-out);
+  }
+
+  .carouselWrap::before {
+    left: 0;
+    opacity: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, transparent 100%);
+  }
+
+  .carouselWrap::after {
+    right: 0;
+    opacity: 1;
+    background: linear-gradient(270deg, var(--bg) 0%, transparent 100%);
+  }
+
+  .carouselWrap[data-at-start="false"]::before {
+    opacity: 1;
+  }
+
+  .carouselWrap[data-at-end="true"]::after {
+    opacity: 0;
   }
 }
 

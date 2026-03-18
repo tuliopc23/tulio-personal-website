@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "./ArticleCard.astro";
+import ScrollHint from "./ScrollHint.astro";
 import styles from "./FeatureWritingWidget.module.css";
 import type { Category, SanityImageWithMetadata } from "../sanity/lib/posts";
 
@@ -20,30 +21,60 @@ interface PostItem {
 const { posts = [] } = Astro.props as { posts: PostItem[] };
 ---
 
-<ul class={styles.featureWritingWidget} aria-label="Featured writing articles">
-  {posts.length > 0 ? (
-    posts.slice(0, 3).map((post) => (
-      <li class={styles.card}>
-        <ArticleCard
-          href={post.href}
-          title={post.title}
-          summary={post.summary}
-          dateISO={post.dateISO ?? new Date().toISOString()}
-          dateLabel={post.dateLabel ?? "Recent post"}
-          ctaLabel="Read post"
-          tags={post.tags ?? []}
-          categories={post.categories}
-          readingTimeMinutes={post.readingTimeMinutes}
-          isNew={post.isNew ?? false}
-          heroImage={post.heroImage}
-          coverVariant={post.coverVariant}
-          editorialLayout="featured-editorial"
-          editorialSize="standard"
-          revealGroup="home-writing"
-        />
-      </li>
-    ))
-  ) : (
-    <li class={styles.empty}>New notes are in draft.</li>
-  )}
-</ul>
+<div class={styles.carouselWrap} data-at-start="true" data-at-end="false">
+  <ScrollHint target={`.${styles.featureWritingWidget}`} variant="mobile" />
+  <ul class={styles.featureWritingWidget} aria-label="Featured writing articles">
+    {posts.length > 0 ? (
+      posts.slice(0, 3).map((post) => (
+        <li class={styles.card}>
+          <ArticleCard
+            href={post.href}
+            title={post.title}
+            summary={post.summary}
+            dateISO={post.dateISO ?? new Date().toISOString()}
+            dateLabel={post.dateLabel ?? "Recent post"}
+            ctaLabel="Read post"
+            tags={post.tags ?? []}
+            categories={post.categories}
+            readingTimeMinutes={post.readingTimeMinutes}
+            isNew={post.isNew ?? false}
+            heroImage={post.heroImage}
+            coverVariant={post.coverVariant}
+            editorialLayout="featured-editorial"
+            editorialSize="standard"
+            revealGroup="home-writing"
+          />
+        </li>
+      ))
+    ) : (
+      <li class={styles.empty}>New notes are in draft.</li>
+    )}
+  </ul>
+</div>
+
+<script define:vars={{ wrapClass: styles.carouselWrap, listClass: styles.featureWritingWidget }}>
+  function initCarouselEdges() {
+    const wraps = document.querySelectorAll(`.${wrapClass}`);
+    wraps.forEach((wrap) => {
+      const list = wrap.querySelector(`.${listClass}`);
+      if (!list) return;
+
+      const update = () => {
+        const atStart = list.scrollLeft <= 2;
+        const atEnd = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+        wrap.setAttribute("data-at-start", String(atStart));
+        wrap.setAttribute("data-at-end", String(atEnd));
+      };
+
+      list.addEventListener("scroll", update, { passive: true });
+      update();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCarouselEdges, { once: true });
+  } else {
+    initCarouselEdges();
+  }
+  document.addEventListener("astro:page-load", initCarouselEdges);
+</script>
