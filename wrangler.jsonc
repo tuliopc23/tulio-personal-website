@@ -8,5 +8,14 @@
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none"
+  },
+  "routes": [
+    {
+      "pattern": "tuliocunha.dev",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true
   }
 }
