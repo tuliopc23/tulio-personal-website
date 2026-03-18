@@ -1,0 +1,42 @@
+src/styles/system/routes.css
+  b628fdf366870e17 1223-1231,1776,2952,2956,2964-2970,2998,3003,3006,3009,3012,3016
+src/components/FeatureWritingWidget.module.css
+  b628fdf366870e17 26-30,54-85
+src/components/FeatureWritingWidget.astro
+  b628fdf366870e17 3,24-26,52-80
+src/components/github/GitHubLiveSection.tsx
+  bf4f31b2fed5e292 83-84,176-177,183-188,196-198,200-201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "19bb9d24a4b06ea7e0b0bedb386fec4d06ae8099",
+  "prompts": {
+    "b628fdf366870e17": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6ca2008e-63b3-4998-adba-02fb3e1a3dc2",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 121,
+      "total_deletions": 45,
+      "accepted_lines": 96,
+      "overriden_lines": 0
+    },
+    "bf4f31b2fed5e292": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "656fa2fe-6a44-4f94-b41c-33ebd6e19047",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 35,
+      "total_deletions": 29,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    }
+  }
+}
