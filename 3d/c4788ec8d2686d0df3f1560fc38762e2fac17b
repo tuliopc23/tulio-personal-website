@@ -1,0 +1,23 @@
+src/components/HeroPlayer.tsx
+  8fb81685d3bc020f 94,110-126
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "3dc4788ec8d2686d0df3f1560fc38762e2fac17b",
+  "prompts": {
+    "8fb81685d3bc020f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "94fa22e5-8da3-4f75-92ec-c302e855c066",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 11,
+      "accepted_lines": 21,
+      "overriden_lines": 0
+    }
+  }
+}
