@@ -77,3 +77,30 @@ See `.env.example` for all required vars. Key ones:
 - `SANITY_API_READ_TOKEN`, `SANITY_API_WRITE_TOKEN`
 - `PUBLIC_SANITY_VISUAL_EDITING_ENABLED`
 - Cross-posting tokens: `DEVTO_API_KEY`, `HASHNODE_TOKEN`, etc.
+
+## Cursor Cloud specific instructions
+
+### Runtime requirements
+
+- **Bun 1.3.x** is the package manager and task runner. Install via `curl -fsSL https://bun.sh/install | bash -s "bun-v1.3.10"` and ensure `~/.bun/bin` is on `PATH`.
+- **Node.js 24** is required (`.nvmrc`). Install via nvm: `nvm install 24 && nvm alias default 24`.
+
+### Environment setup
+
+- Copy `.env.example` to `.env`. The defaults (`PUBLIC_SANITY_PROJECT_ID=61249gtj`, `PUBLIC_SANITY_DATASET=production`) are sufficient.
+- Set `SANITY_ALLOW_BUILD_FALLBACK=true` in `.env` to build without Sanity API tokens (offline/CI mode). Without this, `bun build` will fail if the Sanity API is unreachable or tokens are missing.
+
+### Running tests
+
+- Use `bun run test:unit` (Vitest) for unit/DOM tests — **not** bare `bun test` (which invokes Bun's built-in runner and will fail).
+- `bun run test:astro` runs Astro integration tests (container API).
+- `bun run test:e2e` requires Playwright browsers (`bunx playwright install` first).
+
+### Dev server
+
+- `bun dev` starts Astro on port **4321**. The `dev` script wraps the command through `scripts/with-system-certs.mjs` for Node certificate handling.
+
+### Gotchas
+
+- The `bun lint` warning about `WARP.md` being a broken symlink is benign — ignore it.
+- Biome is the sole linter/formatter. Do not add ESLint or Prettier configs.
