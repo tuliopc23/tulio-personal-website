@@ -1,7 +1,4 @@
 .scrollHint {
-  --scroll-hint-color: var(--blue, #0d8aff);
-  --scroll-hint-border: color-mix(in srgb, var(--blue, #0d8aff) 38%, transparent);
-  --scroll-hint-bg: color-mix(in srgb, var(--surface-card) 72%, transparent);
   --scroll-hint-font: var(
     --font-sans,
     "SF Pro Text",
@@ -13,7 +10,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--scroll-hint-color);
   font-family: var(--scroll-hint-font);
   font-weight: 600;
   font-size: clamp(14px, 3.4vw, 16px);
@@ -65,22 +61,6 @@
 }
 
 .cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 40px;
-  padding: 0.7rem 1rem;
-  border-radius: 999px;
-  border: 1px solid var(--scroll-hint-border);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--blue, #0d8aff) 10%, transparent), transparent),
-    var(--scroll-hint-bg);
-  box-shadow:
-    0 10px 24px rgba(13, 138, 255, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  font-size: clamp(13px, 3.2vw, 15px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
   line-height: 1;
 }
 
@@ -100,7 +80,7 @@
   display: inline-flex;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
   .mobile {
     display: none;
   }

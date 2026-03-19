@@ -60,9 +60,12 @@ const variantClass =
     }
     {
       ctaLabel && (
-        <span class={styles.cta} aria-hidden="true">
+        <span
+          class:list={[styles.cta, "cta-pill", "cta-pill--accent", "motion-cta-pill"]}
+          aria-hidden="true"
+        >
           <span>{ctaLabel}</span>
-          <PhosphorIcon name={ctaIcon} size={14} weight="regular" />
+          <PhosphorIcon name={ctaIcon} size={16} weight="regular" />
         </span>
       )
     }

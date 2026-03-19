@@ -451,6 +451,7 @@ const _sectionHeaders = {
   <script is:inline>
     const list = document.querySelector("[data-article-list]");
     const filters = Array.from(document.querySelectorAll("[data-blog-filter]"));
+    const filterScroller = document.querySelector(".blogFilters__scroller");
     const loadMoreButton = document.querySelector("[data-blog-load-more]");
 
     if (list) {
@@ -461,6 +462,25 @@ const _sectionHeaders = {
 
       const fadeDuration = 200;
       const phoneQuery = window.matchMedia("(max-width: 768px)");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealActiveFilter = (button, immediate = false) => {
+        if (!(filterScroller instanceof HTMLElement) || !(button instanceof HTMLElement)) return;
+
+        const behavior = immediate || prefersReducedMotion ? "auto" : "smooth";
+        const tag = button.dataset.blogFilter ?? "all";
+
+        if (tag === "all") {
+          filterScroller.scrollTo({ left: 0, behavior });
+          return;
+        }
+
+        button.scrollIntoView({
+          behavior,
+          block: "nearest",
+          inline: phoneQuery.matches ? "start" : "nearest",
+        });
+      };
+
       const applyFilters = () => {
         let shown = 0;
         let matches = 0;
@@ -525,15 +545,22 @@ const _sectionHeaders = {
 
       const selectFilter = (button) => {
         const tag = button.dataset.blogFilter ?? "all";
-        if (activeTag === tag) return;
+        if (activeTag === tag) {
+          revealActiveFilter(button);
+          return;
+        }
         activeTag = tag;
         resetLimit();
         filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
         applyFilters();
+        revealActiveFilter(button);
         if (phoneQuery.matches) {
-          list.scrollIntoView({ behavior: "smooth", block: "start" });
+          list.scrollIntoView({
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+            block: "start",
+          });
         } else {
-          list.scrollTo({ left: 0, behavior: "smooth" });
+          list.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
         }
       };
 
@@ -576,6 +603,7 @@ const _sectionHeaders = {
       });
 
       applyFilters();
+      revealActiveFilter(filters[0], true);
     }
   </script>
   <style>
@@ -601,6 +629,13 @@ const _sectionHeaders = {
         padding: 6px;
         border-radius: 16px;
         gap: 8px;
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: 12px;
+        overscroll-behavior-x: contain;
+      }
+
+      .blogSurface--feed .blogFilters__link {
+        scroll-snap-align: start;
       }
 
       /* Strip the pageWidget box on mobile so cards float freely */
