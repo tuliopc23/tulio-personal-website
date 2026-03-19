@@ -1,4 +1,5 @@
 ---
+import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ScrollHint.module.css";
 
 interface Props {
@@ -7,6 +8,10 @@ interface Props {
   storageKey?: string;
   variant?: "mobile" | "desktop" | "all";
   className?: string;
+  ctaLabel?: string;
+  ctaIcon?: string;
+  persist?: boolean;
+  ctaOnly?: boolean;
 }
 
 const {
@@ -15,6 +20,10 @@ const {
   storageKey,
   variant = "mobile",
   className,
+  ctaLabel,
+  ctaIcon = "arrow-left",
+  persist = true,
+  ctaOnly = false,
 } = Astro.props as Props;
 
 if (!target || typeof target !== "string") {
@@ -35,13 +44,29 @@ const variantClass =
   data-scroll-hint-target={target}
   data-scroll-hint-key={sanitizedKey}
   data-scroll-hint-variant={variant}
+  data-scroll-hint-persist={persist ? "true" : "false"}
+  data-scroll-hint-mode={ctaOnly ? "cta-only" : "default"}
   role="note"
   data-scroll-hint-state="visible"
 >
-  <span class={styles.label}>
-    {text}
-    <span aria-hidden="true" class={styles.glyph}>→</span>
-  </span>
+  <div class={styles.content}>
+    {
+      !ctaOnly && (
+        <span class={styles.label}>
+          {text}
+          <span aria-hidden="true" class={styles.glyph}>→</span>
+        </span>
+      )
+    }
+    {
+      ctaLabel && (
+        <span class={styles.cta} aria-hidden="true">
+          <span>{ctaLabel}</span>
+          <PhosphorIcon name={ctaIcon} size={14} weight="regular" />
+        </span>
+      )
+    }
+  </div>
 </div>
 
 <script is:inline>
@@ -73,6 +98,7 @@ const variantClass =
 
         const targetSelector = hint.dataset.scrollHintTarget;
         const storageKey = hint.dataset.scrollHintKey ?? "";
+        const shouldPersist = hint.dataset.scrollHintPersist !== "false";
 
         if (!targetSelector) return;
 
@@ -86,10 +112,12 @@ const variantClass =
         const hideHint = () => {
           if (hint.dataset.scrollHintState === "hidden") return;
           hint.dataset.scrollHintState = "hidden";
-          try {
-            sessionStorage.setItem(persistKey, "dismissed");
-          } catch (error) {
-            console.warn("Unable to persist scroll hint dismissal", error);
+          if (shouldPersist) {
+            try {
+              sessionStorage.setItem(persistKey, "dismissed");
+            } catch (error) {
+              console.warn("Unable to persist scroll hint dismissal", error);
+            }
           }
           detach();
         };
@@ -115,6 +143,9 @@ const variantClass =
         getCleanups().push(detach);
 
         const dismissed = (() => {
+          if (!shouldPersist) {
+            return false;
+          }
           try {
             return sessionStorage.getItem(persistKey) === "dismissed";
           } catch {

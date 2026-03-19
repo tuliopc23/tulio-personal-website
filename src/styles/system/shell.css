@@ -1088,8 +1088,8 @@ body.is-search-open {
 }
 @media (max-width: 768px) {
   .liquidToggle {
-    --liquid-width: 74px;
-    --liquid-height: 36px;
+    --liquid-width: 66px;
+    --liquid-height: 32px;
   }
 }
 .liquidToggle__thumbInner::after {
@@ -1247,8 +1247,8 @@ body.is-search-open {
 
   /* Increase touch target for theme toggle on mobile */
   .themeToggle--liquid .liquidToggle {
-    --liquid-width: 84px;
-    --liquid-height: 44px;
+    --liquid-width: 66px;
+    --liquid-height: 32px;
   }
 
   /* Ensure menu button meets 44x44px minimum */
@@ -1271,6 +1271,10 @@ body.is-search-open {
   .topbar__iconButton {
     width: 44px;
     height: 44px;
+  }
+
+  .topbar__searchButton {
+    display: none;
   }
 
   .topbarSearch__dialog {
@@ -1318,7 +1322,11 @@ body.is-search-open {
   }
 
   body[data-has-mobile-drawer="true"] .topbar__actions {
-    gap: 8px;
+    gap: 4px;
+    justify-self: end;
+    margin-left: auto;
+    margin-right: -2px;
+    padding-right: max(var(--safe-area-right), 0px);
   }
 
   body[data-has-mobile-drawer="false"] .topbar__brandName {

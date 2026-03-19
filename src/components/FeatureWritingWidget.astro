@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "./ArticleCard.astro";
+import PageIndicator from "./PageIndicator.astro";
 import ScrollHint from "./ScrollHint.astro";
 import styles from "./FeatureWritingWidget.module.css";
 import type { Category, SanityImageWithMetadata } from "../sanity/lib/posts";
@@ -22,7 +23,6 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
 ---
 
 <div class={styles.carouselWrap} data-at-start="true" data-at-end="false">
-  <ScrollHint target={`.${styles.featureWritingWidget}`} variant="mobile" />
   <ul class={styles.featureWritingWidget} aria-label="Featured writing articles">
     {posts.length > 0 ? (
       posts.slice(0, 3).map((post) => (
@@ -50,6 +50,27 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
       <li class={styles.empty}>New notes are in draft.</li>
     )}
   </ul>
+  {
+    posts.length > 1 && (
+      <div class={styles.mobileControls}>
+        <PageIndicator
+          containerSelector={`.${styles.featureWritingWidget}`}
+          itemSelector={`.${styles.card}`}
+          ariaLabel="Featured writing navigation"
+        />
+        <ScrollHint
+          target={`.${styles.featureWritingWidget}`}
+          variant="mobile"
+          text="Scroll Left"
+          storageKey="home-feature-writing-scroll-v4"
+          ctaLabel="Scroll Left"
+          ctaIcon="arrow-left"
+          persist={false}
+          ctaOnly={true}
+        />
+      </div>
+    )
+  }
 </div>
 
 <script is:inline define:vars={{ wrapClass: styles.carouselWrap, listClass: styles.featureWritingWidget }}>

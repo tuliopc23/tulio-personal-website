@@ -1569,61 +1569,7 @@
 @media (max-width: 1024px) {
   .articleCarousel::before,
   .articleCarousel::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: clamp(32px, 8vw, 64px);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .articleCarousel::before {
-    left: 0;
-    background: linear-gradient(90deg, var(--bg) 0%, rgba(5, 5, 5, 0.8) 30%, transparent 100%);
-  }
-
-  .articleCarousel::after {
-    right: 0;
-    background: linear-gradient(270deg, var(--bg) 0%, rgba(5, 5, 5, 0.8) 30%, transparent 100%);
-  }
-
-  [data-theme="light"] .articleCarousel::before {
-    background: linear-gradient(
-      90deg,
-      var(--bg) 0%,
-      rgba(245, 245, 247, 0.8) 30%,
-      transparent 100%
-    );
-  }
-
-  [data-theme="light"] .articleCarousel::after {
-    background: linear-gradient(
-      270deg,
-      var(--bg) 0%,
-      rgba(245, 245, 247, 0.8) 30%,
-      transparent 100%
-    );
-  }
-
-  /* Show edge fades when not at edges - using data attributes */
-  .articleCarousel[data-at-start="false"]::before {
-    opacity: 1;
-  }
-
-  .articleCarousel[data-at-end="false"]::after {
-    opacity: 1;
-  }
-
-  /* Card rail edge fades via container */
-  .container[data-at-start="false"]::before {
-    opacity: 1;
-  }
-
-  .container[data-at-end="false"]::after {
-    opacity: 1;
+    display: none;
   }
 }
 
@@ -1725,22 +1671,22 @@
 /* Mobile: single-card carousel sizing — seamless floating cards */
 @media (max-width: 768px) {
   .articleGrid__item {
-    flex: 0 0 calc(100vw - 48px);
-    max-width: calc(100vw - 48px);
+    flex: 0 0 calc(100vw - 64px);
+    max-width: calc(100vw - 64px);
     scroll-snap-align: center;
   }
 
   .articleGrid {
     scroll-padding-inline: 20px;
-    padding: 12px 20px 16px;
+    padding: 14px 22px 18px;
     -webkit-mask-image: none;
     mask-image: none;
   }
 
   .blogSurface .articleGrid__item,
   .categorySurface .articleGrid__item {
-    flex: 0 0 calc(100vw - 48px);
-    max-width: calc(100vw - 48px);
+    flex: 0 0 calc(100vw - 64px);
+    max-width: calc(100vw - 64px);
   }
 
   /* Proportional article card radii on mobile */
@@ -1797,8 +1743,8 @@
 
 @media (max-width: 480px) {
   .articleGrid__item {
-    flex: 0 0 calc(100vw - 36px);
-    max-width: calc(100vw - 36px);
+    flex: 0 0 calc(100vw - 52px);
+    max-width: calc(100vw - 52px);
   }
 
   .blogSurface .articleGrid__item,

@@ -1,5 +1,7 @@
 .scrollHint {
   --scroll-hint-color: var(--blue, #0d8aff);
+  --scroll-hint-border: color-mix(in srgb, var(--blue, #0d8aff) 38%, transparent);
+  --scroll-hint-bg: color-mix(in srgb, var(--surface-card) 72%, transparent);
   --scroll-hint-font: var(
     --font-sans,
     "SF Pro Text",
@@ -29,6 +31,17 @@
   will-change: opacity, transform;
 }
 
+.content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.scrollHint[data-scroll-hint-mode="cta-only"] .content {
+  gap: 0;
+}
+
 .scrollHint[data-scroll-hint-state="visible"] {
   opacity: 1;
   transform: translateY(0);
@@ -49,6 +62,30 @@
 .glyph {
   font-size: 1em;
   font-weight: 600;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--scroll-hint-border);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--blue, #0d8aff) 10%, transparent), transparent),
+    var(--scroll-hint-bg);
+  box-shadow:
+    0 10px 24px rgba(13, 138, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  font-size: clamp(13px, 3.2vw, 15px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.scrollHint[data-scroll-hint-mode="cta-only"] .cta {
+  margin-top: 0;
 }
 
 .mobile {
