@@ -60,6 +60,7 @@ describe("home, about, and now pages", () => {
     expect(aboutHtml).toContain("How I work");
     expect(aboutHtml).toContain("Strong internals first. Clear interfaces second.");
     expect(nowHtml).toContain("What has attention right now");
-    expect(nowHtml).toContain("GitHub activity");
+    // Section id is stable; heading text is not SSR'd and API outcome changes error/empty/success copy.
+    expect(nowHtml).toContain("section-github");
   });
 });
