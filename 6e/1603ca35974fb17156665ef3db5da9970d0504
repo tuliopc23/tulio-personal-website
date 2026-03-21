@@ -1,0 +1,29 @@
+src/components/BrandIcon.astro
+  afa8ad06f7176117 2,11
+src/components/brand-icon-data.ts
+  afa8ad06f7176117 1-60
+src/components/github/GitHubLiveSection.tsx
+  afa8ad06f7176117 8,49-67,132-136
+src/components/github/github-section.module.css
+  afa8ad06f7176117 11,35,66,102-103,162,179,222,236-237,244,260,272,302,314,331,345,417,467,561-569,573-574,576-580,585-586,591,600-601,606,610,618-624,628-629,634-651
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "6e1603ca35974fb17156665ef3db5da9970d0504",
+  "prompts": {
+    "afa8ad06f7176117": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d1214-7bf5-77c2-98ea-661f5c150c98",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 156,
+      "total_deletions": 67,
+      "accepted_lines": 156,
+      "overriden_lines": 0
+    }
+  }
+}
