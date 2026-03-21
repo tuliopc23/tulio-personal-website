@@ -2,7 +2,7 @@
  * Smoke-check production GET /api/github.json (Worker + secrets).
  * Usage: bun run verify:prod-github-api
  */
-const URL = "https://www.tuliocunha.dev/api/github.json";
+const URL = "https://tuliocunha.dev/api/github.json";
 
 let res;
 try {
@@ -32,6 +32,11 @@ if (!res.ok) {
 if (!Array.isArray(parsed)) {
   console.error("❌ Expected JSON array from /api/github.json");
   console.error(body.slice(0, 500));
+  process.exit(1);
+}
+
+if (parsed.length === 0) {
+  console.error(`❌ ${URL} returned an empty repo list`);
   process.exit(1);
 }
 

@@ -121,7 +121,8 @@ async function fetchFromGitHub<T>(endpoint: string, token: string | undefined): 
     const res = await fetch(`https://api.github.com${endpoint}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github.v3+json",
+        Accept: "application/vnd.github+json",
+        "User-Agent": "tulio-personal-website-build",
         "X-GitHub-Api-Version": "2022-11-28",
       },
     });

@@ -3,7 +3,7 @@
  * Fetches real-time GitHub data from /api/github.json on mount.
  * Uses the same CSS module classes as the Astro static components.
  */
-import { createResource, createSignal, For, Show } from "solid-js";
+import { createSignal, For, onMount, Show } from "solid-js";
 import type { GitHubCommit, NormalizedRepoCard } from "../../lib/github-data";
 import styles from "./github-section.module.css";
 
@@ -254,19 +254,29 @@ async function fetchGitHubRepos(): Promise<NormalizedRepoCard[]> {
 }
 
 export default function GitHubLiveSection() {
-  const [repos] = createResource(fetchGitHubRepos);
+  const [repos, setRepos] = createSignal<NormalizedRepoCard[] | null>(null);
+  const [error, setError] = createSignal<string | null>(null);
+
+  onMount(async () => {
+    try {
+      setRepos(await fetchGitHubRepos());
+    } catch (err) {
+      console.error("Failed to load GitHub activity.", err);
+      setError("Failed to load GitHub activity.");
+    }
+  });
 
   return (
     <section class={styles.githubSection} id="section-github">
-      <Show when={repos.loading}>
+      <Show when={repos() === null && !error()}>
         <Skeleton />
       </Show>
-      <Show when={repos.error}>
+      <Show when={error()}>
         <div class={styles.errorState}>
-          <p>Failed to load GitHub activity.</p>
+          <p>{error()}</p>
         </div>
       </Show>
-      <Show when={!repos.loading && !repos.error && repos()}>
+      <Show when={repos()}>
         {(data) =>
           data().length === 0 ? (
             <div class={styles.emptyState}>

@@ -112,21 +112,37 @@ async function fetchSanityRepos(readToken?: string): Promise<SanityFeaturedRepo[
   return json.result ?? [];
 }
 
-async function fetchGitHub<T>(path: string, token?: string): Promise<T | null> {
-  if (!token) return null;
-  const res = await fetch(`https://api.github.com${path}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github.v3+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-  if (!res.ok) return null;
-  return res.json() as Promise<T>;
+async function fetchGitHub<T>(path: string, tokens: string[]): Promise<T | null> {
+  if (tokens.length === 0) return null;
+
+  for (const token of tokens) {
+    const res = await fetch(`https://api.github.com${path}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "User-Agent": "tulio-personal-website-worker",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    if (res.ok) {
+      return res.json() as Promise<T>;
+    }
+
+    if (res.status === 404) {
+      return null;
+    }
+
+    console.warn(`[github] ${path} failed with ${res.status}; trying next token if available`);
+  }
+
+  return null;
 }
 
 async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
-  const githubToken = env.GITHUB_TOKEN ?? env.GITHUB_PERSONAL_ACCESS_TOKEN;
+  const githubTokens = [env.GITHUB_PERSONAL_ACCESS_TOKEN, env.GITHUB_TOKEN].filter(
+    (value): value is string => Boolean(value?.trim()),
+  );
   const sanityToken = env.SANITY_API_READ_TOKEN;
 
   try {
@@ -134,13 +150,13 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
     const results: unknown[] = [];
 
     for (const repo of sanityRepos) {
-      const ghRepo = await fetchGitHub<GitHubRestRepo>(`/repos/${repo.repoFullName}`, githubToken);
+      const ghRepo = await fetchGitHub<GitHubRestRepo>(`/repos/${repo.repoFullName}`, githubTokens);
       if (!ghRepo) continue;
       if (ghRepo.private && !repo.showPrivate) continue;
 
       const ghCommits = await fetchGitHub<GitHubRestCommit[]>(
         `/repos/${repo.repoFullName}/commits?per_page=5`,
-        githubToken,
+        githubTokens,
       );
 
       const commits = (ghCommits ?? [])
