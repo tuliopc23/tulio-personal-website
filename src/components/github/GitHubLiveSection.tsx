@@ -5,6 +5,7 @@
  */
 import { createSignal, For, onMount, Show } from "solid-js";
 import type { GitHubCommit, NormalizedRepoCard } from "../../lib/github-data";
+import { resolveBrandGlyph } from "../brand-icon-data";
 import styles from "./github-section.module.css";
 
 // ─── Minimal inline SVGs (Phosphor icons used in this component) ───────────
@@ -44,6 +45,25 @@ const IconGitCommit = (props: { size?: number }) => (
     <path d="M184,128a56,56,0,1,1-56-56A56.06,56.06,0,0,1,184,128Zm40-8H211.77a84,84,0,0,0-167.54,0H16a8,8,0,0,0,0,16H44.23a84,84,0,0,0,167.54,0H240a8,8,0,0,0,0-16Z" />
   </svg>
 );
+
+function BrandGlyphIcon(props: { name: string; size?: number }) {
+  const glyph = resolveBrandGlyph(props.name);
+
+  if (!glyph) {
+    return <IconCode />;
+  }
+
+  return (
+    <svg
+      width={props.size ?? 14}
+      height={props.size ?? 14}
+      viewBox={`0 0 ${glyph.width} ${glyph.height}`}
+      fill="currentColor"
+      aria-hidden="true"
+      innerHTML={glyph.body}
+    />
+  );
+}
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
@@ -109,7 +129,11 @@ function RepoCard(props: { repo: NormalizedRepoCard }) {
           {repo.primaryLanguage && (
             <span class={styles.repoLanguageEyebrow}>
               <span class={styles.repoLanguageIcon} aria-hidden="true">
-                <IconCode />
+                {repo.primaryLanguageIcon ? (
+                  <BrandGlyphIcon name={repo.primaryLanguageIcon} size={14} />
+                ) : (
+                  <IconCode />
+                )}
               </span>
               {repo.primaryLanguage}
             </span>
