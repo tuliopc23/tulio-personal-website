@@ -1,0 +1,54 @@
+scripts/cloudflare-api-sync.mjs
+  938d1a9799b48467 1-237
+scripts/wrangler-push-worker-secrets.mjs
+  938d1a9799b48467 1-67
+.env.example
+  938d1a9799b48467 32-57
+AGENTS.md
+  938d1a9799b48467 5-18,107-131
+package.json
+  938d1a9799b48467 19-20,45-46
+src/components/github/GitHubLiveSection.tsx
+  106fec9f9ffacab7 6,257-267,271,274,276,279
+src/lib/github-data.ts
+  106fec9f9ffacab7 124-125
+scripts/verify-prod-github-api.mjs
+  106fec9f9ffacab7 5,38-39
+  938d1a9799b48467 1-4,6-37,43-44
+worker/index.ts
+  938d1a9799b48467 58-74,142,196,199,205,217
+  106fec9f9ffacab7 115-139,143-145,153,159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "407d59b35557e7c55e4ab8547b5a5f38b68a0008",
+  "prompts": {
+    "106fec9f9ffacab7": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d11f4-f43d-7fd1-99ad-0b5b869f22d8",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 54,
+      "total_deletions": 22,
+      "accepted_lines": 51,
+      "overriden_lines": 0
+    },
+    "938d1a9799b48467": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "aa564c82-633e-4eb7-ac30-2bfca7ab209c",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 458,
+      "total_deletions": 31,
+      "accepted_lines": 433,
+      "overriden_lines": 0
+    }
+  }
+}
