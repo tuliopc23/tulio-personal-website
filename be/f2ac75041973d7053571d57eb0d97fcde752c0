@@ -1,0 +1,35 @@
+scripts/wrangler-push-worker-secrets.mjs
+  938d1a9799b48467 1-67
+AGENTS.md
+  938d1a9799b48467 5-18,107-131
+scripts/verify-prod-github-api.mjs
+  938d1a9799b48467 1-39
+scripts/cloudflare-api-sync.mjs
+  938d1a9799b48467 1-237
+worker/index.ts
+  938d1a9799b48467 58-74,128,180,183,189,201
+package.json
+  938d1a9799b48467 19-20,45-46
+.env.example
+  938d1a9799b48467 32-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "bef2ac75041973d7053571d57eb0d97fcde752c0",
+  "prompts": {
+    "938d1a9799b48467": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "aa564c82-633e-4eb7-ac30-2bfca7ab209c",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 458,
+      "total_deletions": 31,
+      "accepted_lines": 434,
+      "overriden_lines": 0
+    }
+  }
+}
