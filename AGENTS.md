@@ -2,6 +2,20 @@
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
+## Learned User Preferences
+
+- Prefer that the agent run commands in this workspace (Wrangler, tests, git) instead of only describing what to run.
+- When you ask to run checks and ship, expect a commit-and-push workflow after a clean pass.
+- When you say “commit all”, exclude known scratch paths (for example `.tmp/`) unless you explicitly include them.
+
+## Learned Workspace Facts
+
+- Production deploy is Cloudflare Workers with static assets (`wrangler.jsonc`); Astro build-time env and Worker runtime secrets are configured separately.
+- The Cloudflare MCP in Cursor does not write Worker secrets or Workers Builds env; use `bun run cf:secrets:push` or `bun run cf:api:sync` as documented below.
+- Use `bun run test:unit` and related scripts; bare `bun test` is not the project test runner.
+- `bun dev` and some Sanity scripts use `scripts/with-system-certs.mjs` for certificate handling.
+- Local agent skill caches under paths listed in `.gitignore` (for example `.agents/skills/`) are not versioned.
+
 ## Commands
 
 ```bash
@@ -89,6 +103,31 @@ See `.env.example` for all required vars. Key ones:
 
 - Copy `.env.example` to `.env`. The defaults (`PUBLIC_SANITY_PROJECT_ID=61249gtj`, `PUBLIC_SANITY_DATASET=production`) are sufficient.
 - Set `SANITY_ALLOW_BUILD_FALLBACK=true` in `.env` to build without Sanity API tokens (offline/CI mode). Without this, `bun build` will fail if the Sanity API is unreachable or tokens are missing.
+
+### Cloudflare Workers (Git-connected deploy)
+
+Production uses **Workers + static assets** (`wrangler.jsonc`), not Cloudflare Pages. Two separate places need the same logical tokens:
+
+1. **Build environment** — Variables available when Cloudflare runs `bun install` / `bun run build` so Astro can embed Sanity and GitHub data (e.g. `/now`). Set `PUBLIC_SANITY_*`, `SANITY_API_READ_TOKEN`, `GITHUB_TOKEN`, `PUBLIC_SANITY_VISUAL_EDITING_ENABLED`, `SANITY_ALLOW_BUILD_FALLBACK` in the Workers project’s **build** / environment settings.
+2. **Worker runtime secrets** — `GITHUB_TOKEN` (or `GITHUB_PERSONAL_ACCESS_TOKEN`) and `SANITY_API_READ_TOKEN` for `GET /api/github.json` (homepage live widget). Set under **Variables and Secrets** for the Worker, or use `bunx wrangler secret put <NAME>`.
+
+After updating either, trigger a new deployment. Verify with `bun run verify:prod-github-api`.
+
+To push **Worker secrets** and **Workers Builds** environment variables from `.env` using the Cloudflare REST API (no Wrangler), set `CLOUDFLARE_API_TOKEN` (permissions: Workers Scripts Write, Workers CI Write) and run `bun run cf:api:sync` (optional: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_TRIGGER_UUID`). Use `bun run cf:api:sync -- --dry-run` first (secret values are redacted in the log). Run `bun run cf:api:sync -- --help` for flags. See [`scripts/cloudflare-api-sync.mjs`](scripts/cloudflare-api-sync.mjs).
+
+**Wrangler (alternative for Worker secrets only):** `bun run cf:secrets:push` — [`scripts/wrangler-push-worker-secrets.mjs`](scripts/wrangler-push-worker-secrets.mjs).
+
+### Cloudflare MCP (Cursor) and env
+
+The Cloudflare MCP plugins in Cursor are authenticated, but their **registered tools do not write** Worker script secrets or Workers Builds build environment variables. Typical tools are read/list (workers, builds, logs), `search_cloudflare_documentation`, and product-specific CRUD (D1, KV, R2, Hyperdrive). `workers_builds_set_active_worker` only sets which Worker ID the MCP uses for **subsequent MCP calls**, not Cloudflare account configuration.
+
+| Kind | Use for env/secrets? |
+|------|----------------------|
+| Worker runtime secrets (`GITHUB_TOKEN`, `SANITY_API_READ_TOKEN` for [`worker/index.ts`](worker/index.ts)) | **Wrangler:** `bun run cf:secrets:push` — or **REST:** `bun run cf:api:sync` |
+| Workers Builds (Git) env for `bun build` | **REST:** `bun run cf:api:sync` — or Cloudflare Dashboard |
+| `search_cloudflare_documentation` | Look up official API paths and request bodies; then call Wrangler or run `cf:api:sync` / `curl` with `CLOUDFLARE_API_TOKEN` |
+
+If your Cursor UI shows different MCP tools than above, treat **Cursor Settings → Tools & MCPs** as the source of truth.
 
 ### Running tests
 

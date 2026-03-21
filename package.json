@@ -16,6 +16,8 @@
     "test:smoke": "bun run build && bun test tests/layout-smoke.test.ts",
     "preview": "node scripts/with-system-certs.mjs bunx astro preview",
     "cf:dev": "wrangler dev",
+    "cf:secrets:push": "node scripts/wrangler-push-worker-secrets.mjs",
+    "cf:api:sync": "node scripts/cloudflare-api-sync.mjs",
     "cf:deploy": "bun run deploy:preflight && wrangler deploy",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
@@ -40,7 +42,8 @@
     "eslint": "eslint .",
     "prettier": "prettier --write .",
     "prettier:check": "prettier --check .",
-    "install:ci": "bun install"
+    "install:ci": "bun install",
+    "verify:prod-github-api": "node scripts/verify-prod-github-api.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",

@@ -55,6 +55,23 @@ const LANGUAGE_OVERRIDES: Record<string, string> = {
   "tuliopc23/tulio-personal-website": "TypeScript",
 };
 
+/** Origins allowed to call /api/github.json from the browser (www + apex). */
+const CORS_ALLOWED_ORIGINS = new Set(["https://www.tuliocunha.dev", "https://tuliocunha.dev"]);
+
+function accessControlAllowOrigin(request: Request): string | undefined {
+  const origin = request.headers.get("Origin");
+  if (!origin) return "https://www.tuliocunha.dev";
+  return CORS_ALLOWED_ORIGINS.has(origin) ? origin : undefined;
+}
+
+function withCors(request: Request, headers: Record<string, string>): Record<string, string> {
+  const allow = accessControlAllowOrigin(request);
+  if (allow) {
+    return { ...headers, "Access-Control-Allow-Origin": allow };
+  }
+  return { ...headers };
+}
+
 function formatRelativeTime(dateString: string): string {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return "recently";
@@ -108,7 +125,7 @@ async function fetchGitHub<T>(path: string, token?: string): Promise<T | null> {
   return res.json() as Promise<T>;
 }
 
-async function handleGitHubApi(env: Env): Promise<Response> {
+async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
   const githubToken = env.GITHUB_TOKEN ?? env.GITHUB_PERSONAL_ACCESS_TOKEN;
   const sanityToken = env.SANITY_API_READ_TOKEN;
 
@@ -160,17 +177,16 @@ async function handleGitHubApi(env: Env): Promise<Response> {
 
     return new Response(JSON.stringify(results), {
       status: 200,
-      headers: {
+      headers: withCors(request, {
         "Content-Type": "application/json",
         "Cache-Control": "public, max-age=60, stale-while-revalidate=300",
-        "Access-Control-Allow-Origin": "https://www.tuliocunha.dev",
-      },
+      }),
     });
   } catch (err) {
     console.error("[/api/github.json] Error:", err);
     return new Response(JSON.stringify({ error: "Failed to load GitHub data" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: withCors(request, { "Content-Type": "application/json" }),
     });
   }
 }
@@ -182,7 +198,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/github.json" && request.method === "GET") {
-      return handleGitHubApi(env);
+      return handleGitHubApi(request, env);
     }
 
     // All static assets are served by the assets binding before reaching here.
