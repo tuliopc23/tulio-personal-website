@@ -1,0 +1,21 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "f311095cffb5cbbb10f074a8774b4b7a9e4061f5",
+  "prompts": {
+    "ff437fce69b58bcd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a825ebf2-7d14-464f-b5b6-d355ef43025d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1293,
+      "total_deletions": 368,
+      "accepted_lines": 1084,
+      "overriden_lines": 0
+    }
+  }
+}
