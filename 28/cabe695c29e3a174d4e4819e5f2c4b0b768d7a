@@ -1,0 +1,27 @@
+src/pages/index.astro
+  c51d6bb77454345f 177,310
+src/components/HeroPlayer.tsx
+  c51d6bb77454345f 46-47,132-136
+src/layouts/Base.astro
+  c51d6bb77454345f 231-240
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "28cabe695c29e3a174d4e4819e5f2c4b0b768d7a",
+  "prompts": {
+    "c51d6bb77454345f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f0a25c34-1b56-42ac-bf8b-32a10d5afeee",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 8,
+      "accepted_lines": 19,
+      "overriden_lines": 0
+    }
+  }
+}
