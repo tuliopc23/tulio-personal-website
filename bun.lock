@@ -33,6 +33,7 @@
         "@sanity/image-url": "^2.0.3",
         "@sanity/visual-editing": "^5.3.1",
         "@sentry/astro": "^10.45.0",
+        "@sentry/cloudflare": "^10.45.0",
         "@spotlightjs/astro": "^3.2.6",
         "astro": "^6.0.8",
         "astro-portabletext": "^0.13.0",
@@ -1225,6 +1226,8 @@
     "@sentry/cli-win32-i686": ["@sentry/cli-win32-i686@2.58.5", "", { "os": "win32", "cpu": "ia32" }, "sha512-EsuboLSOnlrN7MMPJ1eFvfMDm+BnzOaSWl8eYhNo8W/BIrmNgpRUdBwnWn9Q2UOjJj5ZopukmsiMYtU/D7ml9g=="],
 
     "@sentry/cli-win32-x64": ["@sentry/cli-win32-x64@2.58.5", "", { "os": "win32", "cpu": "x64" }, "sha512-IZf+XIMiQwj+5NzqbOQfywlOitmCV424Vtf9c+ep61AaVScUFD1TSrQbOcJJv5xGxhlxNOMNgMeZhdexdzrKZg=="],
+
+    "@sentry/cloudflare": ["@sentry/cloudflare@10.45.0", "", { "dependencies": { "@opentelemetry/api": "^1.9.0", "@sentry/core": "10.45.0" }, "peerDependencies": { "@cloudflare/workers-types": "^4.x" }, "optionalPeers": ["@cloudflare/workers-types"] }, "sha512-4rXUCSnBu9MITm7Uj27tYxEhmHczamdMLfeipBjvgeFBJ3LUJBKqrfolCOL5d3q9in/CopgyhMxY7pgUwlCJ8w=="],
 
     "@sentry/core": ["@sentry/core@10.45.0", "", {}, "sha512-s69UXxvefeQxuZ5nY7/THtTrIEvJxNVCp3ns4kwoCw1qMpgpvn/296WCKVmM7MiwnaAdzEKnAvLAwaxZc2nM7Q=="],
 

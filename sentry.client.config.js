@@ -1,7 +1,11 @@
 import * as Sentry from "@sentry/astro";
 
+const dsn = import.meta.env.PUBLIC_SENTRY_DSN;
+
 Sentry.init({
-  dsn: "https://f090b59c9b0694fd72a5f9347d2fb7d2@o4510704923246592.ingest.us.sentry.io/4511095064821760",
+  dsn,
+  enabled: Boolean(dsn),
+  environment: import.meta.env.MODE,
   sendDefaultPii: true,
   integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
   enableLogs: true,

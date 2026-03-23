@@ -1,6 +1,7 @@
 /**
  * Push Worker runtime secrets from .env to Cloudflare (wrangler secret bulk).
- * Only uploads keys used by worker/index.ts: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN, SANITY_API_READ_TOKEN.
+ * Only uploads keys used by worker/index.ts: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN,
+ * SANITY_API_READ_TOKEN, and SENTRY_DSN.
  *
  * Usage (from repo root): bun run cf:secrets:push
  * Requires: wrangler login, and a .env with the values you want uploaded.
@@ -19,7 +20,7 @@ const WORKER_SECRET_KEYS = [
   "GITHUB_TOKEN",
   "GITHUB_PERSONAL_ACCESS_TOKEN",
   "SANITY_API_READ_TOKEN",
-  "SENTRY_AUTH_TOKEN",
+  "SENTRY_DSN",
 ];
 
 const payload = {};
@@ -32,7 +33,7 @@ for (const key of WORKER_SECRET_KEYS) {
 
 if (Object.keys(payload).length === 0) {
   console.error(
-    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN and SANITY_API_READ_TOKEN.",
+    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN, SANITY_API_READ_TOKEN, or SENTRY_DSN.",
   );
   process.exit(1);
 }

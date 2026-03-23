@@ -27,7 +27,7 @@ dotenv.config({ path: join(root, ".env") });
 
 const API = "https://api.cloudflare.com/client/v4";
 
-const WORKER_SECRET_KEYS = ["GITHUB_TOKEN", "GITHUB_PERSONAL_ACCESS_TOKEN", "SANITY_API_READ_TOKEN"];
+const WORKER_SECRET_KEYS = ["GITHUB_TOKEN", "GITHUB_PERSONAL_ACCESS_TOKEN", "SANITY_API_READ_TOKEN", "SENTRY_DSN"];
 
 /** Astro / CI build vars for Workers Builds (key -> is_secret for PATCH body). */
 const BUILD_ENV_KEYS = {
@@ -41,6 +41,10 @@ const BUILD_ENV_KEYS = {
   SANITY_ALLOW_BUILD_FALLBACK: false,
   GITHUB_TOKEN: true,
   GITHUB_PERSONAL_ACCESS_TOKEN: true,
+  PUBLIC_SENTRY_DSN: false,
+  SENTRY_ORG: false,
+  SENTRY_PROJECT: false,
+  SENTRY_AUTH_TOKEN: true,
   PUBLIC_CLOUDFLARE_IMAGE_BASE: false,
 };
 
@@ -123,7 +127,7 @@ async function putWorkerSecrets(token, accountId, scriptName, dryRun) {
     if (v && String(v).trim()) payload[key] = v;
   }
   if (Object.keys(payload).length === 0) {
-    console.warn("Skipping Worker secrets: no GITHUB_* or SANITY_API_READ_TOKEN in .env.");
+    console.warn("Skipping Worker secrets: no GITHUB_*, SANITY_API_READ_TOKEN, or SENTRY_DSN in .env.");
     return;
   }
 

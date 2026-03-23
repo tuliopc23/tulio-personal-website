@@ -352,20 +352,4 @@ const description =
     </section>
   </section>
 
-  <!-- SENTRY TEST ERROR BUTTON -->
-  <button id="error-button" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; padding: 12px 24px; background-color: #e11d48; color: white; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.4);">Throw Test Error</button>
-  <script>
-    import * as Sentry from "@sentry/astro";
-    function handleClick () {
-      // Send a log before throwing the error
-      Sentry.logger.info(Sentry.logger.fmt`User ${"sentry-test"} triggered test error button`, {
-        action: "test_error_button_click",
-      });
-      // Send a test metric before throwing the error
-      Sentry.metrics.count('test_counter', 1);
-      throw new Error('This is a test error to verify Sentry setup');
-    }
-    const btn = document.querySelector("#error-button");
-    if (btn) btn.addEventListener("click", handleClick);
-  </script>
 </Base>

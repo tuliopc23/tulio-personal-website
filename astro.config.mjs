@@ -37,8 +37,8 @@ export default defineConfig({
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
     solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),
     sentry({
-      project: "personal-website",
-      org: "tuliocunha",
+      project: process.env.SENTRY_PROJECT ?? "personal-website",
+      org: process.env.SENTRY_ORG ?? "tuliocunha",
       authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
   ],

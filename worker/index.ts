@@ -1,4 +1,5 @@
 /// <reference types="@cloudflare/workers-types" />
+import * as Sentry from "@sentry/cloudflare";
 
 /**
  * Cloudflare Worker entry point.
@@ -11,6 +12,7 @@ interface Env {
   GITHUB_TOKEN?: string;
   GITHUB_PERSONAL_ACCESS_TOKEN?: string;
   SANITY_API_READ_TOKEN?: string;
+  SENTRY_DSN?: string;
 }
 
 // ─── GitHub API handler ──────────────────────────────────────────────────────
@@ -209,16 +211,24 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
 
 // ─── Worker fetch handler ────────────────────────────────────────────────────
 
-export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
+export default Sentry.withSentry(
+  (env: Env) => ({
+    dsn: env.SENTRY_DSN ?? undefined,
+    enabled: Boolean(env.SENTRY_DSN),
+    tracesSampleRate: 1.0,
+    environment: "production",
+  }),
+  {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      const url = new URL(request.url);
 
-    if (url.pathname === "/api/github.json" && request.method === "GET") {
-      return handleGitHubApi(request, env);
-    }
+      if (url.pathname === "/api/github.json" && request.method === "GET") {
+        return handleGitHubApi(request, env);
+      }
 
-    // All static assets are served by the assets binding before reaching here.
-    // If we get here, nothing matched — return 404.
-    return new Response("Not Found", { status: 404 });
-  },
-} satisfies ExportedHandler<Env>;
+      // All static assets are served by the assets binding before reaching here.
+      // If we get here, nothing matched — return 404.
+      return new Response("Not Found", { status: 404 });
+    },
+  } satisfies ExportedHandler<Env>,
+);
