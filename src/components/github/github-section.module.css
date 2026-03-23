@@ -516,45 +516,69 @@
 
 .mobileNavButton {
   appearance: none;
-  border: 1px solid color-mix(in srgb, var(--hairline) 74%, transparent);
-  background: color-mix(in srgb, var(--surface-elevated) 86%, transparent);
-  color: var(--text-secondary);
+  border: none;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--link) 94%, white 6%),
+    color-mix(in srgb, var(--blue, #0d8aff) 84%, #78c8ff 16%)
+  );
+  color: white;
   border-radius: 999px;
-  min-height: 36px;
-  padding: 0 14px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption-2);
+  min-height: 38px;
+  padding: 0 16px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-caption);
   font-weight: var(--fw-semibold);
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 14px 28px rgba(13, 138, 255, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transition:
     opacity var(--motion-duration-sm) var(--motion-ease-out),
     transform var(--motion-duration-sm) var(--motion-ease-out),
-    border-color var(--motion-duration-sm) var(--motion-ease-out),
-    background-color var(--motion-duration-sm) var(--motion-ease-out);
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+    filter var(--motion-duration-sm) var(--motion-ease-out);
+}
+
+.mobileNavButton:hover:not(:disabled),
+.mobileNavButton:focus-visible:not(:disabled) {
+  filter: saturate(1.06) brightness(1.02);
+  box-shadow:
+    0 16px 32px rgba(13, 138, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .mobileNavButton:disabled {
-  opacity: 0.45;
+  opacity: 0.42;
+  box-shadow: none;
 }
 
 .progressBar {
   display: flex;
-  gap: 5px;
+  align-items: center;
+  gap: 8px;
 }
 
 .progressSegment {
-  width: 20px;
-  height: 2px;
-  background: color-mix(in srgb, var(--fill-tertiary) 60%, transparent);
-  border-radius: 2px;
+  width: 7px;
+  height: 7px;
+  background: color-mix(in srgb, var(--text-tertiary) 38%, transparent);
+  border-radius: 999px;
+  box-shadow: none;
   transition:
     background var(--motion-duration-sm) var(--motion-ease-out),
-    width var(--motion-duration-sm) var(--spring-responsive);
+    transform var(--motion-duration-sm) var(--spring-responsive),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+    width var(--motion-duration-sm) var(--spring-responsive),
+    height var(--motion-duration-sm) var(--spring-responsive);
 }
 
 .progressSegment[data-active="true"] {
-  background: var(--text-tertiary);
-  width: 28px;
+  width: 9px;
+  height: 9px;
+  background: var(--blue, #0d8aff);
+  transform: scale(1.02);
+  box-shadow: 0 0 6px rgba(13, 138, 255, 0.32);
 }
 
 .progressCount {
@@ -697,17 +721,25 @@
     justify-content: center;
     align-self: center;
     gap: 0.45rem;
-    padding: 0 14px;
-    min-height: 30px;
+    padding: 0 16px;
+    min-height: 36px;
     border-radius: 999px;
-    font-family: var(--font-mono);
-    font-size: var(--fs-caption-2);
-    color: var(--text-quaternary);
-    background: color-mix(in srgb, var(--surface-elevated) 74%, transparent);
-    border: 1px solid color-mix(in srgb, var(--hairline) 70%, transparent);
-    box-shadow: 0 10px 24px rgba(5, 8, 18, 0.12);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    font-family: var(--font-sans);
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+    color: white;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--link) 94%, white 6%),
+      color-mix(in srgb, var(--blue, #0d8aff) 84%, #78c8ff 16%)
+    );
+    border: 1px solid color-mix(in srgb, var(--link) 72%, rgba(255, 255, 255, 0.22));
+    box-shadow:
+      0 14px 30px rgba(13, 138, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    backdrop-filter: saturate(1.12) blur(18px);
+    -webkit-backdrop-filter: saturate(1.12) blur(18px);
     transition:
       opacity var(--motion-duration-sm) var(--motion-ease-out),
       transform var(--motion-duration-sm) var(--motion-ease-out);
@@ -750,15 +782,7 @@
   }
 
   .progressBar {
-    gap: 6px;
-  }
-
-  .progressSegment {
-    width: 16px;
-  }
-
-  .progressSegment[data-active="true"] {
-    width: 24px;
+    gap: 8px;
   }
 }
 

@@ -4,19 +4,56 @@
 }
 
 /*
- * Motion.dev handles reveal animations via JS.
- * The `is-visible` class is still set as a final-state marker,
- * and these rules act as a CSS safety net / fallback.
+ * GSAP ScrollTrigger handles reveal animations via JS.
+ * The root `data-reveal-state` attribute arms a pre-reveal CSS state before
+ * the client bundle finishes booting, which prevents the current blink/flash.
  */
 
-/* Final state for revealed elements */
-:root[data-motion="normal"] body [data-reveal].is-visible {
-  --scroll-progress: 1;
-  opacity: 1;
-  transform: none;
+/* Pre-reveal hidden state */
+:root[data-motion="normal"][data-reveal-state="armed"] body [data-reveal]:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="armed"]
+  body
+  [data-reveal-children]
+  > :not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="armed"] body .stage-intro__eyebrow:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="armed"] body .stage-intro__title:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="armed"] body .stage-intro__caption:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="armed"]
+  body
+  .stage-intro
+  > :not(.stage-intro__copy):not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"] body [data-reveal]:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"]
+  body
+  [data-reveal-children]
+  > :not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"]
+  body
+  .stage-intro__eyebrow:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"] body .stage-intro__title:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"]
+  body
+  .stage-intro__caption:not(.is-visible),
+:root[data-motion="normal"][data-reveal-state="running"]
+  body
+  .stage-intro
+  > :not(.stage-intro__copy):not(.is-visible) {
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Content is visible by default - no initial hiding */
+/* Final state for revealed elements */
+:root[data-motion="normal"] body [data-reveal].is-visible,
+:root[data-motion="normal"] body [data-reveal-children] > .is-visible,
+:root[data-motion="normal"] body .stage-intro__eyebrow.is-visible,
+:root[data-motion="normal"] body .stage-intro__title.is-visible,
+:root[data-motion="normal"] body .stage-intro__caption.is-visible,
+:root[data-motion="normal"] body .stage-intro > .is-visible {
+  --scroll-progress: 1;
+  opacity: 1;
+  visibility: visible;
+}
+
 :root[data-motion="normal"] body[data-page-state="entering"] .content {
   opacity: 1;
   transform: none;
@@ -34,8 +71,14 @@
 /* ── Reduced motion ─────────────────────────────────────────── */
 
 :root[data-motion="reduced"] body [data-reveal],
-:root[data-motion="reduced"] body [data-reveal].is-visible {
+:root[data-motion="reduced"] body [data-reveal].is-visible,
+:root[data-motion="reduced"] body [data-reveal-children] > *,
+:root[data-motion="reduced"] body .stage-intro__eyebrow,
+:root[data-motion="reduced"] body .stage-intro__title,
+:root[data-motion="reduced"] body .stage-intro__caption,
+:root[data-motion="reduced"] body .stage-intro > :not(.stage-intro__copy) {
   opacity: 1;
+  visibility: visible;
   transform: none;
   transition: none;
 }

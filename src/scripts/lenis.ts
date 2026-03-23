@@ -7,8 +7,14 @@
 
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 let lenis: Lenis | null = null;
+let tickerCallback: ((time: number) => void) | null = null;
+let scrollCallback: (() => void) | null = null;
 
 /* ── Public API ─────────────────────────────────────────────── */
 
@@ -26,22 +32,47 @@ export function initLenis(reducedMotion: boolean): void {
   if (reducedMotion) return; // native scroll when user prefers reduced motion
 
   lenis = new Lenis({
-    lerp: 0.075,
+    lerp: 0.072,
     smoothWheel: true,
     gestureOrientation: "vertical",
     syncTouch: true,
-    syncTouchLerp: 0.08,
-    wheelMultiplier: 0.95,
-    touchMultiplier: 1.1,
+    syncTouchLerp: 0.075,
+    wheelMultiplier: 0.92,
+    touchMultiplier: 1,
     infinite: false,
-    autoRaf: true,
+    autoRaf: false,
     anchors: true,
     stopInertiaOnNavigate: true,
+  });
+
+  scrollCallback = () => {
+    ScrollTrigger.update();
+  };
+  lenis.on("scroll", scrollCallback);
+
+  tickerCallback = (time) => {
+    lenis?.raf(time * 1000);
+  };
+  gsap.ticker.add(tickerCallback);
+  gsap.ticker.lagSmoothing(0);
+
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
   });
 }
 
 /** Tear down the current Lenis instance and stop the RAF loop. */
 export function destroyLenis(): void {
+  if (tickerCallback) {
+    gsap.ticker.remove(tickerCallback);
+    tickerCallback = null;
+  }
+
+  if (lenis && scrollCallback) {
+    lenis.off("scroll", scrollCallback);
+    scrollCallback = null;
+  }
+
   lenis?.destroy();
   lenis = null;
 }

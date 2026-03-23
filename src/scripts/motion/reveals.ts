@@ -1,23 +1,30 @@
 /**
  * Scroll-triggered reveal orchestration.
  *
- * Handles both generic `[data-reveal]` elements and scoped section reveals
- * like `.stage-intro`, so supporting copy, controls, and media enter as one
- * composition instead of unrelated text-only effects.
+ * Uses GSAP ScrollTrigger for reveal timing so Lenis and reveal playback
+ * share the same scroll lifecycle instead of running separate systems.
  */
 
-import type { AnimationPlaybackControlsWithThen, DOMKeyframesDefinition } from "motion";
-import { inView, stagger } from "motion";
-import { animateDOM } from "./dom-animate";
-import { SPRING_HEAVY, SPRING_SMOOTH } from "./springs";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const MAX_STAGGER_DELAY_S = 0.18;
 const STEP_S = 0.06;
+const STAGE_TARGET_SELECTOR =
+  ".stage-intro__eyebrow, .stage-intro__title, .stage-intro__caption, .stage-intro > :not(.stage-intro__copy)";
+const GENERIC_REVEAL_SELECTOR = "[data-reveal], [data-reveal-children] > *";
+const ALL_REVEAL_SELECTOR = `${GENERIC_REVEAL_SELECTOR}, ${STAGE_TARGET_SELECTOR}`;
 
-type StopFn = VoidFunction;
+type TweenLike = gsap.core.Tween | gsap.core.Timeline;
 
-let cleanups: StopFn[] = [];
-let animations: AnimationPlaybackControlsWithThen[] = [];
+let animations: TweenLike[] = [];
+let triggers: ScrollTrigger[] = [];
+
+function setRevealState(state: "armed" | "running" | "ready" | "fallback"): void {
+  document.documentElement.dataset.revealState = state;
+}
 
 function parseDelay(el: HTMLElement): number {
   const explicit = el.dataset.revealDelay;
@@ -51,72 +58,88 @@ function usesCompoundTransform(el: HTMLElement): boolean {
 
 function markVisible(el: HTMLElement): void {
   el.classList.add("is-visible");
-  el.style.setProperty("--scroll-progress", "1");
-  el.style.setProperty("--reveal-translate", "0px");
-  el.style.setProperty("--reveal-scale", "1");
 }
 
-function revealKeyframes(el: HTMLElement): DOMKeyframesDefinition {
-  const type = el.dataset.revealType;
+function getGenericOffset(el: HTMLElement): number {
+  switch (el.dataset.revealType) {
+    case "scale":
+      return 10;
+    case "fade":
+      return 10;
+    case "slide-left":
+      return 18;
+    default:
+      return 16;
+  }
+}
 
+function setHiddenState(el: HTMLElement): void {
   if (usesCompoundTransform(el)) {
-    if (type === "scale") {
-      return {
-        opacity: [0, 1],
-        "--reveal-translate": ["10px", "0px"],
-        "--reveal-scale": ["0.97", "1"],
-      };
-    }
-
-    return {
-      opacity: [0, 1],
-      "--reveal-translate": ["16px", "0px"],
-      "--reveal-scale": ["0.985", "1"],
-    };
+    gsap.set(el, {
+      autoAlpha: 0,
+      "--reveal-translate": `${getGenericOffset(el)}px`,
+      "--reveal-scale": el.dataset.revealType === "scale" ? 0.97 : 0.985,
+    });
+    return;
   }
 
-  if (type === "scale") {
-    return {
-      opacity: [0, 1],
-      transform: ["translateY(10px) scale(0.97)", "translateY(0) scale(1)"],
-    };
-  }
-
-  if (type === "slide-left") {
-    return {
-      opacity: [0, 1],
-      transform: ["translateX(18px)", "translateX(0)"],
-    };
-  }
-
-  if (type === "fade") {
-    return {
-      opacity: [0, 1],
-      transform: ["translateY(10px)", "translateY(0)"],
-    };
-  }
-
-  return {
-    opacity: [0, 1],
-    transform: ["translateY(16px)", "translateY(0)"],
+  const vars: gsap.TweenVars = {
+    autoAlpha: 0,
+    y: getGenericOffset(el),
   };
+
+  if (el.dataset.revealType === "scale") {
+    vars.scale = 0.97;
+  }
+
+  if (el.dataset.revealType === "slide-left") {
+    delete vars.y;
+    vars.x = 18;
+  }
+
+  gsap.set(el, vars);
 }
 
-function animateReveal(
-  targets: HTMLElement | HTMLElement[],
-  keyframes: DOMKeyframesDefinition,
-  options: { delay?: number | ReturnType<typeof stagger>; duration?: number } = {},
-): void {
-  const elements = Array.isArray(targets) ? targets : [targets];
-  const ctrl = animateDOM(targets, keyframes, {
-    ...SPRING_SMOOTH,
-    delay: options.delay,
+function revealVars(el: HTMLElement): gsap.TweenVars {
+  if (usesCompoundTransform(el)) {
+    return {
+      autoAlpha: 1,
+      "--reveal-translate": "0px",
+      "--reveal-scale": 1,
+      duration: 0.72,
+      ease: "power3.out",
+    };
+  }
+
+  const vars: gsap.TweenVars = {
+    autoAlpha: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    duration: 0.72,
+    ease: "power3.out",
+    clearProps: "transform,opacity,visibility",
+  };
+
+  if (el.dataset.revealType === "fade") {
+    delete vars.scale;
+  }
+
+  if (el.dataset.revealType === "slide-left") {
+    delete vars.scale;
+  }
+
+  return vars;
+}
+
+function animateSingleReveal(el: HTMLElement, delay = 0): void {
+  const tween = gsap.to(el, {
+    ...revealVars(el),
+    delay,
+    onStart: () => markVisible(el),
   });
 
-  animations.push(ctrl);
-  for (const el of elements) {
-    markVisible(el);
-  }
+  animations.push(tween);
 }
 
 function collectStageTargets(stage: HTMLElement): HTMLElement[] {
@@ -141,65 +164,6 @@ function collectStageTargets(stage: HTMLElement): HTMLElement[] {
   return targets;
 }
 
-function animateStageSequence(stage: HTMLElement): void {
-  const copy = stage.querySelector<HTMLElement>(".stage-intro__copy");
-  const eyebrow = copy?.querySelector<HTMLElement>(".stage-intro__eyebrow");
-  const title = copy?.querySelector<HTMLElement>(".stage-intro__title");
-  const caption = copy?.querySelector<HTMLElement>(".stage-intro__caption");
-
-  // Non-copy children (media, controls, etc.)
-  const extras: HTMLElement[] = [];
-  for (const child of Array.from(stage.children)) {
-    if (child instanceof HTMLElement && child !== copy) extras.push(child);
-  }
-
-  // Orchestrated sequence with overlapping delays
-  let offset = 0;
-
-  if (eyebrow) {
-    const ctrl = animateDOM(
-      eyebrow,
-      { opacity: [0, 1], transform: ["translateY(14px)", "translateY(0)"] },
-      { ...SPRING_SMOOTH, delay: offset },
-    );
-    animations.push(ctrl);
-    markVisible(eyebrow);
-    offset += 0.08;
-  }
-
-  if (title) {
-    const ctrl = animateDOM(
-      title,
-      { opacity: [0, 1], transform: ["translateY(20px)", "translateY(0)"] },
-      { ...SPRING_HEAVY, delay: offset },
-    );
-    animations.push(ctrl);
-    markVisible(title);
-    offset += 0.1;
-  }
-
-  if (caption) {
-    const ctrl = animateDOM(
-      caption,
-      { opacity: [0, 1], transform: ["translateY(12px)", "translateY(0)"] },
-      { ...SPRING_SMOOTH, delay: offset },
-    );
-    animations.push(ctrl);
-    markVisible(caption);
-    offset += 0.08;
-  }
-
-  for (let i = 0; i < extras.length; i++) {
-    const ctrl = animateDOM(
-      extras[i],
-      { opacity: [0, 1], transform: ["translateY(16px)", "translateY(0)"] },
-      { ...SPRING_SMOOTH, delay: offset + i * 0.06 },
-    );
-    animations.push(ctrl);
-    markVisible(extras[i]);
-  }
-}
-
 function initStageReveals(): void {
   const stages = Array.from(document.querySelectorAll<HTMLElement>(".stage-intro"));
 
@@ -207,12 +171,51 @@ function initStageReveals(): void {
     const targets = collectStageTargets(stage);
     if (!targets.length) continue;
 
-    if (isArticlePage()) {
-      for (const target of targets) markVisible(target);
-      continue;
+    for (const target of targets) {
+      gsap.set(target, { autoAlpha: 0, y: 14 });
     }
 
-    cleanups.push(inView(stage, () => animateStageSequence(stage), { margin: "0px 0px -14% 0px" }));
+    const timeline = gsap.timeline({
+      defaults: { duration: 0.72, ease: "power3.out" },
+      scrollTrigger: {
+        trigger: stage,
+        start: "top 86%",
+        once: true,
+      },
+      onStart: () => {
+        for (const target of targets) markVisible(target);
+      },
+    });
+
+    const [eyebrow, title, caption, ...extras] = targets;
+
+    if (eyebrow)
+      timeline.to(eyebrow, { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" }, 0);
+    if (title) {
+      timeline.to(
+        title,
+        { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
+        eyebrow ? 0.08 : 0,
+      );
+    }
+    if (caption) {
+      timeline.to(
+        caption,
+        { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
+        title ? 0.18 : 0.08,
+      );
+    }
+
+    for (let index = 0; index < extras.length; index++) {
+      timeline.to(
+        extras[index],
+        { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
+        (caption ? 0.28 : 0.18) + index * 0.06,
+      );
+    }
+
+    animations.push(timeline);
+    if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
   }
 }
 
@@ -225,22 +228,31 @@ function initScopedContainerReveals(): void {
     );
     if (!targets.length) continue;
 
-    cleanups.push(
-      inView(
-        container,
-        () => {
-          animateReveal(
-            targets,
-            {
-              opacity: [0, 1],
-              transform: ["translateY(18px)", "translateY(0)"],
-            },
-            { delay: stagger(0.05), duration: 0.4 },
-          );
-        },
-        { margin: "0px 0px -14% 0px" },
-      ),
-    );
+    for (const target of targets) {
+      gsap.set(target, { autoAlpha: 0, y: 18 });
+    }
+
+    const timeline = gsap.timeline({
+      defaults: { duration: 0.68, ease: "power3.out" },
+      scrollTrigger: {
+        trigger: container,
+        start: "top 86%",
+        once: true,
+      },
+      onStart: () => {
+        for (const target of targets) markVisible(target);
+      },
+    });
+
+    timeline.to(targets, {
+      autoAlpha: 1,
+      y: 0,
+      stagger: 0.05,
+      clearProps: "opacity,visibility,transform",
+    });
+
+    animations.push(timeline);
+    if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
   }
 }
 
@@ -250,6 +262,12 @@ function isManagedByScopedReveal(el: HTMLElement): boolean {
 
 export function initReveals(): void {
   cleanupReveals();
+  setRevealState("running");
+
+  if (isArticlePage()) {
+    showAllReveals();
+    return;
+  }
 
   initStageReveals();
   initScopedContainerReveals();
@@ -258,10 +276,8 @@ export function initReveals(): void {
     (el) => !isManagedByScopedReveal(el),
   );
 
-  if (!elements.length) return;
-
-  if (isArticlePage()) {
-    for (const el of elements) markVisible(el);
+  if (!elements.length) {
+    setRevealState("ready");
     return;
   }
 
@@ -269,6 +285,8 @@ export function initReveals(): void {
   const ungrouped: HTMLElement[] = [];
 
   for (const el of elements) {
+    setHiddenState(el);
+
     const group = el.dataset.revealGroup;
     if (!group) {
       ungrouped.push(el);
@@ -281,66 +299,95 @@ export function initReveals(): void {
   }
 
   for (const el of ungrouped) {
-    const hasExit = el.hasAttribute("data-reveal-exit");
-
-    cleanups.push(
-      inView(
-        el,
-        () => {
-          animateReveal(el, revealKeyframes(el), {
-            delay: parseDelay(el),
-          });
-
-          if (hasExit) {
-            return () => {
-              el.classList.remove("is-visible");
-              animateDOM(
-                el,
-                usesCompoundTransform(el)
-                  ? { opacity: [1, 0], "--reveal-translate": ["0px", "8px"] }
-                  : { opacity: [1, 0], transform: ["translateY(0)", "translateY(8px)"] },
-                { ...SPRING_SMOOTH },
-              );
-            };
-          }
-        },
-        { margin: "0px 0px -12% 0px" },
-      ),
-    );
+    const trigger = ScrollTrigger.create({
+      trigger: el,
+      start: "top 88%",
+      once: true,
+      onEnter: () => animateSingleReveal(el, parseDelay(el)),
+    });
+    triggers.push(trigger);
   }
 
   for (const [, grouped] of groups) {
     if (!grouped.length) continue;
 
-    cleanups.push(
-      inView(
-        grouped[0],
-        () => {
-          animateReveal(grouped, revealKeyframes(grouped[0]), {
-            duration: 0.4,
-            delay: stagger(STEP_S),
-          });
+    const timeline = gsap.timeline({
+      defaults: { duration: 0.68, ease: "power3.out" },
+      scrollTrigger: {
+        trigger: grouped[0],
+        start: "top 88%",
+        once: true,
+      },
+      onStart: () => {
+        for (const target of grouped) markVisible(target);
+      },
+    });
+
+    for (const target of grouped) {
+      setHiddenState(target);
+    }
+
+    grouped.forEach((target, index) => {
+      timeline.to(
+        target,
+        {
+          ...revealVars(target),
+          clearProps: usesCompoundTransform(target)
+            ? "opacity,visibility"
+            : "opacity,visibility,transform",
         },
-        { margin: "0px 0px -12% 0px" },
-      ),
-    );
+        index * 0.06,
+      );
+    });
+
+    animations.push(timeline);
+    if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
   }
+
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+  });
 }
 
 export function showAllReveals(): void {
-  const generic = document.querySelectorAll<HTMLElement>("[data-reveal]");
-  const stageTargets = document.querySelectorAll<HTMLElement>(
-    ".stage-intro__eyebrow, .stage-intro__title, .stage-intro__caption, .stage-intro > :not(.stage-intro__copy)",
-  );
+  const elements = document.querySelectorAll<HTMLElement>(ALL_REVEAL_SELECTOR);
 
-  for (const el of [...generic, ...stageTargets]) {
+  for (const el of elements) {
     markVisible(el);
+    gsap.set(el, {
+      autoAlpha: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      "--reveal-translate": "0px",
+      "--reveal-scale": 1,
+      clearProps: "opacity,visibility,transform",
+    });
   }
+
+  setRevealState("ready");
 }
 
 export function cleanupReveals(): void {
-  for (const ctrl of animations) ctrl.stop();
+  for (const animation of animations) animation.kill();
   animations = [];
-  for (const stop of cleanups) stop();
-  cleanups = [];
+
+  for (const trigger of triggers) trigger.kill();
+  triggers = [];
+
+  const elements = document.querySelectorAll<HTMLElement>(ALL_REVEAL_SELECTOR);
+  for (const el of elements) {
+    el.classList.remove("is-visible");
+    gsap.set(el, {
+      autoAlpha: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      "--reveal-translate": "0px",
+      "--reveal-scale": 1,
+      clearProps: "opacity,visibility,transform",
+    });
+  }
+
+  setRevealState("ready");
 }

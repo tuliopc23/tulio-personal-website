@@ -26,7 +26,7 @@ const { repos } = Astro.props;
     <div class={styles.mobileNav}>
       <button
         type="button"
-        class={styles.mobileNavButton}
+        class:list={["cta-pill", "cta-pill--accent", "motion-cta-pill", styles.mobileNavButton]}
         data-rail-prev
         aria-label="Show previous repository"
       >
@@ -34,7 +34,7 @@ const { repos } = Astro.props;
       </button>
       <button
         type="button"
-        class={styles.mobileNavButton}
+        class:list={["cta-pill", "cta-pill--accent", "motion-cta-pill", styles.mobileNavButton]}
         data-rail-next
         aria-label="Show next repository"
       >

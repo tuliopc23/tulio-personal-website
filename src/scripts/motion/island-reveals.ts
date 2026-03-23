@@ -2,16 +2,19 @@
  * Entrance animations for dynamically hydrated Solid.js islands.
  *
  * Listens for `motion:island-ready` custom events dispatched by islands
- * after they mount, then staggers in their content with spring physics.
+ * after they mount, then staggers in their content with GSAP so the
+ * island reveal system matches the rest of the scroll animation stack.
  */
 
-import { stagger } from "motion";
-import { animateDOM } from "./dom-animate";
-import { SPRING_SMOOTH } from "./springs";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type CleanupFn = VoidFunction;
 
 let cleanups: CleanupFn[] = [];
+let animations: Array<gsap.core.Tween> = [];
 
 function handleIslandReady(event: Event): void {
   const detail = (event as CustomEvent).detail;
@@ -29,22 +32,37 @@ function animateGitHubSection(): void {
   // Repo cards
   const cards = Array.from(section.querySelectorAll<HTMLElement>("article"));
   if (cards.length) {
-    animateDOM(
-      cards,
-      { opacity: [0, 1], transform: ["translateY(16px)", "translateY(0)"] },
-      { ...SPRING_SMOOTH, delay: stagger(0.08) },
+    gsap.set(cards, { autoAlpha: 0, y: 16 });
+    animations.push(
+      gsap.to(cards, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.68,
+        ease: "power3.out",
+        stagger: 0.08,
+        clearProps: "opacity,visibility,transform",
+      }),
     );
   }
 
   // Commit list items
   const commits = Array.from(section.querySelectorAll<HTMLElement>("li"));
   if (commits.length) {
-    animateDOM(
-      commits,
-      { opacity: [0, 1], transform: ["translateX(8px)", "translateX(0)"] },
-      { ...SPRING_SMOOTH, delay: stagger(0.03, { startDelay: 0.15 }) },
+    gsap.set(commits, { autoAlpha: 0, x: 8 });
+    animations.push(
+      gsap.to(commits, {
+        autoAlpha: 1,
+        x: 0,
+        duration: 0.56,
+        ease: "power3.out",
+        stagger: 0.03,
+        delay: 0.15,
+        clearProps: "opacity,visibility,transform",
+      }),
     );
   }
+
+  ScrollTrigger.refresh();
 }
 
 /* ── Public API ─────────────────────────────────────────────── */
@@ -56,6 +74,9 @@ export function initIslandReveals(): void {
 }
 
 export function cleanupIslandReveals(): void {
+  for (const animation of animations) animation.kill();
+  animations = [];
+
   for (const fn of cleanups) fn();
   cleanups = [];
 }

@@ -300,7 +300,7 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
         <div class={styles.mobileNav}>
           <button
             type="button"
-            class={styles.mobileNavButton}
+            class={`cta-pill cta-pill--accent motion-cta-pill ${styles.mobileNavButton}`}
             onClick={() => scrollToIndex(currentIndex() - 1)}
             disabled={currentIndex() === 0}
             aria-label="Show previous repository"
@@ -309,7 +309,7 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
           </button>
           <button
             type="button"
-            class={styles.mobileNavButton}
+            class={`cta-pill cta-pill--accent motion-cta-pill ${styles.mobileNavButton}`}
             onClick={() => scrollToIndex(currentIndex() + 1)}
             disabled={currentIndex() >= props.repos.length - 1}
             aria-label="Show next repository"

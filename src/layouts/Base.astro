@@ -270,6 +270,7 @@ const searchItems = [
         const root = document.documentElement;
 
         const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const initialTheme = stored ?? (prefersLight ? "light" : "dark");
 
         root.setAttribute("data-theme", initialTheme);
@@ -298,6 +299,13 @@ const searchItems = [
 
         updateFavicon(initialTheme);
         updateThemeColor(initialTheme);
+
+        root.dataset.revealState = prefersReducedMotion ? "ready" : "armed";
+        window.setTimeout(() => {
+          if (root.dataset.revealState === "armed") {
+            root.dataset.revealState = "fallback";
+          }
+        }, 1800);
       })();
     </script>
 
