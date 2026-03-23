@@ -1,5 +1,17 @@
-import type { PresentationPluginOptions } from "sanity/presentation";
-import { defineLocations } from "sanity/presentation";
+import type {
+  DocumentLocationResolverObject,
+  DocumentLocationsState,
+  PresentationPluginOptions,
+} from "sanity/presentation";
+
+// `defineLocations()` is a type-level identity helper in Sanity. Keeping a
+// local identity function avoids importing the full presentation runtime in
+// test environments that only need the resolver shape.
+function defineLocations<K extends string>(
+  resolver: DocumentLocationResolverObject<K> | DocumentLocationsState,
+) {
+  return resolver;
+}
 
 export const resolve: PresentationPluginOptions["resolve"] = {
   locations: {
