@@ -10,9 +10,10 @@ const STATIC_ROUTES = [
   "/now/",
   "/contact/",
   "/studio/",
+  "/rss.xml",
   "/blog/feed.xml",
   "/blog/atom.xml",
-  "/sitemap.xml",
+  "/sitemap-index.xml",
 ];
 
 function sanitizeRoute(route: string): string {
@@ -21,7 +22,7 @@ function sanitizeRoute(route: string): string {
 }
 
 async function pathsFromSitemap(request: APIRequestContext, baseURL: string): Promise<string[]> {
-  const res = await request.get(new URL("/sitemap.xml", baseURL).toString());
+  const res = await request.get(new URL("/sitemap-index.xml", baseURL).toString());
   if (!res.ok()) {
     return [];
   }

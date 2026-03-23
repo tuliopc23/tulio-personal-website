@@ -1,8 +1,10 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import sanity from "@sanity/astro";
 import { defineConfig } from "astro/config";
+import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
 const DEFAULT_PROJECT_ID = "61249gtj";
 const DEFAULT_DATASET = "production";
@@ -26,6 +28,9 @@ export default defineConfig({
   },
   integrations: [
     mdx(),
+    sitemap({
+      filter: shouldIncludeInSitemap,
+    }),
     sanity(sanityOptions),
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
     solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),

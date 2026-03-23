@@ -51,7 +51,7 @@ describe("blog index and category pages", () => {
     expect(html).toContain("Topics");
     expect(html).toContain("All posts");
     expect(html).toContain("Second Post");
-    expect(html).toContain("/blog/feed.xml");
+    expect(html).toContain("/rss.xml");
     expect(html).toContain("/blog/atom.xml");
   });
 

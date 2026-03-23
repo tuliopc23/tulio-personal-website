@@ -220,20 +220,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
     type="font/woff2"
     crossorigin="anonymous"
   />
-  <link
-    slot="head"
-    rel="alternate"
-    type="application/rss+xml"
-    title="Tulio Cunha — Blog RSS"
-    href="/blog/feed.xml"
-  />
-  <link
-    slot="head"
-    rel="alternate"
-    type="application/atom+xml"
-    title="Tulio Cunha — Blog Atom"
-    href="/blog/atom.xml"
-  />
   <VisualEditing />
   <ReadingProgress />
   <article
@@ -459,7 +445,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <PhosphorIcon name="linkedin" size={16} weight="regular" />
                   Share on LinkedIn
                 </a>
-                <a class="article__actionPill" href="/blog/feed.xml">
+                <a class="article__actionPill" href="/rss.xml">
                   <PhosphorIcon name="rss" size={16} weight="regular" />
                   RSS
                 </a>

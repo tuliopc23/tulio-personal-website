@@ -6,6 +6,13 @@ import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 import fontsCssHref from "../styles/fonts.css?url";
+import {
+  ATOM_FEED_PATH,
+  RSS_FEED_PATH,
+  SITEMAP_INDEX_PATH,
+  getSiteOrigin,
+  toAbsoluteUrl,
+} from "../lib/seo.js";
 
 interface OgImageMeta {
   url: string;
@@ -56,7 +63,16 @@ const fullTitle = `${title} • Tulio Cunha`;
 const computedOgTitle = ogTitle ?? fullTitle;
 const computedOgDescription = ogDescription ?? description;
 const canonicalUrl = canonical ?? (typeof Astro.url !== "undefined" ? Astro.url.href : undefined);
+const siteOrigin = getSiteOrigin(Astro.site ?? Astro.url);
+const absoluteCanonicalUrl = canonicalUrl ? toAbsoluteUrl(canonicalUrl, siteOrigin) : undefined;
+const absoluteOgImageUrl = ogImage?.url
+  ? toAbsoluteUrl(ogImage.url, absoluteCanonicalUrl ?? siteOrigin)
+  : null;
 const robotsValue = noIndex ? "noindex,nofollow" : "index,follow";
+const rssFeedUrl = toAbsoluteUrl(RSS_FEED_PATH, siteOrigin);
+const atomFeedUrl = toAbsoluteUrl(ATOM_FEED_PATH, siteOrigin);
+const sitemapUrl = toAbsoluteUrl(SITEMAP_INDEX_PATH, siteOrigin);
+const aboutUrl = toAbsoluteUrl("/about/", siteOrigin);
 const structuredDataJson =
   typeof structuredData === "string"
     ? structuredData
@@ -182,10 +198,19 @@ const searchItems = [
     <meta name="theme-color" content="#050506" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="author" content={articleAuthor ?? "Tulio Cunha"} />
+    <meta name="generator" content="Astro" />
     <title>{fullTitle}</title>
     <meta name="robots" content={robotsValue} />
     {description && <meta name="description" content={description} />}
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {absoluteCanonicalUrl && <link rel="canonical" href={absoluteCanonicalUrl} />}
+    <link rel="author" href={aboutUrl} />
+    <link rel="me" href="https://github.com/tuliopc23" />
+    <link rel="me" href="https://www.linkedin.com/in/tuliocunha/" />
+    <link rel="alternate" type="application/rss+xml" title="Tulio Cunha — RSS Feed" href={rssFeedUrl} />
+    <link rel="alternate" type="application/atom+xml" title="Tulio Cunha — Atom Feed" href={atomFeedUrl} />
+    <link rel="sitemap" type="application/xml" href={sitemapUrl} />
 
     <!-- Theme-aware favicons (high-quality WebP brand icons) -->
     <link
@@ -287,9 +312,10 @@ const searchItems = [
         <meta property="og:description" content={computedOgDescription} />
       )
     }
-    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {absoluteCanonicalUrl && <meta property="og:url" content={absoluteCanonicalUrl} />}
     <meta property="og:locale" content="en_US" />
-    {ogImage?.url && <meta property="og:image" content={ogImage.url} />}
+    {absoluteOgImageUrl && <meta property="og:image" content={absoluteOgImageUrl} />}
+    {absoluteOgImageUrl && <meta property="og:image:secure_url" content={absoluteOgImageUrl} />}
     {ogType === "article" && articleAuthor && (
       <meta property="article:author" content={articleAuthor} />
     )}
