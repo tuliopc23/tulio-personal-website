@@ -1,0 +1,45 @@
+src/components/github/RepoRail.astro
+  d6f636d2a5626b62 29,37
+src/components/github/GitHubLiveSection.tsx
+  d6f636d2a5626b62 303,312
+src/components/github/github-section.module.css
+  d6f636d2a5626b62 519-525,527-530,532-535,539-540,543-548,552-553,558-559,563-567,570-573,577-581,724-725,727-742,785
+src/scripts/motion/reveals.ts
+  d6f636d2a5626b62 4-5,8-9,11,15-18,20,22-23,25-27,63-74,76,78-83,86-92,95-97,100-101,103-104,106-110,114-121,123-132,135-139,142,174-191,209,217-218,231-250,252-255,265-270,279-280,288-289,302-308,314-329,341-344,346-349,353,355,357-365,367-368,372,374-377,392
+  5daa0f35ea0bda53 192-206,210-214,251,330-337,339-340,378-391
+src/components/ScrollHint.astro
+  d6f636d2a5626b62 114-124,128,140,151-158,167,184,189,196
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "fb2b797d6b4126206fe214a6b2e11bff4b76d62e",
+  "prompts": {
+    "5daa0f35ea0bda53": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d190b-be9a-7e70-affc-893e7ff3e4d0",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 47,
+      "total_deletions": 14,
+      "accepted_lines": 47,
+      "overriden_lines": 0
+    },
+    "d6f636d2a5626b62": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d1932-190e-7f00-adba-6e36cde41983",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 296,
+      "total_deletions": 235,
+      "accepted_lines": 282,
+      "overriden_lines": 0
+    }
+  }
+}
