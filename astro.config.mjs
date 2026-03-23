@@ -3,6 +3,8 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import sanity from "@sanity/astro";
+import sentry from "@sentry/astro";
+import "dotenv/config";
 import { defineConfig } from "astro/config";
 import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
@@ -34,6 +36,11 @@ export default defineConfig({
     sanity(sanityOptions),
     react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
     solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),
+    sentry({
+      project: "personal-website",
+      org: "tuliocunha",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    }),
   ],
   vite: {
     build: {

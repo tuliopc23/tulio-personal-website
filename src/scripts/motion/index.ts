@@ -8,15 +8,15 @@
  */
 
 import { destroyLenis, initLenis } from "../lenis";
+import { cleanupScrollIndicators, initScrollIndicators } from "../scroll-indicators";
 import { cleanupGlassState, initGlassState } from "./glass-state";
+import { cleanupIslandReveals, initIslandReveals } from "./island-reveals";
 import { cleanupMicrointeractions, initMicrointeractions } from "./microinteractions";
 import { cleanupPageTransitions, initPageTransitions } from "./page-transitions";
 import { cleanupParallaxTilt, initParallaxTilt } from "./parallax-tilt";
 import { isReducedMotion, onReducedMotionChange } from "./reduced-motion";
 import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
-import { cleanupIslandReveals, initIslandReveals } from "./island-reveals";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
-import { cleanupScrollIndicators, initScrollIndicators } from "../scroll-indicators";
 
 /* ── Lifecycle ──────────────────────────────────────────────── */
 
