@@ -1,6 +1,6 @@
 import "./theme";
-import "./motion";
+import "./lenis";
+import "./motion/index";
 import "./navbar-search";
-import "./scroll-indicators";
 import "./sidebar";
 import "./web-vitals";

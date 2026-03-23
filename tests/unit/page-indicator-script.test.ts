@@ -35,6 +35,16 @@ describe("page indicator script", () => {
     `;
 
     const carousel = document.querySelector("#carousel") as HTMLElement;
+    const scrollTo = vi.fn();
+    Object.defineProperty(carousel, "clientWidth", {
+      configurable: true,
+      value: 200,
+    });
+    Object.defineProperty(carousel, "scrollWidth", {
+      configurable: true,
+      value: 320,
+    });
+    carousel.scrollTo = scrollTo;
     Object.defineProperty(carousel, "getBoundingClientRect", {
       value: () => ({ left: 0, width: 200 }),
     });
@@ -42,7 +52,14 @@ describe("page indicator script", () => {
       Object.defineProperty(child, "getBoundingClientRect", {
         value: () => ({ left: index * 120, width: 100 }),
       });
-      (child as HTMLElement).scrollIntoView = vi.fn();
+      Object.defineProperty(child, "offsetLeft", {
+        configurable: true,
+        value: index * 120,
+      });
+      Object.defineProperty(child, "offsetWidth", {
+        configurable: true,
+        value: 100,
+      });
     });
     const track = document.querySelector("[data-page-indicator-track]") as HTMLElement;
     Object.defineProperty(track, "getBoundingClientRect", {
@@ -59,6 +76,6 @@ describe("page indicator script", () => {
 
     dots[1]?.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     dots[0]?.click();
-    expect((carousel.children[0] as HTMLElement).scrollIntoView).toHaveBeenCalled();
+    expect(scrollTo).toHaveBeenCalledWith({ behavior: "smooth", left: 0 });
   });
 });

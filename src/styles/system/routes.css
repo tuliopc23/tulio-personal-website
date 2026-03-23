@@ -1536,9 +1536,6 @@
   width: 100%;
   overflow-x: auto;
   overflow-y: clip;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  scroll-padding-inline: clamp(8px, 1vw, 12px);
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -1580,49 +1577,6 @@
   max-width: clamp(336px, 36vw, 420px); /* Safari fix: enforce width constraint */
   display: flex;
   align-self: stretch;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  animation: articleReveal var(--motion-duration-md) var(--motion-ease-out) backwards;
-  transition:
-    opacity var(--motion-duration-sm) var(--motion-ease-out),
-    transform var(--motion-duration-sm) var(--motion-ease-out);
-}
-
-/* Sequential reveal with 60ms stagger */
-.articleGrid__item:nth-child(1) {
-  animation-delay: 0ms;
-}
-.articleGrid__item:nth-child(2) {
-  animation-delay: 60ms;
-}
-.articleGrid__item:nth-child(3) {
-  animation-delay: 120ms;
-}
-.articleGrid__item:nth-child(4) {
-  animation-delay: 180ms;
-}
-.articleGrid__item:nth-child(5) {
-  animation-delay: 240ms;
-}
-.articleGrid__item:nth-child(6) {
-  animation-delay: 300ms;
-}
-.articleGrid__item:nth-child(7) {
-  animation-delay: 360ms;
-}
-.articleGrid__item:nth-child(8) {
-  animation-delay: 420ms;
-}
-
-@keyframes articleReveal {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .articleGrid__item[data-state="showing"] {
@@ -1673,11 +1627,9 @@
   .articleGrid__item {
     flex: 0 0 calc(100vw - 64px);
     max-width: calc(100vw - 64px);
-    scroll-snap-align: center;
   }
 
   .articleGrid {
-    scroll-padding-inline: 20px;
     padding: 14px 22px 18px;
     -webkit-mask-image: none;
     mask-image: none;
@@ -2787,7 +2739,6 @@
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
-    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     gap: var(--space-md);
@@ -2795,14 +2746,12 @@
     margin-inline: calc(-1 * clamp(var(--space-sm), 6vw, var(--space-lg)));
     padding-bottom: var(--space-sm);
     scrollbar-width: none;
-    scroll-padding-inline: clamp(var(--space-sm), 6vw, var(--space-lg));
     position: relative;
   }
   .cardRail::-webkit-scrollbar {
     display: none;
   }
   .cardRail > * {
-    scroll-snap-align: start;
     flex: 0 0 clamp(80%, 72vw, 320px);
   }
   .projects__grid.cardRail > * {
@@ -2870,7 +2819,6 @@
     min-width: 0; /* Safari fix: prevent flex item overflow */
     max-width: clamp(80%, 78vw, 320px); /* Safari fix: enforce width constraint */
     scroll-snap-align: start;
-    scroll-snap-stop: normal;
   }
   .articleGrid__item--featured {
     flex-basis: clamp(88%, 86vw, 360px);

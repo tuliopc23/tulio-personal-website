@@ -11,15 +11,36 @@ const { repos } = Astro.props;
 
 <div class={styles.railContainer}>
   <!-- Optional Scroll Hint -->
-  <div class={styles.scrollHint} aria-hidden="true">
+  <div class={styles.scrollHint} aria-hidden="true" data-scroll-cue data-visible="true">
     <div class={styles.scrollHintBadge}>Scroll for more</div>
   </div>
 
   <div class={styles.railTrack} data-repo-rail>
     <slot />
   </div>
-  
+  <div class={styles.mobileCue} data-scroll-cue data-visible="true" aria-hidden="false">
+    <span class={styles.mobileCueLabel}>Swipe to explore more repositories</span>
+    <span class={styles.mobileCueGlyph}>↔</span>
+  </div>
   <div class={styles.railControls}>
+    <div class={styles.mobileNav}>
+      <button
+        type="button"
+        class={styles.mobileNavButton}
+        data-rail-prev
+        aria-label="Show previous repository"
+      >
+        Prev
+      </button>
+      <button
+        type="button"
+        class={styles.mobileNavButton}
+        data-rail-next
+        aria-label="Show next repository"
+      >
+        Next
+      </button>
+    </div>
     <div class={styles.progressBar}>
       {repos.map((_, i) => (
         <div
@@ -37,19 +58,64 @@ const { repos } = Astro.props;
 
 <script>
   function setupRail() {
-    const track = document.querySelector('[data-repo-rail]');
+    const track = document.querySelector<HTMLElement>('[data-repo-rail]');
     const segments = document.querySelectorAll<HTMLElement>("[data-progress-segment]");
-    const countDisplay = document.querySelector('[data-current-index]');
+    const countDisplay = document.querySelector<HTMLElement>('[data-current-index]');
+    const previousButton = document.querySelector<HTMLButtonElement>("[data-rail-prev]");
+    const nextButton = document.querySelector<HTMLButtonElement>("[data-rail-next]");
+    const cues = document.querySelectorAll<HTMLElement>("[data-scroll-cue]");
 
     if (!track) return;
 
+    const resolveLeftForCard = (index: number) => {
+      const cards = track.querySelectorAll('article');
+      const card = cards[index];
+      if (!(card instanceof HTMLElement)) return 0;
+      const limit = Math.max(0, track.scrollWidth - track.clientWidth);
+      return Math.min(
+        Math.max(card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2, 0),
+        limit,
+      );
+    };
+
+    const setCueVisibility = (visible: boolean) => {
+      cues.forEach((cue) => {
+        cue.dataset.visible = visible ? "true" : "false";
+        cue.setAttribute("aria-hidden", visible ? "false" : "true");
+      });
+    };
+
+    const scrollToIndex = (index: number) => {
+      const cards = track.querySelectorAll('article');
+      const clamped = Math.min(Math.max(index, 0), cards.length - 1);
+      track.scrollTo({
+        left: resolveLeftForCard(clamped),
+        behavior: 'smooth',
+      });
+      setCueVisibility(false);
+    };
+
     const onScroll = () => {
       // Find the card mostly in view
-      const cards = track.querySelectorAll('article');
+      const cards = track.querySelectorAll<HTMLElement>('article');
       if (!cards.length) return;
-      
-      const step = cards[0].clientWidth;
-      const index = Math.max(0, Math.round(track.scrollLeft / Math.max(step, 1)));
+
+      const viewportCenter = track.scrollLeft + track.clientWidth / 2;
+      let index = 0;
+      let bestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, cardIndex) => {
+        const center = card.offsetLeft + card.offsetWidth / 2;
+        const distance = Math.abs(center - viewportCenter);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          index = cardIndex;
+        }
+      });
+
+      if (track.scrollLeft > 8) {
+        setCueVisibility(false);
+      }
       
       // Update Segment UI
       segments.forEach((seg, i) => {
@@ -63,8 +129,28 @@ const { repos } = Astro.props;
       if(countDisplay) {
          countDisplay.textContent = String(Math.min(index + 1, cards.length));
       }
+
+      if (previousButton) {
+        previousButton.disabled = index === 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = index >= cards.length - 1;
+      }
     };
     
+    previousButton?.addEventListener('click', () => {
+      const current = Number(countDisplay?.textContent ?? "1") - 1;
+      scrollToIndex(current - 1);
+    });
+
+    nextButton?.addEventListener('click', () => {
+      const current = Number(countDisplay?.textContent ?? "1") - 1;
+      scrollToIndex(current + 1);
+    });
+
+    track.addEventListener('pointerdown', () => setCueVisibility(false), { passive: true });
+    track.addEventListener('touchstart', () => setCueVisibility(false), { passive: true });
     track.addEventListener('scroll', onScroll, { passive: true });
     // Initialize properly
     onScroll();

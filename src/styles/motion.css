@@ -3,35 +3,13 @@
   --scroll-scale-min: 0.96;
 }
 
-/* Content is visible by default - no opacity hiding */
-:root[data-motion="normal"] body [data-reveal] {
-  --reveal-delay: 0ms;
-  --scroll-progress: 0;
-  opacity: calc(0.86 + (var(--scroll-progress) * 0.14));
-  transform: translateY(calc((1 - var(--scroll-progress)) * var(--motion-distance-sm)));
-  transition:
-    transform var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay),
-    opacity var(--motion-duration-lg) var(--motion-ease-out) var(--reveal-delay);
-}
+/*
+ * Motion.dev handles reveal animations via JS.
+ * The `is-visible` class is still set as a final-state marker,
+ * and these rules act as a CSS safety net / fallback.
+ */
 
-/* Scale variant - subtle scale animation */
-:root[data-motion="normal"] body [data-reveal][data-reveal-type="scale"] {
-  transform: translateY(calc((1 - var(--scroll-progress)) * var(--motion-distance-sm)))
-    scale(calc(var(--scroll-scale-min) + (var(--scroll-progress) * (1 - var(--scroll-scale-min)))));
-}
-
-/* Slide-left variant - horizontal parallax */
-:root[data-motion="normal"] body [data-reveal][data-reveal-type="slide-left"] {
-  transform: translateX(calc((1 - var(--scroll-progress)) * var(--motion-distance-md)));
-}
-
-/* Fade variant - subtle opacity enhancement (starts at 0.85, goes to 1) */
-:root[data-motion="normal"] body [data-reveal][data-reveal-type="fade"] {
-  opacity: calc(0.85 + (var(--scroll-progress) * 0.15));
-  transform: translateY(calc((1 - var(--scroll-progress)) * var(--motion-distance-sm)));
-}
-
-/* When element is fully in view - smooth final state */
+/* Final state for revealed elements */
 :root[data-motion="normal"] body [data-reveal].is-visible {
   --scroll-progress: 1;
   opacity: 1;
@@ -47,23 +25,13 @@
 :root[data-motion="normal"] body[data-page-state="ready"] .content {
   opacity: 1;
   transform: none;
-  /* Smooth transitions only for page navigation, not initial load */
-  transition:
-    opacity var(--motion-duration-lg) var(--motion-ease-out),
-    transform var(--motion-duration-lg) var(--motion-ease-out);
-}
-
-:root[data-motion="normal"] body[data-page-state="leaving"] .content {
-  opacity: 0;
-  transform: translateY(calc(var(--motion-distance-sm) * -0.5));
-  transition:
-    opacity var(--motion-duration-sm) var(--motion-ease-in),
-    transform var(--motion-duration-sm) var(--motion-ease-in);
 }
 
 :root[data-motion="normal"] body[data-page-state="leaving"] {
   pointer-events: none;
 }
+
+/* ── Reduced motion ─────────────────────────────────────────── */
 
 :root[data-motion="reduced"] body [data-reveal],
 :root[data-motion="reduced"] body [data-reveal].is-visible {
@@ -76,6 +44,8 @@
   opacity: 1;
   transform: none;
 }
+
+/* ── Sidebar transitions (kept — not handled by Motion) ────── */
 
 @media (max-width: 1023px) {
   :root[data-motion="normal"] body .sidebar {

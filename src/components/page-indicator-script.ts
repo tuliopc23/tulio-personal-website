@@ -17,6 +17,24 @@ export function prefersPageIndicatorReducedMotion(): boolean {
   );
 }
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function resolveTargetLeft(container: HTMLElement, item: HTMLElement): number {
+  const shouldCenter = container.matches("[data-repo-rail]");
+
+  if (shouldCenter) {
+    return clamp(
+      item.offsetLeft - (container.clientWidth - item.offsetWidth) / 2,
+      0,
+      Math.max(0, container.scrollWidth - container.clientWidth),
+    );
+  }
+
+  return clamp(item.offsetLeft, 0, Math.max(0, container.scrollWidth - container.clientWidth));
+}
+
 function getCleanups(): Array<() => void> {
   if (!Array.isArray(window.__pageIndicatorCleanups)) {
     window.__pageIndicatorCleanups = [];
@@ -76,10 +94,10 @@ export function initPageIndicators(): void {
       const items = getItems();
       const item = items[index];
       if (!(item instanceof HTMLElement)) return;
-      item.scrollIntoView({
+
+      container.scrollTo({
+        left: resolveTargetLeft(container, item),
         behavior: prefersPageIndicatorReducedMotion() ? "auto" : "smooth",
-        block: "nearest",
-        inline: "start",
       });
     };
 

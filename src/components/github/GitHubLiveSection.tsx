@@ -231,26 +231,92 @@ function Skeleton() {
 
 function RepoRail(props: { repos: NormalizedRepoCard[] }) {
   const [currentIndex, setCurrentIndex] = createSignal(0);
+  const [hasInteracted, setHasInteracted] = createSignal(false);
   let trackRef: HTMLDivElement | undefined;
+
+  const resolveLeftForCard = (index: number) => {
+    if (!trackRef) return 0;
+    const cards = trackRef.querySelectorAll<HTMLElement>("article");
+    const card = cards[index];
+    if (!card) return 0;
+    const limit = Math.max(0, trackRef.scrollWidth - trackRef.clientWidth);
+    return Math.min(
+      Math.max(card.offsetLeft - (trackRef.clientWidth - card.offsetWidth) / 2, 0),
+      limit,
+    );
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!trackRef) return;
+    const clamped = Math.min(Math.max(index, 0), props.repos.length - 1);
+    trackRef.scrollTo({
+      left: resolveLeftForCard(clamped),
+      behavior: "smooth",
+    });
+    setCurrentIndex(clamped);
+    setHasInteracted(true);
+  };
 
   const onScroll = () => {
     if (!trackRef) return;
-    const cards = trackRef.querySelectorAll("article");
+    const cards = trackRef.querySelectorAll<HTMLElement>("article");
     if (!cards.length) return;
-    const step = (cards[0] as HTMLElement).clientWidth;
-    const idx = Math.max(0, Math.round(trackRef.scrollLeft / Math.max(step, 1)));
-    setCurrentIndex(Math.min(idx, props.repos.length - 1));
+    const viewportCenter = trackRef.scrollLeft + trackRef.clientWidth / 2;
+    let nextIndex = 0;
+    let bestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const center = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(center - viewportCenter);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        nextIndex = index;
+      }
+    });
+
+    setCurrentIndex(nextIndex);
+    if (trackRef.scrollLeft > 8) {
+      setHasInteracted(true);
+    }
   };
 
   return (
     <div class={styles.railContainer}>
-      <div class={styles.scrollHint} aria-hidden="true">
+      <div class={styles.scrollHint} aria-hidden="true" data-visible={!hasInteracted()}>
         <div class={styles.scrollHintBadge}>Scroll for more</div>
       </div>
       <div class={styles.railTrack} data-repo-rail ref={trackRef} onScroll={onScroll}>
         <For each={props.repos}>{(repo) => <RepoCard repo={repo} />}</For>
       </div>
+      <div
+        class={styles.mobileCue}
+        data-visible={!hasInteracted()}
+        aria-hidden={hasInteracted() ? "true" : "false"}
+      >
+        <span class={styles.mobileCueLabel}>Swipe to explore more repositories</span>
+        <span class={styles.mobileCueGlyph}>↔</span>
+      </div>
       <div class={styles.railControls}>
+        <div class={styles.mobileNav}>
+          <button
+            type="button"
+            class={styles.mobileNavButton}
+            onClick={() => scrollToIndex(currentIndex() - 1)}
+            disabled={currentIndex() === 0}
+            aria-label="Show previous repository"
+          >
+            Prev
+          </button>
+          <button
+            type="button"
+            class={styles.mobileNavButton}
+            onClick={() => scrollToIndex(currentIndex() + 1)}
+            disabled={currentIndex() >= props.repos.length - 1}
+            aria-label="Show next repository"
+          >
+            Next
+          </button>
+        </div>
         <div class={styles.progressBar}>
           <For each={props.repos}>
             {(_, i) => (
@@ -288,6 +354,9 @@ export default function GitHubLiveSection() {
       console.error("Failed to load GitHub activity.", err);
       setError("Failed to load GitHub activity.");
     }
+
+    // Signal the motion system that this island's DOM is ready.
+    document.dispatchEvent(new CustomEvent("motion:island-ready", { detail: { id: "github" } }));
   });
 
   return (
