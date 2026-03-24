@@ -237,6 +237,16 @@ const searchItems = [
     <link rel="preload" href={themeCssHref} as="style" />
     <link rel="preload" href={fontsCssHref} as="style" />
 
+    <!-- Preload LCP hero image so the browser fetches it before React hydrates -->
+    {heroPage && (
+      <link
+        rel="preload"
+        as="image"
+        href="/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.webp"
+        fetchpriority="high"
+      />
+    )}
+
     <!-- Self-hosted SF fonts -->
     <link
       rel="preload"

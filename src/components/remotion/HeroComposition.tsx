@@ -30,7 +30,7 @@ export type HeroCompositionProps = {
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
 
-const MACINTOSH_IMAGE = "/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.png";
+const MACINTOSH_IMAGE = "/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.webp";
 
 /* Transparent framed asset is 3072x2048 (3:2). Screen bounds measured
    against the asset itself so hello tracks the actual CRT opening. */

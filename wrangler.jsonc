@@ -20,4 +20,10 @@
   "observability": {
     "enabled": true,
   },
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "1221f2bea79645358e6520d4dde58727",
+    },
+  ],
 }

@@ -1,2 +1,13 @@
 /fonts/sf/v1/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Astro build output uses content-hashed filenames — safe to cache forever
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static images and icons — stable assets, 1-week cache
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/icons/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

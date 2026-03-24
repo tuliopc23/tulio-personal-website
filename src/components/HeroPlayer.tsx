@@ -16,7 +16,7 @@ const FPS = 30;
 const DURATION_SECONDS = 7;
 const DURATION_FRAMES = FPS * DURATION_SECONDS;
 
-const MACINTOSH_IMAGE = "/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.png";
+const MACINTOSH_IMAGE = "/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.webp";
 
 function readReducedMotionPreference(): boolean {
   if (typeof window === "undefined") {

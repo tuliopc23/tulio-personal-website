@@ -13,6 +13,7 @@ interface Env {
   GITHUB_PERSONAL_ACCESS_TOKEN?: string;
   SANITY_API_READ_TOKEN?: string;
   SENTRY_DSN?: string;
+  CACHE: KVNamespace;
 }
 
 // ─── GitHub API handler ──────────────────────────────────────────────────────
@@ -141,7 +142,23 @@ async function fetchGitHub<T>(path: string, tokens: string[]): Promise<T | null>
   return null;
 }
 
+const GITHUB_CACHE_KEY = "github:api:v1";
+const GITHUB_CACHE_TTL = 300; // 5 minutes
+
 async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
+  // Serve from KV cache if available
+  const cached = await env.CACHE.get(GITHUB_CACHE_KEY);
+  if (cached) {
+    return new Response(cached, {
+      status: 200,
+      headers: withCors(request, {
+        "Content-Type": "application/json",
+        "Cache-Control": "public, max-age=60, stale-while-revalidate=300",
+        "X-Cache": "HIT",
+      }),
+    });
+  }
+
   const githubTokens = [env.GITHUB_PERSONAL_ACCESS_TOKEN, env.GITHUB_TOKEN].filter(
     (value): value is string => Boolean(value?.trim()),
   );
@@ -193,11 +210,15 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
       });
     }
 
-    return new Response(JSON.stringify(results), {
+    const body = JSON.stringify(results);
+    await env.CACHE.put(GITHUB_CACHE_KEY, body, { expirationTtl: GITHUB_CACHE_TTL });
+
+    return new Response(body, {
       status: 200,
       headers: withCors(request, {
         "Content-Type": "application/json",
         "Cache-Control": "public, max-age=60, stale-while-revalidate=300",
+        "X-Cache": "MISS",
       }),
     });
   } catch (err) {
