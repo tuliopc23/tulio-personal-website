@@ -1,0 +1,75 @@
+wrangler.jsonc
+  01ed56b63554e909 1-2
+scripts/cloudflare-api-sync.mjs
+  01ed56b63554e909 6,11,14-19,63,66,74-75,83-84,87-88,205-217,219-239,276,293,295-299,306-308
+AGENTS.md
+  01ed56b63554e909 14-16,18,22-23,26-28,31-34,37,40-41,44,75,104,106,111,117-118,120,122,124,126-127,129,131,139-140,147-149,153,157
+scripts/wrangler-push-worker-secrets.mjs
+  01ed56b63554e909 6,47,56-57
+openspec/specs/sanity-cms/spec.md
+  01ed56b63554e909 414,420
+openspec/specs/client-scripts/spec.md
+  01ed56b63554e909 22,103,110,182,216,251,259
+workers-builds.json
+  01ed56b63554e909 1-4
+tests/layout-smoke.test.ts
+  47531eb7698c761f 1
+SANITY_WEBHOOK_SETUP.md
+  01ed56b63554e909 69,77,139,173,232-233
+openspec/project.md
+  01ed56b63554e909 15,37,153-156,162-167,170,175-177,186,264,285
+openspec/templates/proposal-template.md
+  01ed56b63554e909 50,112-114,167
+.github/workflows/tests.yml
+  01ed56b63554e909 14,16,18,20-21,24,27,30,33,36
+QUICK_START_WEBHOOK.md
+  01ed56b63554e909 33
+scripts/verify-prod-github-api.mjs
+  01ed56b63554e909 3
+README.md
+  01ed56b63554e909 3,50,96-104,158-159
+.env.example
+  01ed56b63554e909 37,50,61,64,68,78
+package.json
+  47531eb7698c761f 7-13,15-17,21-25,27-30,32,37-39,108-109
+  01ed56b63554e909 40,113,115-132
+AUTO_PUBLISHING_SETUP.md
+  01ed56b63554e909 44,51
+playwright.config.ts
+  01ed56b63554e909 13
+scripts/verify-setup.js
+  01ed56b63554e909 99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "a79be9f0c0a5aae8fae67138e83724aa31ce2c1a",
+  "prompts": {
+    "01ed56b63554e909": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "16a22e11-4541-470e-ba3b-3f1440758485",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 249,
+      "total_deletions": 159,
+      "accepted_lines": 211,
+      "overriden_lines": 1
+    },
+    "47531eb7698c761f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d1d60-47e3-7112-9780-a3f68b41d2ed",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 39,
+      "accepted_lines": 26,
+      "overriden_lines": 0
+    }
+  }
+}
