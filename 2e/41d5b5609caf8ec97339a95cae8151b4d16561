@@ -1,0 +1,27 @@
+src/components/ProfileCard.astro
+  b36ef0dcc509e3ed 10
+src/pages/index.astro
+  b36ef0dcc509e3ed 42,48,54,60,66,72,90,326
+src/styles/fonts.css
+  b36ef0dcc509e3ed 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "2e41d5b5609caf8ec97339a95cae8151b4d16561",
+  "prompts": {
+    "b36ef0dcc509e3ed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8bd11379-da33-4294-bf5b-1c56fea584e5",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 10,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    }
+  }
+}
