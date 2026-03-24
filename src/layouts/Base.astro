@@ -247,14 +247,7 @@ const searchItems = [
       />
     )}
 
-    <!-- Self-hosted SF fonts -->
-    <link
-      rel="preload"
-      href="/fonts/sf/v1/sf-pro.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <!-- SF Mono: small (61KB), safe to preload for code blocks -->
     <link
       rel="preload"
       href="/fonts/sf/v1/sf-mono-medium.woff2"
@@ -262,6 +255,9 @@ const searchItems = [
       type="font/woff2"
       crossorigin="anonymous"
     />
+    <!-- SF Pro: loaded async after page is interactive (see inline script below).
+         Preloading 7.8MB was forcing download on all devices including non-Apple.
+         Apple devices resolve via local() instantly; others get it post-load. -->
 
     <!-- Theme script must run BEFORE CSS to prevent FOUC -->
     <script is:inline>
@@ -376,6 +372,31 @@ const searchItems = [
     }
 
     <slot name="head" />
+
+    <!-- Async SF Pro loader: zero LCP impact, all platforms get SF Pro after page load.
+         Apple devices resolve local("SF Pro") instantly via CSS @font-face.
+         Non-Apple: FontFace API downloads the woff2 after window.load, repaints text. -->
+    <script is:inline>
+      (function () {
+        if (typeof FontFace === "undefined") return;
+        function loadSFPro() {
+          // Returns true if SF Pro already resolved (Apple devices via local())
+          if (document.fonts.check('1em "SF Pro"')) return;
+          var face = new FontFace(
+            "SF Pro",
+            'url("/fonts/sf/v1/sf-pro.woff2") format("woff2")',
+            { style: "normal", weight: "100 900", display: "swap" }
+          );
+          document.fonts.add(face);
+          face.load().catch(function () {});
+        }
+        if (document.readyState === "complete") {
+          loadSFPro();
+        } else {
+          window.addEventListener("load", loadSFPro);
+        }
+      })();
+    </script>
   </head>
     <body
     class="liquid-glass"
