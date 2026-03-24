@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import Base from "../../layouts/Base.astro";
 import VisualEditing from "../../components/VisualEditing.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
@@ -8,7 +7,7 @@ import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import MarkdownContent from "../../components/MarkdownContent.astro";
-import { optimizedImageUrl } from "../../sanity/lib/image";
+import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
 import {
   calculateReadingTimeMinutes,
   getAllPostSlugs,
@@ -309,15 +308,17 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               data-reveal-group="post-shell"
               data-reveal-order={1}
             >
-              <Image
-                src={heroImage.url}
-                widths={[640, 1024, 1280, 1920, 2560]}
+              <img
+                src={optimizedImageUrl(heroImage.url, 1920)}
+                srcset={generateSrcset(heroImage.url, [640, 1024, 1280, 1920, 2560])}
                 sizes="(max-width: 768px) calc(100vw - 28px), (max-width: 1200px) min(100vw - 56px, 980px), 1040px"
                 alt={heroImage.alt ?? ""}
-                priority
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
                 data-image-loading
                 onload="this.setAttribute('data-loaded','true')"
-                {..._heroImageDimensions}
+                {...(_heroImageDimensions.inferSize ? {} : _heroImageDimensions)}
               />
             </figure>
           )}

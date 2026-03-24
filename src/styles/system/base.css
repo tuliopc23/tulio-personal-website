@@ -129,7 +129,8 @@ a:hover {
       calc((var(--reveal-translate, 0px)) + var(--hover-translate) + var(--parallax-translate))
     )
     scale(calc(var(--hover-scale) * var(--reveal-scale)));
-  will-change: transform;
+  /* Avoid promoting every card to a GPU layer at rest; promote only during active interaction */
+  will-change: auto;
 }
 
 .hover-elevate:hover,

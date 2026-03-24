@@ -1,8 +1,8 @@
 ---
-import { Image } from "astro:assets";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import CategoryBadges from "./CategoryBadges.astro";
 import type { Category, SanityImageWithMetadata } from "../sanity/lib/posts";
+import { generateSrcset, optimizedImageUrl } from "../sanity/lib/image";
 
 interface Props {
   href: string;
@@ -112,14 +112,17 @@ const _placeholderIcons =
     {
       _hasHeroImage && _heroImageUrl && (
         <figure class="articleCard__media" style={_imagePlaceholderStyle}>
-          <Image
-            src={_heroImageUrl}
+          <img
+            src={optimizedImageUrl(_heroImageUrl, _imageWidths[_imageWidths.length - 1])}
+            srcset={generateSrcset(_heroImageUrl, _imageWidths)}
             sizes={_imageSizes}
-            widths={_imageWidths}
             alt={_imageAlt || title}
-            priority={imagePriority}
-            loading={imagePriority ? undefined : "lazy"}
-            {..._imageDimensions}
+            loading={imagePriority ? "eager" : "lazy"}
+            fetchpriority={imagePriority ? "high" : undefined}
+            decoding="async"
+            {...(heroImage?.width && heroImage?.height
+              ? { width: heroImage.width, height: heroImage.height }
+              : {})}
           />
         </figure>
       )

@@ -32,7 +32,7 @@ export function initLenis(reducedMotion: boolean): void {
   if (reducedMotion) return; // native scroll when user prefers reduced motion
 
   lenis = new Lenis({
-    lerp: 0.072,
+    lerp: 0.1,
     smoothWheel: true,
     gestureOrientation: "vertical",
     syncTouch: true,

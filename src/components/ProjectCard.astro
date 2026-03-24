@@ -1,7 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import type { SanityProject } from "../sanity/lib/projects";
+import { generateSrcset, optimizedImageUrl } from "../sanity/lib/image";
 
 interface Props {
   project: SanityProject;
@@ -49,19 +49,20 @@ const _fallbackColor = _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "
   <div class="projectCard__media">
     {
       _hasImage ? (
-        <Image
-          src={project.coverImage!.url!}
+        <img
+          src={optimizedImageUrl(project.coverImage!.url!, 960)}
+          srcset={generateSrcset(project.coverImage!.url!, [480, 640, 800, 960])}
+          sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 420px"
           alt={project.coverImage?.alt ?? project.title}
           class="projectCard__image"
-          widths={[480, 640, 800, 960]}
-          sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 420px"
           loading="lazy"
+          decoding="async"
           style={
             project.coverImage?.lqip
               ? `background-image: url('${project.coverImage.lqip}'); background-size: cover;`
               : undefined
           }
-          {..._imageDimensions}
+          {...(_imageDimensions.inferSize ? {} : _imageDimensions)}
         />
       ) : (
         <div

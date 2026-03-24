@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { generateSrcset, optimizedImageUrl } from "../sanity/lib/image";
 
 interface Props {
   value: {
@@ -43,15 +43,16 @@ const imageDimensions =
           style={placeholderStyle}
         />
       )}
-      <Image
-        src={value.url!}
-        widths={[320, 640, 768, 1024, 1280, 1920]}
+      <img
+        src={optimizedImageUrl(value.url!, 1280)}
+        srcset={generateSrcset(value.url!, [320, 640, 768, 1024, 1280, 1920])}
         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 768px, 1024px"
         alt={alt}
         loading={loading}
+        decoding="async"
         style={imageStyle}
         data-image-loading
-        {...imageDimensions}
+        {...(imageDimensions.inferSize ? {} : imageDimensions)}
       />
       {value.caption && (
         <figcaption class="articlePortable__caption">{value.caption}</figcaption>

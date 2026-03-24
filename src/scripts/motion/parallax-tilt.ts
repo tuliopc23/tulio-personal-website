@@ -7,6 +7,7 @@
  * work.  Uses Motion for smooth spring interpolation.
  */
 
+import { getLenis } from "../lenis";
 import { animateDOM } from "./dom-animate";
 import { SPRING_SMOOTH, SPRING_SNAPPY } from "./springs";
 
@@ -20,8 +21,7 @@ let disposers: DisposeFn[] = [];
 
 /* ── Helpers ────────────────────────────────────────────────── */
 
-function applyTilt(card: HTMLElement, event: PointerEvent): void {
-  const rect = card.getBoundingClientRect();
+function applyTilt(card: HTMLElement, event: PointerEvent, rect: DOMRect): void {
   if (rect.width === 0 || rect.height === 0) return;
 
   const relX = (event.clientX - rect.left) / rect.width - 0.5;
@@ -65,20 +65,40 @@ export function initParallaxTilt(): void {
   const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-parallax-card]"));
   if (!cards.length) return;
 
+  // Grab the lenis instance once so we can subscribe to scroll for rect invalidation
+  const lenis = getLenis();
+
   for (const card of cards) {
     let trackingPointer = false;
+    // Cache the card's bounding rect to avoid forced layout reflow on every pointermove.
+    // Invalidated when the page scrolls (Lenis) so the rect stays accurate.
+    let cachedRect: DOMRect | null = null;
+    const invalidateRect = () => {
+      cachedRect = null;
+    };
 
-    const onMove = (e: PointerEvent) => applyTilt(card, e);
+    if (lenis) {
+      lenis.on("scroll", invalidateRect);
+    }
+
+    const onMove = (e: PointerEvent) => {
+      // Lazily measure rect; re-measures only after a scroll invalidates it
+      if (!cachedRect) cachedRect = card.getBoundingClientRect();
+      applyTilt(card, e, cachedRect);
+    };
 
     const onEnter = (e: PointerEvent) => {
       if (e.pointerType && e.pointerType !== "mouse" && e.pointerType !== "pen") return;
+
+      // Warm the cache on enter so the very first pointermove is layout-read-free
+      cachedRect = card.getBoundingClientRect();
 
       if (!trackingPointer) {
         card.addEventListener("pointermove", onMove, { passive: true });
         trackingPointer = true;
       }
       card.classList.add("is-tilting");
-      applyTilt(card, e);
+      applyTilt(card, e, cachedRect);
     };
 
     const onEnd = () => {
@@ -86,6 +106,7 @@ export function initParallaxTilt(): void {
         card.removeEventListener("pointermove", onMove);
         trackingPointer = false;
       }
+      cachedRect = null;
       card.classList.remove("is-tilting");
       resetTilt(card);
     };
@@ -95,6 +116,7 @@ export function initParallaxTilt(): void {
     card.addEventListener("pointercancel", onEnd, { passive: true });
 
     disposers.push(() => {
+      if (lenis) lenis.off("scroll", invalidateRect);
       card.removeEventListener("pointerenter", onEnter);
       card.removeEventListener("pointerleave", onEnd);
       card.removeEventListener("pointercancel", onEnd);

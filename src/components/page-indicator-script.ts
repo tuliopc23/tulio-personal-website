@@ -108,11 +108,14 @@ export function initPageIndicators(): void {
         slider.style.width = "";
         return;
       }
+      // Read all geometry before any writes to avoid forced layout reflow.
       const dotRect = activeDot.getBoundingClientRect();
       const trackRect = track.getBoundingClientRect();
       const offsetX = dotRect.left - trackRect.left - 10;
+      const activeWidth = getComputedStyle(activeDot).width;
+      // Write phase — no reads after this point.
       slider.style.transform = `translateX(${offsetX}px)`;
-      slider.style.width = getComputedStyle(activeDot).width;
+      slider.style.width = activeWidth;
     };
 
     const syncDots = (activeIndex: number) => {

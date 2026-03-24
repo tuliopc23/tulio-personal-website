@@ -138,12 +138,19 @@ function createRailController(element: HTMLElement): RailController {
   let raf: number | null = null;
   let snapTimer: number | null = null;
   let target = element.scrollLeft;
+  // Track last frame time for time-based (frame-rate-independent) easing
+  let lastFrameTime = 0;
+
+  // The per-frame lerp factor at 60 fps. The time-based formula normalises
+  // this so 120 Hz screens animate at the same perceived speed as 60 Hz.
+  const LERP_60FPS = 0.18;
 
   const cancelAnimation = (): void => {
     if (raf !== null) {
       cancelAnimationFrame(raf);
       raf = null;
     }
+    lastFrameTime = 0;
   };
 
   const cancelSnap = (): void => {
@@ -153,17 +160,24 @@ function createRailController(element: HTMLElement): RailController {
     }
   };
 
-  const animateTowardsTarget = (): void => {
+  const animateTowardsTarget = (now: number): void => {
+    const elapsed = lastFrameTime > 0 ? now - lastFrameTime : 1000 / 60;
+    lastFrameTime = now;
+
+    // Normalise the lerp factor to elapsed time so the animation feels
+    // identical at 60 Hz, 90 Hz, and 120 Hz.
+    const factor = 1 - Math.pow(1 - LERP_60FPS, elapsed / (1000 / 60));
     const next = target - element.scrollLeft;
 
     if (Math.abs(next) <= 0.5) {
       element.scrollLeft = target;
       applyRailState(element);
       raf = null;
+      lastFrameTime = 0;
       return;
     }
 
-    element.scrollLeft += next * 0.18;
+    element.scrollLeft += next * factor;
     applyRailState(element);
     raf = requestAnimationFrame(animateTowardsTarget);
   };

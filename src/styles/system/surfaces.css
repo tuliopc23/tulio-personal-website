@@ -96,6 +96,20 @@
   height: 100% !important;
 }
 
+/* LCP anchor: static img painted before React hydrates, covered seamlessly once React mounts.
+   Matches StaticFallback's inline-style layout exactly to avoid any visual shift. */
+.hero-remotion__lcp-anchor {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: auto;
+  pointer-events: none;
+  /* Sits beneath the React island — later DOM siblings paint on top by default */
+  z-index: 0;
+}
+
 .hero-remotion__fallback,
 .hero-remotion__fallback img {
   width: 100%;
