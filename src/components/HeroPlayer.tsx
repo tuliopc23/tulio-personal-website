@@ -105,9 +105,26 @@ export default function HeroPlayer() {
         return;
       }
 
+      let didHoldLastFrame = false;
+
       const holdLastFrame = () => {
-        player.seekTo(DURATION_FRAMES - 1);
-        player.pause();
+        // Prevent re-entrancy:
+        // `seekTo(...)` can cause Remotion to re-dispatch the `"ended"` event.
+        // If we do that while we're still handling `"ended"`, we can recurse until
+        // the call stack overflows.
+        if (didHoldLastFrame) {
+          return;
+        }
+        didHoldLastFrame = true;
+
+        // Defer state changes to avoid synchronous event loops.
+        requestAnimationFrame(() => {
+          if (cancelled) {
+            return;
+          }
+          player.seekTo(DURATION_FRAMES - 1);
+          player.pause();
+        });
       };
 
       const onEnded = () => holdLastFrame();
