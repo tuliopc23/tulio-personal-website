@@ -174,16 +174,6 @@ const description =
 >
   <section class="hero-remotion" aria-label="Hero">
     <div class="hero-remotion__player">
-      {/* LCP anchor: static img using the preloaded asset, painted immediately before React boots.
-          Positioned to match StaticFallback's layout so React's render covers it seamlessly. */}
-      <img
-        class="hero-remotion__lcp-anchor"
-        src="/images/hero/mac-asset-frame_upscayl_2x_upscayl-lite-4x.webp"
-        alt="Classic Macintosh computer displaying hello"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-      />
       <HeroPlayer client:only="react">
         <div class="hero-remotion__fallback" aria-hidden="true">
           <img src="/images/hero/macintosh-cleaned.webp" alt="" loading="eager" decoding="async" />
