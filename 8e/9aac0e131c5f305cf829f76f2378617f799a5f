@@ -1,0 +1,23 @@
+package.json
+  34085fae263a6a0e 94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "8e9aac0e131c5f305cf829f76f2378617f799a5f",
+  "prompts": {
+    "34085fae263a6a0e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "42e3ad8f-5299-4f52-8e0d-684af167d2c9",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
