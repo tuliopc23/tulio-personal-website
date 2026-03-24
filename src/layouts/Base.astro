@@ -374,22 +374,28 @@ const searchItems = [
     <slot name="head" />
 
     <!-- Async SF Pro loader: zero LCP impact, all platforms get SF Pro after page load.
-         Apple devices resolve local("SF Pro") instantly via CSS @font-face.
-         Non-Apple: FontFace API downloads the woff2 after all CSS fonts settle, repaints text.
-         Caching: /fonts/sf/v1/sf-pro.woff2 is served with Cloudflare cache headers;
-         subsequent visits use the browser HTTP cache — no re-download. -->
+         Apple devices already have SF Pro via -apple-system in the CSS font stack — no download.
+         Non-Apple (Android, Windows, Linux): woff2 fetched after window.load, text repaints.
+         Caching: browser HTTP cache stores the woff2 after first download; repeat visits are instant.
+         NOTE: document.fonts.check() is NOT used — Chrome returns true for any font when the
+         fallback system font is available, making it unreliable for detecting local() resolution.
+         Platform detection via navigator.platform / userAgentData is the correct signal. -->
     <script is:inline>
       (function () {
         if (typeof FontFace === "undefined") return;
         function loadSFPro() {
-          // Wait for all CSS @font-face rules to fully settle (loaded or failed).
-          // Without this, local("SF Pro") may still be pending on slow devices,
-          // causing check() to return false on Apple and triggering an unwanted download.
           document.fonts.ready.then(function () {
-            // Returns true if local("SF Pro") resolved — i.e. running on Apple.
-            if (document.fonts.check('1em "SF Pro"')) return;
-            // Not available locally: fetch the woff2 in the background.
-            // font-display:swap means text repaints to SF Pro when the download finishes.
+            // Apple devices get SF Pro through -apple-system in the CSS font-family stack.
+            // navigator.userAgentData.platform is the modern API; navigator.platform is the
+            // legacy fallback (deprecated but still widely supported and reliable here).
+            var uaPlatform = (navigator.userAgentData || {}).platform || "";
+            var platform = navigator.platform || "";
+            var isApple =
+              /^(macOS|iOS)$/i.test(uaPlatform) ||
+              /^(Mac|iPhone|iPad|iPod)/i.test(platform);
+            if (isApple) return;
+            // Non-Apple: load SF Pro woff2 asynchronously. font-display:swap means
+            // text repaints to SF Pro when the download finishes (FOUT on first visit only).
             var face = new FontFace(
               "SF Pro",
               'url("/fonts/sf/v1/sf-pro.woff2") format("woff2")',
