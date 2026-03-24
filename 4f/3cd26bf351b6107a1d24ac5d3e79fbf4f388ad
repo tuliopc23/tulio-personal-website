@@ -1,0 +1,23 @@
+src/layouts/Base.astro
+  b36ef0dcc509e3ed 250,258-260,375-399
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "4f3cd26bf351b6107a1d24ac5d3e79fbf4f388ad",
+  "prompts": {
+    "b36ef0dcc509e3ed": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8bd11379-da33-4294-bf5b-1c56fea584e5",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 29,
+      "total_deletions": 8,
+      "accepted_lines": 29,
+      "overriden_lines": 0
+    }
+  }
+}
