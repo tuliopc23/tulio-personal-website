@@ -9,7 +9,7 @@
     url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
   font-style: normal;
   font-weight: 400 900; /* Variable font: single file covers all weights */
-  font-display: swap;
+  font-display: optional; /* Prevents 7.8MB download race on non-Apple devices; local() still resolves instantly on macOS/iOS */
 }
 
 @font-face {
