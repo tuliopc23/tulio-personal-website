@@ -1,0 +1,35 @@
+public/_headers
+  b6fb1a5d2f1772f1 3-13
+src/layouts/Base.astro
+  b6fb1a5d2f1772f1 240-249
+src/components/HeroPlayer.tsx
+  b6fb1a5d2f1772f1 19
+src/pages/index.astro
+  b6fb1a5d2f1772f1 179
+wrangler.jsonc
+  b6fb1a5d2f1772f1 23-28
+src/components/remotion/HeroComposition.tsx
+  b6fb1a5d2f1772f1 33
+worker/index.ts
+  b6fb1a5d2f1772f1 16,145-147,149-161,213-216,221
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.17",
+  "base_commit_sha": "acbbf1bda31d66e918daf1a2d54ff4e006ab629a",
+  "prompts": {
+    "b6fb1a5d2f1772f1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "36d040b5-cea4-4beb-90e2-38cc053fae5f",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Cunha <tuliopinheiroc23@gmail.com>",
+      "messages": [],
+      "total_additions": 52,
+      "total_deletions": 4,
+      "accepted_lines": 52,
+      "overriden_lines": 0
+    }
+  }
+}
