@@ -375,20 +375,29 @@ const searchItems = [
 
     <!-- Async SF Pro loader: zero LCP impact, all platforms get SF Pro after page load.
          Apple devices resolve local("SF Pro") instantly via CSS @font-face.
-         Non-Apple: FontFace API downloads the woff2 after window.load, repaints text. -->
+         Non-Apple: FontFace API downloads the woff2 after all CSS fonts settle, repaints text.
+         Caching: /fonts/sf/v1/sf-pro.woff2 is served with Cloudflare cache headers;
+         subsequent visits use the browser HTTP cache — no re-download. -->
     <script is:inline>
       (function () {
         if (typeof FontFace === "undefined") return;
         function loadSFPro() {
-          // Returns true if SF Pro already resolved (Apple devices via local())
-          if (document.fonts.check('1em "SF Pro"')) return;
-          var face = new FontFace(
-            "SF Pro",
-            'url("/fonts/sf/v1/sf-pro.woff2") format("woff2")',
-            { style: "normal", weight: "100 900", display: "swap" }
-          );
-          document.fonts.add(face);
-          face.load().catch(function () {});
+          // Wait for all CSS @font-face rules to fully settle (loaded or failed).
+          // Without this, local("SF Pro") may still be pending on slow devices,
+          // causing check() to return false on Apple and triggering an unwanted download.
+          document.fonts.ready.then(function () {
+            // Returns true if local("SF Pro") resolved — i.e. running on Apple.
+            if (document.fonts.check('1em "SF Pro"')) return;
+            // Not available locally: fetch the woff2 in the background.
+            // font-display:swap means text repaints to SF Pro when the download finishes.
+            var face = new FontFace(
+              "SF Pro",
+              'url("/fonts/sf/v1/sf-pro.woff2") format("woff2")',
+              { style: "normal", weight: "400 900", display: "swap" }
+            );
+            document.fonts.add(face);
+            face.load().catch(function () {});
+          });
         }
         if (document.readyState === "complete") {
           loadSFPro();
