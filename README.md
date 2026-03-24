@@ -1,32 +1,40 @@
 #  Tulio's Personal Developer Site
 
-A high-performance, content-driven personal website and portfolio with a professional **Apple Developer Docs** aesthetic. Built with **Astro 6**, **Sanity**, and **Bun**, it features a refined design system, macOS-level visual effects, and AI-powered content workflows.
+A high-performance, content-driven personal website and portfolio with a professional **Apple Developer Docs** aesthetic. Built with **Astro 6**, **Sanity**, and **pnpm** (optionally [Vite+](https://viteplus.dev/) `vp` for a unified CLI), it features a refined design system, macOS-level visual effects, and AI-powered content workflows.
 
 ---
 
 ## ✨ Core Feature Highlights
 
 ### 🎨 macOS Tahoe 3D Shadows
+
 Experience dramatic 3D elevation with a **7-layer shadow system** matching the quality of macOS Tahoe and Sonoma.
+
 - **Split Inset Lighting**: Simulates a light source from above with top highlights and bottom depth shadows.
 - **Dual Ambient Glows**: Color-specific 2-layer halos for brand icons (LinkedIn blue, Instagram pink, etc.).
 - **DRAMATIC Hover States**: Smooth, spring-based transitions with up to 128px of shadow expansion.
 - **Surface Polish**: Inset highlight layers create a "beveled edge" effect on all interactive cards.
 
 ### 🍱 BentoLink Integration
+
 A full implementation of a "link-in-bio" style architecture seamlessly integrated into the site's design language.
+
 - **Symbol Tiles**: High-fidelity icon-driven layout for social links and professional tools.
 - **Reflector Treatment**: Atmospheric background layers and material language derived from the BentoLink design system.
 - **Unified Depth**: Social modules share the same 3D elevation tokens as the rest of the site.
 
 ### 🤖 AI-Powered Content Engine
+
 Content management is supercharged with native AI integrations and automated workflows.
+
 - **Sanity Auto-Tagging**: Powered by **Sanity Blueprints** and **AI Agents**, posts are automatically analyzed and tagged based on title, summary, and Portable Text content.
 - **Smart Reuse**: The AI prioritizes reusing existing tags (`Engineering`, `Design`, `Accessibility`, etc.) to maintain a clean taxonomy.
 - **Visual Editing**: Real-time previews and overlays via Sanity's Presentation tool for "what you see is what you get" authoring.
 
 ### 📐 Robust Design System (Tokenized)
+
 A unified, strict token-based styling system that ensures 100% consistency.
+
 - **Tiered Spacing**: A 3-tier padding system (sm/md/lg) for cards, sections, and containers.
 - **Glassmorphism Tiers**: 4 standard levels of glass blur with optimized `backdrop-filter` usage.
 - **Typography Rhythm**: Standardized line-heights and font-size tokens derived from Apple's HIG.
@@ -37,17 +45,20 @@ A unified, strict token-based styling system that ensures 100% consistency.
 ## 🚀 The Tech Stack
 
 ### Frontend & Runtime
+
 - **Framework**: [Astro 6](https://astro.build/) (Static Site Generation with Islands Architecture)
-- **Runtime**: [Bun 1.3](https://bun.sh/) (Fastest execution for builds, tests, and dependency management)
+- **Package manager**: [pnpm 9](https://pnpm.io/) with Corepack; optional global [Vite+](https://viteplus.dev/) (`vp`) for install/build/test commands
 - **Islands**: **React 19** (Hero animations, Remotion players) and **SolidJS** (High-performance UI fragments)
 - **Content**: MDX and Portable Text (via `@portabletext/react`)
 
 ### CMS & Data
+
 - **Backend**: [Sanity v5](https://www.sanity.io/) (Headless CMS)
 - **Schema**: Type-safe definitions with automatic TypeScript generation.
 - **Blueprints**: Automated content-lake side-effects (like auto-tagging).
 
 ### Styling & Quality
+
 - **CSS**: Pure Vanilla CSS with a strict tokenized architecture (no Tailwind).
 - **Linting**: [Biome](https://biomejs.dev/) (25x faster than ESLint/Prettier).
 - **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) with atomic builds and global edge delivery.
@@ -80,17 +91,17 @@ A unified, strict token-based styling system that ensures 100% consistency.
 
 ### Primary Commands
 
-| Command | Description |
-| :--- | :--- |
-| `bun run dev` | Start the Astro dev server with system certs. |
-| `bun run check` | Run Biome lint → TypeScript check → Production build. |
-| `bun run check:ci` | Run the production-oriented gate: Sanity health → Biome CI → TypeScript → build. |
-| `bun run sanity:health` | Verify Sanity environment, connectivity, and required singleton documents. |
-| `bun run deploy:preflight` | Run the full deployment preflight before Cloudflare Pages deploys. |
-| `bun run sanity:typegen` | Regenerate `sanity.types.ts` from the current schema. |
-| `bun run cf:deploy` | Run deploy preflight and then deploy the `dist/` folder to Cloudflare Pages. |
-| `bun run test` | Execute unit and Astro-specific integration tests. |
-| `bun run test:e2e` | Run Playwright end-to-end browser tests. |
+| Command                     | Description                                                                      |
+| :-------------------------- | :------------------------------------------------------------------------------- |
+| `pnpm run dev`              | Start the Astro dev server with system certs.                                    |
+| `pnpm run check`            | Run Biome lint → TypeScript check → Production build.                            |
+| `pnpm run check:ci`         | Run the production-oriented gate: Sanity health → Biome CI → TypeScript → build. |
+| `pnpm run sanity:health`    | Verify Sanity environment, connectivity, and required singleton documents.       |
+| `pnpm run deploy:preflight` | Run the full deployment preflight before Cloudflare Pages deploys.               |
+| `pnpm run sanity:typegen`   | Regenerate `sanity.types.ts` from the current schema.                            |
+| `pnpm run cf:deploy`        | Run deploy preflight and then deploy the `dist/` folder to Cloudflare Pages.     |
+| `pnpm run test`             | Execute unit and Astro-specific integration tests.                               |
+| `pnpm run test:e2e`         | Run Playwright end-to-end browser tests.                                         |
 
 ### Testing Strategy
 
@@ -144,8 +155,8 @@ CLOUDFLARE_DEPLOY_HOOK_URL="your_hook_url"
 
 Before deploying to Cloudflare Pages:
 
-1. Run `bun run deploy:preflight`
-2. Confirm `bun run check:ci` is green
+1. Run `pnpm run deploy:preflight`
+2. Confirm `pnpm run check:ci` is green
 3. Deploy only after both pass without Sanity connectivity warnings
 
 ---
@@ -153,9 +164,11 @@ Before deploying to Cloudflare Pages:
 ## 🍏 Quality Standards
 
 Every pixel is aligned to Apple's **Human Interface Guidelines**.
+
 1. **Performance**: 60fps interaction rhythm and sub-second TTI.
 2. **Accessibility**: 44x44px minimum touch targets, keyboard-nav ready, and `prefers-reduced-motion` support.
 3. **Consistency**: Zero hardcoded values; 100% token usage.
 
 ---
+
 © 2026 Tulio. Built with precision.

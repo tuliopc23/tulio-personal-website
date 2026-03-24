@@ -37,7 +37,9 @@ openspec/
 ## Files
 
 ### AGENTS.md
+
 Complete workflow guide for AI agents including:
+
 - When to create proposals
 - How to structure proposals
 - Implementation workflow
@@ -45,7 +47,9 @@ Complete workflow guide for AI agents including:
 - Integration with project tools
 
 ### project.md
+
 Comprehensive project documentation:
+
 - Tech stack (Astro, React, Sanity, TypeScript)
 - Project structure
 - Coding conventions
@@ -55,7 +59,9 @@ Comprehensive project documentation:
 - Design principles
 
 ### templates/proposal-template.md
+
 Standard template for change proposals with sections for:
+
 - Overview and problem statement
 - Proposed changes and affected files
 - Implementation plan
@@ -71,7 +77,7 @@ Standard template for change proposals with sections for:
 ```
 User: "I want to add a dark mode toggle button to the navbar"
 
-Agent: 
+Agent:
 1. Reads AGENTS.md and project.md
 2. Creates openspec/proposals/2025-01-07-navbar-dark-mode-toggle.md
 3. Documents the approach, affected components, implementation steps
@@ -83,6 +89,7 @@ Agent:
 ### Example Use Cases
 
 ✅ **Good for OpenSpec:**
+
 - Adding new pages or major features
 - Changing the content architecture
 - Modifying the Sanity schema
@@ -91,6 +98,7 @@ Agent:
 - Performance optimizations requiring structural changes
 
 ❌ **Skip OpenSpec for:**
+
 - Fixing typos or small bugs
 - Updating copy/content
 - Adjusting CSS values

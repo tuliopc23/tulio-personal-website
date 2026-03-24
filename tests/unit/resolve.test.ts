@@ -16,9 +16,7 @@ describe("sanity presentation resolve", () => {
   test("maps remaining document types to website locations", () => {
     const locations = resolve?.locations as any;
 
-    expect(
-      locations.category.resolve({ title: "Astro", slug: "astro" }).locations
-    ).toEqual([
+    expect(locations.category.resolve({ title: "Astro", slug: "astro" }).locations).toEqual([
       { title: "Astro", href: "/blog/category/astro/" },
       { title: "Blog Index", href: "/blog/" },
     ]);
@@ -28,12 +26,8 @@ describe("sanity presentation resolve", () => {
     expect(locations.aboutPage.resolve({}).locations).toEqual([
       { title: "About", href: "/about/" },
     ]);
-    expect(locations.nowPage.resolve({}).locations).toEqual([
-      { title: "Now", href: "/now/" },
-    ]);
-    expect(locations.blogPage.resolve({}).locations).toEqual([
-      { title: "Blog", href: "/blog/" },
-    ]);
+    expect(locations.nowPage.resolve({}).locations).toEqual([{ title: "Now", href: "/now/" }]);
+    expect(locations.blogPage.resolve({}).locations).toEqual([{ title: "Blog", href: "/blog/" }]);
     expect(locations.projectsPage.resolve({}).locations).toEqual([
       { title: "Projects", href: "/projects/" },
     ]);

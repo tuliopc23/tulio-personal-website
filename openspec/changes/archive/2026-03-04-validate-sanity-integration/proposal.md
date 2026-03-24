@@ -5,11 +5,13 @@
 **Author:** Codex (AI assistant)
 
 ## Overview
+
 Sanity CMS powers all dynamic content for the personal website. We need to verify that the Astro ↔ Sanity integration is production ready: environment variables must be wired correctly, schema/type generation should stay in sync, and both Studio and frontend builds must fail fast when misconfigured. This change confirms the integration is complete, documents the guarantees, and closes remaining gaps before further content work.
 
 ## Proposed Changes
 
 ### Areas to Review / Update
+
 - `astro.config.mjs` – ensure the environment loader, dataset defaults, and API version are correct for production.
 - `sanity.config.ts` – confirm Studio configuration (presentation tool, actions, preview URL fallbacks) and add safeguards for missing env vars.
 - `src/sanity/schemaTypes` & related modules – audit schema completeness, validation, and Portable Text components.
@@ -18,11 +20,13 @@ Sanity CMS powers all dynamic content for the personal website. We need to verif
 - Frontend data access (`src/lib`, `src/pages`) – verify GROQ queries only consume published content and handle nulls defensively.
 
 ### Expected Outcomes
+
 - Documented checklist for configuring Sanity across local, preview, and production environments.
 - Spec updates covering environment requirements and integration health checks.
 - Clear tasks defined for implementation (linting, schema/type updates, runtime validation).
 
 ## Implementation Plan
+
 1. **Environment & Config Audit**
    - Inspect `astro.config.mjs`, `sanity.config.ts`, and existing env docs.
    - Identify required vs optional variables and desired runtime safeguards.
@@ -39,15 +43,18 @@ Sanity CMS powers all dynamic content for the personal website. We need to verif
    - Run `bun run check` and `bun run sanity:typegen` once implementation is ready.
 
 ## Risks & Considerations
+
 - **Security:** Ensure tokens stay server-side and never leak into client bundles.
 - **Performance:** Sanity CDN settings must remain cached for production responses.
 - **Breaking Changes:** Tightening validation or env checks could surface existing misconfigurations; plan staging verification before deploy.
 
 ## Testing Strategy
+
 - `bun run sanity:typegen`
 - `bun run check`
 - Manual Studio smoke test (login, create draft, publish) after implementation.
 
 ## Documentation Updates
+
 - Sync environment variable references across `README.md`, `openspec/project.md`, and `.env` templates.
 - Add troubleshooting notes for missing env vars or invalid tokens if needed.

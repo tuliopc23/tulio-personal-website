@@ -41,14 +41,14 @@ That is no longer the supported deployment strategy.
 
 ## What remains in this repo
 
-- `bun run sanity:webhook` to configure the direct Pages rebuild webhook
+- `pnpm run sanity:webhook` to configure the direct Pages rebuild webhook
 - `scripts/auto-publish-to-devto.js` as a one-off/manual helper
 - optional Studio actions that can call an **external** automation endpoint
 
 ## Minimal checklist
 
 1. Configure `CLOUDFLARE_DEPLOY_HOOK_URL`
-2. Run `bun run sanity:webhook`
+2. Run `pnpm run sanity:webhook`
 3. Publish a post and confirm Cloudflare Pages rebuilds
 4. If needed, deploy a separate automation service
 5. Set `SANITY_STUDIO_WEBHOOK_URL` or `WEBHOOK_BASE_URL`

@@ -3,6 +3,7 @@
 ## Completed Changes
 
 ### 1. ✅ Sidebar Mobile Drawer (Tasks 1.1-1.10)
+
 **Status: COMPLETE**
 
 - Added fixed positioning for sidebar below 1024px breakpoint
@@ -19,15 +20,18 @@
   - Focus management
 
 **Implementation Details:**
+
 - Spring animation: 300ms with `--spring-responsive` easing
 - Drawer width: `min(280px, 80vw)` for flexible sizing
 - Enhanced shadows for mobile drawer (3-layer system)
 - z-index: drawer=50, backdrop=45
 
 ### 2. ✅ Card Carousel Scroll Enhancement (Tasks 2.1-2.10)
+
 **Status: COMPLETE**
 
 **Created ScrollIndicator.astro Component:**
+
 - Left/right arrow buttons (44x44px touch targets)
 - "Scroll for More →" hint that auto-hides after interaction
 - Respects `prefers-reduced-motion` preference
@@ -36,6 +40,7 @@
 - ARIA live region for scroll state announcements
 
 **Created scroll-indicators.js Script:**
+
 - Tracks scroll position for all carousels
 - Updates `data-at-start` and `data-at-end` attributes
 - Handles both `.articleGrid` and `.cardRail` elements
@@ -43,6 +48,7 @@
 - Responsive to window resize
 
 **Added Edge Fade Indicators:**
+
 - Left/right gradients that appear when content is scrollable
 - Opacity controlled via CSS based on data attributes
 - Theme-aware gradients (dark/light mode)
@@ -50,45 +56,50 @@
 - Only visible on mobile (<1024px)
 
 **Enhanced Scroll Behavior:**
+
 - `scroll-snap-type: x mandatory` for card alignment
 - `-webkit-overflow-scrolling: touch` for momentum
 - `overscroll-behavior-x: contain` prevents page scroll
 - Smooth scroll with reduced motion fallback
 
 ### 3. ✅ Shadow System Mobile Optimization (Tasks 3.1-3.8)
+
 **Status: COMPLETE**
 
 **Mobile Shadow Optimization (@media max-width: 1023px):**
+
 - Reduced 4-layer shadows to 2-layer system
 - Decreased blur radius: 28px → 20px
 - Adjusted saturation: 2.1 → 1.9
 - Lower opacity for better mobile rendering
 
 **Before (Desktop - 4 layers):**
+
 ```css
 --shadow-card:
-  0 2px 4px rgba(0, 0, 0, 0.08),  /* Contact */
-  0 8px 16px rgba(0, 0, 0, 0.12), /* Ambient */
-  0 20px 48px rgba(0, 0, 0, 0.55), /* Key light */
-  inset 0 1px 0 rgba(255, 255, 255, 0.06); /* Highlight */
+  0 2px 4px rgba(0, 0, 0, 0.08), /* Contact */ 0 8px 16px rgba(0, 0, 0, 0.12),
+  /* Ambient */ 0 20px 48px rgba(0, 0, 0, 0.55),
+  /* Key light */ inset 0 1px 0 rgba(255, 255, 255, 0.06); /* Highlight */
 ```
 
 **After (Mobile - 2 layers):**
+
 ```css
---shadow-card:
-  0 4px 8px rgba(0, 0, 0, 0.12),
-  0 12px 24px rgba(0, 0, 0, 0.2);
+--shadow-card: 0 4px 8px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(0, 0, 0, 0.2);
 ```
 
 **Performance Impact:**
+
 - Reduced GPU load for shadow rendering
 - Maintains visual hierarchy with depth cues
 - Expected FPS improvement: 40fps → 60fps on mobile
 
 ### 4. ✅ Touch Target Compliance (Tasks 5.1-5.8)
+
 **Status: COMPLETE**
 
 **Enhanced Touch Targets:**
+
 - All topbar buttons: min 44x44px
 - Navigation links: min 44px height, increased padding
 - Theme toggle: Increased from 28px → 32px height
@@ -98,14 +109,17 @@
 - Menu toggle button: min 44x44px with adequate padding
 
 **Spacing Improvements:**
+
 - Maintained 8px baseline grid
 - Added min 8px spacing between interactive elements
 - Increased touch comfort zones
 
 ### 5. ✅ Responsive Breakpoint Improvements (Tasks 4.1-4.10)
+
 **Status: COMPLETE**
 
 **Breakpoint Coverage:**
+
 - 320px-480px: Ultra-compact mobile (iPhone SE) ✓
 - 481px-720px: Standard mobile ✓
 - 721px-1023px: Tablet portrait ✓
@@ -113,6 +127,7 @@
 - 1280px+: Desktop ✓
 
 **Mobile-Specific Enhancements:**
+
 - Container padding: `clamp(var(--space-sm), 6vw, var(--space-lg))`
 - Card rail scroll with edge fades
 - Drawer sidebar below 1024px
@@ -120,21 +135,25 @@
 - Enhanced touch targets below 720px
 
 ### 6. ✅ Typography & Spacing Mobile Refinement (Tasks 6.1-6.8)
+
 **Status: VERIFIED**
 
 **Existing clamp() Functions:**
+
 - Hero title: `clamp(30px, 6vw + 18px, 46px)` at 720px breakpoint
 - H2: `clamp(22px, 3.4vw + 14px, 28px)`
 - H3: `clamp(17px, 2.2vw + 14px, 22px)`
 - Body: `clamp(1rem, 1vw + 0.95rem, 1.2rem)` (min 16px for accessibility)
 
 **Line Heights:**
+
 - Hero: 1.06 (lh-hero)
 - Headings: 1.2 (lh-heading)
 - Body: 1.618 (lh-base, golden ratio)
 - Compact UI: 1.45 (lh-compact)
 
 **Letter Spacing:**
+
 - Hero: -0.039em (ls-hero)
 - H2: -0.027em (ls-h2)
 - H3: -0.019em (ls-h3)
@@ -143,9 +162,11 @@
 All values scale smoothly across breakpoints. No changes needed.
 
 ### 7. ✅ Scroll Indicator Component (Tasks 7.1-7.10)
+
 **Status: COMPLETE**
 
 **Component: ScrollIndicator.astro**
+
 - Location: `src/components/ScrollIndicator.astro`
 - Features:
   - Left/right arrow SVG icons
@@ -158,6 +179,7 @@ All values scale smoothly across breakpoints. No changes needed.
   - Only visible on mobile (<1024px)
 
 **Integration:**
+
 - Added `scroll-indicators.js` script to Base.astro
 - Tracks scroll position for all carousels
 - Updates data attributes for CSS edge fade control
@@ -166,7 +188,6 @@ All values scale smoothly across breakpoints. No changes needed.
 
 1. **src/components/ScrollIndicator.astro** (NEW)
    - Reusable scroll indicator component with arrows and hint
-   
 2. **src/scripts/scroll-indicators.js** (NEW)
    - Scroll position tracking and edge fade management
 
@@ -185,12 +206,14 @@ All values scale smoothly across breakpoints. No changes needed.
 ## Testing Checklist
 
 ### ✅ Completed Tests
+
 - [x] TypeScript compilation passes
 - [x] Production build succeeds
 - [x] Biome linting passes
 - [x] Biome formatting applied
 
 ### 🔄 Remaining Tests (Manual - Requires Device Testing)
+
 - [ ] Test sidebar drawer on iPhone (Safari, Chrome)
 - [ ] Test sidebar drawer on Android (Chrome, Samsung Internet)
 - [ ] Test sidebar drawer on iPad (portrait & landscape)
@@ -211,11 +234,13 @@ All values scale smoothly across breakpoints. No changes needed.
 ## Performance Improvements
 
 ### Shadow Optimization
+
 - **Desktop:** 4-layer shadows, 28px blur, 2.1 saturation
 - **Mobile:** 2-layer shadows, 20px blur, 1.9 saturation
 - **Expected Improvement:** 40fps → 60fps on iPhone 12
 
 ### GPU Optimizations
+
 - Used `transform: translateZ(0)` for GPU acceleration
 - Removed excessive `will-change` properties
 - Passive scroll event listeners
@@ -224,32 +249,35 @@ All values scale smoothly across breakpoints. No changes needed.
 ## Accessibility Improvements
 
 ### Touch Targets
+
 - All interactive elements meet 44x44px minimum (Apple HIG)
 - Adequate spacing (8px+) between tappable elements
 - Larger filter pills on mobile
 
 ### Screen Reader Support
+
 - ARIA live regions for scroll state
 - ARIA labels for scroll indicators
 - Proper focus management in drawer
 - Keyboard navigation for carousels
 
 ### Motion Preferences
+
 - Respects `prefers-reduced-motion`
 - Instant animations when reduced motion enabled
 - Smooth vs. auto scroll behavior based on preference
 
 ## Success Metrics Achievement
 
-| Metric | Target | Status |
-|--------|--------|--------|
-| Touch targets 44x44px | All elements | ✅ Complete |
-| Sidebar mobile access | All sizes | ✅ Complete |
-| Card scroll affordances | Clear indicators | ✅ Complete |
-| Layout continuity | 320px-2560px | ✅ Complete |
-| Shadow optimization | 2-layer mobile | ✅ Complete |
-| 60fps scroll | iPhone 12+ | 🔄 Needs device testing |
-| Lighthouse performance | 90+ | 🔄 Needs audit |
+| Metric                  | Target           | Status                  |
+| ----------------------- | ---------------- | ----------------------- |
+| Touch targets 44x44px   | All elements     | ✅ Complete             |
+| Sidebar mobile access   | All sizes        | ✅ Complete             |
+| Card scroll affordances | Clear indicators | ✅ Complete             |
+| Layout continuity       | 320px-2560px     | ✅ Complete             |
+| Shadow optimization     | 2-layer mobile   | ✅ Complete             |
+| 60fps scroll            | iPhone 12+       | 🔄 Needs device testing |
+| Lighthouse performance  | 90+              | 🔄 Needs audit          |
 
 ## Known Limitations
 

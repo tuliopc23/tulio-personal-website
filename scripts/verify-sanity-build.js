@@ -22,7 +22,9 @@ function logInfo(message) {
 }
 
 function createQueryUrl({ host, query, perspective = "published" }) {
-  const url = new URL(`https://${projectId}.${host}.sanity.io/v${apiVersion}/data/query/${dataset}`);
+  const url = new URL(
+    `https://${projectId}.${host}.sanity.io/v${apiVersion}/data/query/${dataset}`,
+  );
   url.searchParams.set("query", query);
   url.searchParams.set("perspective", perspective);
   return url;

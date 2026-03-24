@@ -20,12 +20,8 @@ describe("project filters script", () => {
     const { initProjectFilters } = await import("../../src/scripts/projects-filters");
     initProjectFilters();
 
-    const cards = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-project-card]")
-    );
-    const buttons = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-project-filter]")
-    );
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card]"));
+    const buttons = Array.from(document.querySelectorAll<HTMLElement>("[data-project-filter]"));
 
     expect(buttons[2]?.getAttribute("aria-pressed")).toBe("true");
     expect(cards[0]?.dataset.state).toBe("hiding");
@@ -46,9 +42,7 @@ describe("project filters script", () => {
       <button data-project-filter="web"></button>
     `;
 
-    const cards = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-project-card]")
-    );
+    const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card]"));
     cards.forEach((card) => {
       Object.defineProperty(card, "getBoundingClientRect", {
         value: () => ({ left: 0, top: 0, width: 200, height: 100 }),
@@ -61,20 +55,16 @@ describe("project filters script", () => {
     initProjectTilt();
 
     const buttons = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("[data-project-filter]")
+      document.querySelectorAll<HTMLButtonElement>("[data-project-filter]"),
     );
-    buttons[1]?.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true })
-    );
+    buttons[1]?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
     expect(document.activeElement).toBe(buttons[2]);
 
-    buttons[2]?.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Escape", bubbles: true })
-    );
+    buttons[2]?.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
     expect(document.activeElement).toBe(buttons[0]);
 
     cards[0]?.dispatchEvent(
-      new PointerEvent("pointermove", { clientX: 100, clientY: 50, pointerType: "mouse" })
+      new PointerEvent("pointermove", { clientX: 100, clientY: 50, pointerType: "mouse" }),
     );
     expect(cards[0]?.getAttribute("data-tilt")).toBe("active");
     cards[0]?.dispatchEvent(new PointerEvent("pointerleave", { pointerType: "mouse" }));

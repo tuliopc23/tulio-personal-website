@@ -18,7 +18,7 @@ describe("Base layout", () => {
         slots: {
           default: "<main>Content</main>",
         },
-      } as any
+      } as any,
     );
 
     expect(html).toContain("<title>Projects • Tulio Cunha</title>");

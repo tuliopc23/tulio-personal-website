@@ -15,12 +15,7 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type WorkflowStatus =
-  | "draft"
-  | "in-review"
-  | "approved"
-  | "published"
-  | "archived";
+export type WorkflowStatus = "draft" | "in-review" | "approved" | "published" | "archived";
 
 export type VideoEmbed = {
   _type: "videoEmbed";
@@ -259,14 +254,7 @@ export type ContentBrief = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  status?:
-    | "idea"
-    | "briefed"
-    | "drafting"
-    | "in-review"
-    | "ready"
-    | "published"
-    | "archived";
+  status?: "idea" | "briefed" | "drafting" | "in-review" | "ready" | "published" | "archived";
   audience?: string;
   intent?: string;
   thesis?: string;
@@ -276,11 +264,7 @@ export type ContentBrief = {
   notes?: string;
   linkedPost?: PostReference;
   linkedProject?: ProjectReference;
-  linkedPage?:
-    | BlogPageReference
-    | AboutPageReference
-    | NowPageReference
-    | ProjectsPageReference;
+  linkedPage?: BlogPageReference | AboutPageReference | NowPageReference | ProjectsPageReference;
 };
 
 export type ProjectsPage = {

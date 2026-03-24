@@ -7,11 +7,14 @@ The auto-tagging feature automatically generates relevant tags for blog posts us
 ## How It Works
 
 ### Trigger Events
+
 Tags are automatically generated when:
+
 - A new post is created
 - An existing post is updated (if title, summary, or content changes)
 
 ### Generation Process
+
 1. **Content Analysis**: The AI agent analyzes your article's content, title, and summary
 2. **Tag Generation**: Creates 3 relevant tags based on content
 3. **Tag Reuse**: Prefers to reuse existing tags from your content library for consistency
@@ -20,6 +23,7 @@ Tags are automatically generated when:
 ### Field Configuration
 
 #### Schema Type
+
 - **Document Type**: `post`
 - **Field Name**: `tags`
 - **Type**: `array` of `string`
@@ -27,7 +31,9 @@ Tags are automatically generated when:
 - **Auto-Generated**: Yes
 
 #### Trigger Fields
+
 Tags are regenerated when any of these fields change:
+
 - `title`
 - `summary`
 - `content`
@@ -35,11 +41,13 @@ Tags are regenerated when any of these fields change:
 ## Files Modified/Created
 
 ### New Files
+
 - `functions/auto-tag/index.ts` - Document event handler for tag generation
 - `sanity.blueprint.ts` - Blueprint configuration for function events
 - `AUTO_TAGGING.md` - This documentation file
 
 ### Modified Files
+
 - `src/sanity/schemaTypes/post.ts` - Updated tags field description
 - `package.json` - Added `@sanity/blueprints` and `@sanity/functions`
 
@@ -48,7 +56,7 @@ Tags are regenerated when any of these fields change:
 To fetch articles with tags from another project, use these exact field names:
 
 ```groq
-*[_type == "post" && publishedAt <= now() && !coalesce(seo.noIndex, false)] 
+*[_type == "post" && publishedAt <= now() && !coalesce(seo.noIndex, false)]
 | order(publishedAt desc)[0..2] {
   _id,
   title,
@@ -69,20 +77,21 @@ To fetch articles with tags from another project, use these exact field names:
 ```
 
 ### Schema Field Names Reference
-| Field | Type | Notes |
-|-------|------|-------|
-| `_type` | string | Always `"post"` |
-| `_id` | string | Sanity document ID |
-| `title` | string | Article title |
-| `slug.current` | string | URL-friendly slug |
-| `summary` | string | Article summary |
-| `content` | array | Rich text (Portable Text blocks) |
-| `tags` | string[] | Auto-generated tags |
-| `publishedAt` | datetime | Publication date |
-| `featured` | boolean | Featured status |
-| `heroImage` | image | Main article image |
-| `author` | reference | Reference to author document |
-| `categories` | reference[] | References to category documents |
+
+| Field          | Type        | Notes                            |
+| -------------- | ----------- | -------------------------------- |
+| `_type`        | string      | Always `"post"`                  |
+| `_id`          | string      | Sanity document ID               |
+| `title`        | string      | Article title                    |
+| `slug.current` | string      | URL-friendly slug                |
+| `summary`      | string      | Article summary                  |
+| `content`      | array       | Rich text (Portable Text blocks) |
+| `tags`         | string[]    | Auto-generated tags              |
+| `publishedAt`  | datetime    | Publication date                 |
+| `featured`     | boolean     | Featured status                  |
+| `heroImage`    | image       | Main article image               |
+| `author`       | reference   | Reference to author document     |
+| `categories`   | reference[] | References to category documents |
 
 ## Sanity Project Credentials
 
@@ -97,6 +106,7 @@ API Version: 2025-01-01
 ### Testing Auto-Tagging Locally
 
 1. **Start the development server**:
+
    ```fish
    bun run dev
    ```
@@ -110,6 +120,7 @@ API Version: 2025-01-01
 ### Environment Variables
 
 Optional - for write token testing:
+
 ```fish
 set -x SANITY_API_TOKEN your_token_with_write_scope
 ```
@@ -117,12 +128,14 @@ set -x SANITY_API_TOKEN your_token_with_write_scope
 ## Production Deployment
 
 1. **Commit changes**:
+
    ```fish
    git add functions/ sanity.blueprint.ts src/sanity/schemaTypes/post.ts package.json
    git commit -m "feat: add automatic blog post tagging with AI"
    ```
 
 2. **Deploy to Sanity**:
+
    ```fish
    sanity deploy
    ```
@@ -137,13 +150,14 @@ set -x SANITY_API_TOKEN your_token_with_write_scope
 ## Fetching from Another Project
 
 ### JavaScript/TypeScript Example
+
 ```typescript
-import { createClient } from '@sanity/client';
+import { createClient } from "@sanity/client";
 
 const client = createClient({
-  projectId: '61249gtj',
-  dataset: 'production',
-  apiVersion: '2025-01-01',
+  projectId: "61249gtj",
+  dataset: "production",
+  apiVersion: "2025-01-01",
   useCdn: true,
 });
 
@@ -168,7 +182,7 @@ async function getLast3Articles() {
       }
     }
   `);
-  
+
   return articles;
 }
 ```
@@ -180,6 +194,7 @@ async function getLast3Articles() {
 **Issue**: New posts don't have tags after creation.
 
 **Solutions**:
+
 1. Verify the post has content in the `content` field
 2. Check browser console for errors
 3. Ensure `@sanity/blueprints` and `@sanity/functions` are installed:
@@ -193,6 +208,7 @@ async function getLast3Articles() {
 **Issue**: Generated tags don't match existing tags from other posts.
 
 **Solutions**:
+
 1. Ensure existing posts have tags populated
 2. Check the GROQ query reuses tags correctly:
    ```groq
@@ -205,6 +221,7 @@ async function getLast3Articles() {
 **Issue**: Generation takes too long (>30 seconds).
 
 **Solutions**:
+
 1. Current timeout is 30 seconds - increase if needed in `sanity.blueprint.ts`
 2. Reduce content complexity if possible
 3. Check Sanity's AI agent service status

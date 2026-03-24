@@ -13,8 +13,8 @@ export const crosspostAction: sanity.DocumentActionComponent = (props) => {
   const crossposting = doc?.crossposting;
   const hasPlatforms = Boolean(
     crossposting?.devto?.enabled ||
-      crossposting?.hashnode?.enabled ||
-      crossposting?.linkedin?.enabled,
+    crossposting?.hashnode?.enabled ||
+    crossposting?.linkedin?.enabled,
   );
 
   if (status !== "published" || !hasPlatforms) {

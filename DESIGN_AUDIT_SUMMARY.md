@@ -9,47 +9,55 @@ Comprehensive audit and refinement of the entire design system to improve consis
 ## 📊 What Gets Audited
 
 ### 1. **Spacing System** ✅
+
 - Replace 40+ hardcoded spacing values with tokens
 - Create component-specific spacing tokens
 - Tighten mobile padding for better space utilization
 - Unify container and card padding
 
 ### 2. **Breakpoints** ✅
+
 - Consolidate 7 scattered breakpoints → 5 standard breakpoints
 - Map existing breakpoints without breaking layouts
 - Better responsive behavior across devices
 
 ### 3. **Typography** ✅
+
 - Replace inline font sizes with tokens
 - Add missing utility sizes (--fs-body, --fs-caption)
 - Standardize line-heights across components
 - Improve vertical rhythm (heading/paragraph spacing)
 
 ### 4. **Card System** ✅
+
 - Unify padding across Card, ProfileCard, ArticleCard
 - Create 3-tier padding system (sm/md/lg)
 - Standardize internal spacing (compact/relaxed/spacious)
 - Better proportions on mobile
 
 ### 5. **Mobile Layouts** ✅
+
 - Tighter padding on small screens
 - Better scroll snap behavior
 - Improved touch target sizes (44x44px minimum)
 - Optimized card rails and social sections
 
 ### 6. **Animations** ✅
+
 - Standardize durations (add 180ms for UI interactions)
 - Smoother card hover with subtle scale
 - Staggered property transitions for liquid feel
 - Performance optimizations (will-change)
 
 ### 7. **Materials** ✅
+
 - Standardize glass blur levels (4 tiers)
 - Unify card backgrounds across all card types
 - Consistent backdrop-filter usage
 - Better depth perception
 
 ### 8. **Components** ✅
+
 - ProfileCard: Simplify, reduce duplication
 - ArticleCard: Better spacing, icon consistency
 - Card.astro: Extract inline styles
@@ -57,12 +65,14 @@ Comprehensive audit and refinement of the entire design system to improve consis
 - Footer: Improved layout
 
 ### 9. **Organization** ✅
+
 - Split theme.css into token files
 - Create spacing.css, typography.css, motion.css, breakpoints.css
 - Reduce duplication
 - Better code organization
 
 ### 10. **Mobile UX** ✅
+
 - Audit all touch targets (44x44px minimum)
 - More visible scroll indicators
 - Larger page indicator dots
@@ -73,6 +83,7 @@ Comprehensive audit and refinement of the entire design system to improve consis
 ## 🚀 Key Improvements
 
 ### Spacing
+
 ```css
 /* Before: Scattered and inconsistent */
 padding: 8px 12px;
@@ -86,20 +97,29 @@ margin: var(--space-xs) auto;
 ```
 
 ### Breakpoints
+
 ```css
 /* Before: 7 different values */
-@media (max-width: 720px) { }
-@media (max-width: 768px) { }
-@media (max-width: 820px) { }
-@media (max-width: 1023px) { }
-@media (max-width: 1100px) { }
+@media (max-width: 720px) {
+}
+@media (max-width: 768px) {
+}
+@media (max-width: 820px) {
+}
+@media (max-width: 1023px) {
+}
+@media (max-width: 1100px) {
+}
 
 /* After: 5 standard breakpoints */
-@media (max-width: 768px) { }   /* md */
-@media (max-width: 1024px) { }  /* lg */
+@media (max-width: 768px) {
+} /* md */
+@media (max-width: 1024px) {
+} /* lg */
 ```
 
 ### Typography
+
 ```css
 /* Before: Inline values */
 font-size: 16px;
@@ -111,6 +131,7 @@ line-height: var(--lh-card-body);
 ```
 
 ### Cards
+
 ```css
 /* Before: Different padding everywhere */
 ProfileCard: clamp(var(--space-sm), 3vw, var(--space-lg))
@@ -124,6 +145,7 @@ Articles/Projects: var(--card-padding-lg)
 ```
 
 ### Mobile
+
 ```css
 /* Before: Same padding as desktop */
 --container-padding: clamp(40px, 6vw, 160px);
@@ -139,6 +161,7 @@ Articles/Projects: var(--card-padding-lg)
 ```
 
 ### Animations
+
 ```css
 /* Before: Mixed durations */
 transition: transform 200ms;
@@ -147,8 +170,8 @@ transition: box-shadow 250ms;
 /* After: Standardized */
 transition:
   transform 250ms var(--motion-ease-spring),
-  box-shadow 280ms var(--motion-ease-spring) 20ms,  /* Staggered! */
-  border-color 200ms var(--motion-ease-out);
+  box-shadow 280ms var(--motion-ease-spring) 20ms,
+  /* Staggered! */ border-color 200ms var(--motion-ease-out);
 ```
 
 ---
@@ -187,6 +210,7 @@ src/styles/
 ## 📈 Success Metrics
 
 ### Code Quality
+
 - [ ] Zero hardcoded spacing (except documented exceptions)
 - [ ] All breakpoints use standard tokens
 - [ ] Typography consistently uses design tokens
@@ -194,6 +218,7 @@ src/styles/
 - [ ] Animations use standardized durations
 
 ### User Experience
+
 - [ ] Mobile layouts feel tighter and more refined
 - [ ] Touch targets meet 44x44px minimum
 - [ ] Scroll interactions feel smooth
@@ -201,6 +226,7 @@ src/styles/
 - [ ] Reading experience is improved
 
 ### Performance
+
 - [ ] Lighthouse scores maintained or improved
 - [ ] Core Web Vitals unchanged
 - [ ] 60fps animations maintained
@@ -208,6 +234,7 @@ src/styles/
 - [ ] No CLS regressions
 
 ### Accessibility
+
 - [ ] WCAG AA compliance maintained
 - [ ] Keyboard navigation unchanged
 - [ ] Screen reader experience preserved
@@ -219,21 +246,25 @@ src/styles/
 ## 🔄 Implementation Phases
 
 ### Week 1: Foundation
+
 - Create 4 new token files
 - Audit current usage
 - Document patterns
 
 ### Week 2: Migration
+
 - Replace hardcoded values
 - Update components
 - Test responsiveness
 
 ### Week 3: Refinement
+
 - Apply animation polish
 - Improve mobile layouts
 - Component-specific tweaks
 
 ### Week 4: Testing
+
 - Cross-browser testing
 - Real device testing
 - Performance validation
@@ -244,12 +275,14 @@ src/styles/
 ## 📸 Testing Approach
 
 ### Visual Regression
+
 - Screenshot all pages before changes
 - Screenshot after each major phase
 - Compare and document differences
 - Ensure no unintended changes
 
 ### Device Testing
+
 - iPhone SE (375px width)
 - iPhone 14 Pro (393px width)
 - iPad Mini (768px width)
@@ -257,6 +290,7 @@ src/styles/
 - Desktop (1280px, 1440px, 1920px)
 
 ### Browser Testing
+
 - Safari (Mac & iOS) - Primary
 - Chrome (Desktop & Android)
 - Firefox (Desktop)
@@ -267,18 +301,23 @@ src/styles/
 ## 🎨 Design Principles
 
 ### Consistency First
+
 Every spacing, font size, and animation duration should use tokens. No arbitrary values.
 
 ### Mobile-First
+
 Design for the smallest screen first, then enhance progressively.
 
 ### Performance Matters
+
 Every animation must be 60fps. Use will-change sparingly. Optimize where possible.
 
 ### Accessibility Required
+
 Touch targets ≥ 44x44px. Keyboard navigation. Screen reader friendly. Reduced motion support.
 
 ### Apple Quality
+
 Match the polish and attention to detail of Apple's design system. Every pixel matters.
 
 ---
@@ -286,6 +325,7 @@ Match the polish and attention to detail of Apple's design system. Every pixel m
 ## 💡 Key Benefits
 
 ### For Users
+
 - ✅ Tighter, more refined mobile experience
 - ✅ Smoother animations and interactions
 - ✅ Better readability and typography rhythm
@@ -293,6 +333,7 @@ Match the polish and attention to detail of Apple's design system. Every pixel m
 - ✅ Improved touch interactions
 
 ### For Developers
+
 - ✅ Clear token system to use
 - ✅ Consistent patterns across components
 - ✅ Better code organization
@@ -300,6 +341,7 @@ Match the polish and attention to detail of Apple's design system. Every pixel m
 - ✅ Documented guidelines
 
 ### For Design System
+
 - ✅ Single source of truth for tokens
 - ✅ Reduced duplication
 - ✅ Better scalability
@@ -331,6 +373,7 @@ Match the polish and attention to detail of Apple's design system. Every pixel m
 ## 🎯 End Result
 
 A **polished, consistent, professional design system** that:
+
 - Feels like Apple quality
 - Works beautifully on mobile
 - Has smooth, delightful animations

@@ -45,7 +45,7 @@ describe("blog index and category pages", () => {
       BlogIndex as any,
       {
         request: new Request("https://www.tuliocunha.dev/blog/"),
-      } as any
+      } as any,
     );
 
     expect(html).toContain("Topics");
@@ -65,15 +65,14 @@ describe("blog index and category pages", () => {
     getPostsByCategory.mockResolvedValueOnce([richPostSummary]);
 
     const container = await AstroContainer.create();
-    const { default: CategoryPage } =
-      await import("../../src/pages/blog/category/[slug].astro");
+    const { default: CategoryPage } = await import("../../src/pages/blog/category/[slug].astro");
 
     const populatedHtml = await container.renderToString(
       CategoryPage as any,
       {
         request: new Request("https://www.tuliocunha.dev/blog/category/astro/"),
         params: { slug: "astro" },
-      } as any
+      } as any,
     );
 
     expect(populatedHtml).toContain("Astro Posts");
@@ -92,7 +91,7 @@ describe("blog index and category pages", () => {
       {
         request: new Request("https://www.tuliocunha.dev/blog/category/astro/"),
         params: { slug: "astro" },
-      } as any
+      } as any,
     );
 
     expect(emptyHtml).toContain("No posts in this topic yet");

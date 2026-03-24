@@ -8,7 +8,5 @@ declare module "astro-portabletext" {
 
   export function PortableText(props: PortableTextProps): unknown;
 
-  export function toPlainText(
-    blocks?: PortableTextBlock[] | PortableTextBlock | null
-  ): string;
+  export function toPlainText(blocks?: PortableTextBlock[] | PortableTextBlock | null): string;
 }

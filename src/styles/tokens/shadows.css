@@ -35,10 +35,8 @@
     0 4px 8px rgba(0, 0, 0, 0.7), 0 12px 24px rgba(0, 0, 0, 0.56), 0 30px 60px rgba(0, 0, 0, 0.38),
     0 60px 120px rgba(0, 0, 0, 0.26);
   --shadow-card-glow:
-    0 8px 16px rgba(0, 0, 0, 0.75),
-    0 24px 48px rgba(0, 0, 0, 0.6),
-    0 80px 160px rgba(0, 0, 0, 0.32),
-    0 0 120px rgba(10, 132, 255, 0.18),
+    0 8px 16px rgba(0, 0, 0, 0.75), 0 24px 48px rgba(0, 0, 0, 0.6),
+    0 80px 160px rgba(0, 0, 0, 0.32), 0 0 120px rgba(10, 132, 255, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
   /* ---- Interactive element shadows — Tahoe 26 ---- */
@@ -92,21 +90,13 @@
 
   /* ---- Icon tile shadows ---- */
   --shadow-symbol-dark:
-    0 0.8px 1.6px rgba(0, 0, 0, 0.66),
-    0 3px 9px rgba(0, 0, 0, 0.52),
-    0 10px 22px rgba(0, 0, 0, 0.38),
-    0 24px 42px rgba(0, 0, 0, 0.26),
-    0 0 36px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.14);
+    0 0.8px 1.6px rgba(0, 0, 0, 0.66), 0 3px 9px rgba(0, 0, 0, 0.52),
+    0 10px 22px rgba(0, 0, 0, 0.38), 0 24px 42px rgba(0, 0, 0, 0.26), 0 0 36px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(0, 0, 0, 0.14);
   --shadow-symbol-dark-hover:
-    0 1.6px 3px rgba(0, 0, 0, 0.72),
-    0 5px 12px rgba(0, 0, 0, 0.56),
-    0 16px 30px rgba(0, 0, 0, 0.4),
-    0 34px 62px rgba(0, 0, 0, 0.28),
-    0 0 52px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+    0 1.6px 3px rgba(0, 0, 0, 0.72), 0 5px 12px rgba(0, 0, 0, 0.56), 0 16px 30px rgba(0, 0, 0, 0.4),
+    0 34px 62px rgba(0, 0, 0, 0.28), 0 0 52px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26), inset 0 -1px 0 rgba(0, 0, 0, 0.18);
   --shadow-symbol-light:
     inset 0 1px 0 rgba(255, 255, 255, 0.74), 0 1.2px 2.5px rgba(31, 35, 53, 0.2),
     0 6px 14px rgba(31, 35, 53, 0.24), 0 18px 32px rgba(31, 35, 53, 0.26);

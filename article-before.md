@@ -138,7 +138,7 @@
             - text: "- A shared design language ("
             - strong [ref=e144]: Liquid Glass
             - text: )
-            - text: "- A bigger “do things *from anywhere*” story"
+            - text: "- A bigger “do things _from anywhere_” story"
             - strong [ref=e145]: (Spotlight actions, App Intents, controls).
             - text: "- A real developer unlock:"
             - strong [ref=e146]: on-device foundation models

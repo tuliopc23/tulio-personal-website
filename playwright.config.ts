@@ -10,7 +10,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "bun run dev --host 127.0.0.1 --port 4331",
+    command: "pnpm run dev -- --host 127.0.0.1 --port 4331",
     url: "http://127.0.0.1:4331",
     reuseExistingServer: false,
     timeout: 120000,

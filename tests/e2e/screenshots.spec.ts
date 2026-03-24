@@ -44,9 +44,11 @@ async function discoverTopicAndSeriesLinks(page: Page, baseURL: string): Promise
     waitUntil: "load",
     timeout: 90_000,
   });
-  const hrefs = await page.locator('a[href^="/blog/"]').evaluateAll((elements) =>
-    elements.map((el) => (el as HTMLAnchorElement).getAttribute("href") ?? ""),
-  );
+  const hrefs = await page
+    .locator('a[href^="/blog/"]')
+    .evaluateAll((elements) =>
+      elements.map((el) => (el as HTMLAnchorElement).getAttribute("href") ?? ""),
+    );
   const out = new Set<string>();
   for (const href of hrefs) {
     if (!href) {

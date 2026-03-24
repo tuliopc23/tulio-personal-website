@@ -1,6 +1,6 @@
 /**
  * Smoke-check production GET /api/github.json (Worker + secrets).
- * Usage: bun run verify:prod-github-api
+ * Usage: pnpm run verify:prod-github-api
  */
 const URL = "https://tuliocunha.dev/api/github.json";
 

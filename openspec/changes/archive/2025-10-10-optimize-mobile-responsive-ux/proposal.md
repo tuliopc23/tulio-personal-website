@@ -17,7 +17,9 @@ These issues directly impact user engagement on mobile (which represents 60%+ of
 ## What Changes
 
 ### 1. Sidebar Mobile Solution
+
 Transform sidebar into mobile-friendly navigation:
+
 - Below 1024px: Sidebar becomes off-canvas drawer
 - Overlay with backdrop blur when open
 - Smooth slide-in animation with spring physics
@@ -25,7 +27,9 @@ Transform sidebar into mobile-friendly navigation:
 - Preserve filter functionality in mobile drawer
 
 ### 2. Card Scroll UX Enhancement
+
 Improve all horizontal card scrolling sections:
+
 - Add edge fade indicators (left/right gradients)
 - Implement scroll snap points for card alignment
 - Add momentum scrolling with `-webkit-overflow-scrolling: touch`
@@ -33,14 +37,18 @@ Improve all horizontal card scrolling sections:
 - Add "Read Article" / "Scroll for More" CTAs on first card
 
 ### 3. Shadow System Optimization
+
 Reduce shadow complexity on mobile for performance:
+
 - Simplify 4-layer shadows to 2-layer on mobile (preserve visual hierarchy)
 - Use `will-change: transform` sparingly
 - Reduce blur radius from 28px → 20px on mobile
 - Lower saturation values slightly (2.1 → 1.9) for better mobile rendering
 
 ### 4. Responsive Breakpoint Audit
+
 Fix layout issues at all breakpoints:
+
 - **320px-480px**: Ultra-compact mobile (iPhone SE)
 - **481px-720px**: Standard mobile
 - **721px-1023px**: Tablet portrait
@@ -50,21 +58,27 @@ Fix layout issues at all breakpoints:
 Ensure smooth transitions between all ranges.
 
 ### 5. Touch Target Compliance
+
 Audit and fix all interactive elements:
+
 - Minimum 44x44px tap targets (Apple HIG standard)
 - Adequate spacing between tappable elements (min 8px)
 - Larger filter pills on mobile
 - Bigger theme toggle button
 
 ### 6. Typography & Spacing Scale
+
 Refine mobile typography:
+
 - Ensure `clamp()` values work smoothly at all widths
 - Adjust container padding at smallest sizes
 - Review line-height for readability on small screens
 - Tighten letter-spacing on mobile hero text
 
 ### 7. Scroll Indicator Component
+
 Create reusable scroll indicator:
+
 - Subtle arrow hints at edges of scrollable containers
 - Fade out after first interaction
 - Respect `prefers-reduced-motion`

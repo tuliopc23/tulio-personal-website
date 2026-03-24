@@ -19,9 +19,9 @@
   transform: translateY(4px);
   transition:
     opacity var(--motion-duration-sm, 180ms)
-    var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1)),
+      var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1)),
     transform var(--motion-duration-sm, 180ms)
-    var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1));
+      var(--motion-ease-out, cubic-bezier(0.2, 0.68, 0.32, 1));
   pointer-events: none;
   user-select: none;
   will-change: opacity, transform;

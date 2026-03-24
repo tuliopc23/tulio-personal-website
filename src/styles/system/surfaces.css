@@ -16,11 +16,8 @@
       Must negate: topbar height + layout padding-top + content padding-top.
       We use a generous value to guarantee it reaches the viewport top. */
   margin-top: calc(
-    -1 *
-    var(--topbar-h, 56px) -
-    var(--space-md, 24px) -
-    clamp(12px, 1.4vw, 18px) -
-    var(--space-xs, 8px)
+    -1 * var(--topbar-h, 56px) - var(--space-md, 24px) - clamp(12px, 1.4vw, 18px) -
+      var(--space-xs, 8px)
   );
 }
 

@@ -130,9 +130,7 @@ export async function loadQuery<QueryResponse>({
 
   try {
     const response = await fetch(requestUrl, {
-      headers: {
-        ...(visualEditingEnabled && token ? { Authorization: `Bearer ${token}` } : {}),
-      },
+      headers: visualEditingEnabled && token ? { Authorization: `Bearer ${token}` } : {},
     });
 
     if (!response.ok) {

@@ -1,13 +1,9 @@
-import {
-  SITEMAP_INDEX_PATH,
-  shouldIncludeInSitemap,
-  toAbsoluteUrl,
-} from "../../src/lib/seo.js";
+import { SITEMAP_INDEX_PATH, shouldIncludeInSitemap, toAbsoluteUrl } from "../../src/lib/seo.js";
 
 describe("seo helpers", () => {
   test("resolves relative URLs against the configured site", () => {
     expect(toAbsoluteUrl("/terminal-favicon.svg", "https://www.tuliocunha.dev/blog/")).toBe(
-      "https://www.tuliocunha.dev/terminal-favicon.svg"
+      "https://www.tuliocunha.dev/terminal-favicon.svg",
     );
   });
 

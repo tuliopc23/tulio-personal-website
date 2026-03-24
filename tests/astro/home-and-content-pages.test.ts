@@ -27,7 +27,7 @@ describe("home, about, and now pages", () => {
       HomePage as any,
       {
         request: new Request("https://www.tuliocunha.dev/"),
-      } as any
+      } as any,
     );
 
     expect(html).toContain("Daily setup");
@@ -48,13 +48,13 @@ describe("home, about, and now pages", () => {
       AboutPage as any,
       {
         request: new Request("https://www.tuliocunha.dev/about/"),
-      } as any
+      } as any,
     );
     const nowHtml = await container.renderToString(
       NowPage as any,
       {
         request: new Request("https://www.tuliocunha.dev/now/"),
-      } as any
+      } as any,
     );
 
     expect(aboutHtml).toContain("How I work");

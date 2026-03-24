@@ -1,3 +1,5 @@
+// Workers Builds (Git) install/build/deploy are NOT read from this file — Cloudflare does not use Wrangler custom builds for CI.
+// Canonical commands for the dashboard / API live in workers-builds.json (apply with: pnpm run cf:api:sync -- --sync-trigger-commands).
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "tulio-personal-website",
@@ -7,15 +9,15 @@
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "none"
+    "not_found_handling": "none",
   },
   "routes": [
     {
       "pattern": "tuliocunha.dev",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
   "observability": {
-    "enabled": true
-  }
+    "enabled": true,
+  },
 }

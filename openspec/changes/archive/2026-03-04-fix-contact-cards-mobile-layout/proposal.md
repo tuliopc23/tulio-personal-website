@@ -11,9 +11,11 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 ## Proposed Changes
 
 ### Files/Components Affected
+
 - `src/components/ProfileCard.astro` - Update `.profileCard__contactList` grid behavior for mobile breakpoints
 
 ### CSS Changes
+
 ```css
 /* Current (lines ~360-363) */
 .profileCard__contactList {
@@ -34,11 +36,11 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-xs);
   }
-  
+
   .profileCard__contactCard {
     min-width: 0;
   }
-  
+
   .profileCard__contactValue {
     font-size: 11px;
   }
@@ -65,18 +67,21 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 ## Alternatives Considered
 
 ### Alternative 1: Reduce minmax minimum
+
 **Approach:** Change `minmax(180px, 1fr)` to `minmax(140px, 1fr)` globally  
 **Pros:** Single-line change, works across all breakpoints  
 **Cons:** Could create cramped cards on tablet sizes (600-820px), affects desktop layout  
 **Why not chosen:** Violates the requirement to only modify mobile layout
 
 ### Alternative 2: Use flexbox with flex-basis
+
 **Approach:** Switch to `display: flex` with `flex: 1 1 45%` on cards  
 **Pros:** More flexible wrapping behavior  
 **Cons:** Requires restructuring existing grid logic, potential side effects on other breakpoints  
 **Why not chosen:** Unnecessary complexity for a targeted mobile fix
 
 ### Alternative 3: Reduce icon and padding sizes
+
 **Approach:** Shrink icon tiles and card padding on mobile  
 **Pros:** Maintains auto-fit grid behavior  
 **Cons:** Compromises touch target sizes (Apple HIG recommends 44×44pt minimum), reduces visual hierarchy  
@@ -85,22 +90,27 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 ## Risks & Considerations
 
 ### Performance
+
 - No performance impact (CSS-only change)
 - No bundle size increase
 
 ### Breaking Changes
+
 - None - purely visual refinement within existing component
 
 ### Design/UX Impact
+
 - **Positive:** Improves information density on mobile, reduces scrolling
 - **Positive:** Maintains consistent card sizing across both contact cards
 - **Consideration:** Email text may wrap on very long addresses (mitigated by `word-break: break-word` already in place)
 
 ### Browser/Device Support
+
 - CSS Grid with `repeat(2, 1fr)` has universal support (IE11+)
 - No progressive enhancement needed
 
 ### Accessibility
+
 - Touch targets remain above 44×44pt minimum
 - No impact on keyboard navigation or screen readers
 - Maintains existing ARIA labels and semantic structure
@@ -108,6 +118,7 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 ## Testing Strategy
 
 ### Manual Testing
+
 - [x] Test on iPhone 13 Pro (393×852) - primary target
 - [ ] Test on iPhone SE (375×667) - smallest modern iPhone
 - [ ] Test on iPhone 14 Pro Max (430×932) - largest iPhone
@@ -119,6 +130,7 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 - [ ] Test with long location names
 
 ### Automated Tests
+
 - [ ] Build succeeds (`bun run build`)
 - [ ] Type checking passes (`bun run check`)
 
@@ -129,7 +141,9 @@ On mobile viewports (particularly iPhone 13 Pro at 393×852), the Email and Loca
 ## Implementation Notes
 
 ### What Was Actually Done
+
 Added mobile-specific CSS overrides within the existing `@media (max-width: 520px)` breakpoint in ProfileCard.astro:
+
 - `.profileCard__contactList`: Force 2-column grid with `repeat(2, 1fr)` and tighter gap
 - `.profileCard__contactCard`: Added `min-width: 0` to allow grid items to shrink
 - `.profileCard__contactValue`: Reduced font size to 11px for better fit
@@ -137,6 +151,7 @@ Added mobile-specific CSS overrides within the existing `@media (max-width: 520p
 No structural changes to HTML or component logic. Desktop and tablet layouts remain unchanged.
 
 ### Verification Results
+
 ```bash
 $ bun run check
 Checked 80 files in 53ms. No fixes applied.
@@ -145,9 +160,11 @@ Checked 80 files in 53ms. No fixes applied.
 ```
 
 ### Implementation Date
+
 2025-10-19
 
 ## Implementation Notes (2026-03-04)
+
 - Reconciled this change against the current ProfileCard implementation after Bentolink parity rollouts.
 - Mobile contact card layout and readability constraints are already addressed in current `ProfileCard.astro` styles.
 - No additional code delta was required at reconciliation time beyond spec/task completion alignment.

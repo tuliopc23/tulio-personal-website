@@ -7,7 +7,7 @@ vi.mock("astro-portabletext", () => ({
     blocks
       .flatMap((block) => block.children ?? [])
       .map((child) => child.text ?? "")
-      .join(" ")
+      .join(" "),
   ),
 }));
 

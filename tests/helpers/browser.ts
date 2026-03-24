@@ -1,11 +1,11 @@
-import { vi } from "vitest";
+import { vi } from "vite-plus/test";
 
 export function installMatchMediaStub(
   options: {
     light?: boolean;
     reducedMotion?: boolean;
     hover?: boolean;
-  } = {}
+  } = {},
 ) {
   const { light = false, reducedMotion = false, hover = true } = options;
 
@@ -26,10 +26,7 @@ export function installMatchMediaStub(
       set.add(callback);
       listeners.set(query, set);
     },
-    removeEventListener: (
-      _type: string,
-      callback: (event: MediaQueryListEvent) => void
-    ) => {
+    removeEventListener: (_type: string, callback: (event: MediaQueryListEvent) => void) => {
       listeners.get(query)?.delete(callback);
     },
     addListener: (callback: (event: MediaQueryListEvent) => void) => {
@@ -119,10 +116,7 @@ export function installObserverStubs() {
   }
 
   vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
-  vi.stubGlobal(
-    "MutationObserver",
-    MockMutationObserver as unknown as typeof MutationObserver
-  );
+  vi.stubGlobal("MutationObserver", MockMutationObserver as unknown as typeof MutationObserver);
 }
 
 export function installAnimationStubs() {

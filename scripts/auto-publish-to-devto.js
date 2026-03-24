@@ -85,8 +85,7 @@ async function publishToDevTo(articleData) {
         tags: articleData.tags || [],
         published: true,
         canonical_url:
-          articleData.seo?.canonicalUrl ||
-          `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
+          articleData.seo?.canonicalUrl || `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
       },
     };
 

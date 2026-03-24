@@ -3,9 +3,11 @@
 ## NEW Requirements
 
 ### Requirement: Unified Spacing System
+
 All spacing SHALL use design tokens from a centralized spacing system.
 
 #### Scenario: No hardcoded spacing values
+
 - **GIVEN** a component needs spacing
 - **WHEN** developer adds padding, margin, or gap
 - **THEN** spacing token MUST be used (e.g., `var(--space-sm)`)
@@ -13,6 +15,7 @@ All spacing SHALL use design tokens from a centralized spacing system.
 - **EXCEPT** for intentional pixel-perfect needs (document in comments)
 
 #### Scenario: Component-specific spacing tokens
+
 - **GIVEN** a component needs consistent internal spacing
 - **WHEN** spacing is used multiple times within that component
 - **THEN** component-specific token SHALL be created (e.g., `--card-padding-sm`)
@@ -20,6 +23,7 @@ All spacing SHALL use design tokens from a centralized spacing system.
 - **EXAMPLE** `--card-padding-sm: clamp(var(--space-sm), 2.5vw, var(--space-md))`
 
 #### Scenario: Mobile spacing reduction
+
 - **GIVEN** viewport width is below 768px
 - **WHEN** layout needs mobile optimization
 - **THEN** container padding SHALL reduce to `clamp(20px, 5vw, 40px)`
@@ -27,9 +31,11 @@ All spacing SHALL use design tokens from a centralized spacing system.
 - **AND** section gaps SHALL reduce for tighter rhythm
 
 ### Requirement: Standardized Breakpoints
+
 All responsive design SHALL use 5 standard breakpoint tokens.
 
 #### Scenario: Standard breakpoint usage
+
 - **GIVEN** component needs responsive behavior
 - **WHEN** media query is written
 - **THEN** standard breakpoint token MUST be used
@@ -41,6 +47,7 @@ All responsive design SHALL use 5 standard breakpoint tokens.
   - xl: 1280px (desktops)
 
 #### Scenario: No custom breakpoints
+
 - **GIVEN** existing component uses non-standard breakpoint
 - **WHEN** migrating to new system
 - **THEN** breakpoint SHALL be mapped to nearest standard
@@ -48,9 +55,11 @@ All responsive design SHALL use 5 standard breakpoint tokens.
 - **AND** visual behavior SHALL be preserved
 
 ### Requirement: Typography Token Consistency
+
 All typography SHALL use centralized typography tokens.
 
 #### Scenario: Font size tokens
+
 - **GIVEN** component needs text sizing
 - **WHEN** font-size is applied
 - **THEN** typography token MUST be used
@@ -58,6 +67,7 @@ All typography SHALL use centralized typography tokens.
 - **EXCEPT** for one-off display text (document why)
 
 #### Scenario: Available typography tokens
+
 - **GIVEN** design needs text sizing
 - **WHEN** choosing token
 - **THEN** tokens available are:
@@ -70,6 +80,7 @@ All typography SHALL use centralized typography tokens.
   - --fs-0, --fs--1, --fs--2 (utility scale)
 
 #### Scenario: Line-height consistency
+
 - **GIVEN** component renders text
 - **WHEN** line-height is needed
 - **THEN** token SHALL be used (not hardcoded 1.5, 1.3, etc)
@@ -82,9 +93,11 @@ All typography SHALL use centralized typography tokens.
   - --lh-base: 1.65 (body text)
 
 ### Requirement: Unified Card System
+
 All card components SHALL use unified padding and spacing tokens.
 
 #### Scenario: Card padding tiers
+
 - **GIVEN** card component is created
 - **WHEN** padding is applied
 - **THEN** appropriate tier token SHALL be used:
@@ -94,6 +107,7 @@ All card components SHALL use unified padding and spacing tokens.
 - **AND** custom padding SHALL NOT be used without justification
 
 #### Scenario: Card internal spacing
+
 - **GIVEN** card has multiple child elements
 - **WHEN** gap between elements is needed
 - **THEN** card gap token SHALL be used:
@@ -103,9 +117,11 @@ All card components SHALL use unified padding and spacing tokens.
 - **AND** visual hierarchy SHALL be maintained
 
 ### Requirement: Touch Target Accessibility
+
 All interactive elements SHALL meet minimum touch target sizes.
 
 #### Scenario: Minimum touch target size
+
 - **GIVEN** element is interactive (button, link, card)
 - **WHEN** rendered on mobile
 - **THEN** touch target SHALL be minimum 44x44px
@@ -113,6 +129,7 @@ All interactive elements SHALL meet minimum touch target sizes.
 - **REFERENCE** Apple HIG, WCAG 2.5.5
 
 #### Scenario: Page indicator dots
+
 - **GIVEN** page indicators on mobile
 - **WHEN** user attempts to tap
 - **THEN** dot hit area SHALL be minimum 44x44px
@@ -120,9 +137,11 @@ All interactive elements SHALL meet minimum touch target sizes.
 - **AND** dots SHALL have adequate spacing (minimum 8px gap)
 
 ### Requirement: Consistent Animation Timing
+
 All animations SHALL use standardized duration tokens.
 
 #### Scenario: Standard animation durations
+
 - **GIVEN** animation or transition is needed
 - **WHEN** duration is set
 - **THEN** standard token SHALL be used:
@@ -133,6 +152,7 @@ All animations SHALL use standardized duration tokens.
 - **AND** hardcoded millisecond values SHALL NOT be used
 
 #### Scenario: Easing curve consistency
+
 - **GIVEN** transition needs easing
 - **WHEN** easing is applied
 - **THEN** standard curve SHALL be used:
@@ -142,9 +162,11 @@ All animations SHALL use standardized duration tokens.
 - **AND** custom cubic-bezier SHALL be documented if needed
 
 ### Requirement: Mobile-First Responsive Design
+
 Layouts SHALL be designed mobile-first with progressive enhancement.
 
 #### Scenario: Mobile padding optimization
+
 - **GIVEN** viewport is mobile size (< 768px)
 - **WHEN** content is rendered
 - **THEN** padding SHALL be tighter for better space utilization
@@ -152,6 +174,7 @@ Layouts SHALL be designed mobile-first with progressive enhancement.
 - **AND** very small screens (< 480px): `clamp(16px, 4vw, 24px)`
 
 #### Scenario: Card rail behavior
+
 - **GIVEN** horizontal card rail on mobile
 - **WHEN** user scrolls
 - **THEN** scroll-snap SHALL be enabled
@@ -160,9 +183,11 @@ Layouts SHALL be designed mobile-first with progressive enhancement.
 - **AND** touch scrolling SHALL feel smooth (-webkit-overflow-scrolling)
 
 ### Requirement: Glass Material Consistency
+
 Glass effects SHALL use standardized blur and saturation values.
 
 #### Scenario: Standard glass blur levels
+
 - **GIVEN** component needs glass material
 - **WHEN** backdrop-filter is applied
 - **THEN** standard blur token SHALL be used:
@@ -173,6 +198,7 @@ Glass effects SHALL use standardized blur and saturation values.
 - **AND** saturation SHALL be 180% for richness
 
 #### Scenario: Card background unification
+
 - **GIVEN** any card-type component
 - **WHEN** background is applied
 - **THEN** standard card background SHALL be used
@@ -181,9 +207,11 @@ Glass effects SHALL use standardized blur and saturation values.
 - **AND** ALL card types SHALL use same base (consistency)
 
 ### Requirement: Typography Vertical Rhythm
+
 Typography SHALL maintain consistent vertical spacing for readability.
 
 #### Scenario: Heading spacing
+
 - **GIVEN** article with headings
 - **WHEN** headings are rendered
 - **THEN** spacing SHALL be:
@@ -193,6 +221,7 @@ Typography SHALL maintain consistent vertical spacing for readability.
 - **AND** breathing room SHALL be generous above, tight below
 
 #### Scenario: Paragraph flow
+
 - **GIVEN** multiple paragraphs
 - **WHEN** rendered in sequence
 - **THEN** p + p SHALL have margin-top: md (24px)
@@ -200,6 +229,7 @@ Typography SHALL maintain consistent vertical spacing for readability.
 - **AND** comfortable reading rhythm SHALL be maintained
 
 #### Scenario: List spacing
+
 - **GIVEN** lists in content
 - **WHEN** rendered adjacent to text
 - **THEN** margin-top SHALL be sm (16px)
@@ -209,9 +239,11 @@ Typography SHALL maintain consistent vertical spacing for readability.
 ## MODIFIED Requirements
 
 ### Requirement: Card Shadow System
+
 Cards SHALL use TAHOE 3D shadow system with proper elevation tokens.
 
 #### Scenario: Card shadow application (UPDATED)
+
 - **WHEN** card component is rendered
 - **THEN** shadow token SHALL be applied:
   - Resting: `var(--shadow-card-resting)` (7 layers)
@@ -223,11 +255,13 @@ Cards SHALL use TAHOE 3D shadow system with proper elevation tokens.
 ## REMOVED Requirements
 
 ### ~~Requirement: Component-Specific Padding~~ (REMOVED)
+
 ~~Each component MAY define custom padding values~~
 
 **Reason:** Replaced with unified card padding token system for consistency.
 
 ### ~~Requirement: Flexible Breakpoint Usage~~ (REMOVED)
+
 ~~Components MAY use breakpoints as needed~~
 
 **Reason:** Standardized to 5 specific breakpoints to reduce fragmentation.

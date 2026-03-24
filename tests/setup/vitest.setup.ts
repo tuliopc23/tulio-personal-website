@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vite-plus/test";
 
 beforeEach(() => {
   vi.restoreAllMocks();
@@ -19,10 +19,7 @@ afterEach(() => {
   if (typeof localStorage !== "undefined" && typeof localStorage.clear === "function") {
     localStorage.clear();
   }
-  if (
-    typeof sessionStorage !== "undefined" &&
-    typeof sessionStorage.clear === "function"
-  ) {
+  if (typeof sessionStorage !== "undefined" && typeof sessionStorage.clear === "function") {
     sessionStorage.clear();
   }
 });

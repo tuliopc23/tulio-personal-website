@@ -35,7 +35,7 @@ test("contact form opens a mailto draft", async ({ page }) => {
       (event) => {
         event.preventDefault();
       },
-      { once: true }
+      { once: true },
     );
   });
 

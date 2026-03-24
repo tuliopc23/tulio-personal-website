@@ -3166,13 +3166,11 @@ input:focus {
   -webkit-backdrop-filter: saturate(var(--glass-saturation-base)) blur(var(--glass-blur-base));
   padding-top: var(--space-lg);
   padding-right: calc(
-    clamp(var(--space-md), 4vw, var(--space-xl)) +
-    max(var(--safe-area-right), 0px)
+    clamp(var(--space-md), 4vw, var(--space-xl)) + max(var(--safe-area-right), 0px)
   );
   padding-bottom: calc(var(--space-lg) + max(var(--safe-area-bottom), 0px));
   padding-left: calc(
-    clamp(var(--space-md), 4vw, var(--space-xl)) +
-    max(var(--safe-area-left), 0px)
+    clamp(var(--space-md), 4vw, var(--space-xl)) + max(var(--safe-area-left), 0px)
   );
   color: var(--muted);
   box-shadow: var(--shadow-footer);

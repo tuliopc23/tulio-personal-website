@@ -1,6 +1,7 @@
 # Mobile Final Pass Report (2026-03-05)
 
 ## Scope
+
 - Routes audited (12):
   - `/`
   - `/about`
@@ -21,6 +22,7 @@
   - iPhone 14 Plus `430x932`
 
 ## Checks Per Route + Viewport
+
 - Horizontal page overflow (`document/body scrollWidth > viewport width`)
 - Touch target compliance for visible interactive controls (minimum `44x44`)
 - Mobile drawer open state validation:
@@ -29,15 +31,18 @@
   - `.topbar__menu[aria-expanded="true"]`
 
 ## Final Results
+
 - Overflow issues: `0`
 - Touch target issues: `0`
 - Drawer state failures: `0`
 
 ## Tooling Evidence
+
 - Mobile sweep script: `/tmp/agent-browser-final-pass.sh`
 - Result artifact: `/tmp/agent-browser-final-pass.json`
 
 ## Code Changes Applied During Final Pass
+
 - `src/pages/index.astro`
   - Mobile bento grid track changed to `minmax(0, 1fr)` to prevent intrinsic-width overflow on `/`.
 - `src/styles/theme.css`
@@ -47,6 +52,7 @@
   - Breadcrumb hit area increased with a safety buffer above 44px.
 
 ## Build Gates
+
 - `bun run lint` ✅
 - `bun run typecheck` ✅
 - `bun run build` ✅

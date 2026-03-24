@@ -3,7 +3,7 @@
  * Only uploads keys used by worker/index.ts: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN,
  * SANITY_API_READ_TOKEN, and SENTRY_DSN.
  *
- * Usage (from repo root): bun run cf:secrets:push
+ * Usage (from repo root): pnpm run cf:secrets:push
  * Requires: wrangler login, and a .env with the values you want uploaded.
  */
 import { spawnSync } from "node:child_process";
@@ -38,11 +38,13 @@ if (Object.keys(payload).length === 0) {
   process.exit(1);
 }
 
-console.log(`Uploading ${Object.keys(payload).length} secret(s) to Worker: ${Object.keys(payload).join(", ")}`);
+console.log(
+  `Uploading ${Object.keys(payload).length} secret(s) to Worker: ${Object.keys(payload).join(", ")}`,
+);
 
 if (!payload.SANITY_API_READ_TOKEN) {
   console.warn(
-    "⚠️  SANITY_API_READ_TOKEN is not set in .env — /api/github.json may fail to load featured repos from Sanity. Add it and run bun run cf:secrets:push again.",
+    "⚠️  SANITY_API_READ_TOKEN is not set in .env — /api/github.json may fail to load featured repos from Sanity. Add it and run pnpm run cf:secrets:push again.",
   );
 }
 
@@ -51,8 +53,8 @@ writeFileSync(tmp, JSON.stringify(payload, null, 0), "utf8");
 
 try {
   const r = spawnSync(
-    "bunx",
-    ["wrangler", "secret", "bulk", tmp, "-c", join(root, "wrangler.jsonc")],
+    "pnpm",
+    ["exec", "wrangler", "secret", "bulk", tmp, "-c", join(root, "wrangler.jsonc")],
     {
       stdio: "inherit",
       cwd: root,

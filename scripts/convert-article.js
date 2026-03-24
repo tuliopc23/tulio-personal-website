@@ -69,199 +69,199 @@ function generateKey() {
 
 function parseInlineText(text) {
   const children = [];
-  let currentText = '';
+  let currentText = "";
   let i = 0;
-  
+
   while (i < text.length) {
-    if (text[i] === '*' && text[i + 1] !== '*') {
+    if (text[i] === "*" && text[i + 1] !== "*") {
       // Single asterisk - italic
       if (currentText) {
         children.push({
-          _type: 'span',
+          _type: "span",
           _key: generateKey(),
           text: currentText,
-          marks: []
+          marks: [],
         });
-        currentText = '';
+        currentText = "";
       }
-      
+
       i++; // Skip opening *
-      let italicText = '';
-      while (i < text.length && text[i] !== '*') {
+      let italicText = "";
+      while (i < text.length && text[i] !== "*") {
         italicText += text[i];
         i++;
       }
       i++; // Skip closing *
-      
+
       children.push({
-        _type: 'span',
+        _type: "span",
         _key: generateKey(),
         text: italicText,
-        marks: ['em']
+        marks: ["em"],
       });
-    } else if (text[i] === '*' && text[i + 1] === '*') {
+    } else if (text[i] === "*" && text[i + 1] === "*") {
       // Double asterisk - bold
       if (currentText) {
         children.push({
-          _type: 'span',
+          _type: "span",
           _key: generateKey(),
           text: currentText,
-          marks: []
+          marks: [],
         });
-        currentText = '';
+        currentText = "";
       }
-      
+
       i += 2; // Skip opening **
-      let boldText = '';
-      while (i < text.length - 1 && !(text[i] === '*' && text[i + 1] === '*')) {
+      let boldText = "";
+      while (i < text.length - 1 && !(text[i] === "*" && text[i + 1] === "*")) {
         boldText += text[i];
         i++;
       }
       i += 2; // Skip closing **
-      
+
       children.push({
-        _type: 'span',
+        _type: "span",
         _key: generateKey(),
         text: boldText,
-        marks: ['strong']
+        marks: ["strong"],
       });
     } else {
       currentText += text[i];
       i++;
     }
   }
-  
+
   if (currentText) {
     children.push({
-      _type: 'span',
+      _type: "span",
       _key: generateKey(),
       text: currentText,
-      marks: []
+      marks: [],
     });
   }
-  
+
   return children;
 }
 
 function convertToPortableText(markdown) {
-  const lines = markdown.split('\n');
+  const lines = markdown.split("\n");
   const blocks = [];
   let currentParagraph = [];
-  
+
   for (const line of lines) {
     const trimmed = line.trim();
-    
+
     if (!trimmed) {
       if (currentParagraph.length > 0) {
         blocks.push({
-          _type: 'block',
+          _type: "block",
           _key: generateKey(),
-          style: 'normal',
-          children: parseInlineText(currentParagraph.join(' ')),
-          markDefs: []
+          style: "normal",
+          children: parseInlineText(currentParagraph.join(" ")),
+          markDefs: [],
         });
         currentParagraph = [];
       }
       continue;
     }
-    
-    if (trimmed === '---') {
+
+    if (trimmed === "---") {
       // Divider
       if (currentParagraph.length > 0) {
         blocks.push({
-          _type: 'block',
+          _type: "block",
           _key: generateKey(),
-          style: 'normal',
-          children: parseInlineText(currentParagraph.join(' ')),
-          markDefs: []
+          style: "normal",
+          children: parseInlineText(currentParagraph.join(" ")),
+          markDefs: [],
         });
         currentParagraph = [];
       }
-      
+
       blocks.push({
-        _type: 'divider',
-        _key: generateKey()
+        _type: "divider",
+        _key: generateKey(),
       });
       continue;
     }
-    
-    if (trimmed.startsWith('### ')) {
+
+    if (trimmed.startsWith("### ")) {
       // H3
       if (currentParagraph.length > 0) {
         blocks.push({
-          _type: 'block',
+          _type: "block",
           _key: generateKey(),
-          style: 'normal',
-          children: parseInlineText(currentParagraph.join(' ')),
-          markDefs: []
+          style: "normal",
+          children: parseInlineText(currentParagraph.join(" ")),
+          markDefs: [],
         });
         currentParagraph = [];
       }
-      
+
       blocks.push({
-        _type: 'block',
+        _type: "block",
         _key: generateKey(),
-        style: 'h3',
+        style: "h3",
         children: parseInlineText(trimmed.substring(4)),
-        markDefs: []
+        markDefs: [],
       });
-    } else if (trimmed.startsWith('## ')) {
+    } else if (trimmed.startsWith("## ")) {
       // H2
       if (currentParagraph.length > 0) {
         blocks.push({
-          _type: 'block',
+          _type: "block",
           _key: generateKey(),
-          style: 'normal',
-          children: parseInlineText(currentParagraph.join(' ')),
-          markDefs: []
+          style: "normal",
+          children: parseInlineText(currentParagraph.join(" ")),
+          markDefs: [],
         });
         currentParagraph = [];
       }
-      
+
       blocks.push({
-        _type: 'block',
+        _type: "block",
         _key: generateKey(),
-        style: 'h2',
+        style: "h2",
         children: parseInlineText(trimmed.substring(3)),
-        markDefs: []
+        markDefs: [],
       });
-    } else if (trimmed.startsWith('> ')) {
+    } else if (trimmed.startsWith("> ")) {
       // Blockquote
       if (currentParagraph.length > 0) {
         blocks.push({
-          _type: 'block',
+          _type: "block",
           _key: generateKey(),
-          style: 'normal',
-          children: parseInlineText(currentParagraph.join(' ')),
-          markDefs: []
+          style: "normal",
+          children: parseInlineText(currentParagraph.join(" ")),
+          markDefs: [],
         });
         currentParagraph = [];
       }
-      
+
       blocks.push({
-        _type: 'block',
+        _type: "block",
         _key: generateKey(),
-        style: 'blockquote',
+        style: "blockquote",
         children: parseInlineText(trimmed.substring(2)),
-        markDefs: []
+        markDefs: [],
       });
     } else {
       // Regular text - accumulate for paragraph
       currentParagraph.push(trimmed);
     }
   }
-  
+
   // Handle final paragraph
   if (currentParagraph.length > 0) {
     blocks.push({
-      _type: 'block',
+      _type: "block",
       _key: generateKey(),
-      style: 'normal',
-      children: parseInlineText(currentParagraph.join(' ')),
-      markDefs: []
+      style: "normal",
+      children: parseInlineText(currentParagraph.join(" ")),
+      markDefs: [],
     });
   }
-  
+
   return blocks;
 }
 

@@ -71,6 +71,7 @@ This is a **polish-focused enhancement** - the foundation is already excellent, 
 ## Impact
 
 **Positive:**
+
 - Elevated visual polish matching native macOS/iOS quality
 - Better depth perception through enhanced shadows and gradients
 - Improved accessibility with enhanced focus states
@@ -78,12 +79,14 @@ This is a **polish-focused enhancement** - the foundation is already excellent, 
 - Better glass material fidelity with noise texture
 
 **Neutral:**
+
 - All changes are additive - no breaking changes to existing tokens
 - Existing components continue to work with new enhancements layered on top
 - ~100-150 lines of new CSS across token files
 - Minimal performance impact (CSS-only, no JavaScript)
 
 **Considerations:**
+
 - Theme toggle behavior preserved (all new tokens have light/dark variants)
 - Reduced motion preferences respected for all new animations
 - Mobile optimization maintained (responsive values preserved)
@@ -92,6 +95,7 @@ This is a **polish-focused enhancement** - the foundation is already excellent, 
 ## Migration Path
 
 No migration required - this is a pure enhancement. All changes are:
+
 1. Additive token additions (existing tokens untouched)
 2. Component refinements via CSS (no prop changes)
 3. Progressive enhancement (older browsers gracefully degrade)

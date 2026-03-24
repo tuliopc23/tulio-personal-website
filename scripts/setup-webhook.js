@@ -30,11 +30,9 @@ async function setupWebhook() {
     (automationBaseUrl ? `${automationBaseUrl}/api/auto-publish` : undefined);
 
   console.log("\n🔑 Available Integrations:");
+  console.log(`  Cloudflare Pages deploy hook: ${deployHookUrl ? "✅ Configured" : "❌ Missing"}`);
   console.log(
-    `  Cloudflare Pages deploy hook: ${deployHookUrl ? "✅ Configured" : "❌ Missing"}`
-  );
-  console.log(
-    `  External content automation webhook: ${automationWebhookUrl ? "✅ Configured" : "❌ Not set (optional)"}`
+    `  External content automation webhook: ${automationWebhookUrl ? "✅ Configured" : "❌ Not set (optional)"}`,
   );
 
   const webhookSecret = process.env.SANITY_WEBHOOK_SECRET;
@@ -54,7 +52,7 @@ async function setupWebhook() {
     // 1. Create/Update direct Cloudflare Pages deploy webhook
     if (deployHookUrl) {
       const existingPagesHook = existingHooks.find(
-        (hook) => hook.name === "Cloudflare Pages Deploy"
+        (hook) => hook.name === "Cloudflare Pages Deploy",
       );
 
       if (existingPagesHook) {
@@ -104,7 +102,7 @@ async function setupWebhook() {
     // 2. Optional: create/update external automation webhook
     if (automationWebhookUrl) {
       const existingAutoPublishHook = existingHooks.find(
-        (hook) => hook.name === "Content Automation"
+        (hook) => hook.name === "Content Automation",
       );
 
       if (existingAutoPublishHook) {
@@ -120,7 +118,8 @@ async function setupWebhook() {
         uri: "/hooks",
         body: {
           name: "Content Automation",
-          description: "Optional external automation for cross-posting or other content-side workflows",
+          description:
+            "Optional external automation for cross-posting or other content-side workflows",
           url: automationWebhookUrl,
           httpMethod: "POST",
           filter: '_type == "post" && !(_id in path("drafts.**"))',
@@ -173,7 +172,9 @@ async function setupWebhook() {
 
     if (automationWebhookUrl) {
       console.log("  ✅ Optional content automation webhook configured");
-      console.log("     This will forward published post payloads to your external automation service");
+      console.log(
+        "     This will forward published post payloads to your external automation service",
+      );
     }
 
     if (!deployHookUrl && !automationWebhookUrl) {

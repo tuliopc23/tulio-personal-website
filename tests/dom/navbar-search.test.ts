@@ -20,14 +20,10 @@ describe("navbar search script", () => {
     vi.resetModules();
     await import("../../src/scripts/navbar-search");
 
-    const trigger = document.querySelector(
-      "[data-site-search-open]"
-    ) as HTMLButtonElement;
+    const trigger = document.querySelector("[data-site-search-open]") as HTMLButtonElement;
     const root = document.querySelector("[data-site-search-root]") as HTMLElement;
     const input = document.querySelector("[data-site-search-input]") as HTMLInputElement;
-    const items = Array.from(
-      document.querySelectorAll("[data-site-search-item]")
-    ) as HTMLElement[];
+    const items = Array.from(document.querySelectorAll("[data-site-search-item]")) as HTMLElement[];
 
     trigger.click();
 
@@ -41,7 +37,7 @@ describe("navbar search script", () => {
     expect(items[0]?.hidden).toBe(true);
     expect(items[1]?.hidden).toBe(false);
     expect(document.querySelector("[data-site-search-status]")?.textContent).toContain(
-      "Showing 1 quick search destination"
+      "Showing 1 quick search destination",
     );
 
     window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));

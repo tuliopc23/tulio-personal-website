@@ -3,6 +3,7 @@
 ## ✅ AUTOMATED CHECKS (COMPLETED)
 
 ### 1. Preparation
+
 - [x] Audit all JavaScript files and categorize by priority
 - [x] Review existing TypeScript configuration
 - [x] Create change proposal (in openspec/changes/)
@@ -11,6 +12,7 @@
 ### 2. File Migrations (All 6 files)
 
 #### 2.1 visual-editing.ts ✅
+
 - [x] Renamed .js → .ts
 - [x] Added `Promise<void>` return type
 - [x] Window type extensions for iframe detection
@@ -21,6 +23,7 @@
 - [ ] **MANUAL TEST**: Verify overlays work in iframe context
 
 #### 2.2 scroll-indicators.ts ✅
+
 - [x] Renamed .js → .ts
 - [x] Typed scroll event handlers
 - [x] Typed edge fade calculations (boolean)
@@ -32,6 +35,7 @@
 - [ ] **MANUAL TEST**: Card rail scroll indicators
 
 #### 2.3 theme.ts ✅
+
 - [x] Renamed .js → .ts
 - [x] Replaced JSDoc with TypeScript types
 - [x] Added `type Theme = "light" | "dark"`
@@ -48,6 +52,7 @@
 - [ ] **MANUAL TEST**: Console logging works
 
 #### 2.4 web-vitals.ts ✅
+
 - [x] Renamed .js → .ts
 - [x] Typed PerformanceObserver entries
 - [x] Typed PerformanceObserverEntryList
@@ -59,6 +64,7 @@
 - [ ] **MANUAL TEST**: Metrics display in console
 
 #### 2.5 sidebar.ts ✅ (BUG FIXED)
+
 - [x] Renamed .js → .ts
 - [x] **FIXED BUG**: `style.setProperty("display", "block", "important")`
 - [x] Typed all DOM queries (HTMLInputElement, HTMLAnchorElement, etc.)
@@ -74,6 +80,7 @@
 - [ ] **MANUAL TEST**: Backdrop creation/removal
 
 #### 2.6 motion.ts ✅
+
 - [x] Renamed .js → .ts
 - [x] Added PageState type
 - [x] Added GlassState type
@@ -92,26 +99,31 @@
 - [ ] **MANUAL TEST**: Internal link interception
 
 ### 3. Configuration Updates ✅
+
 - [x] Updated src/layouts/Base.astro (all .js → .ts imports)
 - [x] Verified tsconfig.json includes scripts
 - [x] Biome config includes TypeScript files
 
 ### 4. Utilities ✅
+
 - [x] web-vitals.ts migrated
 - [x] refresh.js removed (obsolete)
 
 ### 5. TypeScript Configuration ✅
+
 - [x] All files included in tsconfig
 - [x] Strict mode enabled
 - [x] Type checking passes: 0 errors
 
 ### 6. Build Validation ✅
+
 - [x] `bun run typecheck` - 0 errors
 - [x] `bun run build` - successful
 - [x] Scripts compiled and bundled correctly
 - [x] Output in dist/ verified
 
 ### 7. Biome Validation ✅
+
 - [x] `biome lint .` - 0 errors
 - [x] `biome format .` - consistent
 - [x] `biome check --write .` - all auto-fixes applied
@@ -119,6 +131,7 @@
 - [x] `bun run check:ci` - CI check passed
 
 ### 8. Code Quality ✅
+
 - [x] No unused variables (Biome rule)
 - [x] No unused imports (Biome rule)
 - [x] No explicit any types (Biome rule)
@@ -128,6 +141,7 @@
 - [x] Double quotes, semicolons, 2-space indent
 
 ### 9. Git ✅
+
 - [x] All changes committed
 - [x] Commit message follows conventions
 - [x] Branch: openspec-typescript
@@ -138,6 +152,7 @@
 ## ⏳ MANUAL TESTING REQUIRED
 
 ### Browser Testing (Not Automated)
+
 - [ ] Test in Chrome/Chromium
 - [ ] Test in Safari (Apple ecosystem focus)
 - [ ] Test in Firefox
@@ -145,9 +160,11 @@
 - [ ] Test mobile: Chrome Android
 
 ### Feature Testing (Requires Dev Server)
+
 The following require `bun run dev` and manual interaction:
 
 #### Theme Switcher (theme.ts)
+
 - [ ] Click theme toggle → switches light/dark
 - [ ] Verify localStorage persists selection
 - [ ] Verify `data-theme` attribute updates on <html>
@@ -156,6 +173,7 @@ The following require `bun run dev` and manual interaction:
 - [ ] Refresh page → theme persists
 
 #### Sidebar Navigation (sidebar.ts)
+
 - [ ] Click hamburger menu → sidebar opens
 - [ ] Click backdrop → sidebar closes
 - [ ] Press Escape → sidebar closes
@@ -166,6 +184,7 @@ The following require `bun run dev` and manual interaction:
 - [ ] Verify ARIA attributes (aria-hidden, aria-expanded)
 
 #### Page Transitions (motion.ts)
+
 - [ ] Page loads → "entering" state
 - [ ] After load → "ready" state
 - [ ] Click internal link → "leaving" state transition
@@ -176,6 +195,7 @@ The following require `bun run dev` and manual interaction:
 - [ ] Verify page state classes on <body>
 
 #### Scroll Indicators (scroll-indicators.ts)
+
 - [ ] Scroll horizontal carousel → edge fades update
 - [ ] At start → data-at-start="true"
 - [ ] At end → data-at-end="true"
@@ -183,6 +203,7 @@ The following require `bun run dev` and manual interaction:
 - [ ] Resize window → indicators recalculate
 
 #### Performance Monitoring (web-vitals.ts)
+
 - [ ] Open console in localhost
 - [ ] Verify LCP metric logged
 - [ ] Verify CLS metric logged
@@ -193,6 +214,7 @@ The following require `bun run dev` and manual interaction:
 - [ ] Does NOT run in production
 
 #### Visual Editing (visual-editing.ts)
+
 - [ ] Open site in Sanity Studio iframe
 - [ ] Verify overlays load (z-index: 999999)
 - [ ] Verify editing hotspots appear
@@ -203,18 +225,21 @@ The following require `bun run dev` and manual interaction:
 ## 📊 SUMMARY
 
 ### Automated: 100% Complete ✅
+
 - All TypeScript compilation checks passed
 - All Biome linting/formatting checks passed
 - Build successful
 - No errors or warnings
 
 ### Manual Testing: 0% Complete ⏳
+
 - Requires running `bun run dev`
 - Requires browser interaction
 - Requires testing all 6 script features
 - Estimated time: 30-45 minutes
 
 ### Bug Fix Validation: ⏳ Requires Manual Test
+
 - sidebar.ts line 31 fix needs verification
 - Test: Does "site navigation" group stay visible when filtering?
 - Expected: Group remains visible with !important style
@@ -224,12 +249,14 @@ The following require `bun run dev` and manual interaction:
 ## 🚦 VALIDATION STATUS
 
 **Code Quality**: ✅ PASS (100%)
+
 - TypeScript strict mode: PASS
 - Biome linting: PASS
 - Biome formatting: PASS
 - Build: PASS
 
 **Manual Testing**: ⏳ PENDING
+
 - Dev server: NOT STARTED
 - Browser testing: NOT STARTED
 - Feature testing: NOT STARTED
@@ -242,4 +269,3 @@ The following require `bun run dev` and manual interaction:
 
 Run `bun run dev` and perform manual testing checklist above.
 All automated checks have passed. Ready for human validation.
-

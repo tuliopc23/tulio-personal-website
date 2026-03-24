@@ -30,7 +30,7 @@ CLOUDFLARE_DEPLOY_HOOK_URL=https://api.cloudflare.com/client/v4/pages/webhooks/d
 Run setup:
 
 ```bash
-bun run sanity:webhook
+pnpm run sanity:webhook
 ```
 
 You should see: ✅ Webhook created successfully!
@@ -46,6 +46,7 @@ You should see: ✅ Webhook created successfully!
 ## Troubleshooting
 
 **Webhook not triggering?**
+
 - Make sure you **published** (not just saved draft)
 - Check Sanity Manage → API → Webhooks → Attempts log
 

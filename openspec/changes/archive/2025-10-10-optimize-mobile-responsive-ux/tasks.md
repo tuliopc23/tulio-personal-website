@@ -1,4 +1,5 @@
 ## 1. Sidebar Mobile Drawer Implementation
+
 - [x] 1.1 Create off-canvas drawer styles for sidebar at <1024px breakpoint
 - [x] 1.2 Add backdrop overlay with blur effect
 - [x] 1.3 Implement slide-in animation with spring physics (300ms duration)
@@ -11,6 +12,7 @@
 - [x] 1.10 Test keyboard navigation (Esc to close)
 
 ## 2. Card Carousel Scroll Enhancement
+
 - [x] 2.1 Add edge fade indicators (left/right gradients) to all card carousels
 - [x] 2.2 Implement scroll snap points for card alignment
 - [x] 2.3 Add `-webkit-overflow-scrolling: touch` for momentum
@@ -23,6 +25,7 @@
 - [x] 2.10 Add ARIA live region for scroll state announcements
 
 ## 3. Shadow System Mobile Optimization
+
 - [x] 3.1 Create mobile-specific shadow tokens in theme.css
 - [x] 3.2 Reduce 4-layer shadows to 2-layer below 1024px
 - [x] 3.3 Decrease blur radius: 28px → 20px on mobile
@@ -33,6 +36,7 @@
 - [x] 3.8 Preserve visual hierarchy despite simplified shadows
 
 ## 4. Responsive Breakpoint Audit & Fixes
+
 - [x] 4.1 Test layout at 320px (iPhone SE) - clamp() handles it
 - [x] 4.2 Test layout at 375px (iPhone 13 mini) - clamp() handles it
 - [x] 4.3 Test layout at 390px (iPhone 14) - clamp() handles it
@@ -45,6 +49,7 @@
 - [x] 4.10 Verify safe area insets on notched devices (existing safe-area-inset CSS vars)
 
 ## 5. Touch Target Compliance Audit
+
 - [x] 5.1 Audit all buttons for 44x44px minimum size
 - [x] 5.2 Audit all links for adequate tap targets
 - [x] 5.3 Increase spacing between adjacent interactive elements (min 8px)
@@ -55,6 +60,7 @@
 - [x] 5.8 Verify with accessibility audit tools (needs manual audit)
 
 ## 6. Typography & Spacing Mobile Refinement
+
 - [x] 6.1 Review all `clamp()` functions for smooth scaling (verified)
 - [x] 6.2 Adjust hero title sizing for ultra-small screens (320px) - clamp handles it
 - [x] 6.3 Reduce container padding at smallest breakpoints (already using clamp)
@@ -65,6 +71,7 @@
 - [x] 6.8 Verify spacing rhythm at all breakpoints (8px baseline maintained)
 
 ## 7. Scroll Indicator Component
+
 - [x] 7.1 Create `ScrollIndicator.astro` component
 - [x] 7.2 Add left/right arrow SVGs
 - [x] 7.3 Implement fade-in/fade-out based on scroll position
@@ -77,6 +84,7 @@
 - [x] 7.10 Document component usage in IMPLEMENTATION_SUMMARY.md
 
 ## 8. Testing & Validation
+
 - [x] 8.1 Test on iPhone 12 mini, 13, 14 Pro Max (Safari) - needs device
 - [x] 8.2 Test on Android (Chrome, Samsung Internet) - needs device
 - [x] 8.3 Test on iPad (Safari, portrait & landscape) - needs device
@@ -89,6 +97,7 @@
 - [x] 8.10 Document any browser-specific quirks - none found yet
 
 ## 9. Documentation & Cleanup
+
 - [x] 9.1 Update project.md with mobile-specific conventions - pending
 - [x] 9.2 Document sidebar drawer pattern - in IMPLEMENTATION_SUMMARY.md
 - [x] 9.3 Document scroll indicator usage - in IMPLEMENTATION_SUMMARY.md

@@ -3,6 +3,7 @@
 ## Phase 1: Foundation (Critical - Week 1)
 
 ### 1.1 Fix TypeScript Generation
+
 - [ ] 1.1.1 Diagnose why `sanity-codegen` is failing (`types.filter is not a function`)
 - [ ] 1.1.2 Check `sanity-codegen.config.ts` configuration
 - [ ] 1.1.3 Try official Sanity typegen: `npx sanity@latest schema extract`
@@ -15,21 +16,22 @@
 - [ ] 1.1.10 Add typegen to CI/CD pipeline
 
 ### 1.2 Create Workflow Schema Types
+
 - [ ] 1.2.1 Create `src/sanity/schemaTypes/workflowStatus.ts`:
   ```typescript
   export const workflowStatusType = defineType({
-    name: 'workflowStatus',
-    title: 'Workflow Status',
-    type: 'string',
+    name: "workflowStatus",
+    title: "Workflow Status",
+    type: "string",
     options: {
       list: [
-        { title: 'Draft', value: 'draft' },
-        { title: 'In Review', value: 'in-review' },
-        { title: 'Approved', value: 'approved' },
-        { title: 'Published', value: 'published' },
-        { title: 'Archived', value: 'archived' },
+        { title: "Draft", value: "draft" },
+        { title: "In Review", value: "in-review" },
+        { title: "Approved", value: "approved" },
+        { title: "Published", value: "published" },
+        { title: "Archived", value: "archived" },
       ],
-      layout: 'radio',
+      layout: "radio",
     },
   });
   ```
@@ -48,6 +50,7 @@
 - [ ] 1.2.5 Verify existing posts still load (with default values)
 
 ### 1.3 Add Data Migration Script
+
 - [ ] 1.3.1 Create `scripts/migrate-workflow-fields.ts`
 - [ ] 1.3.2 Set all existing posts to status: 'published'
 - [ ] 1.3.3 Set scheduledPublishAt to publishedAt for existing posts
@@ -56,6 +59,7 @@
 - [ ] 1.3.6 Document migration process
 
 ### 1.4 Enhance Validation
+
 - [ ] 1.4.1 Add pre-publish validation function to post schema
 - [ ] 1.4.2 Prevent publishing if required fields missing:
   - [ ] Title must be 10-200 characters
@@ -73,6 +77,7 @@
 ### 2.1 Create Custom Document Actions
 
 #### 2.1.1 Submit for Review Action
+
 - [ ] Create `src/sanity/actions/submitForReview.ts`
 - [ ] Action only available when status is 'draft'
 - [ ] Changes status to 'in-review'
@@ -81,6 +86,7 @@
 - [ ] Test action in Studio
 
 #### 2.1.2 Approve and Publish Action
+
 - [ ] Create `src/sanity/actions/approveAndPublish.ts`
 - [ ] Action only available when status is 'in-review'
 - [ ] Changes status to 'approved'
@@ -91,6 +97,7 @@
 - [ ] Test action with different users
 
 #### 2.1.3 Schedule Publish Action
+
 - [ ] Create `src/sanity/actions/schedulePublish.ts`
 - [ ] Opens dialog to select date/time
 - [ ] Sets scheduledPublishAt field
@@ -101,6 +108,7 @@
 - [ ] Document timezone behavior
 
 #### 2.1.4 Unpublish Action
+
 - [ ] Create `src/sanity/actions/unpublish.ts`
 - [ ] Action only available when status is 'published'
 - [ ] Changes status to 'archived'
@@ -109,6 +117,7 @@
 - [ ] Test unpublishing
 
 #### 2.1.5 Register Actions in Studio
+
 - [ ] Update `sanity.config.ts` to add document actions
 - [ ] Import all custom actions
 - [ ] Add actions to post document type
@@ -119,6 +128,7 @@
 ### 2.2 Customize Studio Structure
 
 #### 2.2.1 Create Custom Dashboard
+
 - [ ] Create `src/sanity/structure/dashboard.tsx`
 - [ ] Add metrics widgets:
   - [ ] Total posts by status (pie chart)
@@ -131,6 +141,7 @@
 - [ ] Test dashboard loads quickly
 
 #### 2.2.2 Create Content Pipeline View
+
 - [ ] Create `src/sanity/structure/contentPipeline.tsx`
 - [ ] Create columns for each workflow status
 - [ ] Show posts as cards in their status column
@@ -141,6 +152,7 @@
 - [ ] Test with multiple posts
 
 #### 2.2.3 Create Scheduled Posts View
+
 - [ ] Create `src/sanity/structure/scheduledPosts.tsx`
 - [ ] Show calendar view of scheduled posts
 - [ ] Allow clicking date to see posts scheduled that day
@@ -150,6 +162,7 @@
 - [ ] Test with various scheduled dates
 
 #### 2.2.4 Customize Structure Tool
+
 - [ ] Update `sanity.config.ts` structure configuration
 - [ ] Add custom dashboard to structure
 - [ ] Add content pipeline view
@@ -167,6 +180,7 @@
 ### 2.3 Add Visual Status Indicators
 
 #### 2.3.1 Create Status Badge Component
+
 - [ ] Create `src/sanity/components/StatusBadge.tsx`
 - [ ] Design badge colors:
   - [ ] Draft: gray
@@ -179,6 +193,7 @@
 - [ ] Test badge in different contexts
 
 #### 2.3.2 Add Badge to Post Preview
+
 - [ ] Update post preview configuration
 - [ ] Show status badge in document list
 - [ ] Show priority indicator
@@ -186,6 +201,7 @@
 - [ ] Test badge visibility and styling
 
 #### 2.3.3 Add Workflow Visualization
+
 - [ ] Create `src/sanity/components/WorkflowTransitions.tsx`
 - [ ] Show visual flowchart of workflow states
 - [ ] Highlight current state
@@ -194,6 +210,7 @@
 - [ ] Test workflow visualization
 
 ### 2.4 Implement Scheduled Publishing Logic
+
 - [ ] 2.4.1 Research Sanity scheduled publishing options:
   - Option A: Serverless function that runs hourly
   - Option B: Sanity Scheduled Publishing plugin
@@ -210,6 +227,7 @@
 ### 3.1 Enhanced Studio Features
 
 #### 3.1.1 Editorial Metrics Dashboard
+
 - [ ] Add "Posts this month" metric
 - [ ] Add "Average time to publish" metric
 - [ ] Add "Most active authors" widget
@@ -218,6 +236,7 @@
 - [ ] Test dashboard performance
 
 #### 3.1.2 Bulk Actions
+
 - [ ] Add bulk status change action
 - [ ] Add bulk category assignment
 - [ ] Add bulk author assignment
@@ -226,6 +245,7 @@
 - [ ] Add undo functionality
 
 #### 3.1.3 Preview Configuration
+
 - [ ] Update preview client for draft viewing
 - [ ] Configure preview URLs for each status
 - [ ] Test preview mode in Presentation tool
@@ -235,6 +255,7 @@
 ### 3.2 Create Editorial Documentation
 
 #### 3.2.1 Write EDITORIAL_GUIDE.md
+
 - [ ] Document workflow overview with diagram
 - [ ] Describe each workflow state
 - [ ] List state transition rules
@@ -269,12 +290,14 @@
   - [ ] Preview not loading
 
 #### 3.2.2 Create Quick Reference Cards
+
 - [ ] Workflow states cheat sheet
 - [ ] Keyboard shortcuts
 - [ ] Validation rules quick ref
 - [ ] SEO checklist card
 
 #### 3.2.3 Add In-Studio Help
+
 - [ ] Add help text to all custom fields
 - [ ] Add tooltips for workflow actions
 - [ ] Link to full documentation from Studio
@@ -283,6 +306,7 @@
 ### 3.3 Schema Enhancements
 
 #### 3.3.1 Add Featured Posts Support
+
 - [ ] Add `featured` boolean to post schema
 - [ ] Add featured posts filter to structure
 - [ ] Create featured posts query
@@ -291,6 +315,7 @@
 - [ ] Test featured posts display
 
 #### 3.3.2 Add Reading Time Calculation
+
 - [ ] Create reading time calculation function
 - [ ] Add as computed field to post
 - [ ] Show reading time in post preview
@@ -298,6 +323,7 @@
 - [ ] Test calculation accuracy
 
 #### 3.3.3 Add Priority Field
+
 - [ ] Already added in Phase 1.2.2
 - [ ] Add priority filtering to structure
 - [ ] Show priority badge in preview
@@ -305,6 +331,7 @@
 - [ ] Test priority functionality
 
 #### 3.3.4 Enhance Category Schema
+
 - [ ] Add `color` field (string) for tag color
 - [ ] Add `icon` field (string) for emoji/icon
 - [ ] Add `order` field (number) for sorting
@@ -312,6 +339,7 @@
 - [ ] Test category enhancements
 
 #### 3.3.5 Add Content Warnings
+
 - [ ] Create `contentWarnings` array field
 - [ ] Add predefined warning options
 - [ ] Show warnings in post preview
@@ -319,6 +347,7 @@
 - [ ] Test warning functionality
 
 ### 3.4 Query Optimization
+
 - [ ] 3.4.1 Create typed queries in `src/sanity/lib/queries.ts`:
   - [ ] `POSTS_QUERY` - All published posts
   - [ ] `POST_BY_SLUG_QUERY` - Single post by slug
@@ -337,6 +366,7 @@
 ### 4.1 Content Releases
 
 #### 4.1.1 Configure Content Releases
+
 - [ ] Research Sanity Content Releases feature
 - [ ] Enable in Studio configuration
 - [ ] Create first test release
@@ -344,6 +374,7 @@
 - [ ] Test coordinated publishing
 
 #### 4.1.2 Release Workflow Integration
+
 - [ ] Add posts to releases
 - [ ] Schedule release publication
 - [ ] Preview entire release
@@ -353,6 +384,7 @@
 ### 4.2 Role-Based Access Documentation
 
 #### 4.2.1 Create SANITY_ROLES.md
+
 - [ ] Document Sanity's built-in roles
 - [ ] Create custom role definitions:
   - [ ] Contributor (can create drafts)
@@ -364,6 +396,7 @@
 - [ ] Link from EDITORIAL_GUIDE.md
 
 #### 4.2.2 Configure Roles in Sanity
+
 - [ ] Set up roles in project settings
 - [ ] Assign team members to roles
 - [ ] Test permissions work correctly
@@ -372,6 +405,7 @@
 ### 4.3 Preview Deployments
 
 #### 4.3.1 Configure Preview URLs
+
 - [ ] Set up preview deployment environment
 - [ ] Configure preview URL in Studio
 - [ ] Add draft filtering to preview
@@ -379,6 +413,7 @@
 - [ ] Document preview setup
 
 #### 4.3.2 Add Deploy Preview Button
+
 - [ ] Create custom action for deploy preview
 - [ ] Trigger preview build from Studio
 - [ ] Show preview URL after build
@@ -388,6 +423,7 @@
 ### 4.4 Advanced Validation
 
 #### 4.4.1 Content Quality Checks
+
 - [ ] Add word count validation (min 300 words)
 - [ ] Add readability score (optional)
 - [ ] Add heading structure validation
@@ -395,6 +431,7 @@
 - [ ] Test quality checks
 
 #### 4.4.2 SEO Score
+
 - [ ] Calculate SEO score based on:
   - [ ] Meta fields filled
   - [ ] Keyword in title
@@ -408,6 +445,7 @@
 ## Testing & Quality Assurance
 
 ### 5.1 Schema Testing
+
 - [ ] All existing content loads without errors
 - [ ] New fields have proper defaults
 - [ ] Validation rules work as expected
@@ -415,6 +453,7 @@
 - [ ] No console errors in Studio
 
 ### 5.2 Studio Testing
+
 - [ ] Custom dashboard loads and shows correct data
 - [ ] Workflow state transitions work correctly
 - [ ] Scheduled publishing UI functions
@@ -425,6 +464,7 @@
 - [ ] Studio is responsive on mobile
 
 ### 5.3 Integration Testing
+
 - [ ] Published content appears on site
 - [ ] Draft content does not appear on site
 - [ ] Scheduled posts publish at correct time
@@ -433,6 +473,7 @@
 - [ ] Preview client shows drafts
 
 ### 5.4 Performance Testing
+
 - [ ] Studio loads in under 2 seconds
 - [ ] Dashboard loads in under 1 second
 - [ ] Content pipeline view handles 100+ posts
@@ -440,6 +481,7 @@
 - [ ] Type generation completes in under 10 seconds
 
 ### 5.5 User Acceptance Testing
+
 - [ ] Content editors can follow workflow
 - [ ] Review process is clear and intuitive
 - [ ] Scheduling is intuitive
@@ -448,6 +490,7 @@
 - [ ] Team reports improved collaboration
 
 ### 5.6 Accessibility Testing
+
 - [ ] All custom components have ARIA labels
 - [ ] Keyboard navigation works
 - [ ] Screen reader compatible
@@ -457,6 +500,7 @@
 ## Documentation & Deployment
 
 ### 6.1 Update Project Documentation
+
 - [ ] Update `openspec/project.md` with new Sanity patterns
 - [ ] Update `README.md` with editorial workflow info
 - [ ] Update `SANITY_DOCUMENTATION.md` with new features
@@ -464,12 +508,14 @@
 - [ ] Document all environment variables
 
 ### 6.2 Create Training Materials
+
 - [ ] Record video tutorial of workflow
 - [ ] Create screenshot-based walkthrough
 - [ ] Prepare training session slides
 - [ ] Schedule training with content team
 
 ### 6.3 Deployment Checklist
+
 - [ ] Run all tests
 - [ ] Generate TypeScript types
 - [ ] Build production bundle
@@ -480,6 +526,7 @@
 - [ ] Collect feedback from team
 
 ### 6.4 Post-Launch
+
 - [ ] Schedule 1-week check-in with content team
 - [ ] Monitor Studio usage analytics
 - [ ] Collect feedback on workflow
@@ -490,8 +537,9 @@
 
 **Total Estimated Tasks:** 200+
 **Priority Distribution:**
+
 - Critical: 26 tasks
-- High: 45 tasks  
+- High: 45 tasks
 - Medium: 75 tasks
 - Optional: 54+ tasks
 

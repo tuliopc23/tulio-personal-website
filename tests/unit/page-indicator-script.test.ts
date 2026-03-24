@@ -69,7 +69,7 @@ describe("page indicator script", () => {
     initPageIndicators();
 
     const dots = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("[data-page-indicator-dot]")
+      document.querySelectorAll<HTMLButtonElement>("[data-page-indicator-dot]"),
     );
     expect(dots).toHaveLength(2);
     expect(dots[0]?.getAttribute("aria-pressed")).toBe("true");

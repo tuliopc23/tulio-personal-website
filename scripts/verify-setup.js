@@ -43,10 +43,7 @@ for (const [key, value] of Object.entries(optionalVars)) {
 
 // Check if scripts exist
 const fs = await import("fs");
-const scripts = [
-  "scripts/setup-webhook.js",
-  "scripts/auto-publish-to-devto.js",
-];
+const scripts = ["scripts/setup-webhook.js", "scripts/auto-publish-to-devto.js"];
 
 console.log("\n📁 Script Files:");
 let allScriptsExist = true;
@@ -73,7 +70,7 @@ console.log("\n📊 Setup Status:");
 if (!allRequiredPresent) {
   console.log("  ❌ Missing required environment variables");
   console.log(
-    "     Please set SANITY_API_WRITE_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, CLOUDFLARE_DEPLOY_HOOK_URL"
+    "     Please set SANITY_API_WRITE_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, CLOUDFLARE_DEPLOY_HOOK_URL",
   );
   process.exit(1);
 }
@@ -82,7 +79,7 @@ console.log("  ✅ Required environment variables configured");
 
 if (!allScriptsExist) {
   console.log("  ❌ Missing script files");
-    console.log("     Please ensure the required webhook/setup scripts are present");
+  console.log("     Please ensure the required webhook/setup scripts are present");
   process.exit(1);
 }
 
@@ -90,28 +87,40 @@ console.log("  ✅ All required script files present");
 
 if (!hasAutomationConfig) {
   console.log("  ℹ️  No external content automation webhook configured");
-  console.log("     Set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL only if you use a separate automation service");
+  console.log(
+    "     Set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL only if you use a separate automation service",
+  );
 } else {
   console.log("  ✅ External content automation webhook configured");
 }
 
 console.log("\n🚀 Next Steps:");
 console.log("  1. Create or confirm your Cloudflare Pages deploy hook URL");
-console.log("  2. Run: bun run sanity:webhook");
+console.log("  2. Run: pnpm run sanity:webhook");
 console.log("  3. Test by publishing an article in Sanity Studio");
-console.log("  4. If you use external automation, set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL");
+console.log(
+  "  4. If you use external automation, set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL",
+);
 
 if (hasAutomationConfig) {
   console.log("\n🎯 External Automation Routing Ready:");
   if (process.env.SANITY_STUDIO_WEBHOOK_URL) {
-    console.log("  ✅ SANITY_STUDIO_WEBHOOK_URL - Studio/manual actions will post to the configured endpoint");
+    console.log(
+      "  ✅ SANITY_STUDIO_WEBHOOK_URL - Studio/manual actions will post to the configured endpoint",
+    );
   }
   if (process.env.WEBHOOK_BASE_URL) {
-    console.log("  ✅ WEBHOOK_BASE_URL - automatic automation webhook setup can target /api/auto-publish");
+    console.log(
+      "  ✅ WEBHOOK_BASE_URL - automatic automation webhook setup can target /api/auto-publish",
+    );
   }
 }
 
-if (process.env.DEV_TO_API_KEY || process.env.HASHNODE_ACCESS_TOKEN || process.env.LINKEDIN_ACCESS_TOKEN) {
+if (
+  process.env.DEV_TO_API_KEY ||
+  process.env.HASHNODE_ACCESS_TOKEN ||
+  process.env.LINKEDIN_ACCESS_TOKEN
+) {
   console.log("\n🎯 Publishing Platform Credentials Present:");
   if (process.env.DEV_TO_API_KEY) {
     console.log("  ✅ Dev.to credentials present");

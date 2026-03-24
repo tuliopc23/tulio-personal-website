@@ -41,7 +41,7 @@
 
 - [x] 2.2 Icon tile size variants (already exist, verified)
   - [x] Small: 40px with 12px radius
-  - [x] Medium: 52px with 16px radius  
+  - [x] Medium: 52px with 16px radius
   - [x] Large: 64px with 16px radius
 
 ## 3. Card Component Enhancements

@@ -7,6 +7,7 @@ Scope requested: all pages/routes, mobile navigation quality, carousel/mobile la
 ## 1) Audit Scope
 
 ### Routes audited
+
 - `/`
 - `/about`
 - `/projects`
@@ -17,6 +18,7 @@ Scope requested: all pages/routes, mobile navigation quality, carousel/mobile la
 - `/blog/category/[slug]` template (static audit; no live category route discovered in current content)
 
 ### Files audited
+
 - `src/layouts/Base.astro`
 - `src/scripts/sidebar.ts`
 - `src/pages/index.astro`
@@ -35,6 +37,7 @@ Scope requested: all pages/routes, mobile navigation quality, carousel/mobile la
 - `src/styles/github-activity-widget.css`
 
 ### Runtime method
+
 - Mobile viewport checks (375x667, 393x852, 430x932)
 - Automated DOM overflow/protrusion scan (`/tmp/direct-mobile-audit.json`)
 - Menu/drawer interaction verification on sidebar routes
@@ -47,6 +50,7 @@ Scope requested: all pages/routes, mobile navigation quality, carousel/mobile la
 Current mobile experience is **not release-grade** for the requested “world-class seamless mobile navigation” target.
 
 Primary blockers:
+
 1. **Critical client-script loading failure**: core interactive modules (`sidebar`, `theme`, `motion`, scroll indicators, vitals) are requested as `/scripts/*.ts` and return 404.
 2. **Mobile drawer is effectively broken**: menu button renders but does not open bottom sheet navigation due missing runtime script execution.
 3. **Top navigation is heavily constrained** on sidebar pages (actual visible nav width ~42–97 px), forcing clipped/partially visible labels and poor touch discoverability.
@@ -60,10 +64,11 @@ Primary blockers:
 ## Critical
 
 ### C1. Core mobile interaction scripts fail to load (404)
+
 - Severity: **Critical**
 - Evidence:
   - `src/layouts/Base.astro:503-516` imports module paths as `../scripts/*.ts` inside inline module tags.
-  - Runtime network failures on `/about`: 
+  - Runtime network failures on `/about`:
     - `/scripts/motion.ts` 404
     - `/scripts/scroll-indicators.ts` 404
     - `/scripts/theme.ts` 404
@@ -81,6 +86,7 @@ Primary blockers:
 ## High
 
 ### H1. Mobile menu button does not open bottom drawer
+
 - Severity: **High**
 - Evidence:
   - Menu present on sidebar pages (`hasMenu=true`), but after click: `isOpen=false`, `aria-expanded=false`, `body[data-sidebar-state]` unset, no backdrop created.
@@ -94,6 +100,7 @@ Primary blockers:
   - Add E2E assertion: tap `.topbar__menu` must set `aria-expanded=true`, sidebar `.is-open`, and backdrop visible.
 
 ### H2. Topbar nav viewport budget is too small on mobile sidebar pages
+
 - Severity: **High**
 - Evidence:
   - Runtime `topbar__navMask` measured widths:
@@ -112,6 +119,7 @@ Primary blockers:
   - Ensure minimum usable nav lane width target (for example >= 55–65% of viewport width) when horizontal chips remain.
 
 ### H3. Home route has global horizontal overflow and visible protrusions
+
 - Severity: **High**
 - Evidence:
   - Runtime overflow on `/`:
@@ -128,6 +136,7 @@ Primary blockers:
   - Align home route nav affordance with inner-route mobile model.
 
 ### H4. Horizontal-first navigation rails are over-concentrated without robust fallback
+
 - Severity: **High**
 - Evidence:
   - Horizontal scroll rails active on mobile:
@@ -145,6 +154,7 @@ Primary blockers:
 ## Medium
 
 ### M1. Drawer UX is bottom-sheet styled but not gesture-operable
+
 - Severity: **Medium**
 - Evidence:
   - Bottom-sheet style exists (`src/styles/theme.css:1593-1617`) with drag handle (`1718-1731`), but no drag/swipe gesture handling in `src/scripts/sidebar.ts`.
@@ -155,6 +165,7 @@ Primary blockers:
   - Implement real swipe-to-close/open thresholds and velocity handling after C1/H1 are resolved.
 
 ### M2. Projects filter bar has no explicit overflow strategy in base definition
+
 - Severity: **Medium**
 - Evidence:
   - `src/styles/theme.css:4672-4680` (`.projects__filters`) is inline-flex, no `overflow-x` safeguard.
@@ -165,6 +176,7 @@ Primary blockers:
   - Mirror resilient overflow strategy already used by `.blogFilters`.
 
 ### M3. Accessibility resilience is partially disabled in CSS
+
 - Severity: **Medium**
 - Evidence:
   - Reduced-motion and high-contrast blocks are commented out: `src/styles/theme.css:6317-6370`.
@@ -176,6 +188,7 @@ Primary blockers:
 ## Low
 
 ### L1. Home/inner route navigation model inconsistency
+
 - Severity: **Low** (becomes high when paired with C1/H1)
 - Evidence:
   - Home explicitly disables sidebar (`src/pages/index.astro:158`), inner pages use sidebar true.
@@ -219,26 +232,32 @@ Primary blockers:
 ## 5) Planning-Ready Implementation Order (No code changes yet)
 
 1. **Stabilize script loading (C1)**
+
 - Fix module delivery so `theme/sidebar/motion/scroll-indicators` execute on all routes.
 - Add regression guard for 4xx script requests.
 
 2. **Restore mobile drawer core behavior (H1)**
+
 - Ensure menu toggles drawer/backdrop/body lock state correctly.
 - Verify on all sidebar routes.
 
 3. **Re-architecture mobile primary nav space (H2 + H3 + L1)**
+
 - Reduce topbar nav compression and eliminate home overflow.
 - Unify home and inner-route mobile nav behavior.
 
 4. **Rationalize horizontal rail strategy (H4)**
+
 - Prioritize one dominant horizontal rail per viewport section.
 - Preserve discoverability with deterministic controls.
 
 5. **Gesture optimization and accessibility hardening (M1 + M3)**
+
 - Add true swipe interactions for drawer.
 - Re-enable reduced-motion/high-contrast protections.
 
 6. **Content-dependent stress pass (M2)**
+
 - Validate projects filters with max category count and long labels.
 
 ---
@@ -251,4 +270,3 @@ Primary blockers:
 - Horizontal rails have explicit affordance and do not feel clipped.
 - Reduced-motion and high-contrast preferences honored.
 - All route transitions/navigation paths are one-handed friendly and consistent.
-

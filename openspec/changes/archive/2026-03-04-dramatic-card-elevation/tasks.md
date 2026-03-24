@@ -4,7 +4,7 @@ Completion note (2026-03-04): Reconciled against current repository state; remai
 
 ## Phase 1: Fix Shadow Opacity Values (Critical)
 
-- [x] 1.1 Update `--shadow-card-resting` 
+- [x] 1.1 Update `--shadow-card-resting`
   - [x] Increase opacity from 0.03-0.08 to 0.08-0.16
   - [x] Add 6th shadow layer for ambient depth
   - [x] Test visibility in dark mode

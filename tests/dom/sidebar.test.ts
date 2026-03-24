@@ -30,7 +30,7 @@ describe("sidebar script", () => {
     expect(links[0]?.style.display).toBe("none");
     expect(links[1]?.style.display).toBe("flex");
     expect(document.querySelector("[data-sidebar-status]")?.textContent).toContain(
-      "Showing 1 menu link"
+      "Showing 1 menu link",
     );
   });
 

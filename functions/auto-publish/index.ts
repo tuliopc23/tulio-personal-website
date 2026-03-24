@@ -18,8 +18,7 @@ export async function onRequestGet() {
     runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
-    note:
-      "This HTTP route exists for production diagnostics. Actual cross-posting is driven by Sanity document events, not direct GET requests.",
+    note: "This HTTP route exists for production diagnostics. Actual cross-posting is driven by Sanity document events, not direct GET requests.",
   });
 }
 
@@ -30,8 +29,7 @@ export async function onRequestPost() {
     runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
-    note:
-      "This endpoint is reachable in production, but the real publishing workflow runs from Sanity document events.",
+    note: "This endpoint is reachable in production, but the real publishing workflow runs from Sanity document events.",
   });
 }
 
@@ -53,12 +51,18 @@ function portableTextToMarkdown(blocks: any[]): string {
           .join("");
 
         switch (block.style) {
-          case "h1": return `# ${text}`;
-          case "h2": return `## ${text}`;
-          case "h3": return `### ${text}`;
-          case "h4": return `#### ${text}`;
-          case "blockquote": return `> ${text}`;
-          default: return text;
+          case "h1":
+            return `# ${text}`;
+          case "h2":
+            return `## ${text}`;
+          case "h3":
+            return `### ${text}`;
+          case "h4":
+            return `#### ${text}`;
+          case "blockquote":
+            return `> ${text}`;
+          default:
+            return text;
         }
       }
       return "";
@@ -140,32 +144,42 @@ export const handler = documentEventHandler(async ({ context, event }) => {
         if (response.ok) {
           const result = await response.json();
           console.log("✅ Published to Dev.to:", result.url);
-          
+
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.devto.articleId": result.id,
-              "crossposting.devto.url": result.url,
-              "crossposting.devto.lastSyncedAt": new Date().toISOString(),
-              "crossposting.devto.status": "published",
-              "crossposting.devto.lastResultMessage": "Published successfully to Dev.to."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.devto.articleId": result.id,
+                "crossposting.devto.url": result.url,
+                "crossposting.devto.lastSyncedAt": new Date().toISOString(),
+                "crossposting.devto.status": "published",
+                "crossposting.devto.lastResultMessage": "Published successfully to Dev.to.",
+              })
+              .commit();
           }
         } else {
           console.error("❌ Dev.to error:", await response.text());
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.devto.status": "failed",
-              "crossposting.devto.lastResultMessage": "Dev.to publish failed. See function logs for details."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.devto.status": "failed",
+                "crossposting.devto.lastResultMessage":
+                  "Dev.to publish failed. See function logs for details.",
+              })
+              .commit();
           }
         }
       } catch (err) {
         console.error("❌ Dev.to exception:", err);
         if (!local) {
-          await client.patch(post._id).set({
-            "crossposting.devto.status": "failed",
-            "crossposting.devto.lastResultMessage": "Dev.to publish threw an exception."
-          }).commit();
+          await client
+            .patch(post._id)
+            .set({
+              "crossposting.devto.status": "failed",
+              "crossposting.devto.lastResultMessage": "Dev.to publish threw an exception.",
+            })
+            .commit();
         }
       }
     } else {
@@ -176,8 +190,9 @@ export const handler = documentEventHandler(async ({ context, event }) => {
   // 2. Hashnode Publishing
   if (hashnodeEnabled && !crossposting.hashnode?.postId) {
     const hashnodeToken = context.env?.HASHNODE_ACCESS_TOKEN;
-    const publicationId = crossposting.hashnode?.publicationId || context.env?.HASHNODE_PUBLICATION_ID;
-    
+    const publicationId =
+      crossposting.hashnode?.publicationId || context.env?.HASHNODE_PUBLICATION_ID;
+
     if (hashnodeToken && publicationId) {
       try {
         const query = `
@@ -200,10 +215,13 @@ export const handler = documentEventHandler(async ({ context, event }) => {
                 title,
                 contentMarkdown: markdownContent,
                 publicationId,
-                tags: tags.map((t: string) => ({ name: t, slug: t.toLowerCase().replace(/\s+/g, "-") })),
+                tags: tags.map((t: string) => ({
+                  name: t,
+                  slug: t.toLowerCase().replace(/\s+/g, "-"),
+                })),
                 originalArticleURL: canonicalUrl,
-              }
-            }
+              },
+            },
           }),
         });
 
@@ -211,32 +229,42 @@ export const handler = documentEventHandler(async ({ context, event }) => {
         if (result.data?.publishPost?.post) {
           const hashPost = result.data.publishPost.post;
           console.log("✅ Published to Hashnode:", hashPost.url);
-          
+
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.hashnode.postId": hashPost.id,
-              "crossposting.hashnode.url": hashPost.url,
-              "crossposting.hashnode.lastSyncedAt": new Date().toISOString(),
-              "crossposting.hashnode.status": "published",
-              "crossposting.hashnode.lastResultMessage": "Published successfully to Hashnode."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.hashnode.postId": hashPost.id,
+                "crossposting.hashnode.url": hashPost.url,
+                "crossposting.hashnode.lastSyncedAt": new Date().toISOString(),
+                "crossposting.hashnode.status": "published",
+                "crossposting.hashnode.lastResultMessage": "Published successfully to Hashnode.",
+              })
+              .commit();
           }
         } else {
           console.error("❌ Hashnode error:", JSON.stringify(result.errors));
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.hashnode.status": "failed",
-              "crossposting.hashnode.lastResultMessage": "Hashnode publish failed. See function logs for details."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.hashnode.status": "failed",
+                "crossposting.hashnode.lastResultMessage":
+                  "Hashnode publish failed. See function logs for details.",
+              })
+              .commit();
           }
         }
       } catch (err) {
         console.error("❌ Hashnode exception:", err);
         if (!local) {
-          await client.patch(post._id).set({
-            "crossposting.hashnode.status": "failed",
-            "crossposting.hashnode.lastResultMessage": "Hashnode publish threw an exception."
-          }).commit();
+          await client
+            .patch(post._id)
+            .set({
+              "crossposting.hashnode.status": "failed",
+              "crossposting.hashnode.lastResultMessage": "Hashnode publish threw an exception.",
+            })
+            .commit();
         }
       }
     } else {
@@ -248,7 +276,7 @@ export const handler = documentEventHandler(async ({ context, event }) => {
   if (linkedinEnabled && !crossposting.linkedin?.postId) {
     const accessToken = context.env?.LINKEDIN_ACCESS_TOKEN;
     const personUrn = context.env?.LINKEDIN_PERSON_ID;
-    
+
     if (accessToken && personUrn) {
       try {
         const response = await fetch("https://api.linkedin.com/rest/posts", {
@@ -269,42 +297,53 @@ export const handler = documentEventHandler(async ({ context, event }) => {
                 source: canonicalUrl,
                 title: title,
                 description: summary,
-              }
+              },
             },
-            lifecycleState: "PUBLISHED"
+            lifecycleState: "PUBLISHED",
           }),
         });
 
         if (response.ok) {
-          const postId = response.headers.get("x-restli-id") || response.headers.get("x-linkedin-id");
+          const postId =
+            response.headers.get("x-restli-id") || response.headers.get("x-linkedin-id");
           const postUrl = `https://www.linkedin.com/feed/update/${postId}`;
           console.log("✅ Published to LinkedIn:", postUrl);
-          
+
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.linkedin.postId": postId,
-              "crossposting.linkedin.url": postUrl,
-              "crossposting.linkedin.lastSyncedAt": new Date().toISOString(),
-              "crossposting.linkedin.status": "published",
-              "crossposting.linkedin.lastResultMessage": "Published successfully to LinkedIn."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.linkedin.postId": postId,
+                "crossposting.linkedin.url": postUrl,
+                "crossposting.linkedin.lastSyncedAt": new Date().toISOString(),
+                "crossposting.linkedin.status": "published",
+                "crossposting.linkedin.lastResultMessage": "Published successfully to LinkedIn.",
+              })
+              .commit();
           }
         } else {
           console.error("❌ LinkedIn error:", await response.text());
           if (!local) {
-            await client.patch(post._id).set({
-              "crossposting.linkedin.status": "failed",
-              "crossposting.linkedin.lastResultMessage": "LinkedIn publish failed. See function logs for details."
-            }).commit();
+            await client
+              .patch(post._id)
+              .set({
+                "crossposting.linkedin.status": "failed",
+                "crossposting.linkedin.lastResultMessage":
+                  "LinkedIn publish failed. See function logs for details.",
+              })
+              .commit();
           }
         }
       } catch (err) {
         console.error("❌ LinkedIn exception:", err);
         if (!local) {
-          await client.patch(post._id).set({
-            "crossposting.linkedin.status": "failed",
-            "crossposting.linkedin.lastResultMessage": "LinkedIn publish threw an exception."
-          }).commit();
+          await client
+            .patch(post._id)
+            .set({
+              "crossposting.linkedin.status": "failed",
+              "crossposting.linkedin.lastResultMessage": "LinkedIn publish threw an exception.",
+            })
+            .commit();
         }
       }
     } else {

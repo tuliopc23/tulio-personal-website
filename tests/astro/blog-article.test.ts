@@ -1,17 +1,13 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
-import {
-  markdownFallbackPost,
-  richPostDetail,
-  richPostSummary,
-} from "../fixtures/sanity";
+import { markdownFallbackPost, richPostDetail, richPostSummary } from "../fixtures/sanity";
 
 vi.mock("../../src/sanity/lib/posts", () => ({
   calculateReadingTimeMinutes: vi.fn(() => 4),
   getAllPostSlugs: vi.fn(async () => ["building-better-astro-sites"]),
   getPostBySlug: vi.fn(async (slug: string) =>
-    slug === "markdown-fallback" ? markdownFallbackPost : richPostDetail
+    slug === "markdown-fallback" ? markdownFallbackPost : richPostDetail,
   ),
   getRecentPosts: vi.fn(async () => [richPostSummary]),
 }));
@@ -27,9 +23,7 @@ describe("blog article route", () => {
     const { default: ArticlePage } = await import("../../src/pages/blog/[slug].astro");
 
     const html = await container.renderToString(ArticlePage as unknown as AstroComponentFactory, {
-      request: new Request(
-        "https://www.tuliocunha.dev/blog/building-better-astro-sites/"
-      ),
+      request: new Request("https://www.tuliocunha.dev/blog/building-better-astro-sites/"),
       params: { slug: "building-better-astro-sites" },
     });
 

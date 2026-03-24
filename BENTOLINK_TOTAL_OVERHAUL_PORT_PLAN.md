@@ -1,17 +1,20 @@
 # Bentolink -> Tulio Website Total Overhaul Port Plan
 
 ## Status
+
 - Planning/documentation only.
 - No implementation edits in this step.
 - Goal: port Bentolink design system language exactly, then adapt missing multi-page/blog/project surfaces without losing brand consistency.
 
 ## Non-Negotiables
+
 - Bentolink is the visual/interaction source of truth for design language.
 - Tulio website must keep route/content architecture (home, blog, post, categories, projects, about, uses, now, sanity studio).
 - This is not only a style port: it is a system replacement plus adaptation.
 - Monolithic styling architecture in Tulio is to be decomposed into Bentolink-style modular tokens/material layers and component styles.
 
 ## What Was Mapped
+
 - Documentation/guides in both repos.
 - Style architecture (tokens, materials, shadows, typography, motion).
 - Layout shell (Base, nav/sidebar/topbar/footer/theme toggles).
@@ -22,6 +25,7 @@
 ## Key Findings
 
 ### 1) Information Architecture Delta
+
 - Bentolink is single-page (`src/pages/index.astro`) with widget composition.
 - Tulio website is multi-route with long-form editorial surfaces:
   - `/` home
@@ -36,6 +40,7 @@
 - Consequence: exact DS language must be shared, but multiple route templates must be designed/adapted beyond Bentolink's single-page model.
 
 ### 2) Styling Architecture Delta
+
 - Tulio currently has a very large monolithic stylesheet (`src/styles/theme.css`, ~6.8k LOC).
 - Bentolink uses a smaller modular token architecture with clearer separation:
   - `src/styles/tokens/colors.css`
@@ -48,22 +53,26 @@
 - Consequence: Tulio must be split into Bentolink-like token/material architecture, then route/component styles layered on top.
 
 ### 3) Motion System Delta
+
 - Bentolink motion is leaner and page-progress oriented.
 - Tulio motion system is more complex (reveal groups, per-element progress, article special handling, sidebar states).
 - Consequence: keep Bentolink motion language and timing curves, but preserve Tulio functional behaviors where required (blog reading experience, section reveals, sidebar mobile behavior).
 
 ### 4) Theme/Material Delta
+
 - Bentolink has stronger material primitives (`materials.css`) and atmospheric background layering tied to shell.
 - Tulio has broad shadow/glass definitions but mixed sources and duplicated tokens.
 - Consequence: Bentolink material model becomes canonical; Tulio custom backgrounds/surfaces should be re-authored against those canonical materials.
 
 ### 5) Component Coverage Delta
+
 - Bentolink includes: profile, socials, dock/tooling, github activity, feature writing, section nav, scroll CTA/indicator.
 - Tulio includes all above needs plus editorial/project/CMS components:
   - `ArticleCard`, `ProjectCard`, `RecentPosts`, `CategoryList`, `MarkdownContent`, portable text blocks, etc.
 - Consequence: components missing in Bentolink must be newly skinned with Bentolink DS primitives.
 
 ## Canonical System Decision
+
 - **Canonical DS source**: Bentolink token/material/motion/component language.
 - **Tulio-specific adaptation layer**: only for route-specific structures not present in Bentolink (blog post, project index, category archive, etc.).
 - **Deprecation target**: monolithic Tulio theme architecture after migration and parity validation.
@@ -71,17 +80,20 @@
 ## Port + Adapt Strategy (Execution Order)
 
 ### Phase 0 - Baseline and Freeze
+
 1. Freeze current Tulio visual baseline via screenshots for all routes/themes/breakpoints.
 2. Freeze Bentolink baseline for matching surfaces.
 3. Define parity checklist for desktop/tablet/mobile + dark/light + reduced motion.
 
 ### Phase 1 - Design Token Replacement (No Route Redesign Yet)
+
 1. Establish canonical token set in Tulio mirroring Bentolink structure and semantics.
 2. Introduce explicit material layer (`materials.css`) and animation layer (`animations.css`) in Tulio.
 3. Map legacy token names to canonical aliases to avoid immediate breakage.
 4. Remove duplicate token definitions from monolith in controlled slices.
 
 ### Phase 2 - Global Shell Port
+
 1. Port Bentolink shell semantics into Tulio Base layout:
    - body/background atmospheric layers
    - liquid-glass reflector treatment
@@ -91,6 +103,7 @@
 3. Ensure consistent URL conventions and active-link logic remain correct.
 
 ### Phase 3 - Core Component Port
+
 1. Port shared components to Bentolink visual behavior:
    - Card primitives
    - Icon tiles
@@ -100,6 +113,7 @@
 3. Remove legacy component-specific styling once each component is migrated.
 
 ### Phase 4 - Route-by-Route Adaptation (Tulio-only Surfaces)
+
 1. Home:
    - Apply exact Bentolink DS language for all sections present on home.
 2. Blog index:
@@ -116,23 +130,27 @@
    - Ensure shell consistency and safe isolation of Sanity studio surface.
 
 ### Phase 5 - Motion and Interaction Harmonization
+
 1. Normalize timing/easing/hover/focus/press using canonical animation tokens.
 2. Keep reduced-motion behavior robust across all routes.
 3. Align rail/scroll hints/edge fade behavior with shared interaction primitives.
 
 ### Phase 6 - Old System Removal
+
 1. Remove dead selectors and route-specific leftovers from monolithic theme.
 2. Delete or shrink legacy files after reference checks.
 3. Ensure no component imports deprecated token names directly.
 4. Finalize modular style architecture only.
 
 ### Phase 7 - Verification and Release
+
 1. Visual regression sweep (dark/light + breakpoints).
 2. Interaction QA (hover/focus/keyboard/touch).
 3. Accessibility pass (contrast/focus/target/reduced motion).
 4. Performance pass (CSS weight, layout shifts, animation cost).
 
 ## Monolith Decomposition Plan
+
 - Current monolith: `src/styles/theme.css`.
 - Target structure:
   - `src/styles/tokens/colors.css`
@@ -145,6 +163,7 @@
   - optional route/component partials if needed (`src/styles/routes/*.css`, `src/styles/components/*.css`)
 
 ## Component Parity Map (High-Level)
+
 - Bentolink -> Tulio direct parity candidates:
   - `Card.astro` -> `Card.astro`
   - `IconTile.astro` -> `IconTile.astro`
@@ -156,6 +175,7 @@
   - `GitHubActivity` widget treatment -> credibility/activity sections where used
 
 ## Route Adaptation Matrix
+
 - Present in Bentolink: Home widgets.
 - Present only in Tulio (must be adapted to same DS):
   - Blog index
@@ -166,6 +186,7 @@
   - Studio shell integration
 
 ## Risks and Controls
+
 - Risk: visual drift between routes if migration is piecemeal.
   - Control: token-first migration + shared primitives before route adaptation.
 - Risk: regressions from removing monolith too early.
@@ -176,6 +197,7 @@
   - Control: dedicated editorial template validation on real posts.
 
 ## Acceptance Criteria for "Exact DS Language"
+
 - Same token family philosophy and values as Bentolink for color/material/shadow/typography/motion.
 - Same surface hierarchy and depth cues.
 - Same interaction feel (hover, focus, press, transitions).
@@ -183,6 +205,7 @@
 - Tulio-only pages look like native extensions of Bentolink, not a separate design system.
 
 ## Implementation Checklist (When Execution Starts)
+
 - [ ] Create migration branch for DS overhaul.
 - [ ] Introduce canonical token files and aliases.
 - [ ] Port Base shell.
@@ -393,6 +416,7 @@ WARP.md
 ## Appendix C - Design System Files Compared
 
 ### Tulio Website
+
 ```text
 src/components/ArticleCard.astro
 src/components/ArticleCodeBlock.astro
@@ -462,6 +486,7 @@ src/styles/tokens/typography.css
 ```
 
 ### Bentolink
+
 ```text
 src/components/Card.astro
 src/components/ContactWidget.astro

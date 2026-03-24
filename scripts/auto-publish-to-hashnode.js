@@ -40,7 +40,7 @@ async function publishToHashnode(articleData) {
 
   if (!hashnodeToken || !publicationId) {
     console.log(
-      "⚠️  HASHNODE_ACCESS_TOKEN or HASHNODE_PUBLICATION_ID not set - skipping Hashnode publishing"
+      "⚠️  HASHNODE_ACCESS_TOKEN or HASHNODE_PUBLICATION_ID not set - skipping Hashnode publishing",
     );
     return;
   }
@@ -70,8 +70,7 @@ async function publishToHashnode(articleData) {
           slug: tag.toLowerCase().replace(/\s+/g, "-"),
         })),
         originalArticleURL:
-          articleData.seo?.canonicalUrl ||
-          `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
+          articleData.seo?.canonicalUrl || `https://www.tuliocunha.dev/blog/${articleData.slug}/`,
       },
     };
 

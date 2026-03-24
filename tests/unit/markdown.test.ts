@@ -45,7 +45,7 @@ describe("markdownToPlainText", () => {
         "Text with [link](https://example.com) and ![image](img.png).",
         "",
         "Use `inline code` too.",
-      ].join("\n")
+      ].join("\n"),
     );
 
     expect(plainText).toContain("Heading");

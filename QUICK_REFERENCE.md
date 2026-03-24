@@ -11,8 +11,9 @@ API Version: 2025-01-01
 ## Fetch Last 3 Articles (from Another Project)
 
 ### Quick Copy-Paste GROQ
+
 ```groq
-*[_type == "post" && publishedAt <= now() && !coalesce(seo.noIndex, false)] 
+*[_type == "post" && publishedAt <= now() && !coalesce(seo.noIndex, false)]
 | order(publishedAt desc)[0..2] {
   _id,
   title,
@@ -27,13 +28,14 @@ API Version: 2025-01-01
 ```
 
 ### Quick Copy-Paste JavaScript
+
 ```typescript
-import { createClient } from '@sanity/client';
+import { createClient } from "@sanity/client";
 
 const client = createClient({
-  projectId: '61249gtj',
-  dataset: 'production',
-  apiVersion: '2025-01-01',
+  projectId: "61249gtj",
+  dataset: "production",
+  apiVersion: "2025-01-01",
   useCdn: true,
 });
 
@@ -50,6 +52,7 @@ const articles = await client.fetch(`
 ## Auto-Tagging
 
 ### How It Works
+
 - ✅ Triggers on post create/update
 - ✅ Analyzes: `title`, `summary`, `content`
 - ✅ Generates: 3 relevant tags
@@ -57,6 +60,7 @@ const articles = await client.fetch(`
 - ✅ Available tags: Design, Engineering, Tooling, Accessibility, Swift, Frontend, Writing
 
 ### Local Testing
+
 ```fish
 bun run dev
 # Open Studio at /studio
@@ -65,25 +69,26 @@ bun run dev
 ```
 
 ### Deploy
+
 ```fish
 sanity deploy
 ```
 
 ## Schema Field Names
 
-| Purpose | Field Name | Type |
-|---------|-----------|------|
-| Document Type | `_type` | `"post"` |
-| Article Title | `title` | `string` |
-| URL Slug | `slug.current` | `string` |
-| Summary | `summary` | `string` |
-| Main Content | `content` | `array` (Portable Text) |
-| Tags | `tags` | `string[]` |
-| Publish Date | `publishedAt` | `datetime` |
-| Featured | `featured` | `boolean` |
-| Hero Image | `heroImage.asset->url` | `string` |
-| Author | `author->name` | `string` |
-| Categories | `categories[]` | `reference[]` |
+| Purpose       | Field Name             | Type                    |
+| ------------- | ---------------------- | ----------------------- |
+| Document Type | `_type`                | `"post"`                |
+| Article Title | `title`                | `string`                |
+| URL Slug      | `slug.current`         | `string`                |
+| Summary       | `summary`              | `string`                |
+| Main Content  | `content`              | `array` (Portable Text) |
+| Tags          | `tags`                 | `string[]`              |
+| Publish Date  | `publishedAt`          | `datetime`              |
+| Featured      | `featured`             | `boolean`               |
+| Hero Image    | `heroImage.asset->url` | `string`                |
+| Author        | `author->name`         | `string`                |
+| Categories    | `categories[]`         | `reference[]`           |
 
 ## Files Changed
 
@@ -108,19 +113,23 @@ sanity deploy
 ## Troubleshooting
 
 **Q: Tags not generating?**
+
 - Check post has `content` field filled
 - Verify `sanity.blueprint.ts` exists in project root
 - Check dependencies installed: `bun list @sanity/blueprints @sanity/functions`
 
 **Q: How to disable auto-tagging?**
+
 - Remove `sanity.blueprint.ts`
 - Run `sanity deploy`
 
 **Q: How to modify trigger fields?**
+
 - Edit filter in `sanity.blueprint.ts` line 13-14
 - Current: `delta::changedAny(['title', 'summary', 'content'])`
 
 **Q: How to increase timeout?**
+
 - Edit `timeout` in `sanity.blueprint.ts` line 10
 - Current: 30 seconds
 

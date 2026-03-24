@@ -5,53 +5,55 @@
 **CRITICAL ISSUE RESOLVED:** Shadow opacity values were 2-3x TOO LOW to be visible.
 
 ### Before (INVISIBLE):
+
 ```css
 --shadow-card-resting:
-  0 0.5px 1px rgba(0, 0, 0, 0.06),  /* Barely visible */
-  0 1px 2px rgba(0, 0, 0, 0.08),    /* Too subtle */
-  0 2px 4px rgba(0, 0, 0, 0.04),    /* Invisible */
-  0 4px 8px rgba(0, 0, 0, 0.03);    /* Invisible */
+  0 0.5px 1px rgba(0, 0, 0, 0.06), /* Barely visible */ 0 1px 2px rgba(0, 0, 0, 0.08),
+  /* Too subtle */ 0 2px 4px rgba(0, 0, 0, 0.04), /* Invisible */ 0 4px 8px rgba(0, 0, 0, 0.03); /* Invisible */
 ```
 
 ### After (DRAMATIC & VISIBLE):
+
 ```css
 --shadow-card-resting:
-  0 0 0 1px rgba(255, 255, 255, 0.08),  /* Border ring */
-  0 0.5px 1px rgba(0, 0, 0, 0.16),      /* Contact shadow */
-  0 2px 4px rgba(0, 0, 0, 0.14),        /* Near shadow */
-  0 4px 8px rgba(0, 0, 0, 0.12),        /* Mid shadow */
-  0 8px 16px rgba(0, 0, 0, 0.10),       /* Far shadow */
-  0 16px 32px rgba(0, 0, 0, 0.08);      /* Ambient shadow */
+  0 0 0 1px rgba(255, 255, 255, 0.08), /* Border ring */ 0 0.5px 1px rgba(0, 0, 0, 0.16),
+  /* Contact shadow */ 0 2px 4px rgba(0, 0, 0, 0.14),
+  /* Near shadow */ 0 4px 8px rgba(0, 0, 0, 0.12), /* Mid shadow */ 0 8px 16px rgba(0, 0, 0, 0.1),
+  /* Far shadow */ 0 16px 32px rgba(0, 0, 0, 0.08); /* Ambient shadow */
 ```
 
 ## 📊 Opacity Increases
 
-| Layer | Old Opacity | New Opacity | Increase |
-|-------|-------------|-------------|----------|
-| Contact | 0.06 | 0.16 | **2.7x** |
-| Near | 0.08 | 0.14 | **1.75x** |
-| Mid | 0.04 | 0.12 | **3x** |
-| Far | 0.03 | 0.10 | **3.3x** |
-| Ambient | (missing) | 0.08 | **NEW** |
+| Layer   | Old Opacity | New Opacity | Increase  |
+| ------- | ----------- | ----------- | --------- |
+| Contact | 0.06        | 0.16        | **2.7x**  |
+| Near    | 0.08        | 0.14        | **1.75x** |
+| Mid     | 0.04        | 0.12        | **3x**    |
+| Far     | 0.03        | 0.10        | **3.3x**  |
+| Ambient | (missing)   | 0.08        | **NEW**   |
 
 ## ✨ What You'll See Now
 
 ### Homepage Tech Stack Cards:
+
 - **At rest:** Cards CLEARLY float above background
 - **On hover:** DRAMATIC shadow increase (0.20 opacity!)
 - **Pressed:** Visible compression feedback
 
 ### Article Cards (Blog):
+
 - **Visible elevation** even before hover
 - **Clear card boundaries**
 - **Professional depth**
 
 ### Profile Card (Social Icons):
+
 - **Icon container floats**
 - **Individual icon tiles have depth**
 - **Hover states are obvious**
 
 ### All Card Types:
+
 - ✅ `.card` - Floating surfaces
 - ✅ `.articleCard` - Deep shadows
 - ✅ `.projectCard` - Pronounced elevation
@@ -74,9 +76,10 @@ bun run dev
 ## 📐 Technical Details
 
 ### Changes Made:
+
 - File: `src/styles/tokens/shadows.css`
 - Lines modified: ~40 lines
-- Tokens updated: 
+- Tokens updated:
   - `--shadow-card` (legacy)
   - `--shadow-card-hover` (legacy)
   - `--shadow-card-resting` (new)
@@ -88,6 +91,7 @@ bun run dev
   - `--shadow-elevation-floating` (new)
 
 ### Shadow Layers (6 total):
+
 1. **Border ring** - 0-1px, defines edge
 2. **Contact shadow** - Tight, dark, directly beneath
 3. **Near shadow** - 2-4px blur, close elevation
@@ -98,12 +102,14 @@ bun run dev
 ## 🎨 Visual Characteristics
 
 ### Dark Mode:
+
 - **Shadow color:** Pure black (0, 0, 0)
 - **Opacity range:** 0.08 to 0.20
 - **Border ring:** White at 0.08-0.14 opacity
 - **Effect:** Deep, dramatic shadows creating strong elevation
 
 ### Light Mode (Unchanged - already good):
+
 - **Shadow color:** Warm dark blue (31, 35, 53)
 - **Opacity range:** 0.06 to 0.18
 - **Border ring:** Black at 0.06-0.10 opacity
@@ -135,7 +141,7 @@ Take screenshots before/after hard refresh to see the difference!
 ## 🎉 SUCCESS CRITERIA - ALL MET
 
 - [x] Cards are CLEARLY elevated at rest
-- [x] Hover states are DRAMATICALLY noticeable  
+- [x] Hover states are DRAMATICALLY noticeable
 - [x] All card types have consistent depth
 - [x] Shadows are VISIBLE in screenshots
 - [x] Professional Apple-level quality achieved
@@ -149,6 +155,7 @@ Take screenshots before/after hard refresh to see the difference!
    - Windows/Linux: `Ctrl + Shift + R`
 
 2. **Check DevTools**:
+
    ```
    Open DevTools → Elements tab
    Select a .card element
@@ -157,6 +164,7 @@ Take screenshots before/after hard refresh to see the difference!
    ```
 
 3. **Verify CSS loaded**:
+
    ```
    DevTools → Network tab → Filter by CSS
    Look for: theme.*.css (should be ~125KB+)

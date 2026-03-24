@@ -7,6 +7,7 @@ Scope: full site mobile UX audit only (no implementation)
 ## Audit Method
 
 1. Static audit of layout, scripts, route templates, and shared styles:
+
 - `src/layouts/Base.astro`
 - `src/styles/theme.css`
 - `src/styles/github-activity-widget.css`
@@ -14,6 +15,7 @@ Scope: full site mobile UX audit only (no implementation)
 - shared UI components (`ArticleCard`, `ArticleCodeBlock`, `PageIndicator`, `SectionQuickNav`, `DockLink`, `GitHubActivity`, `Breadcrumbs`, `LiquidThemeToggle`)
 
 2. Runtime mobile validation with Playwright on local Astro dev server (`127.0.0.1:4321`):
+
 - viewports: `375x667`, `390x844`, `412x915`, `360x740`
 - routes: `/`, `/about`, `/projects`, `/blog/`, `/contact`, `/now`, plus discovered blog detail routes
 - checks: global overflow, horizontal scrollers, touch target sizes, sidebar open/close behavior, nav DOM availability
@@ -23,6 +25,7 @@ Scope: full site mobile UX audit only (no implementation)
 ## Route Coverage
 
 Covered routes:
+
 - `/`
 - `/about`
 - `/projects`
@@ -39,6 +42,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
 ### Critical
 
 1. Client navigation/theme/motion modules are failing to load (404), breaking core mobile behavior.
+
 - Evidence:
   - `src/layouts/Base.astro:503-516` imports `../scripts/*.ts` inside inline module scripts.
   - Runtime console captured 404s for:
@@ -55,6 +59,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
   - Move these imports to Astro-managed module entry points so URLs are bundled/resolved correctly (avoid runtime relative path imports that resolve to `/scripts/*.ts`).
 
 2. Mobile design tokens are overridden by broader breakpoints due media-query ordering, causing phone overflow.
+
 - Evidence:
   - Mobile tokens defined at `src/styles/theme.css:259-277` (`max-width: 768px`).
   - Then overridden later by `src/styles/theme.css:279-285` (`max-width: 1280px`) which also matches phones and resets `--content-max`/`--container-padding`.
@@ -68,6 +73,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
 ### High
 
 3. Home route has measurable horizontal overflow from shell + section blocks.
+
 - Evidence (runtime `/`, iPhone SE):
   - overflow +116px.
   - wide nodes include `.topbar__navList`, `.section-quick-nav__list`, `.widget-carousel`, `.tools-grid`.
@@ -80,6 +86,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
   - Enforce hard containment on mobile shells and rails (prevent any parent-level width expansion).
 
 4. Bottom-sheet navigation is not gesture-driven; current implementation is tap/backdrop/Escape only.
+
 - Evidence:
   - Sidebar interactions in `src/scripts/sidebar.ts` only wire menu click, backdrop click, and Escape (`73-129`).
   - No drag/swipe listeners for sheet dismissal/expansion.
@@ -90,6 +97,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
   - Add vertical pan gesture handling for sheet dismiss/reveal and velocity thresholds.
 
 5. Multiple primary interactive controls miss 44x44 minimum touch ergonomics.
+
 - Evidence:
   - Brand icon link has no minimum touch box (`src/styles/theme.css:789-796`, runtime ~`32x32`).
   - Theme toggle reduced on mobile to `72x34` (`src/styles/theme.css:1498-1500`).
@@ -102,6 +110,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
   - Normalize all interactive controls to >=44x44 hit targets while preserving visual density.
 
 6. GitHub carousel can balloon internal widths dramatically on mobile due unbounded title text.
+
 - Evidence:
   - Runtime `/now` (iPhone SE) saw `.github-repo-carousel__track` width ~`5636px`, scrollWidth ~`67722`.
   - `.github-repo-card__title` has no truncation/wrapping constraints (`src/styles/github-activity-widget.css:133-143`).
@@ -114,6 +123,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
 ### Medium
 
 7. Projects filter bar is not mobile-resilient for longer category sets.
+
 - Evidence:
   - `src/styles/theme.css:4672-4680` uses `inline-flex` pills without mobile overflow strategy.
   - Buttons are fixed uppercase pills (`4712-4724`) and can exceed available width as categories grow/localize.
@@ -123,6 +133,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
   - Convert to horizontal scroll rail or wrapped grid with explicit mobile behavior.
 
 8. Blog system is generally rail-ready, but article-level navigation affordances remain compact.
+
 - Evidence:
   - Positive: blog rails and filters already use horizontal scroll patterns (`src/styles/theme.css:5196-5213`, `5363-5378`, `6221-6237`), code blocks support horizontal overflow (`src/components/ArticleCodeBlock.astro:156-166`).
   - Gap: article back/share/breadcrumb links remain small-height tap targets on phones (`src/pages/blog/[slug].astro:205-207`, `289-305`, plus breadcrumbs styles above).
@@ -155,6 +166,7 @@ Blog category route exists in code (`src/pages/blog/category/[slug].astro`) and 
 ## Planning Inputs (For Next Step)
 
 Implementation planning should prioritize this order:
+
 1. Fix runtime script loading and breakpoint token cascade (foundation blockers).
 2. Normalize touch ergonomics + primary navigation controls.
 3. Resolve home overflow and stabilize mobile rails (tools/stack/GitHub).

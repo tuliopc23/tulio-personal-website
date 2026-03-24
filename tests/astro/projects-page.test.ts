@@ -19,7 +19,7 @@ describe("projects page", () => {
       ProjectsPage as any,
       {
         request: new Request("https://www.tuliocunha.dev/projects/"),
-      } as any
+      } as any,
     );
 
     expect(html).toContain("Projects");

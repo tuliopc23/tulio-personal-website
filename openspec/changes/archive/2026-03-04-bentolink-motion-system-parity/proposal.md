@@ -5,10 +5,13 @@
 **Author:** Codex (AI assistant)
 
 ## Overview
+
 Bentolink’s high-fidelity feel comes from a comprehensive motion contract applied to nearly every interactive surface. The target repo has partial motion primitives but lacks fully consistent hover elevation, selective parallax coverage, and unified timing/easing behavior.
 
 ## Proposed Changes
+
 ### Files/Components Affected
+
 - `src/styles/theme.css` - canonical `hover-elevate` utility and per-component overrides.
 - `src/styles/motion.css` - reveal behavior and reduced-motion compliance.
 - `src/scripts/motion.ts` - lifecycle-safe parallax/reveal orchestration.
@@ -18,6 +21,7 @@ Bentolink’s high-fidelity feel comes from a comprehensive motion contract appl
 - `src/components/FeatureWritingWidget.astro` - premium card interaction parity.
 
 ## Implementation Plan
+
 1. **Canonical Motion Contract**
    - Standardize rest/hover/focus/active transform and shadow variables.
 2. **Tiered Interaction Model**
@@ -31,11 +35,13 @@ Bentolink’s high-fidelity feel comes from a comprehensive motion contract appl
    - Validate motion consistency across `/`, `/blog/`, `/blog/[slug]/`, `/projects/`, `/about/`, `/now/`.
 
 ## Risks & Considerations
+
 - Motion over-application can reduce readability and hurt performance.
 - Nested transforms can create exaggerated movement if not bounded.
 - Safari behavior may diverge for complex hover/parallax combinations.
 
 ## Testing Strategy
+
 - `bun run lint`
 - `bun run typecheck`
 - `bun run build`

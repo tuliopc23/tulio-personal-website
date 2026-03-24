@@ -11,6 +11,7 @@ Added Apple HIG-compliant page indicators (dots) to all horizontal scroll sectio
 **Location:** `src/components/PageIndicator.astro`
 
 **Features:**
+
 - Apple-style dot indicators (7px default, 20px when active)
 - Smooth transitions between dots
 - Click/tap to navigate to specific items
@@ -21,6 +22,7 @@ Added Apple HIG-compliant page indicators (dots) to all horizontal scroll sectio
 - Reduced motion support
 
 **Design Details:**
+
 - Background: `rgba(0, 0, 0, 0.3)` with blur(20px) and saturation(180%)
 - Dot inactive: `rgba(255, 255, 255, 0.4)` @ 7px
 - Dot active: `rgba(255, 255, 255, 0.95)` @ 20px width
@@ -30,7 +32,9 @@ Added Apple HIG-compliant page indicators (dots) to all horizontal scroll sectio
 ### Integration Points
 
 #### 1. Homepage (src/pages/index.astro)
+
 Added page indicators to three sections:
+
 - **Quick Links** (`data-quick-links-rail`) - 2 items
 - **Tech Stack** (`data-tech-stack-rail`) - 9 items
 - **Featured Writing** (`data-featured-writing-rail`) - 3 items
@@ -38,13 +42,17 @@ Added page indicators to three sections:
 Each section wrapped in a container div with the rail and PageIndicator component.
 
 #### 2. Blog Page (src/pages/blog/index.astro)
+
 Added page indicator to:
+
 - **Article Carousel** (`.articleGrid`) - Variable items, filters with visibility
 
 Dynamic selector: `.articleGrid__item:not([hidden])` to track only visible articles.
 
 #### 3. Profile Card (src/components/ProfileCard.astro)
+
 Enhanced mobile social chips section:
+
 - Added `profileCardContactsMobileWrapper` wrapper
 - Integrated PageIndicator for 6 social chips
 - Improved scroll behavior with snap points
@@ -52,6 +60,7 @@ Enhanced mobile social chips section:
 ### Styling Enhancements
 
 **New CSS (src/styles/section.css):**
+
 ```css
 .home__quickLinksWrapper,
 .cardGridWrapper {
@@ -69,6 +78,7 @@ Enhanced mobile social chips section:
 ```
 
 **PageIndicator Styles:**
+
 - Glass morphism track with blur and saturation
 - 8px gap between dots
 - 6px 12px padding in track
@@ -96,12 +106,14 @@ Enhanced mobile social chips section:
 ### Behavior
 
 **Scroll Tracking:**
+
 - Uses IntersectionObserver-style center detection
 - Calculates which item is closest to container center
 - Updates active dot in real-time during scroll
 - Smooth scroll to item on dot click
 
 **Performance:**
+
 - RequestAnimationFrame for smooth updates
 - Passive scroll listeners
 - Throttled updates with ticking flag
@@ -110,11 +122,13 @@ Enhanced mobile social chips section:
 ## Visual Comparison
 
 ### Before
+
 - No visual indication of scroll position
 - Users unaware of additional content
 - No quick navigation method
 
 ### After
+
 - Clear dot indicators showing total items
 - Active dot shows current position
 - Click dots to jump to specific items
@@ -123,22 +137,26 @@ Enhanced mobile social chips section:
 ## Apple HIG Compliance
 
 ✅ **Visual Design:**
+
 - Matches iOS Control Center, Safari tab switcher
 - Proper sizing (7px inactive, 20px active)
 - Correct opacity levels
 - Glass morphism with blur and saturation
 
 ✅ **Interaction:**
+
 - Tap to navigate
 - Smooth transitions
 - Appropriate touch targets (44x44px including padding)
 
 ✅ **Accessibility:**
+
 - VoiceOver compatible
 - Keyboard navigable
 - Respects reduced motion
 
 ✅ **Responsiveness:**
+
 - Mobile only (<1024px)
 - Adapts to content count
 - Hides when not needed (single item)
@@ -146,12 +164,14 @@ Enhanced mobile social chips section:
 ## Testing Checklist
 
 ### Automated ✅
+
 - [x] TypeScript compilation
 - [x] Production build
 - [x] Biome linting
 - [x] Biome formatting
 
 ### Manual (Device Testing Required)
+
 - [ ] Test on iPhone (Safari, Chrome)
 - [ ] Test on Android (Chrome, Samsung Internet)
 - [ ] Test on iPad (portrait, landscape)
@@ -199,6 +219,7 @@ Enhanced mobile social chips section:
 ## Notes
 
 The page indicator design is pixel-perfect to Apple's iOS implementation, using the exact same:
+
 - Dot sizes (7px × 7px, 20px × 7px)
 - Opacity values (0.4 inactive, 0.95 active)
 - Glass morphism (blur 20px, saturation 180%)

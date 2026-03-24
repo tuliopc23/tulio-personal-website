@@ -5,7 +5,9 @@
 **Author:** Codex (AI assistant)
 
 ## Overview
+
 Two high-fidelity UI demos were provided:
+
 1. A liquid glass toggle (drag + tap) that aligns with the Apple-inspired aesthetic.
 2. A liquid glass slider with iOS-style thumb polish.
 
@@ -14,12 +16,14 @@ We want to replace the current light/dark toggle with the liquid version while r
 ## Proposed Changes
 
 ### Toggle Replacement Scope
+
 - Build an Astro/TSX component that ports the liquid toggle visuals into our design system (no external CDN scripts once shipped).
 - Integrate with the existing theme persistence logic (`src/scripts/theme.ts`) and ensure keyboard + pointer interactions remain accessible.
 - Align colors, shadows, and motion with current design tokens, avoiding hard-coded values.
 - Ensure the toggle respects reduced motion preferences and does not degrade performance on low-end devices.
 
 ### Slider Exploration Scope
+
 - Audit site sections (Projects, Profile, Now page, etc.) for interactions that could benefit from a glass slider (e.g., timeline scrubber, skill emphasis level, brightness control for demos).
 - Prototype or document a recommended use case (or explicitly justify if the slider should remain unused for now).
 - If a use case is identified, capture requirements for future implementation (not part of this change).
@@ -52,15 +56,18 @@ We want to replace the current light/dark toggle with the liquid version while r
    - Provide before/after comparison notes to confirm the toggle still switches themes correctly.
 
 ## Risks & Considerations
+
 - **Performance:** The demo toggle uses GSAP/Draggable; we need a lean implementation or evaluated fallback.
 - **Accessibility:** Complex motion must honour reduced-motion preferences and remain keyboard friendly.
 - **Scope creep:** Slider may not have a compelling use case; ensure evaluation results in a clear decision, not half-shipped UI.
 
 ## Testing Strategy
+
 - Type checks (`bun run typecheck`).
 - UI interaction tests on desktop + mobile (click, drag, keyboard).
 - Manual verification against reduced motion and high contrast settings.
 
 ## Documentation Updates
+
 - Update design/token documentation if new CSS variables are introduced.
 - Document slider evaluation outcomes (even if deferred).

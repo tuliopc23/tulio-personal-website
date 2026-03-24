@@ -22,10 +22,8 @@ describe("contact form script", () => {
     form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
     expect(assignSpy).toHaveBeenCalledWith(
-      expect.stringContaining("mailto:contact@tuliocunha.dev?subject=Need%20help")
+      expect.stringContaining("mailto:contact@tuliocunha.dev?subject=Need%20help"),
     );
-    expect(assignSpy).toHaveBeenCalledWith(
-      expect.stringContaining("Shipping%20an%20Astro%20site")
-    );
+    expect(assignSpy).toHaveBeenCalledWith(expect.stringContaining("Shipping%20an%20Astro%20site"));
   });
 });

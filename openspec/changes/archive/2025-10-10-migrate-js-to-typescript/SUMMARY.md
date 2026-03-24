@@ -9,6 +9,7 @@ This OpenSpec change proposal provides a comprehensive plan to migrate all remai
 The project currently has **6 production JavaScript files** (560 lines total):
 
 ### Production Scripts (6 files - 560 lines)
+
 - `src/scripts/visual-editing.js` - 8 lines - Sanity visual editing overlay loader
 - `src/scripts/sidebar.js` - 132 lines - Sidebar navigation, filter, toggle, backdrop **[HAS BUG]**
 - `src/scripts/theme.js` - 84 lines - Theme switcher with localStorage **[Has JSDoc types]**
@@ -17,15 +18,18 @@ The project currently has **6 production JavaScript files** (560 lines total):
 - `public/web-vitals.js` - 88 lines - Performance monitoring (dev only)
 
 ### Utilities (2 files)
+
 - `public/web-vitals.js` - 88 lines - Performance monitoring for dev (to migrate)
 - `refresh.js` - 2 lines - Simple debug utility (to remove)
 
 ### Config Files (3 files)
+
 - `astro.config.mjs`
 - `eslint.config.mjs`
 - `prettier.config.mjs`
 
 ### Debug Files (12 files)
+
 - `debug-chromium-override.js`
 - `debug-important-override.js`
 - `debug-mobile-filter.js`
@@ -46,11 +50,13 @@ The project currently has **6 production JavaScript files** (560 lines total):
 After analyzing all production JavaScript files:
 
 ### Complexity Ratings
+
 - ⭐ **Simple** (Quick wins): visual-editing.js, scroll-indicators.js
 - ⭐⭐ **Medium** (Straightforward): theme.js (has JSDoc!), web-vitals.js
 - ⭐⭐⭐ **Complex** (Need care): sidebar.js (has bug), motion.js (most complex)
 
 ### Key Discoveries
+
 1. **theme.js already TypeScript-ready**: Has JSDoc type hint `/** @type {"light" | "dark" | null} */`
 2. **Bug in sidebar.js line 31**: Uses `style.display = "block !important"` which doesn't work
    - Fix: Use `style.setProperty("display", "block", "important")`
@@ -58,6 +64,7 @@ After analyzing all production JavaScript files:
 4. **No major refactoring needed**: Just add types and fix the one bug
 
 ### Migration Order (by complexity)
+
 1. visual-editing.js (8 lines) - Simplest, good warm-up
 2. scroll-indicators.js (57 lines) - Clean, straightforward
 3. theme.js (84 lines) - Has JSDoc, easy conversion
@@ -68,20 +75,25 @@ After analyzing all production JavaScript files:
 ## Proposed Changes
 
 ### Phase 1: Production Scripts (Priority 1)
+
 Migrate all 5 files in `src/scripts/` to TypeScript with:
+
 - Explicit types for DOM elements
 - String literal unions for state values
 - Proper event handler types
 - Strict null checking
 
 ### Phase 2: Utilities (Priority 2)
+
 - Migrate `web-vitals.js` with PerformanceObserver types
 - Remove `refresh.js` (obsolete)
 
 ### Phase 3: Config Files (Priority 3)
+
 Migrate all 3 `.mjs` config files to `.ts` with proper type imports
 
 ### Phase 4: Debug Files (Priority 4)
+
 Exclude or remove (not production code, likely obsolete)
 
 ## Benefits
@@ -98,6 +110,7 @@ Exclude or remove (not production code, likely obsolete)
 ## Implementation Approach
 
 ### Phased Migration Strategy
+
 - **Phase 1** (Priority 1): Core production scripts
 - **Phase 2** (Priority 2): Utilities
 - **Phase 3** (Priority 3): Config files
@@ -106,6 +119,7 @@ Exclude or remove (not production code, likely obsolete)
 ### Type Patterns
 
 #### 1. String Literal Unions
+
 ```typescript
 type Theme = "light" | "dark";
 type PageState = "entering" | "ready" | "leaving";
@@ -113,12 +127,14 @@ type SidebarState = "open" | "closed";
 ```
 
 #### 2. DOM Element Types
+
 ```typescript
 const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
 const filter = document.querySelector<HTMLInputElement>("#filter");
 ```
 
 #### 3. Event Handler Types
+
 ```typescript
 element.addEventListener("click", (event: MouseEvent) => {
   const target = event.currentTarget as HTMLElement;
@@ -126,6 +142,7 @@ element.addEventListener("click", (event: MouseEvent) => {
 ```
 
 #### 4. Dataset Types
+
 ```typescript
 interface BodyDataset extends DOMStringMap {
   pageState?: PageState;
@@ -134,12 +151,14 @@ interface BodyDataset extends DOMStringMap {
 ```
 
 #### 5. Strict Null Checks
+
 ```typescript
 const filter = document.querySelector("#filter");
 filter?.addEventListener("input", handler); // Optional chaining
 ```
 
 #### 6. Biome Rules (Code Quality)
+
 ```typescript
 // Use import type for type-only imports
 import type { Theme } from "./types";
@@ -151,19 +170,24 @@ const theme = "dark"; // ✅ not: let theme = "dark"
 function handle(event: Event) {} // ✅ not: (event: any)
 
 // Use strict equality
-if (value === "dark") {} // ✅ not: value == "dark"
+if (value === "dark") {
+} // ✅ not: value == "dark"
 ```
 
 ## Technical Details
 
 ### TypeScript Configuration
+
 Already configured with strict mode in `tsconfig.json`:
+
 - Extends `"astro/tsconfigs/strict"`
 - Includes `src/`, `types/`, config files
 - Strict null checks enabled
 
 ### Build Process
+
 No changes needed - Astro/Vite already handles TypeScript:
+
 - `.ts` files in `src/scripts/` compile automatically
 - Script imports work transparently
 - Development HMR works out of the box
@@ -180,6 +204,7 @@ No changes needed - Astro/Vite already handles TypeScript:
 8. **Browser Testing**: Chrome, Safari, Firefox, mobile
 
 ### Key Biome Rules Enforced
+
 - No unused variables or imports
 - No explicit `any` types
 - Use `import type` for type-only imports
@@ -189,12 +214,12 @@ No changes needed - Astro/Vite already handles TypeScript:
 
 ## Risk Assessment
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Build time increase | Low | Low | TS compilation is fast, already in use |
-| Subtle type errors | Medium | Low | Comprehensive testing, strict mode |
-| Third-party types | Low | Very Low | All libs have TS support |
-| Developer onboarding | Very Low | N/A | Team already uses TypeScript |
+| Risk                 | Impact   | Likelihood | Mitigation                             |
+| -------------------- | -------- | ---------- | -------------------------------------- |
+| Build time increase  | Low      | Low        | TS compilation is fast, already in use |
+| Subtle type errors   | Medium   | Low        | Comprehensive testing, strict mode     |
+| Third-party types    | Low      | Very Low   | All libs have TS support               |
+| Developer onboarding | Very Low | N/A        | Team already uses TypeScript           |
 
 **Overall Risk**: Low
 
@@ -205,6 +230,7 @@ No changes needed - Astro/Vite already handles TypeScript:
 - **Resources**: 1 developer
 
 ### Breakdown:
+
 - Phase 1 (Scripts): 1-1.5 hours
 - Phase 2 (Utilities): 0.5 hour
 - Phase 3 (Config): 0.5 hour
@@ -235,6 +261,7 @@ No changes needed - Astro/Vite already handles TypeScript:
 ## Documentation
 
 All proposal documents are in:
+
 ```
 openspec/changes/migrate-js-to-typescript/
 ├── proposal.md         # Why, what, impact
@@ -249,6 +276,7 @@ openspec/changes/migrate-js-to-typescript/
 ## Validation
 
 Proposal validated successfully:
+
 ```bash
 $ openspec validate migrate-js-to-typescript --strict
 Change 'migrate-js-to-typescript' is valid

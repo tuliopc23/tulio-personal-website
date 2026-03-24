@@ -13,20 +13,24 @@ We need a consistent, Apple-style CTA hint that sits above each horizontal rail 
 ## Proposed Changes
 
 ### Scroll Hint Component
+
 - Introduce a reusable `ScrollHint` component that renders a blue CTA-style label (text + arrow icon) and accepts the target scroll container selector.
 - Hook the hint into the same interaction tracking as `ScrollIndicator` so it fades out after the user scrolls or taps the carousel arrows; respect `prefers-reduced-motion`.
 - Provide props for tone (default “Scroll left →”), optional analytics hook, and theme-aware colours sourced from existing token palette.
 
 ### Mobile Integration
+
 - Prepend the hint above every mobile card rail: Home quick links, Tech stack, Tools, Featured writing, Profile social CTA rail, and Projects listing.
 - Ensure spacing and responsive rules keep the hint outside any glass-morphism wrappers (so the hint remains separate from the card surface as requested).
 - Update `PageIndicator` spacing if necessary to prevent overlap with the new hint.
 
 ### Desktop Coverage
+
 - Add the hint above the blog article carousel for desktop and large tablets (the only horizontal scroll surface we keep on desktop).
 - Keep the hint hidden on wide layouts for other rails that already present full grids without horizontal scrolling.
 
 ### Accessibility & Behaviour
+
 - Tie the hint’s visibility to keyboard focus and scroll events so keyboard users also dismiss it when navigating.
 - Use descriptive copy and ARIA labelling so screen readers announce the hint once and then move into the rail items.
 - Ensure the hint is non-interactive text (not a link) to avoid confusing navigation semantics.

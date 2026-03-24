@@ -5,7 +5,9 @@ Repo: `tulio-personal-website`
 Scope: Full mobile navigation + responsive layout audit (no implementation)
 
 ## Audit Goal
+
 Deliver a world-class, seamless mobile experience with:
+
 - no clipped/cut layouts
 - no navigation quirks
 - strong thumb ergonomics
@@ -13,16 +15,22 @@ Deliver a world-class, seamless mobile experience with:
 - polished, reliable bottom-sheet style navigation behavior
 
 ## Method
+
 1. Static audit of route files and shared layout/styles:
+
 - `src/layouts/Base.astro`
 - `src/styles/theme.css`
 - `src/scripts/sidebar.ts`
 - `src/pages/*` and key components used on those pages
+
 2. Runtime audit with Playwright on live dev server (`http://localhost:4321`) at:
+
 - `375x667` (iPhone SE)
 - `390x844` (iPhone 13/14)
 - `430x932` (large phone)
+
 3. Interaction checks:
+
 - top navigation behavior
 - sidebar menu open/close
 - horizontal scrollers/carousels
@@ -30,11 +38,14 @@ Deliver a world-class, seamless mobile experience with:
 - overflow/clipping detection
 
 Artifacts generated during runtime pass:
+
 - `/tmp/mobile-audit/report.json`
 - `/tmp/mobile-audit/*.png`
 
 ## Route Coverage
+
 Audited routes:
+
 - `/`
 - `/about`
 - `/projects`
@@ -44,9 +55,11 @@ Audited routes:
 - `/now`
 
 Dynamic routes status:
+
 - Blog dynamic article/category routes were discovered from `/blog` links at runtime; no additional concrete slug route was surfaced from current content in this pass.
 
 ## Executive Summary
+
 - Layout clipping/overflow is mostly controlled across audited routes (no global horizontal document overflow detected in runtime pass).
 - Mobile navigation reliability is currently blocked by a critical script loading issue.
 - Current nav pattern is top-anchored + button-triggered drawer; it does not yet meet the requested “seamless bottom gesture-optimized nav” target.
@@ -60,6 +73,7 @@ Dynamic routes status:
 ### Critical
 
 #### C1. Shared mobile behavior scripts fail to load on nested routes (404), breaking key navigation interactions
+
 - Impact:
   - Sidebar toggle behavior does not activate on mobile as intended.
   - Theme/sidebar/motion/scroll-indicator/web-vitals modules do not load from nested routes.
@@ -84,6 +98,7 @@ Dynamic routes status:
   - Migrate these imports to route-safe resolution (bundle-verified pathing) and add a regression check that fails if any core UI module returns non-200 in dev/build preview.
 
 #### C2. Mobile sidebar drawer does not open in runtime interaction test (menu click no state transition)
+
 - Impact:
   - On mobile routes with sidebar enabled (`/about`, `/projects`, `/blog`, `/contact`, `/now`), primary nav drawer is not usable in runtime test.
 - Evidence:
@@ -102,6 +117,7 @@ Dynamic routes status:
 ### High
 
 #### H1. Navigation architecture does not match target mobile UX (bottom gesture-first nav)
+
 - Impact:
   - Current nav remains top sticky horizontal chips + optional drawer button.
   - Does not match requested seamless bottom-origin gesture navigation model.
@@ -113,6 +129,7 @@ Dynamic routes status:
   - Introduce explicit mobile nav mode contract (bottom bar + bottom sheet + gesture handlers + state model), not incremental patching of topbar-only logic.
 
 #### H2. No touch gesture handling for drawer (swipe up/down drag) despite bottom-sheet visual treatment
+
 - Impact:
   - UX feels modal/button-only, not gesture-native.
   - Misses requested gesture-optimized behavior.
@@ -126,6 +143,7 @@ Dynamic routes status:
   - Add drag threshold, velocity close/open, and overscroll-safe gesture interactions for mobile drawer.
 
 #### H3. Mobile safe-area handling is incomplete in bottom drawer internals
+
 - Impact:
   - Risk of bottom controls/filter region conflicting with home indicator and thumb reach.
 - Evidence:
@@ -140,6 +158,7 @@ Dynamic routes status:
 ### Medium
 
 #### M1. Touch target violations remain in key controls (below 44px)
+
 - Impact:
   - Reduced tap reliability and accessibility on mobile.
 - Runtime evidence examples (`390x844`):
@@ -157,6 +176,7 @@ Dynamic routes status:
   - Enforce a shared interactive target token/utility for all tappable UI on mobile.
 
 #### M2. Projects filter toolbar is not explicitly mobile-scrollable/wrapping-safe
+
 - Impact:
   - With larger category sets from CMS, filter chips can become cramped or clipped.
 - Evidence:
@@ -168,6 +188,7 @@ Dynamic routes status:
   - Add mobile overflow-x behavior (or wrap strategy) with visible affordance/hints.
 
 #### M3. Reduced-motion accessibility behavior is partially disabled in stylesheet comments
+
 - Impact:
   - Motion-heavy glass/elevation interactions may not degrade cleanly for reduced-motion users.
 - Code references:
@@ -177,6 +198,7 @@ Dynamic routes status:
   - Revisit and restore a verified reduced-motion/high-contrast path where required.
 
 #### M4. Contact mobile flow uses `mailto:` only (no inline success/fallback flow)
+
 - Impact:
   - Device-dependent behavior; context switches out of app/site; potential drop-off.
 - Code references:
@@ -188,6 +210,7 @@ Dynamic routes status:
 ### Low
 
 #### L1. Breadcrumb layouts have no explicit overflow strategy for long labels/titles
+
 - Impact:
   - Can clip or compress on narrow widths, especially on deep blog/article paths.
 - Code references:
@@ -199,6 +222,7 @@ Dynamic routes status:
 ---
 
 ## What Is Already Working Well
+
 - No systemic page-level horizontal overflow detected in runtime pass (`overflowPx = 0` in audited routes).
 - Horizontal content regions are intentional and discoverable in several places:
   - top nav mask (`.topbar__navMask`)
@@ -208,7 +232,9 @@ Dynamic routes status:
 - Secondary routes (`/about`, `/now`, `/contact`) collapse major content grids to single-column at mobile breakpoints.
 
 ## Implementation Planning Readiness (for next step)
+
 When implementation starts, prioritize in this strict order:
+
 1. Fix critical script path loading (C1) and verify no 404 for core UI modules.
 2. Restore/validate drawer open-close behavior (C2) with automated mobile interaction checks.
 3. Define and implement bottom-nav + gesture interaction architecture (H1/H2).
@@ -217,10 +243,10 @@ When implementation starts, prioritize in this strict order:
 6. Re-run full route + viewport audit and compare against this report.
 
 ## Acceptance Criteria for "World-Class Mobile" Closure
+
 - Zero core UI script 404s across all routes.
 - Drawer opens/closes reliably via tap, backdrop, ESC, and touch gestures.
 - All primary interactive controls meet >=44x44 target.
 - No clipped layouts at 375, 390, 430 widths across all public routes.
 - Horizontal carousels include clear affordance and smooth touch behavior without nav conflicts.
 - Bottom mobile navigation pattern is coherent, consistent, and thumb-first.
-

@@ -18,8 +18,7 @@ export async function onRequestGet() {
     runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
-    note:
-      "This HTTP route exists for production diagnostics. Distribution package generation is driven by Sanity document events.",
+    note: "This HTTP route exists for production diagnostics. Distribution package generation is driven by Sanity document events.",
   });
 }
 
@@ -30,8 +29,7 @@ export async function onRequestPost() {
     runtime: "sanity-blueprints",
     kind: "status-endpoint",
     automationTrigger: "sanity blueprint document function",
-    note:
-      "This endpoint is reachable in production, but the real distribution package automation runs from Sanity document events.",
+    note: "This endpoint is reachable in production, but the real distribution package automation runs from Sanity document events.",
   });
 }
 
@@ -70,10 +68,13 @@ export const handler = documentEventHandler(async ({ context, event }) => {
       return;
     }
 
-    await client.patch(event.data._id).set({
-      distributionRequestedAt: new Date().toISOString(),
-      "distributionPackage.generatedAt": new Date().toISOString(),
-    }).commit();
+    await client
+      .patch(event.data._id)
+      .set({
+        distributionRequestedAt: new Date().toISOString(),
+        "distributionPackage.generatedAt": new Date().toISOString(),
+      })
+      .commit();
   } catch (error) {
     console.error("Error occurred during distribution package generation:", error);
   }

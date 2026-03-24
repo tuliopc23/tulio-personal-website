@@ -1,0 +1,4 @@
+{
+  "build_command": "pnpm run build",
+  "deploy_command": "pnpm exec wrangler deploy"
+}

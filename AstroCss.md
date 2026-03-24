@@ -330,7 +330,7 @@ export default defineConfig({
 
 Note
 
-This is a [Vite-specific setting](https://vite.dev/config/ssr-options.html#ssr-noexternal) that does *not* relate to (or require) [Astro SSR](https://docs.astro.build/en/guides/on-demand-rendering/).
+This is a [Vite-specific setting](https://vite.dev/config/ssr-options.html#ssr-noexternal) that does _not_ relate to (or require) [Astro SSR](https://docs.astro.build/en/guides/on-demand-rendering/).
 
 Now, you are free to import `package-name/normalize`. This will be bundled and optimized by Astro like any other local stylesheet.
 
@@ -370,11 +370,11 @@ Because this approach uses the `public/` directory, it skips the normal CSS proc
 
 ## Cascading Order
 
-Astro components will sometimes have to evaluate multiple sources of CSS. For example, your component might import a CSS stylesheet, include its own `<style>` tag, *and* be rendered inside a layout that imports CSS.
+Astro components will sometimes have to evaluate multiple sources of CSS. For example, your component might import a CSS stylesheet, include its own `<style>` tag, _and_ be rendered inside a layout that imports CSS.
 
-When conflicting CSS rules apply to the same element, browsers first use *specificity* and then *order of appearance* to determine which value to show.
+When conflicting CSS rules apply to the same element, browsers first use _specificity_ and then _order of appearance_ to determine which value to show.
 
-If one rule is more *specific* than another, no matter where the CSS rule appears, its value will take precedence:
+If one rule is more _specific_ than another, no matter where the CSS rule appears, its value will take precedence:
 
 src/components/MyComponent.astro
 
@@ -402,7 +402,7 @@ src/components/MyComponent.astro
 </div>
 ```
 
-If two rules have the same specificity, then the *order of appearance* is evaluated, and the last rule’s value will take precedence:
+If two rules have the same specificity, then the _order of appearance_ is evaluated, and the last rule’s value will take precedence:
 
 src/components/MyComponent.astro
 
@@ -514,7 +514,7 @@ import "./make-it-purple.css"
 
 ### Import Order
 
-When importing multiple stylesheets in an Astro component, the CSS rules are evaluated in the order that they are imported. A higher specificity will always determine which styles to show, no matter when the CSS is evaluated. But, when conflicting styles have the same specificity, the *last one imported* wins:
+When importing multiple stylesheets in an Astro component, the CSS rules are evaluated in the order that they are imported. A higher specificity will always determine which styles to show, no matter when the CSS is evaluated. But, when conflicting styles have the same specificity, the _last one imported_ wins:
 
 src/components/make-it-purple.css
 

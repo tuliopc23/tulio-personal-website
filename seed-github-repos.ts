@@ -19,13 +19,16 @@ async function fetchGitHubRepos() {
   }
 
   try {
-    const res = await fetch("https://api.github.com/users/tuliopc23/repos?per_page=100&sort=updated", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/vnd.github.v3+json",
-        "X-GitHub-Api-Version": "2022-11-28",
+    const res = await fetch(
+      "https://api.github.com/users/tuliopc23/repos?per_page=100&sort=updated",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/vnd.github.v3+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
       },
-    });
+    );
 
     if (!res.ok) {
       throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
@@ -42,16 +45,16 @@ async function fetchGitHubRepos() {
 async function seed() {
   console.log("Fetching repos from GitHub...");
   const ghRepos = await fetchGitHubRepos();
-  
+
   if (ghRepos.length === 0) {
     console.log("No repos found to seed.");
     return;
   }
-  
+
   console.log(`Found ${ghRepos.length} repos. Selecting the 6 most recently updated ones...`);
-  
+
   // Pick the top 6 most recently updated repositories (filtering out forks if you want, but for now we'll take all)
-  const reposToSeed = ghRepos.filter(r => !r.fork).slice(0, 6);
+  const reposToSeed = ghRepos.filter((r) => !r.fork).slice(0, 6);
 
   for (let i = 0; i < reposToSeed.length; i++) {
     const ghRepo = reposToSeed[i];

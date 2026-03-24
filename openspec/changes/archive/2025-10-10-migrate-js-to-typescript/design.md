@@ -2,30 +2,34 @@
 
 ## Context
 
-The Tulio Personal Website is built with Astro 5, React 19, and TypeScript in strict mode. The codebase follows Apple HIG design principles with a focus on clean, maintainable code. 
+The Tulio Personal Website is built with Astro 5, React 19, and TypeScript in strict mode. The codebase follows Apple HIG design principles with a focus on clean, maintainable code.
 
 ### Code Audit Results
 
 After analyzing all 6 production JavaScript files (560 lines total), key findings:
 
 **File Complexity Ratings**:
+
 - ⭐ Simple: visual-editing.js (8 lines), scroll-indicators.js (57 lines)
 - ⭐⭐ Medium: theme.js (84 lines), web-vitals.js (88 lines)
 - ⭐⭐⭐ Complex: sidebar.js (132 lines), motion.js (191 lines)
 
 **Code Quality**:
+
 - All files use modern ES patterns (optional chaining, nullish coalescing, IIFE wrappers)
 - theme.js already has JSDoc type hint: `/** @type {"light" | "dark" | null} */`
 - All files demonstrate good null handling and defensive programming
 - One bug found: sidebar.js line 31 uses broken `!important` inline style hack
 
 **Migration Readiness**:
+
 - High: Modern code patterns map well to TypeScript
 - Zero dependency conflicts: All libraries have TypeScript support
 - Build infrastructure ready: Astro handles `.ts` files automatically
 - Estimated effort: 2-3 hours as planned
 
 ### Current State
+
 - **TypeScript Coverage**: ~95% (all .astro, .tsx, .ts files)
 - **JavaScript Files**: 6 production scripts (560 lines)
   - visual-editing.js (8 lines) - Sanity overlay loader
@@ -37,6 +41,7 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 - **Debug Files**: 12 temporary scripts (will be removed/excluded)
 
 ### Constraints
+
 - Must maintain functional equivalence (no behavior changes)
 - Must not break existing imports or script loading
 - Must pass strict TypeScript compilation
@@ -44,6 +49,7 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 - Zero runtime overhead (TypeScript compiles to equivalent JS)
 
 ### Stakeholders
+
 - **Developers**: Better DX with type safety and IDE support
 - **Users**: No impact (output JavaScript remains the same)
 - **CI/CD**: Type checking ensures code quality
@@ -51,6 +57,7 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 ## Goals / Non-Goals
 
 ### Goals
+
 1. **Type Safety**: All client scripts have compile-time type checking
 2. **Consistency**: 100% TypeScript codebase (except disposable debug files)
 3. **Better DX**: Full IDE autocomplete, inline docs, refactoring support
@@ -58,6 +65,7 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 5. **Maintainability**: Self-documenting code with explicit types
 
 ### Non-Goals
+
 1. **Refactoring**: No logic changes, only adding types
 2. **Performance Optimization**: Not the focus (already optimal)
 3. **New Features**: Purely type migration
@@ -70,12 +78,14 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 **Chosen**: Migrate in phases by priority (production → utilities → config → debug)
 
 **Why**:
+
 - **Risk Management**: Production scripts first ensures core functionality is type-safe
 - **Value Delivery**: Highest-impact files get types immediately
 - **Testability**: Can validate each phase independently
 - **Flexibility**: Can defer or skip debug files if needed
 
 **Alternatives Considered**:
+
 - **Big Bang**: Migrate all at once
   - **Pros**: Faster completion, single commit
   - **Cons**: Higher risk, harder to debug issues, all-or-nothing
@@ -88,12 +98,14 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 **Chosen**: Use strict TypeScript with no `any`, proper null checking
 
 **Why**:
+
 - **Project Standard**: tsconfig.json already extends "astro/tsconfigs/strict"
 - **Consistency**: Match existing codebase standards
 - **Maximum Safety**: Catch all potential runtime errors
 - **No Technical Debt**: Start with best practices
 
 **Alternatives Considered**:
+
 - **Gradual Typing**: Use `any` temporarily, tighten later
   - **Pros**: Faster initial migration
   - **Cons**: Defeats purpose, creates debt, inconsistent with project
@@ -106,12 +118,14 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 **Chosen**: Migrate `.mjs` config files to `.ts`
 
 **Why**:
+
 - **Type Safety**: Config objects benefit from type checking
 - **IDE Support**: Autocomplete for config options
 - **Consistency**: All config files in same language
 - **Tooling Support**: Astro, ESLint, Prettier all support TypeScript configs
 
 **Alternatives Considered**:
+
 - **Keep as .mjs**: Leave config files as JavaScript
   - **Pros**: Less work, already working
   - **Cons**: Inconsistent, no type checking for configs
@@ -122,12 +136,14 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 **Chosen**: Document for exclusion or removal (not migrate)
 
 **Why**:
+
 - **Temporary Nature**: Debug files are not production code
 - **Low Value**: Rarely used, disposable
 - **Effort vs Benefit**: Not worth migration time
 - **Cleanup Opportunity**: Good chance to remove obsolete files
 
 **Alternatives Considered**:
+
 - **Migrate All**: Include debug files in TypeScript migration
   - **Pros**: 100% completion
   - **Cons**: Wasted effort on temporary code
@@ -140,11 +156,13 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 **Chosen**: Keep existing script loading mechanism (Astro handles)
 
 **Why**:
+
 - **Works Already**: Astro automatically compiles `.ts` imports
 - **Zero Config**: No additional build configuration needed
 - **Proven**: TypeScript support is core Astro feature
 
 **Implementation**:
+
 ```astro
 <!-- Before: -->
 <script src="../scripts/theme.js"></script>
@@ -152,6 +170,7 @@ After analyzing all 6 production JavaScript files (560 lines total), key finding
 <!-- After: -->
 <script src="../scripts/theme.ts"></script>
 ```
+
 Astro's Vite integration handles the rest.
 
 ### Decision 6: Biome for Linting and Formatting (Strict Rules)
@@ -159,6 +178,7 @@ Astro's Vite integration handles the rest.
 **Chosen**: Enforce tight Biome linting and formatting rules for all TypeScript files
 
 **Why**:
+
 - **Project Standard**: Biome is already configured and used in the project
 - **Consistency**: Single tool for both linting and formatting
 - **Performance**: Biome is faster than ESLint + Prettier combination
@@ -166,6 +186,7 @@ Astro's Vite integration handles the rest.
 - **Type Safety**: Biome rules enforce TypeScript best practices
 
 **Alternatives Considered**:
+
 - **Keep ESLint + Prettier**: Use existing tools
   - **Pros**: Already configured
   - **Cons**: Slower, more complex, project is moving to Biome
@@ -177,24 +198,28 @@ Astro's Vite integration handles the rest.
 
 **Key Biome Rules Enforced**:
 
-*Correctness:*
+_Correctness:_
+
 - `noUnusedVariables: warn` - No unused variables
 - `noUnusedImports: warn` - No unused imports
 - `noUndeclaredVariables: error` - All variables must be declared
 
-*Suspicious:*
+_Suspicious:_
+
 - `noExplicitAny: warn` - Avoid `any` type
 - `noDebugger: error` - No debugger statements
 - `noDoubleEquals: error` - Use `===` instead of `==`
 - `noConsole: off` - Allow console.log in scripts (for debugging)
 
-*Style:*
+_Style:_
+
 - `useConst: warn` - Prefer `const` over `let`
 - `useImportType: warn` - Use `import type` for type-only imports
 - `useExportType: warn` - Use `export type` for type-only exports
 - `noInferrableTypes: warn` - Omit obvious type annotations
 
-*Formatting:*
+_Formatting:_
+
 - Double quotes for strings
 - Semicolons required
 - Trailing commas where valid
@@ -316,17 +341,20 @@ mutableTheme = "light";
 
 ```typescript
 // BAD - Biome warns
-function handleEvent(event: any) { // ❌
+function handleEvent(event: any) {
+  // ❌
   console.log(event);
 }
 
 // GOOD - Proper typing
-function handleEvent(event: Event) { // ✅
+function handleEvent(event: Event) {
+  // ✅
   console.log(event);
 }
 
 // GOOD - Use unknown if truly unknown
-function handleData(data: unknown) { // ✅
+function handleData(data: unknown) {
+  // ✅
   if (typeof data === "string") {
     console.log(data.toUpperCase());
   }
@@ -338,12 +366,14 @@ function handleData(data: unknown) { // ✅
 ### Example 1: theme.js - Already Has JSDoc Types
 
 **Current JavaScript** (line 15):
+
 ```javascript
 /** @type {"light" | "dark" | null} */
 let stored = readStoredTheme();
 ```
 
 **Migrated TypeScript**:
+
 ```typescript
 type Theme = "light" | "dark";
 type ThemeStorage = Theme | null;
@@ -354,6 +384,7 @@ let stored: ThemeStorage = readStoredTheme();
 ### Example 2: sidebar.js - Bug Fix Required
 
 **Current JavaScript** (line 31) - **BROKEN**:
+
 ```javascript
 // Never hide the site navigation group
 if (groupEl.classList.contains("sidebar__group--site")) {
@@ -363,6 +394,7 @@ if (groupEl.classList.contains("sidebar__group--site")) {
 ```
 
 **Fixed TypeScript**:
+
 ```typescript
 // Never hide the site navigation group
 if (groupEl.classList.contains("sidebar__group--site")) {
@@ -376,6 +408,7 @@ if (groupEl.classList.contains("sidebar__group--site")) {
 ### Example 3: motion.js - Complex State Types
 
 **Current JavaScript** (lines 23-30, 62, 71):
+
 ```javascript
 // Implicit state strings scattered throughout
 body.dataset.glassState = "rest";
@@ -386,6 +419,7 @@ body.dataset.pageState = "leaving";
 ```
 
 **Migrated TypeScript**:
+
 ```typescript
 type PageState = "entering" | "ready" | "leaving";
 type GlassState = "rest" | "scrolled";
@@ -407,6 +441,7 @@ body.dataset.pageState = "entering"; // ✅
 ### Example 4: visual-editing.js - Dynamic Imports
 
 **Current JavaScript**:
+
 ```javascript
 if (window.location !== window.parent.location) {
   const loadOverlays = async () => {
@@ -418,6 +453,7 @@ if (window.location !== window.parent.location) {
 ```
 
 **Migrated TypeScript**:
+
 ```typescript
 if (window.location !== window.parent.location) {
   const loadOverlays = async (): Promise<void> => {
@@ -429,24 +465,27 @@ if (window.location !== window.parent.location) {
 ```
 
 **Improvements**:
+
 - Explicit `Promise<void>` return type
 - `void` operator to indicate intentional fire-and-forget
 
 ### Example 5: web-vitals.js - PerformanceObserver Types
 
 **Current JavaScript** (lines 11-18):
+
 ```javascript
 const lcpObserver = new PerformanceObserver((list) => {
   const entries = list.getEntries();
   const lastEntry = entries[entries.length - 1];
   console.log(
     `%c⚡ LCP: ${Math.round(lastEntry.renderTime || lastEntry.loadTime)}ms`,
-    "color: #0ea5e9; font-weight: bold"
+    "color: #0ea5e9; font-weight: bold",
   );
 });
 ```
 
 **Migrated TypeScript**:
+
 ```typescript
 const lcpObserver = new PerformanceObserver((list: PerformanceObserverEntryList) => {
   const entries = list.getEntries();
@@ -462,6 +501,7 @@ lcpObserver.observe({ type: "largest-contentful-paint", buffered: true });
 ### Example 6: sidebar.js - Complex Event Handlers
 
 **Current JavaScript** (lines 55-58):
+
 ```javascript
 filter?.addEventListener("input", (event) => {
   const target = event.target;
@@ -470,6 +510,7 @@ filter?.addEventListener("input", (event) => {
 ```
 
 **Migrated TypeScript**:
+
 ```typescript
 filter?.addEventListener("input", (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -488,32 +529,30 @@ filter?.addEventListener("input", (event: Event) => {
 ### Phase 1: Core Scripts (Prioritized by Complexity)
 
 **Day 1 - Easy Wins (Est: 45 min)**
+
 1. Migrate `visual-editing.js` (8 lines) - Simplest, good warm-up
 2. Migrate `scroll-indicators.js` (57 lines) - Clean, straightforward
 3. Test both files, ensure Biome passes
 
-**Day 1 - Medium Complexity (Est: 1 hour)**
-4. Migrate `theme.js` (84 lines) - Already has JSDoc types, easy conversion
-5. Migrate `web-vitals.js` (88 lines) - Structured, clear patterns
-6. Test both files, validate type safety
+**Day 1 - Medium Complexity (Est: 1 hour)** 4. Migrate `theme.js` (84 lines) - Already has JSDoc types, easy conversion 5. Migrate `web-vitals.js` (88 lines) - Structured, clear patterns 6. Test both files, validate type safety
 
-**Day 2 - Complex Files (Est: 1.5 hours)**
-7. Migrate `sidebar.js` (132 lines) - **Fix the `!important` bug while migrating**
-8. Migrate `motion.js` (191 lines) - Most complex, comprehensive state management
-9. Thorough testing of interactive features
+**Day 2 - Complex Files (Est: 1.5 hours)** 7. Migrate `sidebar.js` (132 lines) - **Fix the `!important` bug while migrating** 8. Migrate `motion.js` (191 lines) - Most complex, comprehensive state management 9. Thorough testing of interactive features
 
 ### Phase 2: Utilities & Config (Day 2)
+
 1. Migrate `public/web-vitals.js`
 2. Migrate 3 config files
 3. Remove `refresh.js`
 4. Test build and linting
 
 ### Phase 3: Cleanup (Day 2)
+
 1. Decide on debug files (likely remove)
 2. Update documentation
 3. Final validation
 
 ### Phase 4: Testing (Day 2-3)
+
 1. Run full test suite
 2. Manual browser testing
 3. CI validation
@@ -524,7 +563,7 @@ filter?.addEventListener("input", (event: Event) => {
 For each `.js` → `.ts` file:
 
 1. **Rename**: Change extension to `.ts`
-2. **Add Types**: 
+2. **Add Types**:
    - Function parameters
    - Return types
    - Variables (where not inferred)
@@ -554,24 +593,28 @@ For each `.js` → `.ts` file:
 ## Risks & Mitigations
 
 ### Risk 1: Build Time Increase
+
 **Impact**: Low
 **Likelihood**: Low
 **Mitigation**: TypeScript compilation is fast, Astro already does it for other files
 **Monitoring**: Track build times before/after
 
 ### Risk 2: Subtle Type Errors
+
 **Impact**: Medium
 **Likelihood**: Low
 **Mitigation**: Comprehensive testing, strict mode catches issues early
 **Rollback**: Simple git revert
 
 ### Risk 3: Third-party Type Definitions
+
 **Impact**: Low
 **Likelihood**: Very Low
 **Mitigation**: All libraries already have TypeScript support (Sanity, Astro, etc.)
 **Fallback**: Add `@types/*` packages if needed
 
 ### Risk 4: Developer Onboarding
+
 **Impact**: Very Low
 **Likelihood**: N/A
 **Mitigation**: Team already uses TypeScript, no new concepts
@@ -580,17 +623,20 @@ For each `.js` → `.ts` file:
 ## Testing Strategy
 
 ### Type Checking
+
 ```bash
 bun run typecheck  # Must pass with 0 errors
 ```
 
 ### Build Validation
+
 ```bash
 bun run build      # Must succeed
 ls -lh dist/       # Check output size
 ```
 
 ### Biome Validation
+
 ```bash
 biome lint .           # Linting must pass
 biome format .         # Formatting check
@@ -600,6 +646,7 @@ bun run check:ci       # CI check (stricter, no auto-fix)
 ```
 
 **Key Biome Checks**:
+
 - No unused variables or imports
 - No explicit `any` types
 - `import type` used for type-only imports
@@ -608,6 +655,7 @@ bun run check:ci       # CI check (stricter, no auto-fix)
 - Consistent formatting (quotes, semicolons, indentation)
 
 ### Runtime Testing
+
 - **Theme Switcher**: Toggle light/dark, check persistence
 - **Sidebar**: Open/close, filter, keyboard shortcuts (Escape, /)
 - **Motion**: Page transitions, reveal animations, reduced motion
@@ -616,6 +664,7 @@ bun run check:ci       # CI check (stricter, no auto-fix)
 - **Web Vitals**: Logging in dev mode
 
 ### Browser Matrix
+
 - Chrome/Chromium (primary)
 - Safari (Apple focus)
 - Firefox
@@ -638,12 +687,14 @@ bun run check:ci       # CI check (stricter, no auto-fix)
 ## Future Considerations
 
 ### Potential Enhancements (Out of Scope)
+
 - Add JSDoc comments for complex type interactions
 - Create shared type library for common DOM patterns
 - Add unit tests for script logic (separate effort)
 - Consider extracting reusable functions to utilities
 
 ### Maintenance
+
 - Keep TypeScript version updated
 - Monitor for new script additions (ensure they're `.ts`)
 - Update types if DOM APIs change

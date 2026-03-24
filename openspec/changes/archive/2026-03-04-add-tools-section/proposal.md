@@ -11,16 +11,19 @@ The homepage currently spotlights a “Tech stack” grid that defines spacing, 
 ## Proposed Changes
 
 ### Layout & Composition
+
 - Insert a new `<section id="tools">` block after the Tech stack markup in `src/pages/index.astro`, using the existing `Card`, `cardGrid`, and `cardRail` structure verbatim (no new classes or measurements).
 - Instantiate `PageIndicator` and `ScrollIndicator` for the Tools rail with matching `aria-label` patterns to preserve the current mobile carousel UX.
 - Share reveal sequencing (`data-reveal` hooks) and spacing tokens so animations and vertical rhythm remain synchronized with the Tech stack section.
 
 ### Data & Content
+
 - Create a six-item data source mirroring the Tech stack array that supplies title, blurb, tint, and icon slug for Ghostty, Neovim, Xcode, Containerization, Kaleidoscope, and Code Edit in that order (with room to append additional tools later).
 - Normalise custom tool icons so they resolve through the existing `IconTile` pipeline: prefer Iconify keys where available, otherwise place `public/icons/{slug}.svg` assets (with light/dark variants if provided) and let the card tile render the fallback monogram when assets are missing.
 - Ensure copy tone and length align with Tech stack blurbs (single sentences, ~10–12 words) and reuse the same tint palette used elsewhere to avoid bespoke styling.
 
 ### Accessibility & Behaviour
+
 - Mirror Tech stack accessibility: section heading levels, `aria-label`s for page indicators, focus handling, and single focus target per card.
 - Honour reduced motion by reusing the same animation attributes; no new motion curves are introduced.
 - Add the `#tools` anchor to the site’s in-page navigation map if required for sidebar linking.
@@ -43,12 +46,14 @@ The homepage currently spotlights a “Tech stack” grid that defines spacing, 
    - Verify keyboard/focus order and screen reader announcements match the Tech stack precedent.
 
 ## Risks & Considerations
+
 - **Icon asset quality:** Tool icons may need manual cleanup to remove white borders or align to the macOS tile radius; mismatched assets could break visual parity.
 - **Copy fit:** Slightly longer tool descriptions could wrap differently and nudge heights; ensure copy stays within Tech stack bounds.
 - **Navigation updates:** If the sidebar or top nav assumes a fixed section list, adding `#tools` may require data updates to avoid broken links.
 - **Content alignment:** The brief references a future eighth tool and mentions Transmit in the desired order—confirm whether Transmit is part of this initial six-card release.
 
 ## Testing Strategy
+
 - `bun run check`
 - Manual QA in Safari/Chrome mobile simulators for carousel behaviour and indicator sync.
 - Keyboard navigation and screen reader spot checks to confirm label parity and single-focus cards.

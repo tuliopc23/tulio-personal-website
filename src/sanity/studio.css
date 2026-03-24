@@ -2,7 +2,13 @@
 
 :root {
   font-family:
-    "SF Pro", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Helvetica Neue", Arial,
+    "SF Pro",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    "Segoe UI",
+    "Helvetica Neue",
+    Arial,
     sans-serif;
   --studio-accent: #0d8aff;
   --studio-accent-soft: rgba(13, 138, 255, 0.14);

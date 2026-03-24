@@ -18,12 +18,10 @@ describe("shiki helpers", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const { highlightCode } = await import("../../src/lib/shiki");
 
-    await expect(highlightCode("const ok = true", "nope")).resolves.toBe(
-      "<pre>plain</pre>"
-    );
+    await expect(highlightCode("const ok = true", "nope")).resolves.toBe("<pre>plain</pre>");
     expect(codeToHtml).toHaveBeenLastCalledWith(
       "const ok = true",
-      expect.objectContaining({ lang: "plaintext" })
+      expect.objectContaining({ lang: "plaintext" }),
     );
     expect(warnSpy).toHaveBeenCalled();
   });

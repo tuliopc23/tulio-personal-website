@@ -145,9 +145,8 @@ a:hover {
   transform: perspective(1100px) rotateX(var(--parallax-rotate-x)) rotateY(var(--parallax-rotate-y))
     translateY(
       calc(
-        (var(--reveal-translate, 0px)) +
-        (var(--hover-elevate-translate) * 0.3) +
-        var(--parallax-translate)
+        (var(--reveal-translate, 0px)) + (var(--hover-elevate-translate) * 0.3) +
+          var(--parallax-translate)
       )
     )
     scale(var(--motion-scale-active));

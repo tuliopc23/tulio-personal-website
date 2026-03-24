@@ -13,21 +13,25 @@ We need to redesign the Profile card and its social links so they feel like sibl
 ## Proposed Changes
 
 ### Layout & Composition
+
 - Replace the existing chip list with a grid/rail of compact cards that reuse the `Card`/`cardRail` patterns from Tech stack (same corner radius, layered shadow, reveal hooks) scaled down to fit inside the Profile card and mobile rail.
 - Introduce a desktop layout that keeps the Profile card hero (avatar, summary) on the left and a two-column CTA grid on the right; mobile continues to expose a horizontal rail with `PageIndicator` support.
 - Align Profile card typography (including the main heading) with the section heading styles already used elsewhere, removing the uppercase eyebrow treatment on social items.
 
 ### Iconography & Assets
+
 - Swap the old glyphs for the new assets stored in `public/icons/Socials/`, ensuring both light/dark variants are resolved through the existing IconTile pipeline (with fallbacks for single-tone SVGs or WEBP).
 - Increase the icon tile size relative to the current chips (targeting 48–56px tiles) while maintaining proportional padding so the cards still read lighter than full Tech stack tiles.
 - Normalize icon tint tokens so the social CTA cards blend with the Tech stack/Tools palette while keeping each network’s identity.
 
 ### Copy & Interactions
+
 - Remove raw URLs and handle strings from the UI; each card should display an action-focused title (e.g., “Follow my GitHub”) and a one-line CTA description aligned with existing card blurb tone.
 - Make each social card a single interactive target that opens in a new tab, keeping URLs hidden but accessible via standard link semantics and ARIA labelling.
 - Update the Profile summary blurb if needed so the new CTA grid does not feel redundant—a single sentence context plus the CTAs encourages exploration.
 
 ### Accessibility & Behaviour
+
 - Preserve keyboard discoverability with visible focus states that match Tech stack cards and ensure that `PageIndicator` / `ScrollIndicator` pairings target the new rail.
 - Respect existing reduced-motion preferences by reusing the same animation tokens instead of adding bespoke transitions.
 - Ensure icon asset swaps maintain contrast in both themes and provide fallback text for screen readers via `aria-label`/`sr-only` content.

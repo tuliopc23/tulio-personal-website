@@ -5,10 +5,13 @@
 **Author:** Codex (AI assistant)
 
 ## Overview
+
 Bentolink’s GitHub section is a rich interactive island (carousel, commit surfaces, hints, keyboard behavior, progress indicators). The target repo currently uses a simpler Astro widget and lacks Solid integration. This change ports the GitHub experience to a Solid island while preserving current architecture and token system.
 
 ## Proposed Changes
+
 ### Files/Components Affected
+
 - `astro.config.mjs` - add Solid integration.
 - `package.json` - add Solid dependencies.
 - `src/components/GitHubActivity.tsx` (new) - Solid island component.
@@ -18,6 +21,7 @@ Bentolink’s GitHub section is a rich interactive island (carousel, commit surf
 - `src/pages/now.astro` - now page GitHub section wiring.
 
 ## Implementation Plan
+
 1. **Enable Island Runtime**
    - Configure `@astrojs/solid-js` and required dependencies.
 2. **Port Interactive Widget**
@@ -30,11 +34,13 @@ Bentolink’s GitHub section is a rich interactive island (carousel, commit surf
    - Handle token/no-token API scenarios and maintain focus/reduced-motion behavior.
 
 ## Risks & Considerations
+
 - Dependency and integration changes may affect build/hydration if not isolated.
 - GitHub API rate limiting can degrade UX without robust fallback handling.
 - Migrating richer interactions without token alignment may create visual mismatch.
 
 ## Testing Strategy
+
 - `bun run lint`
 - `bun run typecheck`
 - `bun run build`

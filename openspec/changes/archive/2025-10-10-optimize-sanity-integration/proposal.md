@@ -9,6 +9,7 @@
 The current Sanity integration is functional but lacks production-grade editorial workflow features that content teams need. Based on Sanity best practices and editorial workflow research, the integration is missing:
 
 **Critical Gaps:**
+
 1. **No Workflow States** - Posts go straight from draft to published without review stages
 2. **Broken TypeScript Generation** - `bun run sanity:typegen` fails, losing type safety
 3. **No Scheduled Publishing** - Cannot plan content releases
@@ -21,6 +22,7 @@ The current Sanity integration is functional but lacks production-grade editoria
 10. **No Role-Based Guidance** - Missing permissions documentation for editors vs admins
 
 **Impact on Editorial Team:**
+
 - Editors cannot save work-in-progress without publishing
 - No way to request reviews from senior editors
 - Cannot schedule posts for future publication
@@ -29,6 +31,7 @@ The current Sanity integration is functional but lacks production-grade editoria
 - No collaboration features for team workflows
 
 **Current State:**
+
 - ✅ Visual Editing working
 - ✅ Portable Text rendering
 - ✅ Basic schema (post, author, category)
@@ -42,13 +45,16 @@ The current Sanity integration is functional but lacks production-grade editoria
 ## What Changes
 
 ### 1. Fix TypeScript Generation (Priority: Critical)
+
 - Fix `sanity-codegen` configuration to generate types from schema
 - Switch to official `@sanity/cli` typegen if needed
 - Generate `sanity.types.ts` with proper GROQ query types
 - Update queries to use typed results
 
 ### 2. Add Editorial Workflow States (Priority: High)
+
 Add workflow status field to posts with states:
+
 - **Draft** - Work in progress, not visible to editors
 - **In Review** - Ready for editorial review
 - **Approved** - Reviewed and approved, ready to publish
@@ -58,6 +64,7 @@ Add workflow status field to posts with states:
 Add custom badges in Studio to show status visually.
 
 ### 3. Implement Scheduled Publishing (Priority: High)
+
 - Add `scheduledPublishAt` datetime field
 - Configure custom publish action to respect scheduling
 - Add "Schedule Post" action in Studio
@@ -65,6 +72,7 @@ Add custom badges in Studio to show status visually.
 - Document timezone handling
 
 ### 4. Enhance Content Validation (Priority: High)
+
 - **Pre-publish validation** - Block publishing if required fields incomplete
 - **SEO validation** - Use Sanity's recommended patterns
 - **Content quality checks** - Word count minimums, readability
@@ -72,6 +80,7 @@ Add custom badges in Studio to show status visually.
 - **Slug uniqueness** - Prevent duplicate slugs
 
 ### 5. Add Audit Trail & Version History (Priority: Medium)
+
 - Enable document history in Studio (built-in feature)
 - Add custom fields for editorial metadata:
   - `lastReviewedBy` - Reference to author who reviewed
@@ -81,6 +90,7 @@ Add custom badges in Studio to show status visually.
 - Configure Studio to show revision history prominently
 
 ### 6. Optimize Studio Structure (Priority: Medium)
+
 - **Custom Dashboard** - Show editorial metrics, recent activity
 - **Content Pipeline View** - Kanban board showing posts by workflow state
 - **Scheduled Posts Widget** - Calendar view of upcoming posts
@@ -89,12 +99,14 @@ Add custom badges in Studio to show status visually.
 - **Custom Badges** - Visual indicators for status, scheduled, urgent
 
 ### 7. Implement Content Releases (Priority: Medium)
+
 - Use Sanity's Content Releases feature for coordinated launches
 - Group related content updates (e.g., product launch posts + category pages)
 - Preview entire release before publishing
 - Schedule release for specific date/time
 
 ### 8. Add Custom Publish Actions (Priority: Medium)
+
 - **Publish Immediately** - Default behavior
 - **Schedule for Later** - Opens scheduling dialog
 - **Submit for Review** - Changes status to In Review
@@ -102,7 +114,9 @@ Add custom badges in Studio to show status visually.
 - **Unpublish** - Move to archived state
 
 ### 9. Create Editorial Documentation (Priority: High)
+
 Create `EDITORIAL_GUIDE.md` with:
+
 - Workflow states and transitions
 - Content creation checklist
 - SEO best practices
@@ -112,6 +126,7 @@ Create `EDITORIAL_GUIDE.md` with:
 - Common troubleshooting
 
 ### 10. Enhance Schema (Priority: Medium)
+
 - Add `excerpt` field separate from `summary` for SEO
 - Add `readingTime` calculated field
 - Add `featured` boolean for homepage
@@ -121,13 +136,16 @@ Create `EDITORIAL_GUIDE.md` with:
 - Add content warnings/flags field
 
 ### 11. Add Role-Based Access Documentation (Priority: Low)
+
 Document Sanity role configuration for:
+
 - **Viewer** - Can view content, cannot edit
 - **Editor** - Can create/edit/submit for review
 - **Reviewer** - Can approve content
 - **Administrator** - Full access including schema changes
 
 ### 12. Setup Preview Deployments (Priority: Low)
+
 - Configure preview URL for draft content
 - Add deploy preview button in Studio
 - Document Vercel/Netlify preview deployment setup
@@ -135,6 +153,7 @@ Document Sanity role configuration for:
 ## Impact
 
 ### Affected Areas
+
 - **Schema**: New fields for workflow, scheduling, audit trail
 - **Studio**: Custom structure, actions, dashboard, badges
 - **Client Queries**: Update to filter by workflow status
@@ -142,6 +161,7 @@ Document Sanity role configuration for:
 - **Documentation**: New editorial guide
 
 ### Benefits
+
 - ✅ **Safer Publishing** - Review process prevents premature publishing
 - ✅ **Better Planning** - Scheduled publishing enables content calendar
 - ✅ **Team Collaboration** - Clear workflow states and assignments
@@ -152,12 +172,15 @@ Document Sanity role configuration for:
 - ✅ **Scalability** - Workflow supports growing content team
 
 ### Breaking Changes
+
 **None for existing content**, but:
+
 - New required fields will need defaults for existing posts
 - Studio layout will look different (improved organization)
 - Queries may need updates to handle workflow status
 
 ### Migration Plan
+
 1. Add new fields with defaults for existing content
 2. Set all existing posts to "Published" status
 3. Gradually adopt workflow for new content
@@ -166,56 +189,65 @@ Document Sanity role configuration for:
 ## Alternatives Considered
 
 ### Alternative 1: Keep Current Simple Setup
+
 **Approach:** Continue with basic Studio, no workflow states
-**Pros:** 
+**Pros:**
+
 - No additional complexity
 - Faster short-term
 - Less maintenance
-**Cons:** 
+  **Cons:**
 - Scales poorly as team grows
 - High risk of accidental publishing
 - No content planning capabilities
-**Why not chosen:** User specifically requested production-ready editorial workflows
+  **Why not chosen:** User specifically requested production-ready editorial workflows
 
 ### Alternative 2: Use External Workflow Tool
+
 **Approach:** Use Trello/Asana/Monday for workflow, Sanity just for content
 **Pros:**
+
 - Familiar tools
 - Flexible workflow customization
-**Cons:**
+  **Cons:**
 - Context switching between tools
 - No connection between workflow status and content
 - Duplicate effort tracking content
 - No enforcement of workflow rules
-**Why not chosen:** Sanity has native workflow features that integrate seamlessly
+  **Why not chosen:** Sanity has native workflow features that integrate seamlessly
 
 ### Alternative 3: Minimal Workflow (Just Draft/Published)
+
 **Approach:** Add only basic draft/published states, skip review/approval
 **Pros:**
+
 - Simpler implementation
 - Less training needed
-**Cons:**
+  **Cons:**
 - No quality control step
 - Doesn't support team collaboration
 - Missing for most professional editorial teams
-**Why not chosen:** Halfway solution that doesn't solve real editorial needs
+  **Why not chosen:** Halfway solution that doesn't solve real editorial needs
 
 ### Alternative 4: Use Sanity's Workflows Plugin
+
 **Approach:** Use third-party workflow plugin instead of custom implementation
 **Pros:**
+
 - Pre-built solution
 - Community maintained
-**Cons:**
+  **Cons:**
 - Less control over workflow logic
 - May not fit specific needs
 - Additional dependency
-**Why not chosen:** Custom implementation provides better control and learns Sanity patterns
+  **Why not chosen:** Custom implementation provides better control and learns Sanity patterns
 
 ## Proposed Changes
 
 ### Files/Components Affected
 
 #### Schema Files
+
 - `src/sanity/schemaTypes/post.ts` - Add workflow fields
 - `src/sanity/schemaTypes/author.ts` - Minor enhancements
 - `src/sanity/schemaTypes/category.ts` - Add color/icon fields
@@ -224,6 +256,7 @@ Document Sanity role configuration for:
 - `src/sanity/schemaTypes/publishSchedule.ts` - **NEW** object type
 
 #### Studio Configuration
+
 - `sanity.config.ts` - Add structure tool customization, document actions
 - `src/sanity/structure/` - **NEW** folder for custom structure
   - `dashboard.tsx` - Custom dashboard
@@ -238,16 +271,19 @@ Document Sanity role configuration for:
   - `WorkflowTransitions.tsx` - Workflow state machine UI
 
 #### Client Configuration
+
 - `src/sanity/lib/client.ts` - Add typed queries
 - `src/sanity/lib/queries.ts` - **NEW** typed GROQ queries
 - `src/sanity/lib/validation.ts` - **NEW** custom validation rules
 
 #### Type Generation
+
 - `sanity.cli.ts` - Fix or replace with official typegen
 - `sanity-codegen.config.ts` - **NEW** if keeping sanity-codegen
 - `src/sanity/types/` - **NEW** folder for generated types
 
 #### Documentation
+
 - `EDITORIAL_GUIDE.md` - **NEW** complete editorial workflow guide
 - `SANITY_ROLES.md` - **NEW** role-based access guide
 - `openspec/project.md` - Update with new Sanity patterns
@@ -255,6 +291,7 @@ Document Sanity role configuration for:
 ## Implementation Plan
 
 ### Phase 1: Foundation (Week 1) - Critical
+
 1. **Fix TypeScript Generation**
    - Diagnose `sanity-codegen` issue
    - Switch to `@sanity/cli` typegen if needed
@@ -274,6 +311,7 @@ Document Sanity role configuration for:
    - Prevent publishing incomplete content
 
 ### Phase 2: Editorial Workflow (Week 1-2) - High Priority
+
 1. **Custom Publish Actions**
    - Create submit for review action
    - Create schedule publish action
@@ -293,6 +331,7 @@ Document Sanity role configuration for:
    - Test timezone handling
 
 ### Phase 3: Polish & Documentation (Week 2) - Medium Priority
+
 1. **Enhanced Studio Features**
    - Add calendar view for scheduled posts
    - Create editorial metrics dashboard
@@ -312,6 +351,7 @@ Document Sanity role configuration for:
    - Enhance category schema
 
 ### Phase 4: Advanced Features (Optional - Week 3+)
+
 1. **Content Releases**
    - Configure Content Releases feature
    - Document release workflow
@@ -330,12 +370,14 @@ Document Sanity role configuration for:
 ## Testing Strategy
 
 ### Schema Testing
+
 - [ ] All existing content loads without errors
 - [ ] New workflow fields have proper defaults
 - [ ] Validation rules work as expected
 - [ ] TypeScript types generate successfully
 
 ### Studio Testing
+
 - [ ] Custom dashboard loads and shows correct data
 - [ ] Workflow state transitions work correctly
 - [ ] Scheduled publishing UI functions
@@ -344,6 +386,7 @@ Document Sanity role configuration for:
 - [ ] Bulk actions work on multiple documents
 
 ### Integration Testing
+
 - [ ] Published content appears on site
 - [ ] Draft content does not appear on site
 - [ ] Scheduled posts publish at correct time
@@ -351,6 +394,7 @@ Document Sanity role configuration for:
 - [ ] Queries filter by status correctly
 
 ### User Acceptance Testing
+
 - [ ] Content editors can follow workflow
 - [ ] Review process is clear
 - [ ] Scheduling is intuitive
@@ -358,6 +402,7 @@ Document Sanity role configuration for:
 - [ ] Documentation is clear and complete
 
 ### Performance Testing
+
 - [ ] Studio loads quickly with new features
 - [ ] Queries with status filters are fast
 - [ ] Type generation completes in reasonable time
@@ -365,16 +410,19 @@ Document Sanity role configuration for:
 ## Risks & Considerations
 
 ### Technical Risks
+
 - **TypeScript Generation** - May require switching tools if `sanity-codegen` unfixable
 - **Custom Actions Complexity** - Workflow logic can become complex, need clear state machine
 - **Query Performance** - Filtering by workflow status needs proper indexing
 
 ### Editorial Team Risks
+
 - **Learning Curve** - New workflow requires training
 - **Change Resistance** - Team may prefer simpler current setup
 - **Process Overhead** - Review step adds time to publishing
 
 ### Mitigation Strategies
+
 - Gradual rollout with training sessions
 - Clear documentation with screenshots
 - Optional workflow adoption (can still quick-publish if needed)

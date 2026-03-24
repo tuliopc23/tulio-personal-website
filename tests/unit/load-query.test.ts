@@ -2,17 +2,15 @@ describe("loadQuery", () => {
   test("uses published perspective by default", async () => {
     vi.stubEnv("PUBLIC_SANITY_VISUAL_EDITING_ENABLED", "false");
     vi.resetModules();
-    const fetchMock = vi
-      .spyOn(globalThis, "fetch")
-      .mockResolvedValueOnce({
-        ok: true,
-        status: 200,
-        statusText: "OK",
-        json: async () => ({
-          result: [{ title: "ok" }],
-          resultSourceMap: undefined,
-        }),
-      } as unknown as Response);
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      statusText: "OK",
+      json: async () => ({
+        result: [{ title: "ok" }],
+        resultSourceMap: undefined,
+      }),
+    } as unknown as Response);
 
     const { loadQuery } = await import("../../src/sanity/lib/load-query");
     const result = await loadQuery<{ title: string }[]>({ query: "*[]" });

@@ -66,7 +66,7 @@ SANITY_STUDIO_WEBHOOK_URL=https://automation.example.com/api/auto-publish
 ### 2. Install Dependencies
 
 ```bash
-bun install
+pnpm install
 ```
 
 ### 3. Setup the Webhook
@@ -74,10 +74,11 @@ bun install
 Run the webhook setup script:
 
 ```bash
-bun run sanity:webhook
+pnpm run sanity:webhook
 ```
 
 This script will:
+
 - Connect to your Sanity project
 - Create a GROQ-powered webhook named "Cloudflare Pages Deploy"
 - Configure it to trigger only on published posts (not drafts)
@@ -135,7 +136,7 @@ This script will:
    - Click on "Cloudflare Pages Deploy"
    - View "Attempts log" to see if requests were sent
 
-4. **Re-run setup**: `bun run sanity:webhook` to recreate the webhook
+4. **Re-run setup**: `pnpm run sanity:webhook` to recreate the webhook
 
 ### Test Webhook Manually
 
@@ -150,6 +151,7 @@ This should trigger a new Cloudflare Pages deployment.
 ### Webhook Configuration Issues
 
 1. **Check environment variables**:
+
    ```bash
    # Verify your .env file has:
    SANITY_API_WRITE_TOKEN=sk...
@@ -168,11 +170,12 @@ This should trigger a new Cloudflare Pages deployment.
 
 2. **Build failures**:
    - Review build logs in Cloudflare
-   - Test locally: `bun run build`
+   - Test locally: `pnpm run build`
 
 ## Webhook Configuration
 
 The webhook is configured to trigger on:
+
 - **Document type**: `post` (blog posts)
 - **Events**: Create, update, delete
 - **Filter**: `_type == "post" && !(_id in path("drafts.**"))`
@@ -224,10 +227,10 @@ The webhook sends this data (though Cloudflare ignores it and just rebuilds):
 2. **Webhook Fires**: Sanity detects published document matching filter
 3. **POST Request**: Sanity sends POST to Cloudflare Deploy Hook URL
 4. **Build Triggered**: Cloudflare Pages starts new deployment
-5. **Build Process**: 
+5. **Build Process**:
    - Clone git repository
-   - Install dependencies (bun install)
-   - Build site (bun run build)
+   - Install dependencies (pnpm install)
+   - Build site (pnpm run build)
    - Deploy to Cloudflare network
 6. **Live Update**: Website reflects new content (1-3 minutes)
 
@@ -259,6 +262,7 @@ If you encounter issues:
 5. Re-run the webhook setup script
 
 For more information, see:
+
 - [Sanity GROQ-powered Webhooks](https://www.sanity.io/docs/compute-and-ai/webhooks)
 - [Cloudflare Pages Deploy Hooks](https://developers.cloudflare.com/pages/configuration/deploy-hooks/)
 - [GROQ Filter Examples](https://www.sanity.io/docs/developer-guides/filters-in-groq-powered-webhooks)

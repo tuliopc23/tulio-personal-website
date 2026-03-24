@@ -3,6 +3,7 @@
 ## Card Structure Pattern
 
 ### Standard Article Card
+
 ```astro
 <article class="articleCard hover-elevate motion-surface-standard" data-parallax-card>
   <a class="articleCard__link" href={href}>
@@ -30,6 +31,7 @@
 ```
 
 ### Featured Article Card
+
 ```astro
 <article class="articleCard hover-elevate motion-surface-premium articleCard--featured" data-parallax-card>
   <!-- Same structure, with .articleCard--featured class -->
@@ -42,6 +44,7 @@
 ## CSS Pattern: Featured Card Styling
 
 ### Dark Mode
+
 ```css
 [data-theme="dark"] .articleCard--featured {
   border-left: 3px solid #4da6ff;
@@ -64,6 +67,7 @@
 ```
 
 ### Light Mode
+
 ```css
 [data-theme="light"] .articleCard--featured {
   border-left: 3px solid #0071e3;
@@ -81,6 +85,7 @@
 ## Halo Gradient Pattern
 
 ### Featured Card Halo
+
 ```css
 .articleCard__halo {
   position: absolute;
@@ -110,6 +115,7 @@
 ## Grid Layout Pattern
 
 ### Blog Surface Grid
+
 ```css
 .blogSurface {
   display: grid;
@@ -137,12 +143,11 @@
 
 ## Key Tokens to Use
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--shadow-card` | 4-layer system | Base card shadow |
-| `--shadow-card-hover` | Enhanced 4-layer | Hover state |
-| `--motion-duration-fast` | 200ms | Transition duration |
-| `--motion-ease-out` | cubic-bezier | Easing function |
-| `--blue` | #0a84ff / #0071e3 | Accent color |
-| `--radius-card` | 20px | Card border radius |
-
+| Token                    | Value             | Usage               |
+| ------------------------ | ----------------- | ------------------- |
+| `--shadow-card`          | 4-layer system    | Base card shadow    |
+| `--shadow-card-hover`    | Enhanced 4-layer  | Hover state         |
+| `--motion-duration-fast` | 200ms             | Transition duration |
+| `--motion-ease-out`      | cubic-bezier      | Easing function     |
+| `--blue`                 | #0a84ff / #0071e3 | Accent color        |
+| `--radius-card`          | 20px              | Card border radius  |

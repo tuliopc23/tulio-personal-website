@@ -14,7 +14,7 @@ async function publishToLinkedIn(articleData) {
 
   if (!accessToken || !personUrn) {
     console.log(
-      "⚠️  LINKEDIN_ACCESS_TOKEN or LINKEDIN_PERSON_ID not set - skipping LinkedIn publishing"
+      "⚠️  LINKEDIN_ACCESS_TOKEN or LINKEDIN_PERSON_ID not set - skipping LinkedIn publishing",
     );
     return { success: false, message: "LinkedIn credentials not set" };
   }
@@ -22,8 +22,7 @@ async function publishToLinkedIn(articleData) {
   try {
     const summary = articleData.summary || articleData.seo?.metaDescription || "";
     const url =
-      articleData.seo?.canonicalUrl ||
-      `https://www.tuliocunha.dev/blog/${articleData.slug}/`;
+      articleData.seo?.canonicalUrl || `https://www.tuliocunha.dev/blog/${articleData.slug}/`;
 
     const postData = {
       author: personUrn,
@@ -64,8 +63,7 @@ async function publishToLinkedIn(articleData) {
     }
 
     // LinkedIn returns the post URN in the 'x-linkedin-id' or 'location' header
-    const postId =
-      response.headers.get("x-restli-id") || response.headers.get("x-linkedin-id");
+    const postId = response.headers.get("x-restli-id") || response.headers.get("x-linkedin-id");
     const postUrl = `https://www.linkedin.com/feed/update/${postId}`;
 
     console.log("✅ Successfully published to LinkedIn:", postUrl);

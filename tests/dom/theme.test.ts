@@ -7,7 +7,7 @@ import {
 const dispatchPointer = (
   target: EventTarget,
   type: string,
-  init: Partial<PointerEvent> & { pointerId?: number; clientX?: number } = {}
+  init: Partial<PointerEvent> & { pointerId?: number; clientX?: number } = {},
 ) => {
   const event = new Event(type, { bubbles: true, cancelable: true });
   Object.assign(event, {
@@ -35,9 +35,9 @@ describe("theme controller script", () => {
 
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
     expect(document.documentElement.classList.contains("dark")).toBe(true);
-    expect(
-      (document.querySelector('link[rel="icon"]') as HTMLLinkElement).href
-    ).toContain("/Brand-icon-light.webp");
+    expect((document.querySelector('link[rel="icon"]') as HTMLLinkElement).href).toContain(
+      "/Brand-icon-light.webp",
+    );
   });
 
   test("toggles theme, persists it, and reacts to media preference changes", async () => {
@@ -98,9 +98,7 @@ describe("theme controller script", () => {
       </div>
     `;
 
-    const button = document.querySelector(
-      "[data-theme-toggle-root] button"
-    ) as HTMLButtonElement;
+    const button = document.querySelector("[data-theme-toggle-root] button") as HTMLButtonElement;
     Object.defineProperty(button, "getBoundingClientRect", {
       value: () => ({ left: 0, width: 100 }),
     });
@@ -115,10 +113,10 @@ describe("theme controller script", () => {
     expect(window.themeController?.getTheme()).toBe("light");
 
     button.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true })
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
     );
     button.dispatchEvent(
-      new KeyboardEvent("keyup", { key: "Enter", bubbles: true, cancelable: true })
+      new KeyboardEvent("keyup", { key: "Enter", bubbles: true, cancelable: true }),
     );
     expect(window.themeController?.getTheme()).toBe("dark");
 

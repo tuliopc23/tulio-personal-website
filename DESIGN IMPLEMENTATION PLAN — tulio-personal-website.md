@@ -1,20 +1,26 @@
 # Design Implementation Plan — tulio-personal-website
+
 Date: 2026-03-04  
 Status: Claude-ready execution plan (audited + expanded)
 
 ## Why this update exists
+
 This plan has been upgraded from a broad refactor outline into an execution-safe implementation plan with:
+
 - verified current issues in code,
 - measurable baselines,
 - mandatory UI direction inputs from `ui-ux-pro-max` + `frontend-design`,
 - concrete sequencing and rollback points for Claude Code.
 
 ## Mandatory Design Direction (apply across all phases)
+
 Source inputs:
+
 - `ui-ux-pro-max` design-system query (`personal portfolio terminal-first editorial premium storytelling`)
 - `frontend-design` quality rules (bold, intentional, non-generic, production-grade)
 
 Direction to implement:
+
 1. Keep the current Apple/docs + liquid-glass identity as the base system (do not replace with a template look).
 2. Preserve SF Pro + SF Mono foundation already used in the repo (no random font pivots to generic stacks).
 3. Use motion intentionally: 1-2 key animated moments per view, not “animate everything”.
@@ -22,6 +28,7 @@ Direction to implement:
 5. Keep neutral/background-led palette with disciplined blue accent hierarchy and strong contrast.
 
 ## Audit Snapshot (current codebase evidence)
+
 1. `src/styles/theme.css` is still `7198` lines.
 2. `src/components/portable-text/Divider.astro` has a live variable bug:
    - `_style` is declared, but template uses `style`.
@@ -37,6 +44,7 @@ Direction to implement:
 6. Existing plan uses `npm run build`; this repo’s package manager contract is `bun` (`bun run build`, `bun run check`, etc.).
 
 ## Non-Negotiable Engineering Rules
+
 1. No big-bang rewrite: every phase must be shippable independently.
 2. One token owner file per token family.
 3. Any temporary compatibility alias must be explicitly marked and removed in a later phase.
@@ -47,6 +55,7 @@ Direction to implement:
 5. Do not include `theme.css.backup` in quality grep metrics.
 
 ## Token Ownership Contract (final target)
+
 1. `src/styles/tokens/colors.css`
    - Owns: `--bg*`, `--surface*`, `--text*`, semantic colors, accent/link colors.
 2. `src/styles/tokens/shadows.css`
@@ -65,9 +74,11 @@ Direction to implement:
 ## Execution Plan
 
 ### Phase 0 — Safety + Baseline Capture (30-45 min)
+
 Goal: establish measurable baseline and safe rollback points.
 
 Actions:
+
 1. Create a baseline branch/commit before edits.
 2. Capture baseline metrics:
    - `wc -l src/styles/theme.css`
@@ -82,15 +93,18 @@ Actions:
    - `bun run check:ci`
 
 Exit criteria:
+
 1. Baseline metrics and screenshots attached to PR/worklog.
 2. Build/check status known before code changes.
 
 ---
 
 ### Phase 1 — Critical Functional Fixes (P0, 45-75 min)
+
 Goal: remove active bugs before structural refactor.
 
 Actions:
+
 1. Fix `Divider.astro` variable usage:
    - Use `_style` consistently in class and conditional rendering.
 2. Re-enable project-filter reduced-motion block in `theme.css`.
@@ -99,6 +113,7 @@ Actions:
    - Project filtering remains functional with and without reduced motion.
 
 Exit criteria:
+
 1. Divider no longer references undefined `style`.
 2. Reduced-motion users get transition-free project filter behavior.
 3. `bun run build` passes.
@@ -106,9 +121,11 @@ Exit criteria:
 ---
 
 ### Phase 2 — Design System Docs Alignment (P0/P1, 1-2 h)
+
 Goal: make implementation docs trustworthy for Claude execution.
 
 Actions:
+
 1. Rewrite `design-system/tulio-personal-website/MASTER.md` to match real product:
    - Personal developer site
    - Apple/docs + liquid glass tone
@@ -124,15 +141,18 @@ Actions:
 4. Add per-page “Do / Avoid / Verification” blocks to make Claude implementation deterministic.
 
 Exit criteria:
+
 1. Overrides reflect actual page semantics in this repo.
 2. No contradictory design instructions between Master and page files.
 
 ---
 
 ### Phase 3 — Token Consolidation (P1, 4-6 h)
+
 Goal: eliminate duplicated token definitions across `theme.css` and token files.
 
 Actions:
+
 1. Consolidate motion:
    - keep durations/easings in `tokens/motion.css`,
    - remove duplicate motion token declarations from `tokens/animations.css`,
@@ -149,6 +169,7 @@ Actions:
 6. Keep a temporary alias block in `theme.css` only for legacy selector compatibility, clearly marked `TODO remove`.
 
 Exit criteria:
+
 1. Each token family maps to one owner file.
 2. Duplicate-definition grep thresholds (excluding backup files):
    - `--motion-ease-out`: max 1 per theme mode context
@@ -159,9 +180,11 @@ Exit criteria:
 ---
 
 ### Phase 4 — Component Style Extraction (P1, 5-8 h)
+
 Goal: reduce monolithic CSS while preserving rendering parity.
 
 Actions:
+
 1. Extract in this order (high impact first):
    - `ProjectCard`
    - Sidebar shell (`Base.astro` related blocks)
@@ -176,18 +199,22 @@ Actions:
    - verify no style leakage.
 
 Target:
+
 1. Bring `theme.css` from ~7198 lines toward `<= 2500` without regressions.
 
 Exit criteria:
+
 1. No major visual drift against Phase 0 baseline screenshots.
 2. `theme.css` line count materially reduced with ownership clarified.
 
 ---
 
 ### Phase 5 — Visual & Interaction Elevation Pass (P1/P2, 2-4 h)
+
 Goal: polish to high-quality, intentional frontend standard after refactor safety.
 
 Actions:
+
 1. Enforce consistent focus ring behavior from a single token source.
 2. Normalize hover behavior:
    - subtle lift/contrast, no layout-shifting transforms.
@@ -199,15 +226,18 @@ Actions:
    - preload critical above-the-fold assets.
 
 Exit criteria:
+
 1. Interaction quality is consistent across Home, Projects, Blog.
 2. Reduced-motion and keyboard navigation behavior is consistent.
 
 ---
 
 ### Phase 6 — Accessibility + Final QA Hardening (P2, 2-3 h)
+
 Goal: ship-ready confidence checks.
 
 Actions:
+
 1. Contrast verification for secondary/tertiary text on both themes.
 2. Keyboard traversal pass:
    - topbar, quick nav, cards, filters, blog links, footer.
@@ -218,10 +248,12 @@ Actions:
 4. Final command gates.
 
 Exit criteria:
+
 1. No obvious contrast/focus/reduced-motion regressions.
 2. All mandatory checks pass.
 
 ## Verification Commands (standardized)
+
 Use `bun` commands only.
 
 ```bash
@@ -245,6 +277,7 @@ rg -n --fixed-strings -e '--blue:' src/styles --glob '!**/theme.css.backup'
 ```
 
 ## Risk Register
+
 1. Risk: token cleanup breaks hidden dependencies in monolithic selectors.
    - Mitigation: compatibility alias block + incremental extraction order + per-phase screenshots.
 2. Risk: visual drift during component extraction.
@@ -255,7 +288,9 @@ rg -n --fixed-strings -e '--blue:' src/styles --glob '!**/theme.css.backup'
    - Mitigation: Phase 2 doc alignment before heavy implementation.
 
 ## Claude Handoff Checklist
+
 Deliver this list with the implementation PR:
+
 1. Baseline vs final screenshot set (same routes, same viewport sizes).
 2. Before/after `theme.css` line count.
 3. Before/after duplicate-token grep outputs.
@@ -267,6 +302,7 @@ Deliver this list with the implementation PR:
    - `bun run check:ci`
 
 ## Definition of Done
+
 1. P0 bugs fixed and verified.
 2. Token ownership contract enforced with minimal duplication.
 3. `theme.css` substantially decomposed and easier to maintain.
