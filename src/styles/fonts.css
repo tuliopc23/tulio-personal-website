@@ -4,12 +4,12 @@
 
 @font-face {
   font-family: "SF Pro";
-  src:
-    local("SF Pro"),
-    url("/fonts/sf/v1/sf-pro.woff2") format("woff2");
+  src: local("SF Pro");
   font-style: normal;
-  font-weight: 400 900; /* Variable font: single file covers all weights */
-  font-display: optional; /* Prevents 7.8MB download race on non-Apple devices; local() still resolves instantly on macOS/iOS */
+  font-weight: 400 900;
+  /* No URL fallback — SF Pro is Apple's proprietary font. It resolves via local() on macOS/iOS;
+     non-Apple devices fall through to the system font stack defined in variables.css.
+     This avoids a 7.8MB network download that caused 50s LCP on mobile. */
 }
 
 @font-face {
