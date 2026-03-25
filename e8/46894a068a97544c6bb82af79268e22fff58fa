@@ -1,0 +1,23 @@
+tsconfig.json
+  b22e609276e8d5c9 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "e846894a068a97544c6bb82af79268e22fff58fa",
+  "prompts": {
+    "b22e609276e8d5c9": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "57d1a139-6838-4242-a089-596764869f0d",
+        "model": "composer-2-fast"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 4,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
