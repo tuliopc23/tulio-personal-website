@@ -79,10 +79,6 @@ const _imageAlt = (heroImage?.alt ?? "")
 const _imagePlaceholderStyle = heroImage?.lqip
   ? `background-image: url('${heroImage.lqip}'); background-size: cover; background-position: center;`
   : undefined;
-const _imageDimensions =
-  heroImage?.width && heroImage?.height
-    ? { width: heroImage.width, height: heroImage.height }
-    : { inferSize: true as const };
 const _placeholderIcons =
   coverVariant === "cinematic"
     ? ["planet", "cube", "sparkle"]
