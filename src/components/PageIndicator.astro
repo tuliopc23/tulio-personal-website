@@ -1,7 +1,5 @@
 ---
 import styles from "./PageIndicator.module.css";
-import pageIndicatorScriptHref from "./page-indicator-script.ts?url";
-
 interface Props {
   containerSelector: string;
   itemSelector?: string;
@@ -30,4 +28,6 @@ const {
   </div>
 </div>
 
-<script is:inline type="module" src={pageIndicatorScriptHref}></script>
+<script>
+import "./page-indicator-script.ts";
+</script>
