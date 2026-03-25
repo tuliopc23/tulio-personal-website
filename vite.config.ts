@@ -7,10 +7,6 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./tests/setup/vitest.setup.ts"],
     environment: "jsdom",
-    environmentMatchGlobs: [
-      ["tests/astro/**/*.test.ts", "node"],
-      ["tests/layout-smoke.test.ts", "node"],
-    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
