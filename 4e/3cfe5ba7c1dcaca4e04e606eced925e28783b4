@@ -1,0 +1,38 @@
+src/components/ProfileCard.module.css
+  969796c81b92abb4 54-56,61,65-70,75-80,89-92
+src/components/ProfileCard.astro
+  969796c81b92abb4 6,133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "4e3cfe5ba7c1dcaca4e04e606eced925e28783b4",
+  "prompts": {
+    "3cf8c016bdf952d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "02b46b78-af64-4a7a-80f2-45992217b9e8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 8,
+      "accepted_lines": 26,
+      "overriden_lines": 0
+    },
+    "969796c81b92abb4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ce49eb66-fa38-425b-882c-2c74a18fd789",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 22,
+      "total_deletions": 21,
+      "accepted_lines": 22,
+      "overriden_lines": 0
+    }
+  }
+}
