@@ -1,5 +1,4 @@
 import { loadQuery } from "./src/sanity/lib/load-query.ts";
-import { getMergedGitHubData } from "./src/lib/github-data.ts";
 
 async function test() {
   console.log("Fetching Sanity repos...");

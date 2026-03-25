@@ -343,9 +343,7 @@ async function fetchGitHubRepos(): Promise<NormalizedRepoCard[]> {
   return res.json();
 }
 
-export default function GitHubLiveSection(props: {
-  initialData?: NormalizedRepoCard[];
-}) {
+export default function GitHubLiveSection(props: { initialData?: NormalizedRepoCard[] }) {
   const [repos, setRepos] = createSignal<NormalizedRepoCard[] | null>(
     props.initialData?.length ? props.initialData : null,
   );

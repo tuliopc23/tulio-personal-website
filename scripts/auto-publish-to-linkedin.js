@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import { toPlainText } from "astro-portabletext";
 import { loadQuery } from "../src/sanity/lib/load-query.js";
 
 dotenv.config();
