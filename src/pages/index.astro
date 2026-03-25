@@ -8,8 +8,19 @@ import GitHubLiveSection from "../components/github/GitHubLiveSection";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { getAllPosts } from "../sanity/lib/posts";
+import { getMergedGitHubData } from "../lib/github-data";
 
 const posts = await getAllPosts();
+
+// Pre-fetch GitHub data at build time so the widget renders instantly
+let githubRepos: Awaited<ReturnType<typeof getMergedGitHubData>> = [];
+try {
+  githubRepos = await getMergedGitHubData(
+    import.meta.env.GITHUB_TOKEN ?? import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+  );
+} catch (err) {
+  console.warn("Build-time GitHub fetch failed, widget will fetch client-side:", err);
+}
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
@@ -313,7 +324,7 @@ const description =
         </div>
       </header>
 
-      <GitHubLiveSection client:visible />
+      <GitHubLiveSection client:visible initialData={githubRepos.length > 0 ? githubRepos : undefined} />
     </section>
 
     <section class="homepage-stage" aria-labelledby="homepage-exploration-title">

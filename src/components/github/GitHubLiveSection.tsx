@@ -343,16 +343,23 @@ async function fetchGitHubRepos(): Promise<NormalizedRepoCard[]> {
   return res.json();
 }
 
-export default function GitHubLiveSection() {
-  const [repos, setRepos] = createSignal<NormalizedRepoCard[] | null>(null);
+export default function GitHubLiveSection(props: {
+  initialData?: NormalizedRepoCard[];
+}) {
+  const [repos, setRepos] = createSignal<NormalizedRepoCard[] | null>(
+    props.initialData?.length ? props.initialData : null,
+  );
   const [error, setError] = createSignal<string | null>(null);
 
   onMount(async () => {
-    try {
-      setRepos(await fetchGitHubRepos());
-    } catch (err) {
-      console.error("Failed to load GitHub activity.", err);
-      setError("Failed to load GitHub activity.");
+    // If we already have build-time data, skip the client fetch
+    if (!repos()) {
+      try {
+        setRepos(await fetchGitHubRepos());
+      } catch (err) {
+        console.error("Failed to load GitHub activity.", err);
+        setError("Failed to load GitHub activity.");
+      }
     }
 
     // Signal the motion system that this island's DOM is ready.
