@@ -12,56 +12,56 @@ if (import.meta.env.PROD && !pageContent) {
 
 const defaults = {
   seoDescription:
-    "Developer working across Apple platform apps, full-stack web, backend systems, and tooling.",
+    "Tulio Cunha — full stack developer. Swift, TypeScript, Go, Rust, Zig. How I think about building software.",
   heroEyebrow: "About",
-  heroTitle: "I’m a developer working across Apple platforms, the web, and backend systems.",
+  heroTitle: "I write software across the stack and across platforms. Mostly from a Mac.",
   heroLede:
-    "Most of my work sits where Swift apps, web software, APIs, and developer infrastructure meet. I care about reliable internals, clear interfaces, and software that holds up once it reaches real users.",
-  manifestoLabel: "Core stance",
-  manifestoTitle: "Strong internals first. Clear interfaces second.",
+    "Swift for native, TypeScript for the web, Go and Rust for the backend, Zig when I want to think harder. I care about things that work correctly under load, not just in the demo.",
+  manifestoLabel: "How I think",
+  manifestoTitle: "Get the internals right. The interface follows.",
   manifestoCopy:
-    "I start with the parts that make software dependable: structure, data flow, performance, and maintenance. Once the core path is solid, the interface can be simpler, faster, and easier to trust.",
+    "I start with data flow, structure, and the parts nobody screenshots. Once the foundation is honest, the UI gets simpler — not the other way around.",
   proofBullets: [
-    "Understand the system before dressing it up",
-    "Ship vertical slices that touch real code",
-    "Treat performance, motion, and accessibility as core engineering work",
+    "Read the system before redesigning it",
+    "Ship thin vertical slices, not slide decks",
+    "Performance and accessibility are not afterthoughts — they’re constraints",
   ],
   principles: [
     {
-      title: "System boundaries",
-      body: "Data flow, component contracts, and page structure should stay readable long after the first release.",
+      title: "Clean boundaries",
+      body: "Modules, contracts, and data flow that still make sense six months from now. If the next person needs a tour guide, the architecture failed.",
     },
     {
-      title: "Delivery rhythm",
-      body: "I prefer small, testable slices and fast feedback over big rewrites and presentation debt.",
+      title: "Small diffs, fast loops",
+      body: "I’d rather ship ten small PRs than one rewrite. Tight feedback beats heroic refactors every time.",
     },
     {
-      title: "Interface restraint",
-      body: "The interface should make the work legible. Precision matters more than decoration.",
+      title: "Restraint over decoration",
+      body: "The interface should surface the work, not compete with it. Fewer elements, more clarity.",
     },
     {
-      title: "Technical writing",
-      body: "I write down tradeoffs, behavior, and implementation details so future work starts with context instead of guesswork.",
+      title: "Write it down",
+      body: "Tradeoffs, edge cases, decisions — if it’s not written down, it didn’t happen. Future-me will thank present-me.",
     },
   ],
   timelineHeading: "Current arc",
   timelineLede:
-    "The mix of work I keep returning to across apps, the web, systems, and public notes.",
+    "Where I’m spending cycles right now and what keeps pulling me back.",
   timelineItems: [
     {
       year: "2026",
-      title: "Developer-first portfolio rebuild",
-      body: "Turning this site into a cleaner record of shipped work, current programming interests, and the stack behind both.",
+      title: "This site, rebuilt properly",
+      body: "Astro, Sanity, Cloudflare Workers. A dev portfolio that’s also a real codebase — not a template with my name on it.",
     },
     {
       year: "2025",
-      title: "Native and web in the same practice",
-      body: "More time spent moving between Swift apps, modern web stacks, and the backend pieces that support them.",
+      title: "Native and web under one roof",
+      body: "Spending more time crossing between Swift apps and modern web stacks. Same engineering standards, different runtimes.",
     },
     {
       year: "Ongoing",
-      title: "Systems, tooling, and platform notes",
-      body: "Writing about Apple platforms, programming tools, runtimes, and the tradeoffs that show up once software leaves the draft stage.",
+      title: "Writing about the work",
+      body: "Platform changes, tooling decisions, runtime tradeoffs. If I figured something out the hard way, it probably deserves a post.",
     },
   ],
 };
@@ -149,8 +149,8 @@ const _structuredData = {
           <PhosphorIcon name="briefcase" size={14} weight="regular" />
           Operating model
         </span>
-        <h2 class="pageWidget__title">How I work</h2>
-        <p class="pageWidget__caption">The engineering constraints I optimize for when building software.</p>
+        <h2 class="pageWidget__title">How I operate</h2>
+        <p class="pageWidget__caption">The constraints I actually hold myself to. Not aspirational — this is how the code ships.</p>
       </div>
     <div class="cardGrid about__principles">
       {content.principles.map((principle) => (

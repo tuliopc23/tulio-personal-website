@@ -333,14 +333,13 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             <div class="article__bridgeCopy">
               <span class="article__bridgeEyebrow">
                 <PhosphorIcon name="article" size={14} weight="regular" />
-                Reading view
+                Reader
               </span>
               <h2 id="article-reading-bridge-title" class="article__bridgeTitle">
-                Read like you build.
+                The long version.
               </h2>
               <p class="article__bridgeCaption">
-                Practical notes, sharp tradeoffs, and the details that matter once the docs
-                meet real work.
+                Implementation details, tradeoffs, and the parts that didn't fit in a tweet.
               </p>
             </div>
           </section>
@@ -374,7 +373,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <PhosphorIcon name="quotes" size={14} weight="regular" />
                   Pull quotes
                 </span>
-                <h2 class="article__relatedTitle">Reusable lines</h2>
+                <h2 class="article__relatedTitle">Quotable bits</h2>
               </div>
               <ul class="article__resourceList">
                 {_pullQuotes.map((entry) => (
@@ -400,7 +399,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <PhosphorIcon name="check-circle" size={14} weight="regular" />
                   Key takeaways
                 </span>
-                <h2 class="article__relatedTitle">What matters</h2>
+                <h2 class="article__relatedTitle">TL;DR</h2>
               </div>
               <ul class="article__takeawayList">
                 {_takeaways.map((takeaway) => (
@@ -420,11 +419,11 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
                   <PhosphorIcon name="share" size={14} weight="regular" />
-                  Stay close
+                  Keep going
                 </span>
                 <h2 class="article__relatedTitle">Share or subscribe</h2>
                 <p class="article__sectionCaption">
-                  If the piece was useful, pass it along or keep the feed in your reader.
+                  Found this useful? Forward it, or add the feed to your reader.
                 </p>
               </div>
               <div class="article__actionGroup" role="group" aria-label="Share article">
@@ -487,9 +486,9 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                     <PhosphorIcon name="link" size={14} weight="regular" />
                     Further reading
                   </span>
-                  <h2 class="article__relatedTitle">Sources and next steps</h2>
+                  <h2 class="article__relatedTitle">Sources and links</h2>
                   <p class="article__sectionCaption">
-                    References, follow-up reading, and links that extend the piece.
+                    References, related reading, and links worth following from here.
                   </p>
                 </div>
                 <ul class="article__resourceList">
@@ -524,9 +523,9 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                     <PhosphorIcon name="link" size={14} weight="regular" />
                     Research sources
                   </span>
-                  <h2 class="article__relatedTitle">Source references</h2>
+                  <h2 class="article__relatedTitle">References</h2>
                   <p class="article__sectionCaption">
-                    Structured references connected from the editorial workspace.
+                    Primary sources and documentation cited in this post.
                   </p>
                 </div>
                 <ul class="article__resourceList">
@@ -567,7 +566,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   </span>
                   <h2 class="article__relatedTitle">Related posts</h2>
                   <p class="article__sectionCaption">
-                    More writing on apps, web systems, and implementation tradeoffs.
+                    More on similar topics — platforms, systems, and how things actually get built.
                   </p>
                 </div>
                 <div class="article__relatedGrid">
@@ -614,13 +613,12 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
           </p>
           <h1 class="article__title">Article not found</h1>
           <p class="article__summary">
-            The article you’re looking for may have been unpublished or renamed. Return to
-            the
+            This post may have been unpublished, renamed, or moved. Head back to the
             <a class="articlePortable__link motion-link-inline" href="/blog">
               {" "}
-              blog overview
+              blog
             </a>{" "}
-            to see the latest posts.
+            to see what’s current.
           </p>
         </section>
       )

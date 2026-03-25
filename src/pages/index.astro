@@ -152,14 +152,14 @@ const sectionNavItems = [
   { id: "section-profile", label: "Hello" },
   { id: "section-tools", label: "Tools" },
   { id: "section-stack", label: "Stack" },
-  { id: "section-github", label: "Proof" },
+  { id: "section-github", label: "Activity" },
   { id: "section-writing", label: "Writing" },
 ];
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
-  "Home of Tulio Cunha: Apple platform apps, full-stack web work, backend systems, and developer notes.";
+  "Tulio Cunha — full stack developer. Swift, TypeScript, Go, Rust, and Zig. Native apps, web systems, and the backend in between.";
 ---
 
 <Base
@@ -194,10 +194,10 @@ const description =
           Who am I
         </span>
         <h2 id="homepage-hello-title" class="stage-intro__title">
-          Building across platforms, from native to web.
+          Native to web and everything that runs in between.
         </h2>
         <p class="stage-intro__caption">
-          Full stack developer working with Swift, Apple platforms, the web, backend services, and systems — with a bias for clear interfaces and reliable internals.
+          Full stack developer. Swift and Apple platforms, TypeScript on the web, Go and Rust on the backend, Zig when it makes sense. I like software that works after the demo.
         </p>
       </div>
     </header>
@@ -218,13 +218,13 @@ const description =
         <div class="stage-intro__copy">
           <span class="stage-intro__eyebrow">
             <PhosphorIcon name="terminal-window" size={14} weight="regular" />
-            Daily setup
+            Daily driver
           </span>
           <h2 id="homepage-working-context-title" class="stage-intro__title">
-            Tools, stack, and the machines behind the work.
+            The shell, the editor, and everything else I actually use.
           </h2>
           <p class="stage-intro__caption">
-            The setup I use for Apple platform apps, web work, backend services, and day-to-day development.
+            My working environment for native apps, web systems, backend services, and the kind of yak-shaving that somehow always ships.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ const description =
               <span>Tools</span>
               <PhosphorIcon name="toolbox" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption surface-caption">Editors, terminals, and utilities I keep close while shipping.</p>
+            <p class="widget-caption surface-caption">The stuff that stays open. Terminals, editors, and a few apps worth paying for.</p>
           </div>
           <ul class="tools-grid" aria-label="Tools">
             {toolLinks.map((link, index) => (
@@ -279,7 +279,7 @@ const description =
               <span>Stack</span>
               <PhosphorIcon name="code" size={18} weight="regular" />
             </h2>
-            <p class="widget-caption surface-caption">Languages and frameworks I reach for across native, web, and systems work.</p>
+            <p class="widget-caption surface-caption">What I write code in. The right tool depends on where the binary ends up.</p>
           </div>
           <ul class="tools-grid" aria-label="Stack">
             {stackLinks.map((link, index) => (
@@ -304,11 +304,11 @@ const description =
         <div class="stage-intro__copy">
           <span class="stage-intro__eyebrow">
             <PhosphorIcon name="chart-bar" size={14} weight="regular" />
-            Proof of work
+            Open source
           </span>
-          <h2 id="homepage-proof-title" class="stage-intro__title">Recent shipping and public work.</h2>
+          <h2 id="homepage-proof-title" class="stage-intro__title">What moved recently and where the commits landed.</h2>
           <p class="stage-intro__caption">
-            GitHub is the live signal: repositories, commits, and what is moving right now.
+            Live from the git log. Repos, contributions, and whatever I pushed this week.
           </p>
         </div>
       </header>
@@ -323,9 +323,9 @@ const description =
             <PhosphorIcon name="article" size={14} weight="regular" />
             Journal
           </span>
-          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing and current topics.</h2>
+          <h2 id="homepage-exploration-title" class="stage-intro__title">Long-form notes on things I actually built.</h2>
           <p class="stage-intro__caption">
-            Notes on platform changes, developer tools, shipped work, and the opinions that come out of building.
+            Platform deep dives, tooling opinions, architecture decisions, and the kind of writeups that start with "I tried this and here's what happened."
           </p>
         </div>
       </header>
@@ -345,7 +345,7 @@ const description =
             <span>Writing</span>
             <PhosphorIcon name="article" size={18} weight="regular" />
           </h2>
-          <p class="widget-caption surface-caption">Recent posts on Apple platforms, web work, systems, and tooling.</p>
+          <p class="widget-caption surface-caption">Recent posts on Swift, web stacks, systems programming, and the tools around them.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
       </div>

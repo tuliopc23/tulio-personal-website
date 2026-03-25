@@ -8,7 +8,7 @@ import contactFormScriptHref from "../scripts/contact-form.ts?url";
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
 const description =
-  "Contact page for Apple apps, web development, backend systems, and tooling work.";
+  "Get in touch — project work, technical questions, or just to say hi.";
 const contactEmail = "contact@tuliocunha.dev";
 
 const structuredData = {
@@ -43,9 +43,9 @@ const structuredData = {
           <PhosphorIcon name="mail" size={14} weight="regular" />
           Contact
         </span>
-        <h1 class="pageHero__title">Send the problem, stack, and timeline.</h1>
+        <h1 class="pageHero__title">Tell me what you're building and where it's stuck.</h1>
         <p class="pageHero__lede">
-          Use this for Apple platform work, web development, backend systems, tooling, or a direct programming question. It opens an email draft with the essentials filled in.
+          Native apps, web work, backend systems, tooling — or just a sharp technical question. This form opens an email draft so you can send it straight from your mail client.
         </p>
         <div class="pageHero__meta" aria-label="Contact details">
           <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
@@ -62,8 +62,8 @@ const structuredData = {
           <PhosphorIcon name="info" size={14} weight="regular" />
           Contact
         </span>
-        <h2 class="pageWidget__title">What helps</h2>
-        <p class="pageWidget__caption">A short description of the problem, stack, timeline, and constraints is enough to start.</p>
+        <h2 class="pageWidget__title">A good first message</h2>
+        <p class="pageWidget__caption">The stack, the problem, and a rough timeline. That's enough context to start a real conversation.</p>
       </div>
       <div class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}>
         <form class={styles.contactForm} id="contact-form" data-contact-form>
@@ -83,7 +83,7 @@ const structuredData = {
               name="subject"
               type="text"
               required
-              placeholder="App, web, backend, or tooling work"
+              placeholder="e.g. iOS app, web platform, backend migration"
             />
           </label>
 
@@ -93,18 +93,18 @@ const structuredData = {
               name="message"
               rows="7"
               required
-              placeholder="What are you building, where is it stuck, and what kind of help do you need?"
+              placeholder="What's the project, what broke (or hasn't been built yet), and what does the timeline look like?"
             ></textarea>
           </label>
 
           <div class={styles.contactFormActions}>
             <button type="submit" class:list={["btn", styles.contactFormButton]}>
               <PhosphorIcon name="paper-plane-tilt" size={16} weight="regular" />
-              <span>Draft email</span>
+              <span>Open in mail</span>
             </button>
             <p class={styles.contactFormHint}>
               <PhosphorIcon name="mail" size={14} weight="regular" />
-              This opens your mail app with a prefilled draft to {contactEmail}.
+              Opens your default mail client with a draft to {contactEmail}.
             </p>
           </div>
         </form>

@@ -11,7 +11,7 @@ const githubToken = import.meta.env.GITHUB_TOKEN ?? import.meta.env.GITHUB_PERSO
 try {
   repos = await getMergedGitHubData(githubToken);
 } catch (e) {
-  error = "Failed to load GitHub activity.";
+  error = "Couldn't fetch GitHub data right now.";
   console.error(e);
 }
 ---
@@ -23,7 +23,7 @@ try {
     </div>
   ) : repos.length === 0 ? (
      <div class={styles.emptyState}>
-       <p>No recent repository activity found.</p>
+       <p>No recent activity. Check back — or check the profile directly.</p>
      </div>
   ) : (
     <RepoRail repos={repos}>

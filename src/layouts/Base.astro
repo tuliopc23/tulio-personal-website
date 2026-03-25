@@ -95,7 +95,7 @@ const globalNavLinks = [
     tint: "indigo",
     current: normalizedPath === "/",
     external: false,
-    description: "Overview, featured work, and current focus.",
+    description: "The starting point. Stack, tools, writing, and what I'm building.",
     keywords: "homepage landing featured overview",
   },
   {
@@ -105,7 +105,7 @@ const globalNavLinks = [
     tint: "blue",
     current: isBlogRoute,
     external: false,
-    description: "Programming essays on apps, systems, and tools.",
+    description: "Long-form notes on code, platforms, and implementation tradeoffs.",
     keywords: "articles writing essays notes programming",
   },
   {
@@ -115,7 +115,7 @@ const globalNavLinks = [
     tint: "orange",
     current: normalizedPath === "/projects",
     external: false,
-    description: "Selected product work, experiments, and builds.",
+    description: "Shipped apps, web products, and systems I've built or contributed to.",
     keywords: "work case studies builds portfolio apps",
   },
   {
@@ -125,31 +125,31 @@ const globalNavLinks = [
     tint: "teal",
     current: normalizedPath.startsWith("/about"),
     external: false,
-    description: "Background, approach, and working style.",
+    description: "How I think about software, what I've worked on, and how I operate.",
     keywords: "profile bio background approach",
   },
 ] as const;
 const topbarSubtitle = isArticleRoute
-  ? "Developer notes · reading view"
+  ? "Dev notes · reader mode"
   : isBlogRoute
-    ? "Programming essays · apps, web, and systems"
-    : "Full stack developer · Apple, web, and systems";
+    ? "Writing · platforms, systems, and tools"
+    : "Full stack · native, web, and systems";
 const sidebarTitle = isBlogIndexRoute ? "Programming essays" : title;
 const sidebarMeta = isArticleRoute
-  ? "Posts on apps, systems, and tools."
+  ? "Notes on platforms, code, and tools."
   : isBlogIndexRoute
-    ? "Programming essays and technical notes."
+    ? "Writing on what I build and why."
     : isBlogCategoryRoute
-      ? "Posts grouped by topic."
+      ? "Posts filtered by topic."
       : normalizedPath.startsWith("/projects")
-        ? "Apple apps, web builds, backend systems."
+        ? "Native apps, web products, backend work."
         : normalizedPath.startsWith("/about")
-          ? "Background, approach, and current interests."
+          ? "Background, principles, and current arc."
           : normalizedPath.startsWith("/now")
-            ? "Current work and next threads."
+            ? "What has my attention right now."
             : normalizedPath.startsWith("/contact")
-              ? "Email, project context, and links."
-              : "Navigation, links, and contact.";
+              ? "Reach out. Email preferred."
+              : "Navigation and links.";
 const sidebarSiteLinks = globalNavLinks;
 
 const sidebarSocialLinks = [
@@ -160,7 +160,7 @@ const sidebarSocialLinks = [
     tint: "indigo",
     current: false,
     external: true,
-    description: "Open the public code archive and recent repos.",
+    description: "Repos, commits, and public work on GitHub.",
     keywords: "github code repositories open source",
   },
   {
@@ -170,7 +170,7 @@ const sidebarSocialLinks = [
     tint: "indigo",
     current: normalizedPath.startsWith("/contact"),
     external: false,
-    description: "Project inquiries, email, and direct contact.",
+    description: "Drop a line. Project inquiries or just a question.",
     keywords: "contact email reach out inquiry",
   },
 ] as const;
@@ -531,8 +531,8 @@ const searchItems = [
           </div>
 
           <div class="topbarSearch__metaRow">
-            <p class="topbarSearch__meta">Pages, sections, contact, and external profiles.</p>
-            <span class="topbarSearch__hint">Enter opens the first match.</span>
+            <p class="topbarSearch__meta">Pages, profiles, and external links.</p>
+            <span class="topbarSearch__hint">Enter jumps to the first match.</span>
           </div>
 
           <div class="topbarSearch__results" data-site-search-results>
@@ -560,7 +560,7 @@ const searchItems = [
           </div>
 
           <p class="topbarSearch__empty" data-site-search-empty hidden>
-            No matches yet. Try a page name, a topic, or a platform.
+            Nothing here. Try a page name or topic.
           </p>
           <span class="sr-only" data-site-search-status aria-live="polite" role="status"></span>
         </div>
@@ -672,7 +672,7 @@ const searchItems = [
                 </span>
               </p>
               <p class="footer__copy">
-                Full stack developer working across Apple platforms, the web, backend, and systems.
+                Full stack developer. Native apps, web systems, backend services, and the glue between them.
               </p>
             </div>
             <div class="footer__actions">
@@ -689,7 +689,7 @@ const searchItems = [
               </nav>
             </div>
             <div class="footer__meta">
-              <p class="footer__status">Usually in Swift, TypeScript, Go, Rust, or a terminal tab that has gone too far.</p>
+              <p class="footer__status">Probably in a terminal tab right now. Swift, TypeScript, Go, Rust, Zig — depends on the day.</p>
               <p class="footer__legal">
                 © {new Date().getFullYear()} Tulio Cunha. Built with Astro.
               </p>

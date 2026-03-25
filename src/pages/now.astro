@@ -13,44 +13,44 @@ if (import.meta.env.PROD && !pageContent) {
 
 const defaults = {
   seoDescription:
-    "What I am building now across Apple apps, web work, backend systems, and developer notes.",
+    "What Tulio Cunha is working on right now — active projects, next priorities, and the backlog.",
   heroEyebrow: "Now",
-  heroTitle: "What I’m building now, what’s next, and what’s on deck.",
+  heroTitle: "Current focus, next in queue, and the backlog I’m trying to earn time for.",
   heroLede:
-    "A working snapshot of the code, platforms, tools, and essays that currently have attention.",
+    "A live snapshot. What I’m actively shipping, what’s staged, and what’s still just an idea in a markdown file.",
   nowItems: [
-    "Swift work for Apple platforms, especially macOS-first ideas",
-    "Full-stack web and backend work that shares the same engineering discipline",
-    "Essays on platform changes, tooling, and current programming topics",
+    "Swift on Apple platforms — macOS-first, with iOS where it makes sense",
+    "Full-stack web and backend work with the same engineering bar",
+    "Writing about platform changes, tooling choices, and things that broke",
   ],
   nextItems: [
-    "More project write-ups with architecture and implementation detail",
-    "More essays on Apple platforms, local AI, and implementation tradeoffs",
-    "Small improvements to the publishing flow and project index",
+    "Project writeups with real architecture detail, not just screenshots",
+    "Posts on Apple platform APIs, local inference, and systems tradeoffs",
+    "Publishing pipeline and project index improvements",
   ],
   laterItems: [
-    "Small tools in Zig, Rust, and Go",
-    "More experiments around local tooling, automation, and developer UX",
-    "Deeper comparisons between native and web implementation patterns",
+    "CLI tools in Zig, Rust, and Go",
+    "Local tooling experiments, scripting, and developer UX",
+    "Native vs. web comparison posts — same feature, different runtimes",
   ],
-  signalsHeading: "What success looks like",
-  signalsLede: "The signals I watch to know the current mix of work is healthy.",
+  signalsHeading: "Health checks",
+  signalsLede: "How I know the work is going in the right direction.",
   executionSignals: [
     {
-      title: "Shipped code stays visible",
-      body: "Projects, commits, and notes should reflect real work rather than placeholder narrative.",
+      title: "The git log tells the story",
+      body: "If the projects page and commit history don’t reflect real work, something’s off. No placeholders.",
     },
     {
-      title: "One practice across platforms",
-      body: "The same standards should hold across Swift apps, web products, backend work, and systems code.",
+      title: "Same bar, every runtime",
+      body: "Swift, TypeScript, Go, Rust — the engineering standards don’t change just because the compiler did.",
     },
     {
-      title: "Writing stays close to the work",
-      body: "The blog should track current platform changes, tools, and opinions that come directly from programming work.",
+      title: "Writing follows building",
+      body: "The blog should lag the code by days, not months. If I built it, I should write about it while it’s fresh.",
     },
   ],
-  githubHeading: "GitHub activity",
-  githubLede: "Recent commits across active repositories.",
+  githubHeading: "Recent commits",
+  githubLede: "What moved across repos this week.",
 };
 
 const content = {
@@ -131,8 +131,8 @@ const _structuredData = {
           <PhosphorIcon name="notebook" size={14} weight="regular" />
           Queue
         </span>
-        <h2 class="pageWidget__title">What has attention right now</h2>
-        <p class="pageWidget__caption">A rough split between active engineering work, near-term follow-ups, and ideas I want to earn time for.</p>
+        <h2 class="pageWidget__title">Where the cycles are going</h2>
+        <p class="pageWidget__caption">Active work, near-term queue, and ideas that need a free weekend to get started.</p>
       </div>
       <div class="now__columns" role="list" aria-label="Roadmap stages">
       <article class="now__column hover-elevate motion-surface-standard" role="listitem" data-parallax-card>

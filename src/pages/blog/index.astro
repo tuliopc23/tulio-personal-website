@@ -23,18 +23,18 @@ const formatter = new Intl.DateTimeFormat("en", {
 
 const defaults = {
   pageDescription:
-    "Essays and programming notes on Apple platforms, web development, backend systems, and tooling.",
-  heroEyebrow: "Essays",
-  heroTitle: "Programming essays on Apple platforms, web development, systems, and tools.",
+    "Dev notes on Swift, TypeScript, Go, Rust, Zig — platforms, systems, tooling, and the tradeoffs behind real code.",
+  heroEyebrow: "Writing",
+  heroTitle: "Notes on building software, from the terminal up.",
   heroLede:
-    "Writing about Swift and Apple platform development, full-stack web work, backend systems, programming tools, and the tradeoffs behind real implementation choices.",
-  emptyStateTitle: "No posts yet",
+    "Platform deep dives, tooling takes, architecture decisions, and the kind of posts that start with 'I tried this and here's what happened.' Mostly Swift, TypeScript, Go, Rust, and systems work.",
+  emptyStateTitle: "Nothing published yet",
   emptyStateBody:
-    "The essays are still in draft. RSS and Atom will pick up the first post as soon as it lands.",
+    "Posts are in draft. Drop the RSS or Atom feed in your reader — the first one will show up there.",
   archiveHeading: "By year",
-  archiveLede: "A simple view of what was published and when.",
+  archiveLede: "Everything published, sorted by when it shipped.",
   allArticlesLabel: "All posts",
-  loadOlderLabel: "Load older posts",
+  loadOlderLabel: "Load more",
 };
 
 function refineHeroLede(lede: string) {
@@ -159,21 +159,21 @@ const _placeholders = pageContent?.placeholderCards?.length
       {
         title: "Swift and Apple platforms",
         summary:
-          "Programming notes on native apps, platform changes, APIs, and what matters once the release notes meet real code.",
+          "Notes on native APIs, SwiftUI, platform changes, and what the WWDC sessions don't tell you.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
         title: "Backend and systems",
         summary:
-          "Essays on APIs, background work, runtimes, local tooling, and the less visible parts that keep software working.",
+          "Go, Rust, runtimes, infra. The parts of the stack nobody screenshots but everything depends on.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
         title: "Tooling and workflow",
         summary:
-          "Programming workflow notes on editors, automation, terminals, and the habits that make daily development smoother.",
+          "Terminal setups, editor configs, CI pipelines, and the small automations that compound over time.",
         href: "/blog/",
         tags: ["Preview"],
       },
@@ -186,8 +186,8 @@ const _sectionHeaders = {
   },
   latest: {
     eyebrow: "Recent posts",
-    title: "Latest entries",
-    lede: "Recent essays on programming, toolchains, platform changes, and implementation tradeoffs.",
+    title: "Latest",
+    lede: "Recent writing on platforms, toolchains, and the decisions that show up once you start building.",
     icon: "notebook",
   },
 } as const;

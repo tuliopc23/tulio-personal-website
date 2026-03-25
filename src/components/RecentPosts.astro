@@ -39,7 +39,7 @@ const hasPost = recentPosts.length > 0;
   <div class:list={[styles.header, "surface-header"]}>
     <h2 class:list={[styles.title, "surface-title"]}>Recent writing</h2>
     <p class:list={[styles.subtitle, "surface-caption"]}>
-      Essays on Apple platforms, web development, systems, and tooling.
+      Platforms, systems, tooling, and the decisions behind the code.
     </p>
   </div>
 
@@ -64,13 +64,13 @@ const hasPost = recentPosts.length > 0;
       </div>
     ) : (
       <div class:list={[styles.empty, "surface-panel", "surface-panel--nested"]}>
-        <h3>No posts yet</h3>
+        <h3>Nothing published yet</h3>
         <p>
-          The essays are still in draft. Subscribe via{" "}
+          Posts are in draft. Add the{" "}
           <a href="/rss.xml" class={styles.link}>
             RSS
           </a>{" "}
-          and the first post will show up there.
+          feed to your reader — first post will land there.
         </p>
       </div>
     )
