@@ -277,6 +277,35 @@ export type ProjectsPage = {
   heroEyebrow?: string;
   heroTitle?: string;
   heroLede?: string;
+  caseStudies?: Array<{
+    icon?:
+      | "desktop-tower"
+      | "soccer-ball"
+      | "chart-line-up"
+      | "compass"
+      | "code"
+      | "rocket-launch"
+      | "briefcase";
+    eyebrow?: string;
+    title?: string;
+    headline?: string;
+    lede?: string;
+    role?: string;
+    status?: "live" | "maintained" | "exploration";
+    href?: string;
+    stack?: Array<string>;
+    images?: Array<{
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      alt?: string;
+      _type: "image";
+      _key: string;
+    }>;
+    _type: "caseStudy";
+    _key: string;
+  }>;
   filterEmptyTitle?: string;
   filterEmptyBody?: string;
   pageEmptyTitle?: string;

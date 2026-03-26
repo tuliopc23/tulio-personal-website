@@ -54,6 +54,27 @@ export interface ProjectsPageContent {
   heroEyebrow: string;
   heroTitle: string;
   heroLede: string;
+  caseStudies?: Array<{
+    _key: string;
+    icon: string;
+    eyebrow: string;
+    title: string;
+    headline: string;
+    lede: string;
+    role: string;
+    status: "live" | "maintained" | "exploration";
+    href?: string | null;
+    stack: string[];
+    images: Array<{
+      _key: string;
+      alt?: string | null;
+      url: string | null;
+      dimensions?: {
+        width?: number | null;
+        height?: number | null;
+      } | null;
+    }>;
+  }> | null;
   filterEmptyTitle: string;
   filterEmptyBody: string;
   pageEmptyTitle: string;
@@ -132,6 +153,24 @@ export async function getProjectsPageContent(): Promise<ProjectsPageContent | nu
       heroEyebrow,
       heroTitle,
       heroLede,
+      caseStudies[]{
+        _key,
+        icon,
+        eyebrow,
+        title,
+        headline,
+        lede,
+        role,
+        status,
+        href,
+        stack,
+        images[]{
+          _key,
+          alt,
+          "url": asset->url,
+          "dimensions": asset->metadata.dimensions
+        }
+      },
       filterEmptyTitle,
       filterEmptyBody,
       pageEmptyTitle,

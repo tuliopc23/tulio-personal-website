@@ -1,5 +1,21 @@
 import { ProjectsIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
+
+const CASE_STUDY_ICONS = [
+  { title: "Desktop Tower", value: "desktop-tower" },
+  { title: "Soccer Ball", value: "soccer-ball" },
+  { title: "Chart Line Up", value: "chart-line-up" },
+  { title: "Compass", value: "compass" },
+  { title: "Code", value: "code" },
+  { title: "Rocket Launch", value: "rocket-launch" },
+  { title: "Briefcase", value: "briefcase" },
+];
+
+const CASE_STUDY_STATUS_OPTIONS = [
+  { title: "Live", value: "live" },
+  { title: "Maintained", value: "maintained" },
+  { title: "Exploration", value: "exploration" },
+];
 
 export default defineType({
   name: "projectsPage",
@@ -8,6 +24,11 @@ export default defineType({
   icon: ProjectsIcon,
   fieldsets: [
     { name: "hero", title: "Hero", options: { collapsible: true, collapsed: false } },
+    {
+      name: "featured",
+      title: "Featured Case Studies",
+      options: { collapsible: true, collapsed: false },
+    },
     { name: "empty", title: "Empty States", options: { collapsible: true, collapsed: true } },
     { name: "ops", title: "Editorial Ops", options: { collapsible: true, collapsed: true } },
   ],
@@ -41,6 +62,119 @@ export default defineType({
       fieldset: "hero",
       rows: 3,
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "caseStudies",
+      title: "Featured Case Studies",
+      type: "array",
+      fieldset: "featured",
+      description: "Editorial slides shown in the featured carousel at the top of the page.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "caseStudy",
+          title: "Case Study",
+          fields: [
+            defineField({
+              name: "icon",
+              title: "Icon",
+              type: "string",
+              options: { list: CASE_STUDY_ICONS },
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "eyebrow",
+              title: "Eyebrow",
+              type: "string",
+              validation: (rule) => rule.required().max(40),
+            }),
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required().max(80),
+            }),
+            defineField({
+              name: "headline",
+              title: "Headline",
+              type: "string",
+              validation: (rule) => rule.required().max(180),
+            }),
+            defineField({
+              name: "lede",
+              title: "Lede",
+              type: "text",
+              rows: 5,
+              validation: (rule) => rule.required().max(700),
+            }),
+            defineField({
+              name: "role",
+              title: "Role",
+              type: "string",
+              validation: (rule) => rule.required().max(80),
+            }),
+            defineField({
+              name: "status",
+              title: "Status",
+              type: "string",
+              options: {
+                list: CASE_STUDY_STATUS_OPTIONS,
+                layout: "radio",
+              },
+              initialValue: "live",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "href",
+              title: "External URL",
+              type: "url",
+            }),
+            defineField({
+              name: "stack",
+              title: "Tech Stack",
+              type: "array",
+              of: [defineArrayMember({ type: "string" })],
+              validation: (rule) => rule.required().min(1).max(8),
+            }),
+            defineField({
+              name: "images",
+              title: "Gallery Images",
+              type: "array",
+              description: "Used in the two-up showcase inside each carousel slide.",
+              of: [
+                defineArrayMember({
+                  type: "image",
+                  options: { hotspot: true },
+                  fields: [
+                    defineField({
+                      name: "alt",
+                      title: "Alt text",
+                      type: "string",
+                      validation: (rule) => rule.required().min(8),
+                    }),
+                  ],
+                }),
+              ],
+              validation: (rule) => rule.required().min(1).max(4),
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "eyebrow",
+              media: "images.0",
+            },
+            prepare({ title, subtitle, media }) {
+              return {
+                title: title ?? "Untitled case study",
+                subtitle: subtitle ?? "Featured case study",
+                media,
+              };
+            },
+          },
+        }),
+      ],
+      validation: (rule) => rule.max(8),
     }),
     defineField({
       name: "filterEmptyTitle",

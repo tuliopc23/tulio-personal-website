@@ -3,7 +3,16 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import CardmaniacsImage1 from "../../Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 1.png";
+import CardmaniacsImage2 from "../../Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 2.png";
+import OffsideImage1 from "../../Case Studies/The Offside/theoffside 1.jpeg";
+import OffsideImage2 from "../../Case Studies/The Offside/theoffside 2.jpeg";
+import CapitalImage1 from "../../Case Studies/Capital-Financial-Consulting/Capital.jpeg";
+import CapitalImage2 from "../../Case Studies/Capital-Financial-Consulting/relatorioscapital.png";
+import NomadzImage1 from "../../Case Studies/Nomadz-trips/Nomadz-landscapes.jpeg";
+import NomadzImage2 from "../../Case Studies/Nomadz-trips/Nomadz-landscapes 1.jpeg";
 import { getAllProjects } from "../sanity/lib/projects";
+import { optimizedImageUrl } from "../sanity/lib/image";
 import { getProjectsPageContent } from "../sanity/lib/page-content";
 
 const projects = await getAllProjects();
@@ -43,7 +52,26 @@ const _structuredData = {
   url: canonicalUrl,
 };
 
-const caseStudies = [
+type CaseStudySlide = {
+  id: string;
+  icon: string;
+  eyebrow: string;
+  title: string;
+  headline: string;
+  lede: string;
+  role: string;
+  stack: string[];
+  status: "live" | "maintained" | "exploration";
+  href?: string;
+  images: Array<{
+    src: string;
+    alt: string;
+    width?: number;
+    height?: number;
+  }>;
+};
+
+const defaultCaseStudies: CaseStudySlide[] = [
   {
     id: "cardmaniacs",
     icon: "desktop-tower",
@@ -56,11 +84,11 @@ const caseStudies = [
     status: "live",
     images: [
       {
-        src: "/images/cases/cardmaniacs-1.webp",
+        src: CardmaniacsImage1.src,
         alt: "CardManiacs dark mode card grid with article previews",
       },
       {
-        src: "/images/cases/cardmaniacs-2.webp",
+        src: CardmaniacsImage2.src,
         alt: "CardManiacs article reader with on-device AI summary",
       },
     ],
@@ -79,11 +107,11 @@ const caseStudies = [
     status: "live",
     images: [
       {
-        src: "/images/cases/offside-1.webp",
+        src: OffsideImage1.src,
         alt: "The Offside editorial homepage with Highbury-inspired design",
       },
       {
-        src: "/images/cases/offside-2.webp",
+        src: OffsideImage2.src,
         alt: "The Offside Premier League table and matchday board",
       },
     ],
@@ -100,9 +128,9 @@ const caseStudies = [
     stack: ["React", "PostgreSQL", "Hono"],
     status: "live",
     images: [
-      { src: "/images/cases/capital-1.webp", alt: "Capital Financial Consulting landing page" },
+      { src: CapitalImage1.src, alt: "Capital Financial Consulting landing page" },
       {
-        src: "/images/cases/capital-2.webp",
+        src: CapitalImage2.src,
         alt: "Capital Financial Consulting consultant dashboard with charts",
       },
     ],
@@ -120,16 +148,44 @@ const caseStudies = [
     status: "live",
     images: [
       {
-        src: "/images/cases/nomadz-1.webp",
+        src: NomadzImage1.src,
         alt: "Nomadz Trips homepage with aerial beach photography",
       },
       {
-        src: "/images/cases/nomadz-2.webp",
+        src: NomadzImage2.src,
         alt: "Nomadz Trips trip listing and booking interface",
       },
     ],
   },
 ];
+
+const caseStudies =
+  pageContent?.caseStudies && pageContent.caseStudies.length > 0
+    ? pageContent.caseStudies.map((cs) => ({
+        id: cs._key,
+        icon: cs.icon,
+        eyebrow: cs.eyebrow,
+        title: cs.title,
+        headline: cs.headline,
+        lede: cs.lede,
+        role: cs.role,
+        stack: cs.stack ?? [],
+        href: cs.href ?? undefined,
+        status: cs.status,
+        images: (cs.images ?? [])
+          .filter((image) => image?.url)
+          .map((image) => ({
+            src: optimizedImageUrl(image.url as string, 1600, 1000, {
+              fit: "cover",
+              quality: 88,
+              sharpen: 1,
+            }),
+            alt: image.alt ?? cs.title,
+            width: image.dimensions?.width ?? undefined,
+            height: image.dimensions?.height ?? undefined,
+          })),
+      }))
+    : defaultCaseStudies;
 
 const _statusLabels: Record<string, string> = {
   live: "Live",
@@ -220,7 +276,8 @@ const _statusIcons: Record<string, string> = {
                   <PhosphorIcon name={cs.icon} size={14} weight="regular" />
                   {cs.eyebrow}
                 </span>
-                <h2 class="stage-intro__title">{cs.headline}</h2>
+                <h2 class="stage-intro__title">{cs.title}</h2>
+                <p class="caseSlide__headline">{cs.headline}</p>
                 <p class="stage-intro__caption">{cs.lede}</p>
               </div>
             </header>
@@ -238,6 +295,8 @@ const _statusIcons: Record<string, string> = {
                     <img
                       src={img.src}
                       alt={img.alt}
+                      width={img.width}
+                      height={img.height}
                       class="caseSlide__image"
                       loading={i === 0 ? "eager" : "lazy"}
                       decoding="async"
@@ -395,6 +454,22 @@ const _statusIcons: Record<string, string> = {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: clamp(var(--space-sm), 2vw, var(--space-md));
+    }
+
+    .caseSlide__headline {
+      margin: 0;
+      font-size: clamp(1rem, 0.92rem + 0.4vw, 1.125rem);
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .caseSlide__headline {
+      color: rgba(235, 235, 245, 0.82);
+    }
+
+    [data-theme="light"] .caseSlide__headline {
+      color: rgba(60, 60, 67, 0.82);
     }
 
     .caseSlide__frame {
