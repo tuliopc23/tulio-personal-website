@@ -8,11 +8,6 @@ export default defineType({
   icon: DocumentTextIcon,
   fieldsets: [
     { name: "hero", title: "Hero", options: { collapsible: true, collapsed: false } },
-    {
-      name: "editorial",
-      title: "Editorial Direction",
-      options: { collapsible: true, collapsed: false },
-    },
     { name: "archive", title: "Archive Settings", options: { collapsible: true, collapsed: true } },
     { name: "empty", title: "Empty States", options: { collapsible: true, collapsed: true } },
     { name: "ops", title: "Editorial Ops", options: { collapsible: true, collapsed: true } },
@@ -65,52 +60,6 @@ export default defineType({
       initialValue:
         "The essays are still in draft. RSS and Atom will pick up the first post as soon as it lands.",
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "editorialDirectionHeading",
-      title: "Editorial Direction Heading",
-      type: "string",
-      fieldset: "editorial",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "editorialDirectionLede",
-      title: "Editorial Direction Lede",
-      type: "text",
-      fieldset: "editorial",
-      rows: 2,
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "pillars",
-      title: "Editorial Pillars",
-      type: "array",
-      fieldset: "editorial",
-      of: [
-        defineArrayMember({
-          type: "object",
-          fields: [
-            defineField({
-              name: "icon",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "title",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "body",
-              type: "text",
-              rows: 3,
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: { select: { title: "title", subtitle: "body" } },
-        }),
-      ],
-      validation: (rule) => rule.required().min(2).max(6),
     }),
     defineField({
       name: "archiveHeading",

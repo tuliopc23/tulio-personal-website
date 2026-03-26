@@ -15,9 +15,6 @@ export interface BlogPageContent {
   heroLede: string;
   emptyStateTitle: string;
   emptyStateBody: string;
-  editorialDirectionHeading: string;
-  editorialDirectionLede: string;
-  pillars: Array<{ _key: string; icon: string; title: string; body: string }>;
   archiveHeading?: string | null;
   archiveLede?: string | null;
   allArticlesLabel: string;
@@ -90,9 +87,6 @@ export async function getBlogPageContent(): Promise<BlogPageContent | null> {
       heroLede,
       emptyStateTitle,
       emptyStateBody,
-      editorialDirectionHeading,
-      editorialDirectionLede,
-      pillars[]{_key,icon,title,body},
       archiveHeading,
       archiveLede,
       allArticlesLabel,

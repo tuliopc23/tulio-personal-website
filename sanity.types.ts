@@ -233,13 +233,6 @@ export type AboutPageReference = {
   [internalGroqTypeReferenceTo]?: "aboutPage";
 };
 
-export type NowPageReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "nowPage";
-};
-
 export type ProjectsPageReference = {
   _ref: string;
   _type: "reference";
@@ -264,7 +257,7 @@ export type ContentBrief = {
   notes?: string;
   linkedPost?: PostReference;
   linkedProject?: ProjectReference;
-  linkedPage?: BlogPageReference | AboutPageReference | NowPageReference | ProjectsPageReference;
+  linkedPage?: BlogPageReference | AboutPageReference | ProjectsPageReference;
 };
 
 export type ProjectsPage = {
@@ -311,34 +304,6 @@ export type ProjectsPage = {
   pageEmptyTitle?: string;
   pageEmptyBody?: string;
   contactEmail?: string;
-  seo?: Seo;
-  pageIntent?: string;
-  changeNotes?: string;
-};
-
-export type NowPage = {
-  _id: string;
-  _type: "nowPage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  seoDescription?: string;
-  heroEyebrow?: string;
-  heroTitle?: string;
-  heroLede?: string;
-  lastUpdated?: string;
-  nowItems?: Array<string>;
-  nextItems?: Array<string>;
-  laterItems?: Array<string>;
-  signalsHeading?: string;
-  signalsLede?: string;
-  executionSignals?: Array<{
-    title?: string;
-    body?: string;
-    _key: string;
-  }>;
-  githubHeading?: string;
-  githubLede?: string;
   seo?: Seo;
   pageIntent?: string;
   changeNotes?: string;
@@ -629,14 +594,6 @@ export type BlogPage = {
   heroLede?: string;
   emptyStateTitle?: string;
   emptyStateBody?: string;
-  editorialDirectionHeading?: string;
-  editorialDirectionLede?: string;
-  pillars?: Array<{
-    icon?: string;
-    title?: string;
-    body?: string;
-    _key: string;
-  }>;
   archiveHeading?: string;
   archiveLede?: string;
   allArticlesLabel?: string;
@@ -1028,11 +985,9 @@ export type AllSanitySchemaTypes =
   | ProjectReference
   | BlogPageReference
   | AboutPageReference
-  | NowPageReference
   | ProjectsPageReference
   | ContentBrief
   | ProjectsPage
-  | NowPage
   | Project
   | SeriesReference
   | AuthorReference

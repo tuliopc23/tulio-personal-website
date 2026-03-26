@@ -28,14 +28,6 @@ const defaults = {
   heroTitle: "Writing on code, systems thinking, and the realities of shipping software.",
   heroLede:
     "Long reads on real code — architecture bets, tooling rabbit holes, the debug sessions nobody warns you about. Mostly Swift, TypeScript, Go, Rust, and whatever else the problem demands.",
-  editorialDirectionHeading: "Editorial direction",
-  editorialDirectionLede:
-    "A few durable pillars that keep the blog coherent. Filter by topic to find the thread, then dig in for the implementation details.",
-  pillars: [
-    { _key: "p-systems", icon: "sparkle", title: "Systems thinking", body: "Tradeoffs, invariants, and what actually breaks under real constraints." },
-    { _key: "p-craft", icon: "code", title: "Implementation craft", body: "Clean interfaces, measurable performance, and code that holds up after the demo." },
-    { _key: "p-writing", icon: "terminal", title: "Writing as debugging", body: "Notes captured while building, so the reader gets the decisions and the reasoning." },
-  ],
   emptyStateTitle: "Nothing shipped yet",
   emptyStateBody:
     "Posts are still in draft. Grab the RSS or Atom feed — you'll know when the first one lands.",
@@ -89,10 +81,6 @@ const content = {
   heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
   heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
   heroLede: pageContent?.heroLede ?? defaults.heroLede,
-  editorialDirectionHeading:
-    pageContent?.editorialDirectionHeading ?? defaults.editorialDirectionHeading,
-  editorialDirectionLede: pageContent?.editorialDirectionLede ?? defaults.editorialDirectionLede,
-  pillars: pageContent?.pillars?.length ? pageContent.pillars : defaults.pillars,
   emptyStateTitle: pageContent?.emptyStateTitle ?? defaults.emptyStateTitle,
   emptyStateBody: pageContent?.emptyStateBody ?? defaults.emptyStateBody,
   archiveHeading: pageContent?.archiveHeading ?? defaults.archiveHeading,
@@ -258,38 +246,6 @@ const _sectionHeaders = {
         </div>
       )
     }
-  </section>
-
-  <section class="container blogEditorial pageWidget" data-reveal data-reveal-group="blog-editorial">
-    <header class="stage-intro stage-intro--single">
-      <div class="stage-intro__copy">
-        <span class="stage-intro__eyebrow">
-          <PhosphorIcon name="sparkle" size={14} weight="regular" />
-          {content.editorialDirectionHeading}
-        </span>
-        <h2 class="stage-intro__title">{content.editorialDirectionHeading}</h2>
-        <p class="stage-intro__caption">{content.editorialDirectionLede}</p>
-      </div>
-    </header>
-    <div class="blogEditorial__pillars" role="list" aria-label="Editorial pillars">
-      {content.pillars.map((pillar) => (
-        <article
-          class="card card--static hover-elevate motion-surface-standard"
-          role="listitem"
-          data-parallax-card
-        >
-          <div class="card__inner">
-            <div class="card__content">
-              <span class="card__icon" aria-hidden="true">
-                <PhosphorIcon name={pillar.icon} size={20} weight="regular" />
-              </span>
-              <h3 class="card-title">{pillar.title}</h3>
-              <p class="card-body">{pillar.body}</p>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
   </section>
 
   {
@@ -651,17 +607,7 @@ const _sectionHeaders = {
     }
   </script>
   <style>
-    .blogEditorial__pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-md);
-    }
-
     @media (max-width: 768px) {
-      .blogEditorial__pillars {
-        grid-template-columns: 1fr;
-      }
-
       .blogSurface--feed {
         gap: var(--space-sm);
       }
