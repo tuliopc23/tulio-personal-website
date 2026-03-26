@@ -166,49 +166,53 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
 
   try {
     const sanityRepos = await fetchSanityRepos(sanityToken);
-    const results: unknown[] = [];
+    const results = (
+      await Promise.all(
+        sanityRepos.map(async (repo) => {
+          const [ghRepo, ghCommits] = await Promise.all([
+            fetchGitHub<GitHubRestRepo>(`/repos/${repo.repoFullName}`, githubTokens),
+            fetchGitHub<GitHubRestCommit[]>(
+              `/repos/${repo.repoFullName}/commits?per_page=5`,
+              githubTokens,
+            ),
+          ]);
 
-    for (const repo of sanityRepos) {
-      const ghRepo = await fetchGitHub<GitHubRestRepo>(`/repos/${repo.repoFullName}`, githubTokens);
-      if (!ghRepo) continue;
-      if (ghRepo.private && !repo.showPrivate) continue;
+          if (!ghRepo) return null;
+          if (ghRepo.private && !repo.showPrivate) return null;
 
-      const ghCommits = await fetchGitHub<GitHubRestCommit[]>(
-        `/repos/${repo.repoFullName}/commits?per_page=5`,
-        githubTokens,
-      );
+          const commits = (ghCommits ?? [])
+            .filter((c) => c.commit?.message)
+            .map((c) => ({
+              sha: c.sha,
+              shortSha: c.sha.substring(0, 7).toUpperCase(),
+              message: c.commit.message.split("\n")[0].trim(),
+              committedAt: formatRelativeTime(c.commit.author.date),
+              url: c.html_url,
+            }));
 
-      const commits = (ghCommits ?? [])
-        .filter((c) => c.commit?.message)
-        .map((c) => ({
-          sha: c.sha,
-          shortSha: c.sha.substring(0, 7).toUpperCase(),
-          message: c.commit.message.split("\n")[0].trim(),
-          committedAt: formatRelativeTime(c.commit.author.date),
-          url: c.html_url,
-        }));
+          const primaryLanguage = LANGUAGE_OVERRIDES[ghRepo.full_name] ?? ghRepo.language ?? "Code";
 
-      const primaryLanguage = LANGUAGE_OVERRIDES[ghRepo.full_name] ?? ghRepo.language ?? "Code";
-
-      results.push({
-        id: repo._id,
-        repoFullName: ghRepo.full_name,
-        repoName: ghRepo.name,
-        displayTitle: repo.displayTitle ?? ghRepo.name,
-        description: repo.description ?? stripEmojis(ghRepo.description ?? ""),
-        category: repo.category ?? "Code",
-        primaryLanguage,
-        primaryLanguageIcon:
-          primaryLanguage.toLowerCase() in { astro: 1, javascript: 1, swift: 1, typescript: 1 }
-            ? primaryLanguage.toLowerCase()
-            : null,
-        updatedAt: ghRepo.updated_at,
-        isPrivate: ghRepo.private,
-        repoUrl: ghRepo.html_url,
-        showRepositoryLink: repo.showRepositoryLink,
-        commits,
-      });
-    }
+          return {
+            id: repo._id,
+            repoFullName: ghRepo.full_name,
+            repoName: ghRepo.name,
+            displayTitle: repo.displayTitle ?? ghRepo.name,
+            description: repo.description ?? stripEmojis(ghRepo.description ?? ""),
+            category: repo.category ?? "Code",
+            primaryLanguage,
+            primaryLanguageIcon:
+              primaryLanguage.toLowerCase() in { astro: 1, javascript: 1, swift: 1, typescript: 1 }
+                ? primaryLanguage.toLowerCase()
+                : null,
+            updatedAt: ghRepo.updated_at,
+            isPrivate: ghRepo.private,
+            repoUrl: ghRepo.html_url,
+            showRepositoryLink: repo.showRepositoryLink,
+            commits,
+          };
+        }),
+      )
+    ).filter((repo): repo is NonNullable<typeof repo> => repo !== null);
 
     const body = JSON.stringify(results);
     await env.CACHE.put(GITHUB_CACHE_KEY, body, { expirationTtl: GITHUB_CACHE_TTL });

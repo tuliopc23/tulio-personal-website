@@ -28,7 +28,7 @@ describe("sanity presentation resolve", () => {
     ]);
     expect(locations.blogPage.resolve({}).locations).toEqual([{ title: "Blog", href: "/blog/" }]);
     expect(locations.projectsPage.resolve({}).locations).toEqual([
-      { title: "Projects", href: "/projects/" },
+      { title: "Case Studies", href: "/projects/" },
     ]);
   });
 });

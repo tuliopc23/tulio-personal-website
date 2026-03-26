@@ -135,16 +135,16 @@ describe("case carousel", () => {
       left: getSlideOffset(1),
     });
     expect(getScrollLeft()).toBe(getSlideOffset(1));
-    expect(Array.from(document.querySelectorAll("[data-case-nav]")).map((pill) => pill.getAttribute("aria-pressed"))).toEqual([
-      "false",
-      "true",
-      "false",
-    ]);
-    expect(Array.from(document.querySelectorAll("[data-case-slide]")).map((slide) => slide.getAttribute("aria-hidden"))).toEqual([
-      "true",
-      "false",
-      "true",
-    ]);
+    expect(
+      Array.from(document.querySelectorAll("[data-case-nav]")).map((pill) =>
+        pill.getAttribute("aria-pressed"),
+      ),
+    ).toEqual(["false", "true", "false"]);
+    expect(
+      Array.from(document.querySelectorAll("[data-case-slide]")).map((slide) =>
+        slide.getAttribute("aria-hidden"),
+      ),
+    ).toEqual(["true", "false", "true"]);
   });
 
   test("a pill still scrolls correctly after the track was moved before the click", async () => {
@@ -160,15 +160,15 @@ describe("case carousel", () => {
     (document.querySelectorAll("[data-case-nav]")[2] as HTMLButtonElement).click();
 
     expect(getScrollLeft()).toBe(getSlideOffset(2));
-    expect(Array.from(document.querySelectorAll("[data-case-nav]")).map((pill) => pill.getAttribute("aria-pressed"))).toEqual([
-      "false",
-      "false",
-      "true",
-    ]);
-    expect(Array.from(document.querySelectorAll("[data-case-slide]")).map((slide) => slide.getAttribute("aria-hidden"))).toEqual([
-      "true",
-      "true",
-      "false",
-    ]);
+    expect(
+      Array.from(document.querySelectorAll("[data-case-nav]")).map((pill) =>
+        pill.getAttribute("aria-pressed"),
+      ),
+    ).toEqual(["false", "false", "true"]);
+    expect(
+      Array.from(document.querySelectorAll("[data-case-slide]")).map((slide) =>
+        slide.getAttribute("aria-hidden"),
+      ),
+    ).toEqual(["true", "true", "false"]);
   });
 });

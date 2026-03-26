@@ -189,69 +189,57 @@ export async function getMergedGitHubData(
   githubToken: string | undefined,
 ): Promise<NormalizedRepoCard[]> {
   const sanityRepos = await fetchSanityRepos();
+  const normalizedRepos = await Promise.all(
+    sanityRepos.map(async (sanityRepo) => {
+      const { repoFullName } = sanityRepo;
+      const [ghRepo, ghCommits] = await Promise.all([
+        fetchFromGitHub<GitHubRestRepo>(`/repos/${repoFullName}`, githubToken),
+        fetchFromGitHub<GitHubRestCommit[]>(
+          `/repos/${repoFullName}/commits?per_page=5`,
+          githubToken,
+        ),
+      ]);
 
-  const normalizedRepos: NormalizedRepoCard[] = [];
+      if (!ghRepo) return null;
+      if (ghRepo.private && !sanityRepo.showPrivate) return null;
 
-  for (const sanityRepo of sanityRepos) {
-    const { repoFullName } = sanityRepo;
+      const mappedCommits: GitHubCommit[] = (ghCommits || [])
+        .filter((c) => c.commit?.message)
+        .map((c) => {
+          const fullMessage = c.commit.message as string;
+          const subject = fullMessage.split("\n")[0].trim();
 
-    // Fetch live metadata
-    const ghRepo = await fetchFromGitHub<GitHubRestRepo>(`/repos/${repoFullName}`, githubToken);
+          return {
+            sha: c.sha,
+            shortSha: c.sha.substring(0, 7).toUpperCase(),
+            message: subject,
+            committedAt: formatRelativeTime(c.commit.author.date),
+            url: c.html_url,
+          };
+        });
 
-    // Skip if repo isn't found or if it's private but we don't have permission to show it
-    if (!ghRepo) continue;
-    if (ghRepo.private && !sanityRepo.showPrivate) continue;
+      const finalTitle = sanityRepo.displayTitle || ghRepo.name;
+      const finalDesc = sanityRepo.description || stripEmojis(ghRepo.description || "");
+      const finalCategory = sanityRepo.category || ghRepo.language || "Code";
+      const finalLanguage = resolvePrimaryLanguage(ghRepo.full_name, ghRepo.language);
 
-    // Fetch recent commits (limit 5 for clean UI)
-    const ghCommits = await fetchFromGitHub<GitHubRestCommit[]>(
-      `/repos/${repoFullName}/commits?per_page=5`,
-      githubToken,
-    );
+      return {
+        id: sanityRepo._id,
+        repoFullName: ghRepo.full_name,
+        repoName: ghRepo.name,
+        displayTitle: finalTitle,
+        description: finalDesc,
+        category: finalCategory,
+        primaryLanguage: finalLanguage,
+        primaryLanguageIcon: resolveLanguageIcon(finalLanguage),
+        updatedAt: ghRepo.updated_at,
+        isPrivate: ghRepo.private,
+        repoUrl: ghRepo.html_url,
+        showRepositoryLink: sanityRepo.showRepositoryLink,
+        commits: mappedCommits,
+      } satisfies NormalizedRepoCard;
+    }),
+  );
 
-    const mappedCommits: GitHubCommit[] = (ghCommits || [])
-      .filter((c) => c.commit?.message)
-      .map((c) => {
-        const fullMessage = c.commit.message as string;
-        // Keep only the first line of the commit message (subject)
-        const subject = fullMessage.split("\n")[0].trim();
-
-        return {
-          sha: c.sha,
-          shortSha: c.sha.substring(0, 7).toUpperCase(), // Match design system CAPS style
-          message: subject,
-          committedAt: formatRelativeTime(c.commit.author.date),
-          url: c.html_url,
-        };
-      });
-
-    // Merge logic
-    // displayTitle from Sanity overrides actual Repo Name
-    const finalTitle = sanityRepo.displayTitle || ghRepo.name;
-
-    // description from Sanity overrides GitHub description
-    const finalDesc = sanityRepo.description || stripEmojis(ghRepo.description || "");
-
-    // category from Sanity overrides generic logic
-    const finalCategory =
-      sanityRepo.category || Object.keys(ghRepo.language || {}).join(", ") || "Code";
-    const finalLanguage = resolvePrimaryLanguage(ghRepo.full_name, ghRepo.language);
-
-    normalizedRepos.push({
-      id: sanityRepo._id,
-      repoFullName: ghRepo.full_name,
-      repoName: ghRepo.name,
-      displayTitle: finalTitle,
-      description: finalDesc,
-      category: finalCategory,
-      primaryLanguage: finalLanguage,
-      primaryLanguageIcon: resolveLanguageIcon(finalLanguage),
-      updatedAt: ghRepo.updated_at,
-      isPrivate: ghRepo.private,
-      repoUrl: ghRepo.html_url,
-      showRepositoryLink: sanityRepo.showRepositoryLink,
-      commits: mappedCommits,
-    });
-  }
-
-  return normalizedRepos;
+  return normalizedRepos.filter((repo): repo is NormalizedRepoCard => repo !== null);
 }

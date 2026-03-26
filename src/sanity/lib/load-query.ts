@@ -98,19 +98,15 @@ export async function loadQuery<QueryResponse>({
 
   try {
     const resultSourceMap = visualEditingEnabled ? "withKeyArraySelector" : false;
-    const payload = (await client.fetch(
-      query,
-      params ?? {},
-      {
-        // `@sanity/client` types only allow `filterResponse: true`, but runtime supports `false`
-        // to return the full envelope (including `resultSourceMap`).
-        filterResponse: false,
-        resultSourceMap,
-      } as unknown as {
-        filterResponse?: true;
-        resultSourceMap?: boolean | "withKeyArraySelector";
-      },
-    )) as unknown as SanityQueryEnvelope<QueryResponse>;
+    const payload = (await client.fetch(query, params ?? {}, {
+      // `@sanity/client` types only allow `filterResponse: true`, but runtime supports `false`
+      // to return the full envelope (including `resultSourceMap`).
+      filterResponse: false,
+      resultSourceMap,
+    } as unknown as {
+      filterResponse?: true;
+      resultSourceMap?: boolean | "withKeyArraySelector";
+    })) as unknown as SanityQueryEnvelope<QueryResponse>;
 
     return {
       data: payload.result,

@@ -59,7 +59,7 @@ const caseStudies = [
         alt: "CardManiacs dark mode card grid with article previews",
       },
       {
-        file: "Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 2.png",
+        file: "Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 3.png",
         alt: "CardManiacs article reader with on-device AI summary",
       },
     ],

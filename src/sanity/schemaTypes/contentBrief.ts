@@ -117,11 +117,7 @@ export default defineType({
       title: "Linked Page",
       type: "reference",
       group: "links",
-      to: [
-        { type: "blogPage" },
-        { type: "aboutPage" },
-        { type: "projectsPage" },
-      ],
+      to: [{ type: "blogPage" }, { type: "aboutPage" }, { type: "projectsPage" }],
     }),
   ],
   preview: {

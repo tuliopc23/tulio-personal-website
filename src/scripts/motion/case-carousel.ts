@@ -55,7 +55,7 @@ function resolveNearestIndex(scrollLeft = track?.scrollLeft ?? 0): number {
   let bestIndex = 0;
   let bestDistance = Number.POSITIVE_INFINITY;
 
-  slides.forEach((slide, index) => {
+  slides.forEach((_, index) => {
     const distance = Math.abs(measureSlideLeft(index) - scrollLeft);
     if (distance < bestDistance) {
       bestDistance = distance;

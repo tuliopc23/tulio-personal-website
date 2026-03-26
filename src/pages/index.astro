@@ -324,7 +324,7 @@ const description =
         </div>
       </header>
 
-      <GitHubLiveSection client:visible initialData={githubRepos.length > 0 ? githubRepos : undefined} />
+      <GitHubLiveSection client:load initialData={githubRepos.length > 0 ? githubRepos : undefined} />
     </section>
 
     <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
