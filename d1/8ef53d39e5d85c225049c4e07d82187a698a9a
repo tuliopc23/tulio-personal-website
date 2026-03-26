@@ -1,0 +1,27 @@
+src/scripts/motion/index.ts
+  2051ae8ce5255da0 19,31,42,48
+src/scripts/motion/case-carousel.ts
+  2051ae8ce5255da0 1-89,91-142,144-286
+src/pages/projects.astro
+  2051ae8ce5255da0 187,201-206,209,214,281,326-339,344-345,352-364,367,370-371,374-376,379,381-384,580-583
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "d18ef53d39e5d85c225049c4e07d82187a698a9a",
+  "prompts": {
+    "2051ae8ce5255da0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cc34869-1bec-4b20-a98d-4d0a76e15ec6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 326,
+      "total_deletions": 78,
+      "accepted_lines": 344,
+      "overriden_lines": 2
+    }
+  }
+}
