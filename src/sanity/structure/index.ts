@@ -251,11 +251,11 @@ export const structure = (S: StructureBuilder) =>
             .title("Case Studies")
             .items([
               S.listItem()
-                .title("Case Studies")
+                .title("Portfolio Projects (Grid)")
                 .icon(ProjectsIcon)
                 .child(
                   S.documentTypeList("project")
-                    .title("Case Studies")
+                    .title("Portfolio Projects (Grid)")
                     .defaultOrdering([
                       { field: "order", direction: "asc" },
                       { field: "releaseDate", direction: "desc" },
@@ -263,7 +263,7 @@ export const structure = (S: StructureBuilder) =>
                 ),
               S.divider(),
               S.listItem()
-                .title("Case Studies Page")
+                .title("Featured Case Studies (Carousel)")
                 .icon(ProjectsIcon)
                 .child(S.document().schemaType("projectsPage").documentId("projectsPage")),
             ]),

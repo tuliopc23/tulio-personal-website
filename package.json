@@ -33,6 +33,7 @@
     "sanity:webhook": "node scripts/setup-webhook.js",
     "sanity:publish": "node scripts/auto-publish-to-devto.js",
     "sanity:verify": "node scripts/verify-setup.js",
+    "sanity:seed:case-studies": "node scripts/seed-projects-page-case-studies.mjs",
     "fonts:build": "node scripts/build-sf-fonts.mjs",
     "eslint": "vp lint .",
     "prettier": "vp fmt . --write",

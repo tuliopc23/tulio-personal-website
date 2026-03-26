@@ -22,7 +22,7 @@ type RailController = {
   refresh(): void;
 };
 
-const RAIL_SELECTOR = ".articleGrid, .cardRail, [data-repo-rail]";
+const RAIL_SELECTOR = ".articleGrid, .cardRail, [data-repo-rail], [data-case-rail]";
 const SNAP_IDLE_MS = 120;
 const WHEEL_GAIN = 0.95;
 const KEYBOARD_MULTIPLIER = 0.92;

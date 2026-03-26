@@ -64,6 +64,30 @@ describe("scroll indicators", () => {
     cleanupScrollIndicators();
   });
 
+  test("attaches to [data-case-rail] like other horizontal rails", async () => {
+    installMatchMediaStub({ reducedMotion: false });
+    const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();
+
+    document.body.innerHTML = `
+      <div class="container">
+        <div data-case-rail>
+          <article></article>
+          <article></article>
+        </div>
+      </div>
+    `;
+
+    const rail = document.querySelector("[data-case-rail]") as HTMLElement;
+    mockHorizontalMetrics(rail, { clientWidth: 400, scrollWidth: 1200 });
+
+    initScrollIndicators();
+
+    expect(rail.getAttribute("data-lenis-prevent-wheel")).toBe("");
+    expect(rail.dataset.hasOverflow).toBe("true");
+
+    cleanupScrollIndicators();
+  });
+
   test("converts wheel and keyboard input into horizontal movement", async () => {
     installAnimationStubs();
     installMatchMediaStub({ reducedMotion: false });

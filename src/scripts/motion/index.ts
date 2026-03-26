@@ -28,8 +28,8 @@ function init(): void {
 
   if (reduced) {
     showAllReveals();
-    initCaseCarousel();
     initScrollIndicators();
+    initCaseCarousel();
     return;
   }
 
@@ -39,13 +39,13 @@ function init(): void {
   initMicrointeractions();
   initScrollProgress();
   initIslandReveals();
-  initCaseCarousel();
   initScrollIndicators();
+  initCaseCarousel();
 }
 
 function cleanup(): void {
-  cleanupScrollIndicators();
   cleanupCaseCarousel();
+  cleanupScrollIndicators();
   cleanupIslandReveals();
   cleanupScrollProgress();
   cleanupMicrointeractions();

@@ -3,14 +3,6 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import CardmaniacsImage1 from "../../Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 1.png";
-import CardmaniacsImage2 from "../../Case Studies/Cardmaniacs-images/Cardmaniacs-mac - 2.png";
-import OffsideImage1 from "../../Case Studies/The Offside/theoffside 1.jpeg";
-import OffsideImage2 from "../../Case Studies/The Offside/theoffside 2.jpeg";
-import CapitalImage1 from "../../Case Studies/Capital-Financial-Consulting/Capital.jpeg";
-import CapitalImage2 from "../../Case Studies/Capital-Financial-Consulting/relatorioscapital.png";
-import NomadzImage1 from "../../Case Studies/Nomadz-trips/Nomadz-landscapes.jpeg";
-import NomadzImage2 from "../../Case Studies/Nomadz-trips/Nomadz-landscapes 1.jpeg";
 import { getAllProjects } from "../sanity/lib/projects";
 import { optimizedImageUrl } from "../sanity/lib/image";
 import { getProjectsPageContent } from "../sanity/lib/page-content";
@@ -18,8 +10,10 @@ import { getProjectsPageContent } from "../sanity/lib/page-content";
 const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
 
-if (import.meta.env.PROD && !pageContent) {
-  throw new Error("[sanity] Missing required projectsPage document for the /projects route.");
+if (import.meta.env.PROD && (!pageContent || !pageContent.caseStudies || pageContent.caseStudies.length === 0)) {
+  throw new Error(
+    "[sanity] Missing required projectsPage.caseStudies content for the /projects route. Populate the 'Case Studies Page' singleton in Sanity Studio.",
+  );
 }
 
 const defaults = {
@@ -52,113 +46,6 @@ const _structuredData = {
   url: canonicalUrl,
 };
 
-type CaseStudySlide = {
-  id: string;
-  icon: string;
-  eyebrow: string;
-  title: string;
-  headline: string;
-  lede: string;
-  role: string;
-  stack: string[];
-  status: "live" | "maintained" | "exploration";
-  href?: string;
-  images: Array<{
-    src: string;
-    alt: string;
-    width?: number;
-    height?: number;
-  }>;
-};
-
-const defaultCaseStudies: CaseStudySlide[] = [
-  {
-    id: "cardmaniacs",
-    icon: "desktop-tower",
-    eyebrow: "Indie App",
-    title: "CardManiacs",
-    headline: "A native content platform built from scratch with Swift and strict concurrency.",
-    lede: "Three apps in one — reader, aggregator, and discovery engine. Mac-first, optimized for iOS and iPadOS. Vim-style keyboard navigation on the card grid, on-device AI summaries, and the ability to parse everything from RSS feeds to YouTube videos and podcasts. No Electron. No wrappers. Pure platform code.",
-    role: "Creator & Solo Developer",
-    stack: ["Swift", "SwiftUI", "AppKit", "Strict Concurrency"],
-    status: "live",
-    images: [
-      {
-        src: CardmaniacsImage1.src,
-        alt: "CardManiacs dark mode card grid with article previews",
-      },
-      {
-        src: CardmaniacsImage2.src,
-        alt: "CardManiacs article reader with on-device AI summary",
-      },
-    ],
-  },
-  {
-    id: "offside",
-    icon: "soccer-ball",
-    eyebrow: "Publication",
-    title: "The Offside",
-    headline:
-      "A football publication with league tables, real-time data, and a Highbury-inspired soul.",
-    lede: "International football publication focused on the Premier League and European football. Svelte components powering live league tables, aggressive caching, load balancing, and a design language inspired by Highbury and Aimé Leon Dore — designed and built for a long-time friend. Arsenal through and through. Go Gunners.",
-    role: "Designer & Lead Developer",
-    stack: ["Svelte", "SvelteKit", "Tailwind CSS"],
-    href: "https://theoffside.club",
-    status: "live",
-    images: [
-      {
-        src: OffsideImage1.src,
-        alt: "The Offside editorial homepage with Highbury-inspired design",
-      },
-      {
-        src: OffsideImage2.src,
-        alt: "The Offside Premier League table and matchday board",
-      },
-    ],
-  },
-  {
-    id: "capital",
-    icon: "chart-line-up",
-    eyebrow: "Client Work",
-    title: "Capital Financial Consulting",
-    headline:
-      "A wealth management platform with dashboards, charts, and guided financial planning.",
-    lede: "Rich web platform for an independent financial consulting firm in Brazil. Beautiful data visualizations, fast dashboards, and an intuitive experience for both consultants and clients. Think a top-notch personal finance app, but with a real professional guiding your financial health — not an algorithm.",
-    role: "Full Stack Developer",
-    stack: ["React", "PostgreSQL", "Hono"],
-    status: "live",
-    images: [
-      { src: CapitalImage1.src, alt: "Capital Financial Consulting landing page" },
-      {
-        src: CapitalImage2.src,
-        alt: "Capital Financial Consulting consultant dashboard with charts",
-      },
-    ],
-  },
-  {
-    id: "nomadz",
-    icon: "compass",
-    eyebrow: "Client Work",
-    title: "Nomadz Trips",
-    headline:
-      "A travel platform that handles bookings, content, and payments behind one seamless experience.",
-    lede: "International travel agency specializing in group experiences. SSR pages tuned for SEO with a full operational backend — custom dashboard, Stripe integration, CMS-driven content, and a blog that actually ranks. The frontend looks effortless; the infrastructure behind it is anything but.",
-    role: "Full Stack Developer",
-    stack: ["Payload CMS", "React", "Tailwind CSS", "Stripe"],
-    status: "live",
-    images: [
-      {
-        src: NomadzImage1.src,
-        alt: "Nomadz Trips homepage with aerial beach photography",
-      },
-      {
-        src: NomadzImage2.src,
-        alt: "Nomadz Trips trip listing and booking interface",
-      },
-    ],
-  },
-];
-
 const caseStudies =
   pageContent?.caseStudies && pageContent.caseStudies.length > 0
     ? pageContent.caseStudies.map((cs) => ({
@@ -185,7 +72,7 @@ const caseStudies =
             height: image.dimensions?.height ?? undefined,
           })),
       }))
-    : defaultCaseStudies;
+    : [];
 
 const _statusLabels: Record<string, string> = {
   live: "Live",
@@ -237,10 +124,10 @@ const _statusIcons: Record<string, string> = {
     </section>
 
     <!-- Case study slider -->
+    {caseStudies.length > 0 ? (
     <section class="caseSlider" aria-label="Case studies" data-case-slider>
       <!-- Nav pills -->
       <nav class="caseSlider__nav" aria-label="Case study navigation">
-        <span class="caseSlider__indicator" data-pill-indicator aria-hidden="true"></span>
         {caseStudies.map((cs, i) => (
           <button
             type="button"
@@ -261,8 +148,7 @@ const _statusIcons: Record<string, string> = {
       </span>
 
       <!-- Slides -->
-      <div class="caseSlider__track" data-case-track>
-        <div class="caseSlider__strip" data-case-strip>
+      <div class="caseSlider__track" data-case-track data-case-rail>
         {caseStudies.map((cs, i) => (
           <article
             class="caseSlide"
@@ -338,9 +224,25 @@ const _statusIcons: Record<string, string> = {
             )}
           </article>
         ))}
-        </div>
       </div>
     </section>
+    ) : (
+    <section class="container pageWidget" aria-label="Case studies empty state">
+      <header class="stage-intro stage-intro--single">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="briefcase" size={14} weight="regular" />
+            {content.heroEyebrow}
+          </span>
+          <h2 class="stage-intro__title">{pageContent?.pageEmptyTitle ?? "Case studies are being prepared"}</h2>
+          <p class="stage-intro__caption">
+            {pageContent?.pageEmptyBody ?? "The project writeups are not published yet."}{" "}
+            <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>.
+          </p>
+        </div>
+      </header>
+    </section>
+    )}
 
     <!-- Sanity-managed projects (if any) -->
     {projects.length > 0 && (
@@ -385,19 +287,6 @@ const _statusIcons: Record<string, string> = {
       position: relative;
     }
 
-    .caseSlider__indicator {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      border-radius: 999px;
-      background: var(--accent, #0a84ff);
-      opacity: 0.12;
-      pointer-events: none;
-      will-change: transform, width;
-      z-index: 0;
-    }
-
     .caseSlider__pill {
       cursor: pointer;
       position: relative;
@@ -422,31 +311,31 @@ const _statusIcons: Record<string, string> = {
       will-change: transform, opacity;
     }
 
-    /* Track: horizontal strip, overflow hidden */
+    /* Track: native horizontal rail */
     .caseSlider__track {
-      position: relative;
-      overflow: hidden;
-      touch-action: pan-y;
-      cursor: grab;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .caseSlider__track:active {
-      cursor: grabbing;
-    }
-
-    .caseSlider__strip {
       display: flex;
-      will-change: transform;
+      gap: var(--space-lg);
+      overflow-x: auto;
+      overflow-y: clip;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 0;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+
+    .caseSlider__track::-webkit-scrollbar {
+      display: none;
     }
 
     .caseSlide {
       display: flex;
       flex-direction: column;
       gap: var(--space-lg);
+      flex: 0 0 100%;
       width: 100%;
-      flex-shrink: 0;
+      scroll-snap-align: start;
+      box-sizing: border-box;
     }
 
     /* Showcase: 2 images side by side, floating with layered shadow */
@@ -692,6 +581,10 @@ const _statusIcons: Record<string, string> = {
 
       .caseSlider__hint {
         font-size: 11px;
+      }
+
+      .caseSlider__track {
+        gap: var(--space-md);
       }
 
       .caseSlide__showcase {
