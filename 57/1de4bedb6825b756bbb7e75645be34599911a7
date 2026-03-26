@@ -1,0 +1,31 @@
+src/pages/about.astro
+  2051ae8ce5255da0 21,23-26,29-32,35-38,41-44,54,68-72,74-76,78-82,84-92,94-96,98-99,130-144,146-151,153-177,180-283
+src/sanity/schemaTypes/aboutPage.ts
+  2051ae8ce5255da0 12-13,50-53,55,61-63,68-69,75,77,81,83-84,88,92
+tests/unit/page-content.test.ts
+  2051ae8ce5255da0 20
+src/pages/projects.astro
+  2051ae8ce5255da0 232,235,357,371-377,564-575,580-597
+src/sanity/lib/page-content.ts
+  2051ae8ce5255da0 8,71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "571de4bedb6825b756bbb7e75645be34599911a7",
+  "prompts": {
+    "2051ae8ce5255da0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cc34869-1bec-4b20-a98d-4d0a76e15ec6",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 359,
+      "total_deletions": 409,
+      "accepted_lines": 362,
+      "overriden_lines": 5
+    }
+  }
+}
