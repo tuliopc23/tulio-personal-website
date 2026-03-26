@@ -1,0 +1,37 @@
+# https://viteplus.dev/guide/ci
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: "24"
+          cache: true
+          version: "0.1.13"
+
+      - name: Install Playwright browser
+        run: vp run test:e2e:install
+
+      - name: Check (format + lint)
+        run: vp check
+
+      - name: Astro typecheck
+        run: vp run typecheck
+
+      - name: Unit tests
+        run: vp run test
+
+      - name: Build
+        env:
+          PUBLIC_SITE_URL: https:tuliocunha.dev
+        run: vp run build
