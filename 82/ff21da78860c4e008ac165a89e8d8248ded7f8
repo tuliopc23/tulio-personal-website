@@ -1,0 +1,23 @@
+scripts/seed-projects-page-case-studies.mjs
+  397fef488a5c5b40 62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "82ff21da78860c4e008ac165a89e8d8248ded7f8",
+  "prompts": {
+    "397fef488a5c5b40": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2be9-359d-7632-99ae-8a913a9c960a",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
