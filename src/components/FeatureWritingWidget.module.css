@@ -49,6 +49,7 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
+    touch-action: pan-x;
     padding: 10px 18px 12px;
     margin-inline: 0;
     background: transparent;

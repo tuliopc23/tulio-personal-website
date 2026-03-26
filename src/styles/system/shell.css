@@ -1477,6 +1477,8 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
     min-height: 100%;
     position: relative;
     top: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .backdrop {
@@ -2206,6 +2208,10 @@ kbd.slash {
 
   .sidebar__link {
     border-radius: 18px;
+  }
+
+  .sidebar__filter {
+    display: none;
   }
 }
 

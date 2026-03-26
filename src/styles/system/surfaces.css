@@ -539,6 +539,7 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   letter-spacing: var(--chip-letter-spacing, 0.01em);
   line-height: 1.2;
   white-space: nowrap;
+  flex-shrink: 0;
   text-decoration: none;
   transition:
     border-color var(--motion-duration-sm) var(--motion-ease-out),
@@ -767,6 +768,8 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   font-size: var(--fs-footnote);
   font-weight: var(--fw-medium);
   letter-spacing: var(--ls-footnote);
+  white-space: nowrap;
+  flex-shrink: 0;
   transition:
     border-color var(--motion-duration-sm) var(--motion-ease-out),
     background-color var(--motion-duration-sm) var(--motion-ease-out),

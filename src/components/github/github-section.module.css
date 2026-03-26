@@ -396,6 +396,14 @@
   gap: 0;
 }
 
+@media (max-width: 767px) {
+  .commitList {
+    max-height: calc(2 * 58px);
+    overflow: hidden;
+    border-radius: 0 0 16px 16px;
+  }
+}
+
 .commitItem {
   position: relative;
 }
@@ -607,6 +615,8 @@
     margin-inline: -8px;
     -webkit-mask-image: none;
     mask-image: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
     scroll-snap-type: x mandatory;
   }
 
