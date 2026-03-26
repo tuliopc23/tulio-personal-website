@@ -7,7 +7,6 @@ import category from "./category";
 import contentBrief from "./contentBrief";
 import divider from "./divider";
 import featuredGithubRepo from "./featuredGithubRepo";
-import nowPage from "./nowPage";
 import post from "./post";
 import project from "./project";
 import projectsPage from "./projectsPage";
@@ -28,7 +27,6 @@ export const schemaTypes = [
   contentBrief,
   divider,
   featuredGithubRepo,
-  nowPage,
   post,
   project,
   projectsPage,

@@ -114,19 +114,6 @@ export const resolve: PresentationPluginOptions["resolve"] = {
         ],
       }),
     }),
-    nowPage: defineLocations({
-      select: {
-        title: "heroTitle",
-      },
-      resolve: (doc) => ({
-        locations: [
-          {
-            title: doc?.title || "Now",
-            href: "/now/",
-          },
-        ],
-      }),
-    }),
     blogPage: defineLocations({
       select: {
         title: "heroTitle",

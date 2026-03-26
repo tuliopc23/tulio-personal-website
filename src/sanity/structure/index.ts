@@ -14,7 +14,7 @@ import {
 } from "@sanity/icons";
 import type { StructureBuilder } from "sanity/structure";
 
-const SINGLETONS = ["blogPage", "projectsPage", "aboutPage", "nowPage"] as const;
+const SINGLETONS = ["blogPage", "projectsPage", "aboutPage"] as const;
 const MANAGED_TYPES = [
   "post",
   "contentBrief",
@@ -283,10 +283,6 @@ export const structure = (S: StructureBuilder) =>
                 .title("About Page")
                 .icon(UserIcon)
                 .child(S.document().schemaType("aboutPage").documentId("aboutPage")),
-              S.listItem()
-                .title("Now Page")
-                .icon(CalendarIcon)
-                .child(S.document().schemaType("nowPage").documentId("nowPage")),
             ]),
         ),
 

@@ -13,7 +13,10 @@ vi.mock("../../src/sanity/lib/posts", () => ({
 
 vi.mock("../../src/sanity/lib/page-content", () => ({
   getAboutPageContent: vi.fn(async () => null),
-  getNowPageContent: vi.fn(async () => null),
+}));
+
+vi.mock("../../src/lib/github-data", () => ({
+  getMergedGitHubData: vi.fn(async () => []),
 }));
 
 describe("home, about, and now pages", () => {
@@ -31,18 +34,15 @@ describe("home, about, and now pages", () => {
     );
 
     expect(html).toContain("Daily setup");
-    expect(html).toContain("Recent shipping and public work.");
+    expect(html).toContain("What moved recently and where the commits landed.");
     expect(html).toContain("Building Better Astro Sites");
   });
 
-  test("renders about and now fallback content", async () => {
+  test("renders about fallback content", async () => {
     const container = await AstroContainer.create({
       renderers: await loadRenderers([solidContainerRenderer()]),
     });
-    const [{ default: AboutPage }, { default: NowPage }] = await Promise.all([
-      import("../../src/pages/about.astro"),
-      import("../../src/pages/now.astro"),
-    ]);
+    const { default: AboutPage } = await import("../../src/pages/about.astro");
 
     const aboutHtml = await container.renderToString(
       AboutPage as any,
@@ -50,17 +50,8 @@ describe("home, about, and now pages", () => {
         request: new Request("https://www.tuliocunha.dev/about/"),
       } as any,
     );
-    const nowHtml = await container.renderToString(
-      NowPage as any,
-      {
-        request: new Request("https://www.tuliocunha.dev/now/"),
-      } as any,
-    );
 
-    expect(aboutHtml).toContain("How I work");
-    expect(aboutHtml).toContain("Strong internals first. Clear interfaces second.");
-    expect(nowHtml).toContain("What has attention right now");
-    // Section id is stable; heading text is not SSR'd and API outcome changes error/empty/success copy.
-    expect(nowHtml).toContain("section-github");
+    expect(aboutHtml).toContain("How I Build");
+    expect(aboutHtml).toContain("I start where most people skip");
   });
 });

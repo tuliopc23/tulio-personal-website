@@ -3,6 +3,7 @@ import type { ClientConfig, SanityClient } from "@sanity/client";
 const DEFAULT_PROJECT_ID = "61249gtj";
 const DEFAULT_DATASET = "production";
 const isDevelopment = import.meta.env.DEV;
+const visualEditingEnabled = import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
 
 const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? DEFAULT_PROJECT_ID;
 const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? DEFAULT_DATASET;
@@ -35,6 +36,10 @@ const previewConfig: ClientConfig = {
   useCdn: false,
   perspective: "drafts",
   token: import.meta.env.SANITY_API_READ_TOKEN,
+  stega: {
+    enabled: visualEditingEnabled,
+    studioUrl: isDevelopment ? "/studio" : import.meta.env.PUBLIC_SANITY_STUDIO_URL || "/studio",
+  },
 };
 
 let clientModulePromise: Promise<CreateClientModule> | null = null;

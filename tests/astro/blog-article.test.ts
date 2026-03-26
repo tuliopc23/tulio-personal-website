@@ -33,8 +33,7 @@ describe("blog article route", () => {
     expect(html).toContain("Filed under");
     expect(html).toContain("Send a note");
     expect(html).toContain("Share or subscribe");
-    expect(html).toContain("Read like you build.");
-    expect(html).toContain("Reading view");
+    expect(html).toContain("The long version.");
     expect(html).toContain("application/rss+xml");
     expect(html).toContain("article--density-short");
     expect(html).toContain("article--hero-wide");
@@ -52,7 +51,7 @@ describe("blog article route", () => {
 
     expect(html).toContain("Fallback markdown content");
     expect(html).toContain("articlePortable");
-    expect(html).toContain("Read like you build.");
+    expect(html).toContain("The long version.");
     expect(html).toContain("article--density-short");
     expect(html).toContain("article--hero-wide");
   });

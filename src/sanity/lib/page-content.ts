@@ -8,22 +8,6 @@ export interface AboutPageContent {
   sections: Array<{ _key: string; icon: string; eyebrow: string; title: string; body: string }>;
 }
 
-export interface NowPageContent {
-  seoDescription: string;
-  heroEyebrow: string;
-  heroTitle: string;
-  heroLede: string;
-  lastUpdated: string;
-  nowItems: string[];
-  nextItems: string[];
-  laterItems: string[];
-  signalsHeading: string;
-  signalsLede: string;
-  executionSignals: Array<{ _key: string; title: string; body: string }>;
-  githubHeading?: string | null;
-  githubLede?: string | null;
-}
-
 export interface BlogPageContent {
   pageDescription: string;
   heroEyebrow: string;
@@ -92,29 +76,6 @@ export async function getAboutPageContent(): Promise<AboutPageContent | null> {
       sections[]{_key,icon,eyebrow,title,body}
     }`,
     queryLabel: "about page content",
-  });
-
-  return data ?? null;
-}
-
-export async function getNowPageContent(): Promise<NowPageContent | null> {
-  const { data } = await loadQuery<NowPageContent | null>({
-    query: `*[_type == "nowPage"][0]{
-      seoDescription,
-      heroEyebrow,
-      heroTitle,
-      heroLede,
-      lastUpdated,
-      nowItems,
-      nextItems,
-      laterItems,
-      signalsHeading,
-      signalsLede,
-      executionSignals[]{_key,title,body},
-      githubHeading,
-      githubLede
-    }`,
-    queryLabel: "now page content",
   });
 
   return data ?? null;

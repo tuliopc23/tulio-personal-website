@@ -22,9 +22,12 @@ describe("projects page", () => {
       } as any,
     );
 
-    expect(html).toContain("Projects");
+    expect(html).toContain("Case Studies");
     expect(html).toContain("Project Atlas");
-    expect(html).toContain("Filter projects");
-    expect(html).toContain('data-project-filter="web"');
+    // When `getProjectsPageContent()` is mocked to null, the /projects case studies
+    // section should render the empty-state copy.
+    expect(html).toContain("Case studies are being prepared");
+    // The non-Sanity projects list is still rendered from `getAllProjects()`.
+    expect(html).toContain("More work");
   });
 });

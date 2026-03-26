@@ -120,7 +120,6 @@ export default defineType({
       to: [
         { type: "blogPage" },
         { type: "aboutPage" },
-        { type: "nowPage" },
         { type: "projectsPage" },
       ],
     }),

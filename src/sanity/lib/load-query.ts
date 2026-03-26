@@ -1,4 +1,5 @@
 import type { QueryParams } from "sanity";
+import { getPreviewSanityClient, getSanityClient } from "./client";
 
 type Perspective = "published" | "drafts";
 type FailureMode = "fail" | "fallback";
@@ -23,11 +24,6 @@ export interface LoadQueryResult<T> {
 
 const visualEditingEnabled = import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true";
 const token = import.meta.env.SANITY_API_READ_TOKEN;
-const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID ?? "61249gtj";
-const dataset = import.meta.env.PUBLIC_SANITY_DATASET ?? "production";
-const apiVersion = "2025-02-19";
-const apiHost = `https://${projectId}.apicdn.sanity.io`;
-const liveApiHost = `https://${projectId}.api.sanity.io`;
 const allowBuildFallback =
   import.meta.env.DEV || import.meta.env.SANITY_ALLOW_BUILD_FALLBACK === "true";
 
@@ -87,29 +83,6 @@ function isSanityNetworkError(error: unknown): boolean {
   return message.includes("FETCH FAILED");
 }
 
-function createRequestUrl(params: {
-  query: string;
-  variables: QueryParams;
-  perspective: Perspective;
-  includeSourceMap: boolean;
-}): string {
-  const baseHost = params.perspective === "drafts" ? liveApiHost : apiHost;
-  const url = new URL(`${baseHost}/v${apiVersion}/data/query/${dataset}`);
-
-  url.searchParams.set("query", params.query);
-  url.searchParams.set("perspective", params.perspective);
-
-  for (const [key, value] of Object.entries(params.variables)) {
-    url.searchParams.set(`$${key}`, JSON.stringify(value));
-  }
-
-  if (params.includeSourceMap) {
-    url.searchParams.set("resultSourceMap", "true");
-  }
-
-  return url.toString();
-}
-
 function formatQueryLabel(query: string, queryLabel?: string): string {
   return queryLabel ?? query.slice(0, 80).replace(/\s+/g, " ");
 }
@@ -121,25 +94,23 @@ export async function loadQuery<QueryResponse>({
   queryLabel,
 }: LoadQueryArgs): Promise<LoadQueryResult<QueryResponse>> {
   const perspective: Perspective = visualEditingEnabled ? "drafts" : "published";
-  const requestUrl = createRequestUrl({
-    query,
-    variables: params ?? {},
-    perspective,
-    includeSourceMap: visualEditingEnabled,
-  });
+  const client = visualEditingEnabled ? await getPreviewSanityClient() : await getSanityClient();
 
   try {
-    const response = await fetch(requestUrl, {
-      headers: visualEditingEnabled && token ? { Authorization: `Bearer ${token}` } : {},
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `[sanity] Request failed for ${formatQueryLabel(query, queryLabel)} (${response.status} ${response.statusText}). Check project, dataset, and token configuration.`,
-      );
-    }
-
-    const payload = (await response.json()) as SanityQueryEnvelope<QueryResponse>;
+    const resultSourceMap = visualEditingEnabled ? "withKeyArraySelector" : false;
+    const payload = (await client.fetch(
+      query,
+      params ?? {},
+      {
+        // `@sanity/client` types only allow `filterResponse: true`, but runtime supports `false`
+        // to return the full envelope (including `resultSourceMap`).
+        filterResponse: false,
+        resultSourceMap,
+      } as unknown as {
+        filterResponse?: true;
+        resultSourceMap?: boolean | "withKeyArraySelector";
+      },
+    )) as unknown as SanityQueryEnvelope<QueryResponse>;
 
     return {
       data: payload.result,

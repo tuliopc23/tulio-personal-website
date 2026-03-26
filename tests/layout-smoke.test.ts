@@ -20,13 +20,13 @@ describe("shared layout smoke", () => {
 
   test("projects page exposes the updated dev-centric copy and active nav state", () => {
     const html = readBuiltHtml("projects", "index.html");
-    expect(html).toContain("Apple apps, web builds, backend systems.");
+    expect(html).toContain("Client work, indie builds, real constraints.");
     expect(html).toMatch(/<a[^>]*href="\/projects"[^>]*aria-current="page"/);
   });
 
   test("contact page marks the sidebar link as current", () => {
     const html = readBuiltHtml("contact", "index.html");
-    expect(html).toContain("Email, project context, and links.");
+    expect(html).toContain("Reach out. Email preferred.");
     expect(html).toMatch(/<a[^>]*href="\/contact"[^>]*aria-current="page"/);
   });
 

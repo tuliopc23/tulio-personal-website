@@ -94,6 +94,6 @@ describe("blog index and category pages", () => {
       } as any,
     );
 
-    expect(emptyHtml).toContain("No posts in this topic yet");
+    expect(emptyHtml).toContain("Nothing here yet");
   });
 });

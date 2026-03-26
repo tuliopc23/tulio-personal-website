@@ -1,6 +1,5 @@
 ---
 import Base from "../../layouts/Base.astro";
-import VisualEditing from "../../components/VisualEditing.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
@@ -219,7 +218,6 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
     type="font/woff2"
     crossorigin="anonymous"
   />
-  <VisualEditing />
   <ReadingProgress />
   <article
     class:list={[

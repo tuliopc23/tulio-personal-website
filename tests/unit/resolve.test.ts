@@ -26,7 +26,6 @@ describe("sanity presentation resolve", () => {
     expect(locations.aboutPage.resolve({}).locations).toEqual([
       { title: "About", href: "/about/" },
     ]);
-    expect(locations.nowPage.resolve({}).locations).toEqual([{ title: "Now", href: "/now/" }]);
     expect(locations.blogPage.resolve({}).locations).toEqual([{ title: "Blog", href: "/blog/" }]);
     expect(locations.projectsPage.resolve({}).locations).toEqual([
       { title: "Projects", href: "/projects/" },

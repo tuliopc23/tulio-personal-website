@@ -6,6 +6,7 @@ import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 import fontsCssHref from "../styles/fonts.css?url";
+import { VisualEditing } from "@sanity/astro/visual-editing";
 import {
   ATOM_FEED_PATH,
   RSS_FEED_PATH,
@@ -145,11 +146,9 @@ const sidebarMeta = isArticleRoute
         ? "Client work, indie builds, real constraints."
         : normalizedPath.startsWith("/about")
           ? "Background, principles, and current arc."
-          : normalizedPath.startsWith("/now")
-            ? "What has my attention right now."
-            : normalizedPath.startsWith("/contact")
-              ? "Reach out. Email preferred."
-              : "Navigation and links.";
+          : normalizedPath.startsWith("/contact")
+            ? "Reach out. Email preferred."
+            : "Navigation and links.";
 const sidebarSiteLinks = globalNavLinks;
 
 const sidebarSocialLinks = [
@@ -187,6 +186,10 @@ const searchItems = [
     meta: item.external ? "External" : "Page",
   })),
 ] as const;
+
+const visualEditingEnabled =
+  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED === "true" &&
+  Boolean(import.meta.env.SANITY_API_READ_TOKEN);
 ---
 
 <html lang="en" data-theme="light">
@@ -700,6 +703,8 @@ const searchItems = [
     </main>
 
     <ScrollToTop />
+
+    <VisualEditing enabled={visualEditingEnabled} zIndex={999999} />
 
     <script>
       // Bundled client entrypoint to avoid route-relative 404s on nested pages.

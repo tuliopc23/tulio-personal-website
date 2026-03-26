@@ -34,13 +34,6 @@ describe("page content loaders", () => {
     await expect(getAboutPageContent()).resolves.toEqual(data);
   });
 
-  test("returns null when now page content is missing", async () => {
-    loadQueryMock.mockResolvedValueOnce({ data: null });
-    const { getNowPageContent } = await import("../../src/sanity/lib/page-content");
-
-    await expect(getNowPageContent()).resolves.toBeNull();
-  });
-
   test("returns blog and projects content payloads", async () => {
     const blogData: BlogPageContent = {
       pageDescription: "Blog",

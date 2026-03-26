@@ -64,7 +64,7 @@ describe("scroll indicators", () => {
     cleanupScrollIndicators();
   });
 
-  test("attaches to [data-case-rail] like other horizontal rails", async () => {
+  test("does not attach to [data-case-rail] because the case carousel owns its own navigation", async () => {
     installMatchMediaStub({ reducedMotion: false });
     const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();
 
@@ -82,8 +82,8 @@ describe("scroll indicators", () => {
 
     initScrollIndicators();
 
-    expect(rail.getAttribute("data-lenis-prevent-wheel")).toBe("");
-    expect(rail.dataset.hasOverflow).toBe("true");
+    expect(rail.getAttribute("data-lenis-prevent-wheel")).toBeNull();
+    expect(rail.dataset.hasOverflow).toBeUndefined();
 
     cleanupScrollIndicators();
   });

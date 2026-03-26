@@ -183,6 +183,7 @@ const _statusIcons: Record<string, string> = {
                       alt={img.alt}
                       width={img.width}
                       height={img.height}
+                      draggable="false"
                       class="caseSlide__image"
                       loading={i === 0 ? "eager" : "lazy"}
                       decoding="async"
@@ -317,15 +318,24 @@ const _statusIcons: Record<string, string> = {
       gap: var(--space-lg);
       overflow-x: auto;
       overflow-y: clip;
+      scroll-behavior: smooth;
       scroll-snap-type: x mandatory;
       scroll-padding-inline: 0;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
+      cursor: grab;
       scrollbar-width: none;
     }
 
     .caseSlider__track::-webkit-scrollbar {
       display: none;
+    }
+
+    .caseSlider__track.is-dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+      scroll-snap-type: none;
+      user-select: none;
     }
 
     .caseSlide {
@@ -335,6 +345,7 @@ const _statusIcons: Record<string, string> = {
       flex: 0 0 100%;
       width: 100%;
       scroll-snap-align: start;
+      scroll-snap-stop: always;
       box-sizing: border-box;
     }
 
@@ -416,6 +427,8 @@ const _statusIcons: Record<string, string> = {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      -webkit-user-drag: none;
+      user-select: none;
       transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
