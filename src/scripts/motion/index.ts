@@ -16,6 +16,7 @@ import { cleanupPageTransitions, initPageTransitions } from "./page-transitions"
 import { cleanupParallaxTilt, initParallaxTilt } from "./parallax-tilt";
 import { isReducedMotion, onReducedMotionChange } from "./reduced-motion";
 import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
+import { cleanupCaseCarousel, initCaseCarousel } from "./case-carousel";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
 
 /* ── Lifecycle ──────────────────────────────────────────────── */
@@ -27,6 +28,7 @@ function init(): void {
 
   if (reduced) {
     showAllReveals();
+    initCaseCarousel();
     initScrollIndicators();
     return;
   }
@@ -37,11 +39,13 @@ function init(): void {
   initMicrointeractions();
   initScrollProgress();
   initIslandReveals();
+  initCaseCarousel();
   initScrollIndicators();
 }
 
 function cleanup(): void {
   cleanupScrollIndicators();
+  cleanupCaseCarousel();
   cleanupIslandReveals();
   cleanupScrollProgress();
   cleanupMicrointeractions();

@@ -184,6 +184,7 @@ const _statusIcons: Record<string, string> = {
     <section class="caseSlider" aria-label="Case studies" data-case-slider>
       <!-- Nav pills -->
       <nav class="caseSlider__nav" aria-label="Case study navigation">
+        <span class="caseSlider__indicator" data-pill-indicator aria-hidden="true"></span>
         {caseStudies.map((cs, i) => (
           <button
             type="button"
@@ -197,14 +198,20 @@ const _statusIcons: Record<string, string> = {
         ))}
       </nav>
 
+      <!-- Swipe hint -->
+      <span class="caseSlider__hint" data-swipe-hint>
+        <PhosphorIcon name="arrows-left-right" size={14} weight="regular" />
+        <span>Swipe to explore</span>
+      </span>
+
       <!-- Slides -->
       <div class="caseSlider__track" data-case-track>
+        <div class="caseSlider__strip" data-case-strip>
         {caseStudies.map((cs, i) => (
           <article
             class="caseSlide"
             data-case-slide={cs.id}
-            data-active={i === 0 ? "true" : "false"}
-            aria-hidden={i !== 0 ? "true" : undefined}
+            aria-hidden={i !== 0 ? "true" : "false"}
           >
             <!-- Editorial heading -->
             <header class="stage-intro stage-intro--single">
@@ -271,6 +278,7 @@ const _statusIcons: Record<string, string> = {
             )}
           </article>
         ))}
+        </div>
       </div>
     </section>
 
@@ -299,74 +307,6 @@ const _statusIcons: Record<string, string> = {
     )}
   </div>
 
-  <script is:inline>
-  {
-    const slider = document.querySelector("[data-case-slider]");
-    if (slider) {
-      const pills = Array.from(slider.querySelectorAll("[data-case-nav]"));
-      const slides = Array.from(slider.querySelectorAll("[data-case-slide]"));
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      const activate = (id) => {
-        pills.forEach((pill) => {
-          const isActive = pill.dataset.caseNav === id;
-          pill.setAttribute("aria-pressed", isActive ? "true" : "false");
-          pill.classList.toggle("cta-pill--accent", isActive);
-          pill.classList.toggle("cta-pill--neutral", !isActive);
-        });
-
-        slides.forEach((slide) => {
-          const isTarget = slide.dataset.caseSlide === id;
-          const wasActive = slide.dataset.active === "true";
-
-          if (isTarget && !wasActive) {
-            slide.dataset.active = "true";
-            slide.setAttribute("aria-hidden", "false");
-            slide.style.opacity = "0";
-            slide.style.transform = "translateX(24px)";
-            requestAnimationFrame(() => {
-              slide.style.transition = prefersReducedMotion
-                ? "none"
-                : "opacity 0.4s cubic-bezier(0.22,0.61,0.36,1), transform 0.4s cubic-bezier(0.22,0.61,0.36,1)";
-              slide.style.opacity = "1";
-              slide.style.transform = "translateX(0)";
-            });
-          } else if (!isTarget && wasActive) {
-            slide.dataset.active = "false";
-            slide.setAttribute("aria-hidden", "true");
-            slide.style.transition = prefersReducedMotion
-              ? "none"
-              : "opacity 0.25s ease-out, transform 0.25s ease-out";
-            slide.style.opacity = "0";
-            slide.style.transform = "translateX(-24px)";
-          }
-        });
-      };
-
-      pills.forEach((pill) => {
-        pill.addEventListener("click", () => activate(pill.dataset.caseNav));
-      });
-
-      // Keyboard navigation
-      pills.forEach((pill, i) => {
-        pill.addEventListener("keydown", (e) => {
-          let target = i;
-          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-            e.preventDefault();
-            target = (i + 1) % pills.length;
-          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-            e.preventDefault();
-            target = (i - 1 + pills.length) % pills.length;
-          }
-          if (target !== i) {
-            pills[target].focus();
-            activate(pills[target].dataset.caseNav);
-          }
-        });
-      });
-    }
-  }
-  </script>
 
   <style>
     /* ── Case study slider ── */
@@ -383,30 +323,65 @@ const _statusIcons: Record<string, string> = {
       flex-wrap: wrap;
       gap: var(--space-xs);
       justify-content: center;
+      position: relative;
+    }
+
+    .caseSlider__indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent, #0a84ff);
+      opacity: 0.12;
+      pointer-events: none;
+      will-change: transform, width;
+      z-index: 0;
     }
 
     .caseSlider__pill {
       cursor: pointer;
+      position: relative;
+      z-index: 1;
     }
 
     .caseSlider__pill svg {
       flex: none;
     }
 
-    /* Track: only active slide visible */
+    /* Swipe hint */
+    .caseSlider__hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      font-size: var(--fs--2);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent, #0a84ff);
+      opacity: 0.7;
+      will-change: transform, opacity;
+      margin-inline: auto;
+    }
+
+    /* Track: horizontal strip, overflow hidden */
     .caseSlider__track {
       position: relative;
-      min-height: 0;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .caseSlider__strip {
+      display: flex;
+      will-change: transform;
     }
 
     .caseSlide {
-      display: none;
+      display: flex;
       flex-direction: column;
       gap: var(--space-lg);
-    }
-
-    .caseSlide[data-active="true"] {
-      display: flex;
+      width: 100%;
+      flex-shrink: 0;
     }
 
     /* Showcase: 2 images side by side, floating with layered shadow */
@@ -600,6 +575,10 @@ const _statusIcons: Record<string, string> = {
 
       .caseSlider__nav::-webkit-scrollbar {
         display: none;
+      }
+
+      .caseSlider__hint {
+        font-size: 11px;
       }
 
       .caseSlide__showcase {
