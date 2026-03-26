@@ -110,13 +110,13 @@ const globalNavLinks = [
   },
   {
     href: "/projects",
-    label: "Projects",
+    label: "Case Studies",
     icon: "briefcase",
     tint: "orange",
     current: normalizedPath === "/projects",
     external: false,
-    description: "Shipped apps, web products, and systems I've built or contributed to.",
-    keywords: "work case studies builds portfolio apps",
+    description: "Client work and indie projects that shipped — the decisions and tradeoffs behind them.",
+    keywords: "work case studies builds portfolio apps clients",
   },
   {
     href: "/about",
@@ -142,7 +142,7 @@ const sidebarMeta = isArticleRoute
     : isBlogCategoryRoute
       ? "Posts filtered by topic."
       : normalizedPath.startsWith("/projects")
-        ? "Native apps, web products, backend work."
+        ? "Client work, indie builds, real constraints."
         : normalizedPath.startsWith("/about")
           ? "Background, principles, and current arc."
           : normalizedPath.startsWith("/now")
@@ -677,7 +677,7 @@ const searchItems = [
             </div>
             <div class="footer__actions">
               <nav class="footer__links" aria-label="Footer links">
-                <a href="/projects">Projects</a>
+                <a href="/projects">Case Studies</a>
                 <a href="/blog/">Blog</a>
                 <a href="/about">About</a>
                 <a

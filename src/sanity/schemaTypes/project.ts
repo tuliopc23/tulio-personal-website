@@ -147,7 +147,7 @@ export default defineType({
       title: "Tech Stack",
       type: "array",
       fieldset: "technical",
-      description: "Technologies used. Kept for reference only — not shown on the public card.",
+      description: "Technologies used — shown as tags on the public case study card.",
       of: [defineArrayMember({ type: "string" })],
     }),
     defineField({

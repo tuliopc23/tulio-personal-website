@@ -5,8 +5,6 @@ import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../sanity/lib/projects";
 import { getProjectsPageContent } from "../sanity/lib/page-content";
-import { PROJECT_CATEGORIES } from "../sanity/project-categories";
-import projectsFiltersScriptHref from "../scripts/projects-filters.ts?url";
 
 const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
@@ -17,17 +15,11 @@ if (import.meta.env.PROD && !pageContent) {
 
 const defaults = {
   description:
-    "Projects I've shipped — native apps, web platforms, backend systems, and developer tools.",
-  heroEyebrow: "Shipped work",
-  heroTitle: "Projects",
+    "Case studies on native apps, web platforms, backend systems, and developer tools — client work and indie projects that shipped.",
+  heroEyebrow: "Case Studies",
+  heroTitle: "Case Studies",
   heroLede:
-    "Native apps, web platforms, backend services, and dev tools. Things I actually built and put in front of users.",
-  filterEmptyTitle: "Nothing in this category yet",
-  filterEmptyBody:
-    "Try a different filter, or reach out if you want context on work that isn't written up here:",
-  pageEmptyTitle: "Writeups are in progress",
-  pageEmptyBody:
-    "The code exists — the documentation is catching up. Email me if you want implementation details now:",
+    "Real work, real constraints, real deadlines. Client builds and indie projects that made it to production — with the decisions, tradeoffs, and technical details behind them.",
   contactEmail: "contact@tuliocunha.dev",
 };
 
@@ -36,50 +28,136 @@ const content = {
   heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
   heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
   heroLede: pageContent?.heroLede ?? defaults.heroLede,
-  filterEmptyTitle: pageContent?.filterEmptyTitle ?? defaults.filterEmptyTitle,
-  filterEmptyBody: pageContent?.filterEmptyBody ?? defaults.filterEmptyBody,
-  pageEmptyTitle: pageContent?.pageEmptyTitle ?? defaults.pageEmptyTitle,
-  pageEmptyBody: pageContent?.pageEmptyBody ?? defaults.pageEmptyBody,
   contactEmail: pageContent?.contactEmail ?? defaults.contactEmail,
 };
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const description = content.description;
 const canonicalUrl = new URL("/projects/", siteOrigin).toString();
-const _hasProjects = projects.length > 0;
-const _projectFilters = [
-  { id: "all", label: "All" },
-  ...PROJECT_CATEGORIES.map(({ value, label }) => ({ id: value, label })),
-];
 
 const _structuredData = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Tulio Cunha Projects",
+  name: "Tulio Cunha — Case Studies",
   description,
   url: canonicalUrl,
+};
+
+const caseStudies = [
+  {
+    id: "cardmaniacs",
+    icon: "desktop-tower",
+    eyebrow: "Indie App",
+    title: "CardManiacs",
+    headline: "A native content platform built from scratch with Swift and strict concurrency.",
+    lede: "Three apps in one — reader, aggregator, and discovery engine. Mac-first, optimized for iOS and iPadOS. Vim-style keyboard navigation on the card grid, on-device AI summaries, and the ability to parse everything from RSS feeds to YouTube videos and podcasts. No Electron. No wrappers. Pure platform code.",
+    role: "Creator & Solo Developer",
+    stack: ["Swift", "SwiftUI", "AppKit", "Strict Concurrency"],
+    status: "live",
+    images: [
+      {
+        src: "/images/cases/cardmaniacs-1.webp",
+        alt: "CardManiacs dark mode card grid with article previews",
+      },
+      {
+        src: "/images/cases/cardmaniacs-2.webp",
+        alt: "CardManiacs article reader with on-device AI summary",
+      },
+    ],
+  },
+  {
+    id: "offside",
+    icon: "soccer-ball",
+    eyebrow: "Publication",
+    title: "The Offside",
+    headline:
+      "A football publication with league tables, real-time data, and a Highbury-inspired soul.",
+    lede: "International football publication focused on the Premier League and European football. Svelte components powering live league tables, aggressive caching, load balancing, and a design language inspired by Highbury and Aimé Leon Dore — designed and built for a long-time friend. Arsenal through and through. Go Gunners.",
+    role: "Designer & Lead Developer",
+    stack: ["Svelte", "SvelteKit", "Tailwind CSS"],
+    href: "https://theoffside.club",
+    status: "live",
+    images: [
+      {
+        src: "/images/cases/offside-1.webp",
+        alt: "The Offside editorial homepage with Highbury-inspired design",
+      },
+      {
+        src: "/images/cases/offside-2.webp",
+        alt: "The Offside Premier League table and matchday board",
+      },
+    ],
+  },
+  {
+    id: "capital",
+    icon: "chart-line-up",
+    eyebrow: "Client Work",
+    title: "Capital Financial Consulting",
+    headline:
+      "A wealth management platform with dashboards, charts, and guided financial planning.",
+    lede: "Rich web platform for an independent financial consulting firm in Brazil. Beautiful data visualizations, fast dashboards, and an intuitive experience for both consultants and clients. Think a top-notch personal finance app, but with a real professional guiding your financial health — not an algorithm.",
+    role: "Full Stack Developer",
+    stack: ["React", "PostgreSQL", "Hono"],
+    status: "live",
+    images: [
+      { src: "/images/cases/capital-1.webp", alt: "Capital Financial Consulting landing page" },
+      {
+        src: "/images/cases/capital-2.webp",
+        alt: "Capital Financial Consulting consultant dashboard with charts",
+      },
+    ],
+  },
+  {
+    id: "nomadz",
+    icon: "compass",
+    eyebrow: "Client Work",
+    title: "Nomadz Trips",
+    headline:
+      "A travel platform that handles bookings, content, and payments behind one seamless experience.",
+    lede: "International travel agency specializing in group experiences. SSR pages tuned for SEO with a full operational backend — custom dashboard, Stripe integration, CMS-driven content, and a blog that actually ranks. The frontend looks effortless; the infrastructure behind it is anything but.",
+    role: "Full Stack Developer",
+    stack: ["Payload CMS", "React", "Tailwind CSS", "Stripe"],
+    status: "live",
+    images: [
+      {
+        src: "/images/cases/nomadz-1.webp",
+        alt: "Nomadz Trips homepage with aerial beach photography",
+      },
+      {
+        src: "/images/cases/nomadz-2.webp",
+        alt: "Nomadz Trips trip listing and booking interface",
+      },
+    ],
+  },
+];
+
+const _statusLabels: Record<string, string> = {
+  live: "Live",
+  maintained: "Maintained",
+  exploration: "Exploration",
+};
+const _statusIcons: Record<string, string> = {
+  live: "broadcast",
+  maintained: "wrench",
+  exploration: "flask",
 };
 ---
 
 <Base
-  title="Projects"
+  title="Case Studies"
   description={description}
   canonical={canonicalUrl}
   ogDescription={description}
-  ogImage={{ url: "/terminal-favicon.svg", alt: "Projects preview" }}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Case studies preview" }}
   structuredData={_structuredData}
 >
   <div class="pageBento">
-    <section
-      class="container projects__intro pageHero pageWidget"
-      data-reveal
-      data-reveal-type="scale"
-      data-reveal-group="projects-intro"
-    >
+    <!-- Hero -->
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
       <Breadcrumbs
         items={[
           { label: "Home", href: "/", icon: "home" },
-          { label: "Projects", icon: "cube" },
+          { label: "Case Studies", icon: "briefcase" },
         ]}
       />
       <div class="pageHero__copy">
@@ -89,84 +167,449 @@ const _structuredData = {
         </span>
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
-        <div class="pageHero__meta" aria-label="Projects overview">
+        <div class="pageHero__meta" aria-label="Case studies overview">
           <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
             <PhosphorIcon name="briefcase" size={14} weight="regular" />
-            {_hasProjects ? `${projects.length} projects` : "Project notes in progress"}
+            {caseStudies.length} case studies
           </span>
           <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
-            <PhosphorIcon name="folder" size={14} weight="regular" />
-            {PROJECT_CATEGORIES.length} areas
+            <PhosphorIcon name="code" size={14} weight="regular" />
+            Client &amp; indie work
           </span>
         </div>
       </div>
-      {
-        _hasProjects && (
-          <div class="projects__filtersWrap">
-            <p class="projects__filtersLabel">
-              <PhosphorIcon name="folder" size={14} weight="regular" />
-              Filter by area
-            </p>
-            <div class="projects__filters" role="toolbar" aria-label="Filter projects">
-            {_projectFilters.map((filter, index) => (
-              <button
-                type="button"
-                class:list={[
-                  "projectsFilter__button",
-                  "chip-pill",
-                  "chip-pill--interactive",
-                  "motion-chip",
-                  index === 0 && "is-active",
-                ]}
-                data-project-filter={filter.id}
-                aria-pressed={index === 0 ? "true" : "false"}
-              >
-                {filter.label}
-              </button>
-            ))}
-            </div>
-          </div>
-        )
-      }
     </section>
 
-    <section class="container pageWidget" data-reveal data-reveal-group="projects-list">
-      {
-        _hasProjects ? (
-          <Fragment>
-            <div class="projects__filterEmpty card" data-project-empty hidden>
-              <span class="projects__emptyIcon" aria-hidden="true">
-                <PhosphorIcon name="folder" size={20} weight="regular" />
-              </span>
-              <h2>{content.filterEmptyTitle}</h2>
-              <p>
-                {content.filterEmptyBody}
-                {" "}
-                <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
-              </p>
-            </div>
-            <div class="cardGrid projects__grid" data-projects-grid>
-              {projects.map((project, i) => (
-                <ProjectCard project={project} revealOrder={i} />
+    <!-- Case study slider -->
+    <section class="caseSlider" aria-label="Case studies" data-case-slider>
+      <!-- Nav pills -->
+      <nav class="caseSlider__nav" aria-label="Case study navigation">
+        {caseStudies.map((cs, i) => (
+          <button
+            type="button"
+            class:list={["caseSlider__pill", "cta-pill", i === 0 ? "cta-pill--accent" : "cta-pill--neutral", "motion-cta-pill"]}
+            data-case-nav={cs.id}
+            aria-pressed={i === 0 ? "true" : "false"}
+          >
+            <PhosphorIcon name={cs.icon} size={14} weight="regular" />
+            <span>{cs.title}</span>
+          </button>
+        ))}
+      </nav>
+
+      <!-- Slides -->
+      <div class="caseSlider__track" data-case-track>
+        {caseStudies.map((cs, i) => (
+          <article
+            class="caseSlide"
+            data-case-slide={cs.id}
+            data-active={i === 0 ? "true" : "false"}
+            aria-hidden={i !== 0 ? "true" : undefined}
+          >
+            <!-- Editorial heading -->
+            <header class="stage-intro stage-intro--single">
+              <div class="stage-intro__copy">
+                <span class="stage-intro__eyebrow">
+                  <PhosphorIcon name={cs.icon} size={14} weight="regular" />
+                  {cs.eyebrow}
+                </span>
+                <h2 class="stage-intro__title">{cs.headline}</h2>
+                <p class="stage-intro__caption">{cs.lede}</p>
+              </div>
+            </header>
+
+            <!-- Image showcase -->
+            <div class="caseSlide__showcase">
+              {cs.images.map((img, imgIdx) => (
+                <figure
+                  class="caseSlide__frame"
+                  data-reveal
+                  data-reveal-order={imgIdx}
+                >
+                  <div class="caseSlide__imageWrap">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      class="caseSlide__image"
+                      loading={i === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </div>
+                </figure>
               ))}
             </div>
-          </Fragment>
-        ) : (
-          <div class="projects__empty card" data-reveal data-reveal-group="projects-list">
-            <span class="projects__emptyIcon" aria-hidden="true">
-              <PhosphorIcon name="sparkle" size={20} weight="regular" />
-            </span>
-            <h2>{content.pageEmptyTitle}</h2>
-            <p>
-              {content.pageEmptyBody}
-              {" "}
-              <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
-            </p>
-          </div>
-        )
-      }
+
+            <!-- Meta bar -->
+            <div class="caseSlide__meta">
+              <div class="caseSlide__metaLeft">
+                <span class="caseSlide__role">
+                  <PhosphorIcon name="user" size={14} weight="regular" />
+                  {cs.role}
+                </span>
+                <span class="caseSlide__status" data-status={cs.status}>
+                  <PhosphorIcon name={_statusIcons[cs.status] ?? "circle"} size={12} weight="fill" />
+                  {_statusLabels[cs.status] ?? cs.status}
+                </span>
+              </div>
+              <ul class="caseSlide__stack" aria-label="Tech stack">
+                {cs.stack.map((tech) => (
+                  <li class="caseSlide__tag">{tech}</li>
+                ))}
+              </ul>
+            </div>
+
+            {cs.href && (
+              <a
+                href={cs.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                class="caseSlide__cta cta-pill cta-pill--accent motion-cta-pill"
+              >
+                <span>Visit project</span>
+                <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
     </section>
+
+    <!-- Sanity-managed projects (if any) -->
+    {projects.length > 0 && (
+      <section class="homepage-stage" aria-labelledby="projects-more-title">
+        <header class="stage-intro stage-intro--single">
+          <div class="stage-intro__copy">
+            <span class="stage-intro__eyebrow">
+              <PhosphorIcon name="rocket-launch" size={14} weight="regular" />
+              More work
+            </span>
+            <h2 id="projects-more-title" class="stage-intro__title">Other projects and contributions.</h2>
+            <p class="stage-intro__caption">Smaller builds, open source work, and experiments that shipped.</p>
+          </div>
+        </header>
+
+        <section class="container pageWidget" data-reveal data-reveal-group="projects-list">
+          <div class="cardGrid projects__grid" data-projects-grid>
+            {projects.map((project, i) => (
+              <ProjectCard project={project} revealOrder={i} />
+            ))}
+          </div>
+        </section>
+      </section>
+    )}
   </div>
 
-  <script is:inline type="module" src={projectsFiltersScriptHref}></script>
+  <script is:inline>
+  {
+    const slider = document.querySelector("[data-case-slider]");
+    if (slider) {
+      const pills = Array.from(slider.querySelectorAll("[data-case-nav]"));
+      const slides = Array.from(slider.querySelectorAll("[data-case-slide]"));
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const activate = (id) => {
+        pills.forEach((pill) => {
+          const isActive = pill.dataset.caseNav === id;
+          pill.setAttribute("aria-pressed", isActive ? "true" : "false");
+          pill.classList.toggle("cta-pill--accent", isActive);
+          pill.classList.toggle("cta-pill--neutral", !isActive);
+        });
+
+        slides.forEach((slide) => {
+          const isTarget = slide.dataset.caseSlide === id;
+          const wasActive = slide.dataset.active === "true";
+
+          if (isTarget && !wasActive) {
+            slide.dataset.active = "true";
+            slide.setAttribute("aria-hidden", "false");
+            slide.style.opacity = "0";
+            slide.style.transform = "translateX(24px)";
+            requestAnimationFrame(() => {
+              slide.style.transition = prefersReducedMotion
+                ? "none"
+                : "opacity 0.4s cubic-bezier(0.22,0.61,0.36,1), transform 0.4s cubic-bezier(0.22,0.61,0.36,1)";
+              slide.style.opacity = "1";
+              slide.style.transform = "translateX(0)";
+            });
+          } else if (!isTarget && wasActive) {
+            slide.dataset.active = "false";
+            slide.setAttribute("aria-hidden", "true");
+            slide.style.transition = prefersReducedMotion
+              ? "none"
+              : "opacity 0.25s ease-out, transform 0.25s ease-out";
+            slide.style.opacity = "0";
+            slide.style.transform = "translateX(-24px)";
+          }
+        });
+      };
+
+      pills.forEach((pill) => {
+        pill.addEventListener("click", () => activate(pill.dataset.caseNav));
+      });
+
+      // Keyboard navigation
+      pills.forEach((pill, i) => {
+        pill.addEventListener("keydown", (e) => {
+          let target = i;
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            e.preventDefault();
+            target = (i + 1) % pills.length;
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            e.preventDefault();
+            target = (i - 1 + pills.length) % pills.length;
+          }
+          if (target !== i) {
+            pills[target].focus();
+            activate(pills[target].dataset.caseNav);
+          }
+        });
+      });
+    }
+  }
+  </script>
+
+  <style>
+    /* ── Case study slider ── */
+    .caseSlider {
+      display: grid;
+      gap: var(--space-lg);
+      padding-inline: var(--container-padding, 20px);
+      max-width: var(--container-max, 1200px);
+      margin-inline: auto;
+    }
+
+    .caseSlider__nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      justify-content: center;
+    }
+
+    .caseSlider__pill {
+      cursor: pointer;
+    }
+
+    .caseSlider__pill svg {
+      flex: none;
+    }
+
+    /* Track: only active slide visible */
+    .caseSlider__track {
+      position: relative;
+      min-height: 0;
+    }
+
+    .caseSlide {
+      display: none;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .caseSlide[data-active="true"] {
+      display: flex;
+    }
+
+    /* Showcase: 2 images side by side, floating with layered shadow */
+    .caseSlide__showcase {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(var(--space-sm), 2vw, var(--space-md));
+    }
+
+    .caseSlide__frame {
+      margin: 0;
+      position: relative;
+      border-radius: clamp(14px, 1.6vw, 20px);
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    [data-theme="dark"] .caseSlide__frame {
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.12),
+        0 8px 16px rgba(0, 0, 0, 0.16),
+        0 24px 48px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    [data-theme="light"] .caseSlide__frame {
+      box-shadow:
+        0 2px 4px rgba(31, 35, 53, 0.06),
+        0 8px 16px rgba(31, 35, 53, 0.08),
+        0 24px 48px rgba(31, 35, 53, 0.12),
+        0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .caseSlide__frame:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    [data-theme="dark"] .caseSlide__frame:hover {
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.16),
+        0 16px 32px rgba(0, 0, 0, 0.22),
+        0 32px 64px rgba(0, 0, 0, 0.28),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    [data-theme="light"] .caseSlide__frame:hover {
+      box-shadow:
+        0 4px 8px rgba(31, 35, 53, 0.08),
+        0 16px 32px rgba(31, 35, 53, 0.12),
+        0 32px 64px rgba(31, 35, 53, 0.16),
+        0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .caseSlide__imageWrap {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .caseSlide__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .caseSlide__frame:hover .caseSlide__image {
+      transform: scale(1.03);
+    }
+
+    /* Meta bar */
+    .caseSlide__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .caseSlide__metaLeft {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: center;
+    }
+
+    .caseSlide__role {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--fs--2);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    [data-theme="dark"] .caseSlide__role {
+      color: rgba(235, 235, 245, 0.6);
+    }
+
+    [data-theme="light"] .caseSlide__role {
+      color: rgba(60, 60, 67, 0.6);
+    }
+
+    .caseSlide__status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    [data-theme="dark"] .caseSlide__status[data-status="live"] {
+      border: 1px solid rgba(48, 217, 72, 0.35);
+      background: rgba(48, 217, 72, 0.14);
+      color: rgba(100, 230, 120, 0.95);
+    }
+
+    [data-theme="light"] .caseSlide__status[data-status="live"] {
+      border: 1px solid rgba(36, 138, 61, 0.25);
+      background: rgba(36, 138, 61, 0.1);
+      color: rgba(28, 110, 48, 0.95);
+    }
+
+    [data-theme="dark"] .caseSlide__status[data-status="maintained"] {
+      border: 1px solid rgba(255, 194, 46, 0.35);
+      background: rgba(255, 194, 46, 0.14);
+      color: rgba(255, 214, 100, 0.95);
+    }
+
+    [data-theme="light"] .caseSlide__status[data-status="maintained"] {
+      border: 1px solid rgba(175, 130, 0, 0.25);
+      background: rgba(175, 130, 0, 0.1);
+      color: rgba(140, 100, 0, 0.95);
+    }
+
+    /* Stack tags */
+    .caseSlide__stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xxs);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .caseSlide__tag {
+      padding: var(--space-xxs) var(--space-xs);
+      border-radius: var(--radius-sm);
+      font-size: var(--fs--2);
+      font-weight: 500;
+      letter-spacing: -0.005em;
+    }
+
+    [data-theme="dark"] .caseSlide__tag {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(180deg, rgba(60, 60, 67, 0.32) 0%, rgba(48, 48, 52, 0.42) 100%);
+      color: rgba(235, 235, 245, 0.86);
+    }
+
+    [data-theme="light"] .caseSlide__tag {
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 250, 252, 0.9) 100%);
+      color: rgba(60, 60, 67, 0.88);
+    }
+
+    .caseSlide__cta {
+      align-self: flex-start;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .caseSlider {
+        gap: var(--space-md);
+      }
+
+      .caseSlider__nav {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .caseSlider__nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .caseSlide__showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .caseSlide__meta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </Base>

@@ -147,7 +147,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
       resolve: (doc) => ({
         locations: [
           {
-            title: doc?.title || "Projects",
+            title: doc?.title || "Case Studies",
             href: "/projects/",
           },
         ],

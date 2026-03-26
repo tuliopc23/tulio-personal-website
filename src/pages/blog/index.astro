@@ -23,31 +23,19 @@ const formatter = new Intl.DateTimeFormat("en", {
 
 const defaults = {
   pageDescription:
-    "Dev notes on Swift, TypeScript, Go, Rust, Zig — platforms, systems, tooling, and the tradeoffs behind real code.",
-  heroEyebrow: "Writing",
-  heroTitle: "Notes on building software, from the terminal up.",
+    "Dev notes on Swift, TypeScript, Go, Rust, Zig — the stuff that happens between git init and production.",
+  heroEyebrow: "Journal",
+  heroTitle: "Writing on code, systems thinking, and the realities of shipping software.",
   heroLede:
-    "Platform deep dives, tooling takes, architecture decisions, and the kind of posts that start with 'I tried this and here's what happened.' Mostly Swift, TypeScript, Go, Rust, and systems work.",
-  emptyStateTitle: "Nothing published yet",
+    "Long reads on real code — architecture bets, tooling rabbit holes, the debug sessions nobody warns you about. Mostly Swift, TypeScript, Go, Rust, and whatever else the problem demands.",
+  emptyStateTitle: "Nothing shipped yet",
   emptyStateBody:
-    "Posts are in draft. Drop the RSS or Atom feed in your reader — the first one will show up there.",
+    "Posts are still in draft. Grab the RSS or Atom feed — you'll know when the first one lands.",
   archiveHeading: "By year",
-  archiveLede: "Everything published, sorted by when it shipped.",
+  archiveLede: "The full git log, sorted chronologically.",
   allArticlesLabel: "All posts",
   loadOlderLabel: "Load more",
 };
-
-function refineHeroLede(lede: string) {
-  const normalized = lede.trim();
-  if (
-    normalized ===
-    "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward."
-  ) {
-    return "From interface architecture to execution tradeoffs, this is where I document what works, what breaks, and what actually moves products forward. The focus stays on systems, product decisions, and the realities of shipping software that has to hold up outside the happy path.";
-  }
-
-  return lede;
-}
 
 function toPostEntry(post: PostSummary) {
   const date = new Date(post.publishedAt);
@@ -91,7 +79,7 @@ const content = {
   pageDescription: pageContent?.pageDescription ?? defaults.pageDescription,
   heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
   heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
-  heroLede: refineHeroLede(pageContent?.heroLede ?? defaults.heroLede),
+  heroLede: pageContent?.heroLede ?? defaults.heroLede,
   emptyStateTitle: pageContent?.emptyStateTitle ?? defaults.emptyStateTitle,
   emptyStateBody: pageContent?.emptyStateBody ?? defaults.emptyStateBody,
   archiveHeading: pageContent?.archiveHeading ?? defaults.archiveHeading,
@@ -159,21 +147,21 @@ const _placeholders = pageContent?.placeholderCards?.length
       {
         title: "Swift and Apple platforms",
         summary:
-          "Notes on native APIs, SwiftUI, platform changes, and what the WWDC sessions don't tell you.",
+          "Native APIs, SwiftUI, platform quirks, and what the WWDC sessions conveniently skip over.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
         title: "Backend and systems",
         summary:
-          "Go, Rust, runtimes, infra. The parts of the stack nobody screenshots but everything depends on.",
+          "Go, Rust, runtimes, infra — the layers nobody screenshots but everything crashes without.",
         href: "/blog/",
         tags: ["Preview"],
       },
       {
         title: "Tooling and workflow",
         summary:
-          "Terminal setups, editor configs, CI pipelines, and the small automations that compound over time.",
+          "Terminal configs, CI pipelines, editor setups, and the small automations that quietly save hours.",
         href: "/blog/",
         tags: ["Preview"],
       },
@@ -187,7 +175,7 @@ const _sectionHeaders = {
   latest: {
     eyebrow: "Recent posts",
     title: "Latest",
-    lede: "Recent writing on platforms, toolchains, and the decisions that show up once you start building.",
+    lede: "Recent dives into codebases, toolchains, and the tradeoffs that only surface once you start shipping.",
     icon: "notebook",
   },
 } as const;

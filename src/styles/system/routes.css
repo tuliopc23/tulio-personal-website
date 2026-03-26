@@ -469,7 +469,20 @@
 }
 
 .about__principles {
-  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.about__principles .card {
+  padding: clamp(var(--space-sm), 2vw, var(--space-md));
+}
+
+.about__principles .card-title {
+  font-size: clamp(14px, 0.5vw + 13px, 16px);
+}
+
+.about__principles .card-body {
+  font-size: var(--fs--2);
+  line-height: 1.55;
 }
 
 .about__timelineList {

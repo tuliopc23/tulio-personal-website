@@ -836,6 +836,18 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   transform: translateY(0) scale(var(--motion-scale-active));
   box-shadow: var(--shadow-0);
 }
+.card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xs);
+  background: color-mix(in srgb, var(--blue, #0d8aff) 12%, transparent);
+  color: var(--blue, #0d8aff);
+  margin-bottom: var(--space-xxs);
+}
+
 .card-title {
   font-size: var(--type-card-title-size);
   font-weight: var(--type-card-title-weight);
@@ -1072,6 +1084,7 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
   min-height: 28px;
   padding: 4px 10px;
   border-radius: 999px;
@@ -1080,6 +1093,7 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 [data-theme="dark"] .projectCard__status {
@@ -1092,6 +1106,45 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   border: 1px solid rgba(0, 113, 227, 0.22);
   background: rgba(0, 113, 227, 0.1);
   color: rgba(0, 82, 182, 0.95);
+}
+
+/* Status: Live — green */
+[data-theme="dark"] .projectCard__status[data-status="live"] {
+  border-color: rgba(48, 217, 72, 0.35);
+  background: rgba(48, 217, 72, 0.14);
+  color: rgba(100, 230, 120, 0.95);
+}
+
+[data-theme="light"] .projectCard__status[data-status="live"] {
+  border-color: rgba(36, 138, 61, 0.25);
+  background: rgba(36, 138, 61, 0.1);
+  color: rgba(28, 110, 48, 0.95);
+}
+
+/* Status: Maintained — amber */
+[data-theme="dark"] .projectCard__status[data-status="maintained"] {
+  border-color: rgba(255, 194, 46, 0.35);
+  background: rgba(255, 194, 46, 0.14);
+  color: rgba(255, 214, 100, 0.95);
+}
+
+[data-theme="light"] .projectCard__status[data-status="maintained"] {
+  border-color: rgba(175, 130, 0, 0.25);
+  background: rgba(175, 130, 0, 0.1);
+  color: rgba(140, 100, 0, 0.95);
+}
+
+/* Status: Exploration — purple */
+[data-theme="dark"] .projectCard__status[data-status="exploration"] {
+  border-color: rgba(194, 91, 244, 0.35);
+  background: rgba(194, 91, 244, 0.14);
+  color: rgba(210, 140, 255, 0.95);
+}
+
+[data-theme="light"] .projectCard__status[data-status="exploration"] {
+  border-color: rgba(140, 60, 190, 0.25);
+  background: rgba(140, 60, 190, 0.1);
+  color: rgba(110, 45, 155, 0.95);
 }
 
 .projectCard__heading {

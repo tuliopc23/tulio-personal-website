@@ -13,14 +13,9 @@ const { project, revealGroup = "projects-grid", revealOrder }: Props = Astro.pro
 
 const _categoriesAttr = (project.categories ?? []).join(",");
 const _hasImage = !!project.coverImage?.url;
+const _hasStack = (project.stack ?? []).length > 0;
 const _statusKey = project.status?.toLowerCase() ?? "exploration";
-const _imageDimensions =
-  project.coverImage?.dimensions?.width && project.coverImage?.dimensions?.height
-    ? {
-        width: project.coverImage.dimensions.width,
-        height: project.coverImage.dimensions.height,
-      }
-    : { inferSize: true as const };
+const _mediaKind = _hasImage ? "image" : "icon";
 
 const _categoryColors: Record<string, string> = {
   native: "#5e5ce8",
@@ -30,6 +25,22 @@ const _categoryColors: Record<string, string> = {
   experience: "#c25bf4",
 };
 const _fallbackColor = _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "#0a84ff";
+
+const _statusLabels: Record<string, string> = {
+  live: "Live",
+  maintained: "Maintained",
+  exploration: "Exploration",
+};
+const _statusIcons: Record<string, string> = {
+  live: "broadcast",
+  maintained: "wrench",
+  exploration: "flask",
+};
+
+const formatter = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+});
+const _releaseYear = project.releaseDate ? formatter.format(new Date(project.releaseDate)) : null;
 ---
 
 <a
@@ -46,46 +57,91 @@ const _fallbackColor = _categoryColors[(project.categories ?? [])[0] ?? ""] ?? "
   data-project-categories={_categoriesAttr}
   data-project-card
 >
-  <div class="projectCard__media">
-    {
-      _hasImage ? (
-        <img
-          src={optimizedImageUrl(project.coverImage!.url!, 960)}
-          srcset={generateSrcset(project.coverImage!.url!, [480, 640, 800, 960])}
-          sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 420px"
-          alt={project.coverImage?.alt ?? project.title}
-          class="projectCard__image"
-          loading="lazy"
-          decoding="async"
-          style={
-            project.coverImage?.lqip
-              ? `background-image: url('${project.coverImage.lqip}'); background-size: cover;`
-              : undefined
-          }
-          {...(_imageDimensions.inferSize ? {} : _imageDimensions)}
-        />
-      ) : (
-        <div
-          class="projectCard__fallback"
-          style={`background: linear-gradient(135deg, ${_fallbackColor}33 0%, ${_fallbackColor}18 100%);`}
-          aria-hidden="true"
-        >
-          <PhosphorIcon name="cube" size={36} weight="regular" />
-        </div>
-      )
-    }
+  <!-- ── Media: browser-chrome frame ── -->
+  <div class="projectCard__media" data-kind={_mediaKind}>
+    <div class="projectCard__mediaGlow" aria-hidden="true"></div>
+    <div class="projectCard__frame" data-kind={_mediaKind}>
+      <div class="projectCard__chrome">
+        <span class="projectCard__chromeDot" data-variant="close" aria-hidden="true"></span>
+        <span class="projectCard__chromeDot" data-variant="minimize" aria-hidden="true"></span>
+        <span class="projectCard__chromeDot" data-variant="zoom" aria-hidden="true"></span>
+      </div>
+      <div class="projectCard__viewport">
+        {
+          _hasImage ? (
+            <img
+              src={optimizedImageUrl(project.coverImage!.url!, 960)}
+              srcset={generateSrcset(project.coverImage!.url!, [480, 640, 800, 960, 1280])}
+              sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 520px"
+              alt={project.coverImage?.alt ?? project.title}
+              class="projectCard__image"
+              loading="lazy"
+              decoding="async"
+              style={
+                project.coverImage?.lqip
+                  ? `background-image: url('${project.coverImage.lqip}'); background-size: cover;`
+                  : undefined
+              }
+            />
+          ) : (
+            <div
+              class="projectCard__icon symbol"
+              style={`background: linear-gradient(135deg, ${_fallbackColor}28 0%, ${_fallbackColor}14 100%); color: ${_fallbackColor};`}
+              aria-hidden="true"
+            >
+              <PhosphorIcon name="cube" size={36} weight="regular" />
+            </div>
+          )
+        }
+      </div>
+    </div>
   </div>
 
+  <!-- ── Body ── -->
   <div class="projectCard__body">
-    <div class="projectCard__heading">
-      <p class="projectCard__eyebrow">
-        <PhosphorIcon name="briefcase" size={14} weight="regular" />
-        <span>{project.role}</span>
-        <span class="projectCard__statusDot" data-status={_statusKey} aria-hidden="true"></span>
-      </p>
-      <h3 class="projectCard__title">{project.title}</h3>
+    <div class="projectCard__header">
+      <div class="projectCard__heading">
+        <p class="projectCard__eyebrow">
+          <PhosphorIcon name="briefcase" size={14} weight="regular" />
+          <span>{project.role}</span>
+        </p>
+        <h3 class="projectCard__title">{project.title}</h3>
+      </div>
+      <span class="projectCard__status" data-status={_statusKey}>
+        <PhosphorIcon name={_statusIcons[_statusKey] ?? "circle"} size={12} weight="fill" />
+        {_statusLabels[_statusKey] ?? project.status}
+      </span>
     </div>
+
     <p class="projectCard__summary">{project.summary}</p>
+
+    <!-- ── Meta: categories + year ── -->
+    <div class="projectCard__metaRow">
+      {(project.categories ?? []).map((cat) => (
+        <span class="projectCard__meta">
+          <PhosphorIcon name="tag" size={12} weight="regular" />
+          {cat}
+        </span>
+      ))}
+      {_releaseYear && (
+        <span class="projectCard__meta">
+          <PhosphorIcon name="calendar" size={12} weight="regular" />
+          {_releaseYear}
+        </span>
+      )}
+    </div>
+
+    <!-- ── Tech stack ── -->
+    {_hasStack && (
+      <ul class="projectCard__stack" aria-label="Tech stack">
+        {(project.stack ?? []).map((tech) => (
+          <li class="projectCard__tag">{tech}</li>
+        ))}
+      </ul>
+    )}
+
+    <div class="projectCard__divider" aria-hidden="true"></div>
+
     <span class="projectCard__cta cta-pill cta-pill--accent motion-cta-pill">
       <span>{project.cta}</span>
       <PhosphorIcon name="arrow-up-right" size={16} weight="regular" />

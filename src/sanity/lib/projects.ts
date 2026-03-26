@@ -12,6 +12,7 @@ export interface SanityProject {
   cta: string;
   releaseDate?: string | null;
   categories: ProjectCategory[];
+  stack?: string[] | null;
   coverImage?: {
     alt?: string | null;
     url: string | null;
@@ -34,6 +35,7 @@ const PROJECT_PROJECTION = `{
   cta,
   releaseDate,
   categories,
+  stack,
   coverImage {
     alt,
     "url": asset->url,
