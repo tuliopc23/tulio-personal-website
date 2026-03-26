@@ -1,0 +1,31 @@
+sanity.types.ts
+  0be947d3678f9f0e 280-308
+schema.json
+  0be947d3678f9f0e 1572-1779
+src/pages/projects.astro
+  0be947d3678f9f0e 6-13,15,55-74,87,91,110,114,131,133,151,155,162-189,279-280,298-299,459-472
+src/sanity/schemaTypes/projectsPage.ts
+  0be947d3678f9f0e 2,4-18,27-31,66-177
+src/sanity/lib/page-content.ts
+  0be947d3678f9f0e 57-77,156-173
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "7ad16df7481ee9187db253a86af4c698a308ba3b",
+  "prompts": {
+    "0be947d3678f9f0e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2a55-82e4-7593-9dd1-1169083e5cf2",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 529,
+      "total_deletions": 44,
+      "accepted_lines": 500,
+      "overriden_lines": 0
+    }
+  }
+}
