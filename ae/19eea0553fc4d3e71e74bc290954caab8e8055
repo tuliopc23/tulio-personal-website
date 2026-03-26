@@ -1,0 +1,27 @@
+src/components/ProfileCard.astro
+  5a46ddca5413acc2 6,133
+src/components/ProfileCard.module.css
+  5a46ddca5413acc2 66-69,76-79,88-92,307
+src/pages/index.astro
+  5a46ddca5413acc2 221
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "ae19eea0553fc4d3e71e74bc290954caab8e8055",
+  "prompts": {
+    "5a46ddca5413acc2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "abbbd9e7-c191-42eb-af8f-efe9f3192237",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 17,
+      "total_deletions": 17,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    }
+  }
+}
