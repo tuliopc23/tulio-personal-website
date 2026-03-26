@@ -3,7 +3,7 @@ import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ProfileCard.module.css";
 
-const { name = "Tulio Cunha", handle = "tuliocunha", title = "Full Stack Developer", location = "Brazil" } = Astro.props;
+const { name = "Tulio Cunha", title = "Full Stack Developer", location = "Brazil" } = Astro.props;
 
 const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;

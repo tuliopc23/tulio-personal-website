@@ -17,7 +17,15 @@ describe("page content loaders", () => {
       heroEyebrow: "About",
       heroTitle: "About title",
       heroLede: "About lede",
-      sections: [{ _key: "1", icon: "sparkle", eyebrow: "Foundation", title: "Title", body: "Body text here" }],
+      sections: [
+        {
+          _key: "1",
+          icon: "sparkle",
+          eyebrow: "Foundation",
+          title: "Title",
+          body: "Body text here",
+        },
+      ],
     };
 
     loadQueryMock.mockResolvedValueOnce({ data });

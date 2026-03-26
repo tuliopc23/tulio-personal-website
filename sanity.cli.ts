@@ -9,7 +9,7 @@ export default defineCliConfig({
     dataset,
   },
   deployment: {
-    appId: "qbnqb39xqbiz33sj64t4z6sj",
+    appId: "kbe07yngwqvbwgdo48my3i7q",
   },
   typegen: {
     enabled: true,
