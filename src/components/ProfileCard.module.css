@@ -63,20 +63,20 @@
 
 .profileCardName {
   margin: 0 0 3px;
-  font-size: clamp(40px, 2.8vw, 54px);
-  font-weight: 900;
-  letter-spacing: -0.044em;
-  line-height: 0.95;
+  font-size: var(--fs-profile-name);
+  font-weight: var(--type-surface-weight);
+  letter-spacing: var(--ls-profile-name);
+  line-height: var(--lh-profile-name);
   max-width: 12ch;
   text-wrap: balance;
 }
 
 .profileCardTitle {
   margin: 0 0 16px;
-  color: var(--text-primary);
-  font-size: clamp(1.125rem, 0.72vw + 1rem, 1.4rem);
-  font-weight: 620;
-  letter-spacing: -0.022em;
+  color: var(--text-secondary);
+  font-size: var(--fs-profile-title);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--ls-profile-title);
   line-height: 1.2;
   max-width: 24ch;
   text-wrap: pretty;
@@ -85,11 +85,11 @@
 .profileCardLead {
   margin: 0;
   max-width: 34ch;
-  color: var(--text-secondary);
-  font-size: clamp(0.9375rem, 0.3vw + 0.9rem, 1.0625rem);
-  font-weight: 460;
-  letter-spacing: -0.01em;
-  line-height: 1.54;
+  color: var(--text-tertiary);
+  font-size: var(--fs-profile-bio);
+  font-weight: var(--type-lede-weight);
+  letter-spacing: var(--ls-body);
+  line-height: var(--type-lede-leading);
   text-wrap: pretty;
 }
 
@@ -304,7 +304,7 @@
   }
 
   .profileCardName {
-    font-size: clamp(28px, 8vw, 36px);
+    font-size: clamp(24px, 6vw, 32px);
   }
 
   .profileCardPhoto {

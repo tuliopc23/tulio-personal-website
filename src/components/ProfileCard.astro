@@ -3,7 +3,7 @@ import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ProfileCard.module.css";
 
-const { name = "Tulio Cunha", handle = "tuliocunha", title = "Full stack developer", location = "Brazil" } = Astro.props;
+const { name = "Tulio Cunha", handle = "tuliocunha", title = "Full Stack Developer", location = "Brazil" } = Astro.props;
 
 const encodedLocation = encodeURIComponent(location);
 const locationHref = `https://maps.apple.com/?q=${encodedLocation}`;
@@ -130,7 +130,7 @@ const socialCards: SocialCard[] = [
           <PhosphorIcon name="terminal-window" size={14} weight="regular" />
           <span>Hello</span>
         </p>
-        <h2 class={styles.profileCardName}>{handle}</h2>
+        <h2 class={styles.profileCardName}>{name}</h2>
         <p class={styles.profileCardTitle}>{title}</p>
         <p class={styles.profileCardLead}>
           Swift, TypeScript, Go, Rust, Zig. Native apps, web systems, and backend services. I like code that works after you close the laptop.
