@@ -1,0 +1,29 @@
+sanity.types.ts
+  686f7dd376ef4c66 18,257,267,476
+src/styles/system/routes.css
+  686f7dd376ef4c66 3053,3057
+tests/unit/page-content.test.ts
+  686f7dd376ef4c66 20-28
+src/components/ProfileCard.astro
+  686f7dd376ef4c66 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.19",
+  "base_commit_sha": "d87c872fd83758666cdc148e1b81a3deba2a66ba",
+  "prompts": {
+    "686f7dd376ef4c66": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2a3a-e4a6-7de1-b783-5756aa6875ab",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 16,
+      "overriden_lines": 0
+    }
+  }
+}
