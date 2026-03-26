@@ -18,61 +18,32 @@ const defaults = {
     "Full stack developer. Mac native. Unix at heart. Obsessed with how things actually run.",
   heroLede:
     "I build software across every layer of the stack — from pixel-perfect native interfaces to bare-metal system code. I care about performance, clarity, and shipping things that hold up long after the demo is over.",
-  manifestoLabel: "Foundation",
-  manifestoTitle: "I start where most people skip — the internals.",
-  manifestoCopy:
-    "Data flow, memory layout, system boundaries. I get those right first. Once the foundation is honest, the interface writes itself. The opposite never works.",
-  proofBullets: [
-    "Read the system before you redesign it",
-    "Ship thin vertical slices, not slide decks",
-    "Performance is a feature, not a phase",
-    "Accessibility is a constraint, not a checklist",
-  ],
-  principles: [
+  sections: [
     {
-      icon: "puzzle-piece",
-      title: "Modularity or bust",
-      body: "Independent features, independent deploys. Every module owns its boundaries, its data, and its tests. If touching one thing breaks something else, the architecture is lying to you.",
+      icon: "sparkle",
+      eyebrow: "Foundation",
+      title: "I start where most people skip — the internals.",
+      body: "Data flow, memory layout, system boundaries. I get those right first, because once the foundation is honest the interface writes itself. Read the system before you redesign it. Ship thin vertical slices, not slide decks. Performance is a feature, not a phase. Accessibility is a constraint, not a checklist.",
     },
     {
-      icon: "arrows-split",
-      title: "Separate concerns, separate layers",
-      body: "Business logic never bleeds into presentation. Data flows in one direction. The UI is a projection of state, not the owner of it. This isn't dogma — it's how code survives contact with real requirements.",
+      icon: "code",
+      eyebrow: "How I Build",
+      title: "Modularity, separation of concerns, speed. No exceptions.",
+      body: "Independent features, independent deploys — every module owns its boundaries, its data, and its tests. Business logic never bleeds into presentation. Data flows in one direction. The UI is a projection of state, not the owner of it. Performance isn't a polish pass — it's a design constraint from line one. Lazy load, tree shake, measure everything. Clean, beautiful, engaging UI is what hooks users — they feel the difference between software that was designed and software that was assembled.",
     },
     {
-      icon: "lightning",
-      title: "Gotta go fast",
-      body: "Performance isn't a polish pass — it's a design constraint from line one. Lazy load, tree shake, measure everything. If the profiler says it's fine, ship it. If not, fix it before you add features.",
+      icon: "wrench",
+      eyebrow: "Philosophy",
+      title: "Use the best tool for the job. Don't love the hammer — it won't love you back.",
+      body: "Every language, framework, and platform is a tradeoff. The skill isn't mastering one tool, it's knowing when to put it down and pick up another. Swift for native, TypeScript for the web, Go when you need speed and simplicity, Rust when correctness is non-negotiable. I'm a freelancer, indie dev, and OSS contributor because I'd rather solve problems than defend stacks.",
     },
     {
-      icon: "paint-brush",
-      title: "Interfaces that feel right",
-      body: "Precise spacing, tight typography, animations that respond to physics. Clean, beautiful, engaging UI is what hooks users — they feel the difference between software that was designed and software that was just assembled.",
+      icon: "terminal",
+      eyebrow: "Happy Hacking",
+      title: "The terminal is home. The craft is the point.",
+      body: "I write code because I genuinely love it — the dopamine of a clean abstraction, the satisfaction of a build that compiles on the first try, the rabbit holes that start at midnight and end with something real. Open source contributor, config tweaker, dotfiles perfectionist. If it runs on Unix, I'm interested. If it ships to users, even better.",
     },
   ],
-  timelineHeading: "Current arc",
-  timelineLede:
-    "Where the commits are landing right now and what keeps pulling me back to the keyboard.",
-  timelineItems: [
-    {
-      year: "2026",
-      title: "This site, rebuilt from scratch",
-      body: "Astro, Sanity, Cloudflare Workers. A dev portfolio that's also a real codebase — not a template with my name on it.",
-    },
-    {
-      year: "2025",
-      title: "Native and web converging",
-      body: "Spending more time crossing between Swift apps and modern web stacks. Same engineering standards, different runtimes.",
-    },
-    {
-      year: "Ongoing",
-      title: "Open source and writing",
-      body: "Contributing to OSS, publishing what I learn, and writing about the decisions that only surface after you ship.",
-    },
-  ],
-  closingTitle: "Use the best tool for the job.",
-  closingBody:
-    "Don't love the hammer — it won't love you back. Every language, framework, and platform is a tradeoff. The skill isn't mastering one tool, it's knowing when to put it down and pick up another. I'm a freelancer, indie dev, and OSS contributor because I'd rather solve problems than defend stacks.",
 };
 
 const content = {
@@ -80,18 +51,7 @@ const content = {
   heroEyebrow: pageContent?.heroEyebrow ?? defaults.heroEyebrow,
   heroTitle: pageContent?.heroTitle ?? defaults.heroTitle,
   heroLede: pageContent?.heroLede ?? defaults.heroLede,
-  manifestoLabel: pageContent?.manifestoLabel ?? defaults.manifestoLabel,
-  manifestoTitle: pageContent?.manifestoTitle ?? defaults.manifestoTitle,
-  manifestoCopy: pageContent?.manifestoCopy ?? defaults.manifestoCopy,
-  proofBullets: pageContent?.proofBullets?.length
-    ? pageContent.proofBullets
-    : defaults.proofBullets,
-  principles: pageContent?.principles?.length ? pageContent.principles : defaults.principles,
-  timelineHeading: pageContent?.timelineHeading ?? defaults.timelineHeading,
-  timelineLede: pageContent?.timelineLede ?? defaults.timelineLede,
-  timelineItems: pageContent?.timelineItems?.length
-    ? pageContent.timelineItems
-    : defaults.timelineItems,
+  sections: pageContent?.sections?.length ? pageContent.sections : defaults.sections,
 };
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
@@ -105,13 +65,39 @@ const _structuredData = {
   url: canonical,
 };
 
-const _principleIconMap: Record<string, string> = {
-  modularity: "puzzle-piece",
-  separation: "arrows-split",
-  performance: "lightning",
-  craft: "paint-brush",
-};
-const _principleIconFallbacks = ["puzzle-piece", "arrows-split", "lightning", "paint-brush"];
+/* Image showcases mapped by section index */
+const sectionImages: Array<Array<{ src: string; alt: string }>> = [
+  [
+    {
+      src: "/images/about/mac-terminal-vintage.webp",
+      alt: "Vintage Macintosh 128K with green CRT display and keyboard",
+    },
+    {
+      src: "/images/about/mac-hello.webp",
+      alt: "Classic Mac displaying 'hello' in handwritten script",
+    },
+  ],
+  [
+    {
+      src: "/images/about/programmin.webp",
+      alt: "IDE with syntax-highlighted code on dark background",
+    },
+    {
+      src: "/images/about/code2.webp",
+      alt: "Close-up of colorful syntax-highlighted source code",
+    },
+  ],
+  [
+    {
+      src: "/images/about/programming.webp",
+      alt: "Moody desk setup with code editor and ambient lighting",
+    },
+    {
+      src: "/images/about/mac-classic.webp",
+      alt: "Classic beige Macintosh Plus with keyboard and carrying bag",
+    },
+  ],
+];
 ---
 
 <Base
@@ -141,106 +127,157 @@ const _principleIconFallbacks = ["puzzle-piece", "arrows-split", "lightning", "p
       </div>
     </section>
 
-    <section class="homepage-stage" aria-labelledby="about-foundation-title">
-      <header class="stage-intro stage-intro--single">
-        <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">
-            <PhosphorIcon name="sparkle" size={14} weight="regular" />
-            {content.manifestoLabel}
-          </span>
-          <h2 id="about-foundation-title" class="stage-intro__title">{content.manifestoTitle}</h2>
-          <p class="stage-intro__caption">{content.manifestoCopy}</p>
-        </div>
-      </header>
-
-      <div class="container home__section pageWidget" data-reveal>
-        <ul class="about__proof" role="list" aria-label="Core beliefs">
-          {content.proofBullets.map((item) => (
-            <li class="chip-pill" role="listitem">
-              <PhosphorIcon name="check-circle" size={14} weight="regular" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <section class="homepage-stage" aria-labelledby="about-craft-title">
-      <header class="stage-intro stage-intro--single">
-        <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">
-            <PhosphorIcon name="code" size={14} weight="regular" />
-            How I build
-          </span>
-          <h2 id="about-craft-title" class="stage-intro__title">Different problems, different tools. Same obsession with getting it right.</h2>
-          <p class="stage-intro__caption">I move between native apps, web systems, and low-level code. Not because I can't pick a lane — because the interesting work lives at the intersections.</p>
-        </div>
-      </header>
-
-      <div class="container home__section pageWidget" data-reveal>
-        <div class="cardGrid about__principles">
-          {content.principles.map((principle, i) => (
-            <article class="card card--static hover-elevate motion-surface-standard" data-parallax-card>
-              <div class="card__inner">
-                <div class="card__content">
-                  <span class="card__icon">
-                    <PhosphorIcon
-                      name={(principle as any).icon ?? _principleIconMap[(principle as any)._key ?? ""] ?? _principleIconFallbacks[i % _principleIconFallbacks.length]}
-                      size={18}
-                      weight="regular"
-                    />
-                  </span>
-                  <h2 class="card-title">{principle.title}</h2>
-                  <p class="card-body">{principle.body}</p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="homepage-stage" aria-labelledby="about-timeline-title">
-      <header class="stage-intro stage-intro--single">
-        <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">
-            <PhosphorIcon name="clock" size={14} weight="regular" />
-            Timeline
-          </span>
-          <h2 id="about-timeline-title" class="stage-intro__title">{content.timelineHeading}</h2>
-          <p class="stage-intro__caption">{content.timelineLede}</p>
-        </div>
-      </header>
-
-      <div class="container home__section about__timeline pageWidget" data-reveal>
-        <ol class="about__timelineList">
-          {content.timelineItems.map((item) => (
-            <li class="hover-elevate motion-surface-standard" data-parallax-card>
-              <span class="about__timelineYear">
-                <PhosphorIcon name="clock" size={14} weight="regular" />
-                {item.year}
+    {content.sections.map((section, i) => {
+      const images = sectionImages[i];
+      const hasImages = images && images.length > 0;
+      const isClosing = !hasImages;
+      return (
+        <section
+          class:list={["homepage-stage", isClosing && "aboutStage--closing"]}
+          aria-labelledby={`about-section-${i}`}
+          data-reveal
+        >
+          <header class="stage-intro stage-intro--single">
+            <div class="stage-intro__copy">
+              <span class="stage-intro__eyebrow">
+                <PhosphorIcon name={section.icon} size={14} weight="regular" />
+                {section.eyebrow}
               </span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+              <h2 id={`about-section-${i}`} class="stage-intro__title">
+                {section.title}
+              </h2>
+              <p class="stage-intro__caption">{section.body}</p>
+            </div>
+          </header>
 
-    <section class="homepage-stage" aria-labelledby="about-closing-title">
-      <header class="stage-intro stage-intro--single">
-        <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">
-            <PhosphorIcon name="wrench" size={14} weight="regular" />
-            Philosophy
-          </span>
-          <h2 id="about-closing-title" class="stage-intro__title">{defaults.closingTitle}</h2>
-          <p class="stage-intro__caption">{defaults.closingBody}</p>
-        </div>
-      </header>
-    </section>
+          {hasImages && (
+            <div class="container aboutStage__showcase pageWidget" data-reveal>
+              {images.map((img, imgIdx) => (
+                <figure
+                  class="aboutStage__frame hover-elevate"
+                  data-reveal
+                  data-reveal-order={imgIdx}
+                  data-parallax-card
+                >
+                  <div class="aboutStage__imageWrap">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      class="aboutStage__image"
+                      loading={i === 0 && imgIdx === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </div>
+                </figure>
+              ))}
+            </div>
+          )}
+        </section>
+      );
+    })}
   </div>
 </Base>
+
+<style>
+  /* ── Closing section (text-only) gets extra top breathing room ── */
+  .aboutStage--closing {
+    padding-top: clamp(var(--space-md), 3vw, var(--space-xl));
+  }
+
+  /* ── Image showcase grid ── */
+  .aboutStage__showcase {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(var(--space-sm), 2vw, var(--space-md));
+  }
+
+  .aboutStage__frame {
+    margin: 0;
+    position: relative;
+    border-radius: clamp(14px, 1.6vw, 20px);
+    overflow: hidden;
+    transition:
+      transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  [data-theme="dark"] .aboutStage__frame {
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.12),
+      0 8px 16px rgba(0, 0, 0, 0.16),
+      0 24px 48px rgba(0, 0, 0, 0.22),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  [data-theme="light"] .aboutStage__frame {
+    box-shadow:
+      0 2px 4px rgba(31, 35, 53, 0.06),
+      0 8px 16px rgba(31, 35, 53, 0.08),
+      0 24px 48px rgba(31, 35, 53, 0.12),
+      0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+
+  .aboutStage__frame:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  [data-theme="dark"] .aboutStage__frame:hover {
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.16),
+      0 16px 32px rgba(0, 0, 0, 0.22),
+      0 32px 64px rgba(0, 0, 0, 0.28),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="light"] .aboutStage__frame:hover {
+    box-shadow:
+      0 4px 8px rgba(31, 35, 53, 0.08),
+      0 16px 32px rgba(31, 35, 53, 0.12),
+      0 32px 64px rgba(31, 35, 53, 0.16),
+      0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+
+  .aboutStage__imageWrap {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .aboutStage__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .aboutStage__frame:hover .aboutStage__image {
+    transform: scale(1.03);
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .aboutStage__frame,
+    .aboutStage__image {
+      transition: none;
+    }
+
+    .aboutStage__frame:hover {
+      transform: none;
+    }
+
+    .aboutStage__frame:hover .aboutStage__image {
+      transform: none;
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .aboutStage__showcase {
+      grid-template-columns: 1fr;
+    }
+
+    .aboutStage--closing {
+      padding-top: var(--space-md);
+    }
+  }
+</style>

@@ -5,14 +5,7 @@ export interface AboutPageContent {
   heroEyebrow: string;
   heroTitle: string;
   heroLede: string;
-  manifestoLabel: string;
-  manifestoTitle: string;
-  manifestoCopy: string;
-  proofBullets: string[];
-  principles: Array<{ _key: string; title: string; body: string }>;
-  timelineHeading: string;
-  timelineLede: string;
-  timelineItems: Array<{ _key: string; year: string; title: string; body: string }>;
+  sections: Array<{ _key: string; icon: string; eyebrow: string; title: string; body: string }>;
 }
 
 export interface NowPageContent {
@@ -75,14 +68,7 @@ export async function getAboutPageContent(): Promise<AboutPageContent | null> {
       heroEyebrow,
       heroTitle,
       heroLede,
-      manifestoLabel,
-      manifestoTitle,
-      manifestoCopy,
-      proofBullets,
-      principles[]{_key,title,body},
-      timelineHeading,
-      timelineLede,
-      timelineItems[]{_key,year,title,body}
+      sections[]{_key,icon,eyebrow,title,body}
     }`,
     queryLabel: "about page content",
   });

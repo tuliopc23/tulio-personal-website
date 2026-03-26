@@ -17,14 +17,7 @@ describe("page content loaders", () => {
       heroEyebrow: "About",
       heroTitle: "About title",
       heroLede: "About lede",
-      manifestoLabel: "Label",
-      manifestoTitle: "Manifesto",
-      manifestoCopy: "Copy",
-      proofBullets: ["One"],
-      principles: [{ _key: "1", title: "T", body: "B" }],
-      timelineHeading: "Timeline",
-      timelineLede: "Lede",
-      timelineItems: [{ _key: "1", year: "2026", title: "Now", body: "Body" }],
+      sections: [{ _key: "1", icon: "sparkle", eyebrow: "Foundation", title: "Title", body: "Body text here" }],
     };
 
     loadQueryMock.mockResolvedValueOnce({ data });

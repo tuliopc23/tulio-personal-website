@@ -8,9 +8,11 @@ export default defineType({
   icon: SparkleIcon,
   fieldsets: [
     { name: "hero", title: "Hero", options: { collapsible: true, collapsed: false } },
-    { name: "manifesto", title: "Manifesto", options: { collapsible: true, collapsed: false } },
-    { name: "principles", title: "Principles", options: { collapsible: true, collapsed: false } },
-    { name: "timeline", title: "Timeline", options: { collapsible: true, collapsed: false } },
+    {
+      name: "sections",
+      title: "Editorial Sections",
+      options: { collapsible: true, collapsed: false },
+    },
     { name: "ops", title: "Editorial Ops", options: { collapsible: true, collapsed: true } },
   ],
   fields: [
@@ -45,110 +47,49 @@ export default defineType({
       validation: (rule) => rule.required().min(40).max(320),
     }),
     defineField({
-      name: "manifestoLabel",
-      title: "Manifesto Label",
-      type: "string",
-      fieldset: "manifesto",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "manifestoTitle",
-      title: "Manifesto Title",
-      type: "string",
-      fieldset: "manifesto",
-      validation: (rule) => rule.required().min(10).max(140),
-    }),
-    defineField({
-      name: "manifestoCopy",
-      title: "Manifesto Copy",
-      type: "text",
-      fieldset: "manifesto",
-      rows: 4,
-      validation: (rule) => rule.required().min(60).max(500),
-    }),
-    defineField({
-      name: "proofBullets",
-      title: "Proof Bullets",
+      name: "sections",
+      title: "Sections",
+      description:
+        "Editorial sections displayed as stacked stage-intro headings with image showcases.",
       type: "array",
-      fieldset: "manifesto",
-      of: [defineArrayMember({ type: "string" })],
-      validation: (rule) => rule.required().min(2).max(6),
-    }),
-    defineField({
-      name: "principles",
-      title: "Principles",
-      type: "array",
-      fieldset: "principles",
+      fieldset: "sections",
       of: [
         defineArrayMember({
           type: "object",
           fields: [
             defineField({
-              name: "title",
+              name: "icon",
+              title: "Icon",
+              description: "Phosphor icon name (e.g. sparkle, code, wrench, terminal)",
               type: "string",
               validation: (rule) => rule.required(),
             }),
             defineField({
-              name: "body",
-              type: "text",
-              rows: 3,
+              name: "eyebrow",
+              title: "Eyebrow",
+              type: "string",
               validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "title",
+              title: "Title",
+              type: "string",
+              validation: (rule) => rule.required().min(10).max(140),
+            }),
+            defineField({
+              name: "body",
+              title: "Body",
+              type: "text",
+              rows: 4,
+              validation: (rule) => rule.required().min(40).max(600),
             }),
           ],
           preview: {
-            select: { title: "title", subtitle: "body" },
+            select: { title: "title", subtitle: "eyebrow" },
           },
         }),
       ],
       validation: (rule) => rule.required().min(2).max(8),
-    }),
-    defineField({
-      name: "timelineHeading",
-      title: "Timeline Heading",
-      type: "string",
-      fieldset: "timeline",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "timelineLede",
-      title: "Timeline Lede",
-      type: "text",
-      fieldset: "timeline",
-      rows: 2,
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "timelineItems",
-      title: "Timeline Items",
-      type: "array",
-      fieldset: "timeline",
-      of: [
-        defineArrayMember({
-          type: "object",
-          fields: [
-            defineField({
-              name: "year",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "title",
-              type: "string",
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: "body",
-              type: "text",
-              rows: 3,
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: {
-            select: { title: "title", subtitle: "year" },
-          },
-        }),
-      ],
-      validation: (rule) => rule.required().min(2).max(10),
     }),
     defineField({
       name: "seo",

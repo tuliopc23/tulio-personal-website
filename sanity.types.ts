@@ -15,7 +15,12 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type WorkflowStatus = "draft" | "in-review" | "approved" | "published" | "archived";
+export type WorkflowStatus =
+  | "draft"
+  | "in-review"
+  | "approved"
+  | "published"
+  | "archived";
 
 export type VideoEmbed = {
   _type: "videoEmbed";
@@ -254,7 +259,14 @@ export type ContentBrief = {
   _updatedAt: string;
   _rev: string;
   title?: string;
-  status?: "idea" | "briefed" | "drafting" | "in-review" | "ready" | "published" | "archived";
+  status?:
+    | "idea"
+    | "briefed"
+    | "drafting"
+    | "in-review"
+    | "ready"
+    | "published"
+    | "archived";
   audience?: string;
   intent?: string;
   thesis?: string;
@@ -264,7 +276,11 @@ export type ContentBrief = {
   notes?: string;
   linkedPost?: PostReference;
   linkedProject?: ProjectReference;
-  linkedPage?: BlogPageReference | AboutPageReference | NowPageReference | ProjectsPageReference;
+  linkedPage?:
+    | BlogPageReference
+    | AboutPageReference
+    | NowPageReference
+    | ProjectsPageReference;
 };
 
 export type ProjectsPage = {
@@ -401,7 +417,6 @@ export type Post = {
   tags?: Array<string>;
   featured?: boolean;
   summary?: string;
-  hook?: string;
   keyTakeaways?: Array<string>;
   sourceReferences?: Array<
     {
@@ -474,7 +489,12 @@ export type Post = {
     };
     manualTriggerAt?: string;
   };
-  refreshCadence?: "monthly" | "quarterly" | "biannual" | "annual" | "evergreen";
+  refreshCadence?:
+    | "monthly"
+    | "quarterly"
+    | "biannual"
+    | "annual"
+    | "evergreen";
   evergreenStatus?: "current" | "needs-refresh" | "refreshing" | "timeless";
   publishedAt?: string;
   status?: WorkflowStatus;
@@ -683,19 +703,9 @@ export type AboutPage = {
   heroEyebrow?: string;
   heroTitle?: string;
   heroLede?: string;
-  manifestoLabel?: string;
-  manifestoTitle?: string;
-  manifestoCopy?: string;
-  proofBullets?: Array<string>;
-  principles?: Array<{
-    title?: string;
-    body?: string;
-    _key: string;
-  }>;
-  timelineHeading?: string;
-  timelineLede?: string;
-  timelineItems?: Array<{
-    year?: string;
+  sections?: Array<{
+    icon?: string;
+    eyebrow?: string;
     title?: string;
     body?: string;
     _key: string;

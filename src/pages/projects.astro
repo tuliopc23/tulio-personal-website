@@ -229,9 +229,10 @@ const _statusIcons: Record<string, string> = {
             <div class="caseSlide__showcase">
               {cs.images.map((img, imgIdx) => (
                 <figure
-                  class="caseSlide__frame"
+                  class="caseSlide__frame hover-elevate"
                   data-reveal
                   data-reveal-order={imgIdx}
+                  data-parallax-card
                 >
                   <div class="caseSlide__imageWrap">
                     <img
@@ -307,7 +308,6 @@ const _statusIcons: Record<string, string> = {
     )}
   </div>
 
-
   <style>
     /* ── Case study slider ── */
     .caseSlider {
@@ -354,14 +354,13 @@ const _statusIcons: Record<string, string> = {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      justify-content: center;
+      justify-self: center;
       font-size: var(--fs--2);
       font-weight: 600;
       letter-spacing: 0.04em;
       color: var(--accent, #0a84ff);
       opacity: 0.7;
       will-change: transform, opacity;
-      margin-inline: auto;
     }
 
     /* Track: horizontal strip, overflow hidden */
@@ -369,6 +368,13 @@ const _statusIcons: Record<string, string> = {
       position: relative;
       overflow: hidden;
       touch-action: pan-y;
+      cursor: grab;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .caseSlider__track:active {
+      cursor: grabbing;
     }
 
     .caseSlider__strip {
@@ -555,8 +561,40 @@ const _statusIcons: Record<string, string> = {
       color: rgba(60, 60, 67, 0.88);
     }
 
+    [data-theme="dark"] .caseSlide__status[data-status="exploration"] {
+      border: 1px solid rgba(194, 91, 244, 0.35);
+      background: rgba(194, 91, 244, 0.14);
+      color: rgba(214, 140, 255, 0.95);
+    }
+
+    [data-theme="light"] .caseSlide__status[data-status="exploration"] {
+      border: 1px solid rgba(140, 60, 190, 0.25);
+      background: rgba(140, 60, 190, 0.1);
+      color: rgba(110, 40, 160, 0.95);
+    }
+
     .caseSlide__cta {
       align-self: flex-start;
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .caseSlide__frame,
+      .caseSlide__image {
+        transition: none;
+      }
+
+      .caseSlide__frame:hover {
+        transform: none;
+      }
+
+      .caseSlide__frame:hover .caseSlide__image {
+        transform: none;
+      }
+
+      .caseSlider__track {
+        cursor: default;
+      }
     }
 
     /* ── Responsive ── */
