@@ -1,0 +1,53 @@
+tests/astro/blog-article.test.ts
+  6282faf8e4451736 36,54
+src/pages/projects.astro
+  6282faf8e4451736 186,321,326,334-340,348,430-431
+src/pages/blog/index.astro
+  6282faf8e4451736 31-38,46,92-95,102,263-292,352-361,490-491,566-574,654-659,661-664
+src/scripts/scroll-indicators.ts
+  6282faf8e4451736 25
+src/sanity/lib/load-query.ts
+  6282faf8e4451736 2,97,100-113
+src/sanity/lib/client.ts
+  6282faf8e4451736 6,39-42
+src/sanity/structure/index.ts
+  6282faf8e4451736 17
+src/scripts/motion/case-carousel.ts
+  6282faf8e4451736 21-50,52-67,114-115,123-131,151-250,265-268,272,275-276,278-281,285-290,292-301,310-315,324
+tests/astro/base.test.ts
+  6282faf8e4451736 27
+tests/unit/scroll-indicators.test.ts
+  6282faf8e4451736 67,85-86
+src/layouts/Base.astro
+  6282faf8e4451736 9,149-151,189-192,707
+tests/astro/projects-page.test.ts
+  6282faf8e4451736 25,27-31
+tests/layout-smoke.test.ts
+  6282faf8e4451736 23,29
+tests/unit/case-carousel.test.ts
+  6282faf8e4451736 1-174
+tests/astro/blog-index-and-category.test.ts
+  6282faf8e4451736 97
+tests/astro/home-and-content-pages.test.ts
+  6282faf8e4451736 18-19,37,41,45,54-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "af83f03e9f6842e9fab5a8dcf1e02e36bad98bc8",
+  "prompts": {
+    "6282faf8e4451736": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "368a8e0b-6fee-4f59-8bef-0f5ca4ad8b0b",
+        "model": "default"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 517,
+      "total_deletions": 531,
+      "accepted_lines": 517,
+      "overriden_lines": 0
+    }
+  }
+}
