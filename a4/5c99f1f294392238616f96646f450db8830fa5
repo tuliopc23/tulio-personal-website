@@ -1,0 +1,37 @@
+scripts/setup-webhook.js
+  69d07fdab8dc1d26 2,25-26,37,39-40,42,54,56-57,62,64,75,83-89,92,96-99,101-102,104-108,111-112,116-117,120,124,127,129-130,132-133,135,141
+  f29da2159c196bf8 3-4,10,13-15,38,41,45-51,93,100,103,119,136-138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "a45c99f1f294392238616f96646f450db8830fa5",
+  "prompts": {
+    "69d07fdab8dc1d26": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2d0a-f124-70d3-ab8f-910b395769ac",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 65,
+      "total_deletions": 126,
+      "accepted_lines": 51,
+      "overriden_lines": 0
+    },
+    "f29da2159c196bf8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2c33-d168-7d12-991d-3bb9f59b263b",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 30,
+      "total_deletions": 17,
+      "accepted_lines": 22,
+      "overriden_lines": 0
+    }
+  }
+}
