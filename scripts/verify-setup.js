@@ -9,7 +9,10 @@ const requiredVars = {
   SANITY_API_WRITE_TOKEN: process.env.SANITY_API_WRITE_TOKEN,
   PUBLIC_SANITY_PROJECT_ID: process.env.PUBLIC_SANITY_PROJECT_ID,
   PUBLIC_SANITY_DATASET: process.env.PUBLIC_SANITY_DATASET,
-  CLOUDFLARE_DEPLOY_HOOK_URL: process.env.CLOUDFLARE_DEPLOY_HOOK_URL,
+  GITHUB_REPOSITORY_DISPATCH_TOKEN:
+    process.env.GITHUB_REPOSITORY_DISPATCH_TOKEN ||
+    process.env.GITHUB_TOKEN ||
+    process.env.GITHUB_PERSONAL_ACCESS_TOKEN,
 };
 
 console.log("📋 Required Environment Variables:");
@@ -25,7 +28,10 @@ const optionalVars = {
   PUBLIC_SANITY_PREVIEW_URL: process.env.PUBLIC_SANITY_PREVIEW_URL,
   SANITY_STUDIO_WEBHOOK_URL: process.env.SANITY_STUDIO_WEBHOOK_URL,
   WEBHOOK_BASE_URL: process.env.WEBHOOK_BASE_URL,
-  SANITY_WEBHOOK_SECRET: process.env.SANITY_WEBHOOK_SECRET,
+  GITHUB_REPOSITORY_OWNER: process.env.GITHUB_REPOSITORY_OWNER,
+  GITHUB_REPOSITORY_NAME: process.env.GITHUB_REPOSITORY_NAME,
+  CLOUDFLARE_API_TOKEN: process.env.CLOUDFLARE_API_TOKEN,
+  CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID,
   DEV_TO_API_KEY: process.env.DEV_TO_API_KEY,
   HASHNODE_ACCESS_TOKEN: process.env.HASHNODE_ACCESS_TOKEN,
   LINKEDIN_ACCESS_TOKEN: process.env.LINKEDIN_ACCESS_TOKEN,
@@ -70,7 +76,7 @@ console.log("\n📊 Setup Status:");
 if (!allRequiredPresent) {
   console.log("  ❌ Missing required environment variables");
   console.log(
-    "     Please set SANITY_API_WRITE_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, CLOUDFLARE_DEPLOY_HOOK_URL",
+    "     Please set SANITY_API_WRITE_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, and a GitHub dispatch token",
   );
   process.exit(1);
 }
@@ -95,9 +101,9 @@ if (!hasAutomationConfig) {
 }
 
 console.log("\n🚀 Next Steps:");
-console.log("  1. Create or confirm your Cloudflare Pages deploy hook URL");
+console.log("  1. Add GitHub Actions secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID");
 console.log("  2. Run: pnpm run sanity:webhook");
-console.log("  3. Test by publishing an article in Sanity Studio");
+console.log("  3. Test by publishing site content in Sanity Studio");
 console.log(
   "  4. If you use external automation, set SANITY_STUDIO_WEBHOOK_URL or WEBHOOK_BASE_URL",
 );

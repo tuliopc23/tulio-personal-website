@@ -38,7 +38,7 @@ pnpm typecheck         # tsc --noEmit
 
 # Sanity CMS
 pnpm sanity:typegen    # Regenerate types after schema changes
-pnpm sanity:webhook    # Setup Cloudflare deploy webhook
+pnpm sanity:webhook    # Setup the Sanity -> GitHub -> Cloudflare rebuild webhook
 
 # Tests
 pnpm test:smoke        # Build then run smoke tests (tests/layout-smoke.test.ts)
@@ -49,15 +49,16 @@ pnpm test:smoke        # Build then run smoke tests (tests/layout-smoke.test.ts)
 **Astro 5 + Sanity CMS + Solid.js**
 
 - **Astro** handles routing (file-based, `src/pages/`) and static generation. The site builds to static HTML — Sanity content is fetched at build time via GROQ queries.
-- **Sanity** (project `61249gtj`, dataset `production`) is the source of truth for all content. Studio is embedded at `/studio`. Sanity webhooks trigger Cloudflare Pages rebuilds on publish.
+- **Sanity** (project `61249gtj`, dataset `production`) is the source of truth for all content. Studio is embedded at `/studio` only in local development; production links to the hosted Studio. Published content is reflected on the site after a rebuild/deploy.
 - **Solid.js** is used only for interactive client-side components (e.g., `GitHubActivityWidget.tsx`). Everything else is Astro components.
 
 ### Content Data Flow
 
 ```
-Sanity Studio → Publish → Webhook → Cloudflare Pages rebuild
-                                    → Astro queries via GROQ
-                                    → Static HTML deployed
+Sanity Studio → Publish → Webhook → GitHub repository_dispatch
+                                    → GitHub Actions rebuild + wrangler deploy
+                                    → Astro queries via GROQ at build time
+                                    → Static HTML deployed by the Worker
 ```
 
 GROQ queries live in `src/sanity/lib/` — `posts.ts`, `projects.ts`, `page-content.ts`. The client is configured in `client.ts`. Image URLs are generated via `image.ts` using `@sanity/image-url`.

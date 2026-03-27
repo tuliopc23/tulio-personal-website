@@ -50,8 +50,7 @@ describe("scroll indicators", () => {
 
     initScrollIndicators();
 
-    expect(rail.getAttribute("data-lenis-prevent-wheel")).toBe("");
-    expect(rail.getAttribute("data-lenis-prevent-touch")).toBe("");
+    expect(rail.getAttribute("data-lenis-prevent-horizontal")).toBe("");
     expect(rail.dataset.hasOverflow).toBe("true");
     expect(rail.dataset.atStart).toBe("true");
 
@@ -82,7 +81,7 @@ describe("scroll indicators", () => {
 
     initScrollIndicators();
 
-    expect(rail.getAttribute("data-lenis-prevent-wheel")).toBeNull();
+    expect(rail.getAttribute("data-lenis-prevent-horizontal")).toBeNull();
     expect(rail.dataset.hasOverflow).toBeUndefined();
 
     cleanupScrollIndicators();

@@ -262,8 +262,7 @@ export function initCaseCarousel(): void {
   hint = slider.querySelector<HTMLElement>("[data-swipe-hint]");
   if (!track || slides.length === 0) return;
 
-  track.setAttribute("data-lenis-prevent-wheel", "");
-  track.setAttribute("data-lenis-prevent-touch", "");
+  track.setAttribute("data-lenis-prevent-horizontal", "");
   if (!track.hasAttribute("tabindex")) {
     track.tabIndex = 0;
   }

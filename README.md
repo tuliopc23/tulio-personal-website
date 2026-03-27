@@ -61,7 +61,7 @@ A unified, strict token-based styling system that ensures 100% consistency.
 
 - **CSS**: Pure Vanilla CSS with a strict tokenized architecture (no Tailwind).
 - **Linting**: [Biome](https://biomejs.dev/) (25x faster than ESLint/Prettier).
-- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) with atomic builds and global edge delivery.
+- **Deployment**: [Cloudflare Workers](https://developers.cloudflare.com/workers/) with static assets and global edge delivery.
 
 ---
 
@@ -82,7 +82,7 @@ A unified, strict token-based styling system that ensures 100% consistency.
 │       ├── tokens/         # Canonical design tokens (colors, shadows, etc.)
 │       └── theme.css       # Style orchestrator
 ├── tests/                  # Multi-layer testing suite
-└── wrangler.jsonc          # Cloudflare Pages configuration
+└── wrangler.jsonc          # Cloudflare Worker + static asset configuration
 ```
 
 ---
@@ -97,9 +97,9 @@ A unified, strict token-based styling system that ensures 100% consistency.
 | `pnpm run check`            | Run Biome lint → TypeScript check → Production build.                            |
 | `pnpm run check:ci`         | Run the production-oriented gate: Sanity health → Biome CI → TypeScript → build. |
 | `pnpm run sanity:health`    | Verify Sanity environment, connectivity, and required singleton documents.       |
-| `pnpm run deploy:preflight` | Run the full deployment preflight before Cloudflare Pages deploys.               |
+| `pnpm run deploy:preflight` | Run the full deployment preflight before Cloudflare Worker deploys.              |
 | `pnpm run sanity:typegen`   | Regenerate `sanity.types.ts` from the current schema.                            |
-| `pnpm run cf:deploy`        | Run deploy preflight and then deploy the `dist/` folder to Cloudflare Pages.     |
+| `pnpm run cf:deploy`        | Run deploy preflight and then deploy the Worker plus `dist/` static assets.      |
 | `pnpm run test`             | Execute unit and Astro-specific integration tests.                               |
 | `pnpm run test:e2e`         | Run Playwright end-to-end browser tests.                                         |
 
@@ -148,12 +148,12 @@ GITHUB_TOKEN="your_github_token"
 
 # Optional for Automation
 SANITY_API_WRITE_TOKEN="your_write_token"
-CLOUDFLARE_DEPLOY_HOOK_URL="your_hook_url"
+GITHUB_REPOSITORY_DISPATCH_TOKEN="your_github_repo_dispatch_token"
 ```
 
 ### Deployment Checklist
 
-Before deploying to Cloudflare Pages:
+Before deploying to Cloudflare Workers:
 
 1. Run `pnpm run deploy:preflight`
 2. Confirm `pnpm run check:ci` is green

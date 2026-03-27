@@ -128,8 +128,7 @@ describe("case carousel", () => {
 
     initCaseCarousel();
 
-    expect(track.getAttribute("data-lenis-prevent-wheel")).toBe("");
-    expect(track.getAttribute("data-lenis-prevent-touch")).toBe("");
+    expect(track.getAttribute("data-lenis-prevent-horizontal")).toBe("");
 
     (document.querySelectorAll("[data-case-nav]")[1] as HTMLButtonElement).click();
 

@@ -128,8 +128,7 @@ function findSnapTarget(element: HTMLElement): HTMLElement | null {
 }
 
 function createRailController(element: HTMLElement): RailController {
-  element.setAttribute("data-lenis-prevent-wheel", "");
-  element.setAttribute("data-lenis-prevent-touch", "");
+  element.setAttribute("data-lenis-prevent-horizontal", "");
 
   if (!element.hasAttribute("tabindex")) {
     element.tabIndex = 0;
