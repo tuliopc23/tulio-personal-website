@@ -1,0 +1,25 @@
+tests/unit/case-carousel.test.ts
+  f29da2159c196bf8 131-133
+src/scripts/motion/case-carousel.ts
+  f29da2159c196bf8 265
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "d41ff2d7befcab4fe41c77e5b0a3ae44b648f1f0",
+  "prompts": {
+    "f29da2159c196bf8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2c33-d168-7d12-991d-3bb9f59b263b",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 1,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
