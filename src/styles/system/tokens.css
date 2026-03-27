@@ -31,7 +31,7 @@
   --shadow-ambient-brown: 0 0 30px color-mix(in srgb, var(--brown) 26%, transparent);
 
   /* Layout */
-  --sidebar-width: 240px;
+  --sidebar-width: 256px;
   --content-max: 1240px;
   --container-padding: clamp(16px, 2.6vw, 32px);
   --topbar-h: 56px;
@@ -361,7 +361,7 @@
 
 @media (min-width: 769px) and (max-width: 1280px) {
   :root {
-    --sidebar-width: 200px;
+    --sidebar-width: 224px;
     --content-max: 1120px;
     --container-padding: clamp(16px, 3vw, 28px);
   }
@@ -386,7 +386,7 @@
 
 @media (min-width: 1680px) {
   :root {
-    --sidebar-width: 300px;
+    --sidebar-width: 320px;
     --content-max: 1360px;
     --container-padding: clamp(24px, 3.6vw, 56px);
   }

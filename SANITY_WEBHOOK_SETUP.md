@@ -22,7 +22,6 @@ This matches the current Cloudflare Workers guidance for external CI/CD when you
 ## Required local environment
 
 ```env
-SANITY_API_WRITE_TOKEN=...
 PUBLIC_SANITY_PROJECT_ID=61249gtj
 PUBLIC_SANITY_DATASET=production
 GITHUB_REPOSITORY_DISPATCH_TOKEN=...
@@ -58,10 +57,10 @@ pnpm run sanity:webhook
 
 This will:
 
-- delete stale webhook entries owned by the old Pages-era setup
-- create one webhook named `Cloudflare Workers Rebuild`
-- point it at GitHub's `repository_dispatch` endpoint
-- configure it for published site-visible content types
+- initialize the local Blueprint stack binding if this repo has not been linked yet
+- preview the Blueprint plan
+- deploy the Blueprint-defined rebuild webhook from `sanity-blueprints/rebuild-webhook/sanity.blueprint.ts`
+- keep the rebuild webhook managed as code instead of ad-hoc dashboard state
 
 ## Webhook filter
 
@@ -84,7 +83,7 @@ Drafts and versions are excluded.
 
 1. Run `pnpm run sanity:verify`
 2. Run `pnpm run sanity:webhook`
-3. In Sanity Manage, confirm only the new rebuild hook remains for site deploys
+3. In Sanity Manage, confirm the Blueprint-managed rebuild hook is present for site deploys
 4. Publish a change to a page singleton like `projectsPage`
 5. Confirm a GitHub Actions run starts from `repository_dispatch`
 6. Confirm the new Worker deployment becomes active

@@ -147,7 +147,6 @@ GITHUB_TOKEN="your_github_token"
 # GITHUB_PERSONAL_ACCESS_TOKEN="your_github_token"
 
 # Optional for Automation
-SANITY_API_WRITE_TOKEN="your_write_token"
 GITHUB_REPOSITORY_DISPATCH_TOKEN="your_github_repo_dispatch_token"
 ```
 

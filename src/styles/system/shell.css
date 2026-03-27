@@ -1692,6 +1692,30 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
     padding: 18px 16px 12px;
   }
 
+  .sidebar__headerTop {
+    position: relative;
+    display: block;
+    min-height: 44px;
+  }
+
+  .sidebar__headerTop > div {
+    padding-right: 56px;
+  }
+
+  .sidebar__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .sidebar__title {
+    max-width: none;
+  }
+
+  .sidebar__meta {
+    max-width: 24ch;
+  }
+
   .sidebar__nav {
     padding: 0 10px 12px;
   }

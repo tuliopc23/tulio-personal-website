@@ -6,7 +6,6 @@ console.log("🔍 Verifying Sanity webhook and optional content automation setup
 
 // Check required environment variables
 const requiredVars = {
-  SANITY_API_WRITE_TOKEN: process.env.SANITY_API_WRITE_TOKEN,
   PUBLIC_SANITY_PROJECT_ID: process.env.PUBLIC_SANITY_PROJECT_ID,
   PUBLIC_SANITY_DATASET: process.env.PUBLIC_SANITY_DATASET,
   GITHUB_REPOSITORY_DISPATCH_TOKEN:
@@ -76,7 +75,7 @@ console.log("\n📊 Setup Status:");
 if (!allRequiredPresent) {
   console.log("  ❌ Missing required environment variables");
   console.log(
-    "     Please set SANITY_API_WRITE_TOKEN, PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, and a GitHub dispatch token",
+    "     Please set PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET, and a GitHub dispatch token",
   );
   process.exit(1);
 }

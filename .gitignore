@@ -11,6 +11,7 @@ bun.lockb
 !.env.example
 .dev.vars*
 .wrangler/
+functions/*/.build/
 
 # Stakpak local files
 .stakpak

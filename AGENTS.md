@@ -38,7 +38,7 @@ pnpm typecheck         # tsc --noEmit
 
 # Sanity CMS
 pnpm sanity:typegen    # Regenerate types after schema changes
-pnpm sanity:webhook    # Setup the Sanity -> GitHub -> Cloudflare rebuild webhook
+pnpm sanity:webhook    # Deploy the Blueprint-managed Sanity -> GitHub -> Cloudflare rebuild webhook
 
 # Tests
 pnpm test:smoke        # Build then run smoke tests (tests/layout-smoke.test.ts)
