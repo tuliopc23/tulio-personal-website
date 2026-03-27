@@ -1,0 +1,29 @@
+src/scripts/motion/case-carousel.ts
+  d34554ed574589d8 265
+src/scripts/scroll-indicators.ts
+  d34554ed574589d8 131
+tests/unit/case-carousel.test.ts
+  d34554ed574589d8 131
+tests/unit/scroll-indicators.test.ts
+  d34554ed574589d8 53,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "09dcfd1a0137a9d0210a19b7c118e252b469b625",
+  "prompts": {
+    "d34554ed574589d8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d2cf8-bc2e-7ba2-8979-6c275abe2470",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Pinheiro Cunha <tuliopinheirocunha@MacBook-Pro.local>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 9,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
