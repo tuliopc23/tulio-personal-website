@@ -117,6 +117,7 @@ async function fetchSanityRepos(readToken?: string): Promise<SanityFeaturedRepo[
 
 async function fetchGitHub<T>(path: string, tokens: string[]): Promise<T | null> {
   if (tokens.length === 0) return null;
+  let lastFailureStatus: number | null = null;
 
   for (const token of tokens) {
     const res = await fetch(`https://api.github.com${path}`, {
@@ -136,7 +137,12 @@ async function fetchGitHub<T>(path: string, tokens: string[]): Promise<T | null>
       return null;
     }
 
+    lastFailureStatus = res.status;
     console.warn(`[github] ${path} failed with ${res.status}; trying next token if available`);
+  }
+
+  if (lastFailureStatus !== null) {
+    throw new Error(`GitHub request failed for ${path} after exhausting configured tokens (last status: ${lastFailureStatus})`);
   }
 
   return null;
@@ -226,6 +232,16 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
       }),
     });
   } catch (err) {
+    Sentry.captureException(err, {
+      tags: {
+        route: "/api/github.json",
+        handler: "handleGitHubApi",
+      },
+      extra: {
+        githubTokenCount: githubTokens.length,
+        hasSanityToken: Boolean(sanityToken),
+      },
+    });
     console.error("[/api/github.json] Error:", err);
     return new Response(JSON.stringify({ error: "Failed to load GitHub data" }), {
       status: 500,

@@ -4,6 +4,7 @@
  * Uses the same CSS module classes as the Astro static components.
  */
 import { createSignal, For, onMount, Show } from "solid-js";
+import * as Sentry from "@sentry/astro";
 import type { GitHubCommit, NormalizedRepoCard } from "../../lib/github-data";
 import { resolveBrandGlyph } from "../brand-icon-data";
 import styles from "./github-section.module.css";
@@ -355,6 +356,16 @@ export default function GitHubLiveSection(props: { initialData?: NormalizedRepoC
       try {
         setRepos(await fetchGitHubRepos());
       } catch (err) {
+        Sentry.captureException(err, {
+          tags: {
+            area: "github-live-section",
+            operation: "fetch-github-repos",
+          },
+          extra: {
+            endpoint: "/api/github.json",
+            hadInitialData: Boolean(props.initialData?.length),
+          },
+        });
         console.error("Failed to load GitHub activity.", err);
         setError("Failed to load GitHub activity.");
       }
