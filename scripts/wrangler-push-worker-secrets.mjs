@@ -21,6 +21,7 @@ const WORKER_SECRET_KEYS = [
   "GITHUB_PERSONAL_ACCESS_TOKEN",
   "SANITY_API_READ_TOKEN",
   "SENTRY_DSN",
+  "SENTRY_RELEASE",
 ];
 
 const payload = {};

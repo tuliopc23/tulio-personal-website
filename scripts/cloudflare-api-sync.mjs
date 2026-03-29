@@ -36,6 +36,7 @@ const WORKER_SECRET_KEYS = [
   "GITHUB_PERSONAL_ACCESS_TOKEN",
   "SANITY_API_READ_TOKEN",
   "SENTRY_DSN",
+  "SENTRY_RELEASE",
 ];
 
 /** Astro / CI build vars for Workers Builds (key -> is_secret for PATCH body). */
@@ -54,6 +55,8 @@ const BUILD_ENV_KEYS = {
   SENTRY_ORG: false,
   SENTRY_PROJECT: false,
   SENTRY_AUTH_TOKEN: true,
+  SENTRY_RELEASE: false,
+  PUBLIC_SENTRY_RELEASE: false,
   PUBLIC_CLOUDFLARE_IMAGE_BASE: false,
 };
 

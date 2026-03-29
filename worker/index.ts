@@ -13,6 +13,7 @@ interface Env {
   GITHUB_PERSONAL_ACCESS_TOKEN?: string;
   SANITY_API_READ_TOKEN?: string;
   SENTRY_DSN?: string;
+  SENTRY_RELEASE?: string;
   CACHE: KVNamespace;
 }
 
@@ -260,6 +261,7 @@ export default Sentry.withSentry(
     enabled: Boolean(env.SENTRY_DSN),
     tracesSampleRate: 1.0,
     environment: "production",
+    release: env.SENTRY_RELEASE ?? undefined,
   }),
   {
     async fetch(request: Request, env: Env): Promise<Response> {

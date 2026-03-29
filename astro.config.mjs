@@ -11,6 +11,8 @@ import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 const DEFAULT_PROJECT_ID = "61249gtj";
 const DEFAULT_DATASET = "production";
 
+const sentryRelease = process.env.SENTRY_RELEASE || undefined;
+
 const sanityOptions = {
   projectId: DEFAULT_PROJECT_ID,
   dataset: DEFAULT_DATASET,
@@ -40,6 +42,7 @@ export default defineConfig({
       project: process.env.SENTRY_PROJECT ?? "personal-website",
       org: process.env.SENTRY_ORG ?? "tuliocunha",
       authToken: process.env.SENTRY_AUTH_TOKEN,
+      release: sentryRelease,
       telemetry: false,
       sourcemaps: {
         assets: [
@@ -53,6 +56,10 @@ export default defineConfig({
     }),
   ],
   vite: {
+    define: {
+      "import.meta.env.PUBLIC_SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
+      "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
+    },
     build: {
       sourcemap: "hidden",
       rollupOptions: {

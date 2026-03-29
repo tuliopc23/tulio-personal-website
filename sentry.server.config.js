@@ -6,6 +6,7 @@ Sentry.init({
   dsn,
   enabled: Boolean(dsn),
   environment: import.meta.env.MODE,
+  release: import.meta.env.SENTRY_RELEASE || undefined,
   sendDefaultPii: true,
   enableLogs: true,
   tracesSampleRate: 1.0,
