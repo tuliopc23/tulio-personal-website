@@ -142,7 +142,9 @@ async function fetchGitHub<T>(path: string, tokens: string[]): Promise<T | null>
   }
 
   if (lastFailureStatus !== null) {
-    throw new Error(`GitHub request failed for ${path} after exhausting configured tokens (last status: ${lastFailureStatus})`);
+    throw new Error(
+      `GitHub request failed for ${path} after exhausting configured tokens (last status: ${lastFailureStatus})`,
+    );
   }
 
   return null;
