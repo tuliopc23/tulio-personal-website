@@ -40,10 +40,21 @@ export default defineConfig({
       project: process.env.SENTRY_PROJECT ?? "personal-website",
       org: process.env.SENTRY_ORG ?? "tuliocunha",
       authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+      sourcemaps: {
+        assets: [
+          "dist/_astro/**/*.js",
+          "dist/_astro/**/*.js.map",
+          "dist/.prerender/chunks/**/*.mjs",
+          "dist/.prerender/chunks/**/*.mjs.map",
+        ],
+        filesToDeleteAfterUpload: ["dist/**/*.map"],
+      },
     }),
   ],
   vite: {
     build: {
+      sourcemap: "hidden",
       rollupOptions: {
         external: ["/@id/sanity:studio"],
       },
