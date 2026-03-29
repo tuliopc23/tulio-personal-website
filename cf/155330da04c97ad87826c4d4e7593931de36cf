@@ -1,0 +1,25 @@
+worker/index.ts
+  e16e0c619fb1160e 120,140,144-147,235-244
+src/components/github/GitHubLiveSection.tsx
+  e16e0c619fb1160e 7,359-368
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "cf155330da04c97ad87826c4d4e7593931de36cf",
+  "prompts": {
+    "e16e0c619fb1160e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d3aeb-5ec2-73b1-9971-819454dfd2c5",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Tulio Cunha <contact@tuliocunha.dev>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 0,
+      "accepted_lines": 27,
+      "overriden_lines": 0
+    }
+  }
+}
