@@ -1,0 +1,25 @@
+README.md
+  15f1661ae391c48b 63,97-98
+AGENTS.md
+  15f1661ae391c48b 30-31,33,90,158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "32c3b276cb59611b3876c36202a76d98695dcf7c",
+  "prompts": {
+    "15f1661ae391c48b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0a288b09-20e9-4dc3-8d6f-2f842d1cc97f",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <contact@tuliocunha.dev>",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 207,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  }
+}
