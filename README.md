@@ -60,7 +60,7 @@ A unified, strict token-based styling system that ensures 100% consistency.
 ### Styling & Quality
 
 - **CSS**: Pure Vanilla CSS with a strict tokenized architecture (no Tailwind).
-- **Linting**: [Biome](https://biomejs.dev/) (25x faster than ESLint/Prettier).
+- **Linting**: [Oxlint](https://oxc.rs/docs/guide/usage/linter) via [Vite+](https://viteplus.dev/) (`vp lint`).
 - **Deployment**: [Cloudflare Workers](https://developers.cloudflare.com/workers/) with static assets and global edge delivery.
 
 ---
@@ -91,17 +91,17 @@ A unified, strict token-based styling system that ensures 100% consistency.
 
 ### Primary Commands
 
-| Command                     | Description                                                                      |
-| :-------------------------- | :------------------------------------------------------------------------------- |
-| `pnpm run dev`              | Start the Astro dev server with system certs.                                    |
-| `pnpm run check`            | Run Biome lint → TypeScript check → Production build.                            |
-| `pnpm run check:ci`         | Run the production-oriented gate: Sanity health → Biome CI → TypeScript → build. |
-| `pnpm run sanity:health`    | Verify Sanity environment, connectivity, and required singleton documents.       |
-| `pnpm run deploy:preflight` | Run the full deployment preflight before Cloudflare Worker deploys.              |
-| `pnpm run sanity:typegen`   | Regenerate `sanity.types.ts` from the current schema.                            |
-| `pnpm run cf:deploy`        | Run deploy preflight and then deploy the Worker plus `dist/` static assets.      |
-| `pnpm run test`             | Execute unit and Astro-specific integration tests.                               |
-| `pnpm run test:e2e`         | Run Playwright end-to-end browser tests.                                         |
+| Command                     | Description                                                                    |
+| :-------------------------- | :----------------------------------------------------------------------------- |
+| `pnpm run dev`              | Start the Astro dev server with system certs.                                  |
+| `pnpm run check`            | Run format + Oxlint + TypeScript check → Production build.                     |
+| `pnpm run check:ci`         | Run the production-oriented gate: Sanity health → checks → TypeScript → build. |
+| `pnpm run sanity:health`    | Verify Sanity environment, connectivity, and required singleton documents.     |
+| `pnpm run deploy:preflight` | Run the full deployment preflight before Cloudflare Worker deploys.            |
+| `pnpm run sanity:typegen`   | Regenerate `sanity.types.ts` from the current schema.                          |
+| `pnpm run cf:deploy`        | Run deploy preflight and then deploy the Worker plus `dist/` static assets.    |
+| `pnpm run test`             | Execute unit and Astro-specific integration tests.                             |
+| `pnpm run test:e2e`         | Run Playwright end-to-end browser tests.                                       |
 
 ### Testing Strategy
 

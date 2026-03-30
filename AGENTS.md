@@ -27,10 +27,10 @@ pnpm dev               # Start Astro dev server
 pnpm build             # Production build
 pnpm preview           # Preview production build
 
-# Code quality (use Biome, not ESLint/Prettier)
-pnpm lint              # Lint with Biome
+# Code quality (Vite+ wrappers)
+pnpm lint              # Lint with Oxlint (via vp lint)
 pnpm lint:fix          # Auto-fix lint issues
-pnpm format            # Format all files
+pnpm format            # Format all files (vp fmt)
 pnpm check             # Full check: lint + typecheck + build
 
 # TypeScript
@@ -87,7 +87,7 @@ After any schema change, run `pnpm sanity:typegen` to regenerate TypeScript type
 
 ### Styling
 
-CSS design system lives in `src/styles/`. Uses CSS custom properties (tokens) — **do not use inline Tailwind for design system values**, use the token variables. Biome is the single linter/formatter — do not add ESLint or Prettier config.
+CSS design system lives in `src/styles/`. Uses CSS custom properties (tokens) — **do not use inline Tailwind for design system values**, use the token variables.
 
 ### Environment Variables
 
@@ -155,5 +155,4 @@ If your Cursor UI shows different MCP tools than above, treat **Cursor Settings 
 
 ### Gotchas
 
-- The `pnpm lint` / Biome warning about `WARP.md` being a broken symlink is benign — ignore it.
-- Biome is the sole linter/formatter. Do not add ESLint or Prettier configs.
+- `pnpm lint` runs `vp lint` which forwards options to **Oxlint**.
