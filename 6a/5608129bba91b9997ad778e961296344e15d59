@@ -1,0 +1,40 @@
+src/components/github/github-section.module.css
+  bcf374549ff325bd 701-714
+src/components/github/GitHubLiveSection.tsx
+  bcf374549ff325bd 286-291
+src/components/github/RepoRail.astro
+  bcf374549ff325bd 14-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.22",
+  "base_commit_sha": "6a5608129bba91b9997ad778e961296344e15d59",
+  "prompts": {
+    "0d6b79a4e912bf67": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d50ee468-2999-45b8-b315-4e3dee7d5729",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <contact@tuliocunha.dev>",
+      "messages": [],
+      "total_additions": 425,
+      "total_deletions": 0,
+      "accepted_lines": 425,
+      "overriden_lines": 0
+    },
+    "bcf374549ff325bd": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "12a932bb-8d9d-4a2f-b435-23868f04e5d4",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <contact@tuliocunha.dev>",
+      "messages": [],
+      "total_additions": 27,
+      "total_deletions": 24,
+      "accepted_lines": 27,
+      "overriden_lines": 0
+    }
+  }
+}
