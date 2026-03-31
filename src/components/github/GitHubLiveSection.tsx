@@ -283,8 +283,12 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
 
   return (
     <div class={styles.railContainer}>
-      <div class={styles.scrollHint} aria-hidden="true" data-visible={!hasInteracted()}>
-        <div class={styles.scrollHintBadge}>Scroll for more</div>
+      <div
+        class={`${styles.scrollHint} cta-pill cta-pill--accent motion-cta-pill`}
+        aria-hidden={hasInteracted() ? "true" : "false"}
+        data-visible={!hasInteracted()}
+      >
+        Scroll for more
       </div>
       <div class={styles.railTrack} data-repo-rail ref={trackRef} onScroll={onScroll}>
         <For each={props.repos}>{(repo) => <RepoCard repo={repo} />}</For>

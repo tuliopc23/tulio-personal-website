@@ -11,8 +11,13 @@ const { repos } = Astro.props;
 
 <div class={styles.railContainer}>
   <!-- Optional Scroll Hint -->
-  <div class={styles.scrollHint} aria-hidden="true" data-scroll-cue data-visible="true">
-    <div class={styles.scrollHintBadge}>Scroll for more</div>
+  <div
+    class:list={[styles.scrollHint, "cta-pill", "cta-pill--accent", "motion-cta-pill"]}
+    aria-hidden="false"
+    data-scroll-cue
+    data-visible="true"
+  >
+    Scroll for more
   </div>
 
   <div class={styles.railTrack} data-repo-rail>

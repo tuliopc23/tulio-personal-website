@@ -582,12 +582,6 @@
   display: none;
 }
 
-.scrollHintBadge {
-  font-family: var(--font-mono);
-  font-size: var(--fs-caption-2);
-  color: var(--text-quaternary);
-}
-
 .mobileCue {
   display: none;
 }
@@ -704,6 +698,20 @@
     align-items: center;
     justify-content: center;
     align-self: center;
+    transition:
+      opacity var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .scrollHint {
+    position: static;
+    transform: none;
+    z-index: auto;
+    pointer-events: none;
+  }
+
+  .mobileCue {
+    display: inline-flex;
     gap: 0.45rem;
     padding: 0 16px;
     min-height: 36px;
@@ -724,20 +732,6 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.22);
     backdrop-filter: saturate(1.12) blur(18px);
     -webkit-backdrop-filter: saturate(1.12) blur(18px);
-    transition:
-      opacity var(--motion-duration-sm) var(--motion-ease-out),
-      transform var(--motion-duration-sm) var(--motion-ease-out);
-  }
-
-  .scrollHint {
-    position: static;
-    transform: none;
-    z-index: auto;
-    pointer-events: none;
-  }
-
-  .mobileCue {
-    display: inline-flex;
   }
 
   .scrollHint[data-visible="false"],
