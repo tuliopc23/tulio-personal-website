@@ -698,6 +698,7 @@
     align-items: center;
     justify-content: center;
     align-self: center;
+    margin-inline: auto;
     transition:
       opacity var(--motion-duration-sm) var(--motion-ease-out),
       transform var(--motion-duration-sm) var(--motion-ease-out);
@@ -715,6 +716,7 @@
     gap: 0.45rem;
     padding: 0 16px;
     min-height: 36px;
+    max-width: min(100%, calc(100vw - 56px));
     border-radius: 999px;
     font-family: var(--font-sans);
     font-size: var(--fs-caption);

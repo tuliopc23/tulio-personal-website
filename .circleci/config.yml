@@ -1,0 +1,153 @@
+# CircleCI: quality gates only. Production deploy stays on Cloudflare Workers Builds (Git)
+# and GitHub Actions (sanity-rebuild workflow). Do not add wrangler deploy here unless you
+# intentionally replace that flow.
+#
+# Project Settings -> Environment Variables (secrets; never commit values):
+#   SANITY_API_READ_TOKEN - required for main-branch builds (SANITY_ALLOW_BUILD_FALLBACK=false)
+#   GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN - if build needs GitHub API (e.g. /now)
+#   SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT - optional source map uploads
+#   PUBLIC_SENTRY_DSN, SENTRY_DSN - optional
+#
+# Collect test data (Tests tab + Insights):
+# https://circleci.com/docs/guides/test/collect-test-data/
+# https://circleci.com/docs/configuration-reference/#storeartifacts
+
+version: 2.1
+
+executors:
+  node24:
+    docker:
+      - image: cimg/node:24.0
+    environment:
+      PUBLIC_SANITY_PROJECT_ID: "61249gtj"
+      PUBLIC_SANITY_DATASET: production
+      PUBLIC_SITE_URL: https://tuliocunha.dev
+      PUBLIC_SANITY_VISUAL_EDITING_ENABLED: "false"
+
+workflows:
+  ci:
+    jobs:
+      - install_deps
+      - quality:
+          requires:
+            - install_deps
+      - astro_check:
+          requires:
+            - install_deps
+      - typecheck:
+          requires:
+            - install_deps
+      - test:
+          requires:
+            - install_deps
+      - build:
+          requires:
+            - quality
+            - astro_check
+            - typecheck
+            - test
+
+jobs:
+  install_deps:
+    executor: node24
+    steps:
+      - checkout
+      - run:
+          name: Enable pnpm (packageManager pin)
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - restore_cache:
+          keys:
+            - pnpm-v1-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-v1-{{ arch }}-
+      - run:
+          name: Install dependencies
+          command: pnpm install --frozen-lockfile
+      - save_cache:
+          key: pnpm-v1-{{ arch }}-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - ~/.local/share/pnpm/store
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  quality:
+    executor: node24
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Enable pnpm
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - run:
+          name: Lint and format check
+          command: pnpm exec vp check
+
+  astro_check:
+    executor: node24
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Enable pnpm
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - run:
+          name: Astro check
+          command: pnpm run astro:check
+
+  typecheck:
+    executor: node24
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Enable pnpm
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - run:
+          name: TypeScript
+          command: pnpm run typecheck
+
+  test:
+    executor: node24
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Enable pnpm
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - run:
+          name: Unit and DOM tests (JUnit for Insights)
+          command: |
+            mkdir -p test-results
+            pnpm exec vp test run tests/unit tests/dom \
+              --reporter=default --reporter=junit --outputFile=test-results/vitest-unit.xml
+      - run:
+          name: Astro integration tests (JUnit)
+          command: |
+            pnpm exec vp test run -c vitest.astro.config.ts tests/astro \
+              --reporter=default --reporter=junit --outputFile=test-results/vitest-astro.xml
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: test-results
+
+  build:
+    executor: node24
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Enable pnpm
+          command: corepack enable && corepack prepare pnpm@9.15.9 --activate
+      - run:
+          name: Production build
+          command: |
+            export SENTRY_RELEASE="${CIRCLE_SHA1}"
+            export PUBLIC_SENTRY_RELEASE="${CIRCLE_SHA1}"
+            if [ "${CIRCLE_BRANCH}" = "main" ]; then
+              export SANITY_ALLOW_BUILD_FALLBACK="${SANITY_ALLOW_BUILD_FALLBACK_MAIN:-false}"
+            else
+              export SANITY_ALLOW_BUILD_FALLBACK="${SANITY_ALLOW_BUILD_FALLBACK:-true}"
+            fi
+            pnpm run build

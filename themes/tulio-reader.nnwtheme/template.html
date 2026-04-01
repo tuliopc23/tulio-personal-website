@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+  </head>
+  <body>
+    <header class="[[text_size_class]] header">
+      <div class="header__feed">
+        <img
+          id="nnwImageIcon"
+          class="header__icon"
+          src="[[avatar_src]]"
+          height="44"
+          width="44"
+          alt=""
+        />
+        <div class="header__feedMeta">
+          <h2 class="header__feedTitle">
+            <a href="[[feed_link]]">[[feed_link_title]]</a>
+          </h2>
+          <p class="header__byline">[[byline]]</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="[[text_size_class]] main">
+      <hgroup class="dateline [[dateline_style]]">
+        <h1 class="dateline__title">
+          <a href="[[preferred_link]]">
+            <span class="dateline__titleText">[[title]]</span>
+            <span class="dateline__titleFallbackDate">[[date_medium]]</span>
+          </a>
+        </h1>
+        <p class="dateline__meta">
+          <span class="dateline__datetime">[[datetime_medium]]</span>
+          <span class="dateline__timeFallback">[[time_short]]</span>
+        </p>
+      </hgroup>
+
+      <div class="articleBody">[[body]]</div>
+
+      <hr class="divider" />
+      <p class="externalLink">
+        [[external_link_label]] <a href="[[external_link]]">[[external_link_stripped]]</a>
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>ThemeIdentifier</key>
+    <string>dev.tulio.reader.nnwtheme</string>
+
+    <key>Name</key>
+    <string>Tulio Reader</string>
+
+    <key>CreatorName</key>
+    <string>Tulio</string>
+
+    <key>CreatorHomePage</key>
+    <string>https://tulio.dev</string>
+
+    <key>Version</key>
+    <integer>1</integer>
+  </dict>
+</plist>

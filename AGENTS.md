@@ -7,6 +7,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Prefer that the agent run commands in this workspace (Wrangler, tests, git) instead of only describing what to run.
 - When you ask to run checks and ship, expect a commit-and-push workflow after a clean pass.
 - When you say “commit all”, exclude known scratch paths (for example `.tmp/`) unless you explicitly include them.
+- Prefer commands compatible with fish shell syntax; avoid bashisms that may hang.
 
 ## Learned Workspace Facts
 
@@ -43,6 +44,10 @@ pnpm sanity:webhook    # Deploy the Blueprint-managed Sanity -> GitHub -> Cloudf
 # Tests
 pnpm test:smoke        # Build then run smoke tests (tests/layout-smoke.test.ts)
 ```
+
+### CircleCI
+
+Optional second CI: `.circleci/config.yml` runs install, `vp check`, `astro:check`, `typecheck`, Vitest with JUnit (`store_test_results` for Insights), and `pnpm run build`. **Deploy stays on Cloudflare Workers Builds and GitHub Actions** (`sanity-rebuild`) — this pipeline does not call Wrangler. Set `SANITY_API_READ_TOKEN` (and optional GitHub/Sentry vars) in the CircleCI project; on `main`, `SANITY_ALLOW_BUILD_FALLBACK` defaults to false. Validate config locally: `circleci config validate .circleci/config.yml`.
 
 ## Architecture
 

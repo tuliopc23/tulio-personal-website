@@ -1,0 +1,354 @@
+/* Tulio Reader — NetNewsWire Article Theme
+   Required hooks:
+   - div.articleBody wrapping [[body]]
+   - img#nnwImageIcon for feed icon behavior on iOS
+*/
+
+:root {
+  color-scheme: light dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* iOS: NetNewsWire replaces [[font-size]] with pixels. */
+body {
+  margin: 0;
+  padding: 18px 18px 28px;
+  font-size: [[font-size]];
+  line-height: 1.7;
+  font-family:
+    -apple-system, BlinkMacSystemFont, system-ui, "SF Pro", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  background: Canvas;
+  color: CanvasText;
+}
+
+/* macOS: NetNewsWire adds these classes via [[text_size_class]]. */
+body:has(.smallText) {
+  font-size: 90%;
+}
+body:has(.mediumText) {
+  font-size: 100%;
+}
+body:has(.largeText) {
+  font-size: 125%;
+}
+body:has(.xLargeText) {
+  font-size: 150%;
+}
+body:has(.xxLargeText) {
+  font-size: 200%;
+}
+
+/* ---- Palette approximation of src/styles/tokens/colors.css ---- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #050505;
+    --surface: #161618;
+    --surface-elevated: #1d1d20;
+    --panel-border: rgba(255, 255, 255, 0.12);
+    --panel-border-strong: rgba(255, 255, 255, 0.18);
+
+    --text-primary: #f5f5f7;
+    --text-secondary: rgba(220, 232, 255, 0.76);
+    --text-tertiary: rgba(194, 210, 240, 0.62);
+
+    --link: #0d8aff;
+    --link-hover: color-mix(in srgb, var(--link) 68%, white 32%);
+
+    --kicker: color-mix(in srgb, #0d8aff 76%, #5fd4ff 24%);
+    --blockquote-accent-a: color-mix(in srgb, var(--kicker) 84%, white 16%);
+    --blockquote-accent-b: color-mix(in srgb, #5fd4ff 68%, transparent);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f5f7;
+    --surface: #ffffff;
+    --surface-elevated: #f8f8fb;
+    --panel-border: rgba(60, 60, 67, 0.12);
+    --panel-border-strong: rgba(60, 60, 67, 0.18);
+
+    --text-primary: #1d1d1f;
+    --text-secondary: rgba(28, 42, 76, 0.68);
+    --text-tertiary: rgba(54, 72, 110, 0.58);
+
+    --link: #0071e3;
+    --link-hover: #0055d4;
+
+    --kicker: color-mix(in srgb, #0071e3 76%, #5ac8fa 24%);
+    --blockquote-accent-a: color-mix(in srgb, var(--kicker) 82%, white 18%);
+    --blockquote-accent-b: color-mix(in srgb, #5ac8fa 58%, transparent);
+  }
+}
+
+/* ---- Layout ---- */
+.header,
+.main {
+  max-width: 57ch;
+  margin-inline: auto;
+}
+
+.header {
+  padding: 10px 0 12px;
+}
+
+.header__feed {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.header__icon {
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--panel-border) 85%, transparent);
+  background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
+}
+
+.header__feedMeta {
+  min-width: 0;
+}
+
+.header__feedTitle {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.header__byline {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--text-tertiary);
+}
+
+.header a,
+.main a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+.header a:hover,
+.main a:hover {
+  color: var(--link-hover);
+}
+
+.main {
+  padding: 6px 0 0;
+}
+
+.dateline {
+  display: grid;
+  gap: 10px;
+  padding: 14px 0 6px;
+}
+
+.dateline__title {
+  margin: 0;
+  font-size: clamp(1.65rem, 1.55vw + 1.2rem, 2.2rem);
+  font-weight: 820;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.dateline__title a {
+  color: inherit;
+}
+
+.dateline__meta {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* Title missing fallback (from ollicle scratch pattern). */
+.dateline__titleFallbackDate {
+  display: none;
+}
+.dateline__meta .dateline__timeFallback {
+  display: none;
+}
+
+.dateline__titleText:empty {
+  display: none;
+}
+.dateline__titleText:empty + .dateline__titleFallbackDate {
+  display: inline;
+}
+
+.dateline__datetime:empty {
+  display: none;
+}
+.dateline__datetime:empty + .dateline__timeFallback {
+  display: inline;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  margin: 26px 0 16px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--panel-border-strong) 74%, transparent),
+    transparent 82%
+  );
+}
+
+.externalLink {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-tertiary);
+}
+
+.externalLink:has(a[href=""]) {
+  display: none;
+}
+
+/* ---- Article body styling (mirrors src/styles/system/content.css) ---- */
+.articleBody {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--text-primary) 94%, transparent);
+  text-wrap: pretty;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+}
+
+.articleBody :where(p, li, blockquote) {
+  font-family:
+    "New York Reader", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Libre Baskerville",
+    Georgia, serif;
+}
+
+.articleBody > p:first-of-type {
+  font-size: clamp(1.02rem, 0.16vw + 0.99rem, 1.12rem);
+  font-weight: 500;
+  line-height: 1.68;
+  color: var(--text-primary);
+}
+
+.articleBody :where(p) {
+  margin: 0 0 0.95rem;
+}
+
+.articleBody :where(strong) {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.articleBody :where(h1, h2, h3, h4) {
+  font-family:
+    -apple-system, BlinkMacSystemFont, system-ui, "SF Pro", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.articleBody :where(h2) {
+  margin: 2.6rem 0 0.75rem;
+  font-size: clamp(1.55rem, 1.1vw + 1rem, 2.1rem);
+  font-weight: 780;
+  letter-spacing: -0.032em;
+  line-height: 1.08;
+  max-width: 18ch;
+}
+
+.articleBody :where(h3) {
+  margin: 1.7rem 0 0.65rem;
+  font-size: clamp(1.22rem, 0.75vw + 0.98rem, 1.55rem);
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+}
+
+.articleBody :where(a) {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--link) 36%, transparent);
+  text-decoration-thickness: 1.15px;
+  text-underline-offset: 3px;
+}
+
+.articleBody :where(a:hover) {
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
+}
+
+.articleBody :where(blockquote) {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 18px 18px 18px 22px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--panel-border-strong) 76%, transparent);
+  background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
+  color: var(--text-primary);
+  line-height: 1.66;
+}
+
+.articleBody :where(blockquote)::before {
+  content: "";
+  position: absolute;
+  inset: 16px auto 16px 12px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--blockquote-accent-a), var(--blockquote-accent-b));
+}
+
+.articleBody :where(blockquote p:last-child) {
+  margin-bottom: 0;
+}
+
+.articleBody :where(ul, ol) {
+  margin: 0 0 1rem 0.88rem;
+  padding-left: 0.88rem;
+}
+
+.articleBody :where(ul) {
+  list-style: disc;
+}
+
+.articleBody :where(ol) {
+  list-style: decimal;
+}
+
+.articleBody :where(code) {
+  font-family:
+    "SF Mono", ui-monospace, Menlo, Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--panel-border) 70%, transparent);
+  padding: 0.14em 0.48em;
+  font-size: 0.88em;
+}
+
+.articleBody pre {
+  background: color-mix(in srgb, var(--surface-elevated) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--panel-border-strong) 72%, transparent);
+  border-radius: 18px;
+  padding: 18px 20px;
+  overflow: auto;
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.articleBody pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
