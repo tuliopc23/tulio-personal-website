@@ -1,0 +1,23 @@
+.circleci/config.yml
+  90d891e3954a9f55 5-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "08ecaeb24c2415435f0f6672f6bb6fcd8a2281cb",
+  "prompts": {
+    "90d891e3954a9f55": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c09a2cb-e775-4341-b9fe-65122669a76f",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 0,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
