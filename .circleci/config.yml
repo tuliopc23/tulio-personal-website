@@ -2,6 +2,15 @@
 # and GitHub Actions (sanity-rebuild workflow). Do not add wrangler deploy here unless you
 # intentionally replace that flow.
 #
+# Config location (CircleCI web app + all VCS integrations): this file MUST live at the
+# repository root under .circleci/config.yml — see Configuration introduction and Pipelines
+# overview: https://circleci.com/docs/guides/getting-started/config-intro/
+# https://circleci.com/docs/guides/orchestrate/pipelines/
+# If the dashboard shows "config could not be located", open Project Settings -> Project Setup
+# (GitHub App) or Pipelines -> edit pipeline and set Config file path to exactly:
+#   .circleci/config.yml
+# on the branch your trigger uses (e.g. main), with the config source repo = this repo.
+#
 # Project Settings -> Environment Variables (secrets; never commit values):
 #   SANITY_API_READ_TOKEN - required for main-branch builds (SANITY_ALLOW_BUILD_FALLBACK=false)
 #   GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN - if build needs GitHub API (e.g. /now)
