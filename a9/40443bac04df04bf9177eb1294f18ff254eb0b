@@ -1,0 +1,71 @@
+themes/tulio-reader.nnwtheme/template.html
+  0d6b79a4e912bf67 1-50
+themes/tulio-reader.nnwtheme/Info.plist
+  0d6b79a4e912bf67 1-20
+src/components/github/github-section.module.css
+  bcf374549ff325bd 701,719
+AGENTS.md
+  ad91d6ec6ca6970b 10
+  5ae97803e8c3d74c 48-51
+themes/tulio-reader.nnwtheme/stylesheet.css
+  0d6b79a4e912bf67 1-354
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.3",
+  "base_commit_sha": "a940443bac04df04bf9177eb1294f18ff254eb0b",
+  "prompts": {
+    "0d6b79a4e912bf67": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d50ee468-2999-45b8-b315-4e3dee7d5729",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha <contact@tuliocunha.dev>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 424,
+      "overriden_lines": 0
+    },
+    "5ae97803e8c3d74c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2cf9b75b-9de7-4327-94de-cee5fc2732f4",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 0,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    },
+    "ad91d6ec6ca6970b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0e218bc2-48d8-4363-9b0c-4b6ea5b3f344",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "bcf374549ff325bd": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "12a932bb-8d9d-4a2f-b435-23868f04e5d4",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
