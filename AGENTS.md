@@ -107,7 +107,7 @@ See `.env.example` for all required vars. Key ones:
 
 ### Runtime requirements
 
-- **pnpm 9** is the package manager (declared in `packageManager`). Enable Corepack so the pinned version is used: `corepack enable` (Node 16.13+).
+- **pnpm 9** is the package manager (declared in `packageManager`). Enable Corepack so the pinned version is used: `corepack enable` (Node 16.13+). If enable fails with **permission denied** unlinking `/usr/local/bin/pnpm`, a root-owned shim is in the way: run `sudo corepack enable`, or `sudo rm /usr/local/bin/pnpm` then `corepack enable` again.
 - **Node.js 24** is required (`.nvmrc`). Install via nvm: `nvm install 24 && nvm alias default 24`.
 - Optional: install the global [Vite+](https://viteplus.dev/guide/#install-vp) CLI (`vp`) for a unified `vp install` / `vp run` / `vp build` workflow on top of the same `package.json` scripts.
 
