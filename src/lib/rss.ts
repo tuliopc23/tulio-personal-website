@@ -1,7 +1,8 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 
-import { getAllPosts } from "../sanity/lib/posts";
+import { postBodyToFeedHtml } from "./feed-content";
+import { getAllPostsForFeed } from "../sanity/lib/posts";
 import { getSiteOrigin, toAbsoluteUrl } from "./seo.js";
 
 const FEED_TITLE = "Tulio Cunha — Blog";
@@ -21,11 +22,13 @@ function escapeHtml(value: string) {
 
 function buildFeedContent({
   description,
+  articleHtml,
   imageAlt,
   imageUrl,
   link,
 }: {
   description: string;
+  articleHtml: string;
   imageAlt?: string | null;
   imageUrl?: string | null;
   link: string;
@@ -36,7 +39,8 @@ function buildFeedContent({
     blocks.push(`<p><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(imageAlt ?? "")}" /></p>`);
   }
 
-  blocks.push(`<p>${escapeHtml(description)}</p>`);
+  const body = articleHtml.trim() || `<p>${escapeHtml(description)}</p>`;
+  blocks.push(body);
   blocks.push(`<p><a href="${escapeHtml(link)}">Read the full post on tuliocunha.dev.</a></p>`);
 
   return blocks.join("");
@@ -47,9 +51,7 @@ export async function createRssFeedResponse(
   feedPath: string,
 ) {
   const site = new URL(getSiteOrigin(context.site ?? new URL(context.request.url)));
-  const posts = (await getAllPosts())
-    .filter((post) => !post.seo?.noIndex)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  const posts = await getAllPostsForFeed();
 
   return rss({
     title: FEED_TITLE,
@@ -71,6 +73,7 @@ export async function createRssFeedResponse(
         site.origin,
       );
       const description = post.seo?.metaDescription ?? post.summary;
+      const articleHtml = postBodyToFeedHtml(post.content, post.markdownContent);
       const image = post.seo?.socialImage?.url ? post.seo.socialImage : post.heroImage;
       const imageUrl = image?.url ? toAbsoluteUrl(image.url, site.origin) : null;
 
@@ -81,6 +84,7 @@ export async function createRssFeedResponse(
         pubDate: new Date(post.publishedAt),
         content: buildFeedContent({
           description,
+          articleHtml,
           imageAlt: image?.alt,
           imageUrl,
           link,

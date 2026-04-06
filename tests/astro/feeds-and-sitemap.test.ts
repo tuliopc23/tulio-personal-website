@@ -2,10 +2,10 @@ import { GET as atomFeedGet } from "../../src/pages/blog/atom.xml";
 import { GET as rssFeedGet } from "../../src/pages/blog/feed.xml";
 import { GET as robotsGet } from "../../src/pages/robots.txt";
 import { GET as rootRssFeedGet } from "../../src/pages/rss.xml";
-import { richPostSummary } from "../fixtures/sanity";
+import { richPostDetail } from "../fixtures/sanity";
 
 vi.mock("../../src/sanity/lib/posts", () => ({
-  getAllPosts: vi.fn(async () => [richPostSummary]),
+  getAllPostsForFeed: vi.fn(async () => [richPostDetail]),
 }));
 
 describe("feeds and sitemap", () => {
@@ -20,6 +20,8 @@ describe("feeds and sitemap", () => {
     expect(xml).toContain('<rss version="2.0"');
     expect(xml).toContain("Building Better Astro Sites");
     expect(xml).toContain("https://www.tuliocunha.dev/rss.xml");
+    expect(xml).toContain("content:encoded");
+    expect(xml).toContain("Astro makes it easy to keep most of the page static");
   });
 
   test("renders the legacy blog RSS feed", async () => {
@@ -31,6 +33,8 @@ describe("feeds and sitemap", () => {
     const xml = await response.text();
     expect(xml).toContain('<rss version="2.0"');
     expect(xml).toContain("Building Better Astro Sites");
+    expect(xml).toContain("content:encoded");
+    expect(xml).toContain("Astro makes it easy to keep most of the page static");
   });
 
   test("renders Atom feed entries", async () => {
@@ -42,6 +46,8 @@ describe("feeds and sitemap", () => {
     const xml = await response.text();
     expect(xml).toContain('<feed xmlns="http://www.w3.org/2005/Atom"');
     expect(xml).toContain("building-better-astro-sites");
+    expect(xml).toContain("<content type=\"html\">");
+    expect(xml).toContain("Astro makes it easy to keep most of the page static");
   });
 
   test("renders robots.txt with the sitemap index", async () => {

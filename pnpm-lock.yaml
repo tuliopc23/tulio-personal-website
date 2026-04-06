@@ -35,6 +35,9 @@ importers:
       '@phosphor-icons/core':
         specifier: ^2.1.1
         version: 2.1.1
+      '@portabletext/to-html':
+        specifier: ^5.0.2
+        version: 5.0.2
       '@portabletext/types':
         specifier: ^4.0.2
         version: 4.0.2

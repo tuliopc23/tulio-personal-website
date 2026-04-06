@@ -51,6 +51,7 @@
     "@iconify-json/logos": "^1.2.10",
     "@iconify-json/simple-icons": "^1.2.75",
     "@phosphor-icons/core": "^2.1.1",
+    "@portabletext/to-html": "^5.0.2",
     "@portabletext/types": "^4.0.2",
     "@remotion/player": "^4.0.440",
     "@sanity/assist": "^6.0.4",

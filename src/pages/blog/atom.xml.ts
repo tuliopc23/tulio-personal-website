@@ -1,4 +1,5 @@
-import { getAllPosts } from "../../sanity/lib/posts";
+import { postBodyToFeedHtml } from "../../lib/feed-content";
+import { getAllPostsForFeed } from "../../sanity/lib/posts";
 
 export const prerender = true;
 
@@ -17,9 +18,7 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
   const feedUrl = new URL("/blog/atom.xml", origin).toString();
   const blogUrl = new URL("/blog/", origin).toString();
 
-  const posts = (await getAllPosts())
-    .filter((post) => !post.seo?.noIndex)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  const posts = await getAllPostsForFeed();
 
   const updated = posts[0]
     ? new Date(posts[0].publishedAt).toISOString()
@@ -36,6 +35,10 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
       const categories = post.tags.map((tag) => `<category term="${escapeXml(tag)}" />`).join("\n");
 
       const summary = escapeXml(description);
+      const articleHtml = postBodyToFeedHtml(post.content, post.markdownContent);
+      const contentPayload =
+        articleHtml.trim().length > 0 ? escapeXml(articleHtml) : summary;
+      const contentType = articleHtml.trim().length > 0 ? "html" : "text";
 
       return `
     <entry>
@@ -45,6 +48,7 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
       <updated>${published}</updated>
       <published>${published}</published>
       <summary type="html">${summary}</summary>
+      <content type="${contentType}">${contentPayload}</content>
       ${categories}
     </entry>`;
     })

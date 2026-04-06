@@ -320,6 +320,20 @@ export async function getAllPosts(): Promise<PostSummary[]> {
   return data ?? [];
 }
 
+/** Same ordering/filter as getAllPosts, but includes full body for RSS/Atom full-text. */
+export async function getAllPostsForFeed(): Promise<PostDetail[]> {
+  const { data } = await loadQuery<PostDetail[]>({
+    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)${DETAIL_PROJECTION}`,
+    queryLabel: "all posts for feed",
+  });
+
+  const posts = data ?? [];
+  return posts.map((post) => ({
+    ...post,
+    readingTimeMinutes: calculateReadingTimeMinutes(post.content, post.markdownContent),
+  }));
+}
+
 export async function getFeaturedPosts(): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
     query: `*[_type == "post" && defined(slug.current) && featured == true && publishedAt <= now() && !coalesce(seo.noIndex, false)] | order(publishedAt desc)${SUMMARY_PROJECTION}`,
