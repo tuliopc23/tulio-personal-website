@@ -1,0 +1,37 @@
+src/components/Signature.astro
+  563df09a23588dd6 1-90
+package.json
+  563df09a23588dd6 110-112
+src/scripts/lenis.ts
+  563df09a23588dd6 45
+src/components/github/GitHubLiveSection.tsx
+  563df09a23588dd6 298
+vitest.astro.config.ts
+  563df09a23588dd6 1
+src/components/github/RepoRail.astro
+  563df09a23588dd6 23
+src/layouts/Base.astro
+  563df09a23588dd6 3,668
+src/components/github/github-section.module.css
+  563df09a23588dd6 714-716
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "b9364d1d2c57e8335548caf8eabf410c22ede3c1",
+  "prompts": {
+    "563df09a23588dd6": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "b030df7c-f426-46bd-b4bc-8aba70f0827c",
+        "model": "gemini-3.1-pro-preview"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 124,
+      "total_deletions": 38,
+      "accepted_lines": 107,
+      "overriden_lines": 0
+    }
+  }
+}
