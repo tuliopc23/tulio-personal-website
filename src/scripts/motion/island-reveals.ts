@@ -15,6 +15,7 @@ type CleanupFn = VoidFunction;
 
 let cleanups: CleanupFn[] = [];
 let animations: Array<gsap.core.Tween> = [];
+let refreshRaf = 0;
 
 function handleIslandReady(event: Event): void {
   const detail = (event as CustomEvent).detail;
@@ -25,9 +26,24 @@ function handleIslandReady(event: Event): void {
   }
 }
 
+function scheduleScrollTriggerRefresh(): void {
+  if (refreshRaf) cancelAnimationFrame(refreshRaf);
+  refreshRaf = requestAnimationFrame(() => {
+    refreshRaf = 0;
+    ScrollTrigger.refresh();
+  });
+}
+
 function animateGitHubSection(): void {
   const section = document.getElementById("section-github");
   if (!section) return;
+
+  const narrowViewport =
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+  const cardDuration = narrowViewport ? 0.58 : 0.68;
+  const cardStagger = narrowViewport ? 0.06 : 0.08;
+  const commitDuration = narrowViewport ? 0.48 : 0.56;
+  const commitStagger = narrowViewport ? 0.02 : 0.03;
 
   // Repo cards
   const cards = Array.from(section.querySelectorAll<HTMLElement>("article"));
@@ -37,9 +53,9 @@ function animateGitHubSection(): void {
       gsap.to(cards, {
         autoAlpha: 1,
         y: 0,
-        duration: 0.68,
+        duration: cardDuration,
         ease: "power3.out",
-        stagger: 0.08,
+        stagger: cardStagger,
         clearProps: "opacity,visibility,transform",
       }),
     );
@@ -53,16 +69,17 @@ function animateGitHubSection(): void {
       gsap.to(commits, {
         autoAlpha: 1,
         x: 0,
-        duration: 0.56,
+        duration: commitDuration,
         ease: "power3.out",
-        stagger: 0.03,
+        stagger: commitStagger,
         delay: 0.15,
         clearProps: "opacity,visibility,transform",
       }),
     );
   }
 
-  ScrollTrigger.refresh();
+  // Defer full refresh until after island paint so we don't block the current frame.
+  scheduleScrollTriggerRefresh();
 }
 
 /* ── Public API ─────────────────────────────────────────────── */
@@ -74,6 +91,10 @@ export function initIslandReveals(): void {
 }
 
 export function cleanupIslandReveals(): void {
+  if (refreshRaf) {
+    cancelAnimationFrame(refreshRaf);
+    refreshRaf = 0;
+  }
   for (const animation of animations) animation.kill();
   animations = [];
 

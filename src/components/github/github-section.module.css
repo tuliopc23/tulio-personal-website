@@ -68,6 +68,7 @@
 .railTrack:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--link) 72%, transparent);
   outline-offset: 6px;
+  scroll-margin-top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + var(--space-sm));
 }
 
 .railTrack::-webkit-scrollbar {
@@ -516,7 +517,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  padding-block: var(--space-xxs);
+  padding-block: var(--space-xs);
 }
 
 .mobileNav {
@@ -537,7 +538,7 @@
 .progressBar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-xxs);
 }
 
 .progressSegment {
@@ -731,18 +732,18 @@
   .railControls {
     display: grid;
     justify-items: center;
-    gap: 10px;
-    padding-top: 2px;
+    gap: var(--space-xs);
+    padding-top: var(--space-xxs);
   }
 
   .mobileNav {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-xs);
   }
 
   .progressBar {
-    gap: 8px;
+    gap: var(--space-xxs);
   }
 }
 

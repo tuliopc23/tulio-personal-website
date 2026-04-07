@@ -4,11 +4,10 @@
 }
 html {
   color-scheme: dark light;
-  /* scroll-behavior handled by Lenis — CSS smooth-scroll causes stutter */
-}
-
-html {
   min-height: 100%;
+  /* Keep focused in-page targets clear of the fixed topbar + notch when bypassing Lenis anchors */
+  scroll-padding-top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + var(--space-xs));
+  /* scroll-behavior handled by Lenis — CSS smooth-scroll causes stutter */
 }
 
 body {

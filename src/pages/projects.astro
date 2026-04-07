@@ -292,6 +292,9 @@ const _statusIcons: Record<string, string> = {
       cursor: pointer;
       position: relative;
       z-index: 1;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
     }
 
     .caseSlider__pill svg {
@@ -335,6 +338,10 @@ const _statusIcons: Record<string, string> = {
       scroll-behavior: auto;
       scroll-snap-type: none;
       user-select: none;
+    }
+
+    .caseSlider__track:focus-visible {
+      scroll-margin-top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + var(--space-sm));
     }
 
     .caseSlide {

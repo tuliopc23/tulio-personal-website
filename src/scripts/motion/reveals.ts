@@ -12,6 +12,50 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MAX_STAGGER_DELAY_S = 0.18;
 const STEP_S = 0.06;
+
+type RevealTiming = {
+  narrow: boolean;
+  stageDuration: number;
+  scopedDuration: number;
+  genericDuration: number;
+  stageExtraStep: number;
+  scopedStagger: number;
+  groupStagger: number;
+  fastScrollEnd: boolean;
+};
+
+function getRevealTiming(): RevealTiming {
+  const narrow =
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+  return {
+    narrow,
+    stageDuration: narrow ? 0.6 : 0.72,
+    scopedDuration: narrow ? 0.58 : 0.68,
+    genericDuration: narrow ? 0.58 : 0.68,
+    stageExtraStep: narrow ? 0.045 : 0.06,
+    scopedStagger: narrow ? 0.035 : 0.05,
+    groupStagger: narrow ? 0.045 : 0.06,
+    fastScrollEnd: narrow,
+  };
+}
+
+function scrollTriggerBase(
+  timing: RevealTiming,
+  trigger: HTMLElement,
+  start: string,
+): {
+  trigger: HTMLElement;
+  start: string;
+  once: true;
+  fastScrollEnd?: boolean;
+} {
+  return {
+    trigger,
+    start,
+    once: true,
+    ...(timing.fastScrollEnd ? { fastScrollEnd: true } : {}),
+  };
+}
 const STAGE_TARGET_SELECTOR =
   ".stage-intro__eyebrow, .stage-intro__title, .stage-intro__caption, .stage-intro > :not(.stage-intro__copy)";
 const GENERIC_REVEAL_SELECTOR = "[data-reveal], [data-reveal-children] > *";
@@ -100,13 +144,13 @@ function setHiddenState(el: HTMLElement): void {
   gsap.set(el, vars);
 }
 
-function revealVars(el: HTMLElement): gsap.TweenVars {
+function revealVars(el: HTMLElement, duration: number): gsap.TweenVars {
   if (usesCompoundTransform(el)) {
     return {
       autoAlpha: 1,
       "--reveal-translate": "0px",
       "--reveal-scale": 1,
-      duration: 0.72,
+      duration,
       ease: "power3.out",
     };
   }
@@ -116,7 +160,7 @@ function revealVars(el: HTMLElement): gsap.TweenVars {
     x: 0,
     y: 0,
     scale: 1,
-    duration: 0.72,
+    duration,
     ease: "power3.out",
     clearProps: "transform,opacity,visibility",
   };
@@ -132,9 +176,9 @@ function revealVars(el: HTMLElement): gsap.TweenVars {
   return vars;
 }
 
-function animateSingleReveal(el: HTMLElement, delay = 0): void {
+function animateSingleReveal(el: HTMLElement, timing: RevealTiming, delay = 0): void {
   const tween = gsap.to(el, {
-    ...revealVars(el),
+    ...revealVars(el, timing.genericDuration),
     delay,
     onStart: () => markVisible(el),
   });
@@ -164,8 +208,12 @@ function collectStageTargets(stage: HTMLElement): HTMLElement[] {
   return targets;
 }
 
-function initStageReveals(): void {
+function initStageReveals(timing: RevealTiming): void {
   const stages = Array.from(document.querySelectorAll<HTMLElement>(".stage-intro"));
+  const titleOffset = timing.narrow ? 0.06 : 0.08;
+  const captionLag = timing.narrow ? 0.14 : 0.18;
+  const extrasBase = timing.narrow ? 0.22 : 0.28;
+  const extrasFallback = timing.narrow ? 0.14 : 0.18;
 
   for (const stage of stages) {
     const targets = collectStageTargets(stage);
@@ -176,12 +224,8 @@ function initStageReveals(): void {
     }
 
     const timeline = gsap.timeline({
-      defaults: { duration: 0.72, ease: "power3.out" },
-      scrollTrigger: {
-        trigger: stage,
-        start: "top 86%",
-        once: true,
-      },
+      defaults: { duration: timing.stageDuration, ease: "power3.out" },
+      scrollTrigger: scrollTriggerBase(timing, stage, "top 86%"),
       onStart: () => {
         for (const target of targets) markVisible(target);
       },
@@ -195,14 +239,14 @@ function initStageReveals(): void {
       timeline.to(
         title,
         { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
-        eyebrow ? 0.08 : 0,
+        eyebrow ? titleOffset : 0,
       );
     }
     if (caption) {
       timeline.to(
         caption,
         { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
-        title ? 0.18 : 0.08,
+        title ? captionLag : titleOffset,
       );
     }
 
@@ -210,7 +254,7 @@ function initStageReveals(): void {
       timeline.to(
         extras[index],
         { autoAlpha: 1, y: 0, clearProps: "opacity,visibility,transform" },
-        (caption ? 0.28 : 0.18) + index * 0.06,
+        (caption ? extrasBase : extrasFallback) + index * timing.stageExtraStep,
       );
     }
 
@@ -219,7 +263,7 @@ function initStageReveals(): void {
   }
 }
 
-function initScopedContainerReveals(): void {
+function initScopedContainerReveals(timing: RevealTiming): void {
   const containers = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal-children]"));
 
   for (const container of containers) {
@@ -233,12 +277,8 @@ function initScopedContainerReveals(): void {
     }
 
     const timeline = gsap.timeline({
-      defaults: { duration: 0.68, ease: "power3.out" },
-      scrollTrigger: {
-        trigger: container,
-        start: "top 86%",
-        once: true,
-      },
+      defaults: { duration: timing.scopedDuration, ease: "power3.out" },
+      scrollTrigger: scrollTriggerBase(timing, container, "top 86%"),
       onStart: () => {
         for (const target of targets) markVisible(target);
       },
@@ -247,7 +287,7 @@ function initScopedContainerReveals(): void {
     timeline.to(targets, {
       autoAlpha: 1,
       y: 0,
-      stagger: 0.05,
+      stagger: timing.scopedStagger,
       clearProps: "opacity,visibility,transform",
     });
 
@@ -269,8 +309,9 @@ export function initReveals(): void {
     return;
   }
 
-  initStageReveals();
-  initScopedContainerReveals();
+  const timing = getRevealTiming();
+  initStageReveals(timing);
+  initScopedContainerReveals(timing);
 
   const elements = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]")).filter(
     (el) => !isManagedByScopedReveal(el),
@@ -300,10 +341,8 @@ export function initReveals(): void {
 
   for (const el of ungrouped) {
     const trigger = ScrollTrigger.create({
-      trigger: el,
-      start: "top 88%",
-      once: true,
-      onEnter: () => animateSingleReveal(el, parseDelay(el)),
+      ...scrollTriggerBase(timing, el, "top 88%"),
+      onEnter: () => animateSingleReveal(el, timing, parseDelay(el)),
     });
     triggers.push(trigger);
   }
@@ -312,12 +351,8 @@ export function initReveals(): void {
     if (!grouped.length) continue;
 
     const timeline = gsap.timeline({
-      defaults: { duration: 0.68, ease: "power3.out" },
-      scrollTrigger: {
-        trigger: grouped[0],
-        start: "top 88%",
-        once: true,
-      },
+      defaults: { duration: timing.genericDuration, ease: "power3.out" },
+      scrollTrigger: scrollTriggerBase(timing, grouped[0], "top 88%"),
       onStart: () => {
         for (const target of grouped) markVisible(target);
       },
@@ -331,12 +366,12 @@ export function initReveals(): void {
       timeline.to(
         target,
         {
-          ...revealVars(target),
+          ...revealVars(target, timing.genericDuration),
           clearProps: usesCompoundTransform(target)
             ? "opacity,visibility"
             : "opacity,visibility,transform",
         },
-        index * 0.06,
+        index * timing.groupStagger,
       );
     });
 

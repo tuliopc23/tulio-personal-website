@@ -12,6 +12,7 @@ type GlassState = "rest" | "scrolled";
 
 let nativeHandler: (() => void) | null = null;
 let lenisUnsub: (() => void) | null = null;
+let lenisGlassRaf = 0;
 
 function computeState(): GlassState {
   const body = document.body;
@@ -42,9 +43,21 @@ export function initGlassState(): void {
   const lenis = getLenis();
 
   if (lenis) {
-    const handler = () => apply();
+    const handler = (): void => {
+      if (lenisGlassRaf) return;
+      lenisGlassRaf = requestAnimationFrame(() => {
+        lenisGlassRaf = 0;
+        apply();
+      });
+    };
     lenis.on("scroll", handler);
-    lenisUnsub = () => lenis.off("scroll", handler);
+    lenisUnsub = () => {
+      lenis.off("scroll", handler);
+      if (lenisGlassRaf) {
+        cancelAnimationFrame(lenisGlassRaf);
+        lenisGlassRaf = 0;
+      }
+    };
   } else {
     // Reduced-motion fallback (no Lenis)
     let frame = 0;

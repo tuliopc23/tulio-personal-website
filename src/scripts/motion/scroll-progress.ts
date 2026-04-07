@@ -4,6 +4,9 @@
  * Uses Motion's `scroll()` for declarative scroll-bound effects:
  * - Hero scroll indicator line animation
  * - Hero section parallax fade on scroll
+ *
+ * On narrow viewports the hero Remotion player skips transform/opacity scroll
+ * binding to reduce main-thread work alongside Lenis and video.
  */
 
 import { scroll } from "motion";
@@ -13,12 +16,17 @@ type StopFn = VoidFunction;
 
 let cleanups: StopFn[] = [];
 
+function isNarrowViewport(): boolean {
+  return typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+}
+
 /* ── Hero scroll indicator ──────────────────────────────────── */
 
 function setupHeroScrollIndicator(): void {
   const hero = document.querySelector<HTMLElement>(".hero-remotion");
   if (!hero) return;
 
+  const narrow = isNarrowViewport();
   const scrollLine = document.querySelector<HTMLElement>(".hero-remotion__scrollLine");
   const scrollLabel = document.querySelector<HTMLElement>(".hero-remotion__scroll");
 
@@ -43,39 +51,16 @@ function setupHeroScrollIndicator(): void {
     cleanups.push(stop);
   }
 
-  // Parallax fade on the hero player
-  const player = hero.querySelector<HTMLElement>(".hero-remotion__player");
-  if (player) {
-    const stop = scroll(
-      animateDOM(player, {
-        opacity: [1, 0.3],
-        transform: ["translateY(0)", "translateY(-40px) scale(0.97)"],
-      }),
-      { target: hero, offset: ["start start", "end start"] },
-    );
-    cleanups.push(stop);
-  }
-}
-
-/* ── Card grid differential parallax ────────────────────────── */
-
-function setupGridParallax(): void {
-  const grids = document.querySelectorAll<HTMLElement>("[data-scroll-parallax-grid]");
-
-  for (const grid of grids) {
-    const items = Array.from(grid.children).filter(
-      (child): child is HTMLElement => child instanceof HTMLElement,
-    );
-
-    for (let i = 0; i < items.length; i++) {
-      const even = i % 2 === 0;
+  // Parallax fade on the hero player (desktop only — mobile avoids extra scroll listeners on video)
+  if (!narrow) {
+    const player = hero.querySelector<HTMLElement>(".hero-remotion__player");
+    if (player) {
       const stop = scroll(
-        animateDOM(items[i], {
-          transform: even
-            ? ["translateY(6px)", "translateY(-6px)"]
-            : ["translateY(-4px)", "translateY(4px)"],
+        animateDOM(player, {
+          opacity: [1, 0.3],
+          transform: ["translateY(0)", "translateY(-40px) scale(0.97)"],
         }),
-        { target: items[i], offset: ["start end", "end start"] },
+        { target: hero, offset: ["start start", "end start"] },
       );
       cleanups.push(stop);
     }
@@ -87,7 +72,6 @@ function setupGridParallax(): void {
 export function initScrollProgress(): void {
   cleanupScrollProgress();
   setupHeroScrollIndicator();
-  setupGridParallax();
 }
 
 export function cleanupScrollProgress(): void {
