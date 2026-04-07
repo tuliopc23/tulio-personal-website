@@ -214,7 +214,25 @@ function createRailController(element: HTMLElement): RailController {
   const handleWheel = (event: WheelEvent): void => {
     if (isReducedMotion() || !hasHorizontalOverflow(element)) return;
 
-    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    const absX = Math.abs(event.deltaX);
+    const absY = Math.abs(event.deltaY);
+    const horizontalDominant = absX >= absY;
+    const coarsePointer =
+      typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+
+    // Coarse pointers: only handle strong horizontal wheel (e.g. sideways trackpad on iPad).
+    // Never remap vertical wheel to horizontal — native overflow-x + Lenis keep vertical smooth.
+    if (coarsePointer && !horizontalDominant) {
+      return;
+    }
+
+    // Fine pointer: horizontal wheel scrolls the rail; vertical wheel scrolls the page unless
+    // Shift+wheel (maps vertical delta to horizontal), matching desktop carousel conventions.
+    if (!horizontalDominant && !event.shiftKey) {
+      return;
+    }
+
+    const delta = horizontalDominant ? event.deltaX : event.deltaY;
 
     if (Math.abs(delta) < 0.5) return;
 

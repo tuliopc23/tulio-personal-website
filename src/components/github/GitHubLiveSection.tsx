@@ -290,7 +290,13 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
       >
         Scroll for more
       </div>
-      <div class={styles.railTrack} data-repo-rail ref={trackRef} onScroll={onScroll}>
+      <div
+        class={styles.railTrack}
+        data-repo-rail
+        ref={trackRef}
+        onScroll={onScroll}
+        data-lenis-prevent="true"
+      >
         <For each={props.repos}>{(repo) => <RepoCard repo={repo} />}</For>
       </div>
       <div
@@ -299,7 +305,6 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
         aria-hidden={hasInteracted() ? "true" : "false"}
       >
         <span class={styles.mobileCueLabel}>Swipe to explore more repositories</span>
-        <span class={styles.mobileCueGlyph}>↔</span>
       </div>
       <div class={styles.railControls}>
         <div class={styles.mobileNav}>

@@ -1,0 +1,90 @@
+---
+import { Picture } from "astro:assets";
+import sigDarkDesktop from "../../signatures-all-sizes/signature-1200w.png";
+import sigWhiteDesktop from "../../signatures-all-sizes/signature-white-1200w.png";
+---
+
+<div class="site-signature">
+  <div class="site-signature__inner">
+    <div class="signature-light">
+      <Picture
+        src={sigDarkDesktop}
+        formats={['webp']}
+        alt="Tulio Cunha Signature"
+        widths={[300, 600, 1200]}
+        sizes="(max-width: 767px) 300px, (max-width: 1024px) 600px, 1200px"
+        loading="lazy"
+        decoding="async"
+        class="signature-img"
+      />
+    </div>
+    <div class="signature-dark">
+      <Picture
+        src={sigWhiteDesktop}
+        formats={['webp']}
+        alt="Tulio Cunha Signature"
+        widths={[300, 600, 1200]}
+        sizes="(max-width: 767px) 300px, (max-width: 1024px) 600px, 1200px"
+        loading="lazy"
+        decoding="async"
+        class="signature-img"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .site-signature {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: clamp(60px, 8vw, 120px) var(--space-md) clamp(40px, 5vw, 80px);
+    pointer-events: none;
+  }
+  
+  .site-signature__inner {
+    width: 100%;
+    max-width: 200px;
+    opacity: 0.85;
+    mix-blend-mode: multiply;
+    transition: opacity var(--motion-duration-md) var(--motion-ease-out),
+                transform var(--motion-duration-md) var(--spring-smooth);
+  }
+
+  :global(.dark) .site-signature__inner {
+    mix-blend-mode: screen;
+    opacity: 0.75;
+  }
+
+  @media (min-width: 768px) {
+    .site-signature__inner {
+      max-width: 300px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .site-signature__inner {
+      max-width: 350px;
+    }
+  }
+
+  .signature-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .signature-dark {
+    display: none;
+  }
+
+  :global(.dark) .signature-light {
+    display: none;
+  }
+
+  :global(.dark) .signature-dark {
+    display: block;
+  }
+</style>

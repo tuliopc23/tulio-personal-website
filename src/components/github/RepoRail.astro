@@ -20,12 +20,11 @@ const { repos } = Astro.props;
     Scroll for more
   </div>
 
-  <div class={styles.railTrack} data-repo-rail>
+  <div class={styles.railTrack} data-repo-rail data-lenis-prevent="true">
     <slot />
   </div>
   <div class={styles.mobileCue} data-scroll-cue data-visible="true" aria-hidden="false">
     <span class={styles.mobileCueLabel}>Swipe to explore more repositories</span>
-    <span class={styles.mobileCueGlyph}>↔</span>
   </div>
   <div class={styles.railControls}>
     <div class={styles.mobileNav}>

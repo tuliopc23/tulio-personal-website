@@ -31,14 +31,20 @@ export function initLenis(reducedMotion: boolean): void {
 
   if (reducedMotion) return; // native scroll when user prefers reduced motion
 
+  const narrowViewport =
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+
+  // Slightly higher lerp on narrow viewports: snappier follow-through on touch devices
+  // where `syncTouch` stays off (native touch; Lenis only smooths wheel / virtual path).
+  const lerp = narrowViewport ? 0.11 : 0.09;
+
   lenis = new Lenis({
-    lerp: 0.1,
+    lerp,
     smoothWheel: true,
     gestureOrientation: "vertical",
-    syncTouch: true,
-    syncTouchLerp: 0.075,
-    wheelMultiplier: 0.92,
-    touchMultiplier: 1,
+    syncTouch: false,
+    wheelMultiplier: 1,
+    touchMultiplier: 1.15,
     infinite: false,
     autoRaf: false,
     anchors: true,

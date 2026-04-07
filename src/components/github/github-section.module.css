@@ -62,6 +62,7 @@
     transparent
   );
   min-width: 0;
+  overscroll-behavior-x: contain;
 }
 
 .railTrack:focus-visible {
@@ -592,11 +593,6 @@
   gap: 0.35rem;
 }
 
-.mobileCueGlyph {
-  font-size: 1rem;
-  line-height: 1;
-}
-
 /* ═══════ Responsive — Mobile ═══════ */
 @media (max-width: 767px) {
   .railTrack {
@@ -610,7 +606,6 @@
     -webkit-mask-image: none;
     mask-image: none;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
     scroll-snap-type: x mandatory;
   }
 
@@ -713,27 +708,12 @@
 
   .mobileCue {
     display: inline-flex;
-    gap: 0.45rem;
-    padding: 0 16px;
-    min-height: 36px;
     max-width: min(100%, calc(100vw - 56px));
-    border-radius: 999px;
-    font-family: var(--font-sans);
-    font-size: var(--fs-caption);
     font-weight: var(--fw-semibold);
     letter-spacing: -0.01em;
-    color: white;
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--link) 94%, white 6%),
-      color-mix(in srgb, var(--blue, #0d8aff) 84%, #78c8ff 16%)
-    );
-    border: 1px solid color-mix(in srgb, var(--link) 72%, rgba(255, 255, 255, 0.22));
-    box-shadow:
-      0 14px 30px rgba(13, 138, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.22);
-    backdrop-filter: saturate(1.12) blur(18px);
-    -webkit-backdrop-filter: saturate(1.12) blur(18px);
+    transition:
+      opacity var(--motion-duration-sm) var(--motion-ease-out),
+      transform var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .scrollHint[data-visible="false"],

@@ -127,6 +127,22 @@ After updating either, trigger a new deployment. Verify with `pnpm run verify:pr
 
 To push **Worker secrets** and **Workers Builds** environment variables from `.env` using the Cloudflare REST API (no Wrangler), set `CLOUDFLARE_API_TOKEN` (permissions: Workers Scripts Write, Workers CI Write) and run `pnpm run cf:api:sync` (optional: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_TRIGGER_UUID`). Use `pnpm run cf:api:sync -- --dry-run` first (secret values are redacted in the log). Run `pnpm run cf:api:sync -- --help` for flags. See [`scripts/cloudflare-api-sync.mjs`](scripts/cloudflare-api-sync.mjs).
 
+## context-mode routing
+
+When `context-mode` MCP tools are available in Codex, OpenCode, Cursor, Gemini, Kiro, Amp, or Droid, use them for large-output analysis and indexed retrieval.
+
+- Keep this repo's documented `pnpm`/`vp` workflow and deployment constraints first.
+- Prefer `ctx_batch_execute`, `ctx_search`, `ctx_execute`, and `ctx_execute_file` when shell/file/web output would otherwise flood the conversation.
+- Keep native editor tools for file writes. Do not use `context-mode` execution tools to write files.
+
+## context-mode routing
+
+When `context-mode` MCP tools are available in Codex, OpenCode, Cursor, Gemini, Kiro, Amp, or Droid, use them for large-output analysis and indexed retrieval.
+
+- Keep this repo's documented `pnpm`/`vp` workflow and deployment constraints first.
+- Prefer `ctx_batch_execute`, `ctx_search`, `ctx_execute`, and `ctx_execute_file` when shell/file/web output would otherwise flood the conversation.
+- Keep native editor tools for file writes. Do not use `context-mode` execution tools to write files.
+
 **Workers Builds (Git) — commands in repo:** Wrangler’s `wrangler.jsonc` does **not** configure Workers Builds CI (Cloudflare ignores Wrangler “custom build” for Git builds). The canonical **build** and **deploy** commands for the connected trigger live in **`workers-builds.json`** at the repo root. Apply them to your Cloudflare trigger with:
 
 `pnpm run cf:api:sync -- --sync-trigger-commands`  

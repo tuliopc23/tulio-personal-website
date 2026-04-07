@@ -115,8 +115,11 @@ describe("scroll indicators", () => {
 
     initScrollIndicators();
 
+    // Vertical-dominant wheel is delegated to the page (Lenis); horizontal wheel
+    // (or Shift+vertical) drives the rail.
     const wheelEvent = new WheelEvent("wheel", {
-      deltaY: 120,
+      deltaX: 120,
+      deltaY: 0,
       bubbles: true,
       cancelable: true,
     });

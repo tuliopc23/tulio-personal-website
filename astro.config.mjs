@@ -42,7 +42,6 @@ export default defineConfig({
       project: process.env.SENTRY_PROJECT ?? "personal-website",
       org: process.env.SENTRY_ORG ?? "tuliocunha",
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      release: sentryRelease,
       telemetry: false,
       sourcemaps: {
         assets: [
