@@ -1,4 +1,10 @@
-import { postBodyToFeedHtml } from "../../lib/feed-content";
+import { absolutizeImgSrcInFeedHtml, postBodyToFeedHtml } from "../../lib/feed-content";
+import {
+  buildFeedContent,
+  buildMediaRssItemTags,
+  MEDIA_RSS_NS,
+  resolvePostFeedImage,
+} from "../../lib/feed-item-html";
 import { getAllPostsForFeed } from "../../sanity/lib/posts";
 
 export const prerender = true;
@@ -35,10 +41,22 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
       const categories = post.tags.map((tag) => `<category term="${escapeXml(tag)}" />`).join("\n");
 
       const summary = escapeXml(description);
-      const articleHtml = postBodyToFeedHtml(post.content, post.markdownContent);
-      const contentPayload =
-        articleHtml.trim().length > 0 ? escapeXml(articleHtml) : summary;
-      const contentType = articleHtml.trim().length > 0 ? "html" : "text";
+      const articleHtml = absolutizeImgSrcInFeedHtml(
+        postBodyToFeedHtml(post.content, post.markdownContent),
+        origin,
+      );
+      const { imageUrl, alt, width, height } = resolvePostFeedImage(post, origin);
+      const fullHtml = buildFeedContent({
+        description,
+        articleHtml,
+        imageAlt: alt,
+        imageUrl,
+        link,
+      });
+      const contentPayload = escapeXml(fullHtml);
+      const mediaLines = imageUrl
+        ? buildMediaRssItemTags(imageUrl, width, height).replace(/></g, ">\n      ")
+        : "";
 
       return `
     <entry>
@@ -48,14 +66,14 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
       <updated>${published}</updated>
       <published>${published}</published>
       <summary type="html">${summary}</summary>
-      <content type="${contentType}">${contentPayload}</content>
-      ${categories}
+      <content type="html">${contentPayload}</content>
+      ${mediaLines ? `${mediaLines}\n      ` : ""}${categories}
     </entry>`;
     })
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="${escapeXml(MEDIA_RSS_NS)}">
   <id>${escapeXml(blogUrl)}</id>
   <title>Tulio Cunha — Blog</title>
   <link href="${escapeXml(feedUrl)}" rel="self" />

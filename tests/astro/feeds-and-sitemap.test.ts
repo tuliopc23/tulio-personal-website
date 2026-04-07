@@ -22,6 +22,10 @@ describe("feeds and sitemap", () => {
     expect(xml).toContain("https://www.tuliocunha.dev/rss.xml");
     expect(xml).toContain("content:encoded");
     expect(xml).toContain("Astro makes it easy to keep most of the page static");
+    expect(xml).toContain("xmlns:media=");
+    expect(xml).toContain("media:thumbnail");
+    expect(xml).toContain("media:content");
+    expect(xml).toContain("https://cdn.sanity.io/images/demo/social.png");
   });
 
   test("renders the legacy blog RSS feed", async () => {
@@ -35,6 +39,9 @@ describe("feeds and sitemap", () => {
     expect(xml).toContain("Building Better Astro Sites");
     expect(xml).toContain("content:encoded");
     expect(xml).toContain("Astro makes it easy to keep most of the page static");
+    expect(xml).toContain("xmlns:media=");
+    expect(xml).toContain("media:thumbnail");
+    expect(xml).toContain("https://cdn.sanity.io/images/demo/social.png");
   });
 
   test("renders Atom feed entries", async () => {
@@ -46,8 +53,13 @@ describe("feeds and sitemap", () => {
     const xml = await response.text();
     expect(xml).toContain('<feed xmlns="http://www.w3.org/2005/Atom"');
     expect(xml).toContain("building-better-astro-sites");
-    expect(xml).toContain("<content type=\"html\">");
+    expect(xml).toContain('<content type="html">');
     expect(xml).toContain("Astro makes it easy to keep most of the page static");
+    expect(xml).toContain("xmlns:media=");
+    expect(xml).toContain("media:thumbnail");
+    expect(xml).toContain("media:content");
+    expect(xml).toContain("https://cdn.sanity.io/images/demo/social.png");
+    expect(xml).toContain("Read the full post on tuliocunha.dev");
   });
 
   test("renders robots.txt with the sitemap index", async () => {

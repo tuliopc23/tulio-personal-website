@@ -1,7 +1,13 @@
 import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 
-import { postBodyToFeedHtml } from "./feed-content";
+import { absolutizeImgSrcInFeedHtml, postBodyToFeedHtml } from "./feed-content";
+import {
+  buildFeedContent,
+  buildMediaRssItemTags,
+  MEDIA_RSS_NS,
+  resolvePostFeedImage,
+} from "./feed-item-html";
 import { getAllPostsForFeed } from "../sanity/lib/posts";
 import { getSiteOrigin, toAbsoluteUrl } from "./seo.js";
 
@@ -20,31 +26,7 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
-function buildFeedContent({
-  description,
-  articleHtml,
-  imageAlt,
-  imageUrl,
-  link,
-}: {
-  description: string;
-  articleHtml: string;
-  imageAlt?: string | null;
-  imageUrl?: string | null;
-  link: string;
-}) {
-  const blocks: string[] = [];
-
-  if (imageUrl) {
-    blocks.push(`<p><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(imageAlt ?? "")}" /></p>`);
-  }
-
-  const body = articleHtml.trim() || `<p>${escapeHtml(description)}</p>`;
-  blocks.push(body);
-  blocks.push(`<p><a href="${escapeHtml(link)}">Read the full post on tuliocunha.dev.</a></p>`);
-
-  return blocks.join("");
-}
+export { buildFeedContent, buildMediaRssItemTags, resolvePostFeedImage } from "./feed-item-html";
 
 export async function createRssFeedResponse(
   context: Pick<APIContext, "request" | "site">,
@@ -66,6 +48,7 @@ export async function createRssFeedResponse(
     ].join(""),
     xmlns: {
       atom: "http://www.w3.org/2005/Atom",
+      media: MEDIA_RSS_NS,
     },
     items: posts.map((post) => {
       const link = toAbsoluteUrl(
@@ -73,9 +56,17 @@ export async function createRssFeedResponse(
         site.origin,
       );
       const description = post.seo?.metaDescription ?? post.summary;
-      const articleHtml = postBodyToFeedHtml(post.content, post.markdownContent);
-      const image = post.seo?.socialImage?.url ? post.seo.socialImage : post.heroImage;
-      const imageUrl = image?.url ? toAbsoluteUrl(image.url, site.origin) : null;
+      const articleHtml = absolutizeImgSrcInFeedHtml(
+        postBodyToFeedHtml(post.content, post.markdownContent),
+        site.origin,
+      );
+      const { imageUrl, alt, width, height } = resolvePostFeedImage(post, site.origin);
+
+      const categoryTags = post.tags
+        .filter(Boolean)
+        .map((tag) => `<category>${escapeHtml(tag)}</category>`)
+        .join("");
+      const mediaTags = imageUrl ? buildMediaRssItemTags(imageUrl, width, height) : "";
 
       return {
         title: post.seo?.metaTitle ?? post.title,
@@ -85,14 +76,11 @@ export async function createRssFeedResponse(
         content: buildFeedContent({
           description,
           articleHtml,
-          imageAlt: image?.alt,
+          imageAlt: alt,
           imageUrl,
           link,
         }),
-        customData: post.tags
-          .filter(Boolean)
-          .map((tag) => `<category>${escapeHtml(tag)}</category>`)
-          .join(""),
+        customData: categoryTags + mediaTags,
       };
     }),
   });

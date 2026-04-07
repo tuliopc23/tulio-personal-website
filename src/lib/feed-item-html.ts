@@ -1,0 +1,70 @@
+import type { PostDetail } from "../sanity/lib/posts";
+import { toAbsoluteUrl } from "./seo.js";
+
+const MEDIA_RSS_NS = "http://search.yahoo.com/mrss/";
+
+export { MEDIA_RSS_NS };
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export function resolvePostFeedImage(post: PostDetail, siteOrigin: string) {
+  const image = post.seo?.socialImage?.url ? post.seo.socialImage : post.heroImage;
+  const imageUrl = image?.url ? toAbsoluteUrl(image.url, siteOrigin) : null;
+  return {
+    imageUrl,
+    alt: image?.alt ?? null,
+    width: image?.width,
+    height: image?.height,
+  };
+}
+
+export function buildFeedContent({
+  description,
+  articleHtml,
+  imageAlt,
+  imageUrl,
+  link,
+}: {
+  description: string;
+  articleHtml: string;
+  imageAlt?: string | null;
+  imageUrl?: string | null;
+  link: string;
+}) {
+  const blocks: string[] = [];
+
+  if (imageUrl) {
+    blocks.push(`<p><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(imageAlt ?? "")}" /></p>`);
+  }
+
+  const body = articleHtml.trim() || `<p>${escapeHtml(description)}</p>`;
+  blocks.push(body);
+  blocks.push(`<p><a href="${escapeHtml(link)}">Read the full post on tuliocunha.dev.</a></p>`);
+
+  return blocks.join("");
+}
+
+function guessImageMimeType(url: string): string {
+  const path = url.split("?")[0].toLowerCase();
+  if (path.endsWith(".png")) return "image/png";
+  if (path.endsWith(".webp")) return "image/webp";
+  if (path.endsWith(".gif")) return "image/gif";
+  if (path.endsWith(".svg") || path.endsWith(".svgz")) return "image/svg+xml";
+  return "image/jpeg";
+}
+
+/** Per-item RSS/Atom: Media RSS tags for clients that fetch cover art separately from HTML. */
+export function buildMediaRssItemTags(imageUrl: string, width?: number, height?: number): string {
+  const u = escapeHtml(imageUrl);
+  const w = width != null && width > 0 ? ` width="${escapeHtml(String(width))}"` : "";
+  const h = height != null && height > 0 ? ` height="${escapeHtml(String(height))}"` : "";
+  const mime = escapeHtml(guessImageMimeType(imageUrl));
+  return `<media:thumbnail url="${u}"${w}${h}/><media:content medium="image" url="${u}" type="${mime}"/>`;
+}
