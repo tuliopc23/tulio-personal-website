@@ -1,8 +1,8 @@
 ---
 /**
  * Brand logo: theme-aware high-quality WebP.
- * - Dark mode: Brand-icon-light.webp (light logo on dark background)
- * - Light mode: Brand-icon-dark.webp (dark logo on light background)
+ * - Dark mode: brand-icon-dark.png
+ * - Light mode: brand-icon-light.png
  * Sizing: use `size` for display dimensions (header 32px, footer 20px, favicon via link tags).
  */
 import { Image } from "astro:assets";
@@ -24,18 +24,18 @@ const { size = 24, class: className = "", priority = false, variant = "default" 
   role="img"
   aria-label="Tulio Cunha"
 >
-  <!-- Dark mode: show light icon -->
+  <!-- Light mode -->
   <Image
-    src="/Brand-icon-light.webp"
+    src="/brand-icon-light.png"
     alt=""
     class={styles.light}
     width={size}
     height={size}
     priority={priority}
   />
-  <!-- Light mode: show dark icon -->
+  <!-- Dark mode -->
   <Image
-    src="/Brand-icon-dark.webp"
+    src="/brand-icon-dark.png"
     alt=""
     class={styles.dark}
     width={size}

@@ -216,22 +216,28 @@ const visualEditingEnabled =
     <link rel="alternate" type="application/atom+xml" title="Tulio Cunha — Atom Feed" href={atomFeedUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
 
-    <!-- Theme-aware favicons (high-quality WebP brand icons) -->
+    <!-- Theme-aware favicons (PNG; explicit light/dark mapping) -->
     <link
       rel="icon"
-      type="image/webp"
-      href="/Brand-icon-dark.webp"
+      type="image/png"
+      href="/brand-icon-light.png"
       media="(prefers-color-scheme: light)"
-      sizes="32x32"
+      sizes="1024x1024"
     />
     <link
       rel="icon"
-      type="image/webp"
-      href="/Brand-icon-light.webp"
+      type="image/png"
+      href="/brand-icon-dark.png"
       media="(prefers-color-scheme: dark)"
-      sizes="32x32"
+      sizes="1024x1024"
     />
-    <link rel="icon" type="image/webp" href="/Brand-icon-dark.webp" sizes="32x32" />
+    <!-- Fallback + conventional small favicons -->
+    <link rel="icon" type="image/png" href="/brand-icon-light.png" sizes="1024x1024" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Performance: Resource hints for external domains -->
     <link rel="dns-prefetch" href="https://cdn.sanity.io" />
@@ -282,11 +288,11 @@ const visualEditingEnabled =
           root.classList.add("dark");
         }
 
-        // Update favicon based on theme (brand icon WebP)
+        // Update favicon based on theme (brand icon PNG)
         const updateFavicon = (theme) => {
           const favicon = document.querySelector('link[rel="icon"]');
           if (favicon) {
-            favicon.href = theme === "light" ? "/Brand-icon-dark.webp" : "/Brand-icon-light.webp";
+            favicon.href = theme === "light" ? "/brand-icon-light.png" : "/brand-icon-dark.png";
           }
         };
 
