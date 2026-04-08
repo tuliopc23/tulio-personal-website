@@ -220,19 +220,19 @@ const visualEditingEnabled =
     <link
       rel="icon"
       type="image/png"
-      href="/brand-icon-light.png"
+      href="/brand-glyph-light.png"
       media="(prefers-color-scheme: light)"
       sizes="1024x1024"
     />
     <link
       rel="icon"
       type="image/png"
-      href="/brand-icon-dark.png"
+      href="/brand-glyph-dark.png"
       media="(prefers-color-scheme: dark)"
       sizes="1024x1024"
     />
     <!-- Fallback + conventional small favicons -->
-    <link rel="icon" type="image/png" href="/brand-icon-light.png" sizes="1024x1024" />
+    <link rel="icon" type="image/png" href="/brand-glyph-light.png" sizes="1024x1024" />
     <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
 
@@ -288,11 +288,11 @@ const visualEditingEnabled =
           root.classList.add("dark");
         }
 
-        // Update favicon based on theme (brand icon PNG)
+        // Update favicon based on theme (brand glyph PNG)
         const updateFavicon = (theme) => {
           const favicon = document.querySelector('link[rel="icon"]');
           if (favicon) {
-            favicon.href = theme === "light" ? "/brand-icon-light.png" : "/brand-icon-dark.png";
+            favicon.href = theme === "light" ? "/brand-glyph-light.png" : "/brand-glyph-dark.png";
           }
         };
 
