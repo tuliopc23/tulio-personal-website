@@ -27,7 +27,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-glyph-light.png"><meta id="theme-color-meta" content="#f6f7fb">';
+      '<link rel="icon" href="/brand-icon-light.png"><meta id="theme-color-meta" content="#f6f7fb">';
     localStorage.setItem("theme-override", "dark");
     vi.resetModules();
 
@@ -36,7 +36,7 @@ describe("theme controller script", () => {
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
     expect(document.documentElement.classList.contains("dark")).toBe(true);
     expect((document.querySelector('link[rel="icon"]') as HTMLLinkElement).href).toContain(
-      "/brand-glyph-dark.png",
+      "/brand-icon-dark.png",
     );
   });
 
@@ -46,7 +46,7 @@ describe("theme controller script", () => {
     const { local } = installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-glyph-dark.png"><meta id="theme-color-meta" content="#050506">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
 
     vi.useFakeTimers();
     vi.resetModules();
@@ -75,7 +75,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-glyph-dark.png"><meta id="theme-color-meta" content="#050506">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
 
     vi.resetModules();
     await import("../../src/scripts/theme");
@@ -91,7 +91,7 @@ describe("theme controller script", () => {
     const { local } = installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-glyph-dark.png"><meta id="theme-color-meta" content="#050506">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
     document.body.innerHTML = `
       <div data-theme-toggle-root>
         <button data-dragging="false" data-motion="normal" data-instant="false" aria-pressed="false" style="--complete: 0"></button>

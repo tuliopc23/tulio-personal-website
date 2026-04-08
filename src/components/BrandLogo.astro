@@ -1,9 +1,9 @@
 ---
 /**
- * Brand logo: theme-aware high-quality WebP.
- * - Dark mode: brand-glyph-dark.png
- * - Light mode: brand-glyph-light.png
- * Sizing: use `size` for display dimensions (header 32px, footer 20px, favicon via link tags).
+ * Brand logo: theme-aware PNG (full mark, transparent where exported).
+ * - Dark mode: brand-icon-dark.png
+ * - Light mode: brand-icon-light.png
+ * Sizing: use `size` for display dimensions (header, footer, favicon via link tags).
  */
 import { Image } from "astro:assets";
 import styles from "./BrandLogo.module.css";
@@ -26,20 +26,20 @@ const { size = 24, class: className = "", priority = false, variant = "default" 
 >
   <!-- Light mode -->
   <Image
-    src="/brand-glyph-light.png"
+    src="/brand-icon-light.png"
     alt=""
     class={styles.light}
-    width={size * 2}
-    height={size * 2}
+    width={size}
+    height={size}
     priority={priority}
   />
   <!-- Dark mode -->
   <Image
-    src="/brand-glyph-dark.png"
+    src="/brand-icon-dark.png"
     alt=""
     class={styles.dark}
-    width={size * 2}
-    height={size * 2}
+    width={size}
+    height={size}
     priority={priority}
   />
 </span>

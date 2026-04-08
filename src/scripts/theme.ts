@@ -145,7 +145,7 @@ class ThemeController {
 
     const favicon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
     if (favicon) {
-      favicon.href = next === "light" ? "/brand-glyph-light.png" : "/brand-glyph-dark.png";
+      favicon.href = next === "light" ? "/brand-icon-light.png" : "/brand-icon-dark.png";
     }
 
     const themeColorMeta = document.getElementById("theme-color-meta");
