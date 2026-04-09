@@ -26,13 +26,19 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
-export { buildFeedContent, buildMediaRssItemTags, resolvePostFeedImage } from "./feed-item-html";
+export {
+  buildFeedContent,
+  buildMediaRssItemTags,
+  resolvePostFeedImage,
+} from "./feed-item-html";
 
 export async function createRssFeedResponse(
   context: Pick<APIContext, "request" | "site">,
   feedPath: string,
 ) {
-  const site = new URL(getSiteOrigin(context.site ?? new URL(context.request.url)));
+  const site = new URL(
+    getSiteOrigin(context.site ?? new URL(context.request.url)),
+  );
   const posts = await getAllPostsForFeed();
 
   return rss({
@@ -52,7 +58,9 @@ export async function createRssFeedResponse(
     },
     items: posts.map((post) => {
       const link = toAbsoluteUrl(
-        post.seo?.canonicalUrl?.startsWith("http") ? post.seo.canonicalUrl : `/blog/${post.slug}/`,
+        post.seo?.canonicalUrl?.startsWith("http")
+          ? post.seo.canonicalUrl
+          : `/blog/${post.slug}/`,
         site.origin,
       );
       const description = post.seo?.metaDescription ?? post.summary;
@@ -60,26 +68,33 @@ export async function createRssFeedResponse(
         postBodyToFeedHtml(post.content, post.markdownContent),
         site.origin,
       );
-      const { imageUrl, alt, width, height } = resolvePostFeedImage(post, site.origin);
+      const { imageUrl, alt, width, height } = resolvePostFeedImage(
+        post,
+        site.origin,
+      );
 
-      const categoryTags = post.tags
+      const categoryTags = (post.tags || [])
         .filter(Boolean)
         .map((tag) => `<category>${escapeHtml(tag)}</category>`)
         .join("");
-      const mediaTags = imageUrl ? buildMediaRssItemTags(imageUrl, width, height) : "";
+      const mediaTags = imageUrl
+        ? buildMediaRssItemTags(imageUrl, width, height)
+        : "";
+
+      const rawTitle = post.seo?.metaTitle ?? post.title;
 
       return {
-        title: post.seo?.metaTitle ?? post.title,
-        description,
+        title: escapeHtml(rawTitle),
+        description: escapeHtml(description),
         link,
         pubDate: new Date(post.publishedAt),
-        content: buildFeedContent({
+        content: `<![CDATA[${buildFeedContent({
           description,
           articleHtml,
           imageAlt: alt,
           imageUrl,
           link,
-        }),
+        })}]]>`,
         customData: categoryTags + mediaTags,
       };
     }),
