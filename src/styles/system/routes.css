@@ -1440,10 +1440,16 @@
     black calc(100% - clamp(16px, 2.5vw, 32px)),
     transparent
   );
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
 }
 
 .articleGrid::-webkit-scrollbar {
   display: none;
+}
+
+.articleGrid[data-dragging="true"] {
+  cursor: grabbing;
 }
 
 /* Edge fade indicators for mobile */
@@ -2631,9 +2637,14 @@
     padding-bottom: var(--space-sm);
     scrollbar-width: none;
     position: relative;
+    touch-action: pan-y pinch-zoom;
+    cursor: grab;
   }
   .cardRail::-webkit-scrollbar {
     display: none;
+  }
+  .cardRail[data-dragging="true"] {
+    cursor: grabbing;
   }
   .cardRail > * {
     flex: 0 0 clamp(80%, 72vw, 320px);

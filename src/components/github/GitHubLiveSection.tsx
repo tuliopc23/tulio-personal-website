@@ -295,7 +295,7 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
         data-repo-rail
         ref={trackRef}
         onScroll={onScroll}
-        data-lenis-prevent="true"
+        data-lenis-prevent-horizontal=""
       >
         <For each={props.repos}>{(repo) => <RepoCard repo={repo} />}</For>
       </div>

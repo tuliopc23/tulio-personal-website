@@ -134,4 +134,45 @@ describe("scroll indicators", () => {
 
     cleanupScrollIndicators();
   });
+
+  test("keeps vertical-dominant wheel input delegated to the page", async () => {
+    installAnimationStubs();
+    installMatchMediaStub({ reducedMotion: false });
+    const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();
+
+    document.body.innerHTML = `
+      <div class="container">
+        <div data-repo-rail>
+          <article></article>
+          <article></article>
+          <article></article>
+        </div>
+      </div>
+    `;
+
+    const rail = document.querySelector("[data-repo-rail]") as HTMLElement;
+    mockHorizontalMetrics(rail, { clientWidth: 360, scrollWidth: 1260, scrollLeft: 0 });
+
+    Array.from(rail.children).forEach((child, index) => {
+      Object.defineProperty(child, "getBoundingClientRect", {
+        configurable: true,
+        value: () => ({ width: 320, left: index * 340 }),
+      });
+    });
+
+    initScrollIndicators();
+
+    rail.dispatchEvent(
+      new WheelEvent("wheel", {
+        deltaX: 8,
+        deltaY: 48,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+
+    expect(rail.scrollLeft).toBe(0);
+
+    cleanupScrollIndicators();
+  });
 });

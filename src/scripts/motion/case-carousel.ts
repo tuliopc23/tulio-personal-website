@@ -263,7 +263,6 @@ export function initCaseCarousel(): void {
   if (!track || slides.length === 0) return;
 
   track.setAttribute("data-lenis-prevent-horizontal", "");
-  track.setAttribute("data-lenis-prevent", "");
   if (!track.hasAttribute("tabindex")) {
     track.tabIndex = 0;
   }

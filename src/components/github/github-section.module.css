@@ -63,6 +63,9 @@
   );
   min-width: 0;
   overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
 }
 
 .railTrack:focus-visible {
@@ -73,6 +76,10 @@
 
 .railTrack::-webkit-scrollbar {
   display: none;
+}
+
+.railTrack[data-dragging="true"] {
+  cursor: grabbing;
 }
 
 /* ═══════ Repo Card — Deep Floating Surface ═══════ */

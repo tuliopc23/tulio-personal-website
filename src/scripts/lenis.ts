@@ -12,9 +12,42 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const HORIZONTAL_RAIL_SELECTOR =
+  "[data-lenis-prevent-horizontal], [data-repo-rail], .articleGrid, .cardRail";
+const HORIZONTAL_GESTURE_MIN_DELTA = 6;
+const HORIZONTAL_GESTURE_RATIO = 1.15;
+
 let lenis: Lenis | null = null;
 let tickerCallback: ((time: number) => void) | null = null;
 let scrollCallback: (() => void) | null = null;
+
+function isHTMLElement(node: unknown): node is HTMLElement {
+  return node instanceof HTMLElement;
+}
+
+function isHorizontalRailEventTarget(event: Event): boolean {
+  const path = typeof event.composedPath === "function" ? event.composedPath() : [];
+
+  for (const node of path) {
+    if (!isHTMLElement(node)) continue;
+    if (node.matches(HORIZONTAL_RAIL_SELECTOR) || node.closest(HORIZONTAL_RAIL_SELECTOR)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function hasHorizontalGestureIntent(deltaX: number, deltaY: number, event?: Event): boolean {
+  if (event instanceof WheelEvent && event.shiftKey) {
+    return true;
+  }
+
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+
+  return absX >= HORIZONTAL_GESTURE_MIN_DELTA && absX > absY * HORIZONTAL_GESTURE_RATIO;
+}
 
 /* ── Public API ─────────────────────────────────────────────── */
 
@@ -41,7 +74,7 @@ export function initLenis(reducedMotion: boolean): void {
   lenis = new Lenis({
     lerp,
     smoothWheel: true,
-    gestureOrientation: "vertical",
+    gestureOrientation: "both",
     syncTouch: false,
     wheelMultiplier: 1,
     touchMultiplier: 1.15,
@@ -49,6 +82,12 @@ export function initLenis(reducedMotion: boolean): void {
     autoRaf: false,
     anchors: true,
     stopInertiaOnNavigate: true,
+    virtualScroll: ({ deltaX, deltaY, event }) => {
+      if (!(event instanceof Event)) return true;
+      if (!isHorizontalRailEventTarget(event)) return true;
+
+      return !hasHorizontalGestureIntent(deltaX, deltaY, event);
+    },
   });
 
   scrollCallback = () => {

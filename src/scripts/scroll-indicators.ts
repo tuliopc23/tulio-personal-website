@@ -26,12 +26,25 @@ const RAIL_SELECTOR = ".articleGrid, .cardRail, [data-repo-rail]";
 const SNAP_IDLE_MS = 120;
 const WHEEL_GAIN = 0.95;
 const KEYBOARD_MULTIPLIER = 0.92;
+const HORIZONTAL_INTENT_MIN_DELTA = 6;
+const HORIZONTAL_INTENT_RATIO = 1.15;
+const DRAG_INTENT_THRESHOLD = 10;
+const DRAG_CLICK_SUPPRESSION_DISTANCE = 12;
 
 let controllers: RailController[] = [];
 let cleanupFns: CleanupFn[] = [];
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
+}
+
+function hasHorizontalIntent(deltaX: number, deltaY: number, forceHorizontal = false): boolean {
+  if (forceHorizontal) return true;
+
+  const absX = Math.abs(deltaX);
+  const absY = Math.abs(deltaY);
+
+  return absX >= HORIZONTAL_INTENT_MIN_DELTA && absX > absY * HORIZONTAL_INTENT_RATIO;
 }
 
 function measureLimit(element: HTMLElement): number {
@@ -139,6 +152,12 @@ function createRailController(element: HTMLElement): RailController {
   let target = element.scrollLeft;
   // Track last frame time for time-based (frame-rate-independent) easing
   let lastFrameTime = 0;
+  let dragPointerId: number | null = null;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragStartScrollLeft = 0;
+  let isDragging = false;
+  let suppressClick = false;
 
   // The per-frame lerp factor at 60 fps. The time-based formula normalises
   // this so 120 Hz screens animate at the same perceived speed as 60 Hz.
@@ -157,6 +176,19 @@ function createRailController(element: HTMLElement): RailController {
       window.clearTimeout(snapTimer);
       snapTimer = null;
     }
+  };
+
+  const resetDragState = (): void => {
+    if (dragPointerId !== null && element.hasPointerCapture(dragPointerId)) {
+      element.releasePointerCapture(dragPointerId);
+    }
+
+    dragPointerId = null;
+    dragStartX = 0;
+    dragStartY = 0;
+    dragStartScrollLeft = 0;
+    isDragging = false;
+    element.dataset.dragging = "false";
   };
 
   const animateTowardsTarget = (now: number): void => {
@@ -216,7 +248,7 @@ function createRailController(element: HTMLElement): RailController {
 
     const absX = Math.abs(event.deltaX);
     const absY = Math.abs(event.deltaY);
-    const horizontalDominant = absX >= absY;
+    const horizontalDominant = hasHorizontalIntent(event.deltaX, event.deltaY, event.shiftKey);
     const coarsePointer =
       typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
 
@@ -232,7 +264,12 @@ function createRailController(element: HTMLElement): RailController {
       return;
     }
 
-    const delta = horizontalDominant ? event.deltaX : event.deltaY;
+    const delta =
+      horizontalDominant && absX > 0.5
+        ? event.deltaX
+        : absY > 0.5
+          ? event.deltaY
+          : event.deltaX;
 
     if (Math.abs(delta) < 0.5) return;
 
@@ -297,9 +334,79 @@ function createRailController(element: HTMLElement): RailController {
     applyRailState(element);
   };
 
+  const handlePointerDown = (event: PointerEvent): void => {
+    if (event.button !== 0 || !hasHorizontalOverflow(element)) return;
+
+    dragPointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    dragStartScrollLeft = element.scrollLeft;
+    isDragging = false;
+    suppressClick = false;
+  };
+
+  const handlePointerMove = (event: PointerEvent): void => {
+    if (dragPointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - dragStartX;
+    const deltaY = event.clientY - dragStartY;
+
+    if (!isDragging) {
+      if (Math.abs(deltaX) < DRAG_INTENT_THRESHOLD && Math.abs(deltaY) < DRAG_INTENT_THRESHOLD) {
+        return;
+      }
+
+      if (!hasHorizontalIntent(deltaX, deltaY)) {
+        resetDragState();
+        return;
+      }
+
+      isDragging = true;
+      element.dataset.dragging = "true";
+      element.setPointerCapture(event.pointerId);
+      cancelAnimation();
+      cancelSnap();
+    }
+
+    event.preventDefault();
+    suppressClick ||= Math.abs(deltaX) >= DRAG_CLICK_SUPPRESSION_DISTANCE;
+    element.scrollLeft = clamp(dragStartScrollLeft - deltaX, 0, measureLimit(element));
+    target = element.scrollLeft;
+    applyRailState(element);
+  };
+
+  const finishPointerInteraction = (pointerId: number): void => {
+    if (dragPointerId !== pointerId) return;
+
+    const dragged = isDragging;
+    resetDragState();
+
+    if (dragged) {
+      target = element.scrollLeft;
+      settleToNearest();
+    }
+  };
+
+  const handlePointerUp = (event: PointerEvent): void => {
+    finishPointerInteraction(event.pointerId);
+  };
+
+  const handleClickCapture = (event: Event): void => {
+    if (!suppressClick) return;
+
+    suppressClick = false;
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
   element.addEventListener("scroll", handleScroll, { passive: true });
   element.addEventListener("wheel", handleWheel, { passive: false });
   element.addEventListener("keydown", handleKeyDown);
+  element.addEventListener("pointerdown", handlePointerDown);
+  element.addEventListener("pointermove", handlePointerMove);
+  element.addEventListener("pointerup", handlePointerUp);
+  element.addEventListener("pointercancel", handlePointerUp);
+  element.addEventListener("click", handleClickCapture, true);
 
   refresh();
 
@@ -307,9 +414,15 @@ function createRailController(element: HTMLElement): RailController {
     cleanup() {
       cancelAnimation();
       cancelSnap();
+      resetDragState();
       element.removeEventListener("scroll", handleScroll);
       element.removeEventListener("wheel", handleWheel);
       element.removeEventListener("keydown", handleKeyDown);
+      element.removeEventListener("pointerdown", handlePointerDown);
+      element.removeEventListener("pointermove", handlePointerMove);
+      element.removeEventListener("pointerup", handlePointerUp);
+      element.removeEventListener("pointercancel", handlePointerUp);
+      element.removeEventListener("click", handleClickCapture, true);
     },
     refresh,
   };

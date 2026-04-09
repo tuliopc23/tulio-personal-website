@@ -20,7 +20,7 @@ const { repos } = Astro.props;
     Scroll for more
   </div>
 
-  <div class={styles.railTrack} data-repo-rail data-lenis-prevent="true">
+  <div class={styles.railTrack} data-repo-rail data-lenis-prevent-horizontal>
     <slot />
   </div>
   <div class={styles.mobileCue} data-scroll-cue data-visible="true" aria-hidden="false">
