@@ -1,0 +1,23 @@
+src/lib/rss.ts
+  11d7f103981dca88 76,84,87-88,91,97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "92d172d8a038e316284a51c50733b8848442495b",
+  "prompts": {
+    "11d7f103981dca88": {
+      "agent_id": {
+        "tool": "gemini",
+        "id": "2c5045d3-279a-4465-854e-05ede2d537d8",
+        "model": "gemini-3.1-pro-preview"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 5,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  }
+}
