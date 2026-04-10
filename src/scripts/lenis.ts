@@ -70,25 +70,21 @@ export function initLenis(reducedMotion: boolean): void {
 
   const narrowViewport =
     typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
-  const coarsePointer =
-    typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
-  const useSyncedTouch = narrowViewport && coarsePointer;
 
-  // Desktop: classic Lenis lerp. Coarse + narrow: Lenis-smoothed touch (syncTouch) with
-  // tuned follow-through so horizontal rails still yield to clear horizontal intent.
-  const lerp = useSyncedTouch ? 0.1 : narrowViewport ? 0.11 : 0.09;
+  // Slightly higher lerp on narrow viewports for snappier wheel follow-through.
+  // syncTouch stays off so touch uses native inertia; nested overflow scrollers stay native.
+  const lerp = narrowViewport ? 0.11 : 0.09;
 
   lenis = new Lenis({
     lerp,
     smoothWheel: true,
     gestureOrientation: "both",
-    syncTouch: useSyncedTouch,
-    syncTouchLerp: useSyncedTouch ? 0.085 : undefined,
-    touchInertiaExponent: useSyncedTouch ? 1.55 : undefined,
+    syncTouch: false,
     wheelMultiplier: 1,
-    touchMultiplier: useSyncedTouch ? 1 : 1.15,
+    touchMultiplier: 1.15,
     infinite: false,
     autoRaf: false,
+    allowNestedScroll: true,
     anchors: true,
     stopInertiaOnNavigate: true,
     virtualScroll: ({ deltaX, deltaY, event }) => {
