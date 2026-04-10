@@ -8,6 +8,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scheduleScrollTriggerRefresh } from "./scroll-trigger-refresh";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,8 +16,6 @@ type CleanupFn = VoidFunction;
 
 let cleanups: CleanupFn[] = [];
 let animations: Array<gsap.core.Tween> = [];
-let refreshRaf = 0;
-
 function handleIslandReady(event: Event): void {
   const detail = (event as CustomEvent).detail;
   const id = detail?.id;
@@ -24,14 +23,6 @@ function handleIslandReady(event: Event): void {
   if (id === "github") {
     animateGitHubSection();
   }
-}
-
-function scheduleScrollTriggerRefresh(): void {
-  if (refreshRaf) cancelAnimationFrame(refreshRaf);
-  refreshRaf = requestAnimationFrame(() => {
-    refreshRaf = 0;
-    ScrollTrigger.refresh();
-  });
 }
 
 function animateGitHubSection(): void {
@@ -78,8 +69,7 @@ function animateGitHubSection(): void {
     );
   }
 
-  // Defer full refresh until after island paint so we don't block the current frame.
-  scheduleScrollTriggerRefresh();
+  scheduleScrollTriggerRefresh("settled");
 }
 
 /* ── Public API ─────────────────────────────────────────────── */
@@ -91,10 +81,6 @@ export function initIslandReveals(): void {
 }
 
 export function cleanupIslandReveals(): void {
-  if (refreshRaf) {
-    cancelAnimationFrame(refreshRaf);
-    refreshRaf = 0;
-  }
   for (const animation of animations) animation.kill();
   animations = [];
 

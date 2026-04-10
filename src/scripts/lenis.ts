@@ -9,6 +9,10 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  cancelPendingScrollTriggerRefresh,
+  scheduleScrollTriggerRefresh,
+} from "./motion/scroll-trigger-refresh";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,18 +70,23 @@ export function initLenis(reducedMotion: boolean): void {
 
   const narrowViewport =
     typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+  const coarsePointer =
+    typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+  const useSyncedTouch = narrowViewport && coarsePointer;
 
-  // Slightly higher lerp on narrow viewports: snappier follow-through on touch devices
-  // where `syncTouch` stays off (native touch; Lenis only smooths wheel / virtual path).
-  const lerp = narrowViewport ? 0.11 : 0.09;
+  // Desktop: classic Lenis lerp. Coarse + narrow: Lenis-smoothed touch (syncTouch) with
+  // tuned follow-through so horizontal rails still yield to clear horizontal intent.
+  const lerp = useSyncedTouch ? 0.1 : narrowViewport ? 0.11 : 0.09;
 
   lenis = new Lenis({
     lerp,
     smoothWheel: true,
     gestureOrientation: "both",
-    syncTouch: false,
+    syncTouch: useSyncedTouch,
+    syncTouchLerp: useSyncedTouch ? 0.085 : undefined,
+    touchInertiaExponent: useSyncedTouch ? 1.55 : undefined,
     wheelMultiplier: 1,
-    touchMultiplier: 1.15,
+    touchMultiplier: useSyncedTouch ? 1 : 1.15,
     infinite: false,
     autoRaf: false,
     anchors: true,
@@ -99,15 +108,15 @@ export function initLenis(reducedMotion: boolean): void {
     lenis?.raf(time * 1000);
   };
   gsap.ticker.add(tickerCallback);
-  gsap.ticker.lagSmoothing(0);
+  // GSAP default lag smoothing (500ms / 33ms) — avoids lagSmoothing(0), which amplified jitter.
 
-  requestAnimationFrame(() => {
-    ScrollTrigger.refresh();
-  });
+  scheduleScrollTriggerRefresh("immediate");
 }
 
 /** Tear down the current Lenis instance and stop the RAF loop. */
 export function destroyLenis(): void {
+  cancelPendingScrollTriggerRefresh();
+
   if (tickerCallback) {
     gsap.ticker.remove(tickerCallback);
     tickerCallback = null;

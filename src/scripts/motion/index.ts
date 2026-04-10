@@ -18,6 +18,10 @@ import { isReducedMotion, onReducedMotionChange } from "./reduced-motion";
 import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
 import { cleanupCaseCarousel, initCaseCarousel } from "./case-carousel";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
+import {
+  cleanupViewportScrollRefresh,
+  initViewportScrollRefresh,
+} from "./scroll-trigger-refresh";
 
 /* ── Lifecycle ──────────────────────────────────────────────── */
 
@@ -25,6 +29,9 @@ function init(): void {
   const reduced = isReducedMotion();
   initLenis(reduced);
   initGlassState();
+  if (!reduced) {
+    initViewportScrollRefresh();
+  }
 
   if (reduced) {
     showAllReveals();
@@ -44,6 +51,7 @@ function init(): void {
 }
 
 function cleanup(): void {
+  cleanupViewportScrollRefresh();
   cleanupCaseCarousel();
   cleanupScrollIndicators();
   cleanupIslandReveals();
@@ -84,18 +92,3 @@ document.addEventListener("astro:page-load", () => {
   if (!initialized) safeInit();
 });
 window.addEventListener("pagehide", cleanup);
-
-// Initialize as soon as the DOM is ready so first-touch / first-wheel
-// interactions do not wait for late assets. `astro:page-load` still handles
-// client-side navigations after `astro:before-swap` resets the flag.
-if (document.readyState === "loading") {
-  document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-      if (!initialized) safeInit();
-    },
-    { once: true },
-  );
-} else {
-  if (!initialized) safeInit();
-}

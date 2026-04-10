@@ -7,6 +7,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scheduleScrollTriggerRefresh } from "./scroll-trigger-refresh";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -379,9 +380,7 @@ export function initReveals(): void {
     if (timeline.scrollTrigger) triggers.push(timeline.scrollTrigger);
   }
 
-  requestAnimationFrame(() => {
-    ScrollTrigger.refresh();
-  });
+  scheduleScrollTriggerRefresh("settled");
 }
 
 export function showAllReveals(): void {
