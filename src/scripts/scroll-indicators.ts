@@ -265,11 +265,7 @@ function createRailController(element: HTMLElement): RailController {
     }
 
     const delta =
-      horizontalDominant && absX > 0.5
-        ? event.deltaX
-        : absY > 0.5
-          ? event.deltaY
-          : event.deltaX;
+      horizontalDominant && absX > 0.5 ? event.deltaX : absY > 0.5 ? event.deltaY : event.deltaX;
 
     if (Math.abs(delta) < 0.5) return;
 

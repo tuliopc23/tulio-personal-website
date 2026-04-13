@@ -33,6 +33,7 @@
   padding: 14px 16px;
   min-height: 52px;
   font: inherit;
+  font-size: max(1rem, var(--fs-0));
   transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
 }
 

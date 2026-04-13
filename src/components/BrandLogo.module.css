@@ -56,12 +56,8 @@
    shadow (edge crisp → mid depth → broad ambient) to restore
    definition and elevation. */
 [data-theme="light"] .brandLogo img {
-  filter:
-    contrast(1.1)
-    saturate(1.2)
-    drop-shadow(0 0.5px 1px rgba(0, 40, 100, 0.32))
-    drop-shadow(0 3px 6px rgba(0, 30, 80, 0.24))
-    drop-shadow(0 8px 20px rgba(0, 20, 60, 0.18));
+  filter: contrast(1.1) saturate(1.2) drop-shadow(0 0.5px 1px rgba(0, 40, 100, 0.32))
+    drop-shadow(0 3px 6px rgba(0, 30, 80, 0.24)) drop-shadow(0 8px 20px rgba(0, 20, 60, 0.18));
 }
 
 [data-theme="dark"] .brandLogo img {
@@ -71,17 +67,12 @@
 /* High-contrast: stronger edge definition for both modes */
 @media (prefers-contrast: high) {
   [data-theme="light"] .brandLogo img {
-    filter:
-      contrast(1.2)
-      saturate(1.3)
-      drop-shadow(0 0.5px 0.5px rgba(0, 30, 80, 0.5))
+    filter: contrast(1.2) saturate(1.3) drop-shadow(0 0.5px 0.5px rgba(0, 30, 80, 0.5))
       drop-shadow(0 2px 4px rgba(0, 30, 80, 0.35));
   }
 
   [data-theme="dark"] .brandLogo img {
-    filter:
-      drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.6))
-      drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 0.5px 0.5px rgba(0, 0, 0, 0.6)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
   }
 }
 

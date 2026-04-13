@@ -27,7 +27,7 @@ type RevealTiming = {
 
 function getRevealTiming(): RevealTiming {
   const narrow =
-    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches;
   return {
     narrow,
     stageDuration: narrow ? 0.6 : 0.72,

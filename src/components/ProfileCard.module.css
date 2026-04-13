@@ -276,8 +276,8 @@
   }
 
   .profileCardContact {
-    min-height: 38px;
-    padding: 6px 8px;
+    min-height: var(--touch-target-min, 44px);
+    padding: 8px 10px;
     border-radius: 12px;
     gap: 6px;
   }
