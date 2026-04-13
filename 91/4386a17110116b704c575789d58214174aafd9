@@ -1,0 +1,83 @@
+src/lib/is-new-post.ts
+  889c825b2c34eee3 1-9
+src/components/Footer.astro
+  889c825b2c34eee3 5-9,15,20,25,66,68
+tests/unit/is-new-post.test.ts
+  889c825b2c34eee3 1-27
+src/components/ProfileCard.astro
+  889c825b2c34eee3 5-9,42,62,78,86
+tests/astro/base.test.ts
+  889c825b2c34eee3 26
+src/pages/404.astro
+  889c825b2c34eee3 1-55
+src/pages/blog/series/[slug].astro
+  889c825b2c34eee3 8,48
+src/pages/index.astro
+  889c825b2c34eee3 10,45
+src/lib/site-identity.ts
+  889c825b2c34eee3 1-14
+src/pages/blog/index.astro
+  889c825b2c34eee3 11-13,48,123-124
+astro.config.mjs
+  889c825b2c34eee3 26
+src/components/ArticlePortableText.astro
+  889c825b2c34eee3 39-42
+tests/unit/posts.test.ts
+  889c825b2c34eee3 93
+src/layouts/Base.astro
+  889c825b2c34eee3 18,115,125,158,168,214-215,316-328,373,381,705,707
+tests/dom/navbar-search.test.ts
+  889c825b2c34eee3 14
+src/styles/system/routes-projects.css
+  889c825b2c34eee3 1-2
+src/pages/studio/index.astro
+  889c825b2c34eee3 2-4,10-13,26-73
+openspec/project.md
+  889c825b2c34eee3 70-71,77
+src/sanity/lib/posts.ts
+  889c825b2c34eee3 112-113,261
+src/components/RecentPosts.astro
+  889c825b2c34eee3 4,19
+vitest.astro.config.ts
+  889c825b2c34eee3 10
+tests/layout-smoke.test.ts
+  889c825b2c34eee3 15,24,30,36-37
+src/styles/theme.css
+  889c825b2c34eee3 8-9
+src/pages/blog/[slug].astro
+  889c825b2c34eee3 10-11,122-123,131,150,208,458,578
+src/pages/blog/category/[slug].astro
+  889c825b2c34eee3 8,57
+src/pages/blog/topic/[slug].astro
+  889c825b2c34eee3 8,48
+tests/fixtures/sanity.ts
+  889c825b2c34eee3 52,76
+src/styles/system/shell.css
+  889c825b2c34eee3 31,44
+src/pages/contact.module.css
+  889c825b2c34eee3 2,8,13,29,33-34,40,54,61,68,77
+src/lib/seo.js
+  889c825b2c34eee3 44-47
+src/styles/system/content.css
+  889c825b2c34eee3 485-487,513,579,688-692,695-712
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "914386a17110116b704c575789d58214174aafd9",
+  "prompts": {
+    "889c825b2c34eee3": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "68327a9a-8593-4ff8-be01-6f7f35628319",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 301,
+      "total_deletions": 448,
+      "accepted_lines": 299,
+      "overriden_lines": 0
+    }
+  }
+}
