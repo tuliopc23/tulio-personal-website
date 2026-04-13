@@ -69,7 +69,7 @@ export function initLenis(reducedMotion: boolean): void {
   if (reducedMotion) return; // native scroll when user prefers reduced motion
 
   const narrowViewport =
-    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches;
 
   // Slightly higher lerp on narrow viewports for snappier wheel follow-through.
   // syncTouch stays off so touch uses native inertia; nested overflow scrollers stay native.

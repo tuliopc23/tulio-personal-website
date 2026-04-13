@@ -41,6 +41,7 @@
   overflow-clip-margin: var(--section-quick-nav-bleed-block) var(--section-quick-nav-bleed-inline);
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+  touch-action: pan-x;
 }
 
 .list {
@@ -64,9 +65,9 @@
 }
 
 .link {
-  --chip-min-height: 34px;
-  --chip-padding-block: 6px;
-  --chip-padding-inline: 12px;
+  --chip-min-height: 44px;
+  --chip-padding-block: 10px;
+  --chip-padding-inline: 14px;
   background: transparent;
   color: var(--text-secondary);
   --chip-font-size: var(--fs-caption);
@@ -126,8 +127,9 @@
   }
 
   .link {
-    --chip-padding-block: 7px;
-    --chip-padding-inline: 12px;
+    --chip-min-height: var(--touch-target-min, 44px);
+    --chip-padding-block: 10px;
+    --chip-padding-inline: 14px;
     --chip-font-size: var(--fs-footnote);
   }
 }
