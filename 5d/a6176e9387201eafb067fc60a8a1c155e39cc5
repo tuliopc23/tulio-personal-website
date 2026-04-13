@@ -1,0 +1,66 @@
+src/pages/newsletter/subscribed.astro
+  334138164feabfe8 1-68
+src/styles/system/content.css
+  334138164feabfe8 861-864
+src/pages/blog/[slug].astro
+  334138164feabfe8 8,464-466
+src/pages/blog/index.astro
+  334138164feabfe8 8,251-252
+sanity-blueprints/newsletter-webhook/sanity.blueprint.ts
+  334138164feabfe8 1-59
+src/pages/index.astro
+  334138164feabfe8 9,386-388
+.env.example
+  334138164feabfe8 53-62
+src/styles/system/routes.css
+  334138164feabfe8 3098-3101,3244-3245
+worker/index.ts
+  334138164feabfe8 3,19-24,86-336,338-409,622-633
+scripts/setup-newsletter-webhook.js
+  334138164feabfe8 1-102,104-107
+AGENTS.md
+  687e3f94613baf31 20
+wrangler.jsonc
+  334138164feabfe8 28-31
+src/components/NewsletterSignup.astro
+  334138164feabfe8 1-149
+package.json
+  334138164feabfe8 34
+src/scripts/newsletter-form.ts
+  334138164feabfe8 1-11,13-60
+src/layouts/Base.astro
+  334138164feabfe8 7,692-694
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "5da6176e9387201eafb067fc60a8a1c155e39cc5",
+  "prompts": {
+    "334138164feabfe8": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0098a9e7-84ce-4584-88f7-020f410a1ea9",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 869,
+      "total_deletions": 38,
+      "accepted_lines": 829,
+      "overriden_lines": 3
+    },
+    "687e3f94613baf31": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "334f957b-a6b3-4daf-8828-2012efc9b9d7",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
