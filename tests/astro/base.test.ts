@@ -23,7 +23,7 @@ describe("Base layout", () => {
 
     expect(html).toContain("<title>Projects • Tulio Cunha</title>");
     expect(html).toContain('rel="canonical" href="https://www.tuliocunha.dev/projects/"');
-    expect(html).toMatch(/href="\/projects"[^>]*aria-current="page"/);
+    expect(html).toMatch(/href="\/projects\/"[^>]*aria-current="page"/);
     expect(html).toContain("Client work, indie builds, real constraints.");
     expect(html).toContain("data-site-search-open");
     expect(html).toContain('id="site-search"');

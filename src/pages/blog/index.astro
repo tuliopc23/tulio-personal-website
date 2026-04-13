@@ -8,6 +8,9 @@ import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import { optimizedImageUrl } from "../../sanity/lib/image";
 import { getBlogPageContent } from "../../sanity/lib/page-content";
 import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../sanity/lib/posts";
+import { isNewPublishedAt } from "../../lib/is-new-post";
+import { SITE_SAME_AS_URLS } from "../../lib/site-identity";
+import { toAbsoluteUrl } from "../../lib/seo.js";
 
 const pageContent = await getBlogPageContent();
 
@@ -42,7 +45,7 @@ function toPostEntry(post: PostSummary) {
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
-  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000; // 7 days
+  const isNew = isNewPublishedAt(post.publishedAt);
   return {
     ...post,
     href: `/blog/${post.slug}/`,
@@ -117,12 +120,8 @@ const _structuredData = {
     name: "Tulio Cunha",
     url: siteOrigin,
   },
-  sameAs: [
-    "https://github.com/tuliopc23",
-    "https://linkedin.com/in/tuliocunha",
-    "https://instagram.com/tuliopinheirocunha",
-  ],
-  image: ogImage?.url ? [ogImage.url] : undefined,
+  sameAs: [...SITE_SAME_AS_URLS],
+  image: ogImage?.url ? [toAbsoluteUrl(ogImage.url, siteOrigin)] : undefined,
 };
 
 postEntries.forEach((entry) => {

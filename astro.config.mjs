@@ -23,6 +23,7 @@ const sanityOptions = {
 
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
+  trailingSlash: "always",
   image: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },

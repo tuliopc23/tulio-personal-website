@@ -7,6 +7,8 @@ import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import MarkdownContent from "../../components/MarkdownContent.astro";
 import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
+import { isNewPublishedAt } from "../../lib/is-new-post";
+import { toAbsoluteUrl } from "../../lib/seo.js";
 import {
   calculateReadingTimeMinutes,
   getAllPostSlugs,
@@ -117,6 +119,8 @@ const ogImage = preferredSocialImage?.url
   : null;
 const customJsonLd =
   typeof seo?.jsonLd === "string" && seo.jsonLd.trim().length > 0 ? seo.jsonLd : null;
+const _articleModifiedAt = post ? post.updatedAt : "";
+
 const articleStructuredData = post
   ? {
       "@context": "https://schema.org",
@@ -124,7 +128,7 @@ const articleStructuredData = post
       headline: seoTitle,
       description: seoDescription,
       datePublished: post.publishedAt,
-      dateModified: post.publishedAt,
+      dateModified: _articleModifiedAt,
       mainEntityOfPage: {
         "@type": "WebPage",
         "@id": canonical,
@@ -143,7 +147,7 @@ const articleStructuredData = post
           url: `${shareOrigin}/terminal-favicon.svg`,
         },
       },
-      image: ogImage?.url ? ogImage.url : undefined,
+      image: ogImage?.url ? toAbsoluteUrl(ogImage.url, shareOrigin) : undefined,
       keywords: post.tags?.join(", "),
       articleSection: post.categories?.[0]?.title,
       wordCount: post
@@ -201,7 +205,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
   ogImage={ogImage}
   articleAuthor={post?.author?.name ?? "Tulio Cunha"}
   articlePublishedTime={post?.publishedAt}
-  articleModifiedTime={post?.publishedAt}
+  articleModifiedTime={post ? _articleModifiedAt : undefined}
   articleTags={post?.tags}
   noIndex={_noIndex}
   structuredData={_structuredData}
@@ -451,7 +455,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <PhosphorIcon name="rss" size={16} weight="regular" />
                   Atom
                 </a>
-                <a class="article__actionPill article__actionPill--secondary" href="/contact">
+                <a class="article__actionPill article__actionPill--secondary" href="/contact/">
                   <PhosphorIcon name="mail" size={16} weight="regular" />
                   Send a note
                 </a>
@@ -571,7 +575,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   {_related.map((entry, index) => {
                     const relatedISO = new Date(entry.publishedAt).toISOString();
                     const relatedLabel = cardFormatter.format(new Date(entry.publishedAt));
-                    const relatedIsNew = Date.now() - new Date(entry.publishedAt).getTime() < 7 * 24 * 60 * 60 * 1000;
+                    const relatedIsNew = isNewPublishedAt(entry.publishedAt);
                     return (
                       <ArticleCard
                         href={`/blog/${entry.slug}/`}

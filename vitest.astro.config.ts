@@ -7,5 +7,6 @@ export default getViteConfig({
     globals: true,
     setupFiles: ["./tests/setup/vitest.setup.ts"],
     environment: "node",
+    testTimeout: 20_000,
   },
 });

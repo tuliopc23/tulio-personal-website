@@ -67,14 +67,14 @@ types/              # TypeScript type definitions
 - `src/pages/index.astro` - Home with hero, quick links, tech stack rail, and featured writing cards.
 - `src/pages/projects.astro` - Projects grid fed by `src/data/projects.ts`.
 - `src/pages/blog/index.astro` - Blog listing with category filters; individual posts resolve via `src/pages/blog/[slug].astro`.
-- `src/pages/about.astro`, `now.astro`, and `uses.astro` - Narrative pages sharing biography, now page, and tooling setup.
-- `src/pages/studio/[[...index]].astro` - Embedded Sanity Studio route gated to development builds.
+- `src/pages/about.astro` and `contact.astro` — narrative and contact pages.
+- `src/pages/studio/index.astro` — Embedded Sanity Studio on localhost; hosted Studio in production.
 
 ## Key Components
 
 ### Astro Components
 
-- `Navbar.astro` - Glass blur navigation with sticky positioning
+- `layouts/Base.astro` (topbar + sidebar + quick search) — global navigation chrome; there is no separate `Navbar.astro`.
 - `Footer.astro` - Site footer
 - `Card.astro` - Base card component
 - `PostCard.astro` - Blog post preview card

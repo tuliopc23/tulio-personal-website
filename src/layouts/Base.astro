@@ -15,6 +15,7 @@ import {
   getSiteOrigin,
   toAbsoluteUrl,
 } from "../lib/seo.js";
+import { SITE_GITHUB_PROFILE_URL, SITE_LINKEDIN_PROFILE_URL } from "../lib/site-identity";
 
 interface OgImageMeta {
   url: string;
@@ -111,7 +112,7 @@ const globalNavLinks = [
     keywords: "articles writing essays notes programming",
   },
   {
-    href: "/projects",
+    href: "/projects/",
     label: "Case Studies",
     icon: "briefcase",
     tint: "orange",
@@ -121,7 +122,7 @@ const globalNavLinks = [
     keywords: "work case studies builds portfolio apps clients",
   },
   {
-    href: "/about",
+    href: "/about/",
     label: "About",
     icon: "sparkle",
     tint: "teal",
@@ -154,7 +155,7 @@ const sidebarSiteLinks = globalNavLinks;
 
 const sidebarSocialLinks = [
   {
-    href: "https://github.com/tuliopc23",
+    href: SITE_GITHUB_PROFILE_URL,
     label: "GitHub",
     icon: "github",
     tint: "indigo",
@@ -164,7 +165,7 @@ const sidebarSocialLinks = [
     keywords: "github code repositories open source",
   },
   {
-    href: "/contact",
+    href: "/contact/",
     label: "Contact",
     icon: "mail",
     tint: "indigo",
@@ -210,8 +211,8 @@ const visualEditingEnabled =
     {description && <meta name="description" content={description} />}
     {absoluteCanonicalUrl && <link rel="canonical" href={absoluteCanonicalUrl} />}
     <link rel="author" href={aboutUrl} />
-    <link rel="me" href="https://github.com/tuliopc23" />
-    <link rel="me" href="https://www.linkedin.com/in/tuliocunha/" />
+    <link rel="me" href={SITE_GITHUB_PROFILE_URL} />
+    <link rel="me" href={SITE_LINKEDIN_PROFILE_URL} />
     <link rel="alternate" type="application/rss+xml" title="Tulio Cunha — RSS Feed" href={rssFeedUrl} />
     <link rel="alternate" type="application/atom+xml" title="Tulio Cunha — Atom Feed" href={atomFeedUrl} />
     <link rel="sitemap" type="application/xml" href={sitemapUrl} />
@@ -312,6 +313,19 @@ const visualEditingEnabled =
             root.dataset.revealState = "fallback";
           }
         }, 1800);
+
+        document.addEventListener(
+          "DOMContentLoaded",
+          () => {
+            const themeNow = document.documentElement.getAttribute("data-theme");
+            document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+              if (btn instanceof HTMLButtonElement) {
+                btn.setAttribute("aria-pressed", themeNow === "dark" ? "true" : "false");
+              }
+            });
+          },
+          { once: true },
+        );
       })();
     </script>
 
@@ -356,7 +370,7 @@ const visualEditingEnabled =
     }
     <meta
       name="twitter:card"
-      content={ogImage?.url ? "summary_large_image" : "summary"}
+      content={absoluteOgImageUrl ? "summary_large_image" : "summary"}
     />
     <meta name="twitter:title" content={computedOgTitle} />
     {
@@ -364,7 +378,7 @@ const visualEditingEnabled =
         <meta name="twitter:description" content={computedOgDescription} />
       )
     }
-    {ogImage?.url && <meta name="twitter:image" content={ogImage.url} />}
+    {absoluteOgImageUrl && <meta name="twitter:image" content={absoluteOgImageUrl} />}
     {
       structuredDataJson && (
         <script is:inline type="application/ld+json" set:html={structuredDataJson} />
@@ -688,9 +702,9 @@ const visualEditingEnabled =
             </div>
             <div class="footer__actions">
               <nav class="footer__links" aria-label="Footer links">
-                <a href="/projects">Case Studies</a>
+                <a href="/projects/">Case Studies</a>
                 <a href="/blog/">Blog</a>
-                <a href="/about">About</a>
+                <a href="/about/">About</a>
                 <a
                   href="https://portfolio.tuliocunha.dev"
                   target="_blank"

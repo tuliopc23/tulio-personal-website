@@ -11,7 +11,7 @@ describe("navbar search script", () => {
         <button data-site-search-close type="button">Close</button>
         <input data-site-search-input />
         <a data-site-search-item data-search-value="home landing page" href="/">Home</a>
-        <a data-site-search-item data-search-value="projects work portfolio case studies" href="/projects">Case Studies</a>
+        <a data-site-search-item data-search-value="projects work portfolio case studies" href="/projects/">Case Studies</a>
         <p data-site-search-empty hidden>Empty</p>
         <p data-site-search-status></p>
       </div>

@@ -36,6 +36,9 @@ const _components = {
       <PortableText value={blocks} components={_components} />
     </div>
   ) : (
-    <div class="articlePortable articlePortable--empty">Article content coming soon.</div>
+    <div class="articlePortable articlePortable--empty" role="status" aria-live="polite">
+      <strong class="articlePortable--emptyTitle">Content in progress</strong>
+      <p class="articlePortable--emptyBody">This post does not have body content yet. Check back soon.</p>
+    </div>
   )
 }

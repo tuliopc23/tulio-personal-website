@@ -5,6 +5,7 @@ import ArticleCard from "../../../components/ArticleCard.astro";
 import PageIndicator from "../../../components/PageIndicator.astro";
 import PhosphorIcon from "../../../components/PhosphorIcon.astro";
 import ScrollHint from "../../../components/ScrollHint.astro";
+import { isNewPublishedAt } from "../../../lib/is-new-post";
 import {
   getAllTopicSlugs,
   getPostsByTopicSlug,
@@ -44,7 +45,7 @@ const postEntries: Array<
   const date = new Date(post.publishedAt);
   const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
   const estimatedReadingTime = Math.max(1, Math.round(summaryWordCount / 170));
-  const isNew = Date.now() - date.getTime() < 7 * 24 * 60 * 60 * 1000;
+  const isNew = isNewPublishedAt(post.publishedAt);
   return {
     ...post,
     href: `/blog/${post.slug}/`,

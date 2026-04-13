@@ -41,5 +41,9 @@ export function shouldIncludeInSitemap(page) {
     return false;
   }
 
+  if (normalizedPath === "/404") {
+    return false;
+  }
+
   return !EXCLUDED_SITEMAP_PATHS.has(normalizedPath);
 }

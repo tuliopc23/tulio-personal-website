@@ -90,6 +90,7 @@ describe("posts helpers", () => {
           summary: "Summary",
           slug: "one",
           publishedAt: "2026-01-01",
+          updatedAt: "2026-01-05T12:00:00.000Z",
           tags: [],
           content: [],
           markdownContent: "word ".repeat(300),

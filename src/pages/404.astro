@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
+
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/404/", siteOrigin).toString();
+const description = "That page does not exist. Head home or open search from the top bar.";
+---
+
+<Base
+  title="Page not found"
+  description={description}
+  canonical={canonical}
+  ogDescription={description}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Page not found" }}
+  noIndex={true}
+  sidebar={true}
+>
+  <div class="pageBento">
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "Not found", icon: "warning" },
+        ]}
+      />
+      <div class="pageHero__copy">
+        <span class="pageHero__eyebrow">
+          <PhosphorIcon name="compass" size={14} weight="regular" />
+          404
+        </span>
+        <h1 class="pageHero__title">This URL does not resolve to anything here.</h1>
+        <p class="pageHero__lede">
+          If you followed an old link, it may have moved. Try the home page, the blog, or quick search
+          (Cmd or Ctrl + K) from the top bar.
+        </p>
+        <div class="pageHero__meta" aria-label="Suggested next steps">
+          <a class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} href="/">
+            <PhosphorIcon name="house" size={14} weight="regular" />
+            Home
+          </a>
+          <a class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} href="/blog/">
+            <PhosphorIcon name="notebook" size={14} weight="regular" />
+            Blog
+          </a>
+          <a class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} href="/contact/">
+            <PhosphorIcon name="mail" size={14} weight="regular" />
+            Contact
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>

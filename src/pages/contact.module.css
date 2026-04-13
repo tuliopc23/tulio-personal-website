@@ -1,16 +1,16 @@
 .contactCard {
-  padding: clamp(14px, 1.6vw, 20px);
+  padding: clamp(var(--space-xs), 1.6vw, var(--space-md));
 }
 
 .contactForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: var(--gap-md);
 }
 
 .contactFormField {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2xs);
 }
 
 .contactFormFieldFull {
@@ -26,18 +26,18 @@
 .contactFormField input,
 .contactFormField textarea {
   width: 100%;
-  border-radius: 12px;
+  border-radius: var(--radius-input);
   border: 1px solid var(--panel-border);
   background: color-mix(in srgb, var(--surface-card) 92%, transparent);
   color: var(--text-primary);
-  padding: 14px 16px;
-  min-height: 52px;
+  padding: var(--space-xs) var(--space-sm);
+  min-height: max(52px, var(--touch-target-min, 44px));
   font: inherit;
   transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 .contactFormField textarea {
-  min-height: 176px;
+  min-height: calc(var(--space-2xl) * 2.75);
   resize: vertical;
 }
 
@@ -51,21 +51,21 @@
 .contactFormActions {
   grid-column: 1 / -1;
   display: grid;
-  gap: 8px;
+  gap: var(--gap-sm);
   justify-items: start;
 }
 
 .contactFormButton {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--gap-sm);
 }
 
 .contactFormHint {
   margin: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2xs);
   color: var(--text-tertiary);
   font-size: var(--fs-footnote);
   line-height: 1.5;
@@ -74,7 +74,7 @@
 @media (max-width: 768px) {
   .contactForm {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: var(--space-sm);
   }
 
   .contactFormActions {

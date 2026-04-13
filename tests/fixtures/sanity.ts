@@ -49,6 +49,7 @@ export const richPostSummary: PostSummary = {
 
 export const richPostDetail: PostDetail = {
   ...richPostSummary,
+  updatedAt: "2026-03-15T08:00:00.000Z",
   readingTimeMinutes: 4,
   content: [
     {
@@ -72,6 +73,7 @@ export const richPostDetail: PostDetail = {
 export const markdownFallbackPost: PostDetail = {
   ...richPostSummary,
   slug: "markdown-fallback",
+  updatedAt: "2026-03-12T10:00:00.000Z",
   readingTimeMinutes: 3,
   content: [],
   markdownContent: "# Heading\n\nFallback markdown content",

@@ -482,9 +482,9 @@
 }
 
 .articlePortable > :where(p:first-of-type) {
-  font-size: clamp(1.02rem, 0.16vw + 0.99rem, 1.12rem);
-  font-weight: 500;
-  line-height: 1.68;
+  font-size: var(--type-lede-size);
+  font-weight: var(--type-lede-weight);
+  line-height: var(--type-lede-leading);
   color: var(--text-primary);
 }
 
@@ -510,7 +510,7 @@
   font-weight: var(--type-reader-h2-weight);
   line-height: var(--type-reader-h2-leading);
   letter-spacing: var(--type-reader-h2-tracking);
-  max-width: 18ch;
+  max-width: 22ch;
 }
 
 .articlePortable :where(h3) {
@@ -576,7 +576,7 @@
 .articlePortable :where(code) {
   font-family: var(--font-mono);
   background: color-mix(in srgb, var(--surface-muted) 88%, transparent);
-  border-radius: 8px;
+  border-radius: var(--radius-xs);
   border: 1px solid color-mix(in srgb, var(--panel-border) 70%, transparent);
   padding: 0.14em 0.48em;
   font-size: 0.88em;
@@ -685,8 +685,31 @@
 }
 
 .articlePortable--empty {
+  margin-block: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: clamp(18px, 2.2vw, 24px);
+  border: 1px dashed color-mix(in srgb, var(--panel-border-strong) 72%, transparent);
+  background: color-mix(in srgb, var(--surface-muted) 55%, transparent);
   color: var(--article-prose-muted);
   font-size: var(--fs--1);
+  line-height: var(--type-body-leading);
+  text-align: center;
+  text-wrap: balance;
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.articlePortable--emptyTitle {
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.articlePortable--emptyBody {
+  margin: 0;
+  max-width: 36ch;
+  margin-inline: auto;
 }
 
 .markdownContent {
@@ -1081,10 +1104,6 @@
   .articlePortable {
     width: 100%;
     max-width: 100%;
-  }
-
-  .articlePortable > :where(p:first-of-type) {
-    font-size: 1.04rem;
   }
 
   .articlePortable :where(h2) {

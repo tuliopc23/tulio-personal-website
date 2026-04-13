@@ -2,6 +2,11 @@
 import IconTile from "./IconTile.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import styles from "./ProfileCard.module.css";
+import {
+  SITE_GITHUB_PROFILE_URL,
+  SITE_INSTAGRAM_PROFILE_URL,
+  SITE_LINKEDIN_PROFILE_URL,
+} from "../lib/site-identity";
 
 const { name = "Tulio Cunha", title = "Full Stack Developer", location = "Brazil" } = Astro.props;
 
@@ -34,7 +39,7 @@ const contactCards: ContactCard[] = [
   {
     label: "Contact",
     value: "Email me about anything",
-    href: "/contact",
+    href: "/contact/",
     tint: "indigo",
     asset: "/icons/Socials/Email.webp",
     ariaLabel: `Open contact form for ${name}`,
@@ -54,7 +59,7 @@ const contactCards: ContactCard[] = [
 const socialCards: SocialCard[] = [
   {
     title: "GitHub",
-    href: "https://github.com/tuliopc23",
+    href: SITE_GITHUB_PROFILE_URL,
     tint: "indigo",
     icon: "github",
     ariaLabel: "Open Tulio's GitHub",
@@ -70,7 +75,7 @@ const socialCards: SocialCard[] = [
   },
   {
     title: "LinkedIn",
-    href: "https://linkedin.com/in/tuliopinheirocunha",
+    href: SITE_LINKEDIN_PROFILE_URL,
     tint: "blue",
     icon: "linkedin",
     ariaLabel: "Open Tulio's LinkedIn",
@@ -78,7 +83,7 @@ const socialCards: SocialCard[] = [
   },
   {
     title: "Instagram",
-    href: "https://instagram.com/tuliopinheirocunha",
+    href: SITE_INSTAGRAM_PROFILE_URL,
     tint: "pink",
     icon: "instagram",
     ariaLabel: "Open Tulio's Instagram",

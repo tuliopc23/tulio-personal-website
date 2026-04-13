@@ -109,6 +109,8 @@ export interface PostSummary {
 }
 
 export interface PostDetail extends PostSummary {
+  /** Sanity document `_updatedAt`, coalesced to `publishedAt` in GROQ when missing. */
+  updatedAt: string;
   content: PortableTextBlock[];
   markdownContent?: string | null;
   readingTimeMinutes: number;
@@ -256,6 +258,7 @@ const DETAIL_PROJECTION = `{
   evergreenStatus,
   "slug": slug.current,
   publishedAt,
+  "updatedAt": coalesce(_updatedAt, publishedAt),
   tags,
   featured,
   keyTakeaways,
