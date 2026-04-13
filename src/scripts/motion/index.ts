@@ -89,3 +89,18 @@ document.addEventListener("astro:page-load", () => {
   if (!initialized) safeInit();
 });
 window.addEventListener("pagehide", cleanup);
+
+// Initialize when the document is ready so first scroll / first paint are not blocked
+// waiting on late assets. `astro:page-load` still handles client-side navigations after
+// `astro:before-swap` resets the flag (when View Transitions are enabled).
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      if (!initialized) safeInit();
+    },
+    { once: true },
+  );
+} else if (!initialized) {
+  safeInit();
+}
