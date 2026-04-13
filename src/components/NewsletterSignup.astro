@@ -1,0 +1,149 @@
+---
+import PhosphorIcon from "./PhosphorIcon.astro";
+import newsletterFormScriptHref from "../scripts/newsletter-form.ts?url";
+
+interface Props {
+  variant?: "compact" | "panel";
+  source?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  variant = "panel",
+  source = "unknown",
+  title = "Get new posts in your inbox",
+  description = "One email per post. Double opt-in. Unsubscribe anytime.",
+} = Astro.props as Props;
+
+const classes =
+  variant === "compact"
+    ? "newsletterSignup newsletterSignup--compact"
+    : "newsletterSignup surface-panel surface-panel--nested";
+---
+
+<section class={classes} aria-label="Newsletter signup">
+  <div class="newsletterSignup__copy">
+    <span class="newsletterSignup__eyebrow meta-chip meta-chip--eyebrow">
+      <PhosphorIcon name="mail" size={14} weight="regular" />
+      Newsletter
+    </span>
+    <h2 class="newsletterSignup__title">{title}</h2>
+    <p class="newsletterSignup__lede">{description}</p>
+  </div>
+
+  <form
+    class="newsletterSignup__form"
+    method="post"
+    action="/api/newsletter/subscribe"
+    data-newsletter-form
+    data-newsletter-source={source}
+  >
+    <label class="sr-only" for={`newsletter-email-${source}`}>Email</label>
+    <input
+      id={`newsletter-email-${source}`}
+      class="newsletterSignup__input"
+      name="email"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      placeholder="you@domain.com"
+      required
+    />
+
+    <input type="hidden" name="source" value={source} />
+
+    <!-- Honeypot: bots will fill this, humans won't. -->
+    <label class="sr-only" for={`newsletter-company-${source}`}>Company</label>
+    <input
+      id={`newsletter-company-${source}`}
+      name="company"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+      class="newsletterSignup__hp"
+    />
+
+    <button type="submit" class="btn newsletterSignup__button">
+      <PhosphorIcon name="paper-plane-tilt" size={16} weight="regular" />
+      <span>Subscribe</span>
+    </button>
+
+    <p class="newsletterSignup__status" data-newsletter-status aria-live="polite" role="status"></p>
+  </form>
+
+  <script is:inline type="module" src={newsletterFormScriptHref}></script>
+</section>
+
+<style>
+  .newsletterSignup {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .newsletterSignup__title {
+    margin: 10px 0 0;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  .newsletterSignup__lede {
+    margin: 8px 0 0;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.72));
+  }
+
+  .newsletterSignup__form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .newsletterSignup__input {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+    background: var(--surface-1, rgba(0, 0, 0, 0.2));
+    padding: 12px 14px;
+    color: inherit;
+    outline: none;
+  }
+
+  .newsletterSignup__input:focus {
+    border-color: var(--border-strong, rgba(255, 255, 255, 0.24));
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+  }
+
+  .newsletterSignup__status {
+    grid-column: 1 / -1;
+    margin: 0;
+    min-height: 1.2em;
+    font-size: 0.95rem;
+    color: var(--text-secondary, rgba(255, 255, 255, 0.72));
+  }
+
+  .newsletterSignup__status[data-kind="success"] {
+    color: rgba(110, 231, 183, 0.95);
+  }
+
+  .newsletterSignup__status[data-kind="error"] {
+    color: rgba(252, 165, 165, 0.95);
+  }
+
+  .newsletterSignup__hp {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 520px) {
+    .newsletterSignup__form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

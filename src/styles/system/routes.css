@@ -3095,6 +3095,10 @@ input:focus {
   align-items: start;
 }
 
+.footer__newsletter {
+  min-width: 0;
+}
+
 .footer__about {
   display: grid;
   gap: 10px;
@@ -3235,6 +3239,10 @@ input:focus {
   .footer__inner {
     grid-template-columns: 1fr auto;
     align-items: start;
+  }
+
+  .footer__newsletter {
+    grid-column: 1 / -1;
   }
 
   .footer__links {

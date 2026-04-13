@@ -5,6 +5,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
+import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import MarkdownContent from "../../components/MarkdownContent.astro";
 import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
 import { isNewPublishedAt } from "../../lib/is-new-post";
@@ -459,6 +460,10 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <PhosphorIcon name="mail" size={16} weight="regular" />
                   Send a note
                 </a>
+              </div>
+
+              <div class="article__ctaNewsletter" aria-label="Newsletter signup">
+                <NewsletterSignup source="blog-article" />
               </div>
               {_footerTopics.length > 0 && (
                 <div class="article__taxonomyRail" aria-label="Article topics">

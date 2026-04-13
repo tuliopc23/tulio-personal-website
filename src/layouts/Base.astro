@@ -4,6 +4,7 @@ import Signature from "../components/Signature.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
 import fontsCssHref from "../styles/fonts.css?url";
@@ -688,6 +689,9 @@ const visualEditingEnabled =
         <Signature />
         <footer class="footer">
           <div class="footer__inner">
+            <div class="footer__newsletter">
+              <NewsletterSignup variant="compact" source="footer" />
+            </div>
             <div class="footer__about">
               <p class="footer__eyebrow">Elsewhere</p>
               <p class="footer__title">

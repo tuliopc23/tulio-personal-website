@@ -17,6 +17,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - `pnpm dev` and some Sanity scripts use `scripts/with-system-certs.mjs` for certificate handling.
 - Local agent skill caches under paths listed in `.gitignore` (for example `.agents/skills/`) are not versioned.
 - TypeScript is on **6.x** (`package.json`). Earlier guidance to stay on 5.9.x is outdated — some Astro/Sanity packages still declare `peer typescript` as `^5`, but the pnpm `peerDependencyRules.allowedVersions` override handles this.
+- This Astro site is multi-page (no `<ViewTransitions />` / client router). Don’t rely on `astro:page-load` for first-load client initialization; keep a `DOMContentLoaded`/`document.readyState` fallback.
 
 ## Commands
 

@@ -5,6 +5,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
+import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import { optimizedImageUrl } from "../../sanity/lib/image";
 import { getBlogPageContent } from "../../sanity/lib/page-content";
 import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../sanity/lib/posts";
@@ -245,6 +246,10 @@ const _sectionHeaders = {
         </div>
       )
     }
+  </section>
+
+  <section class="container pageWidget" data-reveal>
+    <NewsletterSignup source="blog-index" />
   </section>
 
   {

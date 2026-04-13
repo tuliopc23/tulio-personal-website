@@ -1,0 +1,68 @@
+---
+import Base from "../../layouts/Base.astro";
+import PhosphorIcon from "../../components/PhosphorIcon.astro";
+
+export const prerender = true;
+
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/newsletter/subscribed/", siteOrigin).toString();
+
+const status = Astro.url.searchParams.get("status") ?? "ok";
+const copy =
+  status === "ok"
+    ? {
+        title: "You're subscribed.",
+        body: "Confirmed. You'll get an email whenever a new post is published.",
+        tone: "success" as const,
+      }
+    : status === "missing"
+      ? {
+          title: "Missing confirmation link.",
+          body: "That confirmation URL is missing its token. Try subscribing again.",
+          tone: "warning" as const,
+        }
+      : status === "invalid"
+        ? {
+            title: "That link has expired.",
+            body: "Confirmation links expire after 48 hours. Subscribe again and we’ll send a fresh one.",
+            tone: "warning" as const,
+          }
+        : {
+            title: "Couldn’t confirm right now.",
+            body: "Please try again in a bit, or re-subscribe to get a new link.",
+            tone: "warning" as const,
+          };
+---
+
+<Base
+  title="Newsletter"
+  description="Newsletter subscription confirmation."
+  canonical={canonical}
+  ogDescription="Newsletter subscription confirmation."
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Tulio Cunha" }}
+  sidebar={true}
+>
+  <div class="pageBento">
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <div class="pageHero__copy">
+        <span class:list={["pageHero__eyebrow", copy.tone === "success" ? "meta-chip--signal" : "meta-chip--accent"]}>
+          <PhosphorIcon name={copy.tone === "success" ? "check-circle" : "warning"} size={14} weight="regular" />
+          Newsletter
+        </span>
+        <h1 class="pageHero__title">{copy.title}</h1>
+        <p class="pageHero__lede">{copy.body}</p>
+        <div class="pageHero__meta" aria-label="Next steps">
+          <a class="btn" href="/blog/">
+            <PhosphorIcon name="notebook" size={16} weight="regular" />
+            <span>Read the latest</span>
+          </a>
+          <a class="btn btn--secondary" href="/">
+            <PhosphorIcon name="house" size={16} weight="regular" />
+            <span>Back home</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+

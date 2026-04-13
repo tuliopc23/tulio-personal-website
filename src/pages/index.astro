@@ -6,6 +6,7 @@ import DockLink from "../components/DockLink.astro";
 import SectionQuickNav from "../components/SectionQuickNav.astro";
 import GitHubLiveSection from "../components/github/GitHubLiveSection";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { isNewPublishedAt } from "../lib/is-new-post";
 import { getAllPosts } from "../sanity/lib/posts";
@@ -381,6 +382,10 @@ const homepageStructuredData = [
           <p class="widget-caption surface-caption">Recent posts on Swift, web stacks, systems programming, and the tools around them.</p>
         </div>
         <FeatureWritingWidget posts={writingPosts} />
+      </div>
+
+      <div class="widget-box surface-panel surface-panel--nested" data-reveal>
+        <NewsletterSignup source="home-writing" />
       </div>
     </section>
   </section>

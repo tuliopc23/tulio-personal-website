@@ -858,6 +858,10 @@
   border-color: color-mix(in srgb, var(--accent-border) 78%, var(--panel-border));
 }
 
+.article__ctaNewsletter {
+  margin-top: 14px;
+}
+
 .article__taxonomyRail {
   position: relative;
   z-index: 1;

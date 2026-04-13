@@ -25,5 +25,9 @@
       "binding": "CACHE",
       "id": "1221f2bea79645358e6520d4dde58727",
     },
+    {
+      "binding": "NEWSLETTER",
+      "id": "837fdeb112f44eb981d53184d77916a7",
+    },
   ],
 }
