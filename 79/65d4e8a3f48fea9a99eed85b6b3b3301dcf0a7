@@ -1,0 +1,23 @@
+src/scripts/motion/index.ts
+  2aa86a228beb294a 92-106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "7965d4e8a3f48fea9a99eed85b6b3b3301dcf0a7",
+  "prompts": {
+    "2aa86a228beb294a": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "0ebf360a-ad0c-4a48-9539-0833300de73d",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 0,
+      "accepted_lines": 15,
+      "overriden_lines": 0
+    }
+  }
+}
