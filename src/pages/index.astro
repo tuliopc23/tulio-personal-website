@@ -10,6 +10,7 @@ import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { isNewPublishedAt } from "../lib/is-new-post";
 import { getAllPosts } from "../sanity/lib/posts";
 import { getMergedGitHubData } from "../lib/github-data";
+import { SITE_SAME_AS_URLS } from "../lib/site-identity";
 
 const posts = await getAllPosts();
 
@@ -172,6 +173,25 @@ const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tulio
 const canonical = new URL("/", siteOrigin).toString();
 const description =
   "Tulio Cunha — full stack developer. Swift, TypeScript, Go, Rust, and Zig. Native apps, web systems, and the backend in between.";
+
+const homepageStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Tulio Cunha",
+    url: canonical,
+    description,
+    inLanguage: "en",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Tulio Cunha",
+    url: canonical,
+    sameAs: SITE_SAME_AS_URLS,
+    jobTitle: "Full Stack Developer",
+  },
+];
 ---
 
 <Base
@@ -179,7 +199,8 @@ const description =
   description={description}
   canonical={canonical}
   ogDescription={description}
-  ogImage={{ url: "/terminal-favicon.svg", alt: "Tulio Cunha portfolio" }}
+  ogImage={{ url: "/android-chrome-512x512.png", alt: "Tulio Cunha — Full Stack Developer", width: 512, height: 512 }}
+  structuredData={homepageStructuredData}
   sidebar={false}
   mobileDrawer={true}
   heroPage={true}

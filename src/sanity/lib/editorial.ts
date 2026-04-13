@@ -120,7 +120,7 @@ export async function getTopicBySlug(slug: string): Promise<EditorialTopic | nul
 
 export async function getPostsByTopicSlug(slug: string): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
-    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && $slug in topics[]->slug.current] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
+    query: `*[_type == "post" && defined(slug.current) && status == "published" && publishedAt <= now() && !coalesce(seo.noIndex, false) && $slug in topics[]->slug.current] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
     params: { slug },
     queryLabel: `posts by topic (${slug})`,
   });
@@ -149,7 +149,7 @@ export async function getSeriesBySlug(slug: string): Promise<EditorialSeries | n
 
 export async function getPostsBySeriesSlug(slug: string): Promise<PostSummary[]> {
   const { data } = await loadQuery<PostSummary[]>({
-    query: `*[_type == "post" && defined(slug.current) && publishedAt <= now() && !coalesce(seo.noIndex, false) && ($slug in relatedSeries[]->slug.current || series match $seriesTitle)] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
+    query: `*[_type == "post" && defined(slug.current) && status == "published" && publishedAt <= now() && !coalesce(seo.noIndex, false) && ($slug in relatedSeries[]->slug.current || series match $seriesTitle)] | order(publishedAt desc)${POST_CARD_PROJECTION}`,
     params: { slug, seriesTitle: slug.replace(/-/g, " ") },
     queryLabel: `posts by series (${slug})`,
   });

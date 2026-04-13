@@ -111,8 +111,9 @@
   position: relative;
   border-radius: clamp(14px, 1.6vw, 20px);
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
-              box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition:
+    transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 [data-theme="dark"] .caseSlide__frame {

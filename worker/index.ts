@@ -224,7 +224,9 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
     ).filter((repo): repo is NonNullable<typeof repo> => repo !== null);
 
     const body = JSON.stringify(results);
-    await env.CACHE.put(GITHUB_CACHE_KEY, body, { expirationTtl: GITHUB_CACHE_TTL });
+    await env.CACHE.put(GITHUB_CACHE_KEY, body, {
+      expirationTtl: GITHUB_CACHE_TTL,
+    });
 
     return new Response(body, {
       status: 200,
@@ -246,6 +248,25 @@ async function handleGitHubApi(request: Request, env: Env): Promise<Response> {
       },
     });
     console.error("[/api/github.json] Error:", err);
+
+    // Fallback: return stale KV cache if fresh fetch failed
+    try {
+      const stale = await env.CACHE.get(GITHUB_CACHE_KEY);
+      if (stale) {
+        return new Response(stale, {
+          status: 200,
+          headers: withCors(request, {
+            "Content-Type": "application/json",
+            "Cache-Control": "public, max-age=30, stale-while-revalidate=600",
+            "X-Cache": "STALE",
+            "X-Stale-Reason": "upstream-error",
+          }),
+        });
+      }
+    } catch {
+      // KV also failed — fall through to 500
+    }
+
     return new Response(JSON.stringify({ error: "Failed to load GitHub data" }), {
       status: 500,
       headers: withCors(request, { "Content-Type": "application/json" }),
@@ -273,7 +294,15 @@ export default Sentry.withSentry(
 
       // All static assets are served by the assets binding before reaching here.
       // If we get here, nothing matched — return 404.
-      return new Response("Not Found", { status: 404 });
+      const notFoundHeaders: Record<string, string> = {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+      };
+      return new Response("Not Found", {
+        status: 404,
+        headers: notFoundHeaders,
+      });
     },
   } satisfies ExportedHandler<Env>,
 );

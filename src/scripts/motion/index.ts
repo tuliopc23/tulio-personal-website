@@ -18,10 +18,7 @@ import { isReducedMotion, onReducedMotionChange } from "./reduced-motion";
 import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
 import { cleanupCaseCarousel, initCaseCarousel } from "./case-carousel";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
-import {
-  cleanupViewportScrollRefresh,
-  initViewportScrollRefresh,
-} from "./scroll-trigger-refresh";
+import { cleanupViewportScrollRefresh, initViewportScrollRefresh } from "./scroll-trigger-refresh";
 
 /* ── Lifecycle ──────────────────────────────────────────────── */
 
