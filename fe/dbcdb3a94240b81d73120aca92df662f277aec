@@ -1,0 +1,23 @@
+.gitignore
+  e2ac1b2b4f7916a7 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "fedbcdb3a94240b81d73120aca92df662f277aec",
+  "prompts": {
+    "e2ac1b2b4f7916a7": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c137e1e-3351-44d2-883f-1b047a7273bc",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 0,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
