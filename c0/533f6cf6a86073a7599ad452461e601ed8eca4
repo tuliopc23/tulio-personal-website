@@ -1,0 +1,35 @@
+worker/index.ts
+  276c7f335ed212a7 227-229,251-269,297-305
+src/components/BrandLogo.module.css
+  276c7f335ed212a7 59-60,70,75
+src/components/PhosphorIcon.astro
+  276c7f335ed212a7 37,70,77,80-81,101,108-112
+src/sanity/lib/posts.ts
+  276c7f335ed212a7 302,310,319,329,342,351,368,410
+src/sanity/lib/editorial.ts
+  276c7f335ed212a7 123,152
+src/pages/index.astro
+  276c7f335ed212a7 13,176-194,202-203
+AGENTS.md
+  276c7f335ed212a7 19,77,89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "c0533f6cf6a86073a7599ad452461e601ed8eca4",
+  "prompts": {
+    "276c7f335ed212a7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_27b8e3dc8ffeUd1ZVt1BR8eL47",
+        "model": "opencode-go/glm-5.1"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 168,
+      "total_deletions": 4872,
+      "accepted_lines": 91,
+      "overriden_lines": 18
+    }
+  }
+}
