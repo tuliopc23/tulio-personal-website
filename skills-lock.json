@@ -1,20 +1,75 @@
 {
   "version": 1,
   "skills": {
+    "Hot Reloading for Chrome Extensions": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "8c63deaadf8de0b0c3d030ab553b8a6122325ca44bc3e6e948ca6416acfc3a93"
+    },
     "astro": {
       "source": "astrolicious/agent-skills",
       "sourceType": "github",
       "computedHash": "ebefe26b231d32379c14e41a46c2de7b4b0184543bedab7febdabe4fb21fba4e"
+    },
+    "buildless-types": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "995ff14a32cb5c4be2694d6445a7f9864371277afbbd9b7d58f4229c5c007d07"
+    },
+    "code-simplifier-gemini-cli": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "a970963cd34db320087c8e13b3e61b2c988fc3aae93ef6fe7cc68e4e8c98fa8d"
+    },
+    "content-experimentation-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "97c7d16a8a93362feb82ae569b5cf84e02845a2fb17d9a8cd528b96d76f304d3"
+    },
+    "content-modeling-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "9f0c62274cf8ccf41dd32fc2f2629f4c9a8e5a920826f30c2eb226d7e796b031"
+    },
+    "create-gemini-cli-subagents": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "2b66d3b4028975801202dd82fc56b58a5de8b5bc6e7e4f6bfd209a955375af50"
     },
     "modern-css": {
       "source": "paulirish/dotfiles",
       "sourceType": "github",
       "computedHash": "04b1fd69e3c088949827e7c2af748402b2b7f798fc8742e9a7315ed506b161cc"
     },
+    "npm-trusted-publishing": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "6d2f0c9d53004225cee4a2941b8ec1709524304e28ee8635a1e3e49d4a3a6266"
+    },
+    "pauls-project-setup": {
+      "source": "paulirish/dotfiles",
+      "sourceType": "github",
+      "computedHash": "f0e566d856ef2946dd25fcad4d6c32ec6063a6130155b5f74b9ed4f66c8934c1"
+    },
+    "portable-text-conversion": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "7c6ca2fc2ecb2d802deefeb6385ec121197d3fc6eff0da8f32eaeee74ba432ac"
+    },
+    "portable-text-serialization": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "a4cec92378298c8ef502bf9698112f054d86fc03e814257fa07d6aaac12b9376"
+    },
     "sanity-best-practices": {
       "source": "sanity-io/agent-toolkit",
       "sourceType": "github",
-      "computedHash": "462e01667b4f0a10d4f8cceb8c328131bce5413b004db7685e8a065b538c8112"
+      "computedHash": "cc5b4bd65ddd554c2ba2faf14f11858e59b48f6e600c578551cc58cc81b3e084"
+    },
+    "seo-aeo-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "computedHash": "edb99db85683ff99678fcb1bebc3a5653c3ea927eea9ee2534f19be86c7b8b81"
     }
   }
 }
