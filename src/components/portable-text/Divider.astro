@@ -7,8 +7,8 @@ interface Props {
   };
 }
 
-const { value } = Astro.props;
-const _style = value.style || "line";
+const input = (Astro.props.value ?? Astro.props) as Partial<Props["value"]>;
+const _style = input.style ?? "line";
 ---
 
 <div class={styles.divider} role="separator" aria-hidden="true">

@@ -44,7 +44,19 @@ export default defineConfig({
       es2024: true,
       node: true,
     },
-    ignorePatterns: ["dist/**", "node_modules/**", ".astro/**", "**/*.astro"],
+    ignorePatterns: [
+      "dist/**",
+      "node_modules/**",
+      ".astro/**",
+      "**/*.astro",
+      // Local agent skill mirrors (not part of the app; avoid lint noise)
+      "skills/**",
+      ".bob/**",
+      ".iflow/**",
+      ".kode/**",
+      ".mcpjam/**",
+      ".qwen/**",
+    ],
     rules: {
       "constructor-super": "error",
       "for-direction": "error",

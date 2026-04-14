@@ -33,10 +33,14 @@ async function submit(form: HTMLFormElement) {
     | { ok: false; error?: string }
     | null;
 
-  if (!res.ok || !json || (json as any).ok !== true) {
+  if (!res.ok || !json) {
+    setStatus(form, "Something went wrong. Please try again.", "error");
+    return;
+  }
+
+  if (json.ok !== true) {
     const message =
-      (json && "error" in json && typeof json.error === "string" && json.error) ||
-      "Something went wrong. Please try again.";
+      (typeof json.error === "string" && json.error) || "Something went wrong. Please try again.";
     setStatus(form, message, "error");
     return;
   }
@@ -45,9 +49,11 @@ async function submit(form: HTMLFormElement) {
   setStatus(form, json.message ?? "Check your inbox to confirm your subscription.", "success");
 }
 
+const newsletterFormsWired = new WeakMap<HTMLFormElement, true>();
+
 function wireUp(form: HTMLFormElement) {
-  if ((form as any).__newsletterBound) return;
-  (form as any).__newsletterBound = true;
+  if (newsletterFormsWired.has(form)) return;
+  newsletterFormsWired.set(form, true);
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();

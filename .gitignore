@@ -43,6 +43,14 @@ Sf fonts/
 CLAUDE.md
 openspec/AGENTS.md
 
+# Local agent skill mirrors at repo root (do not version)
+skills/
+.bob/
+.iflow/
+.kode/
+.mcpjam/
+.qwen/
+
 # Additional local agent skill caches (do not version)
 .adal/
 .augment/
