@@ -35,6 +35,24 @@ const previewUrl =
   "https://www.tuliocunha.dev";
 const geminiApiEndpoint = import.meta.env.SANITY_STUDIO_GEMINI_API_ENDPOINT;
 
+const truthy = (value: string | boolean | undefined) =>
+  value === true || value === "true" || value === "1";
+
+/** Lighter Studio: drops presentation, editorial home tool, canvas, tasks/releases/scheduled drafts/media library. */
+const studioMinimal = truthy(import.meta.env.SANITY_STUDIO_MINIMAL);
+
+/** Emergency off-switch for @sanity/assist field actions (Editorial AI menu). */
+const studioDisableAssist = truthy(import.meta.env.SANITY_STUDIO_DISABLE_ASSIST);
+
+const basePlugins = [
+  structureTool({ structure }),
+  ...(studioMinimal ? [] : [presentationTool({ resolve, previewUrl })]),
+  codeInput(),
+  markdownSchema(),
+  ...(studioDisableAssist ? [] : [postAssistPlugin]),
+  ...(geminiApiEndpoint ? [geminiAIImages({ apiEndpoint: geminiApiEndpoint })] : []),
+];
+
 export default defineConfig({
   name: "tulio-personal-website",
   title: "Tulio's Blog",
@@ -46,15 +64,8 @@ export default defineConfig({
       navbar: StudioNavbar,
     },
   },
-  plugins: [
-    structureTool({ structure }),
-    presentationTool({ resolve, previewUrl }),
-    codeInput(),
-    markdownSchema(),
-    postAssistPlugin,
-    ...(geminiApiEndpoint ? [geminiAIImages({ apiEndpoint: geminiApiEndpoint })] : []),
-  ],
-  tools: (prev) => [editorialHomeTool, ...prev],
+  plugins: basePlugins,
+  tools: (prev) => (studioMinimal ? prev : [editorialHomeTool, ...prev]),
   schema: {
     types: schemaTypes,
     templates: (prev) => [
@@ -98,20 +109,20 @@ export default defineConfig({
   },
   apps: {
     canvas: {
-      enabled: true,
+      enabled: !studioMinimal,
     },
   },
   tasks: {
-    enabled: true,
+    enabled: !studioMinimal,
   },
   releases: {
-    enabled: true,
+    enabled: !studioMinimal,
   },
   scheduledDrafts: {
-    enabled: true,
+    enabled: !studioMinimal,
   },
   mediaLibrary: {
-    enabled: true,
+    enabled: !studioMinimal,
   },
   document: {
     actions: (prev, context) => {

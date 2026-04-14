@@ -5,7 +5,7 @@ import {
   defineAssistFieldActionGroup,
 } from "@sanity/assist";
 import { SparklesIcon } from "@sanity/icons";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { pathToString, useWorkspace } from "sanity";
 
 const POST_FIELD_INSTRUCTIONS: Record<
@@ -111,13 +111,22 @@ Review this article and write a compact refresh summary.
   },
 };
 
+const ASSIST_API_VERSION = "2025-02-19";
+
 export function usePostAssistFieldActions(props: AssistFieldActionProps) {
   const workspace = useWorkspace();
-  const client = useMemo(() => workspace.getClient({ apiVersion: "2025-02-19" }), [workspace]);
+  const workspaceRef = useRef(workspace);
+  workspaceRef.current = workspace;
+
+  const propsRef = useRef(props);
+  propsRef.current = props;
+
   const pathKey = pathToString(props.path);
+  const documentSchemaName = props.documentSchemaType.name;
+  const actionType = props.actionType;
 
   return useMemo(() => {
-    if (props.documentSchemaType.name !== "post" || props.actionType !== "field") {
+    if (documentSchemaName !== "post" || actionType !== "field") {
       return [];
     }
 
@@ -135,23 +144,25 @@ export function usePostAssistFieldActions(props: AssistFieldActionProps) {
             title: config.title,
             icon: SparklesIcon,
             onAction: async () => {
+              const latest = propsRef.current;
+              const client = workspaceRef.current.getClient({ apiVersion: ASSIST_API_VERSION });
               await client.agent.action.generate({
-                schemaId: props.schemaId,
+                schemaId: latest.schemaId,
                 targetDocument: {
                   operation: "createIfNotExists",
-                  _id: props.documentIdForAction,
-                  _type: props.documentSchemaType.name,
-                  initialValues: props.getDocumentValue(),
+                  _id: latest.documentIdForAction,
+                  _type: latest.documentSchemaType.name,
+                  initialValues: latest.getDocumentValue(),
                 },
                 instruction: config.instruction,
                 instructionParams: {
                   doc: { type: "document" },
                 },
                 target: {
-                  path: props.path,
+                  path: latest.path,
                 },
                 conditionalPaths: {
-                  paths: props.getConditionalPaths(),
+                  paths: latest.getConditionalPaths(),
                 },
               });
             },
@@ -159,7 +170,7 @@ export function usePostAssistFieldActions(props: AssistFieldActionProps) {
         ],
       }),
     ];
-  }, [client, pathKey, props]);
+  }, [pathKey, documentSchemaName, actionType]);
 }
 
 export const postAssistPlugin = assist({

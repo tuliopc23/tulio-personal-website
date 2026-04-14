@@ -25,27 +25,17 @@
   --studio-light-text: rgba(34, 48, 88, 0.7);
 }
 
+/* Solid studio shell (avoids heavy compositing / backdrop-filter during editing). */
 html[data-theme="dark"] {
-  background:
-    radial-gradient(140% 120% at 18% 0%, rgba(93, 95, 115, 0.16) 0%, transparent 52%),
-    radial-gradient(140% 120% at 82% 8%, rgba(13, 138, 255, 0.12) 0%, transparent 56%),
-    linear-gradient(180deg, #050506 0%, #0a0c11 100%);
+  background: linear-gradient(180deg, #050506 0%, #0a0c11 100%);
 }
 
 html[data-theme="light"] {
-  background:
-    radial-gradient(140% 120% at 18% 0%, rgba(117, 164, 255, 0.18) 0%, transparent 54%),
-    radial-gradient(140% 120% at 82% 10%, rgba(119, 211, 255, 0.12) 0%, transparent 56%),
-    linear-gradient(180deg, #f7f8fc 0%, #edf1f8 100%);
+  background: linear-gradient(180deg, #f7f8fc 0%, #edf1f8 100%);
 }
 
 body {
   background: transparent;
-}
-
-[data-ui="Navbar"] {
-  backdrop-filter: saturate(150%) blur(20px);
-  -webkit-backdrop-filter: saturate(150%) blur(20px);
 }
 
 html[data-theme="dark"] [data-ui="Navbar"] {
@@ -128,13 +118,6 @@ html[data-theme="dark"] [data-ui="TabList"] [data-ui="Tab"][aria-selected="true"
 
 html[data-theme="light"] [data-ui="TabList"] [data-ui="Tab"][aria-selected="true"] {
   background: rgba(13, 138, 255, 0.12);
-}
-
-[data-ui="Menu"],
-[data-ui="Popover"],
-[data-ui="Dialog"] {
-  backdrop-filter: saturate(150%) blur(18px);
-  -webkit-backdrop-filter: saturate(150%) blur(18px);
 }
 
 html[data-theme="dark"] [data-ui="Menu"],
@@ -232,10 +215,6 @@ html[data-theme="light"] [data-testid="document-header"] {
   letter-spacing: -0.01em;
 }
 
-.editorialInputHint {
-  backdrop-filter: blur(14px);
-}
-
 .editorialHome__hero,
 .editorialHome__panel,
 .editorialHome__metric {
@@ -315,23 +294,11 @@ html[data-theme="light"] [data-testid="document-header"] {
 }
 
 .editorialHome__hero {
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--studio-accent) 18%, transparent),
-      transparent 58%
-    ),
-    color-mix(in srgb, var(--card-bg-color, white) 92%, white 8%);
+  background: color-mix(in srgb, var(--card-bg-color, white) 92%, white 8%);
 }
 
 html[data-theme="dark"] .editorialHome__hero {
-  background:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--studio-accent) 22%, transparent),
-      transparent 58%
-    ),
-    color-mix(in srgb, var(--card-bg-color, #101114) 94%, black 6%);
+  background: color-mix(in srgb, var(--card-bg-color, #101114) 94%, black 6%);
 }
 
 @media (max-width: 900px) {
