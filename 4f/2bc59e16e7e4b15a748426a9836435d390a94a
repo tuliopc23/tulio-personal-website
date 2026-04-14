@@ -1,0 +1,23 @@
+scripts/update-apple-dx-post-hero.mjs
+  a87dc7e1b5618963 5-8,102-107,113-150,153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "4f2bc59e16e7e4b15a748426a9836435d390a94a",
+  "prompts": {
+    "a87dc7e1b5618963": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5936be64-ceac-4983-992e-22c495c8b398",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 51,
+      "total_deletions": 21,
+      "accepted_lines": 51,
+      "overriden_lines": 0
+    }
+  }
+}
