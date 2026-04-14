@@ -2,6 +2,10 @@
  * Optimize repo-root image.png → WebP hero + OG crop, write to public/, upload to Sanity,
  * and patch post-apple-dev-tooling-april-2026 hero + social images.
  *
+ * Patches both the published id and drafts.<id> when a draft exists. Studio
+ * edits the draft layer; updating only the published doc leaves the old hero
+ * until the next full publish, so the site can miss the new image in GROQ.
+ *
  * Run from repo root: node scripts/update-apple-dx-post-hero.mjs
  * Requires: image.png at repo root, SANITY_API_WRITE_TOKEN, sharp.
  */
@@ -95,32 +99,58 @@ async function main() {
     contentType: "image/webp",
   });
 
-  const doc = await client.getDocument(POST_ID);
+  const draftId = `drafts.${POST_ID}`;
+  const [doc, draftDoc] = await Promise.all([
+    client.getDocument(POST_ID),
+    client.getDocument(draftId),
+  ]);
+
   if (!doc || doc._type !== "post") {
     console.error("Post not found:", POST_ID);
     process.exit(1);
   }
 
-  const seo = { ...doc.seo, _type: "seo" };
+  const heroImage = {
+    _type: "image",
+    asset: { _type: "reference", _ref: heroAsset._id },
+    alt: HERO_ALT,
+  };
 
-  await client
-    .patch(POST_ID)
-    .set({
-      heroImage: {
-        _type: "image",
-        asset: { _type: "reference", _ref: heroAsset._id },
-        alt: HERO_ALT,
-      },
-      seo: {
-        ...seo,
-        socialImage: {
-          _type: "image",
-          asset: { _type: "reference", _ref: ogAsset._id },
-          alt: OG_ALT,
-        },
-      },
-    })
-    .commit();
+  const socialImage = {
+    _type: "image",
+    asset: { _type: "reference", _ref: ogAsset._id },
+    alt: OG_ALT,
+  };
+
+  /** @param {Record<string, unknown> | undefined} base */
+  function seoWithSocial(base) {
+    const prev = base && typeof base === "object" ? base : {};
+    return {
+      ...prev,
+      _type: "seo",
+      socialImage,
+    };
+  }
+
+  let tx = client.transaction();
+  tx = tx.patch(POST_ID, (p) =>
+    p.set({
+      heroImage,
+      seo: seoWithSocial(doc.seo),
+    }),
+  );
+
+  if (draftDoc && draftDoc._type === "post") {
+    tx = tx.patch(draftId, (p) =>
+      p.set({
+        heroImage,
+        seo: seoWithSocial(draftDoc.seo),
+      }),
+    );
+    console.log("Also patching draft:", draftId);
+  }
+
+  await tx.commit();
 
   console.log("Sanity post patched:", POST_ID);
   console.log("Hero asset:", heroAsset._id);
