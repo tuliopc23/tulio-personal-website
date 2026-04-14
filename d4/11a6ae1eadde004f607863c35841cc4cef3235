@@ -1,0 +1,29 @@
+src/sanity/studio.css
+  a87dc7e1b5618963 28,30,34,297,301
+.env.example
+  a87dc7e1b5618963 15-18
+sanity.config.ts
+  a87dc7e1b5618963 38-55,67-68,112,116,119,122,125
+src/sanity/components/PostAssistFieldActions.tsx
+  a87dc7e1b5618963 8,114-115,118-123,125-126,129,147-148,150,153-155,162,165,173
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "d411a6ae1eadde004f607863c35841cc4cef3235",
+  "prompts": {
+    "a87dc7e1b5618963": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5936be64-ceac-4983-992e-22c495c8b398",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 61,
+      "total_deletions": 69,
+      "accepted_lines": 55,
+      "overriden_lines": 0
+    }
+  }
+}
