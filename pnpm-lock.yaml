@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  remotion: 4.0.450
+  '@remotion/player>remotion': 4.0.450
+
 importers:
 
   .:
@@ -114,7 +118,7 @@ importers:
         specifier: ^19.2.5
         version: 19.2.5(react@19.2.5)
       remotion:
-        specifier: ^4.0.450
+        specifier: 4.0.450
         version: 4.0.450(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       resend:
         specifier: ^6.12.2
@@ -6532,12 +6536,6 @@ packages:
   remeda@2.33.7:
     resolution: {integrity: sha512-cXlyjevWx5AcslOUEETG4o8XYi9UkoCXcJmj7XhPFVbla+ITuOBxv6ijBrmbeg+ZhzmDThkNdO+iXKUfrJep1w==}
 
-  remotion@4.0.449:
-    resolution: {integrity: sha512-8M2PO5rDm0sJ4CnkjVMJFbz504WPlRg8Q/eU4ND6/nubBXAHVB8LwpehukZ/3tXuDF2Wd7pneL2E137EJjxSrg==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   remotion@4.0.450:
     resolution: {integrity: sha512-GKP6H6gz/nydnFe52hHg5a0wccPNZmYJ9CuuPaWHse5ooD+tu9Cjoh+35xK0iwJf0VZOFYGCyh83lVp0tuuU5A==}
     peerDependencies:
@@ -10563,7 +10561,7 @@ snapshots:
     dependencies:
       react: 19.2.5
       react-dom: 19.2.5(react@19.2.5)
-      remotion: 4.0.449(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      remotion: 4.0.450(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
 
   '@rexxars/jiti@2.6.2': {}
 
@@ -15201,11 +15199,6 @@ snapshots:
       unified: 11.0.5
 
   remeda@2.33.7: {}
-
-  remotion@4.0.449(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
-    dependencies:
-      react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
 
   remotion@4.0.450(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
     dependencies:

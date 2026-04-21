@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import styles from "./contact.module.css";
-import contactFormScriptHref from "../scripts/contact-form.ts?url";
 
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/contact/", siteOrigin).toString();
@@ -112,5 +111,7 @@ const structuredData = {
     </section>
   </div>
 
-  <script is:inline type="module" src={contactFormScriptHref}></script>
+  <script is:inline type="module">
+    import "../scripts/contact-form";
+  </script>
 </Base>

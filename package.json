@@ -110,9 +110,14 @@
   },
   "packageManager": "pnpm@9.15.9",
   "overrides": {
-    "vite": "^7"
+    "vite": "^7",
+    "remotion": "4.0.450"
   },
   "pnpm": {
+    "overrides": {
+      "remotion": "4.0.450",
+      "@remotion/player>remotion": "4.0.450"
+    },
     "onlyBuiltDependencies": [
       "@sentry/cli",
       "esbuild",

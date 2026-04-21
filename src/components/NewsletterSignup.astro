@@ -1,6 +1,5 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
-import newsletterFormScriptHref from "../scripts/newsletter-form.ts?url";
 
 interface Props {
   variant?: "compact" | "panel";
@@ -72,7 +71,9 @@ const classes =
     <p class="newsletterSignup__status" data-newsletter-status aria-live="polite" role="status"></p>
   </form>
 
-  <script is:inline type="module" src={newsletterFormScriptHref}></script>
+  <script is:inline type="module">
+    import "../scripts/newsletter-form";
+  </script>
 </section>
 
 <style>
