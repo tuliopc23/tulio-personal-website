@@ -1,0 +1,27 @@
+src/pages/contact.astro
+  6afc9a0cd97cecf8 114-116
+src/components/NewsletterSignup.astro
+  6afc9a0cd97cecf8 74-76
+package.json
+  6afc9a0cd97cecf8 113-114,117-120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "160f413c9c0e9421ab94fb952ce7e7e34a113e4d",
+  "prompts": {
+    "6afc9a0cd97cecf8": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5dfc7916-5663-4cc4-ab73-f668e680818b",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 12,
+      "total_deletions": 5,
+      "accepted_lines": 12,
+      "overriden_lines": 0
+    }
+  }
+}
