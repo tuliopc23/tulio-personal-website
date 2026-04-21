@@ -264,22 +264,11 @@ const visualEditingEnabled =
     <!-- Theme script must run BEFORE CSS to prevent FOUC -->
     <script is:inline>
       (() => {
-        const STORAGE_KEY = "theme-override";
-        const readStoredTheme = () => {
-          try {
-            const value = localStorage.getItem(STORAGE_KEY);
-            return value === "light" || value === "dark" ? value : null;
-          } catch {
-            return null;
-          }
-        };
-
-        const stored = readStoredTheme();
         const root = document.documentElement;
 
         const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
         const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const initialTheme = stored ?? (prefersLight ? "light" : "dark");
+        const initialTheme = prefersLight ? "light" : "dark";
 
         root.setAttribute("data-theme", initialTheme);
         if (initialTheme === "light") {

@@ -43,7 +43,11 @@ const { size = 24, class: className = "" } = Astro.props;
       }
       button.dataset.themeToggleBound = "true";
       button.addEventListener("click", () => {
-        window.themeController.toggleTheme({ persist: true });
+        const getPreference = window.themeController.getPreference;
+        const setPreference = window.themeController.setPreference;
+        const pref = getPreference();
+        const next = pref === "system" ? "dark" : pref === "dark" ? "light" : "system";
+        setPreference(next, { persist: false });
       });
     });
   };

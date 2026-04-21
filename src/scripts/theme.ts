@@ -1,9 +1,9 @@
 const isBrowser = typeof window !== "undefined";
-const THEME_OVERRIDE_KEY = "theme-override";
 
 export {};
 
 type ThemeMode = "light" | "dark";
+type ThemePreference = "system" | ThemeMode;
 interface ThemeOptions {
   persist?: boolean;
 }
@@ -17,6 +17,9 @@ declare global {
       getTheme: () => ThemeMode;
       toggleTheme: (options?: ThemeOptions) => void;
       setTheme: (theme: ThemeMode, options?: ThemeOptions) => void;
+      getPreference: () => ThemePreference;
+      setPreference: (preference: ThemePreference, options?: ThemeOptions) => void;
+      setSystem: (options?: ThemeOptions) => void;
       subscribe: (listener: (theme: ThemeMode) => void) => () => void;
       prefersReducedMotion: () => boolean;
       subscribeMotionPreference: (listener: (reduced: boolean) => void) => () => void;
@@ -28,7 +31,7 @@ declare global {
 class ThemeController {
   private initialized = false;
   private current: ThemeMode = "dark";
-  private stored: ThemeMode | null = null;
+  private preference: ThemePreference = "system";
   private listeners = new Set<(theme: ThemeMode) => void>();
   private motionListeners = new Set<(reduced: boolean) => void>();
   private mediaQuery: MediaQueryList | null = null;
@@ -45,12 +48,12 @@ class ThemeController {
     this.reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     this.applyMotionPreference(this.reduceMotionQuery.matches);
 
-    this.stored = this.readStoredTheme();
+    this.preference = "system";
     const resolved = this.resolveInitialTheme();
     this.applyTheme(resolved);
 
     const handleMediaChange = (event: MediaQueryListEvent): void => {
-      if (this.stored) {
+      if (this.preference !== "system") {
         return;
       }
       this.applyTheme(event.matches ? "light" : "dark");
@@ -73,6 +76,10 @@ class ThemeController {
 
   getTheme(): ThemeMode {
     return this.current;
+  }
+
+  getPreference(): ThemePreference {
+    return this.preference;
   }
 
   prefersReducedMotion(): boolean {
@@ -114,19 +121,38 @@ class ThemeController {
   }
 
   toggleTheme(options: ThemeOptions = {}): void {
-    const next: ThemeMode = this.current === "light" ? "dark" : "light";
-    this.setTheme(next, options);
+    const next = this.nextPreferenceFromToggle();
+    this.setPreference(next, options);
   }
 
   setTheme(theme: ThemeMode, options: ThemeOptions = {}): void {
-    const persist = options.persist ?? true;
     if (!this.initialized) {
       this.init();
     }
-    this.applyTheme(theme, persist);
+
+    this.setPreference(theme, { persist: false, ...options });
   }
 
-  private applyTheme(theme: ThemeMode, persist = false): void {
+  setPreference(preference: ThemePreference, options: ThemeOptions = {}): void {
+    if (!this.initialized) {
+      this.init();
+    }
+
+    const nextPref: ThemePreference =
+      preference === "light" || preference === "dark" || preference === "system"
+        ? preference
+        : "system";
+
+    this.preference = nextPref;
+    const resolvedTheme = this.resolveThemeFromPreference(nextPref);
+    this.applyTheme(resolvedTheme);
+  }
+
+  setSystem(options: ThemeOptions = {}): void {
+    this.setPreference("system", options);
+  }
+
+  private applyTheme(theme: ThemeMode): void {
     if (!isBrowser) {
       return;
     }
@@ -154,11 +180,6 @@ class ThemeController {
     }
 
     this.current = next;
-
-    if (persist) {
-      this.stored = next;
-      this.persistTheme(next);
-    }
 
     this.clearThemeTransition();
     if (!this.prefersReducedMotion()) {
@@ -205,45 +226,41 @@ class ThemeController {
   private resolveInitialTheme(): ThemeMode {
     const root = document.documentElement;
 
-    if (this.stored === "light" || this.stored === "dark") {
-      return this.stored;
+    if (this.preference === "light" || this.preference === "dark") {
+      return this.preference;
     }
 
-    if (this.mediaQuery?.matches) {
-      return "light";
-    }
-
-    if (this.mediaQuery) {
-      return "dark";
+    if (this.preference === "system") {
+      if (this.mediaQuery?.matches) {
+        return "light";
+      }
+      if (this.mediaQuery) {
+        return "dark";
+      }
     }
 
     const htmlTheme = root.getAttribute("data-theme");
     return htmlTheme === "light" ? "light" : "dark";
   }
 
-  private readStoredTheme(): ThemeMode | null {
-    if (!isBrowser) {
-      return null;
+  private resolveThemeFromPreference(preference: ThemePreference): ThemeMode {
+    if (preference === "light" || preference === "dark") {
+      return preference;
     }
 
-    try {
-      const value = window.localStorage.getItem(THEME_OVERRIDE_KEY);
-      return value === "light" || value === "dark" ? value : null;
-    } catch {
-      return null;
+    if (this.mediaQuery?.matches) {
+      return "light";
     }
+
+    return "dark";
   }
 
-  private persistTheme(theme: ThemeMode): void {
-    if (!isBrowser) {
-      return;
+  private nextPreferenceFromToggle(): ThemePreference {
+    if (this.preference === "system") {
+      return this.current === "dark" ? "light" : "dark";
     }
 
-    try {
-      window.localStorage.setItem(THEME_OVERRIDE_KEY, theme);
-    } catch {
-      // ignore storage errors
-    }
+    return this.preference === "light" ? "dark" : "light";
   }
 }
 
@@ -268,8 +285,8 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   button.dataset.themeToggleBound = "true";
 
   const getTheme = window.themeController.getTheme;
-  const setTheme = window.themeController.setTheme;
-  const toggleTheme = window.themeController.toggleTheme;
+  const getPreference = window.themeController.getPreference;
+  const setPreference = window.themeController.setPreference;
   const prefersReducedMotion = window.themeController.prefersReducedMotion;
   const subscribeToTheme = window.themeController.subscribe;
   const subscribeToMotionPreference = window.themeController.subscribeMotionPreference;
@@ -302,6 +319,11 @@ const initLiquidThemeToggle = (root: Element | null): void => {
 
   const updateFromTheme = (theme: ThemeMode): void => {
     button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+    const preference = getPreference();
+    button.dataset.themePreference = preference;
+    const preferenceLabel =
+      preference === "system" ? "System" : preference === "dark" ? "Dark" : "Light";
+    button.setAttribute("aria-label", `Theme: ${preferenceLabel}`);
     if (pointerMode === "drag") {
       return;
     }
@@ -396,7 +418,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
 
     if (wasDrag) {
       skipClick = true;
-      setTheme(targetTheme, { persist: true });
+      setPreference(targetTheme, { persist: true });
       return;
     }
 
@@ -419,7 +441,14 @@ const initLiquidThemeToggle = (root: Element | null): void => {
       return;
     }
 
-    toggleTheme({ persist: true });
+    const cycle = (): ThemePreference => {
+      const pref = getPreference();
+      if (pref === "system") return "dark";
+      if (pref === "dark") return "light";
+      return "system";
+    };
+
+    setPreference(cycle(), { persist: true });
   };
 
   const handleKeyDown = (event: KeyboardEvent): void => {
@@ -434,7 +463,15 @@ const initLiquidThemeToggle = (root: Element | null): void => {
     }
     event.preventDefault();
     skipClick = true;
-    toggleTheme({ persist: true });
+
+    const cycle = (): ThemePreference => {
+      const pref = getPreference();
+      if (pref === "system") return "dark";
+      if (pref === "dark") return "light";
+      return "system";
+    };
+
+    setPreference(cycle(), { persist: true });
   };
 
   button.addEventListener("pointerdown", handlePointerDown);
@@ -449,6 +486,7 @@ const initLiquidThemeToggle = (root: Element | null): void => {
   subscribeToTheme(updateFromTheme);
 
   setComplete(themeToComplete(getTheme()), true);
+  button.dataset.themePreference = getPreference();
 };
 
 const initializeTheme = (): void => {
@@ -468,6 +506,10 @@ const initializeTheme = (): void => {
     toggleTheme: (options?: ThemeOptions): void => controller.toggleTheme(options ?? {}),
     setTheme: (theme: ThemeMode, options?: ThemeOptions): void =>
       controller.setTheme(theme, options ?? {}),
+    getPreference: (): ThemePreference => controller.getPreference(),
+    setPreference: (preference: ThemePreference, options?: ThemeOptions): void =>
+      controller.setPreference(preference, options ?? {}),
+    setSystem: (options?: ThemeOptions): void => controller.setSystem(options ?? {}),
     subscribe: (listener: (theme: ThemeMode) => void): (() => void) =>
       controller.subscribe(listener),
     prefersReducedMotion: (): boolean => controller.prefersReducedMotion(),

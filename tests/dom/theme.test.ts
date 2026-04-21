@@ -21,29 +21,28 @@ const dispatchPointer = (
 };
 
 describe("theme controller script", () => {
-  test("initializes using stored theme and updates document state", async () => {
+  test("initializes using system theme and updates document state", async () => {
     installAnimationStubs();
     installMatchMediaStub({ light: true, reducedMotion: false });
     installStorageStub();
 
     document.head.innerHTML =
       '<link rel="icon" href="/brand-icon-light.png"><meta id="theme-color-meta" content="#f6f7fb">';
-    localStorage.setItem("theme-override", "dark");
     vi.resetModules();
 
     await import("../../src/scripts/theme");
 
-    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-    expect(document.documentElement.classList.contains("dark")).toBe(true);
+    expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+    expect(document.documentElement.classList.contains("light")).toBe(true);
     expect((document.querySelector('link[rel="icon"]') as HTMLLinkElement).href).toContain(
-      "/brand-icon-dark.png",
+      "/brand-icon-light.png",
     );
   });
 
-  test("toggles theme, persists it, and reacts to media preference changes", async () => {
+  test("toggles theme without persistence, and can return to system sync", async () => {
     installAnimationStubs();
     const media = installMatchMediaStub({ light: false, reducedMotion: false });
-    const { local } = installStorageStub();
+    installStorageStub();
 
     document.head.innerHTML =
       '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
@@ -53,13 +52,23 @@ describe("theme controller script", () => {
     await import("../../src/scripts/theme");
 
     expect(window.themeController?.getTheme()).toBe("dark");
-    window.themeController?.toggleTheme({ persist: true });
+    window.themeController?.toggleTheme({ persist: false });
     expect(window.themeController?.getTheme()).toBe("light");
-    expect(local.setItem).toHaveBeenCalledWith("theme-override", "light");
+    expect(window.themeController?.getPreference()).toBe("light");
     expect(document.documentElement.classList.contains("theme-transition")).toBe(true);
 
     vi.runAllTimers();
     expect(document.documentElement.classList.contains("theme-transition")).toBe(false);
+
+    // While explicitly overridden, OS changes should not affect the theme.
+    media.setMatches("(prefers-color-scheme: light)", false);
+    expect(window.themeController?.getTheme()).toBe("light");
+
+    window.themeController?.setSystem({ persist: false });
+    expect(window.themeController?.getPreference()).toBe("system");
+    expect(window.themeController?.getTheme()).toBe("dark");
+    media.setMatches("(prefers-color-scheme: light)", true);
+    expect(window.themeController?.getTheme()).toBe("light");
 
     const listener = vi.fn();
     const unsubscribe = window.themeController?.subscribeMotionPreference(listener);
@@ -69,7 +78,7 @@ describe("theme controller script", () => {
     unsubscribe?.();
   });
 
-  test("reacts to system theme changes when no override exists", async () => {
+  test("reacts to system theme changes when preference is system", async () => {
     installAnimationStubs();
     const media = installMatchMediaStub({ light: false, reducedMotion: false });
     installStorageStub();
@@ -81,6 +90,7 @@ describe("theme controller script", () => {
     await import("../../src/scripts/theme");
 
     expect(window.themeController?.getTheme()).toBe("dark");
+    expect(window.themeController?.getPreference()).toBe("system");
     media.setMatches("(prefers-color-scheme: light)", true);
     expect(window.themeController?.getTheme()).toBe("light");
   });
@@ -88,7 +98,7 @@ describe("theme controller script", () => {
   test("binds and drives the liquid toggle with click, keyboard, and drag", async () => {
     installAnimationStubs();
     installMatchMediaStub({ light: false, reducedMotion: false });
-    const { local } = installStorageStub();
+    installStorageStub();
 
     document.head.innerHTML =
       '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
@@ -110,7 +120,8 @@ describe("theme controller script", () => {
 
     expect(button.type).toBe("button");
     button.click();
-    expect(window.themeController?.getTheme()).toBe("light");
+    expect(window.themeController?.getPreference()).toBe("dark");
+    expect(window.themeController?.getTheme()).toBe("dark");
 
     button.dispatchEvent(
       new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
@@ -118,14 +129,15 @@ describe("theme controller script", () => {
     button.dispatchEvent(
       new KeyboardEvent("keyup", { key: "Enter", bubbles: true, cancelable: true }),
     );
-    expect(window.themeController?.getTheme()).toBe("dark");
+    expect(window.themeController?.getPreference()).toBe("light");
+    expect(window.themeController?.getTheme()).toBe("light");
 
     dispatchPointer(button, "pointerdown", { clientX: 10 });
     dispatchPointer(button, "pointermove", { clientX: 90 });
     dispatchPointer(button, "pointerup", { clientX: 90 });
+    expect(window.themeController?.getPreference()).toBe("dark");
     expect(window.themeController?.getTheme()).toBe("dark");
     expect(button.getAttribute("data-dragging")).toBe("false");
-    expect(local.setItem).toHaveBeenCalled();
 
     dispatchPointer(button, "pointercancel", { clientX: 20 });
     expect(button.style.getPropertyValue("--complete")).toBeTruthy();

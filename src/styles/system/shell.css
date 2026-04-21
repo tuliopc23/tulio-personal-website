@@ -1054,20 +1054,7 @@ body.is-search-open {
 :root[data-motion="reduced"] .liquidToggle {
   --thumb-scale: 1;
 }
-.liquidToggle[aria-pressed="true"] {
-  --liquid-highlight: color-mix(in srgb, var(--green) 68%, rgba(255, 255, 255, 0.18));
-}
-.liquidToggle[aria-pressed="true"] .liquidToggle__maskCore {
-  background: linear-gradient(
-    110deg,
-    rgba(255, 255, 255, 0.88),
-    color-mix(in srgb, var(--green) 68%, transparent) 70%,
-    rgba(255, 255, 255, 0.08)
-  );
-}
-.liquidToggle[aria-pressed="true"] .liquidToggle__thumbLiquid {
-  opacity: 0.9;
-}
+
 :root[data-theme="dark"] .liquidToggle {
   --liquid-track: var(--liquid-track-dark);
   --liquid-thumb-shadow: var(--liquid-thumb-shadow-dark);
@@ -1085,6 +1072,23 @@ body.is-search-open {
 }
 .topbar__actions .themeToggle--liquid {
   width: auto;
+}
+
+/* iOS-green "on" state (wins over theme defaults) */
+.liquidToggle[aria-pressed="true"] {
+  --liquid-track: color-mix(in srgb, var(--green) 42%, var(--liquid-track)) !important;
+  --liquid-highlight: color-mix(in srgb, var(--green) 68%, rgba(255, 255, 255, 0.18)) !important;
+}
+.liquidToggle[aria-pressed="true"] .liquidToggle__maskCore {
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.88),
+    color-mix(in srgb, var(--green) 68%, transparent) 70%,
+    rgba(255, 255, 255, 0.08)
+  );
+}
+.liquidToggle[aria-pressed="true"] .liquidToggle__thumbLiquid {
+  opacity: 0.9;
 }
 @media (max-width: 768px) {
   .liquidToggle {
