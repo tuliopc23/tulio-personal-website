@@ -30,7 +30,7 @@ function animateGitHubSection(): void {
   if (!section) return;
 
   const narrowViewport =
-    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+    typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches;
   const cardDuration = narrowViewport ? 0.58 : 0.68;
   const cardStagger = narrowViewport ? 0.06 : 0.08;
   const commitDuration = narrowViewport ? 0.48 : 0.56;

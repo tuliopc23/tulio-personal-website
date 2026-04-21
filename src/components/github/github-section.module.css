@@ -405,7 +405,7 @@
   gap: 0;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .commitList {
     max-height: calc(2 * 58px);
     overflow: hidden;
@@ -602,7 +602,7 @@
 }
 
 /* ═══════ Responsive — Mobile ═══════ */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .railTrack {
     display: flex;
     justify-content: flex-start;
@@ -909,7 +909,7 @@
   min-width: 0;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   :global(.ghLiveSkeleton__rail) {
     padding: clamp(16px, 3vw, 28px) clamp(16px, 3vw, 28px);
     margin-inline: calc(-1 * clamp(16px, 3vw, 28px));

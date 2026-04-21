@@ -33,6 +33,7 @@
   padding: var(--space-xs) var(--space-sm);
   min-height: max(52px, var(--touch-target-min, 44px));
   font: inherit;
+  font-size: max(1rem, var(--fs-0));
   transition: border-color var(--motion-duration-sm) var(--motion-ease-out);
 }
 
