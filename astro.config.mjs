@@ -77,8 +77,6 @@ export default defineConfig({
       "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
       "process.env": "{}",
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? "development"),
-      module: "{}",
-      exports: "{}",
     },
     optimizeDeps: {
       exclude: ["@keystatic/astro/internal/keystatic-api.js"],
