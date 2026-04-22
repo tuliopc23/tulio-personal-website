@@ -20,7 +20,7 @@ function createRedirectContext(url: string) {
 }
 
 describe("keystatic middleware", () => {
-  test("redirects keystatic requests to GitHub app creation when auth env is missing", async () => {
+  test("passes through keystatic page requests when auth env is missing", async () => {
     const next = vi.fn(async () => new Response("ok"));
 
     const response = await onRequest(
@@ -28,12 +28,12 @@ describe("keystatic middleware", () => {
       next,
     );
 
-    expect(response.status).toBe(303);
-    expect(response.headers.get("Location")).toBe("https://github.com/settings/apps/new");
-    expect(next).not.toHaveBeenCalled();
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe("ok");
+    expect(next).toHaveBeenCalledTimes(1);
   });
 
-  test("redirects keystatic api requests to GitHub app creation when auth env is missing", async () => {
+  test("normalizes keystatic api requests without a trailing slash", async () => {
     const next = vi.fn(async () => new Response("ok"));
 
     const response = await onRequest(
@@ -41,8 +41,8 @@ describe("keystatic middleware", () => {
       next,
     );
 
-    expect(response.status).toBe(303);
-    expect(response.headers.get("Location")).toBe("https://github.com/settings/apps/new");
+    expect(response.status).toBe(308);
+    expect(response.headers.get("Location")).toBe("/api/keystatic/github/login/");
     expect(next).not.toHaveBeenCalled();
   });
 });

@@ -40,52 +40,27 @@ function getKeystaticRuntimeEnv(
   }
 }
 
-function hasKeystaticGitHubAuth(context: Parameters<typeof defineMiddleware>[0]): boolean {
-  const runtimeEnv = getKeystaticRuntimeEnv(context);
-  const fallbackEnv = globalThis.process?.env as KeystaticRuntimeEnv | undefined;
-  const env = runtimeEnv ?? fallbackEnv;
-
-  return Boolean(
-    env?.KEYSTATIC_GITHUB_CLIENT_ID?.trim() &&
-      env?.KEYSTATIC_GITHUB_CLIENT_SECRET?.trim() &&
-      env?.KEYSTATIC_SECRET?.trim(),
-  );
-}
-
 function hydrateKeystaticProcessEnv(context: Parameters<typeof defineMiddleware>[0]): void {
   const runtimeEnv = getKeystaticRuntimeEnv(context);
-  if (!runtimeEnv) {
-    return;
-  }
+  const fallbackEnv = globalThis.process?.env as KeystaticRuntimeEnv | undefined;
+  const env = { ...fallbackEnv, ...runtimeEnv };
 
   globalThis.process ??= {};
   globalThis.process.env ??= {};
 
   for (const key of KEYSTATIC_ENV_KEYS) {
-    const value = runtimeEnv[key];
+    const value = env[key];
     if (typeof value === "string" && value.trim()) {
       globalThis.process.env[key] = value;
     }
   }
 }
 
-// Keystatic's GitHub auth endpoints can omit a trailing slash. When the GitHub
-// auth env vars are missing, route users straight to GitHub's app creation flow
-// instead of letting the admin render a broken setup screen.
+// Keystatic's GitHub auth endpoints can omit a trailing slash.
 export const onRequest = defineMiddleware(async (context, next) => {
   const pathname = context.url.pathname;
   const search = context.url.search;
   hydrateKeystaticProcessEnv(context);
-  const keystaticGitHubConfigured = hasKeystaticGitHubAuth(context);
-  const shouldForceGitHubAppCreation = !keystaticGitHubConfigured;
-
-  if (shouldForceGitHubAppCreation && pathname.startsWith("/keystatic/")) {
-    return context.redirect("https://github.com/settings/apps/new", 303);
-  }
-
-  if (shouldForceGitHubAppCreation && pathname.startsWith("/api/keystatic/")) {
-    return context.redirect("https://github.com/settings/apps/new", 303);
-  }
 
   if (pathname.startsWith("/api/keystatic/") && !pathname.endsWith("/")) {
     return context.redirect(pathname + "/" + search, 308);
