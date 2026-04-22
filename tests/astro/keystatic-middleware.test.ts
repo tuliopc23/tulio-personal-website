@@ -30,8 +30,8 @@ describe("keystatic middleware", () => {
 
     const response = assertResponse(
       await onRequest(
-      createRedirectContext("https://www.tuliocunha.dev/keystatic/"),
-      next,
+        createRedirectContext("https://www.tuliocunha.dev/keystatic/"),
+        next,
       ),
     );
 
@@ -45,13 +45,17 @@ describe("keystatic middleware", () => {
 
     const response = assertResponse(
       await onRequest(
-      createRedirectContext("https://www.tuliocunha.dev/api/keystatic/github/login"),
-      next,
+        createRedirectContext(
+          "https://www.tuliocunha.dev/api/keystatic/github/login",
+        ),
+        next,
       ),
     );
 
     expect(response.status).toBe(308);
-    expect(response.headers.get("Location")).toBe("/api/keystatic/github/login/");
+    expect(response.headers.get("Location")).toBe(
+      "/api/keystatic/github/login/",
+    );
     expect(next).not.toHaveBeenCalled();
   });
 });
