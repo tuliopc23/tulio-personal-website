@@ -37,6 +37,8 @@ export default defineConfig({
         imageService: "compile",
         /** Reuse existing CACHE KV (Astro Sessions vs github.json cache use distinct key prefixes). */
         sessionKVBindingName: "CACHE",
+        /** Prerender uses `node:fs` to read Keystatic YAML/MDX; workerd prerender would use /bundle paths. */
+        prerenderEnvironment: "node",
       }),
   image: {
     remotePatterns: [
@@ -85,6 +87,9 @@ export default defineConfig({
     },
     build: {
       sourcemap: "hidden",
+      rollupOptions: {
+        external: ["picomatch"],
+      },
       commonjsOptions: {
         transformMixedEsModules: true,
         requireReturnsDefault: "auto",
@@ -97,7 +102,7 @@ export default defineConfig({
       noExternal: ["easymde", "react-simplemde-editor"],
     },
     ssr: {
-      external: ["cookie"],
+      external: ["cookie", "picomatch"],
       noExternal: [
         "@keystatic/astro",
         "@keystatic/astro/internal/keystatic-api.js",
