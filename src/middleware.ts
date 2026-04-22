@@ -23,6 +23,12 @@ function rewriteDevPaths(html: string): string {
 }
 
 type KeystaticRuntimeEnv = Record<string, string | undefined>;
+const KEYSTATIC_ENV_KEYS = [
+  "KEYSTATIC_GITHUB_CLIENT_ID",
+  "KEYSTATIC_GITHUB_CLIENT_SECRET",
+  "KEYSTATIC_SECRET",
+  "PUBLIC_KEYSTATIC_GITHUB_APP_SLUG",
+] as const;
 
 function getKeystaticRuntimeEnv(
   context: Parameters<typeof defineMiddleware>[0],
@@ -46,12 +52,30 @@ function hasKeystaticGitHubAuth(context: Parameters<typeof defineMiddleware>[0])
   );
 }
 
+function hydrateKeystaticProcessEnv(context: Parameters<typeof defineMiddleware>[0]): void {
+  const runtimeEnv = getKeystaticRuntimeEnv(context);
+  if (!runtimeEnv) {
+    return;
+  }
+
+  globalThis.process ??= {};
+  globalThis.process.env ??= {};
+
+  for (const key of KEYSTATIC_ENV_KEYS) {
+    const value = runtimeEnv[key];
+    if (typeof value === "string" && value.trim()) {
+      globalThis.process.env[key] = value;
+    }
+  }
+}
+
 // Keystatic's GitHub auth endpoints can omit a trailing slash. When the GitHub
 // auth env vars are missing, route users straight to GitHub's app creation flow
 // instead of letting the admin render a broken setup screen.
 export const onRequest = defineMiddleware(async (context, next) => {
   const pathname = context.url.pathname;
   const search = context.url.search;
+  hydrateKeystaticProcessEnv(context);
   const keystaticGitHubConfigured = hasKeystaticGitHubAuth(context);
   const shouldForceGitHubAppCreation = !keystaticGitHubConfigured;
 
