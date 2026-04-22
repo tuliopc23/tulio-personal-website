@@ -1,5 +1,6 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import aboutPageYaml from "../../content/site/about-page/index.yaml?raw";
+import blogPageYaml from "../../content/site/blog-page/index.yaml?raw";
+import projectsPageYaml from "../../content/site/projects-page/index.yaml?raw";
 import { parse as parseYaml } from "yaml";
 
 export interface AboutPageContent {
@@ -65,9 +66,8 @@ export interface ProjectsPageContent {
   contactEmail: string;
 }
 
-async function readYaml<T>(relativePath: string): Promise<T | null> {
+function parseRawYaml<T>(raw: string): T | null {
   try {
-    const raw = await fs.readFile(path.join(process.cwd(), relativePath), "utf8");
     return parseYaml(raw) as T;
   } catch {
     return null;
@@ -75,11 +75,11 @@ async function readYaml<T>(relativePath: string): Promise<T | null> {
 }
 
 export async function getAboutPageContent(): Promise<AboutPageContent | null> {
-  const raw = await readYaml<
+  const raw = parseRawYaml<
     Omit<AboutPageContent, "sections"> & {
       sections?: Array<{ icon?: string; eyebrow?: string; title?: string; body?: string }>;
     }
-  >("src/content/site/about-page/index.yaml");
+  >(aboutPageYaml);
   if (!raw) return null;
   return {
     seoDescription: raw.seoDescription,
@@ -97,13 +97,13 @@ export async function getAboutPageContent(): Promise<AboutPageContent | null> {
 }
 
 export async function getBlogPageContent(): Promise<BlogPageContent | null> {
-  const raw = await readYaml<BlogPageContent>("src/content/site/blog-page/index.yaml");
+  const raw = parseRawYaml<BlogPageContent>(blogPageYaml);
   return raw;
 }
 
 export async function getProjectsPageContent(): Promise<ProjectsPageContent | null> {
   type RawStudy = NonNullable<ProjectsPageContent["caseStudies"]>[number];
-  const raw = await readYaml<
+  const raw = parseRawYaml<
     Omit<ProjectsPageContent, "caseStudies"> & {
       caseStudies?: Array<
         Omit<RawStudy, "_key" | "href" | "stack" | "images"> & {
@@ -114,7 +114,7 @@ export async function getProjectsPageContent(): Promise<ProjectsPageContent | nu
         }
       >;
     }
-  >("src/content/site/projects-page/index.yaml");
+  >(projectsPageYaml);
   if (!raw) return null;
 
   const caseStudies =

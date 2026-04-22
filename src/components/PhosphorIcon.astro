@@ -46,6 +46,7 @@ const iconMap: Record<string, string> = {
   twitter: "twitter-logo",
   linkedin: "linkedin-logo",
   instagram: "instagram-logo",
+  mastodon: "mastodon-logo",
   mail: "envelope",
   rss: "rss",
   phone: "phone",
@@ -115,42 +116,28 @@ const iconMap: Record<string, string> = {
 // Get the actual Phosphor icon name
 const phosphorName = iconMap[normalizedName] || normalizedName;
 
-// Import SVG dynamically from Phosphor using fs (server-side only)
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { createRequire } from "node:module";
+const phosphorAssetModules = import.meta.glob(
+  "../../node_modules/@phosphor-icons/core/assets/regular/{arrow-left,arrow-right,arrow-up,arrow-up-right,arrows-left-right,arrow-square-out,article,book-open,briefcase,calendar-blank,calendar-check,caret-right,chart-bar,chart-line-up,check-circle,clock,code,compass,copy,cube,desktop-tower,download-simple,envelope,eye,eye-closed,file,flask,folder,folder-simple,git-commit,globe,github-logo,hash,heart,house,info,instagram-logo,laptop,link,link-simple,linkedin-logo,lock-simple,magnifying-glass,map-pin,minus,notebook,paper-plane-tilt,paint-brush,planet,phone,plus,quotes,rocket-launch,rss,search,share-network,sidebar-simple,soccer-ball,sparkle,stack,star,tag,terminal,terminal-window,toolbox,twitter-logo,upload-simple,user,users-three,warning,wrench,x,circle,broadcast,mastodon-logo}.svg",
+  { as: "raw", eager: true },
+) as Record<string, string>;
 
 let svgContent = "";
 const candidateWeights = [...new Set<IconWeight>([weight, "regular"])];
 
-// Resolve @phosphor-icons/core package root using Node module resolution.
-// pnpm symlinks packages into .pnpm/store, so we resolve the entry point
-// and walk up from `dist/` to the package root where `assets/` lives.
-let packageRoot = "";
-try {
-  const require = createRequire(import.meta.url);
-  const entry = require.resolve("@phosphor-icons/core");
-  packageRoot = dirname(dirname(entry)); // dist/ -> package root
-} catch (e: any) {
-  console.error("[PhosphorIcon] createRequire failed:", e?.message || e);
-  // Fallback to heuristic path resolution
-  const projectRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
-  packageRoot = join(projectRoot, "node_modules", "@phosphor-icons", "core");
-}
+const phosphorAssetPath = (candidateWeight: IconWeight) =>
+  `../../node_modules/@phosphor-icons/core/assets/${candidateWeight}/${phosphorName}.svg`;
 
 for (const candidateWeight of candidateWeights) {
-  const iconPath = join(packageRoot, "assets", candidateWeight, `${phosphorName}.svg`);
-  try {
-    svgContent = readFileSync(iconPath, "utf-8");
+  const iconPath = phosphorAssetPath(candidateWeight);
+  const asset = phosphorAssetModules[iconPath];
+  if (typeof asset === "string" && asset.length > 0) {
+    svgContent = asset;
     break;
-  } catch {
-    // Fall through to the next candidate weight.
   }
 }
 
 if (!svgContent) {
-  console.warn(`Phosphor icon not found: ${phosphorName} (${weight}) (packageRoot=${packageRoot})`);
+  console.warn(`Phosphor icon not found: ${phosphorName} (${weight})`);
 }
 ---
 
