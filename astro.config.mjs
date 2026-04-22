@@ -86,6 +86,9 @@ export default defineConfig({
     },
     build: {
       sourcemap: "hidden",
+      rollupOptions: {
+        external: ["picomatch"],
+      },
       commonjsOptions: {
         transformMixedEsModules: true,
         requireReturnsDefault: "auto",
@@ -98,7 +101,7 @@ export default defineConfig({
       noExternal: ["easymde", "react-simplemde-editor"],
     },
     ssr: {
-      external: ["cookie"],
+      external: ["cookie", "picomatch"],
       noExternal: [
         "@keystatic/astro",
         "@keystatic/astro/internal/keystatic-api.js",

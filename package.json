@@ -39,10 +39,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
-    "@astrojs/cloudflare": "^13.1.10",
-    "@astrojs/markdoc": "^1.0.3",
-    "@astrojs/mdx": "^5.0.3",
-    "@astrojs/react": "^5.0.3",
+    "@astrojs/cloudflare": "^13.2.0",
+    "@astrojs/markdoc": "^1.0.4",
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/react": "^5.0.4",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/solid-js": "^6.0.1",
@@ -54,7 +54,7 @@
     "@remotion/player": "4.0.450",
     "@sentry/astro": "^10.49.0",
     "@sentry/cloudflare": "^10.49.0",
-    "astro": "^6.1.8",
+    "astro": "^6.1.9",
     "clsx": "^2.1.1",
     "direction": "^2.0.1",
     "dotenv": "^17.4.2",
@@ -82,7 +82,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint-plugin-astro": "^1.7.0",
     "jsdom": "^29.0.2",
-    "lodash": "^4.17.21",
+    "lodash": "4.17.21",
     "prettier": "^3.8.3",
     "react-compiler-runtime": "^1.0.0",
     "react-is": "^19.2.5",
@@ -95,7 +95,7 @@
   "engines": {
     "node": ">=22.12.0"
   },
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.33.1",
   "overrides": {
     "vite": "^7",
     "remotion": "4.0.450",
