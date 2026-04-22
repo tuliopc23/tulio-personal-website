@@ -1,0 +1,23 @@
+astro.config.mjs
+  42fd575cf9c44541 104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "a9767aab92ab7e9b577b3203735ba24337780b65",
+  "prompts": {
+    "42fd575cf9c44541": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a79028cc-955f-47bf-a412-4d4501e15932",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 437,
+      "total_deletions": 427,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
