@@ -1,5 +1,5 @@
 import type { PostDetail, PostSummary } from "../../src/lib/content/posts";
-import type { SanityProject } from "../../src/lib/content/projects";
+import type { Project } from "../../src/lib/content/projects";
 
 export const richPostSummary: PostSummary = {
   _id: "post-1",
@@ -11,12 +11,7 @@ export const richPostSummary: PostSummary = {
   keyTakeaways: ["Keep the server thin", "Test route branches"],
   coverVariant: "cinematic",
   series: "Astro Notes",
-  heroImage: {
-    url: "https://cdn.sanity.io/images/demo/hero.png",
-    alt: "Astro dashboard",
-    width: 1200,
-    height: 630,
-  },
+  heroImage: null,
   author: {
     _id: "author-1",
     name: "Tulio Cunha",
@@ -37,12 +32,7 @@ export const richPostSummary: PostSummary = {
     canonicalUrl: "https://www.tuliocunha.dev/blog/building-better-astro-sites/",
     noIndex: false,
     jsonLd: null,
-    socialImage: {
-      url: "https://cdn.sanity.io/images/demo/social.png",
-      alt: "Social card",
-      width: 1200,
-      height: 630,
-    },
+    socialImage: null,
   },
   featured: true,
 };
@@ -51,23 +41,7 @@ export const richPostDetail: PostDetail = {
   ...richPostSummary,
   updatedAt: "2026-03-15T08:00:00.000Z",
   readingTimeMinutes: 4,
-  content: [
-    {
-      _key: "block-1",
-      _type: "block",
-      style: "normal",
-      markDefs: [],
-      children: [
-        {
-          _key: "child-1",
-          _type: "span",
-          marks: [],
-          text: "Astro makes it easy to keep most of the page static.",
-        },
-      ],
-    },
-  ],
-  markdownContent: null,
+  markdownContent: "Astro makes it easy to keep most of the page static.",
 };
 
 export const markdownFallbackPost: PostDetail = {
@@ -75,11 +49,10 @@ export const markdownFallbackPost: PostDetail = {
   slug: "markdown-fallback",
   updatedAt: "2026-03-12T10:00:00.000Z",
   readingTimeMinutes: 3,
-  content: [],
   markdownContent: "# Heading\n\nFallback markdown content",
 };
 
-export const sampleProject: SanityProject = {
+export const sampleProject: Project = {
   _id: "project-1",
   title: "Project Atlas",
   slug: "project-atlas",

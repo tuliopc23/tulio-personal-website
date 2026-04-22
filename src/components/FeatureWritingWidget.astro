@@ -3,7 +3,7 @@ import ArticleCard from "./ArticleCard.astro";
 import PageIndicator from "./PageIndicator.astro";
 import ScrollHint from "./ScrollHint.astro";
 import styles from "./FeatureWritingWidget.module.css";
-import type { Category, SanityImageWithMetadata } from "../lib/content/posts";
+import type { Category, HeroImage } from "../lib/content/posts";
 
 interface PostItem {
   title: string;
@@ -14,7 +14,7 @@ interface PostItem {
   readingTimeMinutes?: number;
   tags?: string[];
   categories?: Category[] | null;
-  heroImage?: SanityImageWithMetadata | null;
+  heroImage?: HeroImage | null;
   coverVariant?: "default" | "cinematic" | "minimal" | null;
   isNew?: boolean;
 }

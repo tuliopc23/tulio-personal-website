@@ -292,7 +292,7 @@ const searchItems = [
 
         root.dataset.revealState = prefersReducedMotion ? "ready" : "armed";
         window.setTimeout(() => {
-          if (root.dataset.revealState === "armed") {
+          if (root.dataset.revealState === "armed" || root.dataset.revealState === "running") {
             root.dataset.revealState = "fallback";
           }
         }, 1800);
@@ -311,6 +311,8 @@ const searchItems = [
         );
       })();
     </script>
+
+
 
     <link rel="stylesheet" href={fontsCssHref} />
     <link rel="stylesheet" href={themeCssHref} />

@@ -2,9 +2,9 @@
 title: Liquid Glass, Local AI, and the "26" Era
 slug: liquid-glass-local-ai-and-the-26-era
 publishedAt: 2025-12-15T12:39:48.748Z
-summary: "The 26 cycle is less about shiny UI than a platform reset: Liquid
-  Glass changes hierarchy, App Intents and on-device models move into core UX,
-  and iPad and Mac gain more serious work surfaces."
+summary: "The 26 cycle is less about shiny UI than a platform reset: Liquid Glass changes
+  hierarchy, App Intents and on-device models move into core UX, and iPad and Mac gain
+  more serious work surfaces."
 tags:
   - Engineering
   - Swift
@@ -13,24 +13,139 @@ coverVariant: cinematic
 categorySlugs:
   - software-development
 keyTakeaways:
-  - Liquid Glass works when it clarifies hierarchy and focus, not when it is
-    used as decoration.
-  - App Intents are moving from nice-to-have integrations to baseline system
-    participation.
-  - Foundation Models make on-device AI a practical product surface, not just a
-    demo feature.
-  - iPad windowing, menu bar support, and Mac containers all point to
-    heavier-duty workflows on Apple platforms.
+  - Liquid Glass works when it clarifies hierarchy and focus, not when it is used as
+    decoration.
+  - App Intents are moving from nice-to-have integrations to baseline system participation.
+  - Foundation Models make on-device AI a practical product surface, not just a demo
+    feature.
+  - iPad windowing, menu bar support, and Mac containers all point to heavier-duty
+    workflows on Apple platforms.
 seoMetaTitle: Liquid Glass, Local AI, and Apple's "26" Era
-seoMetaDescription: "What actually matters in Apple's 26 cycle: Liquid Glass,
-  App Intents, on-device models, iPad windowing, and Mac developer tooling."
+seoMetaDescription: "What actually matters in Apple's 26 cycle: Liquid Glass, App Intents,
+  on-device models, iPad windowing, and Mac developer tooling."
 seoNoIndex: false
 authorName: Tulio Cunha
 authorSlug: tulio-cunha
-heroImage: https://cdn.sanity.io/images/61249gtj/production/26af8518641467c166938da7c4c2805c000733f2-2640x1760.webp
+heroImage: "@assets/images/posts/liquid-glass-local-ai-and-the-26-era.webp"
 heroAlt: Apple platform artwork for iOS 26, iPadOS 26, and macOS Tahoe 26.
-heroCaption: The 26 cycle is broader than a new material. It repositions design,
-  system actions, and local intelligence as one platform story.
+heroCaption: The 26 cycle is broader than a new material. It repositions design, system
+  actions, and local intelligence as one platform story.
+topicSlugs: []
+seriesSlugs: []
+pullQuotes: []
+furtherReading: []
+sourceReferences: []
+authorRole: ""
+seoCanonicalUrl: ""
+seoJsonLd: ""
+distributionPackage:
+  newsletterBlurb: ""
+  shortSocialPost: ""
+  longSocialPost: ""
+  teaserQuote: ""
+  ctaLabel: ""
+audience: ""
+intent: ""
+targetKeyword: ""
+evergreenStatus: ""
+series: ""
 ---
 
-_Article body was authored in Portable Text in Sanity. Convert this post manually to MDX or paste exported markdown._
+> The loudest conversation around Apple's 26 cycle is visual. The more important story is capability.
+
+Apple did not just ship a new coat of paint this cycle. It shipped a new baseline.
+
+With iOS 26, iPadOS 26, and macOS Tahoe 26, the platform story becomes easier to read: a shared design language, stronger system surfaces for action, and on-device intelligence that can be integrated without immediately reaching for the cloud.
+
+That is why I think the "26" era matters. **Liquid Glass gets the attention**, but the real product shift is what teams can now expose, automate, and assist directly from the OS.
+
+## The platform reset is about capability, not chrome
+
+The version alignment matters more than it sounds. When you ship across iPhone, iPad, and Mac, naming consistency reduces friction in planning, SDK targeting, QA, and internal communication.
+
+Instead of treating every platform release like a slightly different story, teams can now think in one cycle: **what does the 26 generation unlock across our surfaces?**
+
+That framing is useful because the answer is not "make everything glossy." The answer is:
+
+- revisit hierarchy,
+- expose core actions through system surfaces,
+- and identify where local intelligence can remove friction.
+  :::tip Tip
+
+Treat Liquid Glass like hierarchy, not decoration. If it does not make priority, navigation, or focus clearer, it is probably the wrong place to use it.
+
+:::
+
+## Liquid Glass only works when it clarifies intent
+
+The best way to understand Liquid Glass is as a **hierarchy system**.
+
+It gives Apple a lighter way to signal "this is navigation," "this is an action surface," or "this control deserves more prominence" without turning every interface into stacked opaque panels. Used well, it can make content feel more present while keeping interaction surfaces legible.
+
+Used badly, it becomes pure theater.
+
+That is the mistake I expect many teams to make early: copying the material without copying the intent behind it. The right adoption path is boring on purpose. Start by letting the system handle the effect, then add it only where it improves rhythm and emphasis.
+
+## App Intents are moving into the center of the experience
+
+One of the clearest shifts in the 26 cycle is that **system participation keeps becoming more valuable**.
+
+Spotlight is getting more action-oriented. Controls and widgets continue to matter. Users expect useful work to happen outside the four walls of the main app UI. That makes App Intents feel less like a nice integration layer and more like a core product surface.
+
+If a feature matters inside your app, it should be increasingly discoverable outside your app too.
+
+That is a meaningful design constraint. It forces clarity. The best intent-enabled features are usually the ones with a crisp input, a predictable outcome, and obvious value in a system context.
+
+```swift
+struct SummarizeSelectionIntent: AppIntent {
+  static var title: LocalizedStringResource = "Summarize Selection"
+
+  @Parameter(title: "Text")
+  var text: String
+
+  func perform() async throws -> some IntentResult {
+    // Hand the text to your on-device summarization pipeline here.
+    return .result()
+  }
+}
+```
+
+The code is not the interesting part. The product implication is. Once a feature becomes an intent, it becomes easier to trigger from Spotlight, shortcuts, controls, and future system entry points.
+
+## On-device models are finally practical product material
+
+The Foundation Models story is the part I find most strategically important.
+
+Not because every app needs a chatbot, but because many apps benefit from **small, local intelligence moments**:
+
+- turning unstructured input into something cleaner,
+- summarizing long user content,
+- suggesting the next step,
+- rewriting rough text without sending it away,
+- or extracting structure from messy notes.
+  That combination of privacy, lower latency, and lower operating cost changes the default calculus. Features that felt expensive, risky, or overbuilt when they depended on remote inference suddenly become reasonable to prototype.
+
+This is where teams need restraint. The best local-AI features will feel like polish and momentum, not spectacle.
+
+## iPad and Mac are both getting more serious about work
+
+The 26 cycle also sharpens the productivity story on larger screens.
+
+On iPad, windowing and menu-bar improvements point toward a device that is more comfortable with complex, tool-like workflows. On the Mac, Spotlight actions and containers continue the pattern of bringing more powerful work closer to the system itself.
+
+Those changes matter because they raise user expectations. If the OS is becoming more fluid about command surfaces, windowing, and advanced workflows, your app can no longer assume that all meaningful work starts from the home screen or the primary window.
+
+The OS is getting better at meeting users in motion. Your product needs to meet them there too.
+
+## What I would do next if I owned a shipping app
+
+The sane adoption plan is not dramatic.
+
+1. Audit your UI chrome and identify where hierarchy is muddy.
+1. Pick one action that deserves to exist as an App Intent.
+1. Prototype one local-intelligence feature that reduces friction rather than adding noise.
+1. Revisit the iPad and Mac experience with a workflow lens, not just a layout lens.
+1. Test transparency and contrast-reduction paths as first-class experiences.
+   That is the real opportunity in the 26 era.
+
+Not to make everything glassy. To make apps feel more native to the way Apple's platforms are evolving: more contextual, more discoverable, and more capable before the user ever feels the implementation details.

@@ -6,7 +6,6 @@ import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
-import { optimizedImageUrl } from "../../lib/image-url";
 import { getBlogPageContent } from "../../lib/content/page-content";
 import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../lib/content/posts";
 import { isNewPublishedAt } from "../../lib/is-new-post";
@@ -96,19 +95,16 @@ const content = {
   filterEmptyState: pageContent?.filterEmptyState ?? defaults.filterEmptyState,
 };
 const pageDescription = content.pageDescription;
-const featuredSocial = featured?.seo?.socialImage?.url
-  ? featured.seo.socialImage
-  : (featured?.heroImage ?? null);
-const ogImage = featuredSocial?.url
+const featuredHeroSrc =
+  featured?.heroImage?.src &&
+  typeof featured.heroImage.src === "object" &&
+  "src" in (featured.heroImage.src as any)
+    ? String((featured.heroImage.src as any).src)
+    : null;
+const ogImage = featuredHeroSrc
   ? {
-      url: optimizedImageUrl(featuredSocial.url, 1200, 630, {
-        quality: 88,
-        sharpen: 1.2,
-        fit: "cover",
-      }),
-      alt: featuredSocial.alt ?? null,
-      width: featuredSocial.width,
-      height: featuredSocial.height,
+      url: featuredHeroSrc,
+      alt: featured?.heroImage?.alt ?? null,
     }
   : null;
 const _structuredData = {

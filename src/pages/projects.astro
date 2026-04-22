@@ -4,11 +4,22 @@ import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../lib/content/projects";
-import { optimizedImageUrl } from "../lib/image-url";
+import { Image } from "astro:assets";
 import { getProjectsPageContent } from "../lib/content/page-content";
 
 const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
+
+const caseStudyImages = import.meta.glob("../assets/images/case-studies/*", { eager: true });
+function resolveCaseStudyImage(src: string) {
+  if (!src) return null;
+  if (src.startsWith("/src/assets/")) {
+    const key = src.replace("/src/assets", "../assets");
+    const mod = (caseStudyImages as any)[key] ?? null;
+    return mod && typeof mod === "object" && "default" in mod ? (mod as any).default : null;
+  }
+  return null;
+}
 
 if (import.meta.env.PROD && (!pageContent || !pageContent.caseStudies || pageContent.caseStudies.length === 0)) {
   throw new Error(
@@ -62,11 +73,8 @@ const caseStudies =
         images: (cs.images ?? [])
           .filter((image) => image?.url)
           .map((image) => ({
-            src: optimizedImageUrl(image.url as string, 1600, 1000, {
-              fit: "cover",
-              quality: 88,
-              sharpen: 1,
-            }),
+            src: image.url as string,
+            meta: resolveCaseStudyImage(String(image.url ?? "")),
             alt: image.alt ?? cs.title,
             width: image.dimensions?.width ?? undefined,
             height: image.dimensions?.height ?? undefined,
@@ -178,16 +186,31 @@ const _statusIcons: Record<string, string> = {
                   data-parallax-card
                 >
                   <div class="caseSlide__imageWrap">
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      width={img.width}
-                      height={img.height}
-                      draggable="false"
-                      class="caseSlide__image"
-                      loading={i === 0 ? "eager" : "lazy"}
-                      decoding="async"
-                    />
+                    {
+                      img.meta ? (
+                        <Image
+                          src={img.meta as any}
+                          widths={[640, 960, 1280, 1600]}
+                          sizes="(max-width: 768px) calc(100vw - 28px), (max-width: 1200px) min(100vw - 56px, 980px), 1040px"
+                          alt={img.alt}
+                          draggable="false"
+                          class="caseSlide__image"
+                          loading={i === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                        />
+                      ) : (
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          width={img.width}
+                          height={img.height}
+                          draggable="false"
+                          class="caseSlide__image"
+                          loading={i === 0 ? "eager" : "lazy"}
+                          decoding="async"
+                        />
+                      )
+                    }
                   </div>
                 </figure>
               ))}
@@ -245,7 +268,7 @@ const _statusIcons: Record<string, string> = {
     </section>
     )}
 
-    <!-- Sanity-managed projects (if any) -->
+    <!-- CMS-managed projects (if any) -->
     {projects.length > 0 && (
       <section class="homepage-stage" aria-labelledby="projects-more-title">
         <header class="stage-intro stage-intro--single">

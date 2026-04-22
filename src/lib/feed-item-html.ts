@@ -15,13 +15,32 @@ function escapeHtml(value: string) {
 }
 
 export function resolvePostFeedImage(post: PostDetail, siteOrigin: string) {
-  const image = post.seo?.socialImage?.url ? post.seo.socialImage : post.heroImage;
-  const imageUrl = image?.url ? toAbsoluteUrl(image.url, siteOrigin) : null;
+  const hero = post.heroImage ?? null;
+  const heroSrc =
+    hero?.src &&
+    typeof hero.src === "object" &&
+    hero.src &&
+    "src" in (hero.src as Record<string, unknown>)
+      ? String((hero.src as Record<string, unknown>).src)
+      : null;
+  const imageUrl = heroSrc ? toAbsoluteUrl(heroSrc, siteOrigin) : null;
   return {
     imageUrl,
-    alt: image?.alt ?? null,
-    width: image?.width,
-    height: image?.height,
+    alt: hero?.alt ?? null,
+    width:
+      hero?.src &&
+      typeof hero.src === "object" &&
+      hero.src &&
+      "width" in (hero.src as Record<string, unknown>)
+        ? Number((hero.src as Record<string, unknown>).width)
+        : undefined,
+    height:
+      hero?.src &&
+      typeof hero.src === "object" &&
+      hero.src &&
+      "height" in (hero.src as Record<string, unknown>)
+        ? Number((hero.src as Record<string, unknown>).height)
+        : undefined,
   };
 }
 

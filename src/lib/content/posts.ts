@@ -1,17 +1,14 @@
 import type { CollectionEntry } from "astro:content";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { PortableTextBlock } from "@portabletext/types";
 import { getCollection, render } from "astro:content";
 import { markdownToPlainText } from "../markdown";
 
 export { calculateReadingTimeMinutes } from "../reading-time";
 
-export interface SanityImageWithMetadata {
-  url: string | null;
-  width?: number;
-  height?: number;
-  lqip?: string | null;
+export interface HeroImage {
+  /** Astro image metadata (from content collection `image()` helper). */
+  src: unknown;
   alt?: string | null;
   caption?: string | null;
 }
@@ -22,7 +19,7 @@ export interface PostSeoMeta {
   canonicalUrl?: string | null;
   noIndex?: boolean;
   jsonLd?: string | null;
-  socialImage?: SanityImageWithMetadata | null;
+  socialImage?: null;
 }
 
 export interface Author {
@@ -93,7 +90,7 @@ export interface PostSummary {
   }> | null;
   coverVariant?: "default" | "cinematic" | "minimal" | null;
   series?: string | null;
-  heroImage?: SanityImageWithMetadata | null;
+  heroImage?: HeroImage | null;
   author?: Author | null;
   categories?: Category[] | null;
   topics?: Topic[] | null;
@@ -113,7 +110,6 @@ export interface PostSummary {
 
 export interface PostDetail extends PostSummary {
   updatedAt: string;
-  content: PortableTextBlock[];
   markdownContent?: string | null;
   readingTimeMinutes: number;
 }
@@ -205,9 +201,9 @@ async function mapEntry(
     .map((s) => maps.seriesMap.get(s))
     .filter((x): x is SeriesReference => Boolean(x));
 
-  const heroImage: SanityImageWithMetadata | null = d.heroImage
+  const heroImage: HeroImage | null = d.heroImage
     ? {
-        url: d.heroImage,
+        src: d.heroImage,
         alt: "heroAlt" in d && typeof d.heroAlt === "string" ? d.heroAlt : null,
         caption: d.heroCaption ?? null,
       }
@@ -343,7 +339,6 @@ function detailFromSummary(
   return {
     ...summary,
     updatedAt: summary.publishedAt,
-    content: [],
     markdownContent: articleSource,
     readingTimeMinutes: rt,
   };

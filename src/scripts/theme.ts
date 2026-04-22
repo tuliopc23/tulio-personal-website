@@ -133,7 +133,7 @@ class ThemeController {
     this.setPreference(theme, { persist: false, ...options });
   }
 
-  setPreference(preference: ThemePreference, options: ThemeOptions = {}): void {
+  setPreference(preference: ThemePreference, _options: ThemeOptions = {}): void {
     if (!this.initialized) {
       this.init();
     }

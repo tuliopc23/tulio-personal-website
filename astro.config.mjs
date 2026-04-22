@@ -27,7 +27,8 @@ const reactIntegration = react({
 
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
-  trailingSlash: "always",
+  trailingSlash: "ignore",
+  output: "server",
   /** Vitest + getViteConfig() cannot use the Cloudflare Vite plugin (node `resolve.external` conflict). */
   adapter: isVitest
     ? undefined
@@ -73,15 +74,40 @@ export default defineConfig({
     define: {
       "import.meta.env.PUBLIC_SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
       "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
+      "process.env": "{}",
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? "development"),
+      module: "{}",
+      exports: "{}",
+    },
+    optimizeDeps: {
+      exclude: ["@keystatic/astro/internal/keystatic-api.js"],
+      include: ["lodash", "lodash/debounce", "direction"],
+      needsInterop: ["lodash/debounce", "direction", "cookie"],
     },
     build: {
       sourcemap: "hidden",
+      commonjsOptions: {
+        transformMixedEsModules: true,
+        requireReturnsDefault: "auto",
+        namedExports: {
+          cookie: ["parse", "serialize"],
+        },
+      },
     },
     resolve: {
       noExternal: ["easymde", "react-simplemde-editor"],
     },
     ssr: {
-      noExternal: ["easymde", "react-simplemde-editor"],
+      external: ["cookie"],
+      noExternal: [
+        "@keystatic/astro",
+        "@keystatic/astro/internal/keystatic-api.js",
+        "@keystatic/astro/internal/keystatic-page.js",
+        "@keystatic/core",
+        "set-cookie-parser",
+        "easymde",
+        "react-simplemde-editor",
+      ],
     },
   },
 });

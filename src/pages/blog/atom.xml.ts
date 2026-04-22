@@ -42,7 +42,7 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
 
       const summary = escapeXml(description);
       const articleHtml = absolutizeImgSrcInFeedHtml(
-        postBodyToFeedHtml(post.content, post.markdownContent),
+        postBodyToFeedHtml(post.markdownContent),
         origin,
       );
       const { imageUrl, alt, width, height } = resolvePostFeedImage(post, origin);

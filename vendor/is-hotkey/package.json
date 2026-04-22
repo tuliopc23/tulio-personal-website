@@ -1,0 +1,8 @@
+{
+  "name": "is-hotkey",
+  "version": "0.1.8",
+  "type": "module",
+  "exports": {
+    ".": "./index.js"
+  }
+}

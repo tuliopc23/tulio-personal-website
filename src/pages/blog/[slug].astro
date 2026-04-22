@@ -5,7 +5,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
-import { generateSrcset, optimizedImageUrl } from "../../lib/image-url";
+import { Image } from "astro:assets";
 import { isNewPublishedAt } from "../../lib/is-new-post";
 import { toAbsoluteUrl } from "../../lib/seo.js";
 import {
@@ -82,12 +82,11 @@ const _footerTopics = [
   ..._tags,
 ].filter((value, index, values) => values.indexOf(value) === index);
 const _hasArticleBody = Boolean(ArticleBodyContent);
-const _heroImageDimensions =
-  heroImage?.width && heroImage?.height
-    ? { width: heroImage.width, height: heroImage.height }
-    : { inferSize: true as const };
+const _heroImageSrc = heroImage?.src ?? null;
 const _heroAspectRatio =
-  heroImage?.width && heroImage?.height ? heroImage.width / heroImage.height : null;
+  _heroImageSrc && typeof _heroImageSrc === "object" && _heroImageSrc && "width" in (_heroImageSrc as any) && "height" in (_heroImageSrc as any)
+    ? Number((_heroImageSrc as any).width) / Number((_heroImageSrc as any).height)
+    : null;
 const _heroShape = _heroAspectRatio
   ? _heroAspectRatio >= 1.7
     ? "wide"
@@ -104,20 +103,13 @@ const seoDescription =
   "Programming notes from Tulio Cunha on Apple platforms, web development, systems, and tools.";
 const canonical = seo?.canonicalUrl ?? shareUrl;
 const _noIndex = Boolean(seo?.noIndex);
-const preferredSocialImage = seo?.socialImage?.url ? seo.socialImage : (heroImage ?? null);
-// Optimize OG images (1200x630 for optimal social sharing)
-const ogImage = preferredSocialImage?.url
-  ? {
-      url: optimizedImageUrl(preferredSocialImage.url, 1200, 630, {
-        quality: 88,
-        sharpen: 1.2,
-        fit: "cover",
-      }),
-      alt: preferredSocialImage.alt ?? null,
-      width: 1200,
-      height: 630,
-    }
-  : null;
+const ogImage =
+  _heroImageSrc && typeof _heroImageSrc === "object" && "src" in (_heroImageSrc as any)
+    ? {
+        url: String((_heroImageSrc as any).src),
+        alt: heroImage?.alt ?? null,
+      }
+    : null;
 const customJsonLd =
   typeof seo?.jsonLd === "string" && seo.jsonLd.trim().length > 0 ? seo.jsonLd : null;
 const _articleModifiedAt = post ? post.updatedAt : "";
@@ -302,24 +294,21 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             </div>
           </header>
 
-          {heroImage?.url && (
+          {_heroImageSrc && (
             <figure
               class="article__hero"
               data-reveal
               data-reveal-group="post-shell"
               data-reveal-order={1}
             >
-              <img
-                src={optimizedImageUrl(heroImage.url, 1920)}
-                srcset={generateSrcset(heroImage.url, [640, 1024, 1280, 1920, 2560])}
+              <Image
+                src={_heroImageSrc as any}
+                widths={[640, 1024, 1280, 1920, 2560]}
                 sizes="(max-width: 768px) calc(100vw - 28px), (max-width: 1200px) min(100vw - 56px, 980px), 1040px"
-                alt={heroImage.alt ?? ""}
+                alt={heroImage?.alt ?? ""}
                 loading="eager"
                 fetchpriority="high"
                 decoding="async"
-                data-image-loading
-                onload="this.setAttribute('data-loaded','true')"
-                {...(_heroImageDimensions.inferSize ? {} : _heroImageDimensions)}
               />
             </figure>
           )}

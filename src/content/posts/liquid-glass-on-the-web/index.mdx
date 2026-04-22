@@ -1,0 +1,50 @@
+---
+title: Liquid glass on the web
+slug: liquid-glass-on-the-web
+publishedAt: 2025-09-15T00:00:00.000Z
+summary: Recreating Apple-like materials using CSS blur, transparency, and hairline borders.
+tags:
+  - css
+  - design
+featured: false
+audience: ""
+intent: ""
+targetKeyword: ""
+evergreenStatus: ""
+series: ""
+coverVariant: default
+categorySlugs: []
+topicSlugs: []
+seriesSlugs: []
+keyTakeaways: []
+pullQuotes: []
+furtherReading: []
+sourceReferences: []
+distributionPackage:
+  newsletterBlurb: ""
+  shortSocialPost: ""
+  longSocialPost: ""
+  teaserQuote: ""
+  ctaLabel: ""
+seoMetaTitle: ""
+seoMetaDescription: ""
+seoCanonicalUrl: ""
+seoNoIndex: false
+seoJsonLd: ""
+authorName: Tulio Cunha
+authorSlug: tulio-cunha
+authorRole: ""
+heroCaption: ""
+---
+
+Apple's **materials** create separation and depth using translucency and blur. On the web, you can simulate this with a semi-opaque surface, `backdrop-filter: blur()`, and a crisp hairline border.
+
+```css
+.card {
+  background: color-mix(in oklch, var(--surface) 70%, transparent);
+  border: 1px solid var(--hairline);
+  backdrop-filter: blur(18px);
+}
+```
+
+Keep elevation subtle, emphasize **content**, and ensure contrast is sufficient in both light and dark modes.

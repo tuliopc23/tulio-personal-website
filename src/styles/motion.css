@@ -42,6 +42,21 @@
   visibility: hidden;
 }
 
+/* Fail open: if JS doesn't mark reveals visible, show everything. */
+:root[data-motion="normal"][data-reveal-state="fallback"] body [data-reveal],
+:root[data-motion="normal"][data-reveal-state="fallback"] body [data-reveal-children] > *,
+:root[data-motion="normal"][data-reveal-state="fallback"] body .stage-intro__eyebrow,
+:root[data-motion="normal"][data-reveal-state="fallback"] body .stage-intro__title,
+:root[data-motion="normal"][data-reveal-state="fallback"] body .stage-intro__caption,
+:root[data-motion="normal"][data-reveal-state="fallback"]
+  body
+  .stage-intro
+  > :not(.stage-intro__copy) {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
 /* Final state for revealed elements */
 :root[data-motion="normal"] body [data-reveal].is-visible,
 :root[data-motion="normal"] body [data-reveal-children] > .is-visible,

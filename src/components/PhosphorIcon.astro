@@ -117,22 +117,31 @@ const phosphorName = iconMap[normalizedName] || normalizedName;
 
 // Import SVG dynamically from Phosphor using fs (server-side only)
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 let svgContent = "";
 const candidateWeights = [...new Set<IconWeight>([weight, "regular"])];
 
+// Resolve @phosphor-icons/core package root using Node module resolution.
+// pnpm symlinks packages into .pnpm/store, so we resolve the entry point
+// and walk up from `dist/` to the package root where `assets/` lives.
+let packageRoot = "";
+try {
+  const require = createRequire(import.meta.url);
+  const entry = require.resolve("@phosphor-icons/core");
+  packageRoot = dirname(dirname(entry)); // dist/ -> package root
+} catch (e: any) {
+  console.error("[PhosphorIcon] createRequire failed:", e?.message || e);
+  // Fallback to heuristic path resolution
+  const projectRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
+  packageRoot = join(projectRoot, "node_modules", "@phosphor-icons", "core");
+}
+
 for (const candidateWeight of candidateWeights) {
+  const iconPath = join(packageRoot, "assets", candidateWeight, `${phosphorName}.svg`);
   try {
-    const iconPath = resolve(
-      process.cwd(),
-      "node_modules",
-      "@phosphor-icons",
-      "core",
-      "assets",
-      candidateWeight,
-      `${phosphorName}.svg`,
-    );
     svgContent = readFileSync(iconPath, "utf-8");
     break;
   } catch {
@@ -141,7 +150,7 @@ for (const candidateWeight of candidateWeights) {
 }
 
 if (!svgContent) {
-  console.warn(`Phosphor icon not found: ${phosphorName} (${weight})`);
+  console.warn(`Phosphor icon not found: ${phosphorName} (${weight}) (packageRoot=${packageRoot})`);
 }
 ---
 

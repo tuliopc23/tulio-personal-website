@@ -13,7 +13,7 @@ export interface NewsletterEnv {
   NEWSLETTER_WEBHOOK_SECRET?: string;
 }
 
-function json(request: Request, status: number, body: unknown): Response {
+function json(_request: Request, status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
@@ -36,7 +36,7 @@ function isValidEmail(email: string): boolean {
 
 function base64Url(bytes: Uint8Array): string {
   const bin = String.fromCharCode(...bytes);
-  const b64 = btoa(bin);
+  const b64 = Buffer.from(bin, "binary").toString("base64");
   return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
 }
 

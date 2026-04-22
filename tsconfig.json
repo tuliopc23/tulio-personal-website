@@ -9,7 +9,8 @@
     "types": ["astro/client", "vitest/globals", "@playwright/test"],
     "skipLibCheck": true,
     "paths": {
-      "astro-portabletext": ["types/astro-portabletext"]
+      "astro-portabletext": ["types/astro-portabletext"],
+      "@assets/*": ["./src/assets/*"]
     }
   },
   "include": ["src", "tests", "types", "astro.config.mjs", "*.config.*", "tsconfig.json"],

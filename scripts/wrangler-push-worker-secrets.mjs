@@ -1,7 +1,7 @@
 /**
  * Push Worker runtime secrets from .env to Cloudflare (wrangler secret bulk).
- * Only uploads keys used by worker/index.ts: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN,
- * SANITY_API_READ_TOKEN, and SENTRY_DSN.
+ * Only uploads keys used by the Worker: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN,
+ * KEYSTATIC_*, and SENTRY_DSN.
  *
  * Usage (from repo root): pnpm run cf:secrets:push
  * Requires: wrangler login, and a .env with the values you want uploaded.
@@ -19,7 +19,9 @@ dotenv.config({ path: join(root, ".env") });
 const WORKER_SECRET_KEYS = [
   "GITHUB_TOKEN",
   "GITHUB_PERSONAL_ACCESS_TOKEN",
-  "SANITY_API_READ_TOKEN",
+  "KEYSTATIC_SECRET",
+  "KEYSTATIC_GITHUB_CLIENT_ID",
+  "KEYSTATIC_GITHUB_CLIENT_SECRET",
   "SENTRY_DSN",
   "SENTRY_RELEASE",
 ];
@@ -34,7 +36,7 @@ for (const key of WORKER_SECRET_KEYS) {
 
 if (Object.keys(payload).length === 0) {
   console.error(
-    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN, SANITY_API_READ_TOKEN, or SENTRY_DSN.",
+    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN, KEYSTATIC_*, or SENTRY_DSN.",
   );
   process.exit(1);
 }
@@ -43,9 +45,9 @@ console.log(
   `Uploading ${Object.keys(payload).length} secret(s) to Worker: ${Object.keys(payload).join(", ")}`,
 );
 
-if (!payload.SANITY_API_READ_TOKEN) {
+if (!payload.GITHUB_TOKEN && !payload.GITHUB_PERSONAL_ACCESS_TOKEN) {
   console.warn(
-    "⚠️  SANITY_API_READ_TOKEN is not set in .env — /api/github.json may fail to load featured repos from Sanity. Add it and run pnpm run cf:secrets:push again.",
+    "⚠️  GITHUB_TOKEN is not set in .env — /api/github.json may fail to load featured repos. Add it and run pnpm run cf:secrets:push again.",
   );
 }
 

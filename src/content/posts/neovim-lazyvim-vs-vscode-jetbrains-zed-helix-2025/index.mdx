@@ -2,9 +2,9 @@
 title: Why I Choose Neovim Over Full-Blown GUI IDEs
 slug: neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025
 publishedAt: 2025-10-27T00:12:10.814Z
-summary: "A practical look at why Neovim, powered by LazyVim and lazy.nvim,
-  remains my daily editor over GUI IDEs: faster startup, better composability,
-  cleaner remote workflows, and fewer layers between intent and execution."
+summary: "A practical look at why Neovim, powered by LazyVim and lazy.nvim, remains my
+  daily editor over GUI IDEs: faster startup, better composability, cleaner remote
+  workflows, and fewer layers between intent and execution."
 tags:
   - Engineering
 featured: true
@@ -13,24 +13,124 @@ categorySlugs:
   - software-development
 keyTakeaways:
   - Terminal editors win on speed, scriptability, and SSH-native workflows.
-  - Neovim becomes especially compelling when paired with LazyVim and lazy.nvim
-    for sane defaults and controlled complexity.
-  - Helix and Kakoune prove the TUI editor space is evolving beyond classic Vim
-    emulation.
-  - GUI IDEs still lead in deep refactors, indexing, onboarding, and integrated
-    tooling.
-  - Zed is the GUI editor that feels closest to the speed and focus I want from
-    Neovim.
+  - Neovim becomes especially compelling when paired with LazyVim and lazy.nvim for sane
+    defaults and controlled complexity.
+  - Helix and Kakoune prove the TUI editor space is evolving beyond classic Vim emulation.
+  - GUI IDEs still lead in deep refactors, indexing, onboarding, and integrated tooling.
+  - Zed is the GUI editor that feels closest to the speed and focus I want from Neovim.
 seoMetaTitle: Why I Choose Neovim Over GUI IDEs in 2025
-seoMetaDescription: Why Neovim remains my default editor in 2025, where GUI IDEs
-  still win, and why Zed is the one GUI editor I genuinely enjoy opening.
+seoMetaDescription: Why Neovim remains my default editor in 2025, where GUI IDEs still
+  win, and why Zed is the one GUI editor I genuinely enjoy opening.
 seoNoIndex: false
 authorName: Tulio Cunha
 authorSlug: tulio-cunha
-heroImage: https://cdn.sanity.io/images/61249gtj/production/bfe4d7cec4cabe6cdc3811811c437112e809eb78-3024x1964.png
+heroImage: "@assets/images/posts/neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025.png"
 heroAlt: Neovim open in a terminal-first setup with an Oxocarbon-inspired theme.
-heroCaption: The appeal of Neovim is not nostalgia. It is the combination of
-  speed, composability, and how little gets between the keyboard and the work.
+heroCaption: The appeal of Neovim is not nostalgia. It is the combination of speed,
+  composability, and how little gets between the keyboard and the work.
+topicSlugs: []
+seriesSlugs: []
+pullQuotes: []
+furtherReading: []
+sourceReferences: []
+authorRole: ""
+seoCanonicalUrl: ""
+seoJsonLd: ""
+distributionPackage:
+  newsletterBlurb: ""
+  shortSocialPost: ""
+  longSocialPost: ""
+  teaserQuote: ""
+  ctaLabel: ""
+audience: ""
+intent: ""
+targetKeyword: ""
+evergreenStatus: ""
+series: ""
 ---
 
-_Article body was authored in Portable Text in Sanity. Convert this post manually to MDX or paste exported markdown._
+> The more my work moved toward fast iteration, remote machines, and repeatable text operations, the less I wanted my editor to feel like an operating system.
+
+I live in a mixed world. Neovim with LazyVim is where I spend most days. Helix is the editor I keep an eye on because it proves the terminal space is still moving. Zed is the GUI editor I actually enjoy. And the usual VS Code-style workflow is the one I keep drifting away from.
+
+This is not an argument that TUIs are universally better. It is an argument that **Neovim fits my workflow better** than heavyweight GUI editors once speed, composability, and remote work start to matter more than all-in-one convenience.
+
+## What terminal editors still get right
+
+Terminal editors have stayed relevant for reasons that are easy to underestimate.
+
+They are light, scriptable, and comfortable inside SSH sessions. They work well with tmux, shell history, git tooling, and the rest of the Unix environment. When your work already lives in terminals, a TUI editor feels like a continuation of the workflow instead of a context switch away from it.
+
+That matters more than startup speed alone. It is about friction.
+
+The less ceremony there is between "I need to change this file" and "I am changing this file," the more attractive a terminal editor becomes.
+
+## Why Neovim became my default
+
+Neovim wins for me because it gives me both sides of the equation:
+
+- a genuinely fast terminal-native editor,
+- and enough modern language tooling to avoid feeling like I am giving up capability.
+  The big unlock is not Neovim by itself. It is the surrounding ecosystem.
+
+**LazyVim** gives me a thoughtful baseline. **lazy.nvim** keeps plugin loading disciplined. The built-in LSP story is strong enough that navigation, diagnostics, rename, and formatting no longer feel like awkward bolt-ons.
+
+That means I get an editor that feels personal without demanding that I hand-build the whole thing from scratch every time.
+
+```lua
+return {
+  {
+    "folke/trouble.nvim",
+    opts = {},
+    cmd = "Trouble",
+  },
+}
+```
+
+A tiny plugin spec like this is the whole point. The customization surface is small, explicit, and easy to reason about. I am not fighting a giant preferences UI just to shape the environment around the way I work.
+
+## Helix and Kakoune prove the space is still evolving
+
+One reason I do not buy the "terminal editors are just nostalgia" argument is that the space keeps producing genuinely interesting ideas.
+
+Helix pushes the model toward selections-first editing and a batteries-included experience. Kakoune remains influential because it treats text manipulation differently from the Vim family. Even if I do not live in either editor daily, they make the category feel alive rather than frozen.
+
+That matters because it keeps Neovim honest too. The best TUI editors are not trying to cosplay 2006. They are trying to answer a current question: how much power can you deliver before the interface becomes drag?
+
+:::note Note
+
+GUI IDEs still win some categories outright: deep refactors, graphical debugging, discoverability for new teammates, and highly integrated code intelligence in large enterprise codebases.
+
+:::
+
+## Where GUI editors still have the edge
+
+I do not think it is useful to pretend Neovim beats GUI IDEs at everything.
+
+JetBrains IDEs still set the bar for heavyweight refactoring, navigation depth, inspections, and polished debugging. When the task is restructuring a large codebase, those tools earn their reputation.
+
+VS Code still wins on familiarity, marketplace gravity, and how quickly teams can converge on a shared setup. That is not nothing. Familiar tools reduce onboarding cost.
+
+What I object to is not their existence. It is the trade many developers accept without questioning it: more processes, more background churn, more UI chrome, more layers between the keyboard and the result.
+
+Once you notice that cost, it is hard to stop noticing.
+
+## Why Zed is my GUI exception
+
+Zed is the GUI editor that feels closest to the values I like in Neovim.
+
+It is fast, modern, and unusually willing to treat latency as a product problem rather than a technical detail. When I want a GUI, I do not want an editor that feels heavy-but-featureful. I want one that stays responsive, gets out of the way, and still feels engineered with taste.
+
+That is why I reach for Zed before I reach for the usual Electron stack.
+
+## The tradeoff I actually care about
+
+For me, the editor question is really a workflow question.
+
+Do I want an environment that gives me everything up front, or an environment that lets me compose exactly what I need with very little waste?
+
+Neovim wins that trade because it stays close to the terminal, close to the system, and close to the way I already think when I am moving quickly.
+
+GUI IDEs are not going away, and they should not. But the closer my work gets to automation, remote access, scripting, and keyboard speed, the more obvious the choice becomes:
+
+I would rather own a fast editor than rent a heavy one.

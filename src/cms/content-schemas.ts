@@ -7,7 +7,7 @@ import { z } from "astro/zod";
 export const seoSchema = z.object({
   seoMetaTitle: z.string().optional(),
   seoMetaDescription: z.string().optional(),
-  seoCanonicalUrl: z.string().url().optional().or(z.literal("")),
+  seoCanonicalUrl: z.string().optional().or(z.literal("")),
   seoNoIndex: z.boolean().optional(),
   seoJsonLd: z.string().optional(),
 });
@@ -75,7 +75,14 @@ export const postSchema = z
     heroAlt: z.string().optional(),
     heroCaption: z.string().optional(),
   })
-  .merge(seoSchema);
+  .extend(seoSchema.shape);
+
+export type PostFrontmatter = z.infer<typeof postSchema>;
+
+/** Astro Content Collections variant: allows `heroImage` to be resolved via the `image()` helper. */
+export function postSchemaWithImage(image: () => z.ZodTypeAny) {
+  return postSchema.extend({ heroImage: image().optional() });
+}
 
 export const projectSchema = z.object({
   title: z.string(),

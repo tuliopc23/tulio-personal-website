@@ -4,7 +4,7 @@
  */
 import { parse as parseYaml } from "yaml";
 
-export interface SanityFeaturedRepo {
+export interface FeaturedRepo {
   _id: string;
   repoFullName: string;
   displayTitle?: string;
@@ -77,7 +77,7 @@ export function json(request: Request, status: number, body: unknown): Response 
   });
 }
 
-function parseFeaturedReposFromYaml(raw: string): SanityFeaturedRepo[] {
+function parseFeaturedReposFromYaml(raw: string): FeaturedRepo[] {
   const doc = parseYaml(raw) as { repos?: Array<Record<string, unknown>> };
   const repos = (doc.repos ?? [])
     .map((r) => {
@@ -103,7 +103,7 @@ function parseFeaturedReposFromYaml(raw: string): SanityFeaturedRepo[] {
 }
 
 /** Bundled at build time — Keystatic/git updates require redeploy for API to reflect curation edits. */
-export function featuredReposFromSiteYaml(siteYamlRaw: string): SanityFeaturedRepo[] {
+export function featuredReposFromSiteYaml(siteYamlRaw: string): FeaturedRepo[] {
   try {
     return parseFeaturedReposFromYaml(siteYamlRaw);
   } catch {
@@ -196,10 +196,10 @@ export async function handleGitHubApi(
   );
 
   try {
-    const sanityRepos = featuredReposFromSiteYaml(siteYamlRaw);
+    const featuredRepos = featuredReposFromSiteYaml(siteYamlRaw);
     const results = (
       await Promise.all(
-        sanityRepos.map(async (repo) => {
+        featuredRepos.map(async (repo) => {
           const [ghRepo, ghCommits] = await Promise.all([
             fetchGitHub<GitHubRestRepo>(`/repos/${repo.repoFullName}`, githubTokens),
             fetchGitHub<GitHubRestCommit[]>(

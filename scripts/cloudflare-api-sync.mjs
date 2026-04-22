@@ -35,6 +35,9 @@ const WORKER_SECRET_KEYS = [
   "GITHUB_TOKEN",
   "GITHUB_PERSONAL_ACCESS_TOKEN",
   "SANITY_API_READ_TOKEN",
+  "KEYSTATIC_SECRET",
+  "KEYSTATIC_GITHUB_CLIENT_ID",
+  "KEYSTATIC_GITHUB_CLIENT_SECRET",
   "SENTRY_DSN",
   "SENTRY_RELEASE",
 ];
@@ -51,6 +54,10 @@ const BUILD_ENV_KEYS = {
   SANITY_ALLOW_BUILD_FALLBACK: false,
   GITHUB_TOKEN: true,
   GITHUB_PERSONAL_ACCESS_TOKEN: true,
+  KEYSTATIC_SECRET: true,
+  KEYSTATIC_GITHUB_CLIENT_ID: false,
+  KEYSTATIC_GITHUB_CLIENT_SECRET: true,
+  PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: false,
   PUBLIC_SENTRY_DSN: false,
   SENTRY_ORG: false,
   SENTRY_PROJECT: false,
@@ -169,10 +176,8 @@ async function putWorkerSecrets(token, accountId, scriptName, dryRun) {
     console.log(`  OK ${name}`);
   }
 
-  if (!payload.SANITY_API_READ_TOKEN) {
-    console.warn(
-      "⚠️  SANITY_API_READ_TOKEN missing — /api/github.json may not load Sanity featured repos.",
-    );
+  if (!payload.GITHUB_TOKEN && !payload.GITHUB_PERSONAL_ACCESS_TOKEN) {
+    console.warn("⚠️  GITHUB_TOKEN missing — /api/github.json may fail to load featured repos.");
   }
 }
 

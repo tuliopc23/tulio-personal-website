@@ -3,6 +3,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "tulio-personal-website",
+  "account_id": "e328c1497ae7e9a61aea8ca119af439d",
   "compatibility_date": "2026-03-14",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@astrojs/cloudflare/entrypoints/server",

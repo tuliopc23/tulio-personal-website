@@ -33,9 +33,9 @@ caseStudies:
       - ""
     images:
       - alt: Cardmaniacs rendering a article
-        url: https://cdn.sanity.io/images/61249gtj/production/bfb1ebde0f2565baedaf647061f9a77eb9807215-1525x865.png
+        url: /src/assets/images/case-studies/cardmaniacs-1.png
       - alt: Article Card Grid in Cardmaniacs
-        url: https://cdn.sanity.io/images/61249gtj/production/5b6cc795b43a201f3dc6b6816c8014c3527c1643-1525x865.png
+        url: /src/assets/images/case-studies/cardmaniacs-2.png
   - icon: soccer-ball
     eyebrow: Publication
     title: The Offside
@@ -55,9 +55,9 @@ caseStudies:
       - Tailwind CSS
     images:
       - alt: The Offside editorial homepage with Highbury-inspired design
-        url: https://cdn.sanity.io/images/61249gtj/production/bfac67d33199602b61ca375e3b5202eefa4f237b-3182x1832.jpg
+        url: /src/assets/images/case-studies/offside-1.jpg
       - alt: Premier league table in The Offside
-        url: https://cdn.sanity.io/images/61249gtj/production/936e96ced7b5208bda616542738c7f18cf3223b6-3208x1852.jpg
+        url: /src/assets/images/case-studies/offside-2.jpg
   - icon: chart-line-up
     eyebrow: Client Work
     title: Capital Financial Consulting
@@ -77,9 +77,9 @@ caseStudies:
       - Hono
     images:
       - alt: Capital Financial Consulting landing page
-        url: https://cdn.sanity.io/images/61249gtj/production/4bbd6313b1745037b687ca5a821d882e0210699e-3178x1780.jpg
+        url: /src/assets/images/case-studies/capital-1.jpg
       - alt: Capital Financial Consulting consultant dashboard with charts
-        url: https://cdn.sanity.io/images/61249gtj/production/c6a0e24ed9b9fb68042403e86c6dc5912ecdd83f-1550x1286.png
+        url: /src/assets/images/case-studies/capital-2.png
   - icon: compass
     eyebrow: Client Work
     title: Nomadz Trips
@@ -99,6 +99,6 @@ caseStudies:
       - Stripe
     images:
       - alt: Nomadz Trips homepage with aerial beach photography
-        url: https://cdn.sanity.io/images/61249gtj/production/553ffac46edeec79b6e863d89a91e446f77e52e5-3200x1832.jpg
+        url: /src/assets/images/case-studies/nomadz-1.jpg
       - alt: Nomadz Trips trip listing and booking interface
-        url: https://cdn.sanity.io/images/61249gtj/production/6fca152c83c5bafacc0d098c3c7afb9fd2aee21e-3206x1822.jpg
+        url: /src/assets/images/case-studies/nomadz-2.jpg

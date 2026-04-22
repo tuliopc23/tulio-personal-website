@@ -57,7 +57,7 @@ export async function createRssFeedResponse(
       );
       const description = post.seo?.metaDescription ?? post.summary;
       const articleHtml = absolutizeImgSrcInFeedHtml(
-        postBodyToFeedHtml(post.content, post.markdownContent),
+        postBodyToFeedHtml(post.markdownContent),
         site.origin,
       );
       const { imageUrl, alt, width, height } = resolvePostFeedImage(post, site.origin);

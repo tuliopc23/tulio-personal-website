@@ -1,4 +1,4 @@
-/** Image URL helpers (Sanity CDN + optional Cloudflare Images) — string URLs only. */
+/** Image URL helpers (direct source + optional Cloudflare Images) — string URLs only. */
 
 const CLOUDFLARE_IMAGE_BASE = (import.meta.env.PUBLIC_CLOUDFLARE_IMAGE_BASE ?? "").replace(
   /\/$/,
@@ -13,7 +13,7 @@ type CloudflareImageOptions = {
   fit?: "cover" | "contain" | "scale-down" | "crop" | "pad";
 };
 
-function mapSanityFit(fit: CloudflareImageOptions["fit"]): string | null {
+function mapFit(fit: CloudflareImageOptions["fit"]): string | null {
   switch (fit) {
     case "cover":
       return "crop";
@@ -28,7 +28,7 @@ function mapSanityFit(fit: CloudflareImageOptions["fit"]): string | null {
   }
 }
 
-export function applySanityCdnParams(
+export function applyCdnParams(
   sourceUrl: string,
   {
     width,
@@ -37,7 +37,13 @@ export function applySanityCdnParams(
     fit = "scale-down",
   }: Pick<CloudflareImageOptions, "width" | "height" | "quality" | "fit"> = {},
 ): string {
-  const directUrl = new URL(sourceUrl);
+  let directUrl: URL;
+  try {
+    directUrl = new URL(sourceUrl);
+  } catch {
+    // Non-absolute URLs (e.g. local `/images/...`) shouldn't be rewritten as CDN URLs.
+    return sourceUrl;
+  }
   directUrl.searchParams.set("auto", "format");
   directUrl.searchParams.set("q", String(Math.max(30, Math.min(quality, 100))));
 
@@ -49,9 +55,9 @@ export function applySanityCdnParams(
     directUrl.searchParams.set("h", String(Math.round(height)));
   }
 
-  const sanityFit = mapSanityFit(fit);
-  if (sanityFit) {
-    directUrl.searchParams.set("fit", sanityFit);
+  const cdnFit = mapFit(fit);
+  if (cdnFit) {
+    directUrl.searchParams.set("fit", cdnFit);
   }
 
   return directUrl.toString();
@@ -96,7 +102,7 @@ export function optimizedImageUrl(
 ): string {
   if (!sourceUrl) return "";
 
-  const resolvedUrl = applySanityCdnParams(sourceUrl, {
+  const resolvedUrl = applyCdnParams(sourceUrl, {
     width,
     height,
     quality: options.quality ?? 85,
@@ -121,7 +127,7 @@ export function generateSrcset(
     .map(
       (width) =>
         `${cloudflareImageUrl(
-          applySanityCdnParams(sourceUrl, {
+          applyCdnParams(sourceUrl, {
             width,
             quality: options.quality ?? 86,
             fit: options.fit ?? "scale-down",

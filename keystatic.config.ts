@@ -6,15 +6,13 @@ const repo =
     ? `${process.env.GITHUB_REPOSITORY_OWNER}/${process.env.GITHUB_REPOSITORY_NAME}`
     : "tuliopc23/tulio-personal-website");
 
-const useGithubStorage = Boolean(process.env.KEYSTATIC_SECRET?.trim());
-
 export default config({
-  storage: useGithubStorage
-    ? {
-        kind: "github",
-        repo: repo as `${string}/${string}`,
-      }
-    : { kind: "local" },
+  // Always use GitHub storage so the `/keystatic/setup` flow is available.
+  // Keystatic falls back to a setup prompt when OAuth secrets are missing.
+  storage: {
+    kind: "github",
+    repo: repo as `${string}/${string}`,
+  },
   singletons: {
     blogPage: singleton({
       label: "Blog page",
@@ -147,7 +145,7 @@ export default config({
       format: { contentField: "body" },
       schema: {
         title: fields.text({ label: "Title" }),
-        slug: fields.slug({ name: { label: "Slug" } }),
+        slug: fields.text({ label: "Slug" }),
         publishedAt: fields.datetime({ label: "Published at" }),
         summary: fields.text({ label: "Summary", multiline: true }),
         tags: fields.array(fields.text({ label: "Tag" }), { label: "Tags" }),
@@ -174,14 +172,16 @@ export default config({
           fields.object({
             quote: fields.text({ label: "Quote", multiline: true }),
             attribution: fields.text({ label: "Attribution" }),
-            sourceUrl: fields.url({ label: "Source URL" }),
+            // Allow empty values (matches `seoCanonicalUrl: string | ""` pattern in content schema)
+            sourceUrl: fields.text({ label: "Source URL" }),
           }),
           { label: "Pull quotes" },
         ),
         furtherReading: fields.array(
           fields.object({
             title: fields.text({ label: "Title" }),
-            href: fields.url({ label: "URL" }),
+            // Allow empty values
+            href: fields.text({ label: "URL" }),
             note: fields.text({ label: "Note" }),
           }),
           { label: "Further reading" },
@@ -189,7 +189,8 @@ export default config({
         sourceReferences: fields.array(
           fields.object({
             title: fields.text({ label: "Title" }),
-            url: fields.url({ label: "URL" }),
+            // Allow empty values
+            url: fields.text({ label: "URL" }),
             sourceType: fields.text({ label: "Source type" }),
             author: fields.text({ label: "Author" }),
             capturedExcerpt: fields.text({ label: "Excerpt", multiline: true }),
@@ -205,7 +206,8 @@ export default config({
         }),
         seoMetaTitle: fields.text({ label: "SEO title" }),
         seoMetaDescription: fields.text({ label: "SEO description", multiline: true }),
-        seoCanonicalUrl: fields.url({ label: "Canonical URL" }),
+        // Allow empty (your zod schema allows url OR "")
+        seoCanonicalUrl: fields.text({ label: "Canonical URL" }),
         seoNoIndex: fields.checkbox({ label: "No index", defaultValue: false }),
         seoJsonLd: fields.text({ label: "JSON-LD", multiline: true }),
         authorName: fields.text({ label: "Author name", defaultValue: "Tulio Cunha" }),
@@ -213,8 +215,8 @@ export default config({
         authorRole: fields.text({ label: "Author role" }),
         heroImage: fields.image({
           label: "Hero image",
-          directory: "public/images/posts",
-          publicPath: "/images/posts/",
+          directory: "src/assets/images/posts",
+          publicPath: "@assets/images/posts/",
         }),
         heroCaption: fields.text({ label: "Hero caption" }),
         body: fields.mdx({
@@ -229,54 +231,13 @@ export default config({
             orderedList: true,
             unorderedList: true,
             link: true,
-            image: true,
             table: true,
             codeBlock: true,
+            image: {
+              directory: "src/assets/images/posts",
+              publicPath: "@assets/images/posts/",
+            },
           },
-        }),
-      },
-    }),
-    projects: collection({
-      label: "Projects",
-      slugField: "slug",
-      path: "src/content/projects/*",
-      format: { data: "yaml" },
-      schema: {
-        title: fields.text({ label: "Title" }),
-        slug: fields.slug({ name: { label: "Slug" } }),
-        role: fields.text({ label: "Role" }),
-        summary: fields.text({ label: "Summary", multiline: true }),
-        status: fields.select({
-          label: "Status",
-          options: [
-            { label: "Live", value: "Live" },
-            { label: "Maintained", value: "Maintained" },
-            { label: "Exploration", value: "Exploration" },
-          ],
-          defaultValue: "Live",
-        }),
-        href: fields.url({ label: "Link" }),
-        cta: fields.text({ label: "CTA label" }),
-        releaseDate: fields.date({ label: "Release date" }),
-        categories: fields.array(
-          fields.select({
-            label: "Category",
-            options: [
-              { label: "Web", value: "Web" },
-              { label: "Apple", value: "Apple" },
-              { label: "Systems", value: "Systems" },
-              { label: "Tooling", value: "Tooling" },
-            ],
-            defaultValue: "Web",
-          }),
-          { label: "Categories" },
-        ),
-        stack: fields.array(fields.text({ label: "Item" }), { label: "Stack" }),
-        order: fields.number({ label: "Sort order" }),
-        coverImage: fields.image({
-          label: "Cover image",
-          directory: "public/images/projects",
-          publicPath: "/images/projects/",
         }),
       },
     }),
@@ -287,7 +248,7 @@ export default config({
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
-        slug: fields.slug({ name: { label: "Slug" } }),
+        slug: fields.text({ label: "Slug" }),
         description: fields.text({ label: "Description", multiline: true }),
         archiveIntro: fields.text({ label: "Archive intro", multiline: true }),
       },
@@ -299,7 +260,7 @@ export default config({
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
-        slug: fields.slug({ name: { label: "Slug" } }),
+        slug: fields.text({ label: "Slug" }),
         description: fields.text({ label: "Description", multiline: true }),
         archiveIntro: fields.text({ label: "Archive intro", multiline: true }),
       },
@@ -311,7 +272,7 @@ export default config({
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
-        slug: fields.slug({ name: { label: "Slug" } }),
+        slug: fields.text({ label: "Slug" }),
         description: fields.text({ label: "Description", multiline: true }),
         positioning: fields.text({ label: "Positioning", multiline: true }),
       },

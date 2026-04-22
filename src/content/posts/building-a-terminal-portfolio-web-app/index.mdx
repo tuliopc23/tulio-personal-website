@@ -2,10 +2,9 @@
 title: Building a Terminal Portfolio Web App
 slug: building-a-terminal-portfolio-web-app
 publishedAt: 2025-10-14T22:20:00.000Z
-summary: A breakdown of building a keyboard-first portfolio that borrows
-  terminal conventions without becoming a gimmick, and why React, TanStack,
-  Elysia on Bun, SQLite, and Cloudflare Containers were the right trade-offs for
-  it.
+summary: A breakdown of building a keyboard-first portfolio that borrows terminal
+  conventions without becoming a gimmick, and why React, TanStack, Elysia on Bun, SQLite,
+  and Cloudflare Containers were the right trade-offs for it.
 tags:
   - Engineering
   - Frontend
@@ -14,27 +13,149 @@ coverVariant: cinematic
 categorySlugs:
   - software-development
 keyTakeaways:
-  - The terminal metaphor works best when commands reveal narrative, not just
-    novelty.
-  - Ghostty-inspired visuals shaped the product language, but the UX had to stay
-    legible to non-terminal users.
-  - TanStack on the client and Elysia on Bun on the server keep command flows
-    fast and structured.
-  - SQLite fits a content-and-command app well when the data model stays local,
-    simple, and queryable.
-  - Deployment architecture matters because low-latency command UX falls apart
-    if the stack feels remote or heavy.
+  - The terminal metaphor works best when commands reveal narrative, not just novelty.
+  - Ghostty-inspired visuals shaped the product language, but the UX had to stay legible
+    to non-terminal users.
+  - TanStack on the client and Elysia on Bun on the server keep command flows fast and
+    structured.
+  - SQLite fits a content-and-command app well when the data model stays local, simple,
+    and queryable.
+  - Deployment architecture matters because low-latency command UX falls apart if the
+    stack feels remote or heavy.
 seoMetaTitle: Building a Terminal Portfolio Web App
-seoMetaDescription: How I built a terminal-style portfolio with React, TanStack,
-  Elysia on Bun, SQLite, and Cloudflare Containers without letting the metaphor
-  become a gimmick.
+seoMetaDescription: How I built a terminal-style portfolio with React, TanStack, Elysia on
+  Bun, SQLite, and Cloudflare Containers without letting the metaphor become a gimmick.
 seoNoIndex: false
 authorName: Tulio Cunha
 authorSlug: tulio-cunha
-heroImage: https://cdn.sanity.io/images/61249gtj/production/e3d799a9c6241e371ed7f96660c856e4a4fc1cbb-3142x2096.png
+heroImage: "@assets/images/posts/building-a-terminal-portfolio-web-app.png"
 heroAlt: Screenshot of the terminal-style portfolio running in a web browser.
 heroCaption: "The interface borrows the discipline of the terminal: short verbs,
   predictable output, and almost no decorative noise."
+topicSlugs: []
+seriesSlugs: []
+pullQuotes: []
+furtherReading: []
+sourceReferences: []
+authorRole: ""
+seoCanonicalUrl: ""
+seoJsonLd: ""
+distributionPackage:
+  newsletterBlurb: ""
+  shortSocialPost: ""
+  longSocialPost: ""
+  teaserQuote: ""
+  ctaLabel: ""
+audience: ""
+intent: ""
+targetKeyword: ""
+evergreenStatus: ""
+series: ""
 ---
 
-_Article body was authored in Portable Text in Sanity. Convert this post manually to MDX or paste exported markdown._
+> I did not want a portfolio that merely looked like a terminal. I wanted one that borrowed the terminal's discipline: short verbs, immediate feedback, and very little decorative ceremony.
+
+Most portfolios are optimized for browsing. Mine needed to feel closer to working.
+
+That difference shaped almost every decision in the project: the interaction model, the copy, the stack, the content system, and even the way the UI reveals information over time.
+
+## The terminal metaphor only works if it stays legible
+
+The easiest way to build a terminal-themed product is to lean too hard on the costume.
+
+Green text. fake prompts. a lot of retro affectation. None of that is enough.
+
+If the shell metaphor is going to hold up, it has to improve the experience rather than merely theme it. That meant keeping the command set small, the output semantic, and the page readable even if someone never typed a single command.
+
+The Ghostty-inspired palette helped with visual continuity, but the product could not assume terminal literacy. It still needed to behave like a useful website.
+
+:::tip Tip
+
+The goal was not to simulate a shell perfectly. The goal was to use command structure to make browsing feel deliberate and fast.
+
+:::
+
+## Commands are content, not just navigation
+
+The most important product decision was treating commands as content.
+
+A command like `about` is not just a route. It is a compact, intentional way to reveal a story. `projects` is not just a list view. It is a verb that aligns with the rest of the interface.
+
+That framing kept the command set honest. Every command had to answer a question:
+
+- does it reveal something useful,
+- does it feel memorable,
+- and does it still make sense to someone who arrives without terminal habits?
+  That is why aliases mattered too. `whoami`, `info`, and `about` can all point at the same intent without forcing people into one vocabulary.
+
+```ts
+const commands = {
+  about: { aliases: ["whoami", "info"], kind: "static" },
+  projects: { aliases: ["ls"], kind: "remote", endpoint: "/api/projects" },
+  contact: { aliases: ["mail"], kind: "static" },
+  clear: { aliases: ["cls"], kind: "local" },
+};
+```
+
+The registry is small on purpose. The more commands you add, the more the interface starts to feel like a toy shell instead of a focused portfolio.
+
+## Why this stack fit the job
+
+I chose the stack for responsiveness and clarity, not because the architecture needed to be clever.
+
+**React** made the input -> parse -> render loop easy to reason about.
+
+**TanStack Router and Query** helped keep the client side structured without inflating it into a framework project that fought the experience.
+
+**Elysia on Bun** gave me a compact server shape that felt well matched to this kind of app: terse endpoints, fast local iteration, and very little ceremony.
+
+**SQLite** worked because the command layer behaves more like content than product data. I did not need a heavy CMS to change a command description or alias. I needed something local, queryable, and easy to ship with the app.
+
+## SQLite kept the content model honest
+
+One of the best decisions in the project was resisting the urge to add a full content system too early.
+
+Commands, aliases, and payloads live well in a tiny database. That made the model explicit:
+
+- a command has a primary name,
+- optional aliases,
+- a rendering strategy,
+- and either static content or an endpoint.
+  That is enough.
+
+The model stays close to the code, but it is not trapped inside React components. I can revise copy, adjust aliases, or add a new output path without treating every content change like a UI rewrite.
+
+## Deployment mattered more than it looks
+
+This kind of interface feels great only if the loop stays snappy.
+
+If the command metaphor introduces visible lag, the whole illusion breaks. That is why deployment mattered more than a portfolio project usually justifies on paper.
+
+Packaging the app as a single container, keeping the API surface small, and exposing a health-checkable runtime made the product easier to reason about operationally. Cloudflare Containers fit that shape well because the project did not need a sprawling platform story. It needed predictable deployment and low friction.
+
+## Where I deliberately stopped
+
+The most important restraint in the project was deciding **what not to emulate**.
+
+I did not want:
+
+- an overly faithful shell clone,
+- dozens of novelty commands,
+- or an interface that punished non-technical visitors.
+  The terminal metaphor should sharpen the experience, not gate it.
+
+That means the right amount of simulation is limited. Enough to create rhythm. Not so much that the interface becomes self-indulgent.
+
+## The real payoff
+
+What I like most about the finished app is that it feels aligned with how I actually work.
+
+Not because it pretends to be a terminal, but because it borrows the terminal's strengths:
+
+- concise verbs,
+- immediate feedback,
+- low noise,
+- and a sense that every interaction has a purpose.
+  That is what made the project worth building.
+
+A portfolio does not need to look unusual to feel personal. It needs an interaction model that actually says something about how you think.

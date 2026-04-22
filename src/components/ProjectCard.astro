@@ -1,10 +1,10 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
-import type { SanityProject } from "../lib/content/projects";
+import type { Project } from "../lib/content/projects";
 import { generateSrcset, optimizedImageUrl } from "../lib/image-url";
 
 interface Props {
-  project: SanityProject;
+  project: Project;
   revealGroup?: string;
   revealOrder?: number | string;
 }

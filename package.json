@@ -34,7 +34,8 @@
     "prettier": "vp fmt . --write",
     "prettier:check": "vp fmt --check .",
     "install:ci": "pnpm install --frozen-lockfile",
-    "verify:prod-github-api": "node scripts/verify-prod-github-api.mjs"
+    "verify:prod-github-api": "node scripts/verify-prod-github-api.mjs",
+    "seed:keystatic-posts": "node scripts/seed-keystatic-posts.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.8",
@@ -50,14 +51,12 @@
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.50",
     "@phosphor-icons/core": "^2.1.1",
-    "@portabletext/to-html": "^5.0.2",
-    "@portabletext/types": "^4.0.2",
     "@remotion/player": "4.0.450",
     "@sentry/astro": "^10.49.0",
     "@sentry/cloudflare": "^10.49.0",
     "astro": "^6.1.8",
-    "astro-portabletext": "^0.13.0",
     "clsx": "^2.1.1",
+    "direction": "^2.0.1",
     "dotenv": "^17.4.2",
     "easymde": "^2.20.0",
     "gsap": "^3.15.0",
@@ -68,6 +67,7 @@
     "react-dom": "^19.2.5",
     "remotion": "4.0.450",
     "resend": "^6.12.2",
+    "set-cookie-parser": "^3.1.0",
     "sharp": "^0.34.5",
     "shiki": "^4.0.2",
     "solid-js": "^1.9.12",
@@ -76,17 +76,18 @@
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260421.1",
+    "@cloudflare/workers-types": "^4.20260422.1",
     "@playwright/test": "^1.59.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint-plugin-astro": "^1.7.0",
     "jsdom": "^29.0.2",
-    "lodash": "^4.18.1",
+    "lodash": "^4.17.21",
     "prettier": "^3.8.3",
     "react-compiler-runtime": "^1.0.0",
     "react-is": "^19.2.5",
     "typescript": "^6.0.3",
+    "vite": "^7.3.2",
     "vite-plus": "^0.1.19",
     "vitest": "^4.1.5",
     "wrangler": "^4.84.1"
@@ -97,12 +98,18 @@
   "packageManager": "pnpm@9.15.9",
   "overrides": {
     "vite": "^7",
-    "remotion": "4.0.450"
+    "remotion": "4.0.450",
+    "lodash": "4.17.21"
   },
   "pnpm": {
     "overrides": {
       "remotion": "4.0.450",
-      "@remotion/player>remotion": "4.0.450"
+      "@remotion/player>remotion": "4.0.450",
+      "lodash": "4.17.21",
+      "slate-react>lodash": "4.17.21",
+      "cookie": "link:vendor/cookie",
+      "@braintree/sanitize-url": "link:vendor/braintree-sanitize-url",
+      "is-hotkey": "link:vendor/is-hotkey"
     },
     "onlyBuiltDependencies": [
       "@sentry/cli",
@@ -117,6 +124,9 @@
         "prettier": "3",
         "codemirror": "5"
       }
+    },
+    "patchedDependencies": {
+      "@keystatic/astro": "patches/@keystatic__astro.patch"
     }
   }
 }

@@ -5,15 +5,15 @@ import type { PostDetail } from "../../src/lib/content/posts";
 import { markdownFallbackPost, richPostDetail } from "../fixtures/content";
 
 describe("postBodyToFeedHtml", () => {
-  test("renders portable text blocks to HTML", () => {
-    const html = postBodyToFeedHtml(richPostDetail.content, richPostDetail.markdownContent);
+  test("renders markdown to HTML", () => {
+    const html = postBodyToFeedHtml(richPostDetail.markdownContent);
     expect(html).toContain("<p>");
     expect(html).toContain("Astro makes it easy to keep most of the page static");
   });
 
-  test("falls back to markdown when content is empty", () => {
+  test("renders markdown headings", () => {
     const post = markdownFallbackPost as PostDetail;
-    const html = postBodyToFeedHtml(post.content, post.markdownContent);
+    const html = postBodyToFeedHtml(post.markdownContent);
     expect(html).toContain("<h1");
     expect(html).toContain("Heading");
     expect(html).toContain("Fallback markdown content");

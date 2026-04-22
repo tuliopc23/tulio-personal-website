@@ -1,6 +1,6 @@
 export const CACHE_TTL_MS = 60000; // 60 seconds
 
-export interface SanityFeaturedRepo {
+export interface FeaturedRepo {
   _id: string;
   repoFullName: string;
   displayTitle?: string;
@@ -49,10 +49,8 @@ export interface NormalizedRepoCard {
   commits: GitHubCommit[];
 }
 
-import fs from "node:fs/promises";
-import path from "node:path";
-
 import { parse as parseYaml } from "yaml";
+import featuredGithubYaml from "../content/site/featured-github/index.yaml?raw";
 
 interface GitHubRestCommit {
   sha: string;
@@ -83,17 +81,13 @@ function resolveLanguageIcon(language: string): string | null {
 }
 
 /** Featured repos curated in-repo (`src/content/site/featured-github/index.yaml`). */
-async function fetchFeaturedRepos(): Promise<SanityFeaturedRepo[]> {
+async function fetchFeaturedRepos(): Promise<FeaturedRepo[]> {
   try {
-    const raw = await fs.readFile(
-      path.join(process.cwd(), "src/content/site/featured-github/index.yaml"),
-      "utf8",
-    );
-    const doc = parseYaml(raw) as { repos?: Array<Record<string, unknown>> };
+    const doc = parseYaml(featuredGithubYaml) as { repos?: Array<Record<string, unknown>> };
     const repos = (doc.repos ?? [])
       .map((r) => {
         const id = (r._id as string) || (r.id as string) || "";
-        return { ...r, _id: id } as SanityFeaturedRepo;
+        return { ...r, _id: id } as FeaturedRepo;
       })
       .filter((r) => r._id);
     return repos.filter((r) => r.featured && r.visibleInProofOfWork);
@@ -175,15 +169,15 @@ export function formatRelativeTime(dateString: string): string {
 }
 
 /**
- * Merges Sanity editorial data with live GitHub data.
+ * Merges curated repo data with live GitHub data.
  */
 export async function getMergedGitHubData(
   githubToken: string | undefined,
 ): Promise<NormalizedRepoCard[]> {
-  const sanityRepos = await fetchFeaturedRepos();
+  const featuredRepos = await fetchFeaturedRepos();
   const normalizedRepos = await Promise.all(
-    sanityRepos.map(async (sanityRepo) => {
-      const { repoFullName } = sanityRepo;
+    featuredRepos.map(async (repo) => {
+      const { repoFullName } = repo;
       const [ghRepo, ghCommits] = await Promise.all([
         fetchFromGitHub<GitHubRestRepo>(`/repos/${repoFullName}`, githubToken),
         fetchFromGitHub<GitHubRestCommit[]>(
@@ -193,7 +187,7 @@ export async function getMergedGitHubData(
       ]);
 
       if (!ghRepo) return null;
-      if (ghRepo.private && !sanityRepo.showPrivate) return null;
+      if (ghRepo.private && !repo.showPrivate) return null;
 
       const mappedCommits: GitHubCommit[] = (ghCommits || [])
         .filter((c) => c.commit?.message)
@@ -210,13 +204,13 @@ export async function getMergedGitHubData(
           };
         });
 
-      const finalTitle = sanityRepo.displayTitle || ghRepo.name;
-      const finalDesc = sanityRepo.description || stripEmojis(ghRepo.description || "");
-      const finalCategory = sanityRepo.category || ghRepo.language || "Code";
+      const finalTitle = repo.displayTitle || ghRepo.name;
+      const finalDesc = repo.description || stripEmojis(ghRepo.description || "");
+      const finalCategory = repo.category || ghRepo.language || "Code";
       const finalLanguage = resolvePrimaryLanguage(ghRepo.full_name, ghRepo.language);
 
       return {
-        id: sanityRepo._id,
+        id: repo._id,
         repoFullName: ghRepo.full_name,
         repoName: ghRepo.name,
         displayTitle: finalTitle,
@@ -227,7 +221,7 @@ export async function getMergedGitHubData(
         updatedAt: ghRepo.updated_at,
         isPrivate: ghRepo.private,
         repoUrl: ghRepo.html_url,
-        showRepositoryLink: sanityRepo.showRepositoryLink,
+        showRepositoryLink: repo.showRepositoryLink,
         commits: mappedCommits,
       } satisfies NormalizedRepoCard;
     }),

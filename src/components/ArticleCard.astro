@@ -1,8 +1,8 @@
 ---
 import PhosphorIcon from "./PhosphorIcon.astro";
 import CategoryBadges from "./CategoryBadges.astro";
-import type { Category, SanityImageWithMetadata } from "../lib/content/posts";
-import { generateSrcset, optimizedImageUrl } from "../lib/image-url";
+import { Image } from "astro:assets";
+import type { Category, HeroImage } from "../lib/content/posts";
 
 interface Props {
   href: string;
@@ -19,7 +19,7 @@ interface Props {
   revealDelay?: string;
   readingTimeMinutes?: number;
   isNew?: boolean;
-  heroImage?: SanityImageWithMetadata | null;
+  heroImage?: HeroImage | null;
   coverVariant?: "default" | "cinematic" | "minimal" | null;
   imagePriority?: boolean;
   editorialLayout?: "default" | "featured-editorial";
@@ -56,8 +56,8 @@ const _categories = Array.isArray(categories) ? categories : [];
 const _displayTags = _tags.slice(0, 2);
 const _hasTaxonomy = _categories.length > 0 || _displayTags.length > 0;
 const _isFeaturedEditorial = editorialLayout === "featured-editorial";
-const _heroImageUrl = heroImage?.url ?? null;
-const _hasHeroImage = !!_heroImageUrl;
+const _heroImageSrc = heroImage?.src ?? null;
+const _hasHeroImage = Boolean(_heroImageSrc);
 const _editorialSource = _categories[0]?.title ?? _displayTags[0] ?? "Essay";
 const _editorialContext =
   _categories[1]?.title ?? (_categories.length > 0 ? _displayTags[0] : _displayTags[1]) ?? null;
@@ -76,9 +76,7 @@ const _imageAlt = (heroImage?.alt ?? "")
   .replace(/\s{2,}/g, " ")
   .replace(/\s+([,.;:!?])/g, "$1")
   .trim();
-const _imagePlaceholderStyle = heroImage?.lqip
-  ? `background-image: url('${heroImage.lqip}'); background-size: cover; background-position: center;`
-  : undefined;
+const _imagePlaceholderStyle = undefined;
 const _placeholderIcons =
   coverVariant === "cinematic"
     ? ["planet", "cube", "sparkle"]
@@ -106,19 +104,16 @@ const _placeholderIcons =
 >
   <a class="articleCard__link" href={href}>
     {
-      _hasHeroImage && _heroImageUrl && (
+      _hasHeroImage && _heroImageSrc && (
         <figure class="articleCard__media" style={_imagePlaceholderStyle}>
-          <img
-            src={optimizedImageUrl(_heroImageUrl, _imageWidths[_imageWidths.length - 1])}
-            srcset={generateSrcset(_heroImageUrl, _imageWidths)}
+          <Image
+            src={_heroImageSrc as any}
+            widths={_imageWidths}
             sizes={_imageSizes}
             alt={_imageAlt || title}
             loading={imagePriority ? "eager" : "lazy"}
             fetchpriority={imagePriority ? "high" : undefined}
             decoding="async"
-            {...(heroImage?.width && heroImage?.height
-              ? { width: heroImage.width, height: heroImage.height }
-              : {})}
           />
         </figure>
       )
