@@ -1,6 +1,10 @@
 import { marked } from "marked";
 
-import { parseMarkdownDocument } from "./markdown";
+import {
+  parseMarkdownDocument,
+  renderMarkdownAlerts,
+  renderMarkdownDirectiveCallouts,
+} from "./markdown";
 import { toAbsoluteUrl } from "./seo.js";
 
 function absolutizeSrc(src: string, siteOrigin: string): string {
@@ -30,7 +34,9 @@ export function postBodyToFeedHtml(markdownContent?: string | null): string {
   const { body } = parseMarkdownDocument(markdownContent);
   if (!body.trim()) return "";
 
-  return marked(body, {
+  const enrichedBody = renderMarkdownAlerts(renderMarkdownDirectiveCallouts(body));
+
+  return marked(enrichedBody, {
     breaks: true,
     gfm: true,
     async: false,

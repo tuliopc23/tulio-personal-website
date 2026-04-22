@@ -1,4 +1,5 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
+import { articleBodyComponents, keystaticUi } from "./src/cms/keystatic-ui";
 
 const repo =
   process.env.KEYSTATIC_GITHUB_REPO?.trim() ||
@@ -13,6 +14,7 @@ export default config({
     kind: "github",
     repo: repo as `${string}/${string}`,
   },
+  ui: keystaticUi,
   singletons: {
     blogPage: singleton({
       label: "Blog page",
@@ -138,6 +140,8 @@ export default config({
       label: "Posts",
       slugField: "slug",
       path: "src/content/posts/*/",
+      entryLayout: "content",
+      columns: ["publishedAt", "featured", "coverVariant"],
       format: { contentField: "body" },
       schema: {
         title: fields.text({ label: "Title" }),
@@ -218,6 +222,9 @@ export default config({
         heroCaption: fields.text({ label: "Hero caption" }),
         body: fields.mdx({
           label: "Body",
+          description:
+            "Use Markdown for standard writing and the custom Callout, Figure, and PullQuote blocks for richer editorial layouts.",
+          components: articleBodyComponents,
           options: {
             bold: true,
             italic: true,

@@ -26,14 +26,21 @@ function createRedirectContext(url: string) {
 
 describe("keystatic middleware", () => {
   test("passes through keystatic page requests when auth env is missing", async () => {
-    const next = vi.fn(async () => new Response("ok"));
+    const next = vi.fn(
+      async () =>
+        new Response("<html><head></head><body>ok</body></html>", {
+          headers: { "content-type": "text/html" },
+        }),
+    );
 
     const response = assertResponse(
       await onRequest(createRedirectContext("https://www.tuliocunha.dev/keystatic/"), next),
     );
 
     expect(response.status).toBe(200);
-    expect(await response.text()).toBe("ok");
+    const html = await response.text();
+    expect(html).toContain('data-keystatic-admin="true"');
+    expect(html).toContain("brand-icon-light.png");
     expect(next).toHaveBeenCalledTimes(1);
   });
 

@@ -6,8 +6,10 @@ import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import keystatic from "@keystatic/astro";
 import sentry from "@sentry/astro";
+import remarkDirective from "remark-directive";
 import "dotenv/config";
 import { defineConfig } from "astro/config";
+import remarkCalloutDirectives from "./src/lib/mdx/remark-callout-directives.mjs";
 import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
 const sentryRelease = process.env.SENTRY_RELEASE || undefined;
@@ -48,7 +50,9 @@ export default defineConfig({
   },
   integrations: [
     markdoc(),
-    mdx(),
+    mdx({
+      remarkPlugins: [remarkDirective, remarkCalloutDirectives],
+    }),
     keystatic(),
     sitemap({
       filter: shouldIncludeInSitemap,

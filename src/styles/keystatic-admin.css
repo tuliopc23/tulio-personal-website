@@ -1,0 +1,86 @@
+@import "./fonts.css";
+@import "./system/tokens.css";
+
+html[data-keystatic-admin="true"] {
+  color-scheme: dark light;
+  background: var(--bg-gradient);
+  min-height: 100%;
+}
+
+html[data-keystatic-admin="true"] body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: transparent;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html[data-keystatic-admin="true"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: var(--bg-gradient);
+}
+
+html[data-keystatic-admin="true"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.46;
+  background-image: var(--bg-radial-primary), var(--bg-radial-secondary), var(--bg-radial-tertiary);
+  background-repeat: no-repeat;
+}
+
+html[data-keystatic-admin="true"] :where(body, button, input, textarea, select) {
+  font-family: var(--font-sans);
+}
+
+html[data-keystatic-admin="true"] :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+html[data-keystatic-admin="true"] :where(a) {
+  color: var(--link);
+}
+
+html[data-keystatic-admin="true"] ::selection {
+  background: var(--selection-bg);
+}
+
+html[data-keystatic-admin="true"] .keystatic-admin-mark img {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+html[data-keystatic-admin="true"] [role="main"] {
+  position: relative;
+}
+
+html[data-keystatic-admin="true"] :where(button, [role="button"], input, textarea, select) {
+  border-radius: 14px;
+}
+
+html[data-keystatic-admin="true"] :where(input, textarea, select) {
+  background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
+}
+
+html[data-keystatic-admin="true"] :where(::-webkit-scrollbar) {
+  width: 12px;
+  height: 12px;
+}
+
+html[data-keystatic-admin="true"] :where(::-webkit-scrollbar-thumb) {
+  background: color-mix(in srgb, var(--panel-border-strong) 86%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}

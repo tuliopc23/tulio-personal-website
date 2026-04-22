@@ -1,0 +1,35 @@
+---
+import PhosphorIcon from "../PhosphorIcon.astro";
+
+interface Props {
+  tone?: "note" | "tip" | "important" | "warning" | "caution" | string;
+  title?: string;
+}
+
+const { tone = "note", title = "Note" } = Astro.props as Props;
+
+const normalizedTone = ["note", "tip", "important", "warning", "caution"].includes(tone)
+  ? tone
+  : "note";
+
+const iconName =
+  normalizedTone === "tip"
+    ? "sparkle"
+    : normalizedTone === "warning" || normalizedTone === "caution"
+      ? "warning"
+      : normalizedTone === "important"
+        ? "article"
+        : "article";
+---
+
+<aside class:list={["articleCallout", `articleCallout--${normalizedTone}`]}>
+  <div class="articleCallout__header">
+    <span class="articleCallout__icon" aria-hidden="true">
+      <PhosphorIcon name={iconName} size={16} weight="regular" />
+    </span>
+    <p class="articleCallout__title">{title}</p>
+  </div>
+  <div class="articleCallout__body">
+    <slot />
+  </div>
+</aside>

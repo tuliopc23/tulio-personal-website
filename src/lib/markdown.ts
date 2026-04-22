@@ -69,6 +69,8 @@ export function markdownToPlainText(content?: string | null): string {
   const { body } = parseMarkdownDocument(content);
 
   return body
+    .replace(/^:::(note|tip|important|warning|caution)\b.*$/gim, " ")
+    .replace(/^:::$/gm, " ")
     .replace(/^```[\s\S]*?^```$/gm, " ")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, " $1 ")
@@ -77,6 +79,23 @@ export function markdownToPlainText(content?: string | null): string {
     .replace(/[*_~#=-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+export function renderMarkdownDirectiveCallouts(content: string): string {
+  return content.replace(
+    /(^|\n):::([a-z]+)\s*([^\n]*)\n([\s\S]*?)\n:::(?=\n|$)/gi,
+    (_match, prefix: string, rawTone: string, rawTitle: string, rawBody: string) => {
+      const tone = rawTone.toLowerCase();
+      if (!["note", "tip", "important", "warning", "caution"].includes(tone)) {
+        return _match;
+      }
+
+      const title = rawTitle.trim() || tone.charAt(0).toUpperCase() + tone.slice(1);
+      const body = rawBody.trim();
+
+      return `${prefix}<aside class="markdown-alert markdown-alert--${tone}"><p class="markdown-alert__title">${title}</p>\n\n${body}\n\n</aside>`;
+    },
+  );
 }
 
 export function renderMarkdownAlerts(content: string): string {

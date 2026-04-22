@@ -1,0 +1,22 @@
+---
+interface Props {
+  class?: string;
+  style?: string;
+  tabindex?: number | string;
+  [key: string]: unknown;
+}
+
+const language =
+  typeof Astro.props["data-language"] === "string" ? String(Astro.props["data-language"]).toUpperCase() : "";
+
+const { class: className = "", style: _style, children: _children, ...rest } = Astro.props as Props & {
+  children?: unknown;
+};
+---
+
+<div class="articlePortable__codeBlock" data-language={language || undefined}>
+  {language && <p class="articlePortable__codeCaption">{language}</p>}
+  <pre class:list={["articlePortable__pre", className]} {...rest}>
+    <slot />
+  </pre>
+</div>

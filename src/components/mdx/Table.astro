@@ -1,0 +1,13 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props as Props;
+---
+
+<div class="articlePortable__tableWrap">
+  <table class:list={["articlePortable__table", className]}>
+    <slot />
+  </table>
+</div>

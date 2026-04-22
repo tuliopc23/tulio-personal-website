@@ -1,0 +1,25 @@
+---
+interface Props {
+  attribution?: string;
+  sourceUrl?: string;
+}
+
+const { attribution = "", sourceUrl = "" } = Astro.props as Props;
+---
+
+<figure class="articlePullQuote">
+  <blockquote class="articlePullQuote__quote">
+    <slot />
+  </blockquote>
+  {(attribution || sourceUrl) && (
+    <figcaption class="articlePullQuote__meta">
+      {sourceUrl ? (
+        <a class="articlePortable__link" href={sourceUrl} target="_blank" rel="noreferrer noopener">
+          {attribution || sourceUrl}
+        </a>
+      ) : (
+        attribution
+      )}
+    </figcaption>
+  )}
+</figure>

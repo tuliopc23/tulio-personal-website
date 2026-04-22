@@ -72,7 +72,9 @@
     "shiki": "^4.0.2",
     "solid-js": "^1.9.12",
     "styled-components": "^6.4.1",
+    "remark-directive": "^4.0.0",
     "tailwind-merge": "^3.5.0",
+    "unist-util-visit": "^5.0.0",
     "yaml": "^2.8.3"
   },
   "devDependencies": {

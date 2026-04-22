@@ -5,6 +5,7 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
+import { mdxComponents } from "../../components/mdx/mdx-components";
 import { Image } from "astro:assets";
 import { isNewPublishedAt } from "../../lib/is-new-post";
 import { toAbsoluteUrl } from "../../lib/seo.js";
@@ -45,6 +46,12 @@ if (!post) {
 
 const postRender = slug ? await renderPostMdx(slug) : null;
 const ArticleBodyContent = postRender?.Content ?? null;
+const _articleHeadings = (postRender?.headings ?? [])
+  .filter((heading) => heading.depth >= 2 && heading.depth <= 3)
+  .map((heading) => ({
+    ...heading,
+    depth: heading.depth as 2 | 3,
+  }));
 
 const _related: PostSummary[] = post ? await getRecentPosts(post.slug, 3) : [];
 const _dateISO = post ? new Date(post.publishedAt).toISOString() : "";
@@ -83,6 +90,7 @@ const _footerTopics = [
 ].filter((value, index, values) => values.indexOf(value) === index);
 const _hasArticleBody = Boolean(ArticleBodyContent);
 const _heroImageSrc = heroImage?.src ?? null;
+const _heroCaption = heroImage?.caption?.trim() ?? "";
 const _heroAspectRatio =
   _heroImageSrc && typeof _heroImageSrc === "object" && _heroImageSrc && "width" in (_heroImageSrc as any) && "height" in (_heroImageSrc as any)
     ? Number((_heroImageSrc as any).width) / Number((_heroImageSrc as any).height)
@@ -113,6 +121,11 @@ const ogImage =
 const customJsonLd =
   typeof seo?.jsonLd === "string" && seo.jsonLd.trim().length > 0 ? seo.jsonLd : null;
 const _articleModifiedAt = post ? post.updatedAt : "";
+const _readerContext = [
+  post?.audience ? { label: "Audience", value: post.audience } : null,
+  post?.intent ? { label: "Focus", value: post.intent } : null,
+  post?.evergreenStatus ? { label: "Status", value: post.evergreenStatus } : null,
+].filter((entry): entry is { label: string; value: string } => Boolean(entry?.value));
 
 const articleStructuredData = post
   ? {
@@ -271,9 +284,10 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   <div class="article__metaDivider" aria-hidden="true"></div>
                   <div class="article__meta">
                     {post.author && (
-                      <span>
+                      <span class="article__authorMeta">
                         <PhosphorIcon name="user" size={14} weight="regular" />
                         By {post.author.name}
+                        {post.author.role && <span class="article__authorRole">{post.author.role}</span>}
                       </span>
                     )}
                     {_dateISO && (
@@ -289,6 +303,16 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                       </span>
                     )}
                   </div>
+                </div>
+              )}
+              {_readerContext.length > 0 && (
+                <div class="article__detailRail" aria-label="Reader context">
+                  {_readerContext.map((item) => (
+                    <span class="article__detailPill">
+                      <span class="article__detailLabel">{item.label}</span>
+                      <span class="article__detailValue">{item.value}</span>
+                    </span>
+                  ))}
                 </div>
               )}
             </div>
@@ -310,6 +334,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 fetchpriority="high"
                 decoding="async"
               />
+              {_heroCaption && <figcaption class="article__heroCaption">{_heroCaption}</figcaption>}
             </figure>
           )}
 
@@ -334,16 +359,46 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             </div>
           </section>
 
+          {_articleHeadings.length > 1 && (
+            <section
+              class="article__panel article__toc surface-panel surface-panel--nested"
+              aria-labelledby="article-toc-title"
+              data-reveal
+              data-reveal-group="post-shell"
+              data-reveal-order={3}
+            >
+              <div class="article__sectionHeader">
+                <span class="article__sectionEyebrow">
+                  <PhosphorIcon name="article" size={14} weight="regular" />
+                  On this page
+                </span>
+                <h2 id="article-toc-title" class="article__relatedTitle">Reader map</h2>
+                <p class="article__sectionCaption">
+                  A quick route through the sections in this article.
+                </p>
+              </div>
+              <ol class="article__tocList">
+                {_articleHeadings.map((heading) => (
+                  <li class:list={["article__tocItem", `article__tocItem--depth-${heading.depth}`]}>
+                    <a class="article__tocLink" href={`#${heading.slug}`}>
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           <section
             class="article__body surface-panel surface-panel--premium"
             data-reading-body
             data-reveal
             data-reveal-group="post-shell"
-            data-reveal-order={3}
+            data-reveal-order={4}
           >
             {_hasArticleBody && ArticleBodyContent ? (
               <div class="articlePortable articlePortable--mdx">
-                <ArticleBodyContent />
+                <ArticleBodyContent components={mdxComponents} />
               </div>
             ) : (
               <div class="articlePortable articlePortable--empty" role="status" aria-live="polite">
@@ -361,7 +416,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               aria-label="Pull quotes"
               data-reveal
               data-reveal-group="post-shell"
-              data-reveal-order={4}
+              data-reveal-order={5}
             >
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
@@ -387,7 +442,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               aria-label="Key takeaways"
               data-reveal
               data-reveal-group="post-shell"
-              data-reveal-order={5}
+              data-reveal-order={6}
             >
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
@@ -409,7 +464,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
               class="article__footerPanel article__footerPanel--cta surface-panel surface-panel--nested"
               data-reveal
               data-reveal-group="post-shell"
-              data-reveal-order={6}
+              data-reveal-order={7}
             >
               <div class="article__sectionHeader">
                 <span class="article__sectionEyebrow">
@@ -478,7 +533,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 aria-label="Further reading"
                 data-reveal
                 data-reveal-group="post-shell"
-                data-reveal-order={7}
+                data-reveal-order={8}
               >
                 <div class="article__sectionHeader">
                   <span class="article__sectionEyebrow">
@@ -515,7 +570,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 aria-label="Source references"
                 data-reveal
                 data-reveal-group="post-shell"
-                data-reveal-order={8}
+                data-reveal-order={9}
               >
                 <div class="article__sectionHeader">
                   <span class="article__sectionEyebrow">
@@ -556,7 +611,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                 aria-label="Related posts"
                 data-reveal
                 data-reveal-group="post-shell"
-                data-reveal-order={9}
+                data-reveal-order={10}
               >
                 <div class="article__sectionHeader">
                   <span class="article__sectionEyebrow">

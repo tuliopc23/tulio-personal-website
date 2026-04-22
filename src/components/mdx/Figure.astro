@@ -1,0 +1,26 @@
+---
+interface Props {
+  src?: string | { src?: string } | null;
+  alt?: string;
+  caption?: string;
+  title?: string;
+}
+
+const { src, alt = "", caption = "", title = "" } = Astro.props as Props;
+
+const resolvedSrc =
+  typeof src === "string"
+    ? src
+    : src && typeof src === "object" && "src" in src && typeof src.src === "string"
+      ? src.src
+      : "";
+
+const resolvedCaption = caption?.trim() || title?.trim() || "";
+---
+
+{resolvedSrc && (
+  <figure class="articlePortable__figure articlePortable__figure--component">
+    <img src={resolvedSrc} alt={alt} loading="lazy" decoding="async" />
+    {resolvedCaption && <figcaption class="articlePortable__caption">{resolvedCaption}</figcaption>}
+  </figure>
+)}
