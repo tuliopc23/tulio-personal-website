@@ -124,6 +124,29 @@ export const projectsPageSingletonSchema = z.object({
   description: z.string().min(1),
   heroTitle: z.string().min(1),
   contactEmail: z.string().min(1),
+  caseStudies: z
+    .array(
+      z.object({
+        icon: z.string().min(1),
+        eyebrow: z.string().min(1),
+        title: z.string().min(1),
+        headline: z.string().min(1),
+        lede: z.string().min(1),
+        role: z.string().min(1),
+        status: z.enum(["live", "maintained", "exploration"]),
+        href: z.string().nullable().optional(),
+        stack: z.array(z.string()).optional(),
+        images: z
+          .array(
+            z.object({
+              alt: z.string().nullable().optional(),
+              url: z.string().nullable().optional(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .optional(),
 });
 
 export const featuredGithubSingletonSchema = z.object({

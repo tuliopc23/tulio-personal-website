@@ -24,7 +24,7 @@ caseStudies:
       platform code.
     role: Creator & Solo Developer
     status: live
-    href: null
+    href: ""
     stack:
       - Swift
       - SwiftUI
@@ -70,7 +70,7 @@ caseStudies:
       not an algorithm.
     role: Full Stack Developer
     status: live
-    href: null
+    href: ""
     stack:
       - React
       - PostgreSQL
@@ -91,7 +91,7 @@ caseStudies:
       frontend looks effortless; the infrastructure behind it is anything but.
     role: Full Stack Developer
     status: live
-    href: null
+    href: ""
     stack:
       - Payload CMS
       - React

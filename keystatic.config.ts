@@ -16,7 +16,7 @@ export default config({
   singletons: {
     blogPage: singleton({
       label: "Blog page",
-      path: "src/content/site/blog-page",
+      path: "src/content/site/blog-page/",
       format: { data: "yaml" },
       schema: {
         pageDescription: fields.text({ label: "Page description", multiline: true }),
@@ -44,7 +44,7 @@ export default config({
     }),
     aboutPage: singleton({
       label: "About page",
-      path: "src/content/site/about-page",
+      path: "src/content/site/about-page/",
       format: { data: "yaml" },
       schema: {
         seoDescription: fields.text({ label: "SEO description", multiline: true }),
@@ -64,7 +64,7 @@ export default config({
     }),
     projectsPage: singleton({
       label: "Projects page",
-      path: "src/content/site/projects-page",
+      path: "src/content/site/projects-page/",
       format: { data: "yaml" },
       schema: {
         description: fields.text({ label: "SEO description", multiline: true }),
@@ -98,11 +98,7 @@ export default config({
             images: fields.array(
               fields.object({
                 alt: fields.text({ label: "Alt" }),
-                file: fields.image({
-                  label: "Image",
-                  directory: "public/images/case-studies",
-                  publicPath: "/images/case-studies/",
-                }),
+                url: fields.text({ label: "Image URL" }),
               }),
               { label: "Images" },
             ),
@@ -113,7 +109,7 @@ export default config({
     }),
     featuredGithub: singleton({
       label: "Featured GitHub repos",
-      path: "src/content/site/featured-github",
+      path: "src/content/site/featured-github/",
       format: { data: "yaml" },
       schema: {
         repos: fields.array(
@@ -141,7 +137,7 @@ export default config({
     posts: collection({
       label: "Posts",
       slugField: "slug",
-      path: "src/content/posts/*",
+      path: "src/content/posts/*/",
       format: { contentField: "body" },
       schema: {
         title: fields.text({ label: "Title" }),
@@ -218,6 +214,7 @@ export default config({
           directory: "src/assets/images/posts",
           publicPath: "@assets/images/posts/",
         }),
+        heroAlt: fields.text({ label: "Hero alt" }),
         heroCaption: fields.text({ label: "Hero caption" }),
         body: fields.mdx({
           label: "Body",
@@ -244,7 +241,7 @@ export default config({
     taxonomyCategories: collection({
       label: "Categories",
       slugField: "slug",
-      path: "src/content/taxonomy/categories/*",
+      path: "src/content/taxonomy/categories/*/",
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
@@ -256,7 +253,7 @@ export default config({
     taxonomyTopics: collection({
       label: "Topics",
       slugField: "slug",
-      path: "src/content/taxonomy/topics/*",
+      path: "src/content/taxonomy/topics/*/",
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
@@ -268,7 +265,7 @@ export default config({
     taxonomySeries: collection({
       label: "Series",
       slugField: "slug",
-      path: "src/content/taxonomy/series/*",
+      path: "src/content/taxonomy/series/*/",
       format: { data: "yaml" },
       schema: {
         title: fields.text({ label: "Title" }),
