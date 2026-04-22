@@ -1,3 +1,4 @@
+import type { APIContext } from "astro";
 import { defineMiddleware } from "astro:middleware";
 
 /**
@@ -23,6 +24,14 @@ function rewriteDevPaths(html: string): string {
 }
 
 type KeystaticRuntimeEnv = Record<string, string | undefined>;
+type KeystaticMiddlewareContext = APIContext & {
+  locals: APIContext["locals"] & {
+    runtime?: {
+      env?: KeystaticRuntimeEnv;
+    };
+  };
+};
+
 const KEYSTATIC_ENV_KEYS = [
   "KEYSTATIC_GITHUB_CLIENT_ID",
   "KEYSTATIC_GITHUB_CLIENT_SECRET",
@@ -30,9 +39,7 @@ const KEYSTATIC_ENV_KEYS = [
   "PUBLIC_KEYSTATIC_GITHUB_APP_SLUG",
 ] as const;
 
-function getKeystaticRuntimeEnv(
-  context: Parameters<typeof defineMiddleware>[0],
-): KeystaticRuntimeEnv | undefined {
+function getKeystaticRuntimeEnv(context: KeystaticMiddlewareContext): KeystaticRuntimeEnv | undefined {
   try {
     return context.locals.runtime?.env as KeystaticRuntimeEnv | undefined;
   } catch {
@@ -40,18 +47,28 @@ function getKeystaticRuntimeEnv(
   }
 }
 
-function hydrateKeystaticProcessEnv(context: Parameters<typeof defineMiddleware>[0]): void {
-  const runtimeEnv = getKeystaticRuntimeEnv(context);
-  const fallbackEnv = globalThis.process?.env as KeystaticRuntimeEnv | undefined;
-  const env = { ...fallbackEnv, ...runtimeEnv };
+function getProcessEnv(): KeystaticRuntimeEnv {
+  const globalWithProcess = globalThis as {
+    process?: {
+      env?: KeystaticRuntimeEnv;
+    };
+  };
 
-  globalThis.process ??= {};
-  globalThis.process.env ??= {};
+  globalWithProcess.process ??= { env: {} };
+  globalWithProcess.process.env ??= {};
+  return globalWithProcess.process.env;
+}
+
+function hydrateKeystaticProcessEnv(context: KeystaticMiddlewareContext): void {
+  const runtimeEnv = getKeystaticRuntimeEnv(context);
+  const fallbackEnv = getProcessEnv();
+  const env = { ...fallbackEnv, ...runtimeEnv };
+  const processEnv = getProcessEnv();
 
   for (const key of KEYSTATIC_ENV_KEYS) {
     const value = env[key];
     if (typeof value === "string" && value.trim()) {
-      globalThis.process.env[key] = value;
+      processEnv[key] = value;
     }
   }
 }
@@ -60,7 +77,7 @@ function hydrateKeystaticProcessEnv(context: Parameters<typeof defineMiddleware>
 export const onRequest = defineMiddleware(async (context, next) => {
   const pathname = context.url.pathname;
   const search = context.url.search;
-  hydrateKeystaticProcessEnv(context);
+  hydrateKeystaticProcessEnv(context as KeystaticMiddlewareContext);
 
   if (pathname.startsWith("/api/keystatic/") && !pathname.endsWith("/")) {
     return context.redirect(pathname + "/" + search, 308);

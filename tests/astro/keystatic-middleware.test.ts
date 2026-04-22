@@ -1,5 +1,10 @@
 import { onRequest } from "../../src/middleware";
 
+function assertResponse(response: Response | void): Response {
+  expect(response).toBeInstanceOf(Response);
+  return response as Response;
+}
+
 function createRedirectContext(url: string) {
   return {
     url: new URL(url),
@@ -23,9 +28,11 @@ describe("keystatic middleware", () => {
   test("passes through keystatic page requests when auth env is missing", async () => {
     const next = vi.fn(async () => new Response("ok"));
 
-    const response = await onRequest(
+    const response = assertResponse(
+      await onRequest(
       createRedirectContext("https://www.tuliocunha.dev/keystatic/"),
       next,
+      ),
     );
 
     expect(response.status).toBe(200);
@@ -36,9 +43,11 @@ describe("keystatic middleware", () => {
   test("normalizes keystatic api requests without a trailing slash", async () => {
     const next = vi.fn(async () => new Response("ok"));
 
-    const response = await onRequest(
+    const response = assertResponse(
+      await onRequest(
       createRedirectContext("https://www.tuliocunha.dev/api/keystatic/github/login"),
       next,
+      ),
     );
 
     expect(response.status).toBe(308);
