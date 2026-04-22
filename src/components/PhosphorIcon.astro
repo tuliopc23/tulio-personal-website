@@ -118,7 +118,7 @@ const phosphorName = iconMap[normalizedName] || normalizedName;
 
 const phosphorAssetModules = import.meta.glob(
   "../../node_modules/@phosphor-icons/core/assets/regular/{arrow-left,arrow-right,arrow-up,arrow-up-right,arrows-left-right,arrow-square-out,article,book-open,briefcase,calendar-blank,calendar-check,caret-right,chart-bar,chart-line-up,check-circle,clock,code,compass,copy,cube,desktop-tower,download-simple,envelope,eye,eye-closed,file,flask,folder,folder-simple,git-commit,globe,github-logo,hash,heart,house,info,instagram-logo,laptop,link,link-simple,linkedin-logo,lock-simple,magnifying-glass,map-pin,minus,notebook,paper-plane-tilt,paint-brush,planet,phone,plus,quotes,rocket-launch,rss,search,share-network,sidebar-simple,soccer-ball,sparkle,stack,star,tag,terminal,terminal-window,toolbox,twitter-logo,upload-simple,user,users-three,warning,wrench,x,circle,broadcast,mastodon-logo}.svg",
-  { as: "raw", eager: true },
+  { eager: true, query: "?raw", import: "default" },
 ) as Record<string, string>;
 
 let svgContent = "";

@@ -79,6 +79,7 @@ function safeInit(): void {
   }
   initialized = true;
   init();
+  document.documentElement.dataset.motionBooted = "true";
 }
 
 document.addEventListener("astro:before-swap", () => {

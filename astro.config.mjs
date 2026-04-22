@@ -91,9 +91,6 @@ export default defineConfig({
       commonjsOptions: {
         transformMixedEsModules: true,
         requireReturnsDefault: "auto",
-        namedExports: {
-          cookie: ["parse", "serialize"],
-        },
       },
     },
     resolve: {

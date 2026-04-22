@@ -99,7 +99,9 @@ async function fetchFeaturedRepos(): Promise<FeaturedRepo[]> {
 
 async function fetchFromGitHub<T>(endpoint: string, token: string | undefined): Promise<T | null> {
   if (!token) {
-    console.error("GitHub token is missing.");
+    if (import.meta.env.DEV) {
+      console.warn("GitHub token is missing; skipping GitHub API fetch.");
+    }
     return null;
   }
 

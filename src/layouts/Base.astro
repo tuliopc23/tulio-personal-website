@@ -290,9 +290,13 @@ const searchItems = [
         updateFavicon(initialTheme);
         updateThemeColor(initialTheme);
 
+        root.dataset.motionBooted = prefersReducedMotion ? "true" : "false";
         root.dataset.revealState = prefersReducedMotion ? "ready" : "armed";
         window.setTimeout(() => {
-          if (root.dataset.revealState === "armed" || root.dataset.revealState === "running") {
+          if (
+            root.dataset.motionBooted !== "true" &&
+            (root.dataset.revealState === "armed" || root.dataset.revealState === "running")
+          ) {
             root.dataset.revealState = "fallback";
           }
         }, 1800);
