@@ -1,0 +1,117 @@
+src/styles/motion.css
+  c8b7ff4dc588f583 45-59
+src/lib/github-data.ts
+  c8b7ff4dc588f583 53,84,86
+src/lib/image-url.ts
+  42fd575cf9c44541 40-43,45-46
+src/pages/projects.astro
+  42fd575cf9c44541 7,13-23,76-77,189-213
+tests/unit/feed-content.test.ts
+  42fd575cf9c44541 8-9,14,16
+src/pages/blog/[slug].astro
+  42fd575cf9c44541 8,85,87-89,106-112,297,304-306,308
+astro.config.mjs
+  c8b7ff4dc588f583 84
+  5a9014583d55d04d 31,77-80
+  42fd575cf9c44541 101
+src/components/ArticleCard.astro
+  42fd575cf9c44541 4-5,22,59-60,79,107,109-111
+wrangler.jsonc
+  5a9014583d55d04d 6
+src/content/posts/the-lost-potencial-of-the-native-desktop-app/index.mdx
+  42fd575cf9c44541 29
+src/content/posts/building-a-terminal-portfolio-web-app/index.mdx
+  42fd575cf9c44541 31
+src/lib/content/posts.ts
+  42fd575cf9c44541 9-11,22,93,204,206
+src/pages/api/github.json.ts
+  42fd575cf9c44541 8-20,25-33,35-47,49
+src/lib/feed-item-html.ts
+  42fd575cf9c44541 18-22,25-26,29-33,36-40,43
+package.json
+  5a9014583d55d04d 85,90,101-102,107-108
+  42fd575cf9c44541 109
+src/pages/blog/index.astro
+  42fd575cf9c44541 98-104,106-107
+src/lib/rss.ts
+  42fd575cf9c44541 60
+tests/unit/posts.test.ts
+  42fd575cf9c44541 2,4
+src/content/posts/liquid-glass-local-ai-and-the-26-era/index.mdx
+  42fd575cf9c44541 29
+src/middleware.ts
+  5a9014583d55d04d 1-2,4-6,8-19,21-22,25-30,32-34,46
+tsconfig.json
+  42fd575cf9c44541 12-13
+src/components/FeatureWritingWidget.astro
+  42fd575cf9c44541 6,17
+types/keystatic-astro-internal.d.ts
+  42fd575cf9c44541 1-4
+src/layouts/Base.astro
+  42fd575cf9c44541 316
+  c8b7ff4dc588f583 295
+src/content/posts/neovim-lazyvim-vs-vscode-jetbrains-zed-helix-2025/index.mdx
+  42fd575cf9c44541 27
+src/content.config.ts
+  42fd575cf9c44541 9
+src/content/site/projects-page/index.yaml
+  42fd575cf9c44541 36,38,58,60,80,82,102,104
+src/cms/content-schemas.ts
+  42fd575cf9c44541 79-82,84-85
+src/pages/blog/atom.xml.ts
+  42fd575cf9c44541 45
+tests/fixtures/content.ts
+  42fd575cf9c44541 14,35,44
+keystatic.config.ts
+  42fd575cf9c44541 218-219,236-239
+src/lib/reading-time.ts
+  42fd575cf9c44541 5
+src/content/posts/apple-needs-to-get-their-shit-together-dev-tooling/index.mdx
+  42fd575cf9c44541 64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "c75bbe8a4de4f01746583a135c37ba1b1bbf825d",
+  "prompts": {
+    "42fd575cf9c44541": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "a79028cc-955f-47bf-a412-4d4501e15932",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 437,
+      "total_deletions": 427,
+      "accepted_lines": 194,
+      "overriden_lines": 17
+    },
+    "5a9014583d55d04d": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "29c65717-e55c-453e-8c0a-a2939fc67bd8",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 395,
+      "total_deletions": 124,
+      "accepted_lines": 27,
+      "overriden_lines": 3
+    },
+    "c8b7ff4dc588f583": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "50781207-175c-4f11-b83f-9ec29d3ac6d0",
+        "model": "default"
+      },
+      "human_author": "Tulio Cunha",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 11,
+      "accepted_lines": 19,
+      "overriden_lines": 1
+    }
+  }
+}
