@@ -16,12 +16,13 @@ const isVitest = process.env.VITEST === "true";
 /** Keystatic admin loads React from its own deps — include both app React and keystatic bundles. */
 const reactIntegration = react({
   include: [
-    "**/react/**",
-    "**/remotion/**",
-    "**/HeroPlayer*",
-    "**/keystatic/**",
-    "**/node_modules/@keystatic/core/**/*.js",
-    "**/node_modules/@keystatic/astro/**/*.js",
+    // Use regex filters here to stay off the glob-to-picomatch path in Astro's bundled React renderer.
+    /(?:^|\/)react(?:\/|$)/,
+    /(?:^|\/)remotion(?:\/|$)/,
+    /(?:^|\/)HeroPlayer[^/]*(?:[?#].*)?$/,
+    /(?:^|\/)keystatic(?:\/|$)/,
+    /(?:^|\/)node_modules\/@keystatic\/core\/.*\.js(?:[?#].*)?$/,
+    /(?:^|\/)node_modules\/@keystatic\/astro\/.*\.js(?:[?#].*)?$/,
   ],
 });
 
@@ -36,8 +37,6 @@ export default defineConfig({
         imageService: "compile",
         /** Reuse existing CACHE KV (Astro Sessions vs github.json cache use distinct key prefixes). */
         sessionKVBindingName: "CACHE",
-        /** Prerender uses `node:fs` to read Keystatic YAML/MDX; workerd prerender would use /bundle paths. */
-        prerenderEnvironment: "node",
       }),
   image: {
     remotePatterns: [
@@ -86,9 +85,6 @@ export default defineConfig({
     },
     build: {
       sourcemap: "hidden",
-      rollupOptions: {
-        external: ["picomatch"],
-      },
       commonjsOptions: {
         transformMixedEsModules: true,
         requireReturnsDefault: "auto",
@@ -101,7 +97,7 @@ export default defineConfig({
       noExternal: ["easymde", "react-simplemde-editor"],
     },
     ssr: {
-      external: ["cookie", "picomatch"],
+      external: ["cookie"],
       noExternal: [
         "@keystatic/astro",
         "@keystatic/astro/internal/keystatic-api.js",
