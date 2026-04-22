@@ -19,7 +19,12 @@ export interface PostSeoMeta {
   canonicalUrl?: string | null;
   noIndex?: boolean;
   jsonLd?: string | null;
-  socialImage?: null;
+  socialImage?: {
+    url: string;
+    alt?: string | null;
+    width?: number;
+    height?: number;
+  } | null;
 }
 
 export interface Author {

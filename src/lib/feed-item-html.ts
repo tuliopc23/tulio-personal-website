@@ -23,24 +23,26 @@ export function resolvePostFeedImage(post: PostDetail, siteOrigin: string) {
     "src" in (hero.src as Record<string, unknown>)
       ? String((hero.src as Record<string, unknown>).src)
       : null;
-  const imageUrl = heroSrc ? toAbsoluteUrl(heroSrc, siteOrigin) : null;
+  const socialImage = post.seo?.socialImage ?? null;
+  const socialImageUrl = socialImage?.url ? toAbsoluteUrl(socialImage.url, siteOrigin) : null;
+  const imageUrl = heroSrc ? toAbsoluteUrl(heroSrc, siteOrigin) : socialImageUrl;
   return {
     imageUrl,
-    alt: hero?.alt ?? null,
+    alt: hero?.alt ?? socialImage?.alt ?? null,
     width:
       hero?.src &&
       typeof hero.src === "object" &&
       hero.src &&
       "width" in (hero.src as Record<string, unknown>)
         ? Number((hero.src as Record<string, unknown>).width)
-        : undefined,
+        : socialImage?.width,
     height:
       hero?.src &&
       typeof hero.src === "object" &&
       hero.src &&
       "height" in (hero.src as Record<string, unknown>)
         ? Number((hero.src as Record<string, unknown>).height)
-        : undefined,
+        : socialImage?.height,
   };
 }
 

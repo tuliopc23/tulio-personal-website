@@ -32,7 +32,12 @@ export const richPostSummary: PostSummary = {
     canonicalUrl: "https://www.tuliocunha.dev/blog/building-better-astro-sites/",
     noIndex: false,
     jsonLd: null,
-    socialImage: null,
+    socialImage: {
+      url: "https://cdn.sanity.io/images/demo/social.png",
+      alt: "Building Better Astro Sites social image",
+      width: 1200,
+      height: 630,
+    },
   },
   featured: true,
 };
