@@ -1,0 +1,21 @@
+pageDescription: Dev notes on Swift, TypeScript, Go, Rust, Zig — the stuff that
+  happens between git init and production.
+heroEyebrow: Journal
+heroTitle: Writing on code, systems thinking, and the realities of shipping software.
+heroLede: Long reads on real code — architecture bets, tooling rabbit holes, the
+  debug sessions nobody warns you about. Mostly Swift, TypeScript, Go, Rust, and
+  whatever else the problem demands.
+emptyStateTitle: Nothing shipped yet
+emptyStateBody: Posts are still in draft. Grab the RSS or Atom feed — you'll
+  know when the first one lands.
+archiveHeading: By year
+archiveLede: The full git log, sorted chronologically.
+allArticlesLabel: All articles
+loadOlderLabel: Load older articles
+filterEmptyState: No articles match this filter yet. Try another tag or check back soon.
+spotlightTags:
+  - projects
+  - tools
+  - open source
+  - opinion
+placeholderCards: []

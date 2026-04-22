@@ -1,13 +1,13 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 
-import { richPostSummary } from "../fixtures/sanity";
+import { richPostSummary } from "../fixtures/content";
 
-vi.mock("../../src/sanity/lib/image", () => ({
+vi.mock("../../src/lib/image-url", () => ({
   optimizedImageUrl: vi.fn((url: string) => `${url}?optimized=true`),
   generateSrcset: vi.fn(() => "https://cdn.example.com/image-640.png 640w"),
 }));
 
-vi.mock("../../src/sanity/lib/page-content", () => ({
+vi.mock("../../src/lib/content/page-content", () => ({
   getBlogPageContent: vi.fn(async () => null),
 }));
 
@@ -17,7 +17,7 @@ const getAllCategories = vi.fn();
 const getCategoryBySlug = vi.fn();
 const getPostsByCategory = vi.fn();
 
-vi.mock("../../src/sanity/lib/posts", () => ({
+vi.mock("../../src/lib/content/posts", () => ({
   getFeaturedPosts,
   getAllPosts,
   getAllCategories,

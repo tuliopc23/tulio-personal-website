@@ -2,7 +2,12 @@ import { defineConfig } from "vite-plus";
 
 export default defineConfig({
   test: {
-    include: ["tests/unit/**/*.test.ts", "tests/dom/**/*.test.ts", "tests/layout-smoke.test.ts"],
+    include: [
+      "tests/unit/**/*.test.ts",
+      "tests/dom/**/*.test.ts",
+      "tests/cms/**/*.test.ts",
+      "tests/layout-smoke.test.ts",
+    ],
     exclude: ["tests/astro/**", "tests/e2e/**"],
     globals: true,
     setupFiles: ["./tests/setup/vitest.setup.ts"],
@@ -14,16 +19,10 @@ export default defineConfig({
       include: [
         "src/lib/*.ts",
         "src/components/github-activity-utils.ts",
-        "src/sanity/lib/{image,load-query,posts,resolve}.ts",
+        "src/lib/content/*.ts",
         "src/scripts/{contact-form,projects-filters,sidebar,theme}.ts",
       ],
-      exclude: [
-        "src/env.d.ts",
-        "src/styles/**",
-        "src/assets/**",
-        "src/pages/studio/**",
-        "**/*.d.ts",
-      ],
+      exclude: ["src/env.d.ts", "src/styles/**", "src/assets/**", "**/*.d.ts"],
       thresholds: {
         lines: 60,
         functions: 70,

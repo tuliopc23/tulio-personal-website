@@ -2,16 +2,16 @@ import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { loadRenderers } from "astro:container";
 import { getContainerRenderer as solidContainerRenderer } from "@astrojs/solid-js";
 
-import { richPostSummary } from "../fixtures/sanity";
+import { richPostSummary } from "../fixtures/content";
 
-vi.mock("../../src/sanity/lib/posts", () => ({
+vi.mock("../../src/lib/content/posts", () => ({
   getAllPosts: vi.fn(async () => [
     richPostSummary,
     { ...richPostSummary, _id: "2", slug: "two", title: "Second" },
   ]),
 }));
 
-vi.mock("../../src/sanity/lib/page-content", () => ({
+vi.mock("../../src/lib/content/page-content", () => ({
   getAboutPageContent: vi.fn(async () => null),
 }));
 

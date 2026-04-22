@@ -1,8 +1,8 @@
 import { describe, expect, test } from "vitest";
 
 import { absolutizeImgSrcInFeedHtml, postBodyToFeedHtml } from "../../src/lib/feed-content";
-import type { PostDetail } from "../../src/sanity/lib/posts";
-import { markdownFallbackPost, richPostDetail } from "../fixtures/sanity";
+import type { PostDetail } from "../../src/lib/content/posts";
+import { markdownFallbackPost, richPostDetail } from "../fixtures/content";
 
 describe("postBodyToFeedHtml", () => {
   test("renders portable text blocks to HTML", () => {

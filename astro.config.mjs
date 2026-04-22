@@ -1,43 +1,57 @@
+import cloudflare from "@astrojs/cloudflare";
+import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
-import sanity from "@sanity/astro";
+import keystatic from "@keystatic/astro";
 import sentry from "@sentry/astro";
 import "dotenv/config";
 import { defineConfig } from "astro/config";
 import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
-const DEFAULT_PROJECT_ID = "61249gtj";
-const DEFAULT_DATASET = "production";
-
 const sentryRelease = process.env.SENTRY_RELEASE || undefined;
+const isVitest = process.env.VITEST === "true";
 
-const sanityOptions = {
-  projectId: DEFAULT_PROJECT_ID,
-  dataset: DEFAULT_DATASET,
-  useCdn: true,
-  apiVersion: "2025-02-19",
-  studioBasePath: process.env.NODE_ENV === "development" ? "/studio" : undefined,
-};
+/** Keystatic admin loads React from its own deps — include both app React and keystatic bundles. */
+const reactIntegration = react({
+  include: [
+    "**/react/**",
+    "**/remotion/**",
+    "**/HeroPlayer*",
+    "**/keystatic/**",
+    "**/node_modules/@keystatic/core/**/*.js",
+    "**/node_modules/@keystatic/astro/**/*.js",
+  ],
+});
 
 export default defineConfig({
   site: "https://www.tuliocunha.dev",
   trailingSlash: "always",
+  /** Vitest + getViteConfig() cannot use the Cloudflare Vite plugin (node `resolve.external` conflict). */
+  adapter: isVitest
+    ? undefined
+    : cloudflare({
+        imageService: "compile",
+        /** Reuse existing CACHE KV (Astro Sessions vs github.json cache use distinct key prefixes). */
+        sessionKVBindingName: "CACHE",
+        /** Prerender uses `node:fs` to read Keystatic YAML/MDX; workerd prerender would use /bundle paths. */
+        prerenderEnvironment: "node",
+      }),
   image: {
     remotePatterns: [
+      { protocol: "https", hostname: "**.githubusercontent.com" },
       { protocol: "https", hostname: "cdn.sanity.io" },
-      { protocol: "https", hostname: "apicdn.sanity.io" },
-      { protocol: "https", hostname: "**.sanity.io" },
     ],
   },
   integrations: [
+    markdoc(),
     mdx(),
+    keystatic(),
     sitemap({
       filter: shouldIncludeInSitemap,
     }),
-    sanity(sanityOptions),
-    react({ include: ["**/react/**", "**/remotion/**", "**/HeroPlayer*"] }),
+    reactIntegration,
     solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),
     sentry({
       project: process.env.SENTRY_PROJECT ?? "personal-website",
@@ -62,9 +76,6 @@ export default defineConfig({
     },
     build: {
       sourcemap: "hidden",
-      rollupOptions: {
-        external: ["/@id/sanity:studio"],
-      },
     },
     resolve: {
       noExternal: ["easymde", "react-simplemde-editor"],

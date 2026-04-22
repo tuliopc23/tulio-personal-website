@@ -5,7 +5,7 @@
   "name": "tulio-personal-website",
   "compatibility_date": "2026-03-14",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "worker/index.ts",
+  "main": "@astrojs/cloudflare/entrypoints/server",
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",

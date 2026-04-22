@@ -2,7 +2,7 @@
 import ArticleCard from "./ArticleCard.astro";
 import PhosphorIcon from "./PhosphorIcon.astro";
 import { isNewPublishedAt } from "../lib/is-new-post";
-import { getAllPosts } from "../sanity/lib/posts";
+import { getAllPosts } from "../lib/content/posts";
 import styles from "./RecentPosts.module.css";
 
 const formatter = new Intl.DateTimeFormat("en", {

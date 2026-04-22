@@ -10,7 +10,7 @@ export const GET: APIRoute = ({ request, site }) => {
     "User-agent: *",
     "Allow: /",
     "",
-    "Disallow: /studio/",
+    "Disallow: /keystatic/",
     "Disallow: /api/",
     "",
     `Sitemap: ${toAbsoluteUrl(SITEMAP_INDEX_PATH, origin)}`,

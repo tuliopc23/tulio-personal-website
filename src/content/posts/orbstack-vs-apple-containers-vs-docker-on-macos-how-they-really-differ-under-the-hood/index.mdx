@@ -1,0 +1,40 @@
+---
+title: "OrbStack vs Apple Containers vs Docker on macOS: How They Really Differ
+  Under the Hood"
+slug: orbstack-vs-apple-containers-vs-docker-on-macos-how-they-really-differ-under-the-hood
+publishedAt: 2025-11-23T17:56:25.413Z
+summary: "All three run Linux workloads on macOS, but they optimize different
+  layers: Docker for broad compatibility, OrbStack for lower-friction
+  performance, and Apple Containers for tighter isolation through a micro-VM
+  approach."
+tags:
+  - Engineering
+  - Swift
+featured: true
+coverVariant: default
+categorySlugs:
+  - software-development
+keyTakeaways:
+  - On macOS, containers still depend on virtualization because the host is not
+    Linux.
+  - Docker wins on ecosystem reach and muscle memory, but that generality comes
+    with more overhead.
+  - OrbStack improves the common local-dev path by optimizing the VM,
+    networking, and file-sharing experience while keeping Docker API
+    compatibility.
+  - Apple Containers takes a more opinionated path with stronger isolation and a
+    narrower workflow surface, which changes where it fits today.
+seoMetaTitle: OrbStack vs Apple Containers vs Docker on macOS
+seoMetaDescription: A practical comparison of Docker, OrbStack, and Apple
+  Containers on macOS, focused on virtualization, file I/O, compatibility, and
+  workflow fit.
+seoNoIndex: false
+authorName: Tulio Cunha
+authorSlug: tulio-cunha
+heroImage: https://cdn.sanity.io/images/61249gtj/production/04d5767fa7ad699cae3bf63afa9c41c1d098fe1f-1536x1024.png
+heroAlt: Illustration comparing Docker, OrbStack, and Apple Containers on macOS.
+heroCaption: The same OCI image can travel through very different runtime
+  architectures depending on the tool you choose on macOS.
+---
+
+_Article body was authored in Portable Text in Sanity. Convert this post manually to MDX or paste exported markdown._

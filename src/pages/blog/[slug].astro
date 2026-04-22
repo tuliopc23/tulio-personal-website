@@ -2,22 +2,20 @@
 import Base from "../../layouts/Base.astro";
 import ReadingProgress from "../../components/ReadingProgress.astro";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import ArticlePortableText from "../../components/ArticlePortableText.astro";
 import ArticleCard from "../../components/ArticleCard.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
-import MarkdownContent from "../../components/MarkdownContent.astro";
-import { generateSrcset, optimizedImageUrl } from "../../sanity/lib/image";
+import { generateSrcset, optimizedImageUrl } from "../../lib/image-url";
 import { isNewPublishedAt } from "../../lib/is-new-post";
 import { toAbsoluteUrl } from "../../lib/seo.js";
 import {
-  calculateReadingTimeMinutes,
   getAllPostSlugs,
   getPostBySlug,
   getRecentPosts,
+  renderPostMdx,
   type PostDetail,
   type PostSummary,
-} from "../../sanity/lib/posts";
+} from "../../lib/content/posts";
 
 const formatter = new Intl.DateTimeFormat("en", {
   month: "long",
@@ -44,6 +42,9 @@ const post: PostDetail | null = await getPostBySlug(slug);
 if (!post) {
   Astro.response.status = 404;
 }
+
+const postRender = slug ? await renderPostMdx(slug) : null;
+const ArticleBodyContent = postRender?.Content ?? null;
 
 const _related: PostSummary[] = post ? await getRecentPosts(post.slug, 3) : [];
 const _dateISO = post ? new Date(post.publishedAt).toISOString() : "";
@@ -80,8 +81,7 @@ const _footerTopics = [
   ...(post?.categories?.map((category) => category.title) ?? []),
   ..._tags,
 ].filter((value, index, values) => values.indexOf(value) === index);
-const _hasPortableContent = Boolean(post?.content?.length);
-const _hasMarkdownFallback = Boolean(post?.markdownContent?.trim());
+const _hasArticleBody = Boolean(ArticleBodyContent);
 const _heroImageDimensions =
   heroImage?.width && heroImage?.height
     ? { width: heroImage.width, height: heroImage.height }
@@ -151,9 +151,7 @@ const articleStructuredData = post
       image: ogImage?.url ? toAbsoluteUrl(ogImage.url, shareOrigin) : undefined,
       keywords: post.tags?.join(", "),
       articleSection: post.categories?.[0]?.title,
-      wordCount: post
-        ? calculateReadingTimeMinutes(post.content, post.markdownContent) * 225
-        : undefined,
+      wordCount: post ? post.readingTimeMinutes * 225 : undefined,
       inLanguage: "en",
     }
   : null;
@@ -354,12 +352,17 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
             data-reveal-group="post-shell"
             data-reveal-order={3}
           >
-            {_hasPortableContent ? (
-              <ArticlePortableText blocks={post.content} />
-            ) : _hasMarkdownFallback ? (
-              <MarkdownContent content={post.markdownContent ?? ""} />
+            {_hasArticleBody && ArticleBodyContent ? (
+              <div class="articlePortable articlePortable--mdx">
+                <ArticleBodyContent />
+              </div>
             ) : (
-              <ArticlePortableText blocks={post.content} />
+              <div class="articlePortable articlePortable--empty" role="status" aria-live="polite">
+                <strong class="articlePortable--emptyTitle">Content unavailable</strong>
+                <p class="articlePortable--emptyBody">
+                  Could not render article body for this slug.
+                </p>
+              </div>
             )}
           </section>
 

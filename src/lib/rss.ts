@@ -8,7 +8,7 @@ import {
   MEDIA_RSS_NS,
   resolvePostFeedImage,
 } from "./feed-item-html";
-import { getAllPostsForFeed } from "../sanity/lib/posts";
+import { getAllPostsForFeed } from "../lib/content/posts";
 import { getSiteOrigin, toAbsoluteUrl } from "./seo.js";
 
 const FEED_TITLE = "Tulio Cunha — Blog";

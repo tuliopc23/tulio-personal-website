@@ -2,12 +2,14 @@
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
-import { getAboutPageContent } from "../sanity/lib/page-content";
+import { getAboutPageContent } from "../lib/content/page-content";
 
 const pageContent = await getAboutPageContent();
 
 if (import.meta.env.PROD && !pageContent) {
-  throw new Error("[sanity] Missing required aboutPage document for the /about route.");
+  throw new Error(
+    "Missing about page content for /about. Add `src/content/site/about-page/index.yaml` (Keystatic singleton) or deploy with content present.",
+  );
 }
 
 const defaults = {

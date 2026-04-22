@@ -1,4 +1,4 @@
-import type { PostDetail } from "../sanity/lib/posts";
+import type { PostDetail } from "../lib/content/posts";
 import { toAbsoluteUrl } from "./seo.js";
 
 const MEDIA_RSS_NS = "http://search.yahoo.com/mrss/";

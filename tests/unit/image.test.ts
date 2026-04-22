@@ -1,9 +1,9 @@
-describe("sanity image helpers", () => {
+describe("image URL helpers", () => {
   test("uses Cloudflare transforms when configured", async () => {
     vi.stubEnv("PUBLIC_CLOUDFLARE_IMAGE_BASE", "https://images.example.com");
     vi.resetModules();
 
-    const { cloudflareImageUrl, generateSrcset } = await import("../../src/sanity/lib/image");
+    const { cloudflareImageUrl, generateSrcset } = await import("../../src/lib/image-url");
 
     expect(
       cloudflareImageUrl("https://cdn.sanity.io/images/demo/image.png", {
@@ -24,7 +24,7 @@ describe("sanity image helpers", () => {
     vi.stubEnv("PUBLIC_CLOUDFLARE_IMAGE_BASE", "");
     vi.resetModules();
 
-    const { optimizedImageUrl } = await import("../../src/sanity/lib/image");
+    const { optimizedImageUrl } = await import("../../src/lib/image-url");
 
     expect(optimizedImageUrl("https://cdn.sanity.io/images/demo/image.png", 1200, 630)).toContain(
       "auto=format",

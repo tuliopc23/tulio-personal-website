@@ -1,5 +1,5 @@
 # CircleCI: quality gates only. Production deploy stays on Cloudflare Workers Builds (Git)
-# and GitHub Actions (sanity-rebuild workflow). Do not add wrangler deploy here unless you
+# and Cloudflare / GitHub deploy automation. Do not add wrangler deploy here unless you
 # intentionally replace that flow.
 #
 # Config location (CircleCI web app + all VCS integrations): this file MUST live at the
@@ -12,8 +12,7 @@
 # on the branch your trigger uses (e.g. main), with the config source repo = this repo.
 #
 # Project Settings -> Environment Variables (secrets; never commit values):
-#   SANITY_API_READ_TOKEN - required for main-branch builds (SANITY_ALLOW_BUILD_FALLBACK=false)
-#   GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN - if build needs GitHub API (e.g. /now)
+#   GITHUB_TOKEN or GITHUB_PERSONAL_ACCESS_TOKEN - if the build or prerender needs GitHub API
 #   SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT - optional source map uploads
 #   PUBLIC_SENTRY_DSN, SENTRY_DSN - optional
 #
@@ -28,10 +27,7 @@ executors:
     docker:
       - image: cimg/node:24.0
     environment:
-      PUBLIC_SANITY_PROJECT_ID: "61249gtj"
-      PUBLIC_SANITY_DATASET: production
       PUBLIC_SITE_URL: https://tuliocunha.dev
-      PUBLIC_SANITY_VISUAL_EDITING_ENABLED: "false"
 
 workflows:
   ci:
@@ -90,7 +86,7 @@ jobs:
           command: corepack enable && corepack prepare pnpm@9.15.9 --activate
       - run:
           name: Lint and format check
-          command: pnpm exec vp check
+          command: pnpm run quality
 
   astro_check:
     executor: node24
@@ -128,7 +124,7 @@ jobs:
           name: Unit and DOM tests (JUnit for Insights)
           command: |
             mkdir -p test-results
-            pnpm exec vp test run tests/unit tests/dom \
+            pnpm exec vp test run tests/unit tests/dom tests/cms \
               --reporter=default --reporter=junit --outputFile=test-results/vitest-unit.xml
       - run:
           name: Astro integration tests (JUnit)
@@ -154,9 +150,4 @@ jobs:
           command: |
             export SENTRY_RELEASE="${CIRCLE_SHA1}"
             export PUBLIC_SENTRY_RELEASE="${CIRCLE_SHA1}"
-            if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              export SANITY_ALLOW_BUILD_FALLBACK="${SANITY_ALLOW_BUILD_FALLBACK_MAIN:-false}"
-            else
-              export SANITY_ALLOW_BUILD_FALLBACK="${SANITY_ALLOW_BUILD_FALLBACK:-true}"
-            fi
             pnpm run build

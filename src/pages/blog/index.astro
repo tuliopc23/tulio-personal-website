@@ -6,9 +6,9 @@ import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
-import { optimizedImageUrl } from "../../sanity/lib/image";
-import { getBlogPageContent } from "../../sanity/lib/page-content";
-import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../sanity/lib/posts";
+import { optimizedImageUrl } from "../../lib/image-url";
+import { getBlogPageContent } from "../../lib/content/page-content";
+import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../lib/content/posts";
 import { isNewPublishedAt } from "../../lib/is-new-post";
 import { SITE_SAME_AS_URLS } from "../../lib/site-identity";
 import { toAbsoluteUrl } from "../../lib/seo.js";
@@ -16,7 +16,9 @@ import { toAbsoluteUrl } from "../../lib/seo.js";
 const pageContent = await getBlogPageContent();
 
 if (import.meta.env.PROD && !pageContent) {
-  throw new Error("[sanity] Missing required blogPage document for the /blog route.");
+  throw new Error(
+    "Missing blog page content for /blog. Add `src/content/site/blog-page/index.yaml` (Keystatic singleton) or deploy with content present.",
+  );
 }
 
 const formatter = new Intl.DateTimeFormat("en", {

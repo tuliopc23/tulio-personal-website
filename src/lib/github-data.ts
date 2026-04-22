@@ -49,7 +49,10 @@ export interface NormalizedRepoCard {
   commits: GitHubCommit[];
 }
 
-import { loadQuery } from "../sanity/lib/load-query";
+import fs from "node:fs/promises";
+import path from "node:path";
+
+import { parse as parseYaml } from "yaml";
 
 interface GitHubRestCommit {
   sha: string;
@@ -79,34 +82,23 @@ function resolveLanguageIcon(language: string): string | null {
   return languageIconMap[language.trim().toLowerCase()] ?? null;
 }
 
-/**
- * Fetch featured repositories from Sanity.
- */
-async function fetchSanityRepos(): Promise<SanityFeaturedRepo[]> {
-  const query = `
-    *[_type == "featuredGithubRepo" && featured == true && visibleInProofOfWork == true] | order(order asc) {
-      _id,
-      repoFullName,
-      displayTitle,
-      description,
-      category,
-      featured,
-      order,
-      showRepositoryLink,
-      showPrivate,
-      visibleInProofOfWork
-    }
-  `;
-
+/** Featured repos curated in-repo (`src/content/site/featured-github/index.yaml`). */
+async function fetchFeaturedRepos(): Promise<SanityFeaturedRepo[]> {
   try {
-    const { data } = await loadQuery<SanityFeaturedRepo[]>({
-      query,
-      failureMode: "fallback",
-      queryLabel: "featured GitHub repos",
-    });
-    return data ?? [];
+    const raw = await fs.readFile(
+      path.join(process.cwd(), "src/content/site/featured-github/index.yaml"),
+      "utf8",
+    );
+    const doc = parseYaml(raw) as { repos?: Array<Record<string, unknown>> };
+    const repos = (doc.repos ?? [])
+      .map((r) => {
+        const id = (r._id as string) || (r.id as string) || "";
+        return { ...r, _id: id } as SanityFeaturedRepo;
+      })
+      .filter((r) => r._id);
+    return repos.filter((r) => r.featured && r.visibleInProofOfWork);
   } catch (err) {
-    console.error("Failed to fetch Sanity repos:", err);
+    console.error("Failed to load featured-github/index.yaml:", err);
     return [];
   }
 }
@@ -188,7 +180,7 @@ export function formatRelativeTime(dateString: string): string {
 export async function getMergedGitHubData(
   githubToken: string | undefined,
 ): Promise<NormalizedRepoCard[]> {
-  const sanityRepos = await fetchSanityRepos();
+  const sanityRepos = await fetchFeaturedRepos();
   const normalizedRepos = await Promise.all(
     sanityRepos.map(async (sanityRepo) => {
       const { repoFullName } = sanityRepo;

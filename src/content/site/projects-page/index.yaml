@@ -1,0 +1,104 @@
+description: Case studies on native apps, web platforms, backend systems, and
+  developer tools — client work and indie projects that shipped.
+heroEyebrow: Case Studies
+heroTitle: Case Studies
+heroLede: Real work, real constraints, real deadlines. Client builds and indie
+  projects that made it to production — with the decisions, tradeoffs, and
+  technical details behind them.
+filterEmptyTitle: No projects match this view
+filterEmptyBody: "Adjust the filter above or reach out for portfolio details:"
+pageEmptyTitle: Writeups are in progress
+pageEmptyBody: "The code shipped — the case studies are catching up. Email me if
+  you want implementation details now:"
+contactEmail: contact@tuliocunha.dev
+caseStudies:
+  - icon: desktop-tower
+    eyebrow: Indie App
+    title: CardManiacs
+    headline: A native content platform built from scratch with Swift and strict
+      concurrency.
+    lede: Three apps in one — reader, aggregator, and discovery engine. Mac-first,
+      optimized for iOS and iPadOS. Vim-style keyboard navigation on the card
+      grid, on-device AI summaries, and the ability to parse everything from RSS
+      feeds to YouTube videos and podcasts. No Electron. No wrappers. Pure
+      platform code.
+    role: Creator & Solo Developer
+    status: live
+    href: null
+    stack:
+      - Swift
+      - SwiftUI
+      - AppKit
+      - Strict Concurrency
+      - ""
+    images:
+      - alt: Cardmaniacs rendering a article
+        url: https://cdn.sanity.io/images/61249gtj/production/bfb1ebde0f2565baedaf647061f9a77eb9807215-1525x865.png
+      - alt: Article Card Grid in Cardmaniacs
+        url: https://cdn.sanity.io/images/61249gtj/production/5b6cc795b43a201f3dc6b6816c8014c3527c1643-1525x865.png
+  - icon: soccer-ball
+    eyebrow: Publication
+    title: The Offside
+    headline: A football publication with league tables, real-time data, and a
+      Highbury-inspired soul.
+    lede: International football publication focused on the Premier League and
+      European football. Svelte components powering live league tables,
+      aggressive caching, load balancing, and a design language inspired by
+      Highbury and Aimé Leon Dore — designed and built for a long-time friend.
+      Arsenal through and through. Go Gunners.
+    role: Designer & Lead Developer
+    status: live
+    href: https://theoffside.club
+    stack:
+      - Svelte
+      - SvelteKit
+      - Tailwind CSS
+    images:
+      - alt: The Offside editorial homepage with Highbury-inspired design
+        url: https://cdn.sanity.io/images/61249gtj/production/bfac67d33199602b61ca375e3b5202eefa4f237b-3182x1832.jpg
+      - alt: Premier league table in The Offside
+        url: https://cdn.sanity.io/images/61249gtj/production/936e96ced7b5208bda616542738c7f18cf3223b6-3208x1852.jpg
+  - icon: chart-line-up
+    eyebrow: Client Work
+    title: Capital Financial Consulting
+    headline: A wealth management platform with dashboards, charts, and guided
+      financial planning.
+    lede: Rich web platform for an independent financial consulting firm in Brazil.
+      Beautiful data visualizations, fast dashboards, and an intuitive
+      experience for both consultants and clients. Think a top-notch personal
+      finance app, but with a real professional guiding your financial health —
+      not an algorithm.
+    role: Full Stack Developer
+    status: live
+    href: null
+    stack:
+      - React
+      - PostgreSQL
+      - Hono
+    images:
+      - alt: Capital Financial Consulting landing page
+        url: https://cdn.sanity.io/images/61249gtj/production/4bbd6313b1745037b687ca5a821d882e0210699e-3178x1780.jpg
+      - alt: Capital Financial Consulting consultant dashboard with charts
+        url: https://cdn.sanity.io/images/61249gtj/production/c6a0e24ed9b9fb68042403e86c6dc5912ecdd83f-1550x1286.png
+  - icon: compass
+    eyebrow: Client Work
+    title: Nomadz Trips
+    headline: A travel platform that handles bookings, content, and payments behind
+      one seamless experience.
+    lede: International travel agency specializing in group experiences. SSR pages
+      tuned for SEO with a full operational backend — custom dashboard, Stripe
+      integration, CMS-driven content, and a blog that actually ranks. The
+      frontend looks effortless; the infrastructure behind it is anything but.
+    role: Full Stack Developer
+    status: live
+    href: null
+    stack:
+      - Payload CMS
+      - React
+      - Tailwind CSS
+      - Stripe
+    images:
+      - alt: Nomadz Trips homepage with aerial beach photography
+        url: https://cdn.sanity.io/images/61249gtj/production/553ffac46edeec79b6e863d89a91e446f77e52e5-3200x1832.jpg
+      - alt: Nomadz Trips trip listing and booking interface
+        url: https://cdn.sanity.io/images/61249gtj/production/6fca152c83c5bafacc0d098c3c7afb9fd2aee21e-3206x1822.jpg

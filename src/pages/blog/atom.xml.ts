@@ -5,7 +5,7 @@ import {
   MEDIA_RSS_NS,
   resolvePostFeedImage,
 } from "../../lib/feed-item-html";
-import { getAllPostsForFeed } from "../../sanity/lib/posts";
+import { getAllPostsForFeed } from "../../lib/content/posts";
 
 export const prerender = true;
 

@@ -1,0 +1,68 @@
+repos:
+  - id: n7ew8lrmWKoXvNVTtHuyxP
+    repoFullName: tuliopc23/tulio-personal-website
+    displayTitle: Personal Website
+    description: Editorial portfolio and publishing system for my writing, case
+      studies, and live proof-of-work surfaces.
+    category: Editorial platform
+    featured: true
+    order: 1
+    showRepositoryLink: true
+    showPrivate: false
+    visibleInProofOfWork: true
+  - id: tYr3o53R5j3Jdk95GXjFtG
+    repoFullName: tuliopc23/HackerFolio-Tulio
+    displayTitle: HackerFolio
+    description: Developer portfolio experiment focused on sharper technical
+      storytelling, modular sections, and live project signal.
+    category: Portfolio system
+    featured: true
+    order: 2
+    showRepositoryLink: true
+    showPrivate: false
+    visibleInProofOfWork: true
+  - id: tTK2D0IWNDYy37c5C6zDHg
+    repoFullName: tuliopc23/touchline-website
+    displayTitle: Touchline
+    description: Product website for a football-focused platform, built to balance
+      speed, editorial clarity, and reusable content sections.
+    category: Product website
+    featured: true
+    order: 3
+    showRepositoryLink: true
+    showPrivate: false
+    visibleInProofOfWork: true
+  - id: tTK2D0IWNDYy37c5C6zDlk
+    repoFullName: tuliopc23/flying-dutchman-app
+    displayTitle: Flying Dutchman
+    description: Native Apple-platform app exploring faster capture, calmer reading
+      flow, and focused interaction design in SwiftUI.
+    category: Native app
+    featured: true
+    order: 4
+    showRepositoryLink: true
+    showPrivate: false
+    visibleInProofOfWork: true
+  - id: tYr3o53R5j3Jdk95GXjGcw
+    repoFullName: tuliopc23/LiqUIdify
+    displayTitle: LiqUIdify
+    description: React component library translating Apple-inspired liquid-glass
+      ideas into tested, documented interface primitives.
+    category: Component system
+    featured: true
+    order: 5
+    showRepositoryLink: true
+    showPrivate: false
+    visibleInProofOfWork: true
+  - id: featuredGithubRepo-cardmaniacs
+    repoFullName: tuliopc23/Cardmaniacs
+    displayTitle: Cardmaniacs
+    description: Offline-first SwiftUI reading and content archive for Apple
+      platforms, with iCloud sync, feed ingestion, and a calm card-based
+      experience.
+    category: Reading product
+    featured: true
+    order: 6
+    showRepositoryLink: false
+    showPrivate: true
+    visibleInProofOfWork: true

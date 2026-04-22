@@ -2,9 +2,9 @@ import { GET as atomFeedGet } from "../../src/pages/blog/atom.xml";
 import { GET as rssFeedGet } from "../../src/pages/blog/feed.xml";
 import { GET as robotsGet } from "../../src/pages/robots.txt";
 import { GET as rootRssFeedGet } from "../../src/pages/rss.xml";
-import { richPostDetail } from "../fixtures/sanity";
+import { richPostDetail } from "../fixtures/content";
 
-vi.mock("../../src/sanity/lib/posts", () => ({
+vi.mock("../../src/lib/content/posts", () => ({
   getAllPostsForFeed: vi.fn(async () => [richPostDetail]),
 }));
 
@@ -70,7 +70,7 @@ describe("feeds and sitemap", () => {
 
     const body = await response.text();
     expect(response.headers.get("Content-Type")).toContain("text/plain");
-    expect(body).toContain("Disallow: /studio/");
+    expect(body).toContain("Disallow: /keystatic/");
     expect(body).toContain("Sitemap: https://www.tuliocunha.dev/sitemap-index.xml");
   });
 });

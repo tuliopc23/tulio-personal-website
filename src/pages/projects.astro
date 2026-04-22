@@ -3,16 +3,16 @@ import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import { getAllProjects } from "../sanity/lib/projects";
-import { optimizedImageUrl } from "../sanity/lib/image";
-import { getProjectsPageContent } from "../sanity/lib/page-content";
+import { getAllProjects } from "../lib/content/projects";
+import { optimizedImageUrl } from "../lib/image-url";
+import { getProjectsPageContent } from "../lib/content/page-content";
 
 const projects = await getAllProjects();
 const pageContent = await getProjectsPageContent();
 
 if (import.meta.env.PROD && (!pageContent || !pageContent.caseStudies || pageContent.caseStudies.length === 0)) {
   throw new Error(
-    "[sanity] Missing required projectsPage.caseStudies content for the /projects route. Populate the 'Case Studies Page' singleton in Sanity Studio.",
+    "Missing projects page case studies for /projects. Edit `src/content/site/projects-page/index.yaml` (Keystatic singleton) so `caseStudies` is non-empty.",
   );
 }
 

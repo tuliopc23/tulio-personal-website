@@ -1,0 +1,47 @@
+seoDescription: Tulio Cunha — full stack developer, Mac head, Unix enthusiast,
+  and command line junkie. Swift, TypeScript, Go, Rust, Zig. From native apps to
+  system internals.
+heroEyebrow: About
+heroTitle: Full stack developer. Mac native. Unix at heart. Obsessed with how
+  things actually run.
+heroLede: I build software across every layer of the stack — from pixel-perfect
+  native interfaces to bare-metal system code. I care about performance,
+  clarity, and shipping things that hold up long after the demo is over.
+sections:
+  - icon: sparkle
+    eyebrow: Foundation
+    title: I start where most people skip — the internals.
+    body: Data flow, memory layout, system boundaries. I get those right first,
+      because once the foundation is honest the interface writes itself. Read
+      the system before you redesign it. Ship thin vertical slices, not slide
+      decks. Performance is a feature, not a phase. Accessibility is a
+      constraint, not a checklist.
+  - icon: code
+    eyebrow: How I Build
+    title: Modularity, separation of concerns, speed. No exceptions.
+    body: Independent features, independent deploys — every module owns its
+      boundaries, its data, and its tests. Business logic never bleeds into
+      presentation. Data flows in one direction. The UI is a projection of
+      state, not the owner of it. Performance isn't a polish pass — it's a
+      design constraint from line one. Lazy load, tree shake, measure
+      everything. Clean, beautiful, engaging UI is what hooks users — they feel
+      the difference between software that was designed and software that was
+      assembled.
+  - icon: wrench
+    eyebrow: Philosophy
+    title: Use the best tool for the job. Don't love the hammer — it won't love you
+      back.
+    body: Every language, framework, and platform is a tradeoff. The skill isn't
+      mastering one tool, it's knowing when to put it down and pick up another.
+      Swift for native, TypeScript for the web, Go when you need speed and
+      simplicity, Rust when correctness is non-negotiable. I'm a freelancer,
+      indie dev, and OSS contributor because I'd rather solve problems than
+      defend stacks.
+  - icon: terminal
+    eyebrow: Happy Hacking
+    title: The terminal is home. The craft is the point.
+    body: I write code because I genuinely love it — the dopamine of a clean
+      abstraction, the satisfaction of a build that compiles on the first try,
+      the rabbit holes that start at midnight and end with something real. Open
+      source contributor, config tweaker, dotfiles perfectionist. If it runs on
+      Unix, I'm interested. If it ships to users, even better.

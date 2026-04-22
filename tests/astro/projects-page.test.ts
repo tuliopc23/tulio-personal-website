@@ -1,12 +1,12 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 
-import { sampleProject } from "../fixtures/sanity";
+import { sampleProject } from "../fixtures/content";
 
-vi.mock("../../src/sanity/lib/projects", () => ({
+vi.mock("../../src/lib/content/projects", () => ({
   getAllProjects: vi.fn(async () => [sampleProject]),
 }));
 
-vi.mock("../../src/sanity/lib/page-content", () => ({
+vi.mock("../../src/lib/content/page-content", () => ({
   getProjectsPageContent: vi.fn(async () => null),
 }));
 
