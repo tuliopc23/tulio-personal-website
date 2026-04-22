@@ -22,12 +22,49 @@ function rewriteDevPaths(html: string): string {
   });
 }
 
-// Keystatic's GitHub auth endpoints can omit a trailing slash, but this site
-// uses trailingSlash = "always". Redirect /api/keystatic/* to a trailing-slash
-// URL so GitHub mode login/setup works.
+type KeystaticRuntimeEnv = Record<string, string | undefined>;
+
+function getKeystaticRuntimeEnv(
+  context: Parameters<typeof defineMiddleware>[0],
+): KeystaticRuntimeEnv | undefined {
+  try {
+    return context.locals.runtime?.env as KeystaticRuntimeEnv | undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function hasKeystaticGitHubAuth(context: Parameters<typeof defineMiddleware>[0]): boolean {
+  const runtimeEnv = getKeystaticRuntimeEnv(context);
+  const fallbackEnv = globalThis.process?.env as KeystaticRuntimeEnv | undefined;
+  const env = runtimeEnv ?? fallbackEnv;
+
+  return Boolean(
+    env?.KEYSTATIC_GITHUB_CLIENT_ID?.trim() &&
+      env?.KEYSTATIC_GITHUB_CLIENT_SECRET?.trim() &&
+      env?.KEYSTATIC_SECRET?.trim(),
+  );
+}
+
+// Keystatic's GitHub auth endpoints can omit a trailing slash. When GitHub auth
+// is missing, route users to the setup page instead of letting the admin throw.
 export const onRequest = defineMiddleware(async (context, next) => {
   const pathname = context.url.pathname;
   const search = context.url.search;
+  const keystaticGitHubConfigured = hasKeystaticGitHubAuth(context);
+
+  if (
+    !keystaticGitHubConfigured &&
+    pathname.startsWith("/keystatic/") &&
+    pathname !== "/keystatic/setup" &&
+    pathname !== "/keystatic/setup/"
+  ) {
+    return context.redirect("/keystatic/setup", 303);
+  }
+
+  if (!keystaticGitHubConfigured && pathname.startsWith("/api/keystatic/")) {
+    return context.redirect("/keystatic/setup", 303);
+  }
 
   if (pathname.startsWith("/api/keystatic/") && !pathname.endsWith("/")) {
     return context.redirect(pathname + "/" + search, 308);

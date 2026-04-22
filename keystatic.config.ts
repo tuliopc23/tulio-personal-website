@@ -7,8 +7,9 @@ const repo =
     : "tuliopc23/tulio-personal-website");
 
 export default config({
-  // Always use GitHub storage so the `/keystatic/setup` flow is available.
-  // Keystatic falls back to a setup prompt when OAuth secrets are missing.
+  // Always use GitHub storage. If the GitHub OAuth env vars are missing in a
+  // deployment, middleware sends admins to `/keystatic/setup` instead of letting
+  // Keystatic throw a generic runtime error.
   storage: {
     kind: "github",
     repo: repo as `${string}/${string}`,

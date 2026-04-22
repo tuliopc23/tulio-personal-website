@@ -1,0 +1,145 @@
+---
+import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import PhosphorIcon from "../../components/PhosphorIcon.astro";
+
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/keystatic/setup", siteOrigin).toString();
+const description =
+  "Keystatic is configured for GitHub storage, but this deployment is missing the GitHub OAuth env vars required to open the admin.";
+const requiredEnv = [
+  "KEYSTATIC_GITHUB_CLIENT_ID",
+  "KEYSTATIC_GITHUB_CLIENT_SECRET",
+  "KEYSTATIC_SECRET",
+];
+---
+
+<Base
+  title="Keystatic setup"
+  description={description}
+  canonical={canonical}
+  ogDescription={description}
+  ogImage={{ url: "/terminal-favicon.svg", alt: "Keystatic setup" }}
+  noIndex={true}
+  sidebar={true}
+>
+  <div class="pageBento">
+    <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "Keystatic", icon: "cube" },
+          { label: "Setup", icon: "warning" },
+        ]}
+      />
+      <div class="pageHero__copy">
+        <span class="pageHero__eyebrow">
+          <PhosphorIcon name="warning" size={14} weight="regular" />
+          Setup required
+        </span>
+        <h1 class="pageHero__title">Keystatic needs GitHub auth before the admin can open.</h1>
+        <p class="pageHero__lede">
+          This site uses Keystatic in GitHub storage mode. The deployment is missing the OAuth
+          secrets that the admin route needs, so the middleware sends you here instead of letting
+          the worker throw.
+        </p>
+        <div class="pageHero__meta" aria-label="Required environment variables">
+          {requiredEnv.map((name) => (
+            <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+              <PhosphorIcon name="lock-simple" size={14} weight="regular" />
+              {name}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="container pageWidget" data-reveal>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="toolbox" size={14} weight="regular" />
+          What to set
+        </span>
+        <h2 class="pageWidget__title">Deploy these three values in Cloudflare</h2>
+        <p class="pageWidget__caption">
+          Add the values to the Workers deployment environment, then redeploy. Keystatic will open
+          normally once GitHub auth is present.
+        </p>
+      </div>
+      <div class="surface-panel surface-panel--nested setupPanel">
+        <ul class="setupList">
+          <li>
+            <code>KEYSTATIC_GITHUB_CLIENT_ID</code> - GitHub App client ID
+          </li>
+          <li>
+            <code>KEYSTATIC_GITHUB_CLIENT_SECRET</code> - GitHub App client secret
+          </li>
+          <li>
+            <code>KEYSTATIC_SECRET</code> - Keystatic session secret
+          </li>
+        </ul>
+        <p class="setupNote">
+          If you are updating the dashboard by hand, keep the GitHub App callback URL pointed at
+          <code>/api/keystatic/github/callback/</code>.
+        </p>
+      </div>
+    </section>
+
+    <section class="container pageWidget" data-reveal>
+      <div class="pageWidget__header">
+        <span class="pageWidget__eyebrow">
+          <PhosphorIcon name="link" size={14} weight="regular" />
+          Next steps
+        </span>
+        <h2 class="pageWidget__title">When the env vars land, this route is only a fallback.</h2>
+        <p class="pageWidget__caption">
+          For the GitHub mode docs, see
+          <a href="https://keystatic.com/docs/github-mode" rel="noreferrer noopener" target="_blank">
+            Keystatic's GitHub mode guide
+          </a>
+          . Home still works while this deployment is missing secrets.
+        </p>
+      </div>
+      <div class="pageHero__meta" aria-label="Useful links">
+        <a class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} href="/">
+          <PhosphorIcon name="house" size={14} weight="regular" />
+          Home
+        </a>
+        <a class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]} href="/keystatic/">
+          <PhosphorIcon name="cube" size={14} weight="regular" />
+          Keystatic
+        </a>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .setupPanel {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .setupList {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--space-xs);
+    color: var(--text-primary);
+  }
+
+  .setupList code,
+  .setupNote code {
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: var(--surface-subtle);
+    color: var(--text-primary);
+    font-size: 0.9em;
+  }
+
+  .setupNote {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+</style>
