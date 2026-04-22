@@ -46,24 +46,21 @@ function hasKeystaticGitHubAuth(context: Parameters<typeof defineMiddleware>[0])
   );
 }
 
-// Keystatic's GitHub auth endpoints can omit a trailing slash. When GitHub auth
-// is missing, route users to the setup page instead of letting the admin throw.
+// Keystatic's GitHub auth endpoints can omit a trailing slash. When the GitHub
+// auth env vars are missing, route users straight to GitHub's app creation flow
+// instead of letting the admin render a broken setup screen.
 export const onRequest = defineMiddleware(async (context, next) => {
   const pathname = context.url.pathname;
   const search = context.url.search;
   const keystaticGitHubConfigured = hasKeystaticGitHubAuth(context);
+  const shouldForceGitHubAppCreation = !keystaticGitHubConfigured;
 
-  if (
-    !keystaticGitHubConfigured &&
-    pathname.startsWith("/keystatic/") &&
-    pathname !== "/keystatic/setup" &&
-    pathname !== "/keystatic/setup/"
-  ) {
-    return context.redirect("/keystatic/setup", 303);
+  if (shouldForceGitHubAppCreation && pathname.startsWith("/keystatic/")) {
+    return context.redirect("https://github.com/settings/apps/new", 303);
   }
 
-  if (!keystaticGitHubConfigured && pathname.startsWith("/api/keystatic/")) {
-    return context.redirect("/keystatic/setup", 303);
+  if (shouldForceGitHubAppCreation && pathname.startsWith("/api/keystatic/")) {
+    return context.redirect("https://github.com/settings/apps/new", 303);
   }
 
   if (pathname.startsWith("/api/keystatic/") && !pathname.endsWith("/")) {

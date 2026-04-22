@@ -7,9 +7,8 @@ const repo =
     : "tuliopc23/tulio-personal-website");
 
 export default config({
-  // Always use GitHub storage. If the GitHub OAuth env vars are missing in a
-  // deployment, middleware sends admins to `/keystatic/setup` instead of letting
-  // Keystatic throw a generic runtime error.
+  // Always use GitHub storage. If the GitHub OAuth env vars are missing,
+  // middleware redirects Keystatic requests to GitHub's app creation page.
   storage: {
     kind: "github",
     repo: repo as `${string}/${string}`,
