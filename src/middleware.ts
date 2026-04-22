@@ -9,21 +9,18 @@ import { defineMiddleware } from "astro:middleware";
 function rewriteDevPaths(html: string): string {
   // Match absolute filesystem paths in common attributes
   // e.g. /Users/... or /home/... but not already-rewritten /@fs/ or /@id/
-  return html.replace(
-    /(component-url|src)="(\/[^"]+)"/g,
-    (match, attr: string, p1: string) => {
-      if (
-        p1.startsWith("/") &&
-        !p1.startsWith("/@fs/") &&
-        !p1.startsWith("/@id/") &&
-        p1.length > 1 &&
-        p1[1] !== "/"
-      ) {
-        return `${attr}="/@fs${p1}"`;
-      }
-      return match;
-    },
-  );
+  return html.replace(/(component-url|src)="(\/[^"]+)"/g, (match, attr: string, p1: string) => {
+    if (
+      p1.startsWith("/") &&
+      !p1.startsWith("/@fs/") &&
+      !p1.startsWith("/@id/") &&
+      p1.length > 1 &&
+      p1[1] !== "/"
+    ) {
+      return `${attr}="/@fs${p1}"`;
+    }
+    return match;
+  });
 }
 
 type KeystaticRuntimeEnv = Record<string, string | undefined>;
@@ -91,10 +88,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const response = await next();
 
   // Dev-only: rewrite island component URLs so hydration works
-  if (
-    import.meta.env.DEV &&
-    response.headers.get("content-type")?.includes("text/html")
-  ) {
+  if (import.meta.env.DEV && response.headers.get("content-type")?.includes("text/html")) {
     const original = await response.text();
     const rewritten = rewriteDevPaths(original);
     return new Response(rewritten, {
