@@ -69,8 +69,8 @@ export function markdownToPlainText(content?: string | null): string {
   const { body } = parseMarkdownDocument(content);
 
   return body
-    .replace(/^:::(note|tip|important|warning|caution)\b.*$/gim, " ")
-    .replace(/^:::$/gm, " ")
+    .replace(/^\s*:::(note|tip|important|warning|caution)\b.*$/gim, " ")
+    .replace(/^\s*:::\s*$/gm, " ")
     .replace(/^```[\s\S]*?^```$/gm, " ")
     .replace(/`([^`]+)`/g, "$1")
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, " $1 ")
@@ -83,7 +83,7 @@ export function markdownToPlainText(content?: string | null): string {
 
 export function renderMarkdownDirectiveCallouts(content: string): string {
   return content.replace(
-    /(^|\n):::([a-z]+)\s*([^\n]*)\n([\s\S]*?)\n:::(?=\n|$)/gi,
+    /(^|\n)\s*:::([a-z]+)\s*([^\n]*)\n([\s\S]*?)\n\s*:::(?=\n|$)/gi,
     (_match, prefix: string, rawTone: string, rawTitle: string, rawBody: string) => {
       const tone = rawTone.toLowerCase();
       if (!["note", "tip", "important", "warning", "caution"].includes(tone)) {

@@ -55,7 +55,7 @@ export async function GET({ site, request }: { site: URL | undefined; request: R
       });
       const contentPayload = escapeXml(fullHtml);
       const mediaLines = imageUrl
-        ? buildMediaRssItemTags(imageUrl, width, height).replace(/></g, ">\n      ")
+        ? buildMediaRssItemTags(imageUrl, width, height).replace(/></g, ">\n      <")
         : "";
 
       return `

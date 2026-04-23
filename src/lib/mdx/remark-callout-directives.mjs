@@ -73,7 +73,7 @@ function normalizeDirectiveNodes(children) {
     }
 
     const marker = getParagraphText(node);
-    const startMatch = marker?.match(/^:::(note|tip|important|warning|caution)\s*(.*)$/i);
+    const startMatch = marker?.match(/^\s*:::(note|tip|important|warning|caution)\s*(.*)$/i);
     if (!startMatch) {
       next.push(node);
       continue;
@@ -92,7 +92,7 @@ function normalizeDirectiveNodes(children) {
     while (endIndex < children.length) {
       const candidate = children[endIndex];
       const candidateText = getParagraphText(candidate);
-      if (candidateText === ":::") {
+      if (candidateText?.match(/^\s*:::\s*$/)) {
         break;
       }
 
