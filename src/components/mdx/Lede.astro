@@ -1,0 +1,11 @@
+---
+interface Props {
+  dropCap?: boolean;
+}
+
+const { dropCap = true } = Astro.props as Props;
+---
+
+<div class:list={["articleLede", dropCap && "articleLede--dropCap"]}>
+  <slot />
+</div>

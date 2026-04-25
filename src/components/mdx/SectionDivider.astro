@@ -1,0 +1,15 @@
+---
+interface Props {
+  n?: string;
+  label?: string;
+}
+
+const { n = "", label = "" } = Astro.props as Props;
+---
+
+<div class="articleSectionDivider" role="presentation" aria-hidden="true">
+  <span class="articleSectionDivider__rule"></span>
+  {n && <span class="articleSectionDivider__numeral">{n}</span>}
+  {label && <span class="articleSectionDivider__label">{label}</span>}
+  <span class="articleSectionDivider__rule"></span>
+</div>

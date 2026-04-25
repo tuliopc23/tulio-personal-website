@@ -1,0 +1,33 @@
+---
+interface Props {
+  leftTitle?: string;
+  rightTitle?: string;
+  leftEyebrow?: string;
+  rightEyebrow?: string;
+}
+
+const {
+  leftTitle = "",
+  rightTitle = "",
+  leftEyebrow = "",
+  rightEyebrow = "",
+} = Astro.props as Props;
+---
+
+<div class="articleCompare" role="group">
+  <div class="articleCompare__column articleCompare__column--left">
+    {leftEyebrow && <span class="articleCompare__eyebrow">{leftEyebrow}</span>}
+    {leftTitle && <h4 class="articleCompare__title">{leftTitle}</h4>}
+    <div class="articleCompare__body">
+      <slot name="left" />
+    </div>
+  </div>
+  <div class="articleCompare__divider" aria-hidden="true"></div>
+  <div class="articleCompare__column articleCompare__column--right">
+    {rightEyebrow && <span class="articleCompare__eyebrow">{rightEyebrow}</span>}
+    {rightTitle && <h4 class="articleCompare__title">{rightTitle}</h4>}
+    <div class="articleCompare__body">
+      <slot name="right" />
+    </div>
+  </div>
+</div>

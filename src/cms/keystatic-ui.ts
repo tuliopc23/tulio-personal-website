@@ -230,4 +230,128 @@ export const articleBodyComponents = {
     },
     ContentView: FigurePreview,
   }),
+  Lede: wrapper({
+    label: "Lede",
+    description: "Opening paragraph with editorial drop-cap treatment.",
+    schema: {
+      dropCap: fields.checkbox({ label: "Drop cap", defaultValue: true }),
+    },
+    ContentView: ({ children }) =>
+      PreviewFrame([PreviewEyebrow("Lede"), PreviewText(children)]),
+  }),
+  KeyTakeaway: wrapper({
+    label: "Key takeaway",
+    description: "Single highlighted insight — the line that earns its own breath.",
+    schema: {
+      label: fields.text({ label: "Eyebrow", defaultValue: "Takeaway" }),
+    },
+    ContentView: ({ value, children }) =>
+      PreviewFrame([PreviewEyebrow(value.label || "Takeaway"), PreviewText(children)]),
+  }),
+  Compare: wrapper({
+    label: "Compare",
+    description: "Side-by-side two-column comparison.",
+    schema: {
+      leftEyebrow: fields.text({ label: "Left eyebrow" }),
+      leftTitle: fields.text({ label: "Left title" }),
+      rightEyebrow: fields.text({ label: "Right eyebrow" }),
+      rightTitle: fields.text({ label: "Right title" }),
+    },
+    ContentView: ({ value, children }) =>
+      PreviewFrame([
+        PreviewEyebrow("Compare"),
+        h(
+          "div",
+          { style: { fontSize: 13, color: "rgba(235,235,245,0.7)", marginBottom: 6 } },
+          [value.leftTitle, value.rightTitle].filter(Boolean).join("  vs  "),
+        ),
+        PreviewText(children),
+      ]),
+  }),
+  Stat: block({
+    label: "Stat",
+    description: "Editorial numeric figure with label and optional caption.",
+    schema: {
+      value: fields.text({ label: "Value" }),
+      label: fields.text({ label: "Label" }),
+      caption: fields.text({ label: "Caption" }),
+      trend: fields.select({
+        label: "Trend",
+        options: [
+          { label: "—", value: "flat" },
+          { label: "Up", value: "up" },
+          { label: "Down", value: "down" },
+        ],
+        defaultValue: "flat",
+      }),
+    },
+    ContentView: ({ value }) =>
+      PreviewFrame([
+        h(
+          "div",
+          {
+            style: {
+              fontSize: 36,
+              fontWeight: 700,
+              color: "#fff",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.05,
+            },
+          },
+          value.value || "—",
+        ),
+        h(
+          "div",
+          {
+            style: {
+              marginTop: 6,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "rgba(102, 194, 255, 0.86)",
+            },
+          },
+          value.label,
+        ),
+        value.caption ? PreviewText(value.caption) : null,
+      ]),
+  }),
+  SectionDivider: block({
+    label: "Section divider",
+    description: "Numbered ornamental break placed above a real ## heading.",
+    schema: {
+      n: fields.text({ label: "Numeral (e.g. 04)" }),
+      label: fields.text({ label: "Label" }),
+    },
+    ContentView: ({ value }) =>
+      PreviewFrame([
+        h(
+          "div",
+          {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              color: "rgba(235,235,245,0.6)",
+              fontSize: 13,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+            },
+          },
+          [
+            h("span", { style: { flex: 1, height: 1, background: "rgba(255,255,255,0.18)" } }),
+            value.n
+              ? h(
+                  "span",
+                  { style: { fontFamily: "ui-monospace, monospace", fontWeight: 700 } },
+                  value.n,
+                )
+              : null,
+            value.label ? h("span", null, value.label) : null,
+            h("span", { style: { flex: 1, height: 1, background: "rgba(255,255,255,0.18)" } }),
+          ].filter(Boolean),
+        ),
+      ]),
+  }),
 } as const;
