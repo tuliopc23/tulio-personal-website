@@ -172,7 +172,7 @@ const _placeholderIcons =
         }
         <h3 class="articleCard__title">{title}</h3>
       </header>
-      <p class="articleCard__summary">{summary}</p>
+      <p class="articleCard__summary" title={summary}>{summary}</p>
       <div class="articleCard__footer">
         <div class="articleCard__meta" aria-label="Post metadata">
           <span class:list={["articleCard__metaItem", "meta-chip", "meta-chip--compact"]}>
@@ -197,3 +197,113 @@ const _placeholderIcons =
     </div>
   </a>
 </article>
+
+<style is:global>
+  .articleCard.articleCard--featuredEditorial {
+    --article-card-summary-lines: 3;
+    --article-card-title-lines: 4;
+    --article-card-content-gap: clamp(10px, 1.25vw, 14px);
+  }
+
+  .articleCard.articleCard--editorial-hero {
+    --article-card-summary-lines: 4;
+    --article-card-title-lines: 5;
+  }
+
+  .articleCard.articleCard--readerRelated {
+    --article-card-summary-lines: 2;
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__link {
+    min-width: 0;
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--article-card-content-gap);
+    min-width: 0;
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__header {
+    display: grid;
+    gap: clamp(8px, 1vw, 12px);
+    min-width: 0;
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__title,
+  .articleCard.articleCard--featuredEditorial .articleCard__summary {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__title {
+    -webkit-line-clamp: var(--article-card-title-lines);
+    line-clamp: var(--article-card-title-lines);
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__summary {
+    -webkit-line-clamp: var(--article-card-summary-lines);
+    line-clamp: var(--article-card-summary-lines);
+    flex: 0 0 auto;
+    margin: 0;
+    max-width: 64ch;
+    font-size: clamp(0.95rem, 0.18vw + 0.9rem, 1.05rem);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: var(--text-tertiary);
+  }
+
+  .articleCard.articleCard--featuredEditorial .articleCard__footer {
+    margin-top: auto;
+    min-width: 0;
+  }
+
+  .articleCard.articleCard--editorial-standard .articleCard__body {
+    min-block-size: clamp(292px, 25vw, 348px);
+  }
+
+  .articleCard.articleCard--editorial-hero .articleCard__body {
+    min-block-size: clamp(320px, 28vw, 410px);
+  }
+
+  @media (max-width: 768px) {
+    .articleCard.articleCard--featuredEditorial {
+      --article-card-summary-lines: 2;
+      --article-card-title-lines: 4;
+      --article-card-content-gap: 10px;
+    }
+
+    .articleCard.articleCard--editorial-hero {
+      --article-card-summary-lines: 3;
+      --article-card-title-lines: 5;
+    }
+
+    .articleCard.articleCard--editorial-standard .articleCard__body {
+      min-block-size: clamp(318px, 72vw, 380px);
+    }
+
+    .articleCard.articleCard--editorial-hero .articleCard__body {
+      min-block-size: clamp(342px, 76vw, 430px);
+    }
+
+    .articleCard.articleCard--featuredEditorial .articleCard__summary {
+      font-size: clamp(0.9rem, 0.5vw + 0.82rem, 0.98rem);
+      line-height: 1.45;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .articleCard.articleCard--featuredEditorial {
+      --article-card-summary-lines: 2;
+      --article-card-title-lines: 4;
+    }
+
+    .articleCard.articleCard--editorial-standard .articleCard__body {
+      min-block-size: clamp(326px, 82vw, 390px);
+    }
+  }
+</style>
