@@ -23,6 +23,11 @@
 
   let backdrop: HTMLDivElement | null = null;
   let previousFocusedElement: HTMLElement | null = null;
+  let drawerPointerId: number | null = null;
+  let drawerStartX = 0;
+  let drawerStartY = 0;
+  let drawerDeltaY = 0;
+  let isDrawerDragging = false;
 
   const hasMobileDrawer = (): boolean => body.dataset.hasMobileDrawer === "true";
   const hasDesktopSidebar = (): boolean => body.dataset.hasSidebar === "true";
@@ -104,6 +109,20 @@
     previousFocusedElement = null;
   };
 
+  const resetDrawerDrag = (): void => {
+    if (drawerPointerId !== null && sidebar.hasPointerCapture(drawerPointerId)) {
+      sidebar.releasePointerCapture(drawerPointerId);
+    }
+
+    drawerPointerId = null;
+    drawerStartX = 0;
+    drawerStartY = 0;
+    drawerDeltaY = 0;
+    isDrawerDragging = false;
+    sidebar.classList.remove("is-dragging");
+    sidebar.style.removeProperty("--sidebar-drag-y");
+  };
+
   links.forEach((anchor, index) => {
     anchor.style.setProperty("--sidebar-order", String(index));
   });
@@ -168,6 +187,8 @@
   };
 
   const close = (): void => {
+    resetDrawerDrag();
+
     if (isDesktopSidebar()) {
       syncDesktopSidebar(false);
       syncToggleState();
@@ -185,6 +206,8 @@
   };
 
   const open = (): void => {
+    resetDrawerDrag();
+
     if (isDesktopSidebar()) {
       syncDesktopSidebar(true);
       syncToggleState();
@@ -212,6 +235,68 @@
     requestAnimationFrame(() => {
       focusMenuEntry();
     });
+  };
+
+  const onDrawerPointerDown = (event: PointerEvent): void => {
+    if (!isMobileDrawer() || !sidebar.classList.contains("is-open")) {
+      return;
+    }
+
+    if (event.pointerType === "mouse" || !event.isPrimary) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.closest(".sidebar__header")) {
+      return;
+    }
+
+    sidebar.setPointerCapture(event.pointerId);
+    drawerPointerId = event.pointerId;
+    drawerStartX = event.clientX;
+    drawerStartY = event.clientY;
+    drawerDeltaY = 0;
+    isDrawerDragging = false;
+  };
+
+  const onDrawerPointerMove = (event: PointerEvent): void => {
+    if (drawerPointerId !== event.pointerId) {
+      return;
+    }
+
+    const deltaX = event.clientX - drawerStartX;
+    const deltaY = event.clientY - drawerStartY;
+
+    if (!isDrawerDragging) {
+      if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+        return;
+      }
+
+      if (Math.abs(deltaX) > Math.abs(deltaY) || deltaY < 0) {
+        resetDrawerDrag();
+        return;
+      }
+
+      isDrawerDragging = true;
+      sidebar.classList.add("is-dragging");
+    }
+
+    event.preventDefault();
+    drawerDeltaY = Math.max(0, deltaY);
+    sidebar.style.setProperty("--sidebar-drag-y", `${Math.min(drawerDeltaY, 140)}px`);
+  };
+
+  const onDrawerPointerUp = (event: PointerEvent): void => {
+    if (drawerPointerId !== event.pointerId) {
+      return;
+    }
+
+    const shouldClose = isDrawerDragging && drawerDeltaY > 72;
+    resetDrawerDrag();
+
+    if (shouldClose) {
+      close();
+    }
   };
 
   const trapFocus = (event: KeyboardEvent): void => {
@@ -295,6 +380,11 @@
       close();
     }
   });
+
+  sidebar.addEventListener("pointerdown", onDrawerPointerDown);
+  sidebar.addEventListener("pointermove", onDrawerPointerMove);
+  sidebar.addEventListener("pointerup", onDrawerPointerUp);
+  sidebar.addEventListener("pointercancel", onDrawerPointerUp);
 
   window.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {

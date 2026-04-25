@@ -107,9 +107,9 @@
 
 .breadcrumbs[data-variant="editorial"] .link,
 .breadcrumbs[data-variant="editorial"] .current {
-  min-height: auto;
-  padding: 0;
-  border-radius: 0;
+  min-height: 34px;
+  padding: 5px 7px;
+  border-radius: 999px;
   color: var(--text-tertiary);
 }
 
@@ -161,8 +161,14 @@
 
   .link,
   .current {
-    min-height: 40px;
+    min-height: 44px;
     padding: 6px 8px;
+  }
+
+  .breadcrumbs[data-variant="editorial"] .link,
+  .breadcrumbs[data-variant="editorial"] .current {
+    min-height: 44px;
+    padding: 8px 10px;
   }
 
   .link {

@@ -3503,4 +3503,37 @@ input:focus {
     padding-inline: clamp(10px, 3vw, 12px);
     padding-block: clamp(12px, 3.2vw, 16px);
   }
+
+  .categorySurface--feed {
+    overflow: visible;
+  }
+
+  .categorySurface--feed .articleCarousel {
+    overflow: visible;
+  }
+
+  .categorySurface--feed .articleGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+    touch-action: auto;
+    cursor: default;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .categorySurface--feed .articleGrid__item,
+  .categorySurface--feed .articleGrid__item--featured {
+    flex: none;
+    max-width: none;
+    width: 100%;
+    scroll-snap-align: none;
+  }
+
+  [data-scroll-hint-target=".categorySurface .articleGrid"] {
+    display: none;
+  }
 }

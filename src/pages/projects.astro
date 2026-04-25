@@ -149,11 +149,30 @@ const _statusIcons: Record<string, string> = {
         ))}
       </nav>
 
-      <!-- Swipe hint -->
-      <span class="caseSlider__hint" data-swipe-hint>
-        <PhosphorIcon name="arrows-left-right" size={14} weight="regular" />
-        <span>Swipe to explore</span>
-      </span>
+      <div class="caseSlider__mobileControls" aria-label="Case study carousel controls">
+        <button
+          type="button"
+          class="caseSlider__control caseSlider__control--previous motion-cta-pill"
+          data-case-prev
+          aria-label="Show previous case study"
+          disabled
+        >
+          <PhosphorIcon name="arrow-left" size={18} weight="regular" />
+        </button>
+        <span class="caseSlider__hint" data-swipe-hint>
+          <PhosphorIcon name="arrows-left-right" size={14} weight="regular" />
+          <span>Swipe or step through</span>
+        </span>
+        <button
+          type="button"
+          class="caseSlider__control caseSlider__control--next motion-cta-pill"
+          data-case-next
+          aria-label="Show next case study"
+        >
+          <PhosphorIcon name="arrow-right" size={18} weight="regular" />
+        </button>
+      </div>
+      <span class="caseSlider__progress" data-case-progress aria-live="polite">1 / {caseStudies.length}</span>
 
       <!-- Slides -->
       <div class="caseSlider__track" data-case-track data-case-rail>

@@ -14,6 +14,9 @@ let slider: HTMLElement | null = null;
 let track: HTMLElement | null = null;
 let pills: HTMLElement[] = [];
 let slides: HTMLElement[] = [];
+let previousButton: HTMLButtonElement | null = null;
+let nextButton: HTMLButtonElement | null = null;
+let progressLabel: HTMLElement | null = null;
 let hint: HTMLElement | null = null;
 let currentIndex = 0;
 let hasDismissedHint = false;
@@ -43,6 +46,11 @@ function measureSlideLeft(index: number): number {
   if (!track) return 0;
   const slide = slides[index];
   if (!slide) return 0;
+
+  const offset = slide.offsetLeft - track.offsetLeft;
+  if (Number.isFinite(offset) && offset > 0) {
+    return clamp(offset, 0, measureTrackLimit());
+  }
 
   const trackRect = track.getBoundingClientRect();
   const slideRect = slide.getBoundingClientRect();
@@ -75,6 +83,11 @@ function updateAria(index: number): void {
     pill.classList.toggle("cta-pill--accent", i === index);
     pill.classList.toggle("cta-pill--neutral", i !== index);
   });
+  if (previousButton) previousButton.disabled = index === 0;
+  if (nextButton) nextButton.disabled = index >= slides.length - 1;
+  if (progressLabel) {
+    progressLabel.textContent = `${index + 1} / ${slides.length}`;
+  }
 }
 
 function startHintLoop(): void {
@@ -176,6 +189,10 @@ function onTrackKeyDown(event: KeyboardEvent): void {
   }
 }
 
+function onControlClick(direction: -1 | 1): void {
+  goTo(clamp(currentIndex + direction, 0, slides.length - 1));
+}
+
 function resetDragState(): void {
   if (track && dragPointerId !== null && track.hasPointerCapture(dragPointerId)) {
     track.releasePointerCapture(dragPointerId);
@@ -259,6 +276,9 @@ export function initCaseCarousel(): void {
   track = slider.querySelector<HTMLElement>("[data-case-track]");
   pills = Array.from(slider.querySelectorAll<HTMLElement>("[data-case-nav]"));
   slides = Array.from(slider.querySelectorAll<HTMLElement>("[data-case-slide]"));
+  previousButton = slider.querySelector<HTMLButtonElement>("[data-case-prev]");
+  nextButton = slider.querySelector<HTMLButtonElement>("[data-case-next]");
+  progressLabel = slider.querySelector<HTMLElement>("[data-case-progress]");
   hint = slider.querySelector<HTMLElement>("[data-swipe-hint]");
   if (!track || slides.length === 0) return;
 
@@ -279,6 +299,15 @@ export function initCaseCarousel(): void {
       pill.removeEventListener("click", onClick);
       pill.removeEventListener("keydown", onPillKeyDown);
     });
+  });
+
+  const onPreviousClick = () => onControlClick(-1);
+  const onNextClick = () => onControlClick(1);
+  previousButton?.addEventListener("click", onPreviousClick);
+  nextButton?.addEventListener("click", onNextClick);
+  cleanupFns.push(() => {
+    previousButton?.removeEventListener("click", onPreviousClick);
+    nextButton?.removeEventListener("click", onNextClick);
   });
 
   track.addEventListener("scroll", onTrackScroll, { passive: true });
@@ -318,6 +347,9 @@ export function cleanupCaseCarousel(): void {
   track = null;
   pills = [];
   slides = [];
+  previousButton = null;
+  nextButton = null;
+  progressLabel = null;
   hint = null;
   currentIndex = 0;
   hasDismissedHint = false;

@@ -236,8 +236,7 @@ export const articleBodyComponents = {
     schema: {
       dropCap: fields.checkbox({ label: "Drop cap", defaultValue: true }),
     },
-    ContentView: ({ children }) =>
-      PreviewFrame([PreviewEyebrow("Lede"), PreviewText(children)]),
+    ContentView: ({ children }) => PreviewFrame([PreviewEyebrow("Lede"), PreviewText(children)]),
   }),
   KeyTakeaway: wrapper({
     label: "Key takeaway",

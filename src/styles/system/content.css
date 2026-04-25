@@ -1800,8 +1800,12 @@
   letter-spacing: -0.005em;
 }
 
-.prose blockquote > :first-child { margin-top: 0; }
-.prose blockquote > :last-child { margin-bottom: 0; }
+.prose blockquote > :first-child {
+  margin-top: 0;
+}
+.prose blockquote > :last-child {
+  margin-bottom: 0;
+}
 
 .prose hr {
   margin: clamp(36px, 4.5vw, 60px) 0;
@@ -1837,4 +1841,3 @@
   color: var(--article-link-hover, var(--link));
   text-decoration-color: var(--accent);
 }
-

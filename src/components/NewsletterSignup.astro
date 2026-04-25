@@ -103,6 +103,7 @@ const classes =
 
   .newsletterSignup__input {
     width: 100%;
+    min-height: max(52px, var(--touch-target-min, 44px));
     border-radius: 12px;
     border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
     background: var(--surface-1, rgba(0, 0, 0, 0.2));
@@ -113,7 +114,11 @@ const classes =
 
   .newsletterSignup__input:focus {
     border-color: var(--border-strong, rgba(255, 255, 255, 0.24));
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--link, #0a84ff) 18%, transparent);
+  }
+
+  .newsletterSignup__button {
+    min-height: max(52px, var(--touch-target-min, 44px));
   }
 
   .newsletterSignup__status {
@@ -147,4 +152,3 @@ const classes =
     }
   }
 </style>
-

@@ -534,12 +534,19 @@
 .mobileNavButton {
   /* Layout only — background/color/border/shadow come from cta-pill--accent */
   min-height: 44px;
-  padding: 10px 20px;
+  min-width: 44px;
+  padding: 10px 16px;
+  gap: 8px;
 }
 
 .mobileNavButton:disabled {
   opacity: 0.38;
   pointer-events: none;
+}
+
+.controlLabel {
+  font-size: var(--fs-caption);
+  font-weight: 700;
 }
 
 .progressBar {
@@ -615,6 +622,7 @@
     mask-image: none;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
   }
 
   .repoCard {
@@ -630,9 +638,9 @@
   }
 
   .repoTitle {
-    font-size: clamp(1.6rem, 5vw, 2.1rem);
+    font-size: clamp(1.42rem, 4.4vw, 1.92rem);
     max-width: none;
-    line-height: 1.04;
+    line-height: 1.06;
   }
 
   .repoDescription {
@@ -647,11 +655,11 @@
 
   .repoCardEditorial {
     gap: 14px;
-    padding: 20px 20px 18px;
+    padding: 18px 18px 16px;
   }
 
   .repoCardActivity {
-    padding: 16px 20px 20px;
+    padding: 14px 18px 18px;
     gap: 10px;
   }
 
@@ -749,8 +757,36 @@
     gap: var(--space-xs);
   }
 
+  .mobileNavButton {
+    border-radius: 999px;
+  }
+
   .progressBar {
     gap: var(--space-xxs);
+  }
+}
+
+@media (max-width: 420px) {
+  .repoCard {
+    flex-basis: calc(100vw - 34px);
+    max-width: calc(100vw - 34px);
+  }
+
+  .controlLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .mobileNavButton {
+    width: 44px;
+    padding-inline: 0;
   }
 }
 

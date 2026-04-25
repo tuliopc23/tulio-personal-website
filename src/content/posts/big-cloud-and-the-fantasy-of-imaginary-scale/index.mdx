@@ -76,15 +76,13 @@ series: ""
 ---
 
 <Lede>
-There is a strange disease in software infrastructure conversations. A company has no
-product in production yet. No real traffic. No mature deployment pipeline. No operational
-team. No customer scale. No existing cloud investment. Sometimes not even a finished
-backend. And then someone says the magic words.
+  There is a strange disease in software infrastructure conversations. A company has no product in
+  production yet. No real traffic. No mature deployment pipeline. No operational team. No customer
+  scale. No existing cloud investment. Sometimes not even a finished backend. And then someone says
+  the magic words.
 </Lede>
 
-<PullQuote>
-But we should use AWS, because we want to scale.
-</PullQuote>
+<PullQuote>But we should use AWS, because we want to scale.</PullQuote>
 
 This sentence has probably burned more startup engineering hours than bad ORM defaults.
 
@@ -103,9 +101,7 @@ the product deserves to exist. And at that stage, choosing infrastructure becaus
 resembles the future version of your company is usually just a very expensive form of
 cosplay.
 
-<PullQuote>
-A Formula 1 car is fast. It is also a terrible vehicle for grocery shopping.
-</PullQuote>
+<PullQuote>A Formula 1 car is fast. It is also a terrible vehicle for grocery shopping.</PullQuote>
 
 <SectionDivider n="01" label="The Lay of the Land" />
 
@@ -123,15 +119,15 @@ The choice is no longer the binary it used to be:
   rightTitle="A serious middle category"
 >
   <div slot="left">
-    For most of the 2010s the only respectable answers were *rack your own metal* or
-    *go all-in on a hyperscaler*. Everything between those extremes was treated as a toy
-    tier — fine for side projects, never for "real" software.
+    For most of the 2010s the only respectable answers were *rack your own metal* or *go all-in on a
+    hyperscaler*. Everything between those extremes was treated as a toy tier — fine for side
+    projects, never for "real" software.
   </div>
   <div slot="right">
-    Cloudflare, Fly.io, Render, Railway, Koyeb, Sevalla, DigitalOcean, Scaleway, and
-    others are building opinionated infrastructure products with modern defaults. Some
-    are PaaS-like, some edge-first, some microVM-based, some are self-service clouds with
-    nicer ergonomics. None of them are toys.
+    Cloudflare, Fly.io, Render, Railway, Koyeb, Sevalla, DigitalOcean, Scaleway, and others are
+    building opinionated infrastructure products with modern defaults. Some are PaaS-like, some
+    edge-first, some microVM-based, some are self-service clouds with nicer ergonomics. None of them
+    are toys.
   </div>
 </Compare>
 
@@ -166,7 +162,7 @@ that has ten million users, a platform team, an SRE rotation, reserved instances
 multi-region strategy, compliance automation, internal developer portals, and a dedicated
 Slack channel for IAM disasters.
 
-It should be chosen for the company that exists *now*. And the company that exists now
+It should be chosen for the company that exists _now_. And the company that exists now
 probably needs:
 
 - `git push` deploys
@@ -229,13 +225,13 @@ This is why "AWS is cheaper at scale" can be a misleading argument. At what scal
 what team? With what workload? With what reserved capacity? With what operational
 maturity? With how many engineers quietly becoming infrastructure maintainers?
 
-A small team choosing AWS for theoretical future scale may be buying *negative velocity
-today* in exchange for an *imaginary discount tomorrow*. That is bad finance and worse
+A small team choosing AWS for theoretical future scale may be buying _negative velocity
+today_ in exchange for an _imaginary discount tomorrow_. That is bad finance and worse
 engineering.
 
 <KeyTakeaway label="The trap">
-Pick infrastructure for the company that exists now, not the imaginary IPO version. The
-hyperscaler tax is real, even when the cloud bill itself looks reasonable.
+  Pick infrastructure for the company that exists now, not the imaginary IPO version. The
+  hyperscaler tax is real, even when the cloud bill itself looks reasonable.
 </KeyTakeaway>
 
 <SectionDivider n="02" label="The Big Three" />
@@ -250,12 +246,12 @@ never come close to having.
 AWS is, in many ways, **the cloud**.
 
 But this is also why AWS is dangerous for early teams. AWS is no longer just an
-infrastructure product. It feels more like a *raw computing civilization*. It gives you
+infrastructure product. It feels more like a _raw computing civilization_. It gives you
 everything. But "everything" is not the same as a good product experience.
 
 This is where the AWS fetish becomes obvious. There are entire companies that use AWS as
-the underlying compute layer and then build *better infrastructure products on top of
-it*. That is not random. That is a market signal. If AWS-native products were always the
+the underlying compute layer and then build _better infrastructure products on top of
+it_. That is not random. That is a market signal. If AWS-native products were always the
 best way to consume AWS primitives, half of this platform ecosystem would not need to
 exist.
 
@@ -272,8 +268,8 @@ complex enough that you need to learn it seriously. And once I need to learn pro
 orchestration anyway, I start asking:
 
 <PullQuote>
-Why am I learning this instead of using Kubernetes, Nomad, Fly Machines, or a higher-level
-platform that removes most of this concern entirely?
+  Why am I learning this instead of using Kubernetes, Nomad, Fly Machines, or a higher-level
+  platform that removes most of this concern entirely?
 </PullQuote>
 
 This is the uncomfortable truth: you are not receiving the benefits of being Netflix.
@@ -349,12 +345,12 @@ But they usually start from a different question.
   rightTitle="What experience should the developer have?"
 >
   <div slot="left">
-    The catalogue is the product. Pricing pages multiply. Each service ships with its
-    own permissions model, deployment pattern, and footgun. Composing them is the work.
+    The catalogue is the product. Pricing pages multiply. Each service ships with its own
+    permissions model, deployment pattern, and footgun. Composing them is the work.
   </div>
   <div slot="right">
-    The developer journey is the product. Primitives are chosen, opinionated, sometimes
-    fewer. The platform makes a real claim about how things should fit together.
+    The developer journey is the product. Primitives are chosen, opinionated, sometimes fewer. The
+    platform makes a real claim about how things should fit together.
   </div>
 </Compare>
 
@@ -373,8 +369,8 @@ sticker — they are closer to stateful actors that give you a coordination poin
 specific room, user, document, session, game, or workflow. R2 is not just S3 with orange
 paint. D1 is not just "SQLite but cloud." The whole platform has its own physics.
 
-And yes, sometimes the physics are strange. But this is *product-strange*, not
-*bureaucracy-strange*. That distinction matters.
+And yes, sometimes the physics are strange. But this is _product-strange_, not
+_bureaucracy-strange_. That distinction matters.
 
 :::tip The shape of the weirdness
 
@@ -387,10 +383,10 @@ Cloudflare wants you to build in a specific way: globally distributed, edge-awar
 event-driven, latency-sensitive, with managed coordination primitives and a runtime that
 does not look like the traditional "server in a region behind a load balancer" model.
 
-That is why I jokingly call Cloudflare the *Apple of cloud infrastructure*. Not because
+That is why I jokingly call Cloudflare the _Apple of cloud infrastructure_. Not because
 the branding is bad — Cloudflare has a strong brand. It is just not Apple-level "the
 whole thing feels like one polished object" yet. The Apple comparison is more about the
-*product posture*. Cloudflare says:
+_product posture_. Cloudflare says:
 
 > Do it our way.
 
@@ -404,7 +400,7 @@ infrastructure should be accessible without assembling a private distributed sys
 department.
 
 That is rare. So yes, I am biased. People call me a Workers Maniac. I like when
-infrastructure has *taste*. I like when a provider says, "Here is a better primitive,"
+infrastructure has _taste_. I like when a provider says, "Here is a better primitive,"
 instead of giving me a thousand knobs and calling that flexibility.
 
 But if you use Cloudflare, you need to accept the trade. You are not buying generic
@@ -416,8 +412,8 @@ Fly.io is the conceptual one. I do not mean that in a shallow landing-page way. 
 Fly has one of the best conceptual models in modern infrastructure:
 
 <PullQuote>
-Run real applications, inside Firecracker microVMs, close to users, with a strong global
-networking layer.
+  Run real applications, inside Firecracker microVMs, close to users, with a strong global
+  networking layer.
 </PullQuote>
 
 That is just cool. Fly gives me something I care about a lot: **freedom with low ops**.
@@ -445,7 +441,7 @@ to become ugly.
 
 Fly is not perfect. No provider is. But conceptually, it is one of the strongest
 alternatives to the hyperscaler default — a highly conceptual, badass, innovative model
-for teams who want low ops, edge-friendly Firecracker microVMs, *and* to look good while
+for teams who want low ops, edge-friendly Firecracker microVMs, _and_ to look good while
 doing it.
 
 ## Railway, Render, Koyeb, Sevalla: Heroku was right
@@ -459,9 +455,7 @@ git push heroku main
 That was not just a deployment command. It was a statement: developers should not need
 to become infrastructure monks to ship software.
 
-<PullQuote>
-Heroku was right. The market just spent a decade rediscovering that.
-</PullQuote>
+<PullQuote>Heroku was right. The market just spent a decade rediscovering that.</PullQuote>
 
 After everyone collectively decided that YAML, Kubernetes, Terraform, sidecars, service
 meshes, and cloud IAM would somehow make us happier — Railway, Render, Koyeb, Sevalla,
@@ -558,8 +552,8 @@ lower ceremony, approachable product experience.
 Droplets, managed databases, App Platform, Kubernetes, Spaces, load balancers — nothing
 here is conceptually confusing. That is the point. DigitalOcean is good when you want
 something closer to traditional cloud infrastructure but do not want hyperscaler
-bureaucracy. It is the *give me servers and managed services without making me hate
-computers* option. For many companies, that is more than enough.
+bureaucracy. It is the _give me servers and managed services without making me hate
+computers_ option. For many companies, that is more than enough.
 
 ### Scaleway
 
@@ -589,7 +583,7 @@ Another common argument:
 > If we start outside AWS, migrating later will be hard.
 
 Yes. Migration is work. But early over-engineering is also work. Usually more work. And
-unlike migration work, it happens *before* the product has proved it deserves the
+unlike migration work, it happens _before_ the product has proved it deserves the
 complexity.
 
 You can also make migration easier without starting on a hyperscaler:
@@ -607,7 +601,7 @@ A well-designed app on Fly, Render, Railway, Koyeb, DigitalOcean, Scaleway, or
 Cloudflare can be migrated later if the business earns that problem. But a badly
 designed app on AWS is not magically portable because the logo was enterprise-approved.
 
-Starting on AWS does not prevent lock-in. It often *accelerates* it. IAM, Lambda, Step
+Starting on AWS does not prevent lock-in. It often _accelerates_ it. IAM, Lambda, Step
 Functions, DynamoDB, EventBridge, SQS, SNS, Cognito, API Gateway, CloudWatch, CDK, ECS,
 EKS, Fargate — these are powerful services, but they are not neutral abstractions. They
 shape your system. Sometimes that is fine. But do not pretend the hyperscaler path is
@@ -638,8 +632,8 @@ Microsoft-native. GCP is a very good answer when the workload fits its strengths
 analytics, Cloud Run, GKE, BigQuery, Pub/Sub, ML tooling, and Google's network.
 
 <KeyTakeaway label="The real mistake">
-The mistake is not choosing a hyperscaler. The mistake is choosing a hyperscaler because
-it *feels* adult.
+  The mistake is not choosing a hyperscaler. The mistake is choosing a hyperscaler because it
+  *feels* adult.
 </KeyTakeaway>
 
 ## A better rule
@@ -662,7 +656,7 @@ For many teams, that means:
 - **AWS, GCP, or Azure** when their specific strengths or organizational requirements
   are real
 
-That is not anti-cloud. That is *pro-fit*.
+That is not anti-cloud. That is _pro-fit_.
 
 ## The point of infrastructure is not infrastructure
 
@@ -676,7 +670,7 @@ of least privilege.
 They care that the product works. They care that it is fast enough, reliable enough,
 secure enough, and improving fast enough.
 
-For a young company, infrastructure should create *leverage*. If it creates *drag*, it
+For a young company, infrastructure should create _leverage_. If it creates _drag_, it
 is the wrong infrastructure — even if it is "industry standard."
 
 The hyperscalers are incredible. They are also often too much machine for the job. And
@@ -685,8 +679,8 @@ It is often the most scalable decision a team can make, because the first thing 
 needs to scale is not your Kubernetes cluster.
 
 <KeyTakeaway label="The real scale">
-The first thing that has to scale is your team's ability to ship. Everything else is
-downstream of that.
+  The first thing that has to scale is your team's ability to ship. Everything else is downstream of
+  that.
 </KeyTakeaway>
 
 So yes, respect AWS. Respect GCP. Respect Azure. (Maybe not as much.) But do not worship

@@ -49,6 +49,10 @@ function installHorizontalMetrics(track: HTMLElement, slides: HTMLElement[]) {
       scrollLeft = value;
     },
   });
+  Object.defineProperty(track, "offsetLeft", {
+    configurable: true,
+    value: 0,
+  });
   Object.defineProperty(track, "getBoundingClientRect", {
     configurable: true,
     value: () => rect({ left: trackLeft, width: slideWidth }),
@@ -78,6 +82,10 @@ function installHorizontalMetrics(track: HTMLElement, slides: HTMLElement[]) {
       configurable: true,
       value: slideWidth,
     });
+    Object.defineProperty(slide, "offsetLeft", {
+      configurable: true,
+      value: baseOffsets[index],
+    });
   });
 
   return {
@@ -103,6 +111,9 @@ describe("case carousel", () => {
           <button data-case-nav="two" aria-pressed="false" type="button">Two</button>
           <button data-case-nav="three" aria-pressed="false" type="button">Three</button>
         </nav>
+        <button data-case-prev type="button">Previous</button>
+        <span data-case-progress>1 / 3</span>
+        <button data-case-next type="button">Next</button>
         <span data-swipe-hint>Hint</span>
         <div data-case-track>
           <article data-case-slide="one" aria-hidden="false"></article>
@@ -173,5 +184,39 @@ describe("case carousel", () => {
         slide.getAttribute("aria-hidden"),
       ),
     ).toEqual(["true", "true", "false"]);
+  });
+
+  test("step controls move forward and back with disabled boundary states", async () => {
+    const { initCaseCarousel } = await loadModule();
+    const track = document.querySelector("[data-case-track]") as HTMLElement;
+    const slides = Array.from(document.querySelectorAll("[data-case-slide]")) as HTMLElement[];
+    const { getSlideOffset, getScrollLeft } = installHorizontalMetrics(track, slides);
+    const previous = document.querySelector("[data-case-prev]") as HTMLButtonElement;
+    const next = document.querySelector("[data-case-next]") as HTMLButtonElement;
+    const progress = document.querySelector("[data-case-progress]") as HTMLElement;
+
+    initCaseCarousel();
+
+    expect(previous.disabled).toBe(true);
+    expect(next.disabled).toBe(false);
+    expect(progress.textContent).toBe("1 / 3");
+
+    next.click();
+    expect(getScrollLeft()).toBe(getSlideOffset(1));
+    expect(previous.disabled).toBe(false);
+    expect(next.disabled).toBe(false);
+    expect(progress.textContent).toBe("2 / 3");
+
+    next.click();
+    expect(getScrollLeft()).toBe(getSlideOffset(2));
+    expect(previous.disabled).toBe(false);
+    expect(next.disabled).toBe(true);
+    expect(progress.textContent).toBe("3 / 3");
+
+    previous.click();
+    expect(getScrollLeft()).toBe(getSlideOffset(1));
+    expect(previous.disabled).toBe(false);
+    expect(next.disabled).toBe(false);
+    expect(progress.textContent).toBe("2 / 3");
   });
 });

@@ -35,6 +35,18 @@ const IconArrowUpRight = () => (
   </svg>
 );
 
+const IconArrowLeft = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+    <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z" />
+  </svg>
+);
+
+const IconArrowRight = () => (
+  <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+    <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z" />
+  </svg>
+);
+
 const IconGitCommit = (props: { size?: number }) => (
   <svg
     width={props.size ?? 16}
@@ -288,7 +300,7 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
         aria-hidden={hasInteracted() ? "true" : "false"}
         data-visible={!hasInteracted()}
       >
-        Scroll for more
+        More work
       </div>
       <div
         class={styles.railTrack}
@@ -315,7 +327,8 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
             disabled={currentIndex() === 0}
             aria-label="Show previous repository"
           >
-            Prev
+            <IconArrowLeft />
+            <span class={styles.controlLabel}>Previous</span>
           </button>
           <button
             type="button"
@@ -324,7 +337,8 @@ function RepoRail(props: { repos: NormalizedRepoCard[] }) {
             disabled={currentIndex() >= props.repos.length - 1}
             aria-label="Show next repository"
           >
-            Next
+            <span class={styles.controlLabel}>Next</span>
+            <IconArrowRight />
           </button>
         </div>
         <div class={styles.progressBar}>
