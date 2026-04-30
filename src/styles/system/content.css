@@ -222,8 +222,9 @@
   width: 4px;
   height: 4px;
   border-radius: 999px;
-  background: currentColor;
-  opacity: 0.54;
+  background: var(--blue);
+  opacity: 1;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--blue) 60%, transparent);
 }
 
 .article__title {
@@ -300,8 +301,9 @@
   width: 4px;
   height: 4px;
   border-radius: 999px;
-  background: currentColor;
-  opacity: 0.42;
+  background: var(--blue);
+  opacity: 1;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--blue) 55%, transparent);
 }
 
 .article__hero {
@@ -573,7 +575,9 @@
   width: 12px;
   height: 2px;
   border-radius: 1px;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-soft) 30%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent-soft) 35%, transparent),
+    0 0 10px color-mix(in srgb, var(--blue) 40%, transparent);
 }
 
 .article__tocLink[aria-current="location"]::before {
@@ -635,10 +639,12 @@
   border-radius: 999px;
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--article-kicker) 88%, white 12%),
-    color-mix(in srgb, var(--teal) 66%, transparent)
+    color-mix(in srgb, var(--blue) 92%, white 8%),
+    color-mix(in srgb, var(--blue) 60%, var(--teal) 40%)
   );
-  box-shadow: 0 0 16px color-mix(in srgb, var(--article-kicker) 44%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--blue) 50%, transparent),
+    0 0 20px color-mix(in srgb, var(--blue) 30%, transparent);
 }
 
 .articlePortable {
