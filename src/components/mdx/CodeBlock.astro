@@ -15,7 +15,11 @@ const { class: className = "", style: _style, children: _children, ...rest } = A
 ---
 
 <div class="articlePortable__codeBlock" data-language={language || undefined}>
-  {language && <span class="articlePortable__codeLang" aria-hidden="true">{language}</span>}
+  {language && (
+    <div class="articlePortable__codeHeader">
+      <span class="articlePortable__codeLang" aria-hidden="true">{language}</span>
+    </div>
+  )}
   <pre class:list={["articlePortable__pre", className]} {...rest}>
     <slot />
   </pre>
