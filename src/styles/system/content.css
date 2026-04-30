@@ -782,6 +782,11 @@
   gap: 0.44rem;
 }
 
+/* Reader lists: use brand blue markers (matches meta dots) */
+.articlePortable :where(li)::marker {
+  color: var(--blue);
+}
+
 .articlePortable :where(ol) {
   list-style: decimal;
 }

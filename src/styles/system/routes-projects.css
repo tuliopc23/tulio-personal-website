@@ -134,7 +134,7 @@
   display: flex;
   gap: var(--space-lg);
   overflow-x: auto;
-  overflow-y: clip;
+  overflow-y: visible;
   scroll-snap-type: x mandatory;
   scroll-padding-inline: 0;
   -webkit-overflow-scrolling: touch;
@@ -142,6 +142,18 @@
   cursor: grab;
   scrollbar-width: none;
   touch-action: pan-y pinch-zoom;
+  padding-block: 22px 30px; /* let shadows breathe; hide rail edge */
+  padding-inline: 8px;
+  margin-inline: -8px; /* keep visual alignment with container */
+  margin-block: -12px; /* blend top/bottom rail edges into page background */
+  -webkit-mask-image: linear-gradient(
+    0deg,
+    transparent,
+    black 22px,
+    black calc(100% - 22px),
+    transparent
+  );
+  mask-image: linear-gradient(0deg, transparent, black 22px, black calc(100% - 22px), transparent);
 }
 
 .caseSlider__track::-webkit-scrollbar {
@@ -181,6 +193,7 @@
   backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   -webkit-backdrop-filter: blur(var(--glass-regular-blur)) saturate(var(--glass-saturation-base));
   overflow: hidden;
+  outline: 0; /* ensure no focus outline shows as rail */
 }
 
 /* Showcase: 2 images side by side, floating with layered shadow */

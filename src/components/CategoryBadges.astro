@@ -36,18 +36,22 @@ const getCategoryIcon = (slug: string) => {
     <div
       class:list={[
         styles.categoryBadges,
+        "categoryBadges",
         variant === "inline" && styles.inlineContainer,
+        variant === "inline" && "categoryBadges--inline",
       ]}
     >
       {_displayCategories.map((category) => {
         const badgeClass = [
           styles.categoryBadge,
+          "categoryBadge",
           variant === "pill" && "chip-pill",
           variant === "pill" && "chip-pill--accent",
           variant === "pill" && "motion-chip",
           variant === "inline" && "taxonomy-label",
           variant === "inline" && "taxonomy-label--accent",
           variant === "inline" && styles.inlineBadge,
+          variant === "inline" && "categoryBadge--inline",
         ];
 
         return linked ? (
