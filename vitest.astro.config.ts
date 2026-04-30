@@ -9,4 +9,4 @@ export default getViteConfig({
     environment: "node",
     testTimeout: 20_000,
   },
-});
+} as unknown as Parameters<typeof getViteConfig>[0]);

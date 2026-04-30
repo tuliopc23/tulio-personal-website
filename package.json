@@ -38,8 +38,8 @@
     "seed:keystatic-posts": "node scripts/seed-keystatic-posts.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@astrojs/cloudflare": "^13.2.0",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^13.2.2",
     "@astrojs/markdoc": "^1.0.4",
     "@astrojs/mdx": "^5.0.4",
     "@astrojs/react": "^5.0.4",
@@ -47,14 +47,14 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/solid-js": "^6.0.1",
     "@iconify-json/logos": "^1.2.11",
-    "@iconify-json/simple-icons": "^1.2.79",
+    "@iconify-json/simple-icons": "^1.2.80",
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.50",
     "@phosphor-icons/core": "^2.1.1",
-    "@remotion/player": "4.0.450",
-    "@sentry/astro": "^10.49.0",
-    "@sentry/cloudflare": "^10.49.0",
-    "astro": "^6.1.9",
+    "@remotion/player": "4.0.454",
+    "@sentry/astro": "^10.51.0",
+    "@sentry/cloudflare": "^10.51.0",
+    "astro": "^6.1.10",
     "clsx": "^2.1.1",
     "direction": "^2.0.1",
     "dotenv": "^17.4.2",
@@ -65,34 +65,34 @@
     "motion": "^12.38.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "remotion": "4.0.450",
+    "remark-directive": "^4.0.0",
+    "remotion": "4.0.454",
     "resend": "^6.12.2",
     "set-cookie-parser": "^3.1.0",
     "sharp": "^0.34.5",
     "shiki": "^4.0.2",
     "solid-js": "^1.9.12",
     "styled-components": "^6.4.1",
-    "remark-directive": "^4.0.0",
     "tailwind-merge": "^3.5.0",
-    "unist-util-visit": "^5.0.0",
+    "unist-util-visit": "^5.1.0",
     "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260422.1",
+    "@cloudflare/workers-types": "^4.20260429.1",
     "@playwright/test": "^1.59.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint-plugin-astro": "^1.7.0",
-    "jsdom": "^29.0.2",
-    "lodash": "4.17.21",
+    "jsdom": "^29.1.0",
+    "lodash": "4.18.1",
     "prettier": "^3.8.3",
     "react-compiler-runtime": "^1.0.0",
     "react-is": "^19.2.5",
     "typescript": "^6.0.3",
     "vite": "^7.3.2",
-    "vite-plus": "^0.1.19",
+    "vite-plus": "^0.1.20",
     "vitest": "^4.1.5",
-    "wrangler": "^4.84.1"
+    "wrangler": "^4.86.0"
   },
   "engines": {
     "node": ">=22.12.0"
@@ -100,15 +100,15 @@
   "packageManager": "pnpm@10.33.1",
   "overrides": {
     "vite": "^7",
-    "remotion": "4.0.450",
-    "lodash": "4.17.21"
+    "remotion": "4.0.454",
+    "lodash": "4.18.1"
   },
   "pnpm": {
     "overrides": {
-      "remotion": "4.0.450",
-      "@remotion/player>remotion": "4.0.450",
-      "lodash": "4.17.21",
-      "slate-react>lodash": "4.17.21",
+      "remotion": "4.0.454",
+      "@remotion/player>remotion": "4.0.454",
+      "lodash": "4.18.1",
+      "slate-react>lodash": "4.18.1",
       "cookie": "link:vendor/cookie",
       "@braintree/sanitize-url": "link:vendor/braintree-sanitize-url",
       "is-hotkey": "link:vendor/is-hotkey"
@@ -122,6 +122,8 @@
     ],
     "peerDependencyRules": {
       "allowedVersions": {
+        "astro": "6",
+        "typescript": "6",
         "uuid": "13",
         "prettier": "3",
         "codemirror": "5"
