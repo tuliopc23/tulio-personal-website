@@ -345,23 +345,29 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
           </section>
 
           {_articleHeadings.length > 1 && (
-            <section
+            <details
               class="article__panel article__toc surface-panel surface-panel--nested"
               aria-labelledby="article-toc-title"
               data-reveal
               data-reveal-group="post-shell"
               data-reveal-order={3}
             >
-              <div class="article__sectionHeader">
+              <summary class="article__tocSummary">
                 <span class="article__sectionEyebrow">
                   <PhosphorIcon name="article" size={14} weight="regular" />
                   On this page
                 </span>
-                <h2 id="article-toc-title" class="article__relatedTitle">Reader map</h2>
-                <p class="article__sectionCaption">
-                  A quick route through the sections in this article.
-                </p>
-              </div>
+                <span id="article-toc-title" class="article__tocSummaryTitle">Reader map</span>
+                <span class="article__tocSummaryCount">
+                  {_articleHeadings.length} sections
+                  <PhosphorIcon
+                    name="caret-down"
+                    size={14}
+                    weight="regular"
+                    class="article__tocCaret"
+                  />
+                </span>
+              </summary>
               <ol class="article__tocList">
                 {_articleHeadings.map((heading) => (
                   <li class:list={["article__tocItem", `article__tocItem--depth-${heading.depth}`]}>
@@ -371,7 +377,7 @@ const _structuredData = customJsonLd ?? [articleStructuredData, breadcrumbStruct
                   </li>
                 ))}
               </ol>
-            </section>
+            </details>
           )}
 
           <section
