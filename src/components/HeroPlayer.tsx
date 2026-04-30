@@ -164,6 +164,7 @@ export default function HeroPlayer() {
       controls={false}
       initiallyMuted
       autoPlay
+      numberOfSharedAudioTags={0}
       acknowledgeRemotionLicense
       inputProps={{ isMobile }}
       style={{
