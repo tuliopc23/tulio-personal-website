@@ -91,56 +91,43 @@ export default function HeroPlayer() {
     }
 
     let cancelled = false;
-    let removeListener: (() => void) | undefined;
     let raf = 0;
+    let startTime: number | null = null;
+    let lastFrame = -1;
 
-    const syncPlayback = () => {
+    const tick = (timestamp: number) => {
       if (cancelled) {
         return;
       }
 
       const player = playerRef.current;
       if (!player) {
-        raf = requestAnimationFrame(syncPlayback);
+        raf = requestAnimationFrame(tick);
         return;
       }
 
-      let didHoldLastFrame = false;
+      if (startTime === null) {
+        startTime = timestamp;
+      }
 
-      const holdLastFrame = () => {
-        // Prevent re-entrancy:
-        // `seekTo(...)` can cause Remotion to re-dispatch the `"ended"` event.
-        // If we do that while we're still handling `"ended"`, we can recurse until
-        // the call stack overflows.
-        if (didHoldLastFrame) {
-          return;
-        }
-        didHoldLastFrame = true;
+      const elapsed = (timestamp - startTime) / 1000;
+      const frame = Math.min(Math.floor(elapsed * FPS), DURATION_FRAMES - 1);
 
-        // Defer state changes to avoid synchronous event loops.
-        requestAnimationFrame(() => {
-          if (cancelled) {
-            return;
-          }
-          player.seekTo(DURATION_FRAMES - 1);
-          player.pause();
-        });
-      };
+      if (frame !== lastFrame) {
+        lastFrame = frame;
+        player.seekTo(frame);
+      }
 
-      const onEnded = () => holdLastFrame();
-      player.addEventListener("ended", onEnded);
-      removeListener = () => player.removeEventListener("ended", onEnded);
-
-      player.seekTo(0);
-      player.play();
+      if (frame < DURATION_FRAMES - 1) {
+        raf = requestAnimationFrame(tick);
+      }
     };
 
-    raf = requestAnimationFrame(syncPlayback);
+    raf = requestAnimationFrame(tick);
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
-      removeListener?.();
     };
   }, [prefersReducedMotion]);
 
@@ -163,7 +150,6 @@ export default function HeroPlayer() {
       moveToBeginningWhenEnded={false}
       controls={false}
       initiallyMuted
-      autoPlay
       numberOfSharedAudioTags={0}
       acknowledgeRemotionLicense
       inputProps={{ isMobile }}
