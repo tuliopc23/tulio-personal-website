@@ -80,7 +80,19 @@ const classes =
   .newsletterSignup {
     display: grid;
     gap: 14px;
-    padding: 18px;
+    padding: clamp(18px, 2.8vw, 28px);
+  }
+
+  .newsletterSignup:not(.newsletterSignup--compact) {
+    border-color: color-mix(in srgb, var(--panel-border-strong) 54%, transparent);
+    background:
+      radial-gradient(circle at 88% 54%, rgba(10, 132, 255, 0.10), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025)),
+      color-mix(in srgb, var(--surface-panel-bg, var(--surface-card)) 86%, transparent);
+    box-shadow:
+      var(--shadow-card),
+      0 20px 56px rgba(4, 10, 24, 0.14),
+      0 0 72px rgba(10, 132, 255, 0.055);
   }
 
   .newsletterSignup__title {
@@ -104,21 +116,64 @@ const classes =
   .newsletterSignup__input {
     width: 100%;
     min-height: max(52px, var(--touch-target-min, 44px));
-    border-radius: 12px;
-    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
-    background: var(--surface-1, rgba(0, 0, 0, 0.2));
-    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid color-mix(in srgb, var(--panel-border-strong) 42%, transparent);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02)),
+      color-mix(in srgb, var(--surface-1, rgba(0, 0, 0, 0.2)) 82%, transparent);
+    padding: 12px 16px;
     color: inherit;
     outline: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      0 10px 26px rgba(4, 10, 24, 0.08);
+    transition:
+      border-color var(--motion-duration-sm) var(--motion-ease-out),
+      box-shadow var(--motion-duration-sm) var(--motion-ease-out),
+      background var(--motion-duration-sm) var(--motion-ease-out);
+  }
+
+  .newsletterSignup__input::placeholder {
+    color: color-mix(in srgb, var(--text-tertiary, currentColor) 62%, transparent);
   }
 
   .newsletterSignup__input:focus {
-    border-color: var(--border-strong, rgba(255, 255, 255, 0.24));
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--link, #0a84ff) 18%, transparent);
+    border-color: color-mix(in srgb, var(--accent, #0a84ff) 54%, transparent);
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent, #0a84ff) 18%, transparent),
+      0 16px 36px rgba(10, 132, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
   }
 
   .newsletterSignup__button {
     min-height: max(52px, var(--touch-target-min, 44px));
+    border-color: color-mix(in srgb, var(--accent, #0a84ff) 42%, white 10%);
+    background:
+      radial-gradient(circle at 32% 18%, rgba(255, 255, 255, 0.54), transparent 30%),
+      linear-gradient(180deg, color-mix(in srgb, var(--accent, #0a84ff) 78%, #7cc7ff 22%), color-mix(in srgb, var(--accent, #0a84ff) 86%, #0057d9 14%));
+    color: #fff;
+    box-shadow:
+      0 18px 42px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
+      0 0 34px color-mix(in srgb, var(--accent, #0a84ff) 26%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      inset 0 -1px 0 rgba(0, 38, 105, 0.22);
+  }
+
+  .newsletterSignup__button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 22px 52px color-mix(in srgb, var(--accent, #0a84ff) 42%, transparent),
+      0 0 46px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(0, 38, 105, 0.24);
+  }
+
+  .newsletterSignup__button:focus-visible {
+    outline: none;
+    box-shadow:
+      var(--focus-ring),
+      0 18px 42px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.42);
   }
 
   .newsletterSignup__status {
