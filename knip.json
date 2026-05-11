@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["keystatic.config.ts", "src/scripts/client.ts", "vitest.astro.config.ts"],
+  "ignore": ["vendor/**"],
+  "ignoreDependencies": [
+    "cloudflare",
+    "direction",
+    "easymde",
+    "eslint-plugin-astro",
+    "lodash",
+    "prettier",
+    "react-compiler-runtime",
+    "react-is",
+    "set-cookie-parser",
+    "styled-components",
+    "@phosphor-icons/core",
+    "@sentry/cloudflare",
+    "@vitest/coverage-v8"
+  ],
+  "tags": ["-lintignore"]
+}

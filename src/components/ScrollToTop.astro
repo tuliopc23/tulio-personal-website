@@ -39,7 +39,7 @@ import styles from "./ScrollToTop.module.css";
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
       const resolveBehavior = () => (prefersReduced.matches ? 'auto' : 'smooth');
 
-      let scrollBehavior = resolveBehavior();
+      let scrollBehavior: ScrollBehavior = resolveBehavior();
 
       if (prefersReduced.matches) {
         progressBar.style.transition = 'none';

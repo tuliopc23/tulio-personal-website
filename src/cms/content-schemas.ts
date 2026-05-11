@@ -4,7 +4,7 @@
  */
 import { z } from "astro/zod";
 
-export const seoSchema = z.object({
+const seoSchema = z.object({
   seoMetaTitle: z.string().optional(),
   seoMetaDescription: z.string().optional(),
   seoCanonicalUrl: z.string().optional().or(z.literal("")),
@@ -76,8 +76,6 @@ export const postSchema = z
     heroCaption: z.string().optional(),
   })
   .extend(seoSchema.shape);
-
-export type PostFrontmatter = z.infer<typeof postSchema>;
 
 /** Astro Content Collections variant: allows `heroImage` to be resolved via the `image()` helper. */
 export function postSchemaWithImage(image: () => z.ZodTypeAny) {

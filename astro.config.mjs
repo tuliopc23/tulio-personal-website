@@ -20,8 +20,6 @@ const reactIntegration = react({
   include: [
     // Use regex filters here to stay off the glob-to-picomatch path in Astro's bundled React renderer.
     /(?:^|\/)react(?:\/|$)/,
-    /(?:^|\/)remotion(?:\/|$)/,
-    /(?:^|\/)HeroPlayer[^/]*(?:[?#].*)?$/,
     /(?:^|\/)keystatic(?:\/|$)/,
     /(?:^|\/)node_modules\/@keystatic\/core\/.*\.js(?:[?#].*)?$/,
     /(?:^|\/)node_modules\/@keystatic\/astro\/.*\.js(?:[?#].*)?$/,
@@ -58,7 +56,7 @@ export default defineConfig({
       filter: shouldIncludeInSitemap,
     }),
     reactIntegration,
-    solidJs({ include: ["**/solid/**", "**/GitHubLiveSection*"] }),
+    solidJs({ include: ["**/solid/**"] }),
     sentry({
       project: process.env.SENTRY_PROJECT ?? "personal-website",
       org: process.env.SENTRY_ORG ?? "tuliocunha",

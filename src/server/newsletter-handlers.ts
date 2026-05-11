@@ -24,7 +24,7 @@ function json(_request: Request, status: number, body: unknown): Response {
   });
 }
 
-export function baseUrl(request: Request): string {
+function baseUrl(request: Request): string {
   return new URL(request.url).origin;
 }
 

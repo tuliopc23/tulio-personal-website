@@ -28,7 +28,7 @@ function mapFit(fit: CloudflareImageOptions["fit"]): string | null {
   }
 }
 
-export function applyCdnParams(
+function applyCdnParams(
   sourceUrl: string,
   {
     width,

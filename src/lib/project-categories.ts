@@ -1,4 +1,4 @@
-export const PROJECT_CATEGORIES = [
+const PROJECT_CATEGORIES = [
   { title: "Native", label: "Native", value: "native" },
   { title: "Web", label: "Web", value: "web" },
   { title: "Tooling", label: "Tooling", value: "tooling" },
@@ -11,7 +11,3 @@ export const PROJECT_CATEGORIES = [
 ] as const;
 
 export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number]["value"];
-
-export function isProjectCategory(value: string): value is ProjectCategory {
-  return PROJECT_CATEGORIES.some((category) => category.value === value);
-}

@@ -4,8 +4,6 @@ import path from "node:path";
 import { getCollection, render } from "astro:content";
 import { markdownToPlainText } from "../markdown";
 
-export { calculateReadingTimeMinutes } from "../reading-time";
-
 export interface HeroImage {
   /** Astro image metadata (from content collection `image()` helper). */
   src: unknown;
@@ -13,7 +11,7 @@ export interface HeroImage {
   caption?: string | null;
 }
 
-export interface PostSeoMeta {
+interface PostSeoMeta {
   metaTitle?: string | null;
   metaDescription?: string | null;
   canonicalUrl?: string | null;
@@ -27,7 +25,7 @@ export interface PostSeoMeta {
   } | null;
 }
 
-export interface Author {
+interface Author {
   _id: string;
   name: string;
   slug: string;
@@ -47,7 +45,7 @@ export interface Category {
   archiveIntro?: string | null;
 }
 
-export interface Topic {
+interface Topic {
   _id: string;
   title: string;
   slug: string;
@@ -55,14 +53,14 @@ export interface Topic {
   archiveIntro?: string | null;
 }
 
-export interface SeriesReference {
+interface SeriesReference {
   _id: string;
   title: string;
   slug: string;
   description?: string | null;
 }
 
-export interface SourceReference {
+interface SourceReference {
   _id: string;
   title: string;
   url: string;
@@ -117,11 +115,6 @@ export interface PostDetail extends PostSummary {
   updatedAt: string;
   markdownContent?: string | null;
   readingTimeMinutes: number;
-}
-
-export interface PostLocator {
-  slug: string;
-  publishedAt: string;
 }
 
 type PostEntry = CollectionEntry<"posts">;
@@ -302,17 +295,6 @@ async function publishedEntries(): Promise<PostEntry[]> {
 export async function getAllPostSlugs(): Promise<string[]> {
   const entries = await publishedEntries();
   return entries.map((e) => e.data.slug);
-}
-
-export async function getAllPostLocators(): Promise<PostLocator[]> {
-  const entries = await publishedEntries();
-  return entries.map((e) => ({
-    slug: e.data.slug,
-    publishedAt:
-      e.data.publishedAt instanceof Date
-        ? e.data.publishedAt.toISOString()
-        : new Date(e.data.publishedAt).toISOString(),
-  }));
 }
 
 export async function getAllPosts(): Promise<PostSummary[]> {

@@ -1,4 +1,4 @@
-export const SITE_URL = "https://www.tuliocunha.dev";
+const SITE_URL = "https://www.tuliocunha.dev";
 export const SITEMAP_INDEX_PATH = "/sitemap-index.xml";
 export const RSS_FEED_PATH = "/rss.xml";
 export const LEGACY_RSS_FEED_PATH = "/blog/feed.xml";

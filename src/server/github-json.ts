@@ -49,32 +49,18 @@ const LANGUAGE_OVERRIDES: Record<string, string> = {
 /** Origins allowed to call `/api/github.json` from the browser (www + apex). */
 const CORS_ALLOWED_ORIGINS = new Set(["https://www.tuliocunha.dev", "https://tuliocunha.dev"]);
 
-export function accessControlAllowOrigin(request: Request): string | undefined {
+function accessControlAllowOrigin(request: Request): string | undefined {
   const origin = request.headers.get("Origin");
   if (!origin) return "https://www.tuliocunha.dev";
   return CORS_ALLOWED_ORIGINS.has(origin) ? origin : undefined;
 }
 
-export function withCors(
-  request: Request,
-  headers: Record<string, string>,
-): Record<string, string> {
+function withCors(request: Request, headers: Record<string, string>): Record<string, string> {
   const allow = accessControlAllowOrigin(request);
   if (allow) {
     return { ...headers, "Access-Control-Allow-Origin": allow };
   }
   return { ...headers };
-}
-
-export function json(request: Request, status: number, body: unknown): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: withCors(request, {
-      "Content-Type": "application/json; charset=utf-8",
-      "Cache-Control": "no-store",
-      "X-Content-Type-Options": "nosniff",
-    }),
-  });
 }
 
 function parseFeaturedReposFromYaml(raw: string): FeaturedRepo[] {

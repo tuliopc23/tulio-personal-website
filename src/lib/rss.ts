@@ -26,8 +26,6 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
-export { buildFeedContent, buildMediaRssItemTags, resolvePostFeedImage } from "./feed-item-html";
-
 export async function createRssFeedResponse(
   context: Pick<APIContext, "request" | "site">,
   feedPath: string,
