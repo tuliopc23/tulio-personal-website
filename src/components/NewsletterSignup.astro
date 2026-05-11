@@ -62,7 +62,7 @@ const classes =
       class="newsletterSignup__hp"
     />
 
-    <button type="submit" class="btn newsletterSignup__button">
+    <button type="submit" class="cta-pill cta-pill--accent motion-cta-pill newsletterSignup__button">
       <PhosphorIcon name="paper-plane-tilt" size={16} weight="regular" />
       <span>Subscribe</span>
     </button>
@@ -150,22 +150,6 @@ const classes =
 
   .newsletterSignup__button {
     min-height: max(54px, var(--touch-target-min, 44px));
-    padding-inline: 22px;
-    border-radius: 18px;
-    border-color: color-mix(in srgb, var(--accent, #0a84ff) 44%, white 8%);
-    background:
-      radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.56), transparent 28%),
-      linear-gradient(180deg, color-mix(in srgb, var(--accent, #0a84ff) 76%, #86d5ff 24%), color-mix(in srgb, var(--accent, #0a84ff) 88%, #004fd1 12%));
-    color: #fff;
-    box-shadow:
-      0 18px 46px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
-      0 0 38px color-mix(in srgb, var(--accent, #0a84ff) 24%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.42),
-      inset 0 -1px 0 rgba(0, 38, 105, 0.22);
-  }
-
-  .newsletterSignup__button:hover {
-    transform: translateY(-1px);
   }
 
   .newsletterSignup__status {
