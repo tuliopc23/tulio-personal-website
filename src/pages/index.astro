@@ -1,1 +1,107 @@
-REPLACED
+---
+import Base from "../layouts/Base.astro";
+import HeroPlayer from "../components/HeroPlayer.tsx";
+import ProfileCard from "../components/ProfileCard.astro";
+import DockLink from "../components/DockLink.astro";
+import SectionQuickNav from "../components/SectionQuickNav.astro";
+import GitHubLiveSection from "../components/github/GitHubLiveSection.tsx";
+import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
+import PhosphorIcon from "../components/PhosphorIcon.astro";
+import { isNewPublishedAt } from "../lib/is-new-post";
+import { getAllPosts } from "../lib/content/posts";
+import { getMergedGitHubData } from "../lib/github-data";
+import { SITE_SAME_AS_URLS } from "../lib/site-identity";
+
+const posts = await getAllPosts();
+let githubRepos: Awaited<ReturnType<typeof getMergedGitHubData>> = [];
+try {
+  githubRepos = await getMergedGitHubData(
+    import.meta.env.GITHUB_TOKEN ?? import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN,
+  );
+} catch (err) {
+  console.warn("Build-time GitHub fetch failed, widget will fetch client-side:", err);
+}
+const formatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+const writingPosts = posts.slice(0, 3).map((post) => {
+  const date = new Date(post.publishedAt);
+  const summaryWordCount = post.summary.split(/\s+/).filter(Boolean).length;
+  return {
+    title: post.title,
+    summary: post.summary,
+    href: `/blog/${post.slug}/`,
+    dateISO: date.toISOString(),
+    dateLabel: formatter.format(date),
+    readingTimeMinutes: post.readingTimeMinutes ?? Math.max(1, Math.round(summaryWordCount / 170)),
+    tags: post.tags,
+    categories: post.categories,
+    heroImage: post.heroImage,
+    coverVariant: post.coverVariant,
+    isNew: isNewPublishedAt(post.publishedAt),
+  };
+});
+
+const toolLinks = [];
+const stackLinks = [];
+const sectionNavItems = [
+  { id: "section-profile", label: "Hello" },
+  { id: "section-tools", label: "Tools" },
+  { id: "section-stack", label: "Stack" },
+  { id: "section-github", label: "Activity" },
+  { id: "section-writing", label: "Writing" },
+];
+
+const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
+const canonical = new URL("/", siteOrigin).toString();
+const description =
+  "Tulio Cunha — full stack developer. Swift, TypeScript, Go, Rust, and Zig. Native apps, web systems, and the backend in between.";
+
+const homepageStructuredData = [];
+---
+
+<Base
+  title="Home"
+  description={description}
+  canonical={canonical}
+  ogDescription={description}
+  ogImage={{ url: "/android-chrome-512x512.png", alt: "Tulio Cunha — Full Stack Developer", width: 512, height: 512 }}
+  structuredData={homepageStructuredData}
+  sidebar={false}
+  mobileDrawer={true}
+  heroPage={true}
+>
+  <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
+    <header class="stage-intro stage-intro--single">
+      <div class="stage-intro__copy">
+        <span class="stage-intro__eyebrow">
+          <PhosphorIcon name="article" size={14} weight="regular" />
+          Journal
+        </span>
+        <h2 id="homepage-exploration-title" class="stage-intro__title">Long-form notes on things I actually built.</h2>
+      </div>
+    </header>
+
+    <div
+      id="section-writing"
+      class="widget-box widget-feature-writing surface-panel surface-panel--premium hover-elevate"
+      data-reveal
+      data-parallax-card
+    >
+      <div class="widget-header surface-header">
+        <span class="widget-eyebrow surface-eyebrow">
+          <PhosphorIcon name="article" size={13} weight="regular" />
+          Journal
+        </span>
+        <h2 class="widget-title surface-title">
+          <span>Writing</span>
+          <PhosphorIcon name="article" size={18} weight="regular" />
+        </h2>
+      </div>
+      <FeatureWritingWidget posts={writingPosts} />
+    </div>
+  </section>
+</Base>
