@@ -1,26 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
-import HeroPlayer from "../components/HeroPlayer.tsx";
-import ProfileCard from "../components/ProfileCard.astro";
-import DockLink from "../components/DockLink.astro";
-import SectionQuickNav from "../components/SectionQuickNav.astro";
-import GitHubLiveSection from "../components/github/GitHubLiveSection.tsx";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { isNewPublishedAt } from "../lib/is-new-post";
 import { getAllPosts } from "../lib/content/posts";
-import { getMergedGitHubData } from "../lib/github-data";
-import { SITE_SAME_AS_URLS } from "../lib/site-identity";
 
 const posts = await getAllPosts();
-let githubRepos: Awaited<ReturnType<typeof getMergedGitHubData>> = [];
-try {
-  githubRepos = await getMergedGitHubData(
-    import.meta.env.GITHUB_TOKEN ?? import.meta.env.GITHUB_PERSONAL_ACCESS_TOKEN,
-  );
-} catch (err) {
-  console.warn("Build-time GitHub fetch failed, widget will fetch client-side:", err);
-}
 const formatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
@@ -45,22 +30,10 @@ const writingPosts = posts.slice(0, 3).map((post) => {
   };
 });
 
-const toolLinks = [];
-const stackLinks = [];
-const sectionNavItems = [
-  { id: "section-profile", label: "Hello" },
-  { id: "section-tools", label: "Tools" },
-  { id: "section-stack", label: "Stack" },
-  { id: "section-github", label: "Activity" },
-  { id: "section-writing", label: "Writing" },
-];
-
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
   "Tulio Cunha — full stack developer. Swift, TypeScript, Go, Rust, and Zig. Native apps, web systems, and the backend in between.";
-
-const homepageStructuredData = [];
 ---
 
 <Base
@@ -69,7 +42,6 @@ const homepageStructuredData = [];
   canonical={canonical}
   ogDescription={description}
   ogImage={{ url: "/android-chrome-512x512.png", alt: "Tulio Cunha — Full Stack Developer", width: 512, height: 512 }}
-  structuredData={homepageStructuredData}
   sidebar={false}
   mobileDrawer={true}
   heroPage={true}
