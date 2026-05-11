@@ -1,0 +1,27 @@
+---
+import { resolveBrandGlyph } from "./brand-icon-data";
+
+interface Props {
+  name: string;
+  size?: number;
+}
+
+const { name, size = 24 } = Astro.props as Props;
+
+const glyph = resolveBrandGlyph(name);
+const _viewBox = glyph ? `0 0 ${glyph.width} ${glyph.height}` : "0 0 24 24";
+const _useCurrentColor = true; // Always use currentColor for theme switching
+const _body = glyph?.body ?? "";
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox={_viewBox}
+  role="img"
+  aria-hidden="true"
+  {..._useCurrentColor ? { fill: "currentColor" } : {}}
+>
+  <Fragment set:html={_body} />
+</svg>

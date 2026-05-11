@@ -1,0 +1,183 @@
+---
+import BrandIcon from "./BrandIcon.astro";
+import { getBrandIcon } from "./brand-icons";
+import SFIcon from "./SFIcon.astro";
+import styles from "./IconTile.module.css";
+
+type IconAsset =
+  | string
+  | {
+      light: string;
+      dark?: string | null;
+    };
+
+const {
+  tint = "blue",
+  icon = null,
+  asset = null,
+  context = "default",
+  iconContext = "tools",
+  loading = "lazy",
+}: {
+  tint?: string;
+  icon?: string | null;
+  asset?: IconAsset | null;
+  context?: "default" | "dock";
+  iconContext?: "tools" | "stack";
+  loading?: "eager" | "lazy";
+} = Astro.props;
+
+const iconAsset = asset
+  ? typeof asset === "string"
+    ? { light: asset, dark: asset }
+    : {
+        light: asset.light,
+        dark: typeof asset.dark === "string" && asset.dark.length > 0 ? asset.dark : asset.light,
+      }
+  : null;
+
+const assetLight = iconAsset?.light ?? null;
+const assetDarkRaw = iconAsset?.dark ?? null;
+const assetDark = assetDarkRaw && assetDarkRaw !== assetLight ? assetDarkRaw : null;
+const iconKey = (() => {
+  if (assetLight) {
+    const fileName = assetLight.split("/").pop() ?? "";
+    const withoutExt = fileName.replace(/\.[^.]+$/, "");
+    return withoutExt
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "")
+      .replace(/-+/g, "-");
+  }
+
+  return icon ?? null;
+})();
+
+const symbolMap: Record<string, string> = {
+  blog: "notebook",
+  projects: "constellation",
+  home: "home",
+  link: "link",
+  mail: "mail",
+  calendar: "calendar",
+  "map-pin": "pin",
+  location: "pin",
+  portfolio: "briefcase",
+  sparkle: "sparkle-trio",
+  writing: "sparkle-trio",
+  globe: "globe",
+  code: "code",
+};
+
+const brandEntry = !iconAsset && icon ? getBrandIcon(icon) : null;
+const sfIcon = !iconAsset && !brandEntry && icon ? symbolMap[icon] : null;
+const symbolStyle =
+  !iconAsset && brandEntry
+    ? ({
+        ...(brandEntry.ink ? { "--symbol-ink": brandEntry.ink } : {}),
+        ...(brandEntry.accent ? { "--symbol-accent": brandEntry.accent } : {}),
+      } as Record<string, string>)
+    : undefined;
+
+const darkVariantIcons = new Set<string>(["profile-github"]);
+
+const hasDarkVariant = !iconAsset && icon ? darkVariantIcons.has(icon) : false;
+const iconSrc = !iconAsset && icon ? `/icons/${icon}.svg` : null;
+const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
+const decorativeAlt = "";
+const assetSize = context === "dock" ? 96 : 72;
+---
+
+<span
+  class:list={[
+    "symbol",
+    `symbol--${tint}`,
+    context === "dock" && "symbol--dock",
+    iconContext === "stack" && "symbol--stack-icon",
+    styles.root,
+  ]}
+  aria-hidden="true"
+  style={symbolStyle}
+  data-icon={iconKey ?? undefined}
+  data-icon-source={iconAsset ? "asset" : "icon"}
+  data-icon-context={iconContext}
+  data-has-dark-asset={assetDark ? "true" : undefined}
+  data-dock={context === "dock" ? "true" : undefined}
+  data-stack-icon={iconContext === "stack" ? "true" : undefined}
+>
+  {
+    iconAsset ? (
+      <div class={styles.media}>
+        {assetLight && (
+          <img
+            src={assetLight}
+            alt={decorativeAlt}
+            width={assetSize}
+            height={assetSize}
+            loading={loading}
+            decoding="async"
+            data-variant="light"
+            style="z-index:1;"
+          />
+        )}
+        {assetDark && (
+          <img
+            src={assetDark}
+            alt={decorativeAlt}
+            width={assetSize}
+            height={assetSize}
+            loading={loading}
+            decoding="async"
+            data-variant="dark"
+            style="z-index:2;"
+          />
+        )}
+      </div>
+    ) : brandEntry && icon ? (
+      <BrandIcon name={icon} size={24} />
+    ) : sfIcon ? (
+      <SFIcon name={sfIcon} size={24} stroke={1.8} />
+    ) : icon ? (
+      <div class={styles.media}>
+        {hasDarkVariant && iconSrc && iconDarkSrc ? (
+          <>
+            <img
+              src={iconSrc}
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
+              decoding="async"
+              data-variant="light"
+              style="z-index:1;"
+            />
+            <img
+              src={iconDarkSrc}
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
+              decoding="async"
+              data-variant="dark"
+              style="z-index:2;"
+            />
+          </>
+        ) : (
+          iconSrc && (
+            <img
+              src={iconSrc}
+              alt={decorativeAlt}
+              width={assetSize}
+              height={assetSize}
+              loading={loading}
+              decoding="async"
+            />
+          )
+        )}
+      </div>
+    ) : (
+      <SFIcon name="sparkle" size={24} stroke={1.8} />
+    )
+  }
+</span>

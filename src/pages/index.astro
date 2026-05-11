@@ -1,5 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
+import HeroPlayer from "../components/HeroPlayer";
+import ProfileCard from "../components/ProfileCard.astro";
+import DockLink from "../components/DockLink.astro";
+import SectionQuickNav from "../components/SectionQuickNav.astro";
 import FeatureWritingWidget from "../components/FeatureWritingWidget.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import { isNewPublishedAt } from "../lib/is-new-post";
@@ -30,6 +34,121 @@ const writingPosts = posts.slice(0, 3).map((post) => {
   };
 });
 
+const toolLinks = [
+  {
+    title: "Ghostty",
+    href: "https://ghostty.org",
+    tint: "blue",
+    iconAsset: "/icons/Tools/Ghostty Dark_upscayl_2x_digital-art-4x_wrapped.svg",
+  },
+  {
+    title: "Neovim",
+    href: "https://neovim.io",
+    tint: "green",
+    iconAsset: "/icons/Tools/neovimlight_upscayl_2x_digital-art-4x_wrapped.svg",
+  },
+  {
+    title: "Xcode",
+    href: "https://developer.apple.com/xcode/",
+    tint: "blue",
+    iconAsset: "/icons/Tools/xcodelogh_upscayl_2x_digital-art-4x.svg",
+  },
+  {
+    title: "Containers",
+    href: "https://support.apple.com/guide/terminal/welcome/mac",
+    tint: "cyan",
+    iconAsset: "/icons/Tools/Apple Containerization_upscayl_2x_digital-art-4x.svg",
+  },
+  {
+    title: "Transmit",
+    href: "https://panic.com/transmit/",
+    tint: "yellow",
+    iconAsset: "/icons/Tools/Transmit_upscayl_2x_digital-art-4x.svg",
+  },
+  {
+    title: "Tower",
+    href: "https://www.git-tower.com",
+    tint: "orange",
+    iconAsset: "/icons/Tools/Tower.svg",
+  },
+  {
+    title: "CodeEdit",
+    href: "https://www.codeedit.app",
+    tint: "blue",
+    iconAsset: "/icons/Tools/Codeedit_upscayl_2x_digital-art-4x_wrapped.svg",
+  },
+  {
+    title: "OrbStack",
+    href: "https://orbstack.dev",
+    tint: "indigo",
+    iconAsset: "/icons/orbstack.svg",
+  },
+];
+
+const stackLinks = [
+  {
+    title: "Swift",
+    href: "https://developer.apple.com/swift/",
+    tint: "orange",
+    iconAsset: "/icons/stack/swift.svg",
+  },
+  {
+    title: "Go",
+    href: "https://go.dev",
+    tint: "cyan",
+    iconAsset: "/icons/stack/go.svg",
+  },
+  {
+    title: "TypeScript",
+    href: "https://www.typescriptlang.org",
+    tint: "blue",
+    iconAsset: "/icons/stack/typescript.svg",
+  },
+  {
+    title: "React",
+    href: "https://react.dev",
+    tint: "blue",
+    iconAsset: "/icons/stack/react.svg",
+  },
+  {
+    title: "Vue",
+    href: "https://vuejs.org",
+    tint: "green",
+    iconAsset: "/icons/stack/vuejs.svg",
+  },
+  {
+    title: "Svelte",
+    href: "https://svelte.dev",
+    tint: "orange",
+    iconAsset: "/icons/stack/svelte.svg",
+  },
+  {
+    title: "Rust",
+    href: "https://www.rust-lang.org",
+    tint: "brown",
+    iconAsset: "/icons/stack/rust.svg",
+  },
+  {
+    title: "Zig",
+    href: "https://ziglang.org",
+    tint: "yellow",
+    iconAsset: "/icons/stack/zig.svg",
+  },
+  {
+    title: "Docker",
+    href: "https://www.docker.com",
+    tint: "indigo",
+    iconAsset: "/icons/stack/docker.svg",
+  },
+];
+
+const sectionNavItems = [
+  { id: "section-profile", label: "Hello" },
+  { id: "section-tools", label: "Tools" },
+  { id: "section-stack", label: "Stack" },
+  { id: "section-writing", label: "Writing" },
+];
+
 const siteOrigin = Astro.site?.origin ?? Astro.url?.origin ?? "https://www.tuliocunha.dev";
 const canonical = new URL("/", siteOrigin).toString();
 const description =
@@ -46,34 +165,166 @@ const description =
   mobileDrawer={true}
   heroPage={true}
 >
-  <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
+  <section class="hero-remotion" aria-label="Hero">
+    <div class="hero-remotion__player">
+      <HeroPlayer client:only="react">
+        <div class="hero-remotion__fallback" aria-hidden="true">
+          <img src="/images/hero/macintosh-cleaned.png" alt="" loading="eager" decoding="async" />
+        </div>
+      </HeroPlayer>
+    </div>
+    <div class="hero-remotion__scroll" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="hero-remotion__scrollLine"></span>
+    </div>
+  </section>
+
+  <section class="homepage-stage homepage-stage--hero-bridge" aria-labelledby="homepage-hello-title">
     <header class="stage-intro stage-intro--single">
       <div class="stage-intro__copy">
         <span class="stage-intro__eyebrow">
-          <PhosphorIcon name="article" size={14} weight="regular" />
-          Journal
+          <PhosphorIcon name="user" size={14} weight="regular" />
+          Who am I
         </span>
-        <h2 id="homepage-exploration-title" class="stage-intro__title">Long-form notes on things I actually built.</h2>
+        <h2 id="homepage-hello-title" class="stage-intro__title">
+          Building across platforms, from native to web.
+        </h2>
+        <p class="stage-intro__caption">
+          Full stack developer working with Swift, Apple platforms, the web, backend services, and systems — with a bias for clear interfaces and reliable internals.
+        </p>
       </div>
     </header>
+  </section>
 
-    <div
-      id="section-writing"
-      class="widget-box widget-feature-writing surface-panel surface-panel--premium hover-elevate"
-      data-reveal
-      data-parallax-card
-    >
-      <div class="widget-header surface-header">
-        <span class="widget-eyebrow surface-eyebrow">
-          <PhosphorIcon name="article" size={13} weight="regular" />
-          Journal
-        </span>
-        <h2 class="widget-title surface-title">
-          <span>Writing</span>
-          <PhosphorIcon name="article" size={18} weight="regular" />
-        </h2>
-      </div>
-      <FeatureWritingWidget posts={writingPosts} />
+  <section id="top" class="bento-grid">
+    <div id="section-profile" class="widget-profile">
+      <ProfileCard
+        name="Tulio Cunha"
+        title="Full stack developer"
+        location="Brazil"
+        email="contact@tuliocunha.dev"
+      />
     </div>
+
+    <section class="homepage-stage homepage-stage--context" aria-labelledby="homepage-working-context-title">
+      <header class="stage-intro">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="terminal-window" size={14} weight="regular" />
+            Daily setup
+          </span>
+          <h2 id="homepage-working-context-title" class="stage-intro__title">
+            Tools, stack, and the machines behind the work.
+          </h2>
+          <p class="stage-intro__caption">
+            The setup I use for Apple platform apps, web work, backend services, and day-to-day development.
+          </p>
+        </div>
+
+        <SectionQuickNav sections={sectionNavItems} />
+      </header>
+
+      <div class="widget-carousel widget-carousel--context" role="region" aria-label="Daily setup widgets">
+        <div
+          id="section-tools"
+          class="widget-box widget-tools surface-panel surface-panel--premium hover-elevate"
+          data-reveal
+          data-parallax-card
+        >
+          <div class="widget-header surface-header">
+            <span class="widget-eyebrow surface-eyebrow">
+              <PhosphorIcon name="toolbox" size={13} weight="regular" />
+              Toolkit
+            </span>
+            <h2 class="widget-title surface-title">
+              <span>Tools</span>
+              <PhosphorIcon name="toolbox" size={18} weight="regular" />
+            </h2>
+            <p class="widget-caption surface-caption">Editors, terminals, and utilities I keep close while shipping.</p>
+          </div>
+          <ul class="tools-grid" aria-label="Tools">
+            {toolLinks.map((link, index) => (
+              <DockLink
+                href={link.href}
+                title={link.title}
+                tint={link.tint}
+                iconAsset={link.iconAsset}
+                revealOrder={index}
+                sizeVariant="dock-premium"
+                imageLoading="eager"
+              />
+            ))}
+          </ul>
+        </div>
+
+        <div
+          id="section-stack"
+          class="widget-box widget-stack surface-panel surface-panel--premium hover-elevate"
+          data-reveal
+          data-parallax-card
+        >
+          <div class="widget-header surface-header">
+            <span class="widget-eyebrow surface-eyebrow">
+              <PhosphorIcon name="code" size={13} weight="regular" />
+              Languages
+            </span>
+            <h2 class="widget-title surface-title">
+              <span>Stack</span>
+              <PhosphorIcon name="code" size={18} weight="regular" />
+            </h2>
+            <p class="widget-caption surface-caption">Languages and frameworks I reach for across native, web, and systems work.</p>
+          </div>
+          <ul class="tools-grid" aria-label="Stack">
+            {stackLinks.map((link, index) => (
+              <DockLink
+                href={link.href}
+                title={link.title}
+                tint={link.tint}
+                iconAsset={link.iconAsset}
+                revealOrder={index}
+                sizeVariant="dock-premium"
+                iconContext="stack"
+                imageLoading="eager"
+              />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="homepage-stage" aria-labelledby="homepage-exploration-title">
+      <header class="stage-intro stage-intro--single">
+        <div class="stage-intro__copy">
+          <span class="stage-intro__eyebrow">
+            <PhosphorIcon name="article" size={14} weight="regular" />
+            Journal
+          </span>
+          <h2 id="homepage-exploration-title" class="stage-intro__title">Writing and current topics.</h2>
+          <p class="stage-intro__caption">
+            Notes on platform changes, developer tools, shipped work, and the opinions that come out of building.
+          </p>
+        </div>
+      </header>
+
+      <div
+        id="section-writing"
+        class="widget-box widget-feature-writing surface-panel surface-panel--premium hover-elevate"
+        data-reveal
+        data-parallax-card
+      >
+        <div class="widget-header surface-header">
+          <span class="widget-eyebrow surface-eyebrow">
+            <PhosphorIcon name="article" size={13} weight="regular" />
+            Journal
+          </span>
+          <h2 class="widget-title surface-title">
+            <span>Writing</span>
+            <PhosphorIcon name="article" size={18} weight="regular" />
+          </h2>
+          <p class="widget-caption surface-caption">Recent posts on Apple platforms, web work, systems, and tooling.</p>
+        </div>
+        <FeatureWritingWidget posts={writingPosts} />
+      </div>
+    </section>
   </section>
 </Base>
