@@ -4,7 +4,7 @@
  */
 export const SITE_GITHUB_PROFILE_URL = "https://github.com/tuliopc23";
 export const SITE_LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/tuliopinheirocunha/";
-const SITE_INSTAGRAM_PROFILE_URL = "https://www.instagram.com/tuliopinheirocunha/";
+export const SITE_INSTAGRAM_PROFILE_URL = "https://www.instagram.com/tuliopinheirocunha/";
 
 /** Typical sameAs list for Blog / Person schema. */
 export const SITE_SAME_AS_URLS: readonly string[] = [
