@@ -207,7 +207,7 @@ async function handleNewsletterSubscribe(request: Request, env: Env): Promise<Re
     await resend.contacts.create({
       email,
       unsubscribed: true,
-    } as any);
+    });
   } catch {
     // Contact may already exist; keep going and update below.
   }
@@ -216,14 +216,14 @@ async function handleNewsletterSubscribe(request: Request, env: Env): Promise<Re
     await resend.contacts.update({
       email,
       unsubscribed: true,
-    } as any);
+    });
   } catch {
     // If update fails we still proceed with confirmation email.
   }
 
   // Ensure contact is in the newsletter segment (broadcasts are sent to segment).
   try {
-    await (resend.contacts as any).segments.add(email, { segmentId });
+    await resend.contacts.segments.add({ email, segmentId });
   } catch {
     // Fine if already added / segment call fails; confirmation still works.
   }
@@ -253,7 +253,7 @@ async function handleNewsletterSubscribe(request: Request, env: Env): Promise<Re
     subject,
     html,
     text,
-  } as any);
+  });
 
   if (error) {
     Sentry.captureMessage("newsletter_confirm_send_failed", {
@@ -305,7 +305,7 @@ async function handleNewsletterConfirm(request: Request, env: Env): Promise<Resp
   const { error } = await resend.contacts.update({
     email,
     unsubscribed: false,
-  } as any);
+  });
 
   if (error) {
     Sentry.captureMessage("newsletter_confirm_update_failed", {
@@ -340,6 +340,7 @@ async function handleNewsletterPostPublished(request: Request, env: Env): Promis
     title?: string;
     summary?: string;
     publishedAt?: string;
+    hero_image_url?: string;
   } | null;
 
   if (!payload) {
@@ -369,10 +370,10 @@ async function handleNewsletterPostPublished(request: Request, env: Env): Promis
   const subject = `New post: ${title}`;
   const previewText = summary || "A new post just dropped.";
   const text = `${title}\\n\\n${summary ? `${summary}\\n\\n` : ""}Read: ${postUrl}\\n`;
+  const rawHero = payload.hero_image_url;
   const heroImageUrl =
-    typeof (payload as any).hero_image_url === "string" &&
-    (payload as any).hero_image_url.trim().length > 0
-      ? (payload as any).hero_image_url.trim()
+    typeof rawHero === "string" && rawHero.trim().length > 0
+      ? rawHero.trim()
       : "https://tuliocunha.dev/Brand-icon-light.webp";
   const html = renderNewPublicationHtml({
     postTitle: title,
@@ -381,7 +382,7 @@ async function handleNewsletterPostPublished(request: Request, env: Env): Promis
     heroImageUrl,
   });
 
-  const { data, error } = await resend.broadcasts.create({
+  const broadcastResult = await resend.broadcasts.create({
     name: `Post: ${title}`,
     segmentId,
     from: newsletterFrom(env),
@@ -390,21 +391,22 @@ async function handleNewsletterPostPublished(request: Request, env: Env): Promis
     html,
     text,
     send: true,
-  } as any);
+  });
 
-  if (error) {
+  if (broadcastResult.error) {
     Sentry.captureMessage("newsletter_broadcast_failed", {
       level: "error",
-      extra: { error, payload },
+      extra: { error: broadcastResult.error, payload },
     });
     return json(request, 500, { ok: false, error: "Failed to send broadcast." });
   }
 
-  await kv.put(dedupeKey, JSON.stringify({ broadcastId: (data as any)?.id ?? null }), {
+  const broadcastId = broadcastResult.data?.id ?? null;
+  await kv.put(dedupeKey, JSON.stringify({ broadcastId }), {
     expirationTtl: 60 * 60 * 24 * 90, // 90d
   });
 
-  return json(request, 200, { ok: true, broadcastId: (data as any)?.id ?? null });
+  return json(request, 200, { ok: true, broadcastId });
 }
 
 function formatRelativeTime(dateString: string): string {

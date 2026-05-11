@@ -46,6 +46,7 @@ export default defineConfig({
     ignorePatterns: [
       "dist/**",
       "node_modules/**",
+      "vendor/**",
       ".astro/**",
       "**/*.astro",
       // Local agent skill mirrors (not part of the app; avoid lint noise)
