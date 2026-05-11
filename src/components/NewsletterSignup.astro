@@ -52,7 +52,6 @@ const classes =
 
     <input type="hidden" name="source" value={source} />
 
-    <!-- Honeypot: bots will fill this, humans won't. -->
     <label class="sr-only" for={`newsletter-company-${source}`}>Company</label>
     <input
       id={`newsletter-company-${source}`}
@@ -79,20 +78,22 @@ const classes =
 <style>
   .newsletterSignup {
     display: grid;
-    gap: 14px;
-    padding: clamp(18px, 2.8vw, 28px);
+    gap: 16px;
+    padding: clamp(20px, 3vw, 30px);
+    position: relative;
+    overflow: clip;
   }
 
   .newsletterSignup:not(.newsletterSignup--compact) {
-    border-color: color-mix(in srgb, var(--panel-border-strong) 54%, transparent);
+    border-color: color-mix(in srgb, var(--panel-border-strong) 48%, transparent);
     background:
-      radial-gradient(circle at 88% 54%, rgba(10, 132, 255, 0.10), transparent 32%),
+      radial-gradient(circle at 85% 50%, rgba(10, 132, 255, 0.12), transparent 34%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.025)),
-      color-mix(in srgb, var(--surface-panel-bg, var(--surface-card)) 86%, transparent);
+      color-mix(in srgb, var(--surface-panel-bg, var(--surface-card)) 88%, transparent);
     box-shadow:
       var(--shadow-card),
-      0 20px 56px rgba(4, 10, 24, 0.14),
-      0 0 72px rgba(10, 132, 255, 0.055);
+      0 24px 64px rgba(4, 10, 24, 0.16),
+      0 0 80px rgba(10, 132, 255, 0.06);
   }
 
   .newsletterSignup__title {
@@ -103,34 +104,36 @@ const classes =
 
   .newsletterSignup__lede {
     margin: 8px 0 0;
+    max-width: 62ch;
     color: var(--text-secondary, rgba(255, 255, 255, 0.72));
   }
 
   .newsletterSignup__form {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
     align-items: center;
   }
 
   .newsletterSignup__input {
     width: 100%;
-    min-height: max(52px, var(--touch-target-min, 44px));
-    border-radius: 16px;
-    border: 1px solid color-mix(in srgb, var(--panel-border-strong) 42%, transparent);
+    min-height: max(54px, var(--touch-target-min, 44px));
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--panel-border-strong) 40%, transparent);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02)),
-      color-mix(in srgb, var(--surface-1, rgba(0, 0, 0, 0.2)) 82%, transparent);
-    padding: 12px 16px;
+      color-mix(in srgb, var(--surface-1, rgba(0, 0, 0, 0.2)) 84%, transparent);
+    padding: 14px 18px;
     color: inherit;
     outline: none;
+    backdrop-filter: blur(20px);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.10),
-      0 10px 26px rgba(4, 10, 24, 0.08);
+      0 12px 28px rgba(4, 10, 24, 0.08);
     transition:
       border-color var(--motion-duration-sm) var(--motion-ease-out),
       box-shadow var(--motion-duration-sm) var(--motion-ease-out),
-      background var(--motion-duration-sm) var(--motion-ease-out);
+      transform var(--motion-duration-sm) var(--motion-ease-out);
   }
 
   .newsletterSignup__input::placeholder {
@@ -141,39 +144,28 @@ const classes =
     border-color: color-mix(in srgb, var(--accent, #0a84ff) 54%, transparent);
     box-shadow:
       0 0 0 4px color-mix(in srgb, var(--accent, #0a84ff) 18%, transparent),
-      0 16px 36px rgba(10, 132, 255, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      0 18px 40px rgba(10, 132, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16);
   }
 
   .newsletterSignup__button {
-    min-height: max(52px, var(--touch-target-min, 44px));
-    border-color: color-mix(in srgb, var(--accent, #0a84ff) 42%, white 10%);
+    min-height: max(54px, var(--touch-target-min, 44px));
+    padding-inline: 22px;
+    border-radius: 18px;
+    border-color: color-mix(in srgb, var(--accent, #0a84ff) 44%, white 8%);
     background:
-      radial-gradient(circle at 32% 18%, rgba(255, 255, 255, 0.54), transparent 30%),
-      linear-gradient(180deg, color-mix(in srgb, var(--accent, #0a84ff) 78%, #7cc7ff 22%), color-mix(in srgb, var(--accent, #0a84ff) 86%, #0057d9 14%));
+      radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.56), transparent 28%),
+      linear-gradient(180deg, color-mix(in srgb, var(--accent, #0a84ff) 76%, #86d5ff 24%), color-mix(in srgb, var(--accent, #0a84ff) 88%, #004fd1 12%));
     color: #fff;
     box-shadow:
-      0 18px 42px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
-      0 0 34px color-mix(in srgb, var(--accent, #0a84ff) 26%, transparent),
+      0 18px 46px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
+      0 0 38px color-mix(in srgb, var(--accent, #0a84ff) 24%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.42),
       inset 0 -1px 0 rgba(0, 38, 105, 0.22);
   }
 
   .newsletterSignup__button:hover {
     transform: translateY(-1px);
-    box-shadow:
-      0 22px 52px color-mix(in srgb, var(--accent, #0a84ff) 42%, transparent),
-      0 0 46px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -1px 0 rgba(0, 38, 105, 0.24);
-  }
-
-  .newsletterSignup__button:focus-visible {
-    outline: none;
-    box-shadow:
-      var(--focus-ring),
-      0 18px 42px color-mix(in srgb, var(--accent, #0a84ff) 34%, transparent),
-      inset 0 1px 0 rgba(255, 255, 255, 0.42);
   }
 
   .newsletterSignup__status {
