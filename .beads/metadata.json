@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "tulio_personal_website",
+  "project_id": "a115cdc8-4306-4e1e-9851-c4c0a3b62e6d"
+}
