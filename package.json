@@ -88,8 +88,8 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260519.1",
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.0",
-    "@types/react": "^19.2.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitest/coverage-v8": "^4.1.6",
     "eslint-plugin-astro": "^1.7.0",
