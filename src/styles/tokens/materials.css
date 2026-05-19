@@ -139,8 +139,8 @@
 
 /* ======= Liquid surface (iOS-style floating glass chrome) ======= */
 :root {
-  --liquid-surface-blur: 32px;
-  --liquid-surface-saturate: 1.65;
+  --liquid-surface-blur: 18px;
+  --liquid-surface-saturate: 1.55;
   --liquid-surface-radial: radial-gradient(
     circle at 18% 0%,
     rgba(255, 255, 255, 0.88) 0%,
@@ -148,8 +148,8 @@
   );
   --liquid-surface-fill: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.68) 0%,
-    rgba(255, 255, 255, 0.38) 100%
+    rgba(255, 255, 255, 0.52) 0%,
+    rgba(255, 255, 255, 0.28) 100%
   );
   --liquid-surface-border: rgba(255, 255, 255, 0.45);
   --liquid-surface-rim-top: rgba(255, 255, 255, 0.72);
@@ -158,8 +158,31 @@
   --liquid-surface-active-pill: rgba(255, 255, 255, 0.82);
   --liquid-surface-active-accent: var(--blue);
   --liquid-surface-fallback-fill: rgba(255, 255, 255, 0.92);
-  --mobile-nav-dock-height: 64px;
-  --mobile-nav-fab-size: 56px;
+
+  /* Segment pill (selected tab inside capsule) */
+  --liquid-segment-blur: 20px;
+  --liquid-segment-saturate: 1.85;
+  --liquid-segment-radial: radial-gradient(
+    circle at 24% 0%,
+    rgba(255, 255, 255, 0.95) 0%,
+    transparent 42%
+  );
+  --liquid-segment-fill: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(255, 255, 255, 0.62) 100%
+  );
+  --liquid-segment-border: color-mix(in srgb, var(--blue) 28%, rgba(255, 255, 255, 0.55));
+  --liquid-segment-rim-top: rgba(255, 255, 255, 0.9);
+  --liquid-segment-rim-bottom: rgba(15, 23, 42, 0.05);
+  --liquid-segment-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+
+  /* Mobile chrome sizing */
+  --mobile-nav-dock-height: 48px;
+  --mobile-nav-fab-size: 48px;
+  --mobile-nav-dock-gap: 10px;
+  --mobile-nav-chrome-total: calc(var(--mobile-nav-dock-height) + var(--mobile-nav-dock-gap));
+  --mobile-nav-chrome-offset: max(12px, env(safe-area-inset-bottom, 0px));
 }
 
 [data-theme="dark"] {
@@ -179,11 +202,26 @@
   --liquid-surface-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
   --liquid-surface-active-pill: rgba(255, 255, 255, 0.16);
   --liquid-surface-fallback-fill: rgba(28, 30, 34, 0.94);
+
+  --liquid-segment-radial: radial-gradient(
+    circle at 24% 0%,
+    rgba(255, 255, 255, 0.28) 0%,
+    transparent 44%
+  );
+  --liquid-segment-fill: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  --liquid-segment-border: color-mix(in srgb, var(--blue) 35%, rgba(255, 255, 255, 0.14));
+  --liquid-segment-rim-top: rgba(255, 255, 255, 0.32);
+  --liquid-segment-rim-bottom: rgba(0, 0, 0, 0.18);
+  --liquid-segment-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
 }
 
 @media (max-width: 1024px) {
   :root {
-    --liquid-surface-blur: 28px;
-    --liquid-surface-saturate: 1.75;
+    --liquid-surface-blur: 12px;
+    --liquid-surface-saturate: 1.5;
   }
 }

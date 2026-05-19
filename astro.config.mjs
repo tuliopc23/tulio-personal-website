@@ -1,4 +1,6 @@
+import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
+import { fileURLToPath } from "node:url";
 import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
@@ -21,6 +23,7 @@ const reactIntegration = react({
     // Use regex filters here to stay off the glob-to-picomatch path in Astro's bundled React renderer.
     /(?:^|\/)react(?:\/|$)/,
     /(?:^|\/)src\/components\/navigation\/.*\.tsx$/,
+    /(?:^|\/)src\/components\/ui\/.*\.tsx$/,
     /(?:^|\/)keystatic(?:\/|$)/,
     /(?:^|\/)node_modules\/@keystatic\/core\/.*\.js(?:[?#].*)?$/,
     /(?:^|\/)node_modules\/@keystatic\/astro\/.*\.js(?:[?#].*)?$/,
@@ -75,6 +78,7 @@ export default defineConfig({
     }),
   ],
   vite: {
+    plugins: [tailwindcss()],
     define: {
       "import.meta.env.PUBLIC_SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
       "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
@@ -97,6 +101,10 @@ export default defineConfig({
       },
     },
     resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
+      tsconfigPaths: true,
       noExternal: ["easymde", "react-simplemde-editor"],
     },
     ssr: {

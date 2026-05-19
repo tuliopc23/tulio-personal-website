@@ -3,6 +3,7 @@ import BrandLogo from "../components/BrandLogo.astro";
 import Signature from "../components/Signature.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import MobileLiquidGlassNav from "../components/navigation/MobileLiquidGlassNav.tsx";
+import SiteSearchTrigger from "../components/navigation/SiteSearchTrigger.tsx";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
@@ -177,25 +178,12 @@ const sidebarSocialLinks = [
   },
 ] as const;
 
-const searchItems = [
-  ...globalNavLinks.map((item) => ({
-    ...item,
-    external: false,
-    meta: "Page",
-  })),
-  ...sidebarSocialLinks.map((item) => ({
-    ...item,
-    external: item.external,
-    meta: item.external ? "External" : "Page",
-  })),
-] as const;
-
 ---
 
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" id="theme-color-meta" content="#f6f7fb" />
     <meta name="theme-color" content="#050506" media="(prefers-color-scheme: dark)" />
@@ -479,108 +467,10 @@ const searchItems = [
         </nav>
         <div class="topbar__actions">
           <LiquidThemeToggle />
-          <button
-            type="button"
-            class="topbar__iconButton topbar__searchButton"
-            aria-label="Open quick search"
-            aria-controls="site-search"
-            aria-expanded="false"
-            aria-haspopup="dialog"
-            data-site-search-open
-            title="Quick search (Cmd/Ctrl + K)"
-          >
-            <PhosphorIcon name="magnifying-glass" size={19} weight="regular" />
-          </button>
+          <SiteSearchTrigger client:idle />
         </div>
       </div>
     </header>
-
-    <div
-      id="site-search"
-      class="topbarSearch"
-      data-site-search-root
-      aria-hidden="true"
-      hidden
-    >
-      <button
-        type="button"
-        class="topbarSearch__backdrop"
-        data-site-search-close
-        tabindex="-1"
-        aria-hidden="true"
-      ></button>
-      <div class="topbarSearch__dialog" role="dialog" aria-modal="true" aria-labelledby="site-search-title">
-        <div class="topbarSearch__panel">
-          <div class="topbarSearch__header">
-            <div>
-              <p class="topbarSearch__eyebrow">Quick Search</p>
-              <h2 id="site-search-title" class="topbarSearch__title">Search the site</h2>
-            </div>
-            <button
-              type="button"
-              class="topbarSearch__dismiss"
-              data-site-search-close
-              aria-label="Close quick search"
-            >
-              <PhosphorIcon name="x" size={18} weight="regular" />
-            </button>
-          </div>
-
-          <div class="topbarSearch__field">
-            <span class="topbarSearch__fieldIcon" aria-hidden="true">
-              <PhosphorIcon name="magnifying-glass" size={18} weight="regular" />
-            </span>
-            <label class="sr-only" for="siteSearchInput">Search pages and links</label>
-            <input
-              id="siteSearchInput"
-              class="topbarSearch__input"
-              type="search"
-              name="site-search"
-              placeholder="Search pages, links, and sections..."
-              autocomplete="off"
-              spellcheck="false"
-              enterkeyhint="go"
-              data-site-search-input
-            />
-            <span class="topbarSearch__shortcut" aria-hidden="true">Cmd/Ctrl + K</span>
-          </div>
-
-          <div class="topbarSearch__metaRow">
-            <p class="topbarSearch__meta">Pages, profiles, and external links.</p>
-            <span class="topbarSearch__hint">Enter jumps to the first match.</span>
-          </div>
-
-          <div class="topbarSearch__results" data-site-search-results>
-            {searchItems.map((item) => (
-              <a
-                href={item.href}
-                class="topbarSearch__result"
-                data-site-search-item
-                data-search-value={`${item.label} ${item.description} ${item.keywords}`.toLowerCase()}
-                data-search-label={item.label}
-                aria-current={item.current ? "page" : undefined}
-                target={item.external ? "_blank" : undefined}
-                rel={item.external ? "noreferrer noopener" : undefined}
-              >
-                <span class="topbarSearch__resultIcon" aria-hidden="true">
-                  <PhosphorIcon name={item.icon} size={18} weight="regular" />
-                </span>
-                <span class="topbarSearch__resultBody">
-                  <span class="topbarSearch__resultLabel">{item.label}</span>
-                  <span class="topbarSearch__resultDescription">{item.description}</span>
-                </span>
-                <span class="topbarSearch__resultMeta">{item.meta}</span>
-              </a>
-            ))}
-          </div>
-
-          <p class="topbarSearch__empty" data-site-search-empty hidden>
-            Nothing here. Try a page name or topic.
-          </p>
-          <span class="sr-only" data-site-search-status aria-live="polite" role="status"></span>
-        </div>
-      </div>
-    </div>
 
     <main class:list={["layout", !sidebar && "layout--noSidebar"]}>
       {

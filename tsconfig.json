@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "paths": {
       "astro-portabletext": ["types/astro-portabletext"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "tests", "types", "astro.config.mjs", "*.config.*", "tsconfig.json"],

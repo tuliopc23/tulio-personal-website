@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@source "../components/navigation/**/*.{tsx,ts}";
+@source "../components/ui/**/*.{tsx,ts}";
+
+@theme {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-muted-foreground: var(--text-secondary);
+  --color-primary: var(--blue);
+  --color-border: var(--panel-border);
+  --color-accent: var(--accent-soft);
+  --color-popover: var(--surface-card);
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+@utility liquid-glass-chrome {
+  position: relative;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, white 20%, transparent);
+  background: color-mix(in srgb, white 10%, transparent);
+  box-shadow: var(--liquid-surface-shadow);
+  backdrop-filter: saturate(150%) blur(8px);
+  -webkit-backdrop-filter: saturate(150%) blur(8px);
+}
+
+@utility liquid-glass-segment {
+  border-radius: 9999px;
+  border: 1px solid var(--liquid-segment-border);
+  background: var(--liquid-segment-radial), var(--liquid-segment-fill);
+  box-shadow: var(--liquid-segment-shadow);
+  backdrop-filter: saturate(var(--liquid-segment-saturate)) blur(var(--liquid-segment-blur));
+  -webkit-backdrop-filter: saturate(var(--liquid-segment-saturate)) blur(var(--liquid-segment-blur));
+}
+
+[data-theme="dark"] .liquid-glass-chrome {
+  border-color: color-mix(in srgb, white 15%, transparent);
+  background: color-mix(in srgb, white 5%, transparent);
+}

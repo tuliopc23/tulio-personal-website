@@ -25,12 +25,13 @@ test("mobile liquid glass nav is visible and links work", async ({ page }) => {
   );
 });
 
-test("mobile search FAB opens quick search", async ({ page }) => {
+test("mobile search FAB opens dock search", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
-  await page.getByRole("button", { name: "Open quick search" }).click();
-  await expect(page.locator("#site-search")).toHaveAttribute("aria-hidden", "false");
+  await page.getByRole("button", { name: "Open search" }).click();
+  await expect(page.locator(".mobileLiquidNav__searchShell")).toBeVisible();
+  await expect(page.locator("#site-search")).toHaveCount(0);
 });
 
 test("contact form opens a mailto draft", async ({ page }) => {

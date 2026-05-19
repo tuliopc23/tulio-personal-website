@@ -1,0 +1,68 @@
+/* ======= Liquid Glass surface system (iOS-style chrome) ======= */
+
+.liquid-glass,
+.liquid-surface {
+  background: var(--liquid-surface-radial), var(--liquid-surface-fill);
+  border: 1px solid var(--liquid-surface-border);
+  box-shadow:
+    var(--liquid-surface-shadow),
+    inset 0 1px 0 var(--liquid-surface-rim-top),
+    inset 0 -1px 0 var(--liquid-surface-rim-bottom);
+  transform: translateZ(0);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass,
+  .liquid-surface {
+    backdrop-filter: saturate(var(--liquid-surface-saturate)) blur(var(--liquid-surface-blur));
+    -webkit-backdrop-filter: saturate(var(--liquid-surface-saturate))
+      blur(var(--liquid-surface-blur));
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass,
+  .liquid-surface {
+    background: var(--liquid-surface-fallback-fill);
+  }
+}
+
+/* Outer capsule — tab bar, search panel shell */
+.liquid-glass--chrome {
+  border-radius: 999px;
+}
+
+/* Active segment pill inside segmented control */
+.liquid-glass--segment {
+  background: var(--liquid-segment-radial), var(--liquid-segment-fill);
+  border: 1px solid var(--liquid-segment-border);
+  box-shadow:
+    var(--liquid-segment-shadow),
+    inset 0 1px 0 var(--liquid-segment-rim-top),
+    inset 0 -1px 0 var(--liquid-segment-rim-bottom);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .liquid-glass--segment {
+    backdrop-filter: saturate(var(--liquid-segment-saturate)) blur(var(--liquid-segment-blur));
+    -webkit-backdrop-filter: saturate(var(--liquid-segment-saturate))
+      blur(var(--liquid-segment-blur));
+  }
+}
+
+/* Search / input row */
+.liquid-glass--field {
+  border-radius: 1rem;
+  transition:
+    border-color var(--motion-duration-sm) var(--motion-ease-out),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+}
+
+.liquid-glass--field:focus-within {
+  border-color: color-mix(in srgb, var(--blue) 55%, var(--liquid-surface-border));
+  box-shadow:
+    var(--liquid-surface-shadow),
+    inset 0 1px 0 var(--liquid-surface-rim-top),
+    inset 0 -1px 0 var(--liquid-surface-rim-bottom),
+    0 0 0 3px color-mix(in srgb, var(--blue) 22%, transparent);
+}

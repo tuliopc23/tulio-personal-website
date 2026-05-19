@@ -48,7 +48,7 @@ function keystaticDocumentHead(): string {
   return [
     KEYSTATIC_ASSETS_MARKER,
     `<meta charset="utf-8">`,
-    `<meta name="viewport" content="width=device-width, initial-scale=1">`,
+    `<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">`,
     `<meta name="theme-color" content="#050506">`,
     `<link rel="icon" type="image/png" href="/brand-icon-light.png" media="(prefers-color-scheme: light)">`,
     `<link rel="icon" type="image/png" href="/brand-icon-dark.png" media="(prefers-color-scheme: dark)">`,

@@ -1,36 +1,10 @@
 /* ======= Mobile liquid glass navigation ======= */
 
-.liquid-surface {
-  background: var(--liquid-surface-radial), var(--liquid-surface-fill);
-  border: 1px solid var(--liquid-surface-border);
-  box-shadow:
-    var(--liquid-surface-shadow),
-    inset 0 1px 0 var(--liquid-surface-rim-top),
-    inset 0 -1px 0 var(--liquid-surface-rim-bottom);
-  transform: translateZ(0);
-}
-
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .liquid-surface {
-    backdrop-filter: saturate(var(--liquid-surface-saturate)) blur(var(--liquid-surface-blur));
-    -webkit-backdrop-filter: saturate(var(--liquid-surface-saturate))
-      blur(var(--liquid-surface-blur));
-  }
-}
-
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .liquid-surface {
-    background: var(--liquid-surface-fallback-fill);
-  }
-}
-
 .mobileLiquidNav {
   position: fixed;
   inset: auto 0 0;
   z-index: 55;
   pointer-events: none;
-  padding: 0 max(var(--safe-area-right), 12px) max(var(--safe-area-bottom), 12px)
-    max(var(--safe-area-left), 12px);
 }
 
 @media (min-width: 1025px) {
@@ -39,10 +13,26 @@
   }
 }
 
+.mobileLiquidNav__chrome {
+  pointer-events: none;
+}
+
+.mobileLiquidNav__dockWrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--mobile-nav-dock-gap);
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px))
+    max(12px, env(safe-area-inset-left, 0px));
+  pointer-events: auto;
+}
+
 .mobileLiquidNav__back {
   position: fixed;
   top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + 8px);
-  left: max(var(--safe-area-left), 12px);
+  left: max(12px, env(safe-area-inset-left, 0px));
   z-index: 56;
   pointer-events: auto;
 }
@@ -53,21 +43,11 @@
   }
 }
 
-.mobileLiquidNav__dock {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  max-width: 520px;
-  margin: 0 auto;
-  pointer-events: auto;
-}
-
-.mobileLiquidNav__tabbar.liquid-surface {
+.mobileLiquidNav__tabbar.liquid-glass {
   flex: 1 1 auto;
   min-width: 0;
-  border-radius: 2rem;
-  padding: 6px 8px;
+  border-radius: 999px;
+  padding: 4px 6px;
 }
 
 .mobileLiquidNav__tabList {
@@ -75,7 +55,7 @@
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  gap: 2px;
+  gap: 1px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -85,10 +65,6 @@
   position: absolute;
   z-index: 0;
   border-radius: 999px;
-  background: var(--liquid-surface-active-pill);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.55),
-    0 4px 14px rgba(15, 23, 42, 0.1);
   pointer-events: none;
   transition:
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -108,10 +84,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
-  min-height: 52px;
-  padding: 6px 4px;
+  min-height: 42px;
+  padding: 4px 3px;
   border: none;
   border-radius: 999px;
   background: transparent;
@@ -137,8 +113,8 @@
 .mobileLiquidNav__tabIcon {
   display: inline-flex;
   flex-shrink: 0;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .mobileLiquidNav__tabIcon svg {
@@ -153,8 +129,8 @@
   white-space: nowrap;
 }
 
-.mobileLiquidNav__searchFab.liquid-surface,
-.mobileLiquidNav__backBtn.liquid-surface {
+.mobileLiquidNav__searchFab.liquid-glass,
+.mobileLiquidNav__backBtn.liquid-glass {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -185,7 +161,7 @@
 .mobileLiquidNav__tab:active,
 .mobileLiquidNav__searchFab:active,
 .mobileLiquidNav__backBtn:active {
-  transform: scale(0.94);
+  transform: scale(0.96);
 }
 
 :root[data-motion="reduced"] .mobileLiquidNav__tab:active,
@@ -197,8 +173,104 @@
 @media (max-width: 1024px) {
   body[data-mobile-liquid-nav="true"] .content {
     padding-bottom: calc(
-      max(var(--mobile-nav-dock-height), var(--mobile-nav-fab-size)) + 24px +
-        max(var(--safe-area-bottom), 12px) + var(--space-md)
+      var(--mobile-nav-chrome-total) + var(--mobile-nav-fab-size) + 16px +
+        max(12px, env(safe-area-inset-bottom, 0px)) + var(--space-md)
     );
+  }
+}
+
+@media (max-width: 1024px) {
+  body[data-mobile-liquid-nav="true"] .topbar__iconButton {
+    border-radius: 999px;
+  }
+
+  body[data-mobile-liquid-nav="true"] .topbar__actions .liquidToggle {
+    border-radius: 999px;
+  }
+}
+
+.mobileLiquidNav__dockWrap--searchOpen {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.mobileLiquidNav__dockRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--mobile-nav-dock-gap);
+  width: 100%;
+}
+
+.mobileLiquidNav__tabbarWrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mobileLiquidNav__searchBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 54;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: rgba(7, 12, 22, 0.12);
+  cursor: pointer;
+}
+
+.mobileLiquidNav__searchResults {
+  width: 100%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.mobileLiquidNav__searchInputCommand [cmdk-input-wrapper] {
+  gap: 0;
+}
+
+.mobileLiquidNav__searchInputCommand [cmdk-input-wrapper] svg {
+  display: none;
+}
+
+.mobileLiquidNav__searchList {
+  max-height: min(36vh, 280px);
+}
+
+.mobileLiquidNav__searchPill {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: var(--mobile-nav-fab-size);
+}
+
+.mobileLiquidNav__searchPillInner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: var(--mobile-nav-fab-size);
+  padding: 0 14px;
+}
+
+.topbar__searchIcon {
+  width: 19px;
+  height: 19px;
+}
+
+.siteLiquidSearch__desktopPopover {
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .siteLiquidSearch__desktopPopover {
+    display: none !important;
+  }
+}
+
+body.is-search-open {
+  overflow: hidden;
+}
+
+@media (min-width: 1025px) {
+  body.is-search-open {
+    overflow: visible;
   }
 }
