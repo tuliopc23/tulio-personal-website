@@ -124,12 +124,12 @@ jobs:
           name: Unit and DOM tests (JUnit for Insights)
           command: |
             mkdir -p test-results
-            pnpm exec vp test run tests/unit tests/dom tests/cms \
+            pnpm exec vitest run tests/unit tests/dom tests/cms \
               --reporter=default --reporter=junit --outputFile=test-results/vitest-unit.xml
       - run:
           name: Astro integration tests (JUnit)
           command: |
-            pnpm exec vp test run -c vitest.astro.config.ts tests/astro \
+            pnpm exec vitest run -c vitest.astro.config.ts tests/astro \
               --reporter=default --reporter=junit --outputFile=test-results/vitest-astro.xml
       - store_test_results:
           path: test-results

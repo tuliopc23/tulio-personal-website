@@ -2,6 +2,7 @@
 import BrandLogo from "../components/BrandLogo.astro";
 import Signature from "../components/Signature.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
+import MobileLiquidGlassNav from "../components/navigation/MobileLiquidGlassNav.tsx";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
@@ -422,6 +423,7 @@ const searchItems = [
     data-glass-state="rest"
     data-has-sidebar={sidebar ? "true" : "false"}
     data-has-mobile-drawer={hasMobileDrawer ? "true" : "false"}
+    data-mobile-liquid-nav="true"
     data-hero-active={heroPage ? "true" : undefined}
   >
     <div class="liquid-glass-reflector" aria-hidden="true"></div>
@@ -717,6 +719,8 @@ const searchItems = [
     </main>
 
     <ScrollToTop />
+
+    <MobileLiquidGlassNav client:idle pathname={normalizedPath} />
 
     <script>
       // Bundled client entrypoint to avoid route-relative 404s on nested pages.

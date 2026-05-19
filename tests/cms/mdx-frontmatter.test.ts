@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { describe, expect, test } from "vite-plus/test";
+import { describe, expect, test } from "vitest";
 
 import { parseMdxYamlFrontmatter } from "../../src/cms/mdx-frontmatter";
 

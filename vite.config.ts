@@ -18,6 +18,7 @@ export default defineConfig({
       reportsDirectory: "coverage",
       include: [
         "src/lib/*.ts",
+        "src/lib/navigation/*.ts",
         "src/components/github-activity-utils.ts",
         "src/lib/content/*.ts",
         "src/scripts/{contact-form,projects-filters,sidebar,theme}.ts",

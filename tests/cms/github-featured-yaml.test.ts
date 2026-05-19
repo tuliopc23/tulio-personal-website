@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { describe, expect, test } from "vite-plus/test";
+import { describe, expect, test } from "vitest";
 
 describe("Featured GitHub YAML (feeds /api/github.json)", () => {
   test("curated repos parse and at least one featured entry is eligible for the API merge", async () => {

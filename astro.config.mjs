@@ -20,6 +20,7 @@ const reactIntegration = react({
   include: [
     // Use regex filters here to stay off the glob-to-picomatch path in Astro's bundled React renderer.
     /(?:^|\/)react(?:\/|$)/,
+    /(?:^|\/)src\/components\/navigation\/.*\.tsx$/,
     /(?:^|\/)keystatic(?:\/|$)/,
     /(?:^|\/)node_modules\/@keystatic\/core\/.*\.js(?:[?#].*)?$/,
     /(?:^|\/)node_modules\/@keystatic\/astro\/.*\.js(?:[?#].*)?$/,

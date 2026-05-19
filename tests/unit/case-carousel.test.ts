@@ -1,4 +1,4 @@
-import { vi } from "vite-plus/test";
+import { vi } from "vitest";
 import { installAnimationStubs, installMatchMediaStub } from "../helpers/browser";
 
 function rect({

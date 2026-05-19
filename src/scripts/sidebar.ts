@@ -4,6 +4,13 @@
     return;
   }
 
+  const mobileLiquidNavQuery = window.matchMedia("(max-width: 1024px)");
+  const usesMobileLiquidNav = (): boolean => body.dataset.mobileLiquidNav === "true";
+
+  if (usesMobileLiquidNav() && mobileLiquidNavQuery.matches) {
+    return;
+  }
+
   const filter = document.querySelector<HTMLInputElement>("#sidebarFilter");
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".sidebar__link"));
   const groups = Array.from(document.querySelectorAll<HTMLElement>(".sidebar__group"));

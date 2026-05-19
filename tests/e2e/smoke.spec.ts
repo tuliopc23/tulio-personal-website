@@ -9,17 +9,28 @@ test("theme toggle persists across reload", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", /light|dark/);
 });
 
-test("mobile menu opens and closes", async ({ page }) => {
+test("mobile liquid glass nav is visible and links work", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/contact/");
 
-  const menuButton = page.locator(".topbar__menu");
-  await expect(menuButton).toBeVisible();
-  await menuButton.click();
-  await expect(page.locator("body")).toHaveAttribute("data-sidebar-state", "open");
+  const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+  await expect(mobileNav).toBeVisible();
+  await expect(page.locator(".topbar__menu")).toBeHidden();
 
-  await page.locator("[data-sidebar-close]").click();
-  await expect(page.locator("body")).toHaveAttribute("data-sidebar-state", "closed");
+  await mobileNav.getByRole("link", { name: "Home" }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(mobileNav.getByRole("link", { name: "Home" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+});
+
+test("mobile search FAB opens quick search", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Open quick search" }).click();
+  await expect(page.locator("#site-search")).toHaveAttribute("aria-hidden", "false");
 });
 
 test("contact form opens a mailto draft", async ({ page }) => {

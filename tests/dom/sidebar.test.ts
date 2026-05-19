@@ -1,10 +1,35 @@
 import { installAnimationStubs, installMatchMediaStub } from "../helpers/browser";
 
 describe("sidebar script", () => {
+  test("skips mobile drawer init when liquid glass nav is active", async () => {
+    installAnimationStubs();
+    installMatchMediaStub();
+
+    document.body.dataset.hasMobileDrawer = "true";
+    document.body.dataset.mobileLiquidNav = "true";
+    document.body.innerHTML = `
+      <aside class="sidebar">
+        <button data-sidebar-close>Close</button>
+        <input id="sidebarFilter" />
+        <div class="sidebar__group">
+          <a class="sidebar__link">Home</a>
+        </div>
+      </aside>
+      <button class="topbar__menu">Menu</button>
+    `;
+
+    vi.resetModules();
+    await import("../../src/scripts/sidebar");
+
+    (document.querySelector(".topbar__menu") as HTMLButtonElement).click();
+    expect(document.body.dataset.sidebarState).toBeUndefined();
+  });
+
   test("filters menu links and updates the status text", async () => {
     installAnimationStubs();
     installMatchMediaStub();
 
+    delete document.body.dataset.mobileLiquidNav;
     document.body.dataset.hasMobileDrawer = "true";
     document.body.innerHTML = `
       <aside class="sidebar">
@@ -38,6 +63,7 @@ describe("sidebar script", () => {
     installAnimationStubs();
     installMatchMediaStub();
 
+    delete document.body.dataset.mobileLiquidNav;
     document.body.dataset.hasMobileDrawer = "true";
     document.body.innerHTML = `
       <aside class="sidebar">
@@ -66,6 +92,7 @@ describe("sidebar script", () => {
     const media = installMatchMediaStub();
     media.setMatches("(max-width: 1024px)", false);
 
+    delete document.body.dataset.mobileLiquidNav;
     document.body.dataset.hasSidebar = "true";
     document.body.dataset.hasMobileDrawer = "true";
     document.body.innerHTML = `

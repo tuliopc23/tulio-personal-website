@@ -68,3 +68,9 @@
     height: 44px;
   }
 }
+
+@media (max-width: 1024px) {
+  .scrollToTop {
+    display: none;
+  }
+}

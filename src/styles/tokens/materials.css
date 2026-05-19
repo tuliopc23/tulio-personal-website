@@ -136,3 +136,54 @@
     --glass-opacity-active: 86%;
   }
 }
+
+/* ======= Liquid surface (iOS-style floating glass chrome) ======= */
+:root {
+  --liquid-surface-blur: 32px;
+  --liquid-surface-saturate: 1.65;
+  --liquid-surface-radial: radial-gradient(
+    circle at 18% 0%,
+    rgba(255, 255, 255, 0.88) 0%,
+    transparent 38%
+  );
+  --liquid-surface-fill: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.68) 0%,
+    rgba(255, 255, 255, 0.38) 100%
+  );
+  --liquid-surface-border: rgba(255, 255, 255, 0.45);
+  --liquid-surface-rim-top: rgba(255, 255, 255, 0.72);
+  --liquid-surface-rim-bottom: rgba(15, 23, 42, 0.06);
+  --liquid-surface-shadow: 0 18px 60px rgba(15, 23, 42, 0.22);
+  --liquid-surface-active-pill: rgba(255, 255, 255, 0.82);
+  --liquid-surface-active-accent: var(--blue);
+  --liquid-surface-fallback-fill: rgba(255, 255, 255, 0.92);
+  --mobile-nav-dock-height: 64px;
+  --mobile-nav-fab-size: 56px;
+}
+
+[data-theme="dark"] {
+  --liquid-surface-radial: radial-gradient(
+    circle at 18% 0%,
+    rgba(255, 255, 255, 0.22) 0%,
+    transparent 40%
+  );
+  --liquid-surface-fill: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  --liquid-surface-border: rgba(255, 255, 255, 0.18);
+  --liquid-surface-rim-top: rgba(255, 255, 255, 0.28);
+  --liquid-surface-rim-bottom: rgba(0, 0, 0, 0.2);
+  --liquid-surface-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+  --liquid-surface-active-pill: rgba(255, 255, 255, 0.16);
+  --liquid-surface-fallback-fill: rgba(28, 30, 34, 0.94);
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --liquid-surface-blur: 28px;
+    --liquid-surface-saturate: 1.75;
+  }
+}

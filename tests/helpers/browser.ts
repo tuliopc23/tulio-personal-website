@@ -1,4 +1,4 @@
-import { vi } from "vite-plus/test";
+import { vi } from "vitest";
 
 export function installMatchMediaStub(
   options: {
