@@ -14,9 +14,15 @@
   - 720px  → 768px  (tablet portrait)
   - 768px  → 768px  (keep)
   - 820px  → 768px or 1024px (case-by-case)
-  - 1023px → 1024px (tablets landscape)
+  - 1023px → 1024px (tablets landscape; use 1024 in CSS, 1025 in min-width)
   - 1100px → 1024px (consolidate)
   - 1279px → 1280px (desktops)
+
+  Shell chrome contract:
+  - Mobile liquid nav + simplified topbar: max-width 1024px
+  - Desktop sidebar + centered nav pill: min-width 1025px
+
+  Blog hero two-column layout: min-width 880px (tablet landscape tier; intentional)
 */
 
 :root {

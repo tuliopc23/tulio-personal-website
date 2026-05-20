@@ -33,7 +33,9 @@
   /* Layout */
   --sidebar-width: 256px;
   --content-max: 1240px;
+  --page-bento-max: var(--content-max);
   --container-padding: clamp(16px, 2.6vw, 32px);
+  --touch-target-min: 44px;
   --topbar-h: 56px;
 
   /* Spacing - 8px baseline grid */

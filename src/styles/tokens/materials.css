@@ -181,9 +181,9 @@
   --mobile-nav-dock-height: 56px;
   --mobile-nav-fab-size: 56px;
   --mobile-nav-dock-gap: 10px;
-  --mobile-nav-side-space: max(16px, env(safe-area-inset-left, 0px));
-  --mobile-nav-side-space-end: max(16px, env(safe-area-inset-right, 0px));
-  --mobile-nav-bottom-space: max(14px, env(safe-area-inset-bottom, 0px));
+  --mobile-nav-side-space: max(16px, var(--safe-area-left));
+  --mobile-nav-side-space-end: max(16px, var(--safe-area-right));
+  --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));
   --mobile-nav-keyboard-offset: 0px;
   --mobile-nav-reserved-bottom: calc(
     var(--mobile-nav-dock-height) + var(--mobile-nav-bottom-space) + 30px

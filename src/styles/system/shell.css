@@ -539,6 +539,11 @@ body.is-search-open {
   justify-content: center;
 }
 
+.topbar__actions .themeToggle {
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+}
+
 .topbar__actions .liquidToggle {
   --liquid-width: 72px;
   --liquid-height: 34px;

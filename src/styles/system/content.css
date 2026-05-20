@@ -1343,6 +1343,11 @@
 
 .article__ctaNewsletter {
   margin-top: 14px;
+  min-width: 0;
+}
+
+body[data-mobile-liquid-nav="true"] .article__ctaNewsletter {
+  margin-bottom: var(--space-xs);
 }
 
 .article__taxonomyRail {
@@ -1376,7 +1381,9 @@
 }
 
 .article__taxonomyItem {
-  min-height: 28px;
+  min-height: var(--touch-target-min, 44px);
+  display: inline-flex;
+  align-items: center;
 }
 
 .article__relatedGrid {

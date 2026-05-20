@@ -414,12 +414,8 @@
     }
 
     if (!isMobileDrawer()) {
-      if (!isDesktopSidebarVisible()) {
-        open();
-      }
-
-      filter.focus();
       event.preventDefault();
+      window.__siteSearch?.open();
       return;
     }
 

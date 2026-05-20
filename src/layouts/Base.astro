@@ -115,7 +115,7 @@ const globalNavLinks = [
   },
   {
     href: "/projects/",
-    label: "Case Studies",
+    label: "Cases",
     icon: "briefcase",
     tint: "orange",
     current: normalizedPath === "/projects",
@@ -585,7 +585,7 @@ const sidebarSocialLinks = [
             </div>
             <div class="footer__actions">
               <nav class="footer__links" aria-label="Footer links">
-                <a href="/projects/">Case Studies</a>
+                <a href="/projects/">Cases</a>
                 <a href="/blog/">Blog</a>
                 <a href="/about/">About</a>
                 <a
@@ -630,7 +630,7 @@ const sidebarSocialLinks = [
 
         const centerActive = () => {
           if (!mask || !list) return;
-          if (!window.matchMedia("(max-width: 1023px)").matches) return;
+          if (!window.matchMedia("(max-width: 1024px)").matches) return;
           const active = list.querySelector('a[aria-current="page"]');
           if (!active) return;
           const reduceMotion = window.matchMedia(

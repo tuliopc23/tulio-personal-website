@@ -17,7 +17,8 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const HORIZONTAL_RAIL_SELECTOR =
-  "[data-lenis-prevent-horizontal], [data-repo-rail], .articleGrid, .cardRail";
+  "[data-lenis-prevent-horizontal], [data-case-track], [data-repo-rail], .articleGrid, .cardRail";
+
 const HORIZONTAL_GESTURE_MIN_DELTA = 6;
 const HORIZONTAL_GESTURE_RATIO = 1.15;
 

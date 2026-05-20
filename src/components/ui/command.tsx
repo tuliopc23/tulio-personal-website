@@ -17,13 +17,16 @@ function Command({ className, ...props }: React.ComponentProps<typeof CommandPri
   );
 }
 
-function CommandInput({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+type CommandInputProps = React.ComponentProps<typeof CommandPrimitive.Input> & {
+  hideIcon?: boolean;
+};
+
+function CommandInput({ className, hideIcon = false, ...props }: CommandInputProps) {
   return (
     <div className="flex items-center gap-3 border-0 px-0" cmdk-input-wrapper="">
-      <Search className="size-[18px] shrink-0 text-[var(--text-secondary)]" aria-hidden />
+      {hideIcon ? null : (
+        <Search className="size-[18px] shrink-0 text-[var(--text-secondary)]" aria-hidden />
+      )}
       <CommandPrimitive.Input
         className={cn(
           "flex h-11 w-full bg-transparent text-[15px] font-medium leading-tight text-[var(--text)] outline-none placeholder:text-[var(--text-tertiary)]",

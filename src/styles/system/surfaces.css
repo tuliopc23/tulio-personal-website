@@ -215,6 +215,12 @@
   background: linear-gradient(to bottom, var(--text-tertiary), transparent);
 }
 
+@media (max-width: 1024px) {
+  body[data-mobile-liquid-nav="true"] .hero-remotion__scroll {
+    bottom: calc(var(--mobile-nav-reserved-bottom) + var(--space-sm));
+  }
+}
+
 @keyframes heroScrollPulse {
   0%,
   100% {

@@ -34,7 +34,7 @@ describe("home, about, and now pages", () => {
     );
 
     expect(html).toContain("Daily setup");
-    expect(html).toContain("What moved recently and where the commits landed.");
+    expect(html).toContain("Writing and current topics");
     expect(html).toContain("Building Better Astro Sites");
   });
 

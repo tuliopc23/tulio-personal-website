@@ -65,23 +65,6 @@ body[data-has-sidebar="false"] .topbar__brandGroup {
 body[data-has-sidebar="false"] .content {
   padding-inline: clamp(8px, 1.6vw, 18px);
 }
-.sr-only:focus,
-.sr-only:focus-visible {
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  width: auto;
-  height: auto;
-  padding: var(--space-xxs) var(--space-xs);
-  margin: 0;
-  background: var(--surface);
-  color: var(--text);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--panel-border);
-  clip: auto;
-  white-space: normal;
-  z-index: 100;
-}
 .content > * {
   max-width: var(--content-max);
   margin-inline: auto;

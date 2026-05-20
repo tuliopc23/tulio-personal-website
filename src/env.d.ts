@@ -2,6 +2,7 @@
 /// <reference types="@cloudflare/workers-types" />
 
 interface ImportMetaEnv {
+  readonly VITEST?: string;
   readonly GITHUB_TOKEN?: string;
   readonly GITHUB_PERSONAL_ACCESS_TOKEN?: string;
   readonly KEYSTATIC_SECRET?: string;

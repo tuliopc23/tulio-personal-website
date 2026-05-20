@@ -63,6 +63,30 @@ describe("scroll indicators", () => {
     cleanupScrollIndicators();
   });
 
+  test("does not attach to [data-case-track] because the case carousel owns its own navigation", async () => {
+    installMatchMediaStub({ reducedMotion: false });
+    const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();
+
+    document.body.innerHTML = `
+      <section data-case-slider>
+        <div data-case-track>
+          <article data-case-slide></article>
+          <article data-case-slide></article>
+        </div>
+      </section>
+    `;
+
+    const track = document.querySelector("[data-case-track]") as HTMLElement;
+    mockHorizontalMetrics(track, { clientWidth: 400, scrollWidth: 1200 });
+
+    initScrollIndicators();
+
+    expect(track.getAttribute("data-lenis-prevent-horizontal")).toBeNull();
+    expect(track.dataset.hasOverflow).toBeUndefined();
+
+    cleanupScrollIndicators();
+  });
+
   test("does not attach to [data-case-rail] because the case carousel owns its own navigation", async () => {
     installMatchMediaStub({ reducedMotion: false });
     const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();

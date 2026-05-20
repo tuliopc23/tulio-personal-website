@@ -37,7 +37,85 @@ test("mobile search FAB opens dock search", async ({ page }) => {
 
   await page.getByRole("button", { name: "Open search" }).click();
   await expect(page.locator(".mobileLiquidNav__searchShell")).toBeVisible();
-  await expect(page.locator("#site-search")).toHaveCount(0);
+  await expect(page.getByText("The starting point")).toHaveCount(0);
+  await expect(page.getByText("Type to search pages…")).toBeVisible();
+
+  await page.getByRole("combobox").fill("blog");
+  await expect(page.getByRole("option", { name: "Blog" })).toBeVisible();
+  await page.getByRole("option", { name: "Blog" }).click();
+  await expect(page).toHaveURL(/\/blog\/?$/);
+});
+
+test("case study carousel allows vertical page scroll on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/projects/");
+
+  const track = page.locator("[data-case-track]");
+  await expect(track).toBeVisible();
+
+  const before = await page.evaluate(() => window.scrollY);
+  await track.hover();
+  await page.mouse.wheel(0, 240);
+  const after = await page.evaluate(() => window.scrollY);
+
+  expect(after).toBeGreaterThan(before);
+});
+
+test("case study carousel allows vertical page scroll on desktop", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/projects/");
+
+  const track = page.locator("[data-case-track]");
+  await expect(track).toBeVisible();
+
+  const before = await page.evaluate(() => window.scrollY);
+  await track.hover();
+  await page.mouse.wheel(0, 320);
+  const after = await page.evaluate(() => window.scrollY);
+
+  expect(after).toBeGreaterThan(before);
+});
+
+test("mobile Cmd+K opens dock search", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/blog/");
+  await page.keyboard.press("Meta+k");
+  await expect(page.locator(".mobileLiquidNav__searchShell")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(".mobileLiquidNav__searchShell")).toHaveCount(0);
+});
+
+test("mobile back from blog returns home", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/blog/");
+  await page.getByRole("button", { name: "Go back" }).click();
+  await expect(page).toHaveURL(/\/$/);
+});
+
+test("blog topic chip filters posts", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/blog/");
+  const chips = page.locator(".blogTopicChips__chip");
+  const count = await chips.count();
+  test.skip(count < 2, "No topic tags to filter");
+  const topicChip = chips.nth(1);
+  await topicChip.click();
+  await expect(topicChip).toHaveClass(/is-active/);
+  await expect(chips.first()).not.toHaveClass(/is-active/);
+});
+
+test("desktop topbar shows Cases nav and Cmd+K search", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "Cases" })).toBeVisible();
+  await page.keyboard.press("Meta+k");
+  await expect(page.locator(".siteLiquidSearch__desktopPopover")).toBeVisible();
+});
+
+test("blog index newsletter is visible on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/blog/");
+  await expect(page.locator(".newsletterSignup")).toBeVisible();
 });
 
 test("contact form opens a mailto draft", async ({ page }) => {

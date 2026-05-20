@@ -9,3 +9,5 @@
 @import "./system/routes-projects.css";
 @import "./system/liquid-glass.css";
 @import "./system/mobile-liquid-nav.css";
+@import "./system/blog-filters.css";
+@import "./system/newsletter.css";

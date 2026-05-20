@@ -71,6 +71,12 @@
   line-height: 1.5;
 }
 
+@media (max-width: 1024px) {
+  body[data-mobile-liquid-nav="true"] .contactCard {
+    margin-bottom: var(--space-xs);
+  }
+}
+
 @media (max-width: 768px) {
   .contactForm {
     grid-template-columns: 1fr;

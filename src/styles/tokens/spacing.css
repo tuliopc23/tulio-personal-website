@@ -129,6 +129,17 @@
   }
 }
 
+/*
+ * Legacy spacing aliases (tokens.css) → HIG scale (this file)
+ * --space-xxs (8px)  → --space-2
+ * --space-xs (12px)  → --space-3
+ * --space-sm (16px)  → --space-4
+ * --space-md (24px)  → --space-6
+ * --space-lg (32px)  → --space-8
+ * --space-xl (48px)  → --space-12
+ * --space-2xl (64px) → --space-16
+ */
+
 @media (max-width: 480px) {
   :root {
     --radius: 14px;

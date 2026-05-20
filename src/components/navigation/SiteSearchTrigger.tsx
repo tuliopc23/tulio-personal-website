@@ -4,6 +4,7 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "../../styles/tailwind-nav.css";
 import {
+  getSiteSearchOpen,
   registerSiteSearchApi,
   setSiteSearchOpen,
   subscribeSiteSearch,
@@ -41,7 +42,7 @@ export default function SiteSearchTrigger() {
       const isShortcut = event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey);
       if (isShortcut) {
         event.preventDefault();
-        setSiteSearchOpen(!open);
+        setSiteSearchOpen(!getSiteSearchOpen());
       }
     };
 

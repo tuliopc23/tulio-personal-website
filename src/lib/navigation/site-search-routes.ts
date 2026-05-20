@@ -19,7 +19,7 @@ export const siteSearchRoutes: readonly SiteSearchRoute[] = [
     keywords: "articles writing essays notes programming blog",
   },
   {
-    title: "Case Studies",
+    title: "Cases",
     href: "/projects/",
     description: "Client work and indie projects.",
     keywords: "work case studies builds portfolio apps clients projects",

@@ -1,6 +1,5 @@
-import { experimental_AstroContainer as AstroContainer } from "astro/container";
-
 import { richPostSummary } from "../fixtures/content";
+import { createSiteAstroContainer } from "../helpers/astro-container";
 
 vi.mock("../../src/lib/image-url", () => ({
   optimizedImageUrl: vi.fn((url: string) => `${url}?optimized=true`),
@@ -39,7 +38,7 @@ describe("blog index and category pages", () => {
       },
     ]);
 
-    const container = await AstroContainer.create();
+    const container = await createSiteAstroContainer();
     const { default: BlogIndex } = await import("../../src/pages/blog/index.astro");
     const html = await container.renderToString(
       BlogIndex as any,
@@ -49,6 +48,7 @@ describe("blog index and category pages", () => {
     );
 
     expect(html).toContain("Topics");
+    expect(html).toContain("blogTopicChips");
     expect(html).toContain("All posts");
     expect(html).toContain("Second Post");
     expect(html).toContain("/rss.xml");
@@ -64,7 +64,7 @@ describe("blog index and category pages", () => {
     });
     getPostsByCategory.mockResolvedValueOnce([richPostSummary]);
 
-    const container = await AstroContainer.create();
+    const container = await createSiteAstroContainer();
     const { default: CategoryPage } = await import("../../src/pages/blog/category/[slug].astro");
 
     const populatedHtml = await container.renderToString(

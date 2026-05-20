@@ -1,5 +1,6 @@
 import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import markdoc from "@astrojs/markdoc";
 import mdx from "@astrojs/mdx";
@@ -16,13 +17,22 @@ import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
 const sentryRelease = process.env.SENTRY_RELEASE || undefined;
 const isVitest = process.env.VITEST === "true";
-
+const mobileNavPath = fileURLToPath(
+  new URL("./src/components/navigation/MobileLiquidGlassNav.tsx", import.meta.url),
+);
+const mobileNavMockPath = fileURLToPath(
+  new URL("./tests/mocks/MobileLiquidGlassNav.tsx", import.meta.url),
+);
+const siteSearchTriggerMockPath = fileURLToPath(
+  new URL("./tests/mocks/SiteSearchTrigger.tsx", import.meta.url),
+);
 /** Keystatic admin loads React from its own deps — include both app React and keystatic bundles. */
 const reactIntegration = react({
   include: [
     // Use regex filters here to stay off the glob-to-picomatch path in Astro's bundled React renderer.
     /(?:^|\/)react(?:\/|$)/,
     /(?:^|\/)src\/components\/navigation\/.*\.tsx$/,
+    /(?:^|\/)tests\/mocks\/.*\.tsx$/,
     /(?:^|\/)src\/components\/ui\/.*\.tsx$/,
     /(?:^|\/)keystatic(?:\/|$)/,
     /(?:^|\/)node_modules\/@keystatic\/core\/.*\.js(?:[?#].*)?$/,
@@ -78,7 +88,25 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      ...(isVitest
+        ? [
+            {
+              name: "vitest-nav-stubs",
+              enforce: "pre",
+              load(id) {
+                if (id.endsWith("/navigation/MobileLiquidGlassNav.tsx")) {
+                  return readFileSync(mobileNavMockPath, "utf8");
+                }
+                if (id.endsWith("/navigation/SiteSearchTrigger.tsx")) {
+                  return readFileSync(siteSearchTriggerMockPath, "utf8");
+                }
+              },
+            },
+          ]
+        : []),
+    ],
     define: {
       "import.meta.env.PUBLIC_SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
       "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
@@ -103,6 +131,11 @@ export default defineConfig({
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
+        ...(isVitest
+          ? {
+              [mobileNavPath]: mobileNavMockPath,
+            }
+          : {}),
       },
       tsconfigPaths: true,
       noExternal: ["easymde", "react-simplemde-editor"],

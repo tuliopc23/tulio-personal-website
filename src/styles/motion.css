@@ -105,7 +105,7 @@
 
 /* ── Sidebar transitions (kept — not handled by Motion) ────── */
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   :root[data-motion="normal"] body .sidebar {
     transition:
       transform var(--motion-duration-md) var(--motion-ease-out),

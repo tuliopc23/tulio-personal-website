@@ -1,10 +1,9 @@
-import { experimental_AstroContainer as AstroContainer } from "astro/container";
-
 import Base from "../../src/layouts/Base.astro";
+import { createSiteAstroContainer } from "../helpers/astro-container";
 
 describe("Base layout", () => {
   test("renders route-aware nav state and metadata", async () => {
-    const container = await AstroContainer.create();
+    const container = await createSiteAstroContainer();
     const html = await container.renderToString(
       Base as any,
       {
