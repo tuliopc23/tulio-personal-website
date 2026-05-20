@@ -125,7 +125,7 @@
   overscroll-behavior-x: contain;
   cursor: grab;
   scrollbar-width: none;
-  touch-action: pan-x pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
   padding-block: 22px 30px; /* let shadows breathe; hide rail edge */
@@ -465,7 +465,7 @@
   }
 
   .caseSlider__nav {
-    touch-action: pan-x pinch-zoom;
+    touch-action: pan-x pan-y pinch-zoom;
     overscroll-behavior-y: auto;
   }
 

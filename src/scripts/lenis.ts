@@ -85,7 +85,10 @@ export function initLenis(reducedMotion: boolean): void {
     touchMultiplier: 1.15,
     infinite: false,
     autoRaf: false,
-    allowNestedScroll: true,
+    // Horizontal rails use overflow-x only; allowNestedScroll delegates wheel to them and
+    // traps vertical page scroll when the pointer is over a card. virtualScroll below routes
+    // vertical vs horizontal intent instead (see Lenis nested-scroll docs).
+    allowNestedScroll: false,
     anchors: true,
     stopInertiaOnNavigate: true,
     virtualScroll: ({ deltaX, deltaY, event }) => {
