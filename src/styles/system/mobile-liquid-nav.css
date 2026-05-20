@@ -2,7 +2,9 @@
 
 .mobileLiquidNav {
   position: fixed;
-  inset: auto 0 0;
+  right: 0;
+  bottom: calc(var(--mobile-nav-bottom-space) + var(--mobile-nav-keyboard-offset, 0px));
+  left: 0;
   z-index: 55;
   pointer-events: none;
 }
@@ -22,10 +24,9 @@
   align-items: flex-end;
   justify-content: center;
   gap: var(--mobile-nav-dock-gap);
-  max-width: 520px;
+  width: min(430px, calc(100vw - var(--mobile-nav-side-space) - var(--mobile-nav-side-space-end)));
   margin: 0 auto;
-  padding: 0 max(12px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px))
-    max(12px, env(safe-area-inset-left, 0px));
+  padding: 0;
   pointer-events: auto;
 }
 
@@ -46,8 +47,10 @@
 .mobileLiquidNav__tabbar.liquid-glass {
   flex: 1 1 auto;
   min-width: 0;
+  height: var(--mobile-nav-dock-height);
   border-radius: 999px;
-  padding: 4px 6px;
+  padding: 5px;
+  overflow: hidden;
 }
 
 .mobileLiquidNav__tabList {
@@ -56,6 +59,7 @@
   align-items: stretch;
   justify-content: space-between;
   gap: 1px;
+  height: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -86,15 +90,15 @@
   justify-content: center;
   gap: 1px;
   min-width: 0;
-  min-height: 42px;
-  padding: 4px 3px;
+  min-height: 44px;
+  padding: 4px 2px 5px;
   border: none;
   border-radius: 999px;
   background: transparent;
   color: var(--text-secondary);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.1;
   text-decoration: none;
   cursor: pointer;
@@ -113,8 +117,8 @@
 .mobileLiquidNav__tabIcon {
   display: inline-flex;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
 }
 
 .mobileLiquidNav__tabIcon svg {
@@ -172,10 +176,7 @@
 
 @media (max-width: 1024px) {
   body[data-mobile-liquid-nav="true"] .content {
-    padding-bottom: calc(
-      var(--mobile-nav-chrome-total) + var(--mobile-nav-fab-size) + 16px +
-        max(12px, env(safe-area-inset-bottom, 0px)) + var(--space-md)
-    );
+    padding-bottom: calc(var(--mobile-nav-reserved-bottom) + var(--space-md));
   }
 }
 
@@ -199,6 +200,7 @@
   align-items: flex-end;
   gap: var(--mobile-nav-dock-gap);
   width: 100%;
+  min-height: var(--mobile-nav-dock-height);
 }
 
 .mobileLiquidNav__tabbarWrap {
@@ -248,6 +250,39 @@
   gap: 10px;
   min-height: var(--mobile-nav-fab-size);
   padding: 0 14px;
+}
+
+@media (max-width: 360px) {
+  .mobileLiquidNav__dockWrap {
+    width: min(
+      430px,
+      calc(
+        100vw - max(12px, env(safe-area-inset-left, 0px)) -
+          max(12px, env(safe-area-inset-right, 0px))
+      )
+    );
+    gap: 8px;
+  }
+
+  .mobileLiquidNav__tabbar.liquid-glass {
+    height: 52px;
+    padding: 4px;
+  }
+
+  .mobileLiquidNav__tab {
+    min-height: 44px;
+    font-size: 9.5px;
+  }
+
+  .mobileLiquidNav__tabIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .mobileLiquidNav__searchFab {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 .topbar__searchIcon {

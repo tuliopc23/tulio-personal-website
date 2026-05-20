@@ -178,11 +178,18 @@
   --liquid-segment-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
 
   /* Mobile chrome sizing */
-  --mobile-nav-dock-height: 48px;
-  --mobile-nav-fab-size: 48px;
+  --mobile-nav-dock-height: 56px;
+  --mobile-nav-fab-size: 56px;
   --mobile-nav-dock-gap: 10px;
-  --mobile-nav-chrome-total: calc(var(--mobile-nav-dock-height) + var(--mobile-nav-dock-gap));
-  --mobile-nav-chrome-offset: max(12px, env(safe-area-inset-bottom, 0px));
+  --mobile-nav-side-space: max(16px, env(safe-area-inset-left, 0px));
+  --mobile-nav-side-space-end: max(16px, env(safe-area-inset-right, 0px));
+  --mobile-nav-bottom-space: max(14px, env(safe-area-inset-bottom, 0px));
+  --mobile-nav-keyboard-offset: 0px;
+  --mobile-nav-reserved-bottom: calc(
+    var(--mobile-nav-dock-height) + var(--mobile-nav-bottom-space) + 30px
+  );
+  --mobile-nav-chrome-total: var(--mobile-nav-dock-height);
+  --mobile-nav-chrome-offset: var(--mobile-nav-bottom-space);
 }
 
 [data-theme="dark"] {

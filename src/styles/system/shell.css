@@ -984,11 +984,11 @@ body.is-search-open {
   }
 
   body[data-mobile-liquid-nav="true"] .topbar__actions {
-    gap: 4px;
-    justify-self: end;
-    margin-left: auto;
-    margin-right: -2px;
-    padding-right: max(var(--safe-area-right), 0px);
+    display: none !important;
+  }
+
+  body[data-mobile-liquid-nav="true"] .topbar__inner {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .projects__filters {

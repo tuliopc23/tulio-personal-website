@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
 
-import { Button } from "@base-ui/react/button";
 import { Tabs } from "@base-ui/react/tabs";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -12,11 +11,6 @@ import {
 } from "../../lib/navigation/mobile-tab-links";
 import type { SiteSearchRoute } from "../../lib/navigation/site-search-routes";
 import { filterSiteSearchRoutes } from "../../lib/navigation/site-search-routes";
-import {
-  registerSiteSearchApi,
-  setSiteSearchOpen,
-  subscribeSiteSearch,
-} from "../../lib/navigation/site-search-store";
 import { cn } from "../../lib/utils";
 import { NavPhosphorIcon } from "./NavPhosphorIcon";
 import { Command } from "../ui/command";
@@ -50,13 +44,6 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    registerSiteSearchApi();
-    return subscribeSiteSearch((open) => {
-      setSearchOpen(open);
-    });
-  }, []);
-
-  useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => setReducedMotion(readPrefersReducedMotion());
     media.addEventListener("change", sync);
@@ -64,15 +51,50 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   }, []);
 
   useEffect(() => {
+    const root = document.documentElement;
+    const viewport = window.visualViewport;
+
+    const syncVisualViewportOffset = () => {
+      const bottomOffset =
+        searchOpen && viewport
+          ? Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)
+          : 0;
+      root.style.setProperty("--mobile-nav-keyboard-offset", `${Math.round(bottomOffset)}px`);
+    };
+
+    syncVisualViewportOffset();
+    viewport?.addEventListener("resize", syncVisualViewportOffset);
+    viewport?.addEventListener("scroll", syncVisualViewportOffset);
+    window.addEventListener("resize", syncVisualViewportOffset);
+    window.addEventListener("orientationchange", syncVisualViewportOffset);
+
+    return () => {
+      viewport?.removeEventListener("resize", syncVisualViewportOffset);
+      viewport?.removeEventListener("scroll", syncVisualViewportOffset);
+      window.removeEventListener("resize", syncVisualViewportOffset);
+      window.removeEventListener("orientationchange", syncVisualViewportOffset);
+      root.style.removeProperty("--mobile-nav-keyboard-offset");
+    };
+  }, [searchOpen]);
+
+  useEffect(() => {
+    document.body.classList.toggle("is-search-open", searchOpen);
+
     if (!searchOpen) {
       setSearchQuery("");
-      return;
+      return () => {
+        document.body.classList.remove("is-search-open");
+      };
     }
 
     const id = requestAnimationFrame(() => {
       searchInputRef.current?.focus({ preventScroll: true });
     });
-    return () => cancelAnimationFrame(id);
+
+    return () => {
+      cancelAnimationFrame(id);
+      document.body.classList.remove("is-search-open");
+    };
   }, [searchOpen]);
 
   const shouldAnimateChrome = !motionReduced && !reducedMotion;
@@ -114,17 +136,20 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   }, [shouldAnimateChrome, searchOpen]);
 
   const openSearch = useCallback(() => {
-    setSiteSearchOpen(true);
+    setSearchOpen(true);
   }, []);
 
   const closeSearch = useCallback(() => {
-    setSiteSearchOpen(false);
+    setSearchOpen(false);
   }, []);
 
-  const navigateTo = useCallback((route: SiteSearchRoute) => {
-    setSiteSearchOpen(false);
-    window.location.assign(route.href);
-  }, []);
+  const navigateTo = useCallback(
+    (route: SiteSearchRoute) => {
+      closeSearch();
+      window.location.assign(route.href);
+    },
+    [closeSearch],
+  );
 
   const goBack = useCallback(() => {
     if (window.history.length > 1) {
@@ -186,36 +211,40 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
       {showBack ? (
         <motion.div
           className="mobileLiquidNav__back"
-          initial={shouldAnimateChrome ? { opacity: 0, x: -12 } : false}
+          initial={false}
           animate={{ opacity: chromeMotion.opacity, x: 0, y: chromeMotion.y }}
           transition={chromeTransition}
-          style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "auto" }}
+          style={{
+            pointerEvents: chromeHidden && !searchOpen ? "none" : "auto",
+          }}
         >
-          <Button
+          <button
             type="button"
             className="mobileLiquidNav__backBtn liquid-glass liquid-glass-chrome"
             aria-label="Go back"
             onClick={goBack}
           >
             <NavPhosphorIcon name="caret-left" className="mobileLiquidNav__tabIcon" />
-          </Button>
+          </button>
         </motion.div>
       ) : null}
 
       <motion.nav
         className="mobileLiquidNav"
         aria-label="Mobile navigation"
-        initial={shouldAnimateChrome ? { opacity: 0, y: 28 } : false}
+        initial={false}
         animate={{ opacity: chromeMotion.opacity, y: chromeMotion.y }}
         transition={chromeTransition}
-        style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "none" }}
+        style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "auto" }}
       >
         <motion.div
           className={cn(
             "mobileLiquidNav__dockWrap",
             searchOpen && "mobileLiquidNav__dockWrap--searchOpen",
           )}
-          style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "auto" }}
+          style={{
+            pointerEvents: chromeHidden && !searchOpen ? "none" : "auto",
+          }}
           layout
         >
           {searchOpen ? (
@@ -308,7 +337,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
               </motion.div>
 
               <motion.div layoutId="searchChrome">
-                <Button
+                <button
                   type="button"
                   className="mobileLiquidNav__searchFab liquid-glass liquid-glass-chrome"
                   aria-label="Open search"
@@ -316,7 +345,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
                   onClick={openSearch}
                 >
                   <NavPhosphorIcon name="magnifying-glass" className="mobileLiquidNav__tabIcon" />
-                </Button>
+                </button>
               </motion.div>
             </div>
           )}
