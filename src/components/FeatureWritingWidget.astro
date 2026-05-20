@@ -23,7 +23,11 @@ const { posts = [] } = Astro.props as { posts: PostItem[] };
 ---
 
 <div class={styles.carouselWrap} data-at-start="true" data-at-end="false">
-  <ul class={styles.featureWritingWidget} aria-label="Featured writing articles">
+  <ul
+    class={styles.featureWritingWidget}
+    data-writing-rail
+    aria-label="Featured writing articles"
+  >
     {posts.length > 0 ? (
       posts.slice(0, 3).map((post) => (
         <li class={styles.card}>

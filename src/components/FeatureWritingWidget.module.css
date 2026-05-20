@@ -67,6 +67,10 @@
     display: none;
   }
 
+  [data-writing-rail][data-dragging="true"] {
+    touch-action: pan-x pinch-zoom;
+  }
+
   .card {
     flex: 0 0 min(calc(100vw - 64px), 328px);
     max-width: min(calc(100vw - 64px), 328px);

@@ -1355,6 +1355,7 @@
 
 .articleGrid[data-dragging="true"] {
   cursor: grabbing;
+  touch-action: pan-x pinch-zoom;
 }
 
 /* Edge fade indicators for mobile */
@@ -2672,6 +2673,7 @@
   }
   .cardRail[data-dragging="true"] {
     cursor: grabbing;
+    touch-action: pan-x pinch-zoom;
   }
   .cardRail > * {
     flex: 0 0 clamp(80%, 72vw, 320px);
