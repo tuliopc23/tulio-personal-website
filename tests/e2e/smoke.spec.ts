@@ -9,6 +9,12 @@ test("theme toggle persists across reload", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("data-theme", /light|dark/);
 });
 
+test("mobile theme toggle is visible in topbar", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expect(page.locator("[data-theme-toggle-root] button").first()).toBeVisible();
+});
+
 test("mobile liquid glass nav is visible and links work", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/contact/");

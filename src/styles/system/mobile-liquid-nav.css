@@ -185,6 +185,10 @@
     border-radius: 999px;
   }
 
+  body[data-mobile-liquid-nav="true"] .topbar__searchButton {
+    display: none;
+  }
+
   body[data-mobile-liquid-nav="true"] .topbar__actions .liquidToggle {
     border-radius: 999px;
   }
