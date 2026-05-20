@@ -17,7 +17,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const HORIZONTAL_RAIL_SELECTOR =
-  "[data-lenis-prevent-horizontal], [data-case-track], [data-repo-rail], .articleGrid, .cardRail";
+  "[data-lenis-prevent-horizontal], [data-case-track], [data-repo-rail]";
 
 const HORIZONTAL_GESTURE_MIN_DELTA = 6;
 const HORIZONTAL_GESTURE_RATIO = 1.15;
@@ -79,7 +79,7 @@ export function initLenis(reducedMotion: boolean): void {
   lenis = new Lenis({
     lerp,
     smoothWheel: true,
-    gestureOrientation: "both",
+    gestureOrientation: "vertical",
     syncTouch: false,
     wheelMultiplier: 1,
     touchMultiplier: 1.15,
@@ -92,7 +92,11 @@ export function initLenis(reducedMotion: boolean): void {
       if (!(event instanceof Event)) return true;
       if (!isHorizontalRailEventTarget(event)) return true;
 
-      return !hasHorizontalGestureIntent(deltaX, deltaY, event);
+      // Vertical wheel over a horizontal rail should scroll the page (Lenis).
+      if (!hasHorizontalGestureIntent(deltaX, deltaY, event)) return true;
+
+      // Horizontal wheel over the rail: let the rail consume it natively.
+      return false;
     },
   });
 

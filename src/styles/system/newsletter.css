@@ -40,7 +40,7 @@
 .newsletterSignup__input {
   width: 100%;
   min-height: var(--touch-target-min, 44px);
-  border-radius: var(--radius-md, 16px);
+  border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--panel-border-strong) 40%, transparent);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),

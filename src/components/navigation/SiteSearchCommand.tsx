@@ -37,6 +37,7 @@ type SiteSearchCommandProps = {
   emptyStateMode?: "default" | "hidden" | "hint";
   hideInputIcon?: boolean;
   listId?: string;
+  fieldClassName?: string;
 };
 
 function SiteSearchResultsList({
@@ -53,8 +54,8 @@ function SiteSearchResultsList({
   listId?: string;
 }) {
   return (
-    <CommandList id={listId} className={listClassName}>
-      <CommandEmpty>No pages match your search.</CommandEmpty>
+    <CommandList id={listId} className={listClassName ?? "siteSearchPanel__list"}>
+      <CommandEmpty className="siteSearchPanel__empty">No pages match your search.</CommandEmpty>
       <CommandGroup>
         {results.map((route) => (
           <CommandItem
@@ -62,33 +63,16 @@ function SiteSearchResultsList({
             value={routeSearchHaystack(route)}
             onSelect={() => onSelect(route)}
           >
-            {compactItems ? (
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-[0.9rem] font-semibold leading-tight text-[var(--text)]">
-                  {route.title}
-                </span>
-              </span>
-            ) : (
-              <>
-                <span
-                  className="flex size-8 shrink-0 items-center justify-center rounded-[10px] border border-[color-mix(in_srgb,var(--panel-border)_72%,transparent)] bg-[color-mix(in_srgb,var(--surface-card)_52%,transparent)] text-[var(--text-secondary)]"
-                  aria-hidden
-                >
-                  <NavPhosphorIcon
-                    name={routeIcons[route.title] ?? "house"}
-                    className="size-[18px]"
-                  />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[0.95rem] font-semibold leading-tight text-[var(--text)]">
-                    {route.title}
-                  </span>
-                  <span className="block truncate text-[0.84rem] font-normal text-[var(--text-secondary)]">
-                    {route.description}
-                  </span>
-                </span>
-              </>
-            )}
+            <NavPhosphorIcon
+              name={routeIcons[route.title] ?? "house"}
+              className="siteSearchItem__icon"
+            />
+            <span className="siteSearchItem__body">
+              <span className="siteSearchItem__title">{route.title}</span>
+              {!compactItems && route.description ? (
+                <span className="siteSearchItem__desc">{route.description}</span>
+              ) : null}
+            </span>
           </CommandItem>
         ))}
       </CommandGroup>
@@ -110,15 +94,21 @@ export function SiteSearchCommand({
   emptyStateMode = "default",
   hideInputIcon = false,
   listId,
+  fieldClassName,
 }: SiteSearchCommandProps) {
   const results = useMemo(() => filterSiteSearchRoutes(query), [query]);
   const trimmed = query.trim();
   const showResults = showList && (emptyStateMode === "default" || trimmed.length > 0);
 
   return (
-    <Command className={className} shouldFilter={false} value={query} onValueChange={onQueryChange}>
+    <Command
+      className={className ?? "siteSearchPanel"}
+      shouldFilter={false}
+      value={query}
+      onValueChange={onQueryChange}
+    >
       {showInput ? (
-        <div className="liquid-glass--field border-0 border-b border-[color-mix(in_srgb,var(--panel-border)_75%,transparent)] px-4 py-1">
+        <div className={fieldClassName ?? "siteSearchPanel__field"}>
           <CommandInput ref={inputRef} placeholder={placeholder} hideIcon={hideInputIcon} />
         </div>
       ) : null}

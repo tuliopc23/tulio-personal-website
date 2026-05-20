@@ -47,11 +47,11 @@
 }
 
 .caseSlider__mobileControls {
-  display: grid;
-  grid-template-columns: auto minmax(0, max-content) auto;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
+  justify-self: center;
 }
 
 .caseSlider__control {
@@ -103,23 +103,9 @@
   box-shadow: none;
 }
 
-/* Swipe hint */
-.caseSlider__hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  justify-self: center;
-  font-size: var(--fs--2);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--text-tertiary);
-  opacity: 0.75;
-  will-change: transform, opacity;
-}
-
 .caseSlider__progress {
   justify-self: center;
-  margin-top: calc(-1 * var(--space-sm));
+  margin-top: var(--space-xs);
   font-family: var(--font-mono);
   font-size: var(--fs-caption-2);
   font-weight: 650;
@@ -139,7 +125,7 @@
   overscroll-behavior-x: contain;
   cursor: grab;
   scrollbar-width: none;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pinch-zoom;
   overscroll-behavior-x: contain;
   overscroll-behavior-y: auto;
   padding-block: 22px 30px; /* let shadows breathe; hide rail edge */
@@ -457,27 +443,15 @@
     );
   }
 
-  body[data-mobile-liquid-nav="true"] .caseSlider__mobileControls {
-    justify-self: start;
-    margin-inline-start: calc(var(--touch-target-min) + var(--space-xs));
-  }
-
   .caseSlider__nav::-webkit-scrollbar {
     display: none;
   }
 
-  .caseSlider__hint {
-    font-size: 11px;
-  }
-
   .caseSlider__mobileControls {
-    position: sticky;
-    top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + 8px);
-    z-index: 2;
     justify-self: center;
     max-width: 100%;
     padding: 4px;
-    gap: 6px;
+    gap: var(--space-sm);
     border: 1px solid color-mix(in srgb, var(--panel-border) 70%, transparent);
     border-radius: 999px;
     background: color-mix(in srgb, var(--topbar-bg-active) 86%, transparent);
@@ -487,7 +461,12 @@
   }
 
   .caseSlider__progress {
-    margin-top: calc(-1 * var(--space-xs));
+    margin-top: var(--space-xs);
+  }
+
+  .caseSlider__nav {
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-y: auto;
   }
 
   .caseSlider__track {

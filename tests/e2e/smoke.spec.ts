@@ -92,22 +92,11 @@ test("mobile back from blog returns home", async ({ page }) => {
   await expect(page).toHaveURL(/\/$/);
 });
 
-test("blog topic chip filters posts", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/blog/");
-  const chips = page.locator(".blogTopicChips__chip");
-  const count = await chips.count();
-  test.skip(count < 2, "No topic tags to filter");
-  const topicChip = chips.nth(1);
-  await topicChip.click();
-  await expect(topicChip).toHaveClass(/is-active/);
-  await expect(chips.first()).not.toHaveClass(/is-active/);
-});
-
 test("desktop topbar shows Cases nav and Cmd+K search", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
   await expect(page.getByRole("link", { name: "Cases" })).toBeVisible();
+  await expect(page.locator("[data-topbar-tab-indicator]")).toBeVisible();
   await page.keyboard.press("Meta+k");
   await expect(page.locator(".siteLiquidSearch__desktopPopover")).toBeVisible();
 });

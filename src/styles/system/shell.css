@@ -168,6 +168,20 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   align-self: center;
 }
 
+.topbar__navIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: 999px;
+  pointer-events: none;
+  will-change: transform, width, height;
+}
+
+:root[data-motion="reduced"] .topbar__navIndicator {
+  transition: none;
+}
+
 .topbar__navShell {
   position: relative;
   display: flex;
@@ -328,6 +342,7 @@ body[data-glass-state="scrolled"] .topbar__navShell {
   padding: 5px 12px;
   min-height: 32px;
   position: relative;
+  z-index: 1;
   white-space: nowrap;
   text-decoration: none;
   border-radius: 999px;
@@ -431,34 +446,6 @@ body[data-glass-state="scrolled"] .topbar__navShell {
 .topbar__navLink[aria-current="page"] {
   color: var(--text);
   font-weight: 600;
-}
-
-[data-theme="dark"] .topbar__navLink[aria-current="page"] {
-  background: rgba(255, 255, 255, 0.09);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 16px 28px rgba(4, 10, 24, 0.14);
-  border-color: rgba(255, 255, 255, 0.06);
-}
-
-[data-theme="light"] .topbar__navLink[aria-current="page"] {
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.94),
-    0 14px 24px rgba(31, 35, 53, 0.08);
-  border-color: rgba(31, 35, 53, 0.06);
-}
-
-[data-theme="dark"] .topbar__navLink[aria-current="page"]::after {
-  background: rgba(77, 166, 255, 1);
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-[data-theme="light"] .topbar__navLink[aria-current="page"]::after {
-  background: rgba(0, 113, 227, 1);
-  opacity: 1;
-  transform: scaleX(1);
 }
 
 .topbar__navLabel {

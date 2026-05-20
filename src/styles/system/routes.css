@@ -1344,7 +1344,8 @@
     black calc(100% - clamp(16px, 2.5vw, 32px)),
     transparent
   );
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pinch-zoom;
+  overscroll-behavior-y: auto;
   cursor: grab;
 }
 
@@ -2662,7 +2663,8 @@
     padding-bottom: var(--space-sm);
     scrollbar-width: none;
     position: relative;
-    touch-action: pan-y pinch-zoom;
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-y: auto;
     cursor: grab;
   }
   .cardRail::-webkit-scrollbar {

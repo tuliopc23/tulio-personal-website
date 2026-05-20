@@ -159,6 +159,39 @@ describe("scroll indicators", () => {
     cleanupScrollIndicators();
   });
 
+  test("keeps vertical-dominant wheel on articleGrid delegated to the page", async () => {
+    installMatchMediaStub({ reducedMotion: false });
+    const { cleanupScrollIndicators, initScrollIndicators } = await loadModule();
+
+    document.body.innerHTML = `
+      <div class="articleCarousel">
+        <ul class="articleGrid">
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+    `;
+
+    const rail = document.querySelector(".articleGrid") as HTMLElement;
+    mockHorizontalMetrics(rail, { clientWidth: 320, scrollWidth: 960, scrollLeft: 0 });
+
+    initScrollIndicators();
+
+    const prevented = rail.dispatchEvent(
+      new WheelEvent("wheel", {
+        deltaX: 4,
+        deltaY: 60,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+
+    expect(rail.scrollLeft).toBe(0);
+    expect(prevented).toBe(true);
+
+    cleanupScrollIndicators();
+  });
+
   test("keeps vertical-dominant wheel input delegated to the page", async () => {
     installAnimationStubs();
     installMatchMediaStub({ reducedMotion: false });

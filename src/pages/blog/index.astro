@@ -5,8 +5,6 @@ import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PageIndicator from "../../components/PageIndicator.astro";
 import ScrollHint from "../../components/ScrollHint.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
-import BlogTopicChips from "../../components/blog/BlogTopicChips.astro";
-import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import { getBlogPageContent } from "../../lib/content/page-content";
 import { getAllPosts, getFeaturedPosts, type PostSummary } from "../../lib/content/posts";
 import { isNewPublishedAt } from "../../lib/is-new-post";
@@ -39,9 +37,7 @@ const defaults = {
     "Posts are still in draft. Grab the RSS or Atom feed — you'll know when the first one lands.",
   archiveHeading: "By year",
   archiveLede: "The full git log, sorted chronologically.",
-  allArticlesLabel: "All posts",
   loadOlderLabel: "Load more",
-  filterEmptyState: "No posts match this filter yet.",
 };
 
 function toPostEntry(post: PostSummary) {
@@ -74,11 +70,6 @@ const postEntries: Array<
 const featuredPost = featuredCandidates[0] ?? allPosts[0] ?? null;
 const featured = featuredPost ? toPostEntry(featuredPost) : null;
 const rest = featured ? postEntries.filter((post) => post.slug !== featured.slug) : postEntries;
-const spotlightTags = pageContent?.spotlightTags?.length
-  ? pageContent.spotlightTags
-  : ["swift", "tooling", "backend", "opinion"];
-const tagSet = new Set<string>(spotlightTags);
-
 const runtimeOrigin = Astro.url?.origin ?? "https://example.com";
 const siteOrigin = Astro.site?.origin ?? runtimeOrigin;
 const canonical = new URL("/blog/", siteOrigin).toString();
@@ -91,9 +82,7 @@ const content = {
   emptyStateBody: pageContent?.emptyStateBody ?? defaults.emptyStateBody,
   archiveHeading: pageContent?.archiveHeading ?? defaults.archiveHeading,
   archiveLede: pageContent?.archiveLede ?? defaults.archiveLede,
-  allArticlesLabel: pageContent?.allArticlesLabel ?? defaults.allArticlesLabel,
   loadOlderLabel: pageContent?.loadOlderLabel ?? defaults.loadOlderLabel,
-  filterEmptyState: pageContent?.filterEmptyState ?? defaults.filterEmptyState,
 };
 const pageDescription = content.pageDescription;
 const featuredHeroSrc =
@@ -124,15 +113,6 @@ const _structuredData = {
   image: ogImage?.url ? [toAbsoluteUrl(ogImage.url, siteOrigin)] : undefined,
 };
 
-postEntries.forEach((entry) => {
-  entry.tags?.forEach((tag) => {
-    if (tag) {
-      tagSet.add(tag);
-    }
-  });
-});
-
-const _uniqueTags = Array.from(tagSet).sort((a, b) => a.localeCompare(b));
 const _initialDisplayCount = rest.length > 0 ? Math.min(6, rest.length) : 6;
 const _byYear = postEntries.reduce((acc, post) => {
   const year = new Date(post.publishedAt).getFullYear();
@@ -247,10 +227,6 @@ const _sectionHeaders = {
     }
   </section>
 
-  <section class="container pageWidget" data-reveal>
-    <NewsletterSignup source="blog-index" />
-  </section>
-
   {
     featured && rest.length > 0 && (
       <section
@@ -273,26 +249,6 @@ const _sectionHeaders = {
             </p>
           </div>
         </header>
-        <BlogTopicChips tags={_uniqueTags} allLabel={content.allArticlesLabel} />
-        <div
-          class="sr-only"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          data-blog-filter-status
-        />
-
-        <div
-          data-blog-filter-empty
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          hidden
-          class="blogEmpty"
-        >
-          {content.filterEmptyState}
-        </div>
-
         <div class="articleCarousel articleCarousel--feed">
           <ul
             class="articleGrid"
@@ -414,173 +370,33 @@ const _sectionHeaders = {
 
   <script is:inline>
     const list = document.querySelector("[data-article-list]");
-    const filters = Array.from(document.querySelectorAll("[data-blog-filter]"));
-    const filterScroller = document.querySelector(".blogTopicChips__scroller");
     const loadMoreButton = document.querySelector("[data-blog-load-more]");
 
     if (list) {
       const cards = Array.from(list.querySelectorAll("[data-article]"));
-      const placeholderItems = Array.from(list.querySelectorAll(".articleGrid__item--placeholder"));
-      const emptyFilterEl = document.querySelector("[data-blog-filter-empty]");
       const initial = Number(list.dataset.initialCount ?? cards.length);
       let visibleLimit = initial;
-      let activeTag = "all";
 
-      const fadeDuration = 200;
-      const phoneQuery = window.matchMedia("(max-width: 768px)");
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const revealActiveFilter = (button, immediate = false) => {
-        if (!(filterScroller instanceof HTMLElement) || !(button instanceof HTMLElement)) return;
-
-        const behavior = immediate || prefersReducedMotion ? "auto" : "smooth";
-        const tag = button.dataset.blogFilter ?? "all";
-
-        if (tag === "all") {
-          filterScroller.scrollTo({ left: 0, behavior });
-          return;
-        }
-
-        button.scrollIntoView({
-          behavior,
-          block: "nearest",
-          inline: phoneQuery.matches ? "start" : "nearest",
-        });
-      };
-
-      const applyFilters = () => {
-        let shown = 0;
-        let matches = 0;
-
-        cards.forEach((card) => {
-          const tags = (card.dataset.tags ?? "").split(",").filter(Boolean);
-          const matchesTag = activeTag === "all" || tags.includes(activeTag);
-
-          if (!matchesTag) {
-            if (!card.hidden) {
-              card.dataset.state = "hiding";
-              setTimeout(() => {
-                card.hidden = true;
-                card.dataset.state = "filtered";
-              }, fadeDuration);
-            } else {
-              card.hidden = true;
-              card.dataset.state = "filtered";
-            }
-            return;
-          }
-
-          matches += 1;
-
-          if (shown < visibleLimit) {
-            if (card.hidden) {
-              card.hidden = false;
-              card.dataset.state = "showing";
-              requestAnimationFrame(() => {
-                card.dataset.state = "visible";
-              });
-            } else {
-              card.dataset.state = "visible";
-            }
-            shown += 1;
-          } else {
-            card.hidden = true;
-            card.dataset.state = "hidden";
-          }
+      const applyVisibility = () => {
+        cards.forEach((card, index) => {
+          const visible = index < visibleLimit;
+          card.hidden = !visible;
+          card.dataset.state = visible ? "visible" : "hidden";
         });
 
-        const hasHidden = cards.some((card) => card.dataset.state === "hidden");
-
+        const hasHidden = cards.some((card) => card.hidden);
         if (loadMoreButton) {
-          const shouldHide = !hasHidden || matches <= visibleLimit;
-          loadMoreButton.hidden = shouldHide;
-          loadMoreButton.disabled = shouldHide;
-        }
-
-        const shouldShowEmpty =
-          activeTag !== "all" && matches === 0;
-
-        placeholderItems.forEach((el) => {
-          el.hidden = shouldShowEmpty;
-        });
-
-        if (emptyFilterEl instanceof HTMLElement) {
-          emptyFilterEl.hidden = !shouldShowEmpty;
-        }
-
-        // Update ARIA live region for screen readers
-        const statusEl = document.querySelector("[data-blog-filter-status]");
-        if (statusEl) {
-          const filterLabel =
-            activeTag === "all" ? "all articles" : activeTag.replace(/-/g, " ");
-          statusEl.textContent = `Showing ${matches} article${matches === 1 ? "" : "s"} for ${filterLabel}`;
+          loadMoreButton.hidden = !hasHidden;
+          loadMoreButton.disabled = !hasHidden;
         }
       };
-
-      const resetLimit = () => {
-        visibleLimit = initial;
-      };
-
-      const selectFilter = (button) => {
-        const tag = button.dataset.blogFilter ?? "all";
-        if (activeTag === tag) {
-          revealActiveFilter(button);
-          return;
-        }
-        activeTag = tag;
-        resetLimit();
-        filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
-        applyFilters();
-        revealActiveFilter(button);
-        if (phoneQuery.matches) {
-          list.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            block: "start",
-          });
-        } else {
-          list.scrollTo({ left: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-        }
-      };
-
-      filters.forEach((button, index) => {
-        button.addEventListener("click", () => selectFilter(button));
-
-        // Keyboard navigation
-        button.addEventListener("keydown", (e) => {
-          let targetIndex = index;
-
-          switch (e.key) {
-            case "ArrowLeft":
-              e.preventDefault();
-              targetIndex = index > 0 ? index - 1 : filters.length - 1;
-              break;
-            case "ArrowRight":
-              e.preventDefault();
-              targetIndex = index < filters.length - 1 ? index + 1 : 0;
-              break;
-            case "Enter":
-            case " ":
-              e.preventDefault();
-              selectFilter(button);
-              return;
-            case "Escape":
-              e.preventDefault();
-              filters[0].focus(); // Focus "All" filter
-              return;
-          }
-
-          if (targetIndex !== index) {
-            filters[targetIndex].focus();
-          }
-        });
-      });
 
       loadMoreButton?.addEventListener("click", () => {
         visibleLimit += initial;
-        applyFilters();
+        applyVisibility();
       });
 
-      applyFilters();
-      revealActiveFilter(filters[0], true);
+      applyVisibility();
     }
   </script>
   <style>

@@ -7,10 +7,10 @@ import { navigateBack } from "../../lib/navigation/go-back";
 import { setSiteSearchOpen, subscribeSiteSearch } from "../../lib/navigation/site-search-store";
 import "../../styles/tailwind-nav.css";
 import {
-  getActiveMobileTabId,
-  mobileTabLinks,
-  normalizeMobilePathname,
-} from "../../lib/navigation/mobile-tab-links";
+  getActivePrimaryNavId,
+  normalizePathname,
+  primaryNavLinks,
+} from "../../lib/navigation/primary-nav-links";
 import type { SiteSearchRoute } from "../../lib/navigation/site-search-routes";
 import { filterSiteSearchRoutes } from "../../lib/navigation/site-search-routes";
 import { cn } from "../../lib/utils";
@@ -35,8 +35,8 @@ function readPrefersReducedMotion(): boolean {
 
 export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavProps) {
   const motionReduced = useReducedMotion();
-  const normalizedPath = useMemo(() => normalizeMobilePathname(pathname), [pathname]);
-  const activeId = useMemo(() => getActiveMobileTabId(normalizedPath), [normalizedPath]);
+  const normalizedPath = useMemo(() => normalizePathname(pathname), [pathname]);
+  const activeId = useMemo(() => getActivePrimaryNavId(normalizedPath), [normalizedPath]);
   const showBack = normalizedPath !== "/";
 
   const [chromeHidden, setChromeHidden] = useState(false);
@@ -248,66 +248,50 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
         >
           {searchOpen ? (
             <Command
-              className="mobileLiquidNav__searchShell"
+              className="siteSearchPanel siteSearchPanel--mobile"
               shouldFilter={false}
               value={searchQuery}
               onValueChange={setSearchQuery}
               onKeyDown={onSearchKeyDown}
             >
-              <div className="mobileLiquidNav__searchColumn">
-                <div className="mobileLiquidNav__dockRow">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.div
-                      key="search-pill"
-                      className="mobileLiquidNav__searchPill liquid-glass liquid-glass-chrome"
-                      layoutId="searchChrome"
-                      initial={{ opacity: 0, scaleX: 0.88 }}
-                      animate={{ opacity: 1, scaleX: 1 }}
-                      exit={{ opacity: 0, scaleX: 0.88 }}
-                      transition={{ type: "spring", stiffness: 480, damping: 38 }}
-                      style={{ originX: 1 }}
-                    >
-                      <div className="mobileLiquidNav__searchPillInner">
-                        <NavPhosphorIcon
-                          name="magnifying-glass"
-                          className="mobileLiquidNav__tabIcon"
-                        />
-                        <SiteSearchInputField
-                          inputRef={searchInputRef}
-                          placeholder="Search pages…"
-                          className="mobileLiquidNav__searchInputCommand"
-                          hideInputIcon
-                          role="combobox"
-                          aria-expanded={trimmedSearchQuery.length > 0}
-                          aria-controls={searchListId}
-                          aria-autocomplete="list"
-                        />
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-
-                {trimmedSearchQuery.length > 0 ? (
-                  <motion.div
-                    key="search-dropdown"
-                    className="mobileLiquidNav__searchDropdown liquid-glass liquid-glass-chrome"
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.18 }}
+              <motion.div
+                className="siteSearchPanel__chrome liquid-glass liquid-glass-chrome"
+                layoutId="searchChrome"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 480, damping: 38 }}
+              >
+                <div className="siteSearchPanel__field">
+                  <NavPhosphorIcon name="magnifying-glass" className="siteSearchItem__icon" />
+                  <SiteSearchInputField
+                    inputRef={searchInputRef}
+                    placeholder="Search pages…"
+                    className="mobileLiquidNav__searchInputCommand"
+                    hideInputIcon
+                    role="combobox"
+                    aria-expanded={trimmedSearchQuery.length > 0}
+                    aria-controls={searchListId}
+                    aria-autocomplete="list"
+                  />
+                  <button
+                    type="button"
+                    className="siteSearchPanel__close"
+                    aria-label="Close search"
+                    onClick={closeSearch}
                   >
-                    <SiteSearchResultsList
-                      results={filterSiteSearchRoutes(searchQuery)}
-                      onSelect={navigateTo}
-                      listClassName="mobileLiquidNav__searchList"
-                      compactItems
-                      listId={searchListId}
-                    />
-                  </motion.div>
-                ) : (
-                  <p className="mobileLiquidNav__searchHint">Type to search pages…</p>
-                )}
-              </div>
+                    <span aria-hidden>×</span>
+                  </button>
+                </div>
+                {trimmedSearchQuery.length > 0 ? (
+                  <SiteSearchResultsList
+                    results={filterSiteSearchRoutes(searchQuery)}
+                    onSelect={navigateTo}
+                    listClassName="siteSearchPanel__list"
+                    compactItems
+                    listId={searchListId}
+                  />
+                ) : null}
+              </motion.div>
             </Command>
           ) : (
             <div className="mobileLiquidNav__dockRow">
@@ -324,20 +308,28 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
                   className="mobileLiquidNav__tabbar liquid-glass liquid-glass-chrome"
                 >
                   <Tabs.List className="mobileLiquidNav__tabList">
-                    <Tabs.Indicator className="mobileLiquidNav__indicator liquid-glass-segment" />
-                    {mobileTabLinks.map((link) => (
+                    {primaryNavLinks.map((link) => (
                       <Tabs.Tab
                         key={link.id}
                         value={link.id}
                         nativeButton={false}
                         className="mobileLiquidNav__tab"
                         render={
-                          <a
+                          <motion.a
                             href={link.href}
                             aria-current={link.match(normalizedPath) ? "page" : undefined}
+                            whileTap={shouldAnimateChrome ? { scale: 0.96 } : undefined}
                           />
                         }
                       >
+                        {activeId === link.id ? (
+                          <motion.span
+                            layoutId="mobilePrimaryNavIndicator"
+                            className="mobileLiquidNav__indicator liquid-glass-segment"
+                            aria-hidden
+                            transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                          />
+                        ) : null}
                         <NavPhosphorIcon name={link.icon} />
                         <span className="mobileLiquidNav__tabLabel">{link.label}</span>
                       </Tabs.Tab>

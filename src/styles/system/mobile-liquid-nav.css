@@ -68,17 +68,10 @@
 
 .mobileLiquidNav__indicator {
   position: absolute;
+  inset: 0;
   z-index: 0;
   border-radius: 999px;
   pointer-events: none;
-  transition:
-    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-    height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-:root[data-motion="reduced"] .mobileLiquidNav__indicator {
-  transition: none;
 }
 
 .mobileLiquidNav__tab {
@@ -113,6 +106,12 @@
 .mobileLiquidNav__tab:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
+}
+
+.mobileLiquidNav__tabIcon,
+.mobileLiquidNav__tabLabel {
+  position: relative;
+  z-index: 1;
 }
 
 .mobileLiquidNav__tabIcon {
@@ -314,16 +313,6 @@
 .topbar__searchIcon {
   width: 19px;
   height: 19px;
-}
-
-.siteLiquidSearch__desktopPopover {
-  padding: 0;
-}
-
-@media (max-width: 1024px) {
-  .siteLiquidSearch__desktopPopover {
-    display: none !important;
-  }
 }
 
 body.is-search-open {

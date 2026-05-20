@@ -19,6 +19,7 @@ import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
 import { cleanupCaseCarousel, initCaseCarousel } from "./case-carousel";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
 import { cleanupViewportScrollRefresh, initViewportScrollRefresh } from "./scroll-trigger-refresh";
+import { cleanupTopbarTabSelect, initTopbarTabSelect } from "./topbar-tab-select";
 
 /* ── Lifecycle ──────────────────────────────────────────────── */
 
@@ -26,6 +27,7 @@ function init(): void {
   const reduced = isReducedMotion();
   initLenis(reduced);
   initGlassState();
+  initTopbarTabSelect();
   if (!reduced) {
     initViewportScrollRefresh();
   }
@@ -58,6 +60,7 @@ function cleanup(): void {
   cleanupPageTransitions();
   cleanupReveals();
   cleanupGlassState();
+  cleanupTopbarTabSelect();
   destroyLenis();
 }
 

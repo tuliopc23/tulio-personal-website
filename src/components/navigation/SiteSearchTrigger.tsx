@@ -84,18 +84,19 @@ export default function SiteSearchTrigger() {
         </button>
       </PopoverPrimitive.Trigger>
       <PopoverContent
-        className="siteLiquidSearch__desktopPopover p-0"
+        className="siteLiquidSearch__desktopPopover"
         align="end"
         side="bottom"
         onOpenAutoFocus={(event) => event.preventDefault()}
       >
-        <div className="overflow-hidden rounded-2xl" onKeyDown={onDesktopKeyDown}>
+        <div onKeyDown={onDesktopKeyDown}>
           <SiteSearchCommand
             query={query}
             onQueryChange={setQuery}
             onSelect={navigateTo}
             inputRef={inputRef}
             placeholder="Search pages…"
+            hideInputIcon
           />
         </div>
       </PopoverContent>

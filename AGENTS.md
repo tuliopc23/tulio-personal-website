@@ -8,6 +8,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - When you ask to run checks and ship, expect a commit-and-push workflow after a clean pass.
 - When you say “commit all”, exclude known scratch paths (for example `.tmp/`) unless you explicitly include them.
 - Prefer commands compatible with fish shell syntax; avoid bashisms that may hang.
+- When implementing an attached Cursor plan, do not edit the plan file; use the plan’s existing todos and mark them in progress (do not recreate the todo list).
+- For React UI (mobile nav, search, dialogs), prefer shadcn or Base UI primitives styled with design tokens over bespoke one-off components.
 
 ## Learned Workspace Facts
 
@@ -18,6 +20,10 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Local agent skill caches under paths listed in `.gitignore` (for example `.agents/skills/`) are not versioned.
 - TypeScript is on **6.x** (`package.json`). Earlier guidance to stay on 5.9.x is outdated — some Astro packages still declare `peer typescript` as `^5`, but the pnpm `peerDependencyRules.allowedVersions` override handles this.
 - This Astro site is multi-page (no `<ViewTransitions />` / client router). Don’t rely on `astro:page-load` for first-load client initialization; keep a `DOMContentLoaded`/`document.readyState` fallback.
+- Horizontal scroll rails/carousels use native overflow with `touch-action: pan-x` (or `pan-x pinch-zoom`); register rails in `src/scripts/lenis.ts` (`data-lenis-prevent-horizontal`, `[data-case-track]`, etc.). Avoid `data-lenis-prevent` on whole sliders — it traps vertical Lenis page scroll on desktop.
+- Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile.
+- Blog index (`/blog`) intentionally has no Topics chip filter UI; category archives remain at `/blog/category/[slug]`.
+- Keystatic images: use Astro’s `<Image />` with Keystatic image fields (not raw `<img>` or ad-hoc URLs).
 
 ## Commands
 

@@ -5,10 +5,7 @@
  * and wheel behavior match the blog and GitHub rails.
  */
 
-import type { AnimationPlaybackControlsWithThen } from "motion";
-import { animateDOM } from "./dom-animate";
 import { isReducedMotion } from "./reduced-motion";
-import { SPRING_SNAPPY } from "./springs";
 
 let slider: HTMLElement | null = null;
 let track: HTMLElement | null = null;
@@ -17,10 +14,7 @@ let slides: HTMLElement[] = [];
 let previousButton: HTMLButtonElement | null = null;
 let nextButton: HTMLButtonElement | null = null;
 let progressLabel: HTMLElement | null = null;
-let hint: HTMLElement | null = null;
 let currentIndex = 0;
-let hasDismissedHint = false;
-let hintAnim: AnimationPlaybackControlsWithThen | null = null;
 const cleanupFns: Array<() => void> = [];
 let scrollFrame = 0;
 let dragPointerId: number | null = null;
@@ -90,40 +84,10 @@ function updateAria(index: number): void {
   }
 }
 
-function startHintLoop(): void {
-  if (!hint || isReducedMotion()) return;
-  hintAnim = animateDOM(
-    hint,
-    { transform: ["translateX(0px)", "translateX(-5px)", "translateX(0px)"] },
-    { duration: 2, repeat: Infinity, ease: "easeInOut" },
-  );
-}
-
-function dismissHint(): void {
-  if (hasDismissedHint || !hint) return;
-  hasDismissedHint = true;
-  if (hintAnim) {
-    hintAnim.stop();
-    hintAnim = null;
-  }
-  if (isReducedMotion()) {
-    hint.style.display = "none";
-    return;
-  }
-  animateDOM(
-    hint,
-    { opacity: [null, 0], transform: [null, "translateX(-8px)"] },
-    { ...SPRING_SNAPPY },
-  ).finished.then(() => {
-    if (hint) hint.style.display = "none";
-  });
-}
-
 function goTo(index: number): void {
   if (!track || index < 0 || index >= slides.length) return;
   currentIndex = index;
   updateAria(index);
-  dismissHint();
   track.scrollTo({
     left: measureSlideLeft(index),
     behavior: isReducedMotion() ? "auto" : "smooth",
@@ -132,7 +96,6 @@ function goTo(index: number): void {
 
 function onTrackScroll(): void {
   if (!track || slides.length === 0) return;
-  dismissHint();
   if (scrollFrame !== 0) return;
 
   scrollFrame = requestAnimationFrame(() => {
@@ -239,7 +202,6 @@ function onPointerMove(event: PointerEvent): void {
   }
 
   event.preventDefault();
-  dismissHint();
   suppressClick ||= Math.abs(deltaX) >= DRAG_CLICK_SUPPRESSION_DISTANCE;
   track.scrollLeft = clamp(dragStartScrollLeft - deltaX, 0, measureTrackLimit());
 }
@@ -279,7 +241,6 @@ export function initCaseCarousel(): void {
   previousButton = slider.querySelector<HTMLButtonElement>("[data-case-prev]");
   nextButton = slider.querySelector<HTMLButtonElement>("[data-case-next]");
   progressLabel = slider.querySelector<HTMLElement>("[data-case-progress]");
-  hint = slider.querySelector<HTMLElement>("[data-swipe-hint]");
   if (!track || slides.length === 0) return;
 
   track.setAttribute("data-lenis-prevent-horizontal", "");
@@ -288,7 +249,6 @@ export function initCaseCarousel(): void {
   }
 
   updateAria(0);
-  startHintLoop();
   track.scrollTo({ left: measureSlideLeft(0), behavior: "auto" });
 
   pills.forEach((pill, i) => {
@@ -331,11 +291,6 @@ export function initCaseCarousel(): void {
 }
 
 export function cleanupCaseCarousel(): void {
-  if (hintAnim) {
-    hintAnim.stop();
-    hintAnim = null;
-  }
-
   if (scrollFrame !== 0) {
     cancelAnimationFrame(scrollFrame);
     scrollFrame = 0;
@@ -350,8 +305,6 @@ export function cleanupCaseCarousel(): void {
   previousButton = null;
   nextButton = null;
   progressLabel = null;
-  hint = null;
   currentIndex = 0;
-  hasDismissedHint = false;
   suppressClick = false;
 }
