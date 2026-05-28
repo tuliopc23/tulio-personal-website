@@ -5,7 +5,7 @@ import ScrollToTop from "../components/ScrollToTop.astro";
 import MobileLiquidGlassNav from "../components/navigation/MobileLiquidGlassNav.tsx";
 import SiteSearchTrigger from "../components/navigation/SiteSearchTrigger.tsx";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
-import LiquidThemeToggle from "../components/LiquidThemeToggle.astro";
+import ThemeToggle from "../components/navigation/ThemeToggle.tsx";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import motionCssHref from "../styles/motion.css?url";
 import themeCssHref from "../styles/theme.css?url";
@@ -283,18 +283,7 @@ const sidebarSocialLinks = [
           }
         }, 1800);
 
-        document.addEventListener(
-          "DOMContentLoaded",
-          () => {
-            const themeNow = document.documentElement.getAttribute("data-theme");
-            document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
-              if (btn instanceof HTMLButtonElement) {
-                btn.setAttribute("aria-pressed", themeNow === "dark" ? "true" : "false");
-              }
-            });
-          },
-          { once: true },
-        );
+
       })();
     </script>
 
@@ -464,7 +453,7 @@ const sidebarSocialLinks = [
           </div>
         </nav>
         <div class="topbar__actions">
-          <LiquidThemeToggle />
+          <ThemeToggle client:idle />
           <SiteSearchTrigger client:idle />
         </div>
       </div>

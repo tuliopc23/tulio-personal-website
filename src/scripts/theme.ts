@@ -24,7 +24,6 @@ declare global {
       prefersReducedMotion: () => boolean;
       subscribeMotionPreference: (listener: (reduced: boolean) => void) => () => void;
     };
-    initLiquidThemeToggle?: (root: Element | null) => void;
   }
 }
 
@@ -264,230 +263,8 @@ class ThemeController {
   }
 }
 
-const clamp = (value: number, min: number, max: number): number =>
-  Math.min(max, Math.max(min, value));
 
-const initLiquidThemeToggle = (root: Element | null): void => {
-  if (!isBrowser || !root || !window.themeController) {
-    return;
-  }
 
-  const button = root.matches("button") ? root : root.querySelector("button");
-  if (!(button instanceof HTMLButtonElement)) {
-    return;
-  }
-
-  button.type = "button";
-
-  if (button.dataset.themeToggleBound === "true") {
-    return;
-  }
-  button.dataset.themeToggleBound = "true";
-
-  const getTheme = window.themeController.getTheme;
-  const getPreference = window.themeController.getPreference;
-  const setPreference = window.themeController.setPreference;
-  const prefersReducedMotion = window.themeController.prefersReducedMotion;
-  const subscribeToTheme = window.themeController.subscribe;
-  const subscribeToMotionPreference = window.themeController.subscribeMotionPreference;
-
-  button.setAttribute("aria-pressed", getTheme() === "dark" ? "true" : "false");
-
-  let currentComplete = getTheme() === "dark" ? 100 : 0;
-  let pointerMode: "idle" | "tap" | "drag" = "idle";
-  let pointerId: number | null = null;
-  let pointerType: string | null = null;
-  let startX = 0;
-  let skipClick = false;
-  const dragActivationDistance = 12;
-  let reducedMotion = prefersReducedMotion();
-
-  const setComplete = (value: number, instant = false): void => {
-    currentComplete = clamp(value, 0, 100);
-    if (instant) {
-      button.dataset.instant = "true";
-    }
-    button.style.setProperty("--complete", currentComplete.toFixed(2));
-    if (instant) {
-      requestAnimationFrame(() => {
-        button.dataset.instant = "false";
-      });
-    }
-  };
-
-  const themeToComplete = (theme: ThemeMode): number => (theme === "dark" ? 100 : 0);
-
-  const updateFromTheme = (theme: ThemeMode): void => {
-    button.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
-    const preference = getPreference();
-    button.dataset.themePreference = preference;
-    const preferenceLabel =
-      preference === "system" ? "System" : preference === "dark" ? "Dark" : "Light";
-    button.setAttribute("aria-label", `Theme: ${preferenceLabel}`);
-    if (pointerMode === "drag") {
-      return;
-    }
-    setComplete(themeToComplete(theme), true);
-  };
-
-  const rectComplete = (clientX: number): number => {
-    const rect = button.getBoundingClientRect();
-    const percent = ((clientX - rect.left) / rect.width) * 100;
-    return clamp(percent, 0, 100);
-  };
-
-  const releasePointer = (): void => {
-    if (pointerId !== null) {
-      try {
-        button.releasePointerCapture(pointerId);
-      } catch {
-        // ignore release errors
-      }
-    }
-    pointerId = null;
-    pointerType = null;
-    pointerMode = "idle";
-    button.dataset.dragging = "false";
-  };
-
-  const updateMotionPreference = (reduced: boolean): void => {
-    reducedMotion = reduced;
-    button.dataset.motion = reduced ? "reduced" : "normal";
-
-    if (!reduced) {
-      return;
-    }
-
-    skipClick = false;
-    if (pointerMode !== "idle") {
-      releasePointer();
-    }
-    setComplete(themeToComplete(getTheme()), true);
-  };
-
-  const handlePointerDown = (event: PointerEvent): void => {
-    if (event.button !== 0 || reducedMotion) {
-      return;
-    }
-
-    pointerMode = "tap";
-    pointerId = event.pointerId;
-    pointerType = event.pointerType;
-    startX = event.clientX;
-    skipClick = false;
-
-    button.dataset.dragging = "true";
-    if (typeof button.setPointerCapture === "function") {
-      try {
-        button.setPointerCapture(event.pointerId);
-      } catch {
-        // ignore capture errors
-      }
-    }
-
-    setComplete(rectComplete(event.clientX));
-  };
-
-  const handlePointerMove = (event: PointerEvent): void => {
-    if (pointerMode === "idle" || event.pointerId !== pointerId) {
-      return;
-    }
-
-    const distance = Math.abs(event.clientX - startX);
-    const canDrag = pointerType === "mouse";
-    if (pointerMode === "tap" && canDrag && distance > dragActivationDistance) {
-      pointerMode = "drag";
-    }
-
-    if (pointerMode !== "drag") {
-      return;
-    }
-
-    setComplete(rectComplete(event.clientX));
-  };
-
-  const handlePointerUp = (event: PointerEvent): void => {
-    if (pointerMode === "idle" || event.pointerId !== pointerId) {
-      return;
-    }
-
-    const wasDrag = pointerMode === "drag";
-    const targetTheme: ThemeMode = currentComplete >= 50 ? "dark" : "light";
-
-    releasePointer();
-
-    if (wasDrag) {
-      skipClick = true;
-      setPreference(targetTheme, { persist: true });
-      return;
-    }
-
-    setComplete(themeToComplete(getTheme()), true);
-  };
-
-  const handlePointerCancel = (event: PointerEvent): void => {
-    if (pointerMode === "idle" || event.pointerId !== pointerId) {
-      return;
-    }
-
-    releasePointer();
-    setComplete(themeToComplete(getTheme()), true);
-  };
-
-  const handleClick = (event: MouseEvent): void => {
-    if (skipClick) {
-      skipClick = false;
-      event.preventDefault();
-      return;
-    }
-
-    const cycle = (): ThemePreference => {
-      const pref = getPreference();
-      if (pref === "system") return "dark";
-      if (pref === "dark") return "light";
-      return "system";
-    };
-
-    setPreference(cycle(), { persist: true });
-  };
-
-  const handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.key === " " || event.key === "Enter") {
-      event.preventDefault();
-    }
-  };
-
-  const handleKeyUp = (event: KeyboardEvent): void => {
-    if (event.key !== " " && event.key !== "Enter") {
-      return;
-    }
-    event.preventDefault();
-    skipClick = true;
-
-    const cycle = (): ThemePreference => {
-      const pref = getPreference();
-      if (pref === "system") return "dark";
-      if (pref === "dark") return "light";
-      return "system";
-    };
-
-    setPreference(cycle(), { persist: true });
-  };
-
-  button.addEventListener("pointerdown", handlePointerDown);
-  button.addEventListener("pointermove", handlePointerMove);
-  button.addEventListener("pointerup", handlePointerUp);
-  button.addEventListener("pointercancel", handlePointerCancel);
-  button.addEventListener("click", handleClick);
-  button.addEventListener("keydown", handleKeyDown);
-  button.addEventListener("keyup", handleKeyUp);
-
-  subscribeToMotionPreference(updateMotionPreference);
-  subscribeToTheme(updateFromTheme);
-
-  setComplete(themeToComplete(getTheme()), true);
-  button.dataset.themePreference = getPreference();
-};
 
 const initializeTheme = (): void => {
   if (!isBrowser) {
@@ -518,30 +295,22 @@ const initializeTheme = (): void => {
   };
 
   controller.init();
-  window.initLiquidThemeToggle = initLiquidThemeToggle;
 };
 
-const initializeAllToggles = (): void => {
-  document.querySelectorAll("[data-theme-toggle-root]").forEach((element) => {
-    initLiquidThemeToggle(element);
-  });
-};
+
 
 if (document.readyState === "loading") {
   document.addEventListener(
     "DOMContentLoaded",
     () => {
       initializeTheme();
-      initializeAllToggles();
     },
     { once: true },
   );
 } else {
   initializeTheme();
-  initializeAllToggles();
 }
 
 document.addEventListener("astro:page-load", () => {
   initializeTheme();
-  initializeAllToggles();
 });

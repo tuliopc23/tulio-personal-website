@@ -2,7 +2,8 @@ import { expect, test } from "@playwright/test";
 
 test("theme toggle persists across reload", async ({ page }) => {
   await page.goto("/");
-  const toggle = page.locator("[data-theme-toggle-root] button").first();
+  const toggle = page.locator('[role="switch"]').first();
+
   await expect(toggle).toBeVisible();
   await toggle.click();
   await page.reload();
@@ -12,7 +13,7 @@ test("theme toggle persists across reload", async ({ page }) => {
 test("mobile theme toggle is visible in topbar", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await expect(page.locator("[data-theme-toggle-root] button").first()).toBeVisible();
+  await expect(page.locator('[role="switch"]').first()).toBeVisible();
 });
 
 test("mobile liquid glass nav is visible and links work", async ({ page }) => {

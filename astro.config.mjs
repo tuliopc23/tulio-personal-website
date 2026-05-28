@@ -26,6 +26,9 @@ const mobileNavMockPath = fileURLToPath(
 const siteSearchTriggerMockPath = fileURLToPath(
   new URL("./tests/mocks/SiteSearchTrigger.tsx", import.meta.url),
 );
+const themeToggleMockPath = fileURLToPath(
+  new URL("./tests/mocks/ThemeToggle.tsx", import.meta.url),
+);
 /** Keystatic admin loads React from its own deps — include both app React and keystatic bundles. */
 const reactIntegration = react({
   include: [
@@ -102,6 +105,9 @@ export default defineConfig({
                 }
                 if (id.endsWith("/navigation/SiteSearchTrigger.tsx")) {
                   return readFileSync(siteSearchTriggerMockPath, "utf8");
+                }
+                if (id.endsWith("/navigation/ThemeToggle.tsx")) {
+                  return readFileSync(themeToggleMockPath, "utf8");
                 }
               },
             },

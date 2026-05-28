@@ -257,7 +257,6 @@
     svg,
     svg *,
     [role="button"],
-    [data-theme-toggle-root],
     [data-parallax-card],
     [class*="Card"],
     [class*="card"],

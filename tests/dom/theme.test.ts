@@ -4,21 +4,7 @@ import {
   installStorageStub,
 } from "../helpers/browser";
 
-const dispatchPointer = (
-  target: EventTarget,
-  type: string,
-  init: Partial<PointerEvent> & { pointerId?: number; clientX?: number } = {},
-) => {
-  const event = new Event(type, { bubbles: true, cancelable: true });
-  Object.assign(event, {
-    button: 0,
-    pointerId: 1,
-    pointerType: "mouse",
-    clientX: 0,
-    ...init,
-  });
-  target.dispatchEvent(event);
-};
+
 
 describe("theme controller script", () => {
   test("initializes using system theme and updates document state", async () => {
@@ -93,53 +79,5 @@ describe("theme controller script", () => {
     expect(window.themeController?.getPreference()).toBe("system");
     media.setMatches("(prefers-color-scheme: light)", true);
     expect(window.themeController?.getTheme()).toBe("light");
-  });
-
-  test("binds and drives the liquid toggle with click, keyboard, and drag", async () => {
-    installAnimationStubs();
-    installMatchMediaStub({ light: false, reducedMotion: false });
-    installStorageStub();
-
-    document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
-    document.body.innerHTML = `
-      <div data-theme-toggle-root>
-        <button data-dragging="false" data-motion="normal" data-instant="false" aria-pressed="false" style="--complete: 0"></button>
-      </div>
-    `;
-
-    const button = document.querySelector("[data-theme-toggle-root] button") as HTMLButtonElement;
-    Object.defineProperty(button, "getBoundingClientRect", {
-      value: () => ({ left: 0, width: 100 }),
-    });
-    button.setPointerCapture = vi.fn();
-    button.releasePointerCapture = vi.fn();
-
-    vi.resetModules();
-    await import("../../src/scripts/theme");
-
-    expect(button.type).toBe("button");
-    button.click();
-    expect(window.themeController?.getPreference()).toBe("dark");
-    expect(window.themeController?.getTheme()).toBe("dark");
-
-    button.dispatchEvent(
-      new KeyboardEvent("keydown", { key: "Enter", bubbles: true, cancelable: true }),
-    );
-    button.dispatchEvent(
-      new KeyboardEvent("keyup", { key: "Enter", bubbles: true, cancelable: true }),
-    );
-    expect(window.themeController?.getPreference()).toBe("light");
-    expect(window.themeController?.getTheme()).toBe("light");
-
-    dispatchPointer(button, "pointerdown", { clientX: 10 });
-    dispatchPointer(button, "pointermove", { clientX: 90 });
-    dispatchPointer(button, "pointerup", { clientX: 90 });
-    expect(window.themeController?.getPreference()).toBe("dark");
-    expect(window.themeController?.getTheme()).toBe("dark");
-    expect(button.getAttribute("data-dragging")).toBe("false");
-
-    dispatchPointer(button, "pointercancel", { clientX: 20 });
-    expect(button.style.getPropertyValue("--complete")).toBeTruthy();
   });
 });
