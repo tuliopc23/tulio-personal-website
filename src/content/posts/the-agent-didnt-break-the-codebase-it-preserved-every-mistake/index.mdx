@@ -1,0 +1,686 @@
+---
+title: "The Agent Didn't Break the Codebase. It Preserved Every Mistake."
+slug: the-agent-didnt-break-the-codebase-it-preserved-every-mistake
+publishedAt: 2026-05-27T12:00:00.000Z
+summary: "AI coding agents are useful for bounded implementation work, but they often fail
+  at architectural convergence because they preserve too much. Serious refactoring requires
+  human authority over what becomes canonical and what must stop existing."
+tags:
+  - AI
+  - Software Architecture
+  - Refactoring
+  - Developer Tools
+  - Technical Debt
+featured: true
+audience: Engineers using AI coding agents on real codebases
+intent: Explain why agent refactors often preserve architectural mistakes and how to use
+  agents with explicit authority over what must stop existing
+targetKeyword: AI coding agents refactoring
+evergreenStatus: current
+coverVariant: cinematic
+categorySlugs:
+  - software-development
+topicSlugs: []
+seriesSlugs: []
+keyTakeaways:
+  - Agents excel at bounded implementation; architectural convergence needs human authority
+    over what must stop existing.
+  - Benchmarks that end at "tests pass" miss whether the system got simpler or heavier.
+  - Shim layers and duplicate models are the quiet failure mode of agent-led refactors.
+  - Harness mode matters — additive work and destructive refactors should not share the same
+    permissions.
+  - Treat agents like tireless juniors — you decide what dies; they accelerate cleanup.
+pullQuotes:
+  - quote: The agent did not fail because it lacked capability. It failed because it had no
+      authority to decide what should stop existing.
+  - quote: '"Tests pass" is not the same thing as "the architecture got simpler."'
+  - quote: The most dangerous code after an agent refactor is not the code it changed. It is
+      the old code it politely left alive.
+  - quote: A coding agent is a tireless junior developer with infinite patience, unstable
+      taste, and a terrifying ability to make plausible changes very quickly.
+furtherReading: []
+sourceReferences: []
+distributionPackage:
+  ctaLabel: Read the full essay
+  newsletterBlurb: "New essay on AI coding agents — why the expensive failure is not
+    dramatic breakage but polite preservation: shims, adapters, and every architectural
+    mistake left alive."
+  shortSocialPost: "The agent didn't break your codebase. It preserved every mistake. New
+    essay on AI agents, refactors, and who gets to decide what stops existing."
+  longSocialPost: "AI coding agents can ship real code and pass tests — and still make the
+    architecture worse. New essay on why agents preserve shims and duplicates, what
+    benchmarks miss, and the harness modes that actually help."
+  teaserQuote: The agent did not fail because it lacked capability. It failed because it had
+    no authority to decide what should stop existing.
+seoMetaTitle: "The agent didn't break the codebase — it preserved every mistake"
+seoMetaDescription: "Why AI coding agents often fail at architectural convergence by
+  preserving shims and duplicates — and how to use them with human authority over what
+  must stop existing."
+seoCanonicalUrl: ""
+seoNoIndex: false
+seoJsonLd: ""
+authorName: Tulio Cunha
+authorSlug: tulio-cunha
+authorRole: ""
+heroImage: "@assets/images/posts/the-agent-didnt-break-the-codebase-it-preserved-every-mistake.png"
+heroAlt: "Editorial illustration of a coding agent politely preserving duplicate models,
+  adapter layers, and legacy paths in a growing codebase diagram."
+heroCaption: ""
+series: ""
+---
+
+<Lede>
+  The most expensive AI coding-agent failure is not the dramatic one. It is not the agent deleting
+  your database, rewriting the app in Rust, inventing a framework nobody asked for, or force-pushing
+  a crime scene into `main`. It is quieter than that. You ask it to remove the broken path. It
+  preserves it. You ask it to collapse duplicated logic. It adds an adapter. You ask it to make one
+  model canonical. It creates a new “canonical” model and leaves the old one alive because some call
+  site might still need it. You ask it to refactor. It performs archaeology. And then the codebase
+  has another ghost.
+</Lede>
+
+<PullQuote>
+  The agent did not fail because it lacked capability. It failed because it had no authority to
+  decide what should stop existing.
+</PullQuote>
+
+That is the part people keep underrating.
+
+AI coding agents are becoming genuinely useful. They can write real code. They can pass tests. They can migrate boring call sites. They can read a repository faster than any human wants to. They can generate the mechanical parts of a change that would otherwise eat an entire afternoon.
+
+But architecture is not mechanical.
+
+Architecture is the set of decisions that tells you which code is allowed to exist.
+
+And when that part is not explicit, agents do what they were trained, prompted, productised, and socially rewarded to do: they preserve, shim, adapt, fall back, and move on.
+
+They rarely break the codebase in one spectacular act of stupidity.
+
+They preserve every mistake until the codebase becomes impossible to reason about.
+
+## Agents Are Useful Little Fellas
+
+Let’s not start with the fake contrarian thing.
+
+AI coding agents are useful. Very useful little fellas.
+
+A good agent can do an absurd amount of work when the problem is bounded. Rename a type across a repository. Update boring call sites. Generate tests around existing behaviour. Scaffold a common feature. Wire a familiar API pattern. Convert one obvious component style to another. Chase compiler errors after a human-led change.
+
+Sometimes the usefulness is merely good. Sometimes it is excellent.
+
+The mistake is not using agents.
+
+The mistake is confusing implementation throughput with architectural judgement.
+
+A coding agent is great when the task has a clear shape. Give it a failing test, a known convention, a small feature, a file-based route, a `shadcn` component, a Tailwind layout, a CRUD endpoint, a Python script, or a contained bug. It will probably do something useful.
+
+Sometimes it will do something excellent.
+
+But the moment the task becomes: “this subsystem is lying about itself, these three models are actually the same concept, this old path must die, and the app needs to converge on one architecture,” you are no longer asking for code generation.
+
+You are asking for taste, authority, and subtraction.
+
+That is where the spell breaks.
+
+## The Agent Paradise Is Not Your Weird Serious Codebase
+
+A lot of the current agent discourse is shaped by projects that are extremely legible to models.
+
+That does not mean they are trivial. It means they have strong public conventions, massive training exposure, and predictable file geography.
+
+The agent opens the repo and the map is already painted on the walls:
+
+```txt
+app/page.tsx
+app/api/route.ts
+components/ui/button.tsx
+lib/db.ts
+schema.prisma
+.env.example
+```
+
+This is paradise.
+
+File-based routing tells the agent where behaviour lives. Tailwind gives it an easy styling language. `shadcn` gives it ready-made UI primitives. Next-like conventions tell it how to wire pages, handlers, metadata, layouts, server/client boundaries, and forms. Python scripts often have one obvious entry point. Many web meta-frameworks make the shape of the task more important than the shape of the system.
+
+Agents love that.
+
+They are not wrong to love it. That world gives them rails.
+
+But now change the terrain.
+
+A file-based React meta-framework with Tailwind and `shadcn` is paradise. A CRUD dashboard with standard API routes is comfortable. A Python automation script is comfortable. A small service with strong tests is manageable.
+
+Then you move into ownership-heavy Rust services, verbose Go microservices with hand-rolled boundaries, Zig code with allocator discipline and raw lifetime thinking, or native Swift apps with SwiftUI state ownership, persistence boundaries, feature modules, dependency clients, navigation rules, and performance constraints.
+
+That is not paradise.
+
+That is a haunted mansion.
+
+The model is not experiencing all codebases equally.
+
+A convention-heavy web app tells the agent what to do by existing. A boundary-heavy native app asks the agent to understand why the code is shaped that way. That is a completely different problem.
+
+In a React meta-framework, the agent can often get surprisingly far by matching the local pattern.
+
+In a serious Swift app, a Rust service, a Zig system, or a Go codebase with explicit architectural boundaries, matching the nearest local pattern can be the bug.
+
+Because the architecture may not be encoded in one file.
+
+It may live across module boundaries, dependency clients, state ownership rules, persistence access rules, test harness conventions, runtime constraints, and a long list of “never do this even if it compiles.”
+
+The agent does not naturally know that.
+
+It guesses.
+
+And when it guesses, it often duplicates.
+
+<SectionDivider n="01" label="Benchmarks vs ownership" />
+
+## Benchmarks Measure Progress, Not Ownership
+
+The benchmark world is getting better. SWE-bench and similar benchmarks are valuable because they moved the conversation from toy snippets to real repositories, real issues, and real patches.
+
+That matters.
+
+But the shape of many benchmark tasks is still fundamentally:
+
+```txt
+issue → patch → tests pass
+```
+
+That is useful, but it is not the same as:
+
+```txt
+architectural drift → canonical decision → destructive migration → old path deleted → future behaviour simplified
+```
+
+Those are different games.
+
+One proves the agent can complete a task.
+
+The other proves the agent can reduce a system.
+
+And reduction is where agents get strange.
+
+Some newer refactoring-focused evaluations already show the gap. Repository-level refactoring is harder than ordinary issue fixing. Compound refactors are harder than local ones. Agents tend to perform better on low-level mechanical edits than on design-level transformations.
+
+That matches what you feel in the trenches.
+
+The agent can rename the thing.
+
+The agent can add the adapter.
+
+The agent can update the test.
+
+But can it look at three partially failing implementations and decide that two of them must disappear?
+
+Usually not without a babysitter holding a flamethrower.
+
+<PullQuote>
+  “Tests pass” is not the same thing as “the architecture got simpler.” A patch can satisfy the task
+  while preserving the exact ambiguity that made the task necessary.
+</PullQuote>
+
+This is the benchmark trap for serious systems work.
+
+A patch can be correct in the narrow task frame and still make the repository worse.
+
+The diff can be plausible.
+
+The tests can pass.
+
+The agent can explain itself beautifully.
+
+And the codebase can still be one abstraction heavier than before.
+
+<SectionDivider n="02" label="Architecture as authority" />
+
+## Architecture Is Not Folder Structure
+
+People talk about architecture like it is a diagram.
+
+Agents often treat architecture like it is folder structure.
+
+Both are wrong.
+
+Architecture is authority.
+
+Architecture answers the questions a local patch cannot answer.
+
+Which model is canonical? Which layer owns state? Which layer talks to persistence? Which module owns side effects? Which abstraction is fake? Which old path must die? Which fallback is temporary? Which test proves convergence?
+
+These are not folder-structure questions.
+
+They are authority questions.
+
+A human architect does not just ask, “where should I add the code?”
+
+A human architect asks, “which existing code is making this feature impossible to reason about?”
+
+That second question is where agents tend to fold.
+
+Because the answer is often destructive.
+
+Not reckless destructive. Not cowboy destructive. Not `rm -rf` stupidity.
+
+Controlled destructive.
+
+The kind of destruction that says:
+
+<Callout tone="important" title="Controlled destruction">
+  A real refactor is not adding a better path beside the old one. A real refactor is making the
+  better path the only path. This type is not real. This fallback is hiding the bug. This
+  compatibility layer has expired. This old route must stop compiling. This model is a duplicate.
+  This service exists because nobody wanted to finish the migration.
+</Callout>
+
+## The Shim Disease
+
+Agents love shims the way web frameworks love config files.
+
+Ask for a refactor and the agent often gives you something like this:
+
+```txt
+ItemModel
+ItemEntity
+ReaderItem
+ReaderItemDTO
+CanonicalReaderItem
+ReaderItemViewModel
+ReaderItemAdapter
+LegacyReaderItemAdapter
+ItemActionsClient
+ItemActionsService
+ItemActionsManager
+```
+
+Every name has a story.
+
+Every story sounds reasonable.
+
+None of them dies.
+
+That is the disease.
+
+The agent preserves the old path, creates a new path, wires an adapter, leaves a fallback, keeps a deprecated helper, updates half the call sites, avoids touching the scary module, and calls the task complete.
+
+It avoided local risk by increasing global entropy.
+
+And once that happens, the next agent run gets worse.
+
+Because now the model sees more shapes.
+
+It sees `ReaderItem`, `ReaderItemDTO`, `CanonicalReaderItem`, and `ReaderItemViewModel`. It does not know which one is real. It reads call sites. It infers partial truths. It notices the adapter. It preserves the adapter. It adds a second adapter because one call site has a slightly different need.
+
+Then you are not developing anymore.
+
+You are chasing daemons.
+
+<PullQuote>
+  The most dangerous code after an agent refactor is not the code it changed. It is the old code it
+  politely left alive.
+</PullQuote>
+
+This is why “non-destructive” can become destructive at the system level.
+
+The agent refuses to break the old path, so the architecture breaks instead.
+
+## “No Destructive Actions” Is Good Safety and Bad Refactoring
+
+Agent products are shaped by safety for obvious reasons.
+
+You do not want a model casually deleting directories, rewriting history, leaking secrets, force-pushing garbage, or nuking production because it misunderstood a prompt.
+
+The permission layer matters.
+
+The sandbox matters.
+
+The approval prompts matter.
+
+The “are you sure?” moments matter.
+
+But refactoring is sometimes controlled destruction.
+
+A serious refactor may require deleting the old implementation, removing fallbacks, forcing compile errors, collapsing duplicate models, breaking internal compatibility, migrating call sites aggressively, removing a fake abstraction, refusing to leave the bridge in place, and making the compiler expose every lie.
+
+That is not a bug in the process.
+
+That is the process.
+
+The model’s helpfulness instinct fights this. The harness may fight it too. The agent wants to keep the system working at every intermediate step. It wants the patch to be safe, polite, reversible, and easy to review.
+
+Those are good instincts for feature work.
+
+They are poison for certain refactors.
+
+Because the goal of a refactor is not to preserve all behaviour-shaped artefacts forever. The goal is to preserve the behaviour that matters while changing the structure that makes future behaviour possible.
+
+Sometimes the old code must stop compiling.
+
+Sometimes the first correct step is deletion.
+
+Sometimes the right diff looks scary before it looks clean.
+
+And agents hate that unless you box them into it.
+
+## The Most Expensive Patch Is the One That Wastes Your Trust
+
+Here is the familiar ritual.
+
+You explain the bug.
+
+You explain the duplicated system.
+
+You explicitly say the failing path should be deleted.
+
+The agent says it understands.
+
+It writes a plan.
+
+The plan looks good.
+
+It scans the repository.
+
+It edits seven files.
+
+It runs tests.
+
+It patches the patch.
+
+It apologises.
+
+It patches again.
+
+Then it presents a small diff that still routes through the failing path you explicitly told it to delete.
+
+This is the moment where the productivity fantasy collapses.
+
+The agent did not save you work.
+
+It converted refactoring into daemon hunting.
+
+And the worst part is that the patch is often not obviously insane. It is just insufficient. It has the shape of work. It contains effort. It has comments. It might even fix one symptom.
+
+But it leaves the disease alive.
+
+That is worse than a clean failure.
+
+A clean failure wastes time.
+
+A plausible bad refactor mutates the system.
+
+## Claude, GPT, and the Vibes Problem
+
+There is a real difference in model vibe.
+
+Some models feel more willing to look at the codebase as it exists. Some feel more comfortable with workarounds. Some have better “street knowledge.” Some seem less likely to worship vendor documentation as scripture. Some are better at noticing that the official path is not always the working path.
+
+Claude often has that sauce.
+
+It can feel more sceptical, more flexible, more willing to infer the ugly workaround the real world needs. In some environments, that matters. Especially when the vendor docs are incomplete, misleading, or written for a happy-path demo app that has never met production.
+
+GPT can be just as capable, sometimes more disciplined, sometimes more precise, sometimes better at following a structured plan. But it can also feel too innocent: read the docs, trust the vendor, implement the blessed path, assume the official abstraction means what it says.
+
+That difference is real enough to feel.
+
+But it does not save the refactor.
+
+When the task is architectural convergence, both can fail in the same way.
+
+They preserve too much.
+
+They add too much.
+
+They leave too much behind.
+
+Claude may have better smell in some ugly corners. GPT may have better discipline in some structured tasks. But both can become equally bad when the work is not “add the missing implementation” but “delete the wrong past.”
+
+That is not a model-ranking issue.
+
+That is an agency issue.
+
+Neither model owns the codebase.
+
+You do.
+
+<SectionDivider n="03" label="The harness" />
+
+## The Harness Is Not Neutral
+
+A coding agent is not just a model plus your prompt.
+
+It is a product stack.
+
+There is the model. Then the system prompt. Then the developer prompt. Then the tool policy. Then the permissions layer. Then context compaction. Then file-selection behaviour. Then the diff workflow. Then the hidden defaults. Then the product team’s idea of what “safe” and “helpful” mean.
+
+The harness has opinions.
+
+Sometimes those opinions are great.
+
+Sometimes they are annoying.
+
+Sometimes they are invisible until you ask the agent to do something obvious, and it refuses because some instruction upstream has a stronger vote than you do.
+
+You ask it to put something in an environment variable. It moralises or overcomplicates the task.
+
+You ask it to remove a broken file. It preserves the file and adds a compatibility wrapper.
+
+You ask for a plain UI. The harness has some design taste encoded somewhere and now everything wants to look like an AI-generated SaaS landing page with gradients and glowing cards.
+
+This is not because the agent has critical thinking.
+
+It is because it has conditioning.
+
+<PullQuote>
+  The harness is not a transparent pipe between your intent and the model. It is an opinionated
+  runtime around the model.
+</PullQuote>
+
+That is why open harnesses matter.
+
+If the harness is closed, you are fighting ghosts. You do not fully know which instruction won. You do not know whether the behaviour came from the model, the system prompt, the product policy, the project memory, or some style guide buried inside the tool.
+
+If the harness is open, you at least get a control surface.
+
+You can shape permissions. You can define project rules. You can decide when destructive changes are allowed. You can make “delete the old path” an acceptance criterion. You can create subagents. You can change the system prompt. You can inspect behaviour. You can remove product taste from engineering work.
+
+That matters.
+
+But it still does not solve the whole thing.
+
+## Harness Control Remediates. It Does Not Cure.
+
+An open harness is important because it gives you leverage.
+
+It can help you encode rules like:
+
+<Callout tone="important" title="Harness rules that actually converge">
+  There is only one canonical model for this domain concept. No compatibility shim may remain after
+  the migration. Old call sites must be migrated, not adapted. The task is not complete while the
+  legacy path compiles. Feature modules cannot query persistence directly. View state cannot own
+  domain state. Side effects must go through dependency clients. If two implementations exist after
+  the patch, the patch failed.
+</Callout>
+
+That is good.
+
+That is much better than hoping the model “gets it.”
+
+But prompt-level architecture has a ceiling.
+
+Models disrespect you sometimes.
+
+Not because they are evil. Because instructions compete. Context gets compressed. Local evidence looks persuasive. The easiest patch becomes attractive. The model tries to satisfy the task while minimising visible risk. The harness may reward incremental progress. The agent may interpret “preserve behaviour” as “preserve every artefact that once produced behaviour.”
+
+So yes: customise the harness.
+
+Yes: write project rules.
+
+Yes: use skills, subagents, MCP, linters, architecture checks, and validation gates.
+
+But do not confuse the guardrail with the driver.
+
+The harness can make the agent less stupid.
+
+It cannot make the agent own the architecture.
+
+<SectionDivider n="04" label="The workflow" />
+
+## The Workflow That Actually Works
+
+The workflow that works is less magical and more annoying.
+
+You do the architectural decision.
+
+The agent does the mechanical aftermath.
+
+For serious refactors, the useful split is usually this:
+
+| Work                                               | Owner                                        |
+| :------------------------------------------------- | :------------------------------------------- |
+| Decide which abstraction is canonical              | Human                                        |
+| Decide which old path must die                     | Human                                        |
+| Delete the wrong implementation                    | Human, or agent under very tight instruction |
+| Wire the new boundary                              | Human, often manually                        |
+| Force compile/test failures                        | Human                                        |
+| Chase obvious call-site errors                     | Agent                                        |
+| Update imports and boring references               | Agent                                        |
+| Generate regression tests around the new invariant | Agent with review                            |
+| Remove dead files after convergence                | Agent with strict checklist                  |
+| Verify architecture did not drift again            | Human plus tooling                           |
+
+The best version I have found is almost humiliatingly practical.
+
+Identify the canonical path yourself. Delete the failing parts yourself. Remove the fake fallback yourself. Wire the boundary yourself. Let the compiler scream.
+
+Then give the agent the scream.
+
+That last part is where agents shine.
+
+Once you have made the architectural decision, the agent becomes useful again. It can chase call sites. It can remove stale imports. It can update tests. It can fix type errors. It can clean naming. It can find dead branches. It can summarise the migration.
+
+But you had to create reality first.
+
+The agent is good at cleaning up after reality exists.
+
+It is bad at deciding reality when multiple fake realities still compile.
+
+<PullQuote>
+  Do not ask the agent to discover the refactor. Perform the destructive convergence yourself, then
+  use the agent to accelerate the cleanup.
+</PullQuote>
+
+That is not as sexy as “autonomous development.”
+
+It is much more useful.
+
+## Autonomous Development Has a Ceiling
+
+Autonomous development of websites exists.
+
+Autonomous development of experiments exists.
+
+Autonomous development of small production projects exists.
+
+Autonomous development of demos, dashboards, landing pages, CRUD apps, internal tools, prototypes, and isolated services can be very real.
+
+But autonomous development of systems does not exist.
+
+Autonomous development of serious apps does not exist.
+
+Autonomous development of excellence does not exist.
+
+Not in the way people are selling it.
+
+Because serious software is not just a sequence of tasks. It is an evolving set of constraints, tradeoffs, invariants, deletions, migrations, and taste decisions. It requires knowing which complexity is essential and which complexity is just scar tissue.
+
+The agent can produce code.
+
+It can even produce a lot of good code.
+
+But if you do not understand your code, you cannot debug it.
+
+If you cannot debug it, you do not own it.
+
+And if you do not own it, you are just renting confidence from a machine that can sound calm while preserving every mistake.
+
+## Use Agents Like Junior Developers, Not Drivers
+
+The right mental model is not “AI replaces the developer.”
+
+The right mental model is closer to this:
+
+<PullQuote>
+  A coding agent is a tireless junior developer with infinite patience, unstable taste, no shame, no
+  product memory, no true ownership, and a terrifying ability to make plausible changes very
+  quickly.
+</PullQuote>
+
+That is not an insult.
+
+A good junior developer is valuable.
+
+A tireless junior developer is extremely valuable.
+
+But you do not hand a junior developer the wheel of a serious refactor and leave the room.
+
+You give context.
+
+You give boundaries.
+
+You give a target.
+
+You review the diff.
+
+You protect the architecture.
+
+You decide what dies.
+
+Then you let them do the repetitive work.
+
+That is the sane agent workflow.
+
+Not because agents are weak.
+
+Because codebases are real.
+
+## The Future Is Better Harnesses, Not Just Better Models
+
+I am not bearish on agents.
+
+Actually, the opposite.
+
+The more I use them, the more obvious it becomes that the model is only one part of the product. The harness matters. The control surface matters. The permission model matters. The project rules matter. The architecture checks matter. The ability to say “this task is destructive by design” matters.
+
+A better model will help.
+
+A better harness may help more.
+
+Not a prettier chat box. Not another agent that claims to be a senior engineer because it can edit five files and run tests. I mean a harness that understands different modes of work:
+
+| Mode                  | Harness behaviour                                                         |
+| :-------------------- | :------------------------------------------------------------------------ |
+| Additive feature work | Preserve behaviour, minimise risk, follow patterns                        |
+| Bug fix               | Localise cause, patch narrowly, add regression coverage                   |
+| Migration             | Track old/new paths, enforce completion, forbid permanent shims           |
+| Refactor              | Allow controlled destruction, force canonical decisions, delete old paths |
+| Architecture cleanup  | Validate invariants, detect duplication, refuse partial convergence       |
+
+That is the interesting frontier.
+
+Agents need better ways to know when the right answer is another file and when the right answer is fewer files.
+
+I have been tinkering with some harness ideas around this. Maybe it becomes something. Maybe it stays as a free-time experiment. I do not know if it deserves a GitHub repo yet.
+
+But the itch is clear.
+
+The next leap is not only more capable models.
+
+It is better control over the shape of their work.
+
+Because the agent did not break the codebase.
+
+It did exactly what the modern AI stack often teaches it to do.
+
+It preserved every mistake.
