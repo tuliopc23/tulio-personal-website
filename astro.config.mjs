@@ -48,7 +48,8 @@ export default defineConfig({
   adapter: isVitest
     ? undefined
     : cloudflare({
-        imageService: "compile",
+        /** Build: sharp variants in dist. Runtime: Cloudflare Images binding on SSR paths. */
+        imageService: { build: "compile", runtime: "cloudflare-binding" },
         /** Reuse existing CACHE KV (Astro Sessions vs github.json cache use distinct key prefixes). */
         sessionKVBindingName: "CACHE",
         /** Prerender uses `node:fs` to read Keystatic YAML/MDX; workerd prerender would use /bundle paths. */

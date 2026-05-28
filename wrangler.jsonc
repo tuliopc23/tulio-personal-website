@@ -7,10 +7,16 @@
   "compatibility_date": "2026-03-14",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@astrojs/cloudflare/entrypoints/server",
+  // Static prerender output + /_astro/* (Astro adapter default binding name).
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none",
+  },
+  // Runtime image transforms (pairs with imageService.runtime: cloudflare-binding).
+  "images": {
+    "binding": "IMAGES",
   },
   "routes": [
     {
