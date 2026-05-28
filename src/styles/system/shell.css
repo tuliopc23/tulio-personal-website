@@ -522,11 +522,13 @@ body.is-search-open {
 
 
 .topbar__actions .themeSwitch {
-  min-width: var(--touch-target-min);
-  min-height: var(--touch-target-min);
-  display: flex;
+  width: var(--switch-width) !important;
+  height: var(--switch-height) !important;
+  min-width: var(--switch-width) !important;
+  min-height: var(--switch-height) !important;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .themeSwitch {
@@ -536,6 +538,7 @@ body.is-search-open {
   --switch-thumb-size: calc(var(--switch-height) - 2 * var(--switch-padding));
   --switch-track-dark: color-mix(in srgb, rgba(56, 56, 62, 0.94) 78%, transparent);
   --switch-track-light: color-mix(in srgb, rgba(238, 238, 244, 0.75) 75%, transparent);
+  --switch-track-on: rgba(52, 199, 89, 0.95);
   --switch-thumb-bg: rgba(255, 255, 255, 0.96);
   --switch-thumb-shadow-dark: 0 12px 22px rgba(0, 0, 0, 0.35);
   --switch-thumb-shadow-light: 0 14px 26px rgba(38, 90, 170, 0.18);
@@ -543,12 +546,12 @@ body.is-search-open {
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  width: var(--switch-width);
-  height: var(--switch-height);
-  padding: var(--switch-padding);
+  width: var(--switch-width) !important;
+  height: var(--switch-height) !important;
+  padding: 0 !important;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: var(--switch-track);
+  background: var(--switch-track) !important;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   position: relative;
@@ -572,7 +575,19 @@ body.is-search-open {
 }
 
 .themeSwitch[data-checked] {
-  justify-content: flex-end;
+  --switch-track: var(--switch-track-on) !important;
+  border-color: color-mix(in srgb, rgba(52, 199, 89, 0.55) 55%, rgba(255, 255, 255, 0.12));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 10px 22px rgba(0, 0, 0, 0.18);
+}
+
+.themeSwitch[data-checked]::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.04)
+  );
 }
 
 .themeSwitch:focus-visible {
@@ -581,23 +596,30 @@ body.is-search-open {
 }
 
 .themeSwitch__thumb {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: var(--switch-thumb-size);
   height: var(--switch-thumb-size);
   border-radius: 50%;
   background: var(--switch-thumb-bg);
   box-shadow: var(--switch-thumb-shadow);
   color: var(--switch-icon-color);
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: var(--switch-padding);
   z-index: 1;
   pointer-events: none;
+  transform: translateY(-50%) translateX(0);
+  transition: transform 180ms var(--motion-spring-out);
+  will-change: transform;
 }
 
 .themeSwitch__thumb svg {
   width: 14px;
   height: 14px;
+}
+
+.themeSwitch[data-checked] .themeSwitch__thumb {
+  transform: translateY(-50%)
+    translateX(calc(var(--switch-width) - var(--switch-thumb-size) - 2 * var(--switch-padding)));
 }
 
 :root[data-theme="dark"] .themeSwitch {
@@ -610,6 +632,12 @@ body.is-search-open {
   --switch-track: var(--switch-track-light);
   --switch-thumb-shadow: var(--switch-thumb-shadow-light);
   --switch-icon-color: #f59e0b;
+}
+
+/* Ensure checked state wins over theme defaults. */
+.themeSwitch[data-checked] {
+  --switch-track: var(--switch-track-on) !important;
+  background: var(--switch-track-on) !important;
 }
 
 @media (max-width: 768px) {

@@ -82,18 +82,26 @@
   overflow: hidden;
 }
 
-.hero-remotion__player > div {
-  position: absolute !important;
-  top: 50%;
-  left: 50%;
-  width: 100% !important;
-  height: 100% !important;
-  transform: translate(-50%, -50%) !important;
+.hero-remotion__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
-.hero-remotion__player > div > div {
-  width: 100% !important;
-  height: 100% !important;
+/* `client:*` islands default to `display: contents`; force a real box so the
+   Remotion player and fallback can reliably size to the hero viewport. */
+.hero-remotion__player astro-island {
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-remotion__player astro-island > * {
+  width: 100%;
+  height: 100%;
 }
 
 .hero-remotion__fallback,
