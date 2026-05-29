@@ -4,6 +4,8 @@
 }
 html {
   color-scheme: dark light;
+  width: 100%;
+  background: var(--bg);
   min-height: 100%;
   min-height: -webkit-fill-available;
   /* Keep focused in-page targets clear of the fixed topbar + notch when bypassing Lenis anchors */
@@ -12,6 +14,8 @@ html {
 }
 
 body {
+  width: 100%;
+  min-width: 0;
   margin: 0;
   font-family: var(--font-sans);
   font-size: var(--fs-0);

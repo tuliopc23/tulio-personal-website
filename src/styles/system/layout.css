@@ -6,6 +6,12 @@
   transition: grid-template-columns var(--motion-duration-md) var(--motion-ease-out);
 }
 
+@supports (min-height: 100dvh) {
+  .layout {
+    min-height: calc(100dvh - var(--topbar-h));
+  }
+}
+
 .layout--noSidebar {
   grid-template-columns: 1fr;
 }
@@ -53,12 +59,9 @@ body[data-has-sidebar="false"] .topbar__brandGroup {
 }
 
 @media (max-width: 768px) {
-  .content {
-    padding-inline: clamp(8px, 2vw, 14px);
-  }
-
+  .content,
   body[data-has-sidebar="false"] .content {
-    padding-inline: clamp(8px, 2vw, 14px);
+    padding-inline: 0;
   }
 }
 

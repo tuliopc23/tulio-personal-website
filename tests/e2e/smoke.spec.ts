@@ -16,19 +16,23 @@ test("mobile theme toggle is visible in topbar", async ({ page }) => {
   await expect(page.locator('[role="switch"]').first()).toBeVisible();
 });
 
-test("mobile liquid glass nav is visible and links work", async ({ page }) => {
+test("mobile liquid glass nav opens drawer and navigates", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/contact/");
 
   const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
   await expect(mobileNav).toBeVisible();
   await expect(page.locator(".topbar__menu")).toBeHidden();
+  await expect(mobileNav.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
 
-  await mobileNav.getByRole("link", { name: "Home" }).click();
+  await mobileNav.getByRole("button", { name: "Open navigation menu" }).click();
+  const sidebar = page.locator("#site-sidebar");
+  await expect(sidebar).toHaveClass(/is-open/);
+
+  await sidebar.getByRole("link", { name: "Home" }).click();
   await expect(page).toHaveURL(/\/$/);
-  await expect(mobileNav.getByRole("link", { name: "Home" })).toHaveAttribute(
-    "aria-current",
-    "page",
+  await expect(mobileNav.getByRole("button", { name: "Open navigation menu" })).toContainText(
+    "Home",
   );
 });
 
@@ -37,7 +41,7 @@ test("mobile search FAB opens dock search", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Open search" }).click();
-  await expect(page.locator(".mobileLiquidNav__searchShell")).toBeVisible();
+  await expect(page.locator(".siteSearchPanel--mobile")).toBeVisible();
   await expect(page.getByText("The starting point")).toHaveCount(0);
   await expect(page.getByText("Type to search pages…")).toBeVisible();
 
@@ -81,9 +85,9 @@ test("mobile Cmd+K opens dock search", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/blog/");
   await page.keyboard.press("Meta+k");
-  await expect(page.locator(".mobileLiquidNav__searchShell")).toBeVisible();
+  await expect(page.locator(".siteSearchPanel--mobile")).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.locator(".mobileLiquidNav__searchShell")).toHaveCount(0);
+  await expect(page.locator(".siteSearchPanel--mobile")).toHaveCount(0);
 });
 
 test("mobile back from blog returns home", async ({ page }) => {

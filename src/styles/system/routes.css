@@ -2971,7 +2971,8 @@
 :root[data-motion="reduced"] .liquid-glass-chrome,
 :root[data-motion="reduced"] .blogTopicChips__rail,
 :root[data-motion="reduced"] .footer,
-:root[data-motion="reduced"] .mobileLiquidNav__tabbar,
+:root[data-motion="reduced"] .mobileLiquidNav__dockButton,
+:root[data-motion="reduced"] .mobileLiquidNav__searchFab,
 :root[data-motion="reduced"] .mobileLiquidNav__searchPill,
 :root[data-motion="reduced"] .mobileLiquidNav__searchDropdown {
   backdrop-filter: none !important;
@@ -2983,7 +2984,8 @@
   :root:not([data-motion="normal"]) .liquid-glass-chrome,
   :root:not([data-motion="normal"]) .blogTopicChips__rail,
   :root:not([data-motion="normal"]) .footer,
-  :root:not([data-motion="normal"]) .mobileLiquidNav__tabbar,
+  :root:not([data-motion="normal"]) .mobileLiquidNav__dockButton,
+  :root:not([data-motion="normal"]) .mobileLiquidNav__searchFab,
   :root:not([data-motion="normal"]) .mobileLiquidNav__searchPill,
   :root:not([data-motion="normal"]) .mobileLiquidNav__searchDropdown {
     backdrop-filter: none !important;

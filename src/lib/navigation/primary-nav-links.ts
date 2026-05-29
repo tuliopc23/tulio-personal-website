@@ -1,4 +1,4 @@
-/** Shared primary site routes for topbar, mobile tabs, and search. */
+/** Shared primary site routes for topbar, drawer navigation, and search. */
 
 export type PrimaryNavId = "home" | "blog" | "cases" | "about";
 

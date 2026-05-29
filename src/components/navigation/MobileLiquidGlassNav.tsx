@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
 
-import { Tabs } from "@base-ui/react/tabs";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { navigateBack } from "../../lib/navigation/go-back";
@@ -37,8 +36,16 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   const motionReduced = useReducedMotion();
   const normalizedPath = useMemo(() => normalizePathname(pathname), [pathname]);
   const activeId = useMemo(() => getActivePrimaryNavId(normalizedPath), [normalizedPath]);
+  const activeLink = useMemo(
+    () => primaryNavLinks.find((link) => link.id === activeId),
+    [activeId],
+  );
+  const sectionLabel = activeLink?.label ?? "Menu";
   const showBack = normalizedPath !== "/";
 
+  const [drawerOpen, setDrawerOpen] = useState(
+    () => typeof document !== "undefined" && document.body.dataset.sidebarState === "open",
+  );
   const [chromeHidden, setChromeHidden] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(readPrefersReducedMotion);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -81,6 +88,21 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   }, [searchOpen]);
 
   useEffect(() => subscribeSiteSearch(setSearchOpen), []);
+
+  useEffect(() => {
+    const syncDrawerOpen = () => {
+      setDrawerOpen(document.body.dataset.sidebarState === "open");
+    };
+
+    syncDrawerOpen();
+    const observer = new MutationObserver(syncDrawerOpen);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-sidebar-state"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!searchOpen) {
@@ -223,7 +245,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
             aria-label="Go back"
             onClick={goBack}
           >
-            <NavPhosphorIcon name="caret-left" className="mobileLiquidNav__tabIcon" />
+            <NavPhosphorIcon name="caret-left" className="mobileLiquidNav__icon" />
           </button>
         </motion.div>
       ) : null}
@@ -295,62 +317,29 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
             </Command>
           ) : (
             <div className="mobileLiquidNav__dockRow">
-              <motion.div
-                key="tabbar"
-                className="mobileLiquidNav__tabbarWrap"
-                layout
-                initial={false}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+              <button
+                type="button"
+                className="mobileLiquidNav__dockButton liquid-glass liquid-glass-chrome"
+                aria-label="Open navigation menu"
+                aria-expanded={drawerOpen}
+                aria-controls="site-sidebar"
+                data-sidebar-toggle
               >
-                <Tabs.Root
-                  value={activeId}
-                  className="mobileLiquidNav__tabbar liquid-glass liquid-glass-chrome"
-                >
-                  <Tabs.List className="mobileLiquidNav__tabList">
-                    {primaryNavLinks.map((link) => (
-                      <Tabs.Tab
-                        key={link.id}
-                        value={link.id}
-                        nativeButton={false}
-                        className="mobileLiquidNav__tab"
-                        render={
-                          <motion.a
-                            href={link.href}
-                            aria-current={link.match(normalizedPath) ? "page" : undefined}
-                            whileTap={shouldAnimateChrome ? { scale: 0.96 } : undefined}
-                          />
-                        }
-                      >
-                        {activeId === link.id ? (
-                          <motion.span
-                            layoutId="mobilePrimaryNavIndicator"
-                            className="mobileLiquidNav__indicator liquid-glass-segment"
-                            aria-hidden
-                            transition={{ type: "spring", stiffness: 500, damping: 40 }}
-                          />
-                        ) : null}
-                        <NavPhosphorIcon name={link.icon} />
-                        <span className="mobileLiquidNav__tabLabel">{link.label}</span>
-                      </Tabs.Tab>
-                    ))}
-                  </Tabs.List>
-                </Tabs.Root>
-              </motion.div>
+                <NavPhosphorIcon name="list" className="mobileLiquidNav__icon" />
+                <span className="mobileLiquidNav__dockLabel">{sectionLabel}</span>
+              </button>
 
-              <motion.div layoutId="searchChrome">
-                <button
-                  ref={searchFabRef}
-                  type="button"
-                  className="mobileLiquidNav__searchFab liquid-glass liquid-glass-chrome"
-                  aria-label="Open search"
-                  aria-expanded={searchOpen}
-                  aria-controls={searchOpen ? searchListId : undefined}
-                  onClick={openSearch}
-                >
-                  <NavPhosphorIcon name="magnifying-glass" className="mobileLiquidNav__tabIcon" />
-                </button>
-              </motion.div>
+              <button
+                ref={searchFabRef}
+                type="button"
+                className="mobileLiquidNav__searchFab liquid-glass liquid-glass-chrome"
+                aria-label="Open search"
+                aria-expanded={searchOpen}
+                aria-controls={searchOpen ? searchListId : undefined}
+                onClick={openSearch}
+              >
+                <NavPhosphorIcon name="magnifying-glass" className="mobileLiquidNav__icon" />
+              </button>
             </div>
           )}
         </motion.div>

@@ -4,20 +4,17 @@
     return;
   }
 
-  const mobileLiquidNavQuery = window.matchMedia("(max-width: 1024px)");
-  const usesMobileLiquidNav = (): boolean => body.dataset.mobileLiquidNav === "true";
-
-  if (usesMobileLiquidNav() && mobileLiquidNavQuery.matches) {
-    return;
-  }
-
   const filter = document.querySelector<HTMLInputElement>("#sidebarFilter");
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>(".sidebar__link"));
   const groups = Array.from(document.querySelectorAll<HTMLElement>(".sidebar__group"));
   const status = document.querySelector<HTMLElement>("[data-sidebar-status]");
   const sidebar = document.querySelector<HTMLElement>(".sidebar");
-  const toggle = document.querySelector<HTMLButtonElement>(".topbar__menu");
   const closeButton = document.querySelector<HTMLButtonElement>("[data-sidebar-close]");
+
+  const getSidebarToggles = (): HTMLButtonElement[] =>
+    Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".topbar__menu, [data-sidebar-toggle]"),
+    );
 
   if (!sidebar) {
     return;
@@ -50,26 +47,37 @@
   };
 
   const syncToggleState = (): void => {
-    if (!toggle) {
+    const toggles = getSidebarToggles();
+    if (toggles.length === 0) {
       return;
     }
 
     if (isMobileDrawer()) {
       const expanded = sidebar.classList.contains("is-open");
-      toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
-      toggle.setAttribute("aria-label", expanded ? "Close menu" : "Open menu");
+      const expandedValue = expanded ? "true" : "false";
+      const label = expanded ? "Close menu" : "Open navigation menu";
+      toggles.forEach((button) => {
+        button.setAttribute("aria-expanded", expandedValue);
+        button.setAttribute("aria-label", label);
+      });
       return;
     }
 
     if (isDesktopSidebar()) {
       const visible = isDesktopSidebarVisible();
-      toggle.setAttribute("aria-expanded", visible ? "true" : "false");
-      toggle.setAttribute("aria-label", visible ? "Hide sidebar" : "Show sidebar");
+      const expandedValue = visible ? "true" : "false";
+      const label = visible ? "Hide sidebar" : "Show sidebar";
+      toggles.forEach((button) => {
+        button.setAttribute("aria-expanded", expandedValue);
+        button.setAttribute("aria-label", label);
+      });
       return;
     }
 
-    toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", "Open menu");
+    toggles.forEach((button) => {
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-label", "Open menu");
+    });
   };
 
   const syncScrollLock = (): void => {
@@ -371,10 +379,24 @@
     }
   };
 
-  toggle?.addEventListener("click", toggleMenu);
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    const toggleTarget = target.closest(".topbar__menu, [data-sidebar-toggle]");
+    if (!(toggleTarget instanceof HTMLButtonElement)) {
+      return;
+    }
+
+    event.preventDefault();
+    toggleMenu();
+  });
+
   closeButton?.addEventListener("click", () => {
     close();
-    toggle?.focus();
+    getSidebarToggles()[0]?.focus({ preventScroll: true });
   });
 
   sidebar.addEventListener("click", (event) => {

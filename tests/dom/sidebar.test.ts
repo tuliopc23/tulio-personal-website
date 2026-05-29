@@ -1,28 +1,29 @@
 import { installAnimationStubs, installMatchMediaStub } from "../helpers/browser";
 
 describe("sidebar script", () => {
-  test("skips mobile drawer init when liquid glass nav is active", async () => {
+  test("opens mobile drawer from liquid glass dock toggle", async () => {
     installAnimationStubs();
     installMatchMediaStub();
 
     document.body.dataset.hasMobileDrawer = "true";
     document.body.dataset.mobileLiquidNav = "true";
     document.body.innerHTML = `
-      <aside class="sidebar">
+      <aside class="sidebar" id="site-sidebar">
         <button data-sidebar-close>Close</button>
         <input id="sidebarFilter" />
         <div class="sidebar__group">
           <a class="sidebar__link">Home</a>
         </div>
       </aside>
-      <button class="topbar__menu">Menu</button>
+      <button type="button" data-sidebar-toggle aria-controls="site-sidebar">Home</button>
     `;
 
     vi.resetModules();
     await import("../../src/scripts/sidebar");
 
-    (document.querySelector(".topbar__menu") as HTMLButtonElement).click();
-    expect(document.body.dataset.sidebarState).toBeUndefined();
+    (document.querySelector("[data-sidebar-toggle]") as HTMLButtonElement).click();
+    expect(document.body.dataset.sidebarState).toBe("open");
+    expect(document.querySelector(".sidebar")?.classList.contains("is-open")).toBe(true);
   });
 
   test("filters menu links and updates the status text", async () => {

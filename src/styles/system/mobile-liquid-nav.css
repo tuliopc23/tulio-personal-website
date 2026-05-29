@@ -16,18 +16,12 @@
   }
 }
 
-.mobileLiquidNav__chrome {
-  pointer-events: none;
-}
-
 .mobileLiquidNav__dockWrap {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: var(--mobile-nav-dock-gap);
-  width: min(430px, calc(100vw - var(--mobile-nav-side-space) - var(--mobile-nav-side-space-end)));
+  width: min(
+    520px,
+    calc(100vw - max(16px, var(--safe-area-left)) - max(16px, var(--safe-area-right)))
+  );
   margin: 0 auto;
-  padding: 0;
   pointer-events: auto;
 }
 
@@ -45,115 +39,68 @@
   }
 }
 
-.mobileLiquidNav__tabbar.liquid-glass {
-  flex: 1 1 auto;
-  min-width: 0;
-  height: var(--mobile-nav-dock-height);
+.mobileLiquidNav__dockRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.mobileLiquidNav__dockButton {
+  min-height: 58px;
   border-radius: 999px;
-  padding: 5px;
-  overflow: hidden;
-}
-
-.mobileLiquidNav__tabList {
-  position: relative;
+  padding: 8px 16px 8px 12px;
   display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 1px;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.mobileLiquidNav__indicator {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: 999px;
-  pointer-events: none;
-}
-
-.mobileLiquidNav__tab {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 1 1 0;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1px;
-  min-width: 0;
-  min-height: 44px;
-  padding: 4px 2px 5px;
-  border: none;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.1;
-  text-decoration: none;
+  gap: 12px;
+  border: 0;
+  color: var(--text);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-.mobileLiquidNav__tab[data-active] {
-  color: var(--liquid-surface-active-accent);
-}
-
-.mobileLiquidNav__tab:focus-visible {
+.mobileLiquidNav__dockButton:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
 }
 
-.mobileLiquidNav__tabIcon,
-.mobileLiquidNav__tabLabel {
-  position: relative;
-  z-index: 1;
+.mobileLiquidNav__dockLabel {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.mobileLiquidNav__tabIcon {
+.mobileLiquidNav__icon {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   flex-shrink: 0;
   width: 19px;
   height: 19px;
 }
 
-.mobileLiquidNav__tabIcon svg {
+.mobileLiquidNav__icon svg {
   width: 100%;
   height: 100%;
 }
 
-.mobileLiquidNav__tabLabel {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.mobileLiquidNav__searchFab.liquid-glass,
-.mobileLiquidNav__backBtn.liquid-glass {
+.mobileLiquidNav__searchFab,
+.mobileLiquidNav__backBtn {
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  border: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border: none;
-  border-radius: 999px;
   color: var(--text);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-}
-
-.mobileLiquidNav__searchFab {
-  width: var(--mobile-nav-fab-size);
-  height: var(--mobile-nav-fab-size);
-}
-
-.mobileLiquidNav__backBtn {
-  width: 44px;
-  height: 44px;
 }
 
 .mobileLiquidNav__searchFab:focus-visible,
@@ -162,31 +109,38 @@
   box-shadow: var(--focus-ring), var(--liquid-surface-shadow);
 }
 
-.mobileLiquidNav__tab:active,
+.mobileLiquidNav__dockButton:active,
 .mobileLiquidNav__searchFab:active,
 .mobileLiquidNav__backBtn:active {
   transform: scale(0.96);
 }
 
-:root[data-motion="reduced"] .mobileLiquidNav__tab:active,
+:root[data-motion="reduced"] .mobileLiquidNav__dockButton:active,
 :root[data-motion="reduced"] .mobileLiquidNav__searchFab:active,
 :root[data-motion="reduced"] .mobileLiquidNav__backBtn:active {
   transform: none;
 }
 
 @media (max-width: 1024px) {
-  body[data-mobile-liquid-nav="true"] .content {
-    padding-bottom: calc(var(--mobile-nav-reserved-bottom) + var(--space-md));
+  body[data-mobile-liquid-nav="true"] .topbar__menu {
+    display: none !important;
   }
-}
 
-@media (max-width: 1024px) {
-  body[data-mobile-liquid-nav="true"] .topbar__iconButton {
-    border-radius: 999px;
+  body[data-mobile-liquid-nav="true"] .sidebar,
+  body[data-mobile-liquid-nav="true"] .backdrop {
+    display: block !important;
+  }
+
+  body[data-mobile-liquid-nav="true"] .topbar__nav {
+    display: none;
   }
 
   body[data-mobile-liquid-nav="true"] .topbar__searchButton {
     display: none;
+  }
+
+  body[data-mobile-liquid-nav="true"] .topbar__iconButton {
+    border-radius: 999px;
   }
 
   body[data-mobile-liquid-nav="true"] .topbar__actions .liquidToggle {
@@ -197,42 +151,6 @@
 .mobileLiquidNav__dockWrap--searchOpen {
   flex-direction: column;
   align-items: stretch;
-}
-
-.mobileLiquidNav__searchColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
-  width: 100%;
-}
-
-.mobileLiquidNav__searchDropdown {
-  width: 100%;
-  border-radius: 1.25rem;
-  overflow: hidden;
-}
-
-.mobileLiquidNav__searchHint {
-  margin: 0;
-  padding: 0 6px 2px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--text-tertiary);
-  text-align: center;
-}
-
-.mobileLiquidNav__dockRow {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--mobile-nav-dock-gap);
-  width: 100%;
-  min-height: var(--mobile-nav-dock-height);
-}
-
-.mobileLiquidNav__tabbarWrap {
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 .mobileLiquidNav__searchBackdrop {
@@ -247,12 +165,6 @@
   cursor: pointer;
 }
 
-.mobileLiquidNav__searchResults {
-  width: 100%;
-  border-radius: 1.25rem;
-  overflow: hidden;
-}
-
 .mobileLiquidNav__searchInputCommand [cmdk-input-wrapper] {
   gap: 0;
 }
@@ -261,52 +173,34 @@
   display: none;
 }
 
-.mobileLiquidNav__searchList {
-  max-height: min(36vh, 280px);
-}
-
-.mobileLiquidNav__searchPill {
-  flex: 1 1 auto;
-  width: 100%;
-  min-height: var(--mobile-nav-fab-size);
-}
-
-.mobileLiquidNav__searchPillInner {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  min-height: var(--mobile-nav-fab-size);
-  padding: 0 14px;
-}
-
 @media (max-width: 360px) {
   .mobileLiquidNav__dockWrap {
     width: min(
-      430px,
-      calc(100vw - var(--mobile-nav-side-space) - var(--mobile-nav-side-space-end))
+      520px,
+      calc(100vw - max(16px, var(--safe-area-left)) - max(16px, var(--safe-area-right)))
     );
     gap: 8px;
   }
 
-  .mobileLiquidNav__tabbar.liquid-glass {
-    height: 52px;
-    padding: 4px;
+  .mobileLiquidNav__dockButton {
+    min-height: 52px;
+    padding: 6px 14px 6px 10px;
+    gap: 10px;
   }
 
-  .mobileLiquidNav__tab {
-    min-height: 44px;
-    font-size: 9.5px;
+  .mobileLiquidNav__dockLabel {
+    font-size: 0.88rem;
   }
 
-  .mobileLiquidNav__tabIcon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .mobileLiquidNav__searchFab {
+  .mobileLiquidNav__searchFab,
+  .mobileLiquidNav__backBtn {
     width: 52px;
     height: 52px;
+  }
+
+  .mobileLiquidNav__icon {
+    width: 18px;
+    height: 18px;
   }
 }
 
