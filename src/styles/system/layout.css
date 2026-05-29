@@ -35,10 +35,23 @@ body[data-has-sidebar="false"] .topbar__brandGroup {
 }
 
 @media (min-width: 1025px) {
+  :root {
+    --layout-shell-padding: clamp(12px, 1.4vw, 18px);
+    --layout-shell-gap: clamp(14px, 1.8vw, 24px);
+    --sidebar-sticky-top: calc(var(--topbar-h) + var(--layout-shell-padding));
+    --sidebar-max-height: calc(100dvh - var(--sidebar-sticky-top) - var(--layout-shell-padding));
+  }
+
+  @supports not (height: 100dvh) {
+    :root {
+      --sidebar-max-height: calc(100vh - var(--sidebar-sticky-top) - var(--layout-shell-padding));
+    }
+  }
+
   .layout {
     align-items: start;
-    gap: clamp(14px, 1.8vw, 24px);
-    padding: clamp(12px, 1.4vw, 18px) clamp(10px, 1.4vw, 18px) 0;
+    gap: var(--layout-shell-gap);
+    padding: var(--layout-shell-padding) var(--layout-shell-padding) 0;
   }
 
   body[data-has-sidebar="true"][data-sidebar-visibility="hidden"] .layout {
