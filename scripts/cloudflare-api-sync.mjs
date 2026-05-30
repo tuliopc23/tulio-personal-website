@@ -68,8 +68,10 @@ Sync .env to Cloudflare via REST (Worker secrets + Workers Builds trigger env).
 Optionally PATCH Workers Builds build/deploy commands from workers-builds.json.
 
 Environment:
-  CLOUDFLARE_API_TOKEN     Required for real sync (Workers Scripts Write + Workers CI Write)
-  CLOUDFLARE_ACCOUNT_ID    Optional; defaults to first account from /accounts
+  CLOUDFLARE_API_TOKEN / CLOUDFLARE_BUILDS_API_TOKEN
+                           User-scoped token (profile API tokens). Builds endpoints need
+                           Workers Builds Configuration (Edit) + Workers Scripts (Read).
+  CLOUDFLARE_ACCOUNT_ID    Optional; defaults to wrangler.jsonc account_id, else first /accounts
   CLOUDFLARE_TRIGGER_UUID  Optional; defaults to trigger whose branch_includes contains "main"
 
   --dry-run                  Print actions without calling the API (token optional if CLOUDFLARE_ACCOUNT_ID is set)
@@ -97,6 +99,12 @@ function loadWranglerName() {
   return m ? m[1] : "tulio-personal-website";
 }
 
+function loadWranglerAccountId() {
+  const raw = readFileSync(join(root, "wrangler.jsonc"), "utf8");
+  const m = /"account_id"\s*:\s*"([^"]+)"/.exec(raw);
+  return m?.[1]?.trim() || null;
+}
+
 async function cfFetch(token, path, init = {}) {
   const method = init.method ?? "GET";
   const headers = {
@@ -113,13 +121,27 @@ async function cfFetch(token, path, init = {}) {
   const json = await res.json().catch(() => ({}));
   if (!res.ok || json.success === false) {
     const msg = json.errors?.map((e) => e.message).join("; ") || res.statusText;
-    throw new Error(`${method} ${path} → ${res.status}: ${msg}`);
+    let hint = "";
+    if (path.includes("/builds/") && (res.status === 401 || res.status === 403)) {
+      hint =
+        " Workers Builds API requires a user-scoped API token (account-owned tokens and wrangler OAuth are rejected). Create one at https://dash.cloudflare.com/profile/api-tokens with Workers Builds Configuration (Edit) and Workers Scripts (Read), then set CLOUDFLARE_BUILDS_API_TOKEN or CLOUDFLARE_API_TOKEN.";
+    }
+    throw new Error(`${method} ${path} → ${res.status}: ${msg}${hint}`);
   }
   return json;
 }
 
 async function resolveAccountId(token, dryRun) {
+  const fromWrangler = loadWranglerAccountId();
   const fromEnv = process.env.CLOUDFLARE_ACCOUNT_ID?.trim();
+  if (fromWrangler) {
+    if (fromEnv && fromEnv !== fromWrangler) {
+      console.warn(
+        `Using wrangler.jsonc account_id (${fromWrangler}); CLOUDFLARE_ACCOUNT_ID (${fromEnv}) ignored.`,
+      );
+    }
+    return fromWrangler;
+  }
   if (fromEnv) return fromEnv;
   if (dryRun && !token) {
     console.warn(
@@ -173,13 +195,25 @@ async function putWorkerSecrets(token, accountId, scriptName, dryRun) {
   }
 }
 
-async function pickTriggerUuid(token, accountId, externalScriptId, dryRun) {
+async function resolveWorkerTag(token, accountId, scriptName, dryRun) {
+  if (dryRun) return "00000000000000000000000000000000";
+  const j = await cfFetch(token, `/accounts/${accountId}/workers/scripts`);
+  const worker = (j.result ?? []).find((entry) => entry.id === scriptName);
+  if (!worker?.tag) {
+    throw new Error(
+      `Worker "${scriptName}" not found on account ${accountId}. Check wrangler.jsonc account_id and CLOUDFLARE_API_TOKEN access.`,
+    );
+  }
+  return worker.tag;
+}
+
+async function pickTriggerUuid(token, accountId, workerTag, dryRun) {
   const preset = process.env.CLOUDFLARE_TRIGGER_UUID?.trim();
   if (preset) {
     console.log(`Using CLOUDFLARE_TRIGGER_UUID=${preset}`);
     return preset;
   }
-  const path = `/accounts/${accountId}/builds/workers/${encodeURIComponent(externalScriptId)}/triggers`;
+  const path = `/accounts/${accountId}/builds/workers/${encodeURIComponent(workerTag)}/triggers`;
   if (dryRun && !token) {
     console.log(`[dry-run] GET ${path} (would pick trigger with branch_includes: main)`);
     return "00000000-0000-0000-0000-000000000001";
@@ -192,7 +226,7 @@ async function pickTriggerUuid(token, accountId, externalScriptId, dryRun) {
   const triggers = j.result ?? [];
   if (!triggers.length) {
     throw new Error(
-      `No Workers Builds triggers for script "${externalScriptId}". Connect Git in the dashboard or set CLOUDFLARE_TRIGGER_UUID.`,
+      `No Workers Builds triggers for worker tag "${workerTag}". Connect Git in the dashboard or set CLOUDFLARE_TRIGGER_UUID.`,
     );
   }
   const main =
@@ -275,38 +309,45 @@ async function patchBuildEnv(token, accountId, triggerUuid, dryRun) {
 async function main() {
   const { dryRun, workerSecretsOnly, buildEnvOnly, all, syncTriggerCommands, triggerCommandsOnly } =
     parseArgs();
-  const token = process.env.CLOUDFLARE_API_TOKEN?.trim();
+  const buildsToken =
+    process.env.CLOUDFLARE_BUILDS_API_TOKEN?.trim() || process.env.CLOUDFLARE_API_TOKEN?.trim();
+  const workerToken = process.env.CLOUDFLARE_API_TOKEN?.trim() || buildsToken;
 
-  if (!token && !dryRun) {
+  if (!buildsToken && !workerToken && !dryRun) {
     console.error(
-      "Set CLOUDFLARE_API_TOKEN (Workers Scripts Write + Workers CI Write permissions), or use --dry-run.",
+      "Set CLOUDFLARE_API_TOKEN or CLOUDFLARE_BUILDS_API_TOKEN (user-scoped profile token), or use --dry-run.",
     );
     process.exit(1);
   }
 
   const scriptName = loadWranglerName();
-  const accountId = await resolveAccountId(token, dryRun);
+  const accountId = await resolveAccountId(buildsToken || workerToken, dryRun);
   console.log(`Account ${accountId}, Worker script "${scriptName}"${dryRun ? " (dry-run)" : ""}`);
 
   const doWorker = all || workerSecretsOnly;
   const doBuild = all || buildEnvOnly;
   const doTriggerCommands = triggerCommandsOnly || syncTriggerCommands;
 
+  const workerTag =
+    doBuild || doTriggerCommands
+      ? await resolveWorkerTag(buildsToken || workerToken, accountId, scriptName, dryRun)
+      : null;
+
   if (triggerCommandsOnly) {
-    const triggerUuid = await pickTriggerUuid(token, accountId, scriptName, dryRun);
-    await patchTriggerCommands(token, accountId, triggerUuid, dryRun);
+    const triggerUuid = await pickTriggerUuid(buildsToken || workerToken, accountId, workerTag, dryRun);
+    await patchTriggerCommands(buildsToken || workerToken, accountId, triggerUuid, dryRun);
     return;
   }
 
   if (doWorker) {
-    await putWorkerSecrets(token, accountId, scriptName, dryRun);
+    await putWorkerSecrets(workerToken, accountId, scriptName, dryRun);
   }
   if (doBuild) {
-    const triggerUuid = await pickTriggerUuid(token, accountId, scriptName, dryRun);
+    const triggerUuid = await pickTriggerUuid(buildsToken || workerToken, accountId, workerTag, dryRun);
     if (doTriggerCommands) {
-      await patchTriggerCommands(token, accountId, triggerUuid, dryRun);
+      await patchTriggerCommands(buildsToken || workerToken, accountId, triggerUuid, dryRun);
     }
-    await patchBuildEnv(token, accountId, triggerUuid, dryRun);
+    await patchBuildEnv(buildsToken || workerToken, accountId, triggerUuid, dryRun);
   }
 }
 
