@@ -1,7 +1,7 @@
 /**
  * Push Worker runtime secrets from .env to Cloudflare (wrangler secret bulk).
  * Only uploads keys used by the Worker: GITHUB_TOKEN, GITHUB_PERSONAL_ACCESS_TOKEN,
- * KEYSTATIC_*, and SENTRY_DSN.
+ * KEYSTATIC_*.
  *
  * Usage (from repo root): pnpm run cf:secrets:push
  * Requires: wrangler login, and a .env with the values you want uploaded.
@@ -22,8 +22,6 @@ const WORKER_SECRET_KEYS = [
   "KEYSTATIC_SECRET",
   "KEYSTATIC_GITHUB_CLIENT_ID",
   "KEYSTATIC_GITHUB_CLIENT_SECRET",
-  "SENTRY_DSN",
-  "SENTRY_RELEASE",
 ];
 
 const payload = {};
@@ -36,7 +34,7 @@ for (const key of WORKER_SECRET_KEYS) {
 
 if (Object.keys(payload).length === 0) {
   console.error(
-    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN, KEYSTATIC_*, or SENTRY_DSN.",
+    "No worker secrets found in .env. Set at least one of GITHUB_TOKEN / GITHUB_PERSONAL_ACCESS_TOKEN or KEYSTATIC_*.",
   );
   process.exit(1);
 }

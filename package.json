@@ -56,8 +56,6 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-popover": "^1.1.15",
     "@remotion/player": "4.0.468",
-    "@sentry/astro": "^10.54.0",
-    "@sentry/cloudflare": "^10.54.0",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.8",
     "class-variance-authority": "^0.7.1",
@@ -123,7 +121,6 @@
       "is-hotkey": "link:vendor/is-hotkey"
     },
     "onlyBuiltDependencies": [
-      "@sentry/cli",
       "esbuild",
       "protobufjs",
       "sharp",

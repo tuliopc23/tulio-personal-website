@@ -8,14 +8,12 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import keystatic from "@keystatic/astro";
-import sentry from "@sentry/astro";
 import remarkDirective from "remark-directive";
 import "dotenv/config";
 import { defineConfig } from "astro/config";
 import remarkCalloutDirectives from "./src/lib/mdx/remark-callout-directives.mjs";
 import { shouldIncludeInSitemap } from "./src/lib/seo.js";
 
-const sentryRelease = process.env.SENTRY_RELEASE || undefined;
 const isVitest = process.env.VITEST === "true";
 const mobileNavPath = fileURLToPath(
   new URL("./src/components/navigation/MobileLiquidGlassNav.tsx", import.meta.url),
@@ -75,21 +73,6 @@ export default defineConfig({
     }),
     reactIntegration,
     solidJs({ include: ["**/solid/**"] }),
-    sentry({
-      project: process.env.SENTRY_PROJECT ?? "personal-website",
-      org: process.env.SENTRY_ORG ?? "tuliocunha",
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      telemetry: false,
-      sourcemaps: {
-        assets: [
-          "dist/_astro/**/*.js",
-          "dist/_astro/**/*.js.map",
-          "dist/.prerender/chunks/**/*.mjs",
-          "dist/.prerender/chunks/**/*.mjs.map",
-        ],
-        filesToDeleteAfterUpload: ["dist/**/*.map"],
-      },
-    }),
   ],
   vite: {
     plugins: [
@@ -115,8 +98,6 @@ export default defineConfig({
         : []),
     ],
     define: {
-      "import.meta.env.PUBLIC_SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
-      "import.meta.env.SENTRY_RELEASE": JSON.stringify(sentryRelease ?? ""),
       "process.env": "{}",
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV ?? "development"),
     },
@@ -126,7 +107,7 @@ export default defineConfig({
       needsInterop: ["lodash/debounce", "direction", "cookie"],
     },
     build: {
-      sourcemap: "hidden",
+      sourcemap: false,
       rollupOptions: {
         external: ["picomatch"],
       },

@@ -38,8 +38,6 @@ const WORKER_SECRET_KEYS = [
   "KEYSTATIC_SECRET",
   "KEYSTATIC_GITHUB_CLIENT_ID",
   "KEYSTATIC_GITHUB_CLIENT_SECRET",
-  "SENTRY_DSN",
-  "SENTRY_RELEASE",
 ];
 
 /** Astro / CI build vars for Workers Builds (key -> is_secret for PATCH body). */
@@ -58,12 +56,6 @@ const BUILD_ENV_KEYS = {
   KEYSTATIC_GITHUB_CLIENT_ID: false,
   KEYSTATIC_GITHUB_CLIENT_SECRET: true,
   PUBLIC_KEYSTATIC_GITHUB_APP_SLUG: false,
-  PUBLIC_SENTRY_DSN: false,
-  SENTRY_ORG: false,
-  SENTRY_PROJECT: false,
-  SENTRY_AUTH_TOKEN: true,
-  SENTRY_RELEASE: false,
-  PUBLIC_SENTRY_RELEASE: false,
   PUBLIC_CLOUDFLARE_IMAGE_BASE: false,
 };
 
@@ -158,7 +150,7 @@ async function putWorkerSecrets(token, accountId, scriptName, dryRun) {
   }
   if (Object.keys(payload).length === 0) {
     console.warn(
-      "Skipping Worker secrets: no GITHUB_*, SANITY_API_READ_TOKEN, or SENTRY_DSN in .env.",
+      "Skipping Worker secrets: no GITHUB_*, SANITY_API_READ_TOKEN, or KEYSTATIC_* in .env.",
     );
     return;
   }

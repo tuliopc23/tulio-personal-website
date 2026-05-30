@@ -44,8 +44,6 @@ Add these in GitHub repository settings:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `SANITY_API_READ_TOKEN`
 - `GITHUB_TOKEN` or `GITHUB_PERSONAL_ACCESS_TOKEN` if your build needs GitHub-backed data at build time
-- Optional Sentry build secrets if you use source map upload:
-  `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `PUBLIC_SENTRY_DSN`, `SENTRY_DSN`
 
 ## Setup
 
