@@ -183,13 +183,29 @@
   --mobile-nav-dock-gap: 10px;
   --mobile-nav-side-space: max(16px, var(--safe-area-left));
   --mobile-nav-side-space-end: max(16px, var(--safe-area-right));
-  --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));
+  /*
+   * Normal Safari/browser mode: constant offset only.
+   * iOS Safari already provides floating bottom chrome — do not stack safe-area here.
+   */
+  --mobile-nav-bottom-space: 14px;
   --mobile-nav-keyboard-offset: 0px;
   --mobile-nav-reserved-bottom: calc(
     var(--mobile-nav-dock-height) + var(--mobile-nav-bottom-space) + 30px
   );
   --mobile-nav-chrome-total: var(--mobile-nav-dock-height);
   --mobile-nav-chrome-offset: var(--mobile-nav-bottom-space);
+}
+
+@media (display-mode: standalone) {
+  :root {
+    --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));
+  }
+}
+
+@media (display-mode: fullscreen) {
+  :root {
+    --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));
+  }
 }
 
 [data-theme="dark"] {
