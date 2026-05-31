@@ -334,7 +334,12 @@ async function main() {
       : null;
 
   if (triggerCommandsOnly) {
-    const triggerUuid = await pickTriggerUuid(buildsToken || workerToken, accountId, workerTag, dryRun);
+    const triggerUuid = await pickTriggerUuid(
+      buildsToken || workerToken,
+      accountId,
+      workerTag,
+      dryRun,
+    );
     await patchTriggerCommands(buildsToken || workerToken, accountId, triggerUuid, dryRun);
     return;
   }
@@ -343,7 +348,12 @@ async function main() {
     await putWorkerSecrets(workerToken, accountId, scriptName, dryRun);
   }
   if (doBuild) {
-    const triggerUuid = await pickTriggerUuid(buildsToken || workerToken, accountId, workerTag, dryRun);
+    const triggerUuid = await pickTriggerUuid(
+      buildsToken || workerToken,
+      accountId,
+      workerTag,
+      dryRun,
+    );
     if (doTriggerCommands) {
       await patchTriggerCommands(buildsToken || workerToken, accountId, triggerUuid, dryRun);
     }

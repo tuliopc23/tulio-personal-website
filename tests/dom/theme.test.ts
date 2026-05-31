@@ -4,8 +4,6 @@ import {
   installStorageStub,
 } from "../helpers/browser";
 
-
-
 describe("theme controller script", () => {
   test("initializes using system theme and updates document state", async () => {
     installAnimationStubs();

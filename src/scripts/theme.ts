@@ -263,9 +263,6 @@ class ThemeController {
   }
 }
 
-
-
-
 const initializeTheme = (): void => {
   if (!isBrowser) {
     return;
@@ -296,8 +293,6 @@ const initializeTheme = (): void => {
 
   controller.init();
 };
-
-
 
 if (document.readyState === "loading") {
   document.addEventListener(

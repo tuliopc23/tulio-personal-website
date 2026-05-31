@@ -520,7 +520,6 @@ body.is-search-open {
   overflow: hidden;
 }
 
-
 .topbar__actions .themeSwitch {
   width: var(--switch-width) !important;
   height: var(--switch-height) !important;
@@ -583,11 +582,7 @@ body.is-search-open {
 }
 
 .themeSwitch[data-checked]::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.22),
-    rgba(255, 255, 255, 0.04)
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04));
 }
 
 .themeSwitch:focus-visible {
@@ -652,10 +647,7 @@ body.is-search-open {
   }
 
   body[data-has-sidebar="true"] .topbar__inner {
-    max-width: min(
-      100%,
-      calc(var(--sidebar-width) + var(--layout-shell-gap) + var(--content-max))
-    );
+    max-width: min(100%, calc(var(--sidebar-width) + var(--layout-shell-gap) + var(--content-max)));
     margin-inline: max(var(--layout-shell-padding), var(--safe-area-left)) auto;
     padding-inline: 0 max(var(--safe-area-right), 0px);
   }
@@ -806,7 +798,6 @@ body.is-search-open {
     font-size: 15px;
     padding: 9px 15px;
   }
-
 
   /* Ensure menu button meets 44x44px minimum */
   .topbar__menu {
