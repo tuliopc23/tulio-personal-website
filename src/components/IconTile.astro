@@ -64,6 +64,7 @@ const symbolMap: Record<string, string> = {
   "map-pin": "pin",
   location: "pin",
   portfolio: "briefcase",
+  briefcase: "briefcase",
   sparkle: "sparkle-trio",
   writing: "sparkle-trio",
   globe: "globe",
@@ -87,6 +88,8 @@ const iconSrc = !iconAsset && icon ? `/icons/${icon}.svg` : null;
 const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 const decorativeAlt = "";
 const assetSize = context === "dock" ? 96 : 72;
+const vectorIconSize = context === "dock" ? 28 : 24;
+const vectorIconStroke = context === "dock" ? 1.9 : 1.8;
 ---
 
 <span
@@ -135,9 +138,9 @@ const assetSize = context === "dock" ? 96 : 72;
         )}
       </div>
     ) : brandEntry && icon ? (
-      <BrandIcon name={icon} size={24} />
+      <BrandIcon name={icon} size={vectorIconSize} />
     ) : sfIcon ? (
-      <SFIcon name={sfIcon} size={24} stroke={1.8} />
+      <SFIcon name={sfIcon} size={vectorIconSize} stroke={vectorIconStroke} />
     ) : icon ? (
       <div class={styles.media}>
         {hasDarkVariant && iconSrc && iconDarkSrc ? (
