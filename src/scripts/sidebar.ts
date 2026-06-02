@@ -201,6 +201,15 @@
     return backdrop;
   };
 
+  const removeBackdrop = (): void => {
+    if (!backdrop) {
+      return;
+    }
+
+    backdrop.remove();
+    backdrop = null;
+  };
+
   const close = (): void => {
     resetDrawerDrag();
 
@@ -215,6 +224,7 @@
     backdrop?.classList.remove("is-open");
     sidebar.setAttribute("aria-hidden", "true");
     backdrop?.setAttribute("aria-hidden", "true");
+    removeBackdrop();
     syncScrollLock();
     syncToggleState();
     restorePreviousFocus();
@@ -458,6 +468,7 @@
       syncDesktopSidebar(isDesktopSidebarVisible());
       sidebar.classList.remove("is-open");
       backdrop?.classList.remove("is-open");
+      removeBackdrop();
       syncScrollLock();
       syncToggleState();
       return;

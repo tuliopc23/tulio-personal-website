@@ -37,9 +37,9 @@ body {
   overflow-y: visible;
 }
 
-@supports (min-height: 100dvh) {
+@supports (min-height: 100svh) {
   body {
-    min-height: 100dvh;
+    min-height: 100svh;
   }
 }
 

@@ -3,11 +3,12 @@
 
 .mobileLiquidNav {
   position: fixed;
-  right: 0;
-  bottom: calc(var(--mobile-nav-bottom-space) + var(--mobile-nav-keyboard-offset, 0px));
-  left: 0;
   z-index: 55;
+  right: max(12px, var(--safe-area-right));
+  bottom: calc(var(--mobile-nav-bottom-space) + var(--mobile-nav-keyboard-offset, 0px));
+  left: max(12px, var(--safe-area-left));
   pointer-events: none;
+  background: transparent;
 }
 
 @media (min-width: 1025px) {
@@ -17,11 +18,8 @@
 }
 
 .mobileLiquidNav__dockWrap {
-  width: min(
-    520px,
-    calc(100vw - max(16px, var(--safe-area-left)) - max(16px, var(--safe-area-right)))
-  );
-  margin: 0 auto;
+  width: min(520px, 100%);
+  margin-inline: auto;
   pointer-events: auto;
 }
 

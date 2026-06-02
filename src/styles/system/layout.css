@@ -6,9 +6,9 @@
   transition: grid-template-columns var(--motion-duration-md) var(--motion-ease-out);
 }
 
-@supports (min-height: 100dvh) {
+@supports (min-height: 100svh) {
   .layout {
-    min-height: calc(100dvh - var(--topbar-h));
+    min-height: calc(100svh - var(--topbar-h));
   }
 }
 

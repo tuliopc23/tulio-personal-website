@@ -256,7 +256,6 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
         initial={false}
         animate={{ opacity: chromeMotion.opacity, y: chromeMotion.y }}
         transition={chromeTransition}
-        style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "auto" }}
       >
         <motion.div
           className={cn(
