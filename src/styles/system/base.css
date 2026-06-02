@@ -3,7 +3,7 @@
   box-sizing: border-box;
 }
 html {
-  color-scheme: dark light;
+  color-scheme: light;
   width: 100%;
   background: var(--bg);
   min-height: 100%;
@@ -11,6 +11,14 @@ html {
   /* Keep focused in-page targets clear of the fixed topbar + notch when bypassing Lenis anchors */
   scroll-padding-top: calc(var(--topbar-h) + max(var(--safe-area-top), 0px) + var(--space-xs));
   /* scroll-behavior handled by Lenis — CSS smooth-scroll causes stutter */
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {

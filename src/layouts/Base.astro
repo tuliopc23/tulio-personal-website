@@ -178,7 +178,7 @@ const sidebarSocialLinks = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="color-scheme" id="color-scheme-meta" content="light" />
     <meta name="theme-color" id="theme-color-meta" content={SAFARI_THEME_CHROME_COLORS.light} />
     <meta name="format-detection" content="telephone=no" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -261,17 +261,21 @@ const sidebarSocialLinks = [
           }
         };
 
-        const updateThemeColor = (theme) => {
-          const themeColorMeta = document.querySelector(
-            'meta[name="theme-color"]#theme-color-meta',
-          );
+        const applyBrowserChrome = (theme) => {
+          const isLight = theme === "light";
+          const themeColorMeta = document.getElementById("theme-color-meta");
           if (themeColorMeta) {
             themeColorMeta.setAttribute("content", safariThemeChromeColors[theme]);
           }
+          const colorSchemeMeta = document.getElementById("color-scheme-meta");
+          if (colorSchemeMeta) {
+            colorSchemeMeta.setAttribute("content", isLight ? "light" : "dark");
+          }
+          root.style.colorScheme = isLight ? "light" : "dark";
         };
 
         updateFavicon(initialTheme);
-        updateThemeColor(initialTheme);
+        applyBrowserChrome(initialTheme);
 
         root.dataset.motionBooted = prefersReducedMotion ? "true" : "false";
         root.dataset.revealState = prefersReducedMotion ? "ready" : "armed";

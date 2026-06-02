@@ -11,7 +11,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-light.png"><meta name="theme-color" id="theme-color-meta" content="#f5f5f7">';
+      '<link rel="icon" href="/brand-icon-light.png"><meta name="theme-color" id="theme-color-meta" content="#f5f5f7"><meta name="color-scheme" id="color-scheme-meta" content="light">';
     vi.resetModules();
 
     await import("../../src/scripts/theme");
@@ -22,9 +22,13 @@ describe("theme controller script", () => {
       "/brand-icon-light.png",
     );
     expect(
-      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')
-        ?.content,
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')?.content,
     ).toBe("#f5f5f7");
+    expect(
+      document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]#color-scheme-meta')
+        ?.content,
+    ).toBe("light");
+    expect(document.documentElement.style.colorScheme).toBe("light");
   });
 
   test("toggles theme without persistence, and can return to system sync", async () => {
@@ -33,7 +37,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505"><meta name="color-scheme" id="color-scheme-meta" content="dark">';
 
     vi.useFakeTimers();
     vi.resetModules();
@@ -44,9 +48,13 @@ describe("theme controller script", () => {
     expect(window.themeController?.getTheme()).toBe("light");
     expect(window.themeController?.getPreference()).toBe("light");
     expect(
-      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')
-        ?.content,
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')?.content,
     ).toBe("#f5f5f7");
+    expect(
+      document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]#color-scheme-meta')
+        ?.content,
+    ).toBe("light");
+    expect(document.documentElement.style.colorScheme).toBe("light");
     expect(document.documentElement.classList.contains("theme-transition")).toBe(true);
 
     vi.runAllTimers();
@@ -76,14 +84,16 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505"><meta name="color-scheme" id="color-scheme-meta" content="dark">';
 
     vi.resetModules();
     await import("../../src/scripts/theme");
 
     expect(window.themeController?.getTheme()).toBe("dark");
     expect(window.themeController?.getPreference()).toBe("system");
+    expect(document.documentElement.style.colorScheme).toBe("dark");
     media.setMatches("(prefers-color-scheme: light)", true);
     expect(window.themeController?.getTheme()).toBe("light");
+    expect(document.documentElement.style.colorScheme).toBe("light");
   });
 });

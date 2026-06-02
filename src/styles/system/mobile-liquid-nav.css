@@ -21,6 +21,7 @@
   width: min(520px, 100%);
   margin-inline: auto;
   pointer-events: auto;
+  will-change: transform;
 }
 
 .mobileLiquidNav__back {
@@ -101,6 +102,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.mobileLiquidNav__backBtn {
+  will-change: transform;
+}
+
 .mobileLiquidNav__searchFab:focus-visible,
 .mobileLiquidNav__backBtn:focus-visible {
   outline: none;
@@ -117,6 +122,11 @@
 :root[data-motion="reduced"] .mobileLiquidNav__searchFab:active,
 :root[data-motion="reduced"] .mobileLiquidNav__backBtn:active {
   transform: none;
+}
+
+:root[data-motion="reduced"] .mobileLiquidNav__dockWrap,
+:root[data-motion="reduced"] .mobileLiquidNav__backBtn {
+  will-change: auto;
 }
 
 @media (max-width: 1024px) {
