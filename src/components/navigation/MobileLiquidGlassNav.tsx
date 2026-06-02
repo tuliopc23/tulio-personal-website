@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { shouldIsolateSafariChrome } from "../../lib/browser-environment";
 import { navigateBack } from "../../lib/navigation/go-back";
 import { setSiteSearchOpen, subscribeSiteSearch } from "../../lib/navigation/site-search-store";
 import "../../styles/tailwind-nav.css";
@@ -120,6 +121,11 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   const shouldAnimateChrome = !motionReduced && !reducedMotion;
 
   useEffect(() => {
+    if (shouldIsolateSafariChrome()) {
+      setChromeHidden(false);
+      return;
+    }
+
     if (!shouldAnimateChrome || searchOpen) {
       if (searchOpen) {
         setChromeHidden(false);

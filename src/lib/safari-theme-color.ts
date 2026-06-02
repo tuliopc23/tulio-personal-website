@@ -35,6 +35,15 @@ export function updateBrowserChrome(theme: SafariThemeChromeMode): void {
   root.style.colorScheme = isLight ? "light" : "dark";
 }
 
+export function resyncBrowserChrome(): void {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  updateBrowserChrome(theme);
+}
+
 /** @deprecated Use updateBrowserChrome — kept for call-site clarity during migration. */
 export function updateSafariThemeChrome(theme: SafariThemeChromeMode): void {
   updateBrowserChrome(theme);

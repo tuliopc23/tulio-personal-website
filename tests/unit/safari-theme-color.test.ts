@@ -1,6 +1,7 @@
 import {
   SAFARI_THEME_CHROME_COLORS,
   getSafariThemeChromeColor,
+  resyncBrowserChrome,
   updateBrowserChrome,
 } from "../../src/lib/safari-theme-color";
 
@@ -43,5 +44,31 @@ describe("safari-theme-color", () => {
       "light",
     );
     expect(document.documentElement.style.colorScheme).toBe("light");
+  });
+
+  test("resyncBrowserChrome reads data-theme from the document root", () => {
+    document.head.innerHTML =
+      '<meta name="theme-color" id="theme-color-meta" content="#f5f5f7">' +
+      '<meta name="color-scheme" id="color-scheme-meta" content="light">';
+
+    document.documentElement.setAttribute("data-theme", "dark");
+    resyncBrowserChrome();
+
+    expect(document.querySelector<HTMLMetaElement>(THEME_COLOR_META_SELECTOR)?.content).toBe(
+      "#050505",
+    );
+    expect(document.querySelector<HTMLMetaElement>(COLOR_SCHEME_META_SELECTOR)?.content).toBe(
+      "dark",
+    );
+
+    document.documentElement.setAttribute("data-theme", "light");
+    resyncBrowserChrome();
+
+    expect(document.querySelector<HTMLMetaElement>(THEME_COLOR_META_SELECTOR)?.content).toBe(
+      "#f5f5f7",
+    );
+    expect(document.querySelector<HTMLMetaElement>(COLOR_SCHEME_META_SELECTOR)?.content).toBe(
+      "light",
+    );
   });
 });

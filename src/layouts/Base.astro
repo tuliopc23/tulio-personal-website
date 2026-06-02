@@ -277,6 +277,25 @@ const sidebarSocialLinks = [
         updateFavicon(initialTheme);
         applyBrowserChrome(initialTheme);
 
+        const ua = navigator.userAgent;
+        const vendor = navigator.vendor;
+        const platform = navigator.platform;
+        const isIOS =
+          /iPad|iPhone|iPod/.test(ua) ||
+          (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        const isSafari =
+          /Safari/i.test(ua) &&
+          /Apple/i.test(vendor) &&
+          !/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo|Chrome|Android/i.test(ua);
+        const forceStableSafariChrome = new URLSearchParams(window.location.search).has(
+          "stableSafariChrome",
+        );
+        if ((isIOS && isSafari) || forceStableSafariChrome) {
+          root.dataset.iosSafari = "true";
+        } else {
+          delete root.dataset.iosSafari;
+        }
+
         root.dataset.motionBooted = prefersReducedMotion ? "true" : "false";
         root.dataset.revealState = prefersReducedMotion ? "ready" : "armed";
         window.setTimeout(() => {

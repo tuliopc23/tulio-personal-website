@@ -346,3 +346,16 @@ code,
 pre {
   font-family: var(--font-mono);
 }
+
+/* iOS Safari: solid root background — no fixed decorative layers repainting chrome */
+html[data-ios-safari="true"],
+html[data-ios-safari="true"] body {
+  background-color: var(--bg) !important;
+  background-image: none !important;
+}
+
+html[data-ios-safari="true"] body::before,
+html[data-ios-safari="true"] body::after,
+html[data-ios-safari="true"] .liquid-glass-reflector {
+  display: none !important;
+}

@@ -1,3 +1,4 @@
+import "./safari-chrome-boot";
 import "./theme";
 import { recordNavigationTrail } from "../lib/navigation/go-back";
 

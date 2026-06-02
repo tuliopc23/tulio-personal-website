@@ -5,6 +5,7 @@
  * `getLenis()` so other modules can read scroll state or subscribe.
  */
 
+import { shouldIsolateSafariChrome } from "../lib/browser-environment";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import gsap from "gsap";
@@ -67,7 +68,7 @@ export function getLenis(): Lenis | null {
 export function initLenis(reducedMotion: boolean): void {
   destroyLenis();
 
-  if (reducedMotion) return; // native scroll when user prefers reduced motion
+  if (reducedMotion || shouldIsolateSafariChrome()) return;
 
   const narrowViewport =
     typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
