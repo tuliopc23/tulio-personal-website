@@ -11,7 +11,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-light.png"><meta id="theme-color-meta" content="#f6f7fb">';
+      '<link rel="icon" href="/brand-icon-light.png"><meta name="theme-color" id="theme-color-meta" content="#f5f5f7">';
     vi.resetModules();
 
     await import("../../src/scripts/theme");
@@ -21,6 +21,10 @@ describe("theme controller script", () => {
     expect((document.querySelector('link[rel="icon"]') as HTMLLinkElement).href).toContain(
       "/brand-icon-light.png",
     );
+    expect(
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')
+        ?.content,
+    ).toBe("#f5f5f7");
   });
 
   test("toggles theme without persistence, and can return to system sync", async () => {
@@ -29,7 +33,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505">';
 
     vi.useFakeTimers();
     vi.resetModules();
@@ -39,6 +43,10 @@ describe("theme controller script", () => {
     window.themeController?.toggleTheme({ persist: false });
     expect(window.themeController?.getTheme()).toBe("light");
     expect(window.themeController?.getPreference()).toBe("light");
+    expect(
+      document.querySelector<HTMLMetaElement>('meta[name="theme-color"]#theme-color-meta')
+        ?.content,
+    ).toBe("#f5f5f7");
     expect(document.documentElement.classList.contains("theme-transition")).toBe(true);
 
     vi.runAllTimers();
@@ -68,7 +76,7 @@ describe("theme controller script", () => {
     installStorageStub();
 
     document.head.innerHTML =
-      '<link rel="icon" href="/brand-icon-dark.png"><meta id="theme-color-meta" content="#050506">';
+      '<link rel="icon" href="/brand-icon-dark.png"><meta name="theme-color" id="theme-color-meta" content="#050505">';
 
     vi.resetModules();
     await import("../../src/scripts/theme");

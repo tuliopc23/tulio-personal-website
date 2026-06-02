@@ -1,3 +1,5 @@
+import { updateSafariThemeChrome, type SafariThemeChromeMode } from "../lib/safari-theme-color";
+
 const isBrowser = typeof window !== "undefined";
 
 export {};
@@ -173,10 +175,7 @@ class ThemeController {
       favicon.href = next === "light" ? "/brand-icon-light.png" : "/brand-icon-dark.png";
     }
 
-    const themeColorMeta = document.getElementById("theme-color-meta");
-    if (themeColorMeta) {
-      themeColorMeta.setAttribute("content", next === "light" ? "#f6f7fb" : "#050506");
-    }
+    updateSafariThemeChrome(next as SafariThemeChromeMode);
 
     this.current = next;
 
