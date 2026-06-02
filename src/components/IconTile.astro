@@ -88,7 +88,7 @@ const iconSrc = !iconAsset && icon ? `/icons/${icon}.svg` : null;
 const iconDarkSrc = hasDarkVariant ? `/icons/${icon}-dark.svg` : null;
 const decorativeAlt = "";
 const assetSize = context === "dock" ? 96 : 72;
-const vectorIconSize = context === "dock" ? 28 : 24;
+const vectorIconSize = context === "dock" ? (icon === "briefcase" ? 32 : 28) : 24;
 const vectorIconStroke = context === "dock" ? 1.9 : 1.8;
 ---
 

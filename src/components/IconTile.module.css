@@ -137,6 +137,10 @@
   --dock-icon-scale: 114%;
 }
 
+.root[data-dock="true"][data-icon="briefcase"] .media img {
+  --dock-icon-scale: 132%;
+}
+
 .media img[data-variant="dark"] {
   opacity: 0;
 }
