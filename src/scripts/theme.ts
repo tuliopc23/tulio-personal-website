@@ -1,4 +1,4 @@
-import { updateSafariThemeChrome, type SafariThemeChromeMode } from "../lib/safari-theme-color";
+import { updateBrowserChrome, type SafariThemeChromeMode } from "../lib/safari-theme-color";
 
 const isBrowser = typeof window !== "undefined";
 
@@ -175,7 +175,7 @@ class ThemeController {
       favicon.href = next === "light" ? "/brand-icon-light.png" : "/brand-icon-dark.png";
     }
 
-    updateSafariThemeChrome(next as SafariThemeChromeMode);
+    updateBrowserChrome(next as SafariThemeChromeMode);
 
     this.current = next;
 

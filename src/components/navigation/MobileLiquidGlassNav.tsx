@@ -181,12 +181,14 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   const searchListId = useId();
   const trimmedSearchQuery = searchQuery.trim();
 
-  const chromeMotion = shouldAnimateChrome
+  const chromeVisible = !chromeHidden || searchOpen;
+  const innerChromeMotion = shouldAnimateChrome
     ? {
-        y: chromeHidden ? "calc(100% + var(--mobile-nav-chrome-offset, 12px))" : 0,
-        opacity: chromeHidden ? 0 : 1,
+        y: chromeVisible ? 0 : 12,
+        opacity: chromeVisible ? 1 : 0,
+        scale: chromeVisible ? 1 : 0.98,
       }
-    : { y: 0, opacity: 1 };
+    : { y: 0, opacity: 1, scale: 1 };
 
   const chromeTransition = shouldAnimateChrome
     ? { type: "spring" as const, stiffness: 420, damping: 36 }
@@ -230,38 +232,39 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
       </AnimatePresence>
 
       {showBack ? (
-        <motion.div
+        <div
           className="mobileLiquidNav__back"
-          initial={false}
-          animate={{ opacity: chromeMotion.opacity, x: 0, y: chromeMotion.y }}
-          transition={chromeTransition}
           style={{
             pointerEvents: chromeHidden && !searchOpen ? "none" : "auto",
           }}
         >
-          <button
+          <motion.button
             type="button"
             className="mobileLiquidNav__backBtn liquid-glass liquid-glass-chrome"
+            initial={false}
+            animate={innerChromeMotion}
+            transition={chromeTransition}
             aria-label="Go back"
             onClick={goBack}
           >
             <NavPhosphorIcon name="caret-left" className="mobileLiquidNav__icon" />
-          </button>
-        </motion.div>
+          </motion.button>
+        </div>
       ) : null}
 
-      <motion.nav
+      <nav
         className="mobileLiquidNav"
         aria-label="Mobile navigation"
-        initial={false}
-        animate={{ opacity: chromeMotion.opacity, y: chromeMotion.y }}
-        transition={chromeTransition}
+        style={{ pointerEvents: chromeHidden && !searchOpen ? "none" : "auto" }}
       >
         <motion.div
           className={cn(
             "mobileLiquidNav__dockWrap",
             searchOpen && "mobileLiquidNav__dockWrap--searchOpen",
           )}
+          initial={false}
+          animate={innerChromeMotion}
+          transition={chromeTransition}
           style={{
             pointerEvents: chromeHidden && !searchOpen ? "none" : "auto",
           }}
@@ -342,7 +345,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
             </div>
           )}
         </motion.div>
-      </motion.nav>
+      </nav>
     </>
   );
 }
