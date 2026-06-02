@@ -328,7 +328,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
               <button
                 type="button"
                 className="mobileLiquidNav__dockButton liquid-glass liquid-glass-chrome"
-                aria-label="Open navigation menu"
+                aria-label={drawerOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={drawerOpen}
                 aria-controls="site-sidebar"
                 data-sidebar-toggle

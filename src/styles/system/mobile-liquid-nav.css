@@ -154,6 +154,12 @@
   body[data-mobile-liquid-nav="true"] .topbar__actions .liquidToggle {
     border-radius: 999px;
   }
+
+  body[data-sidebar-state="open"] .mobileLiquidNav,
+  body[data-sidebar-state="open"] .mobileLiquidNav__back {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .mobileLiquidNav__dockWrap--searchOpen {

@@ -1,3 +1,5 @@
+import { setSiteSearchOpen } from "../lib/navigation/site-search-store";
+
 (() => {
   const body = document.body;
   if (!body) {
@@ -248,6 +250,8 @@
     ) {
       previousFocusedElement = document.activeElement as HTMLElement | null;
     }
+
+    setSiteSearchOpen(false);
 
     const nextBackdrop = ensureBackdrop();
     sidebar.classList.add("is-open");

@@ -25,8 +25,18 @@ test("mobile liquid glass nav opens drawer and navigates", async ({ page }) => {
   await expect(page.locator(".topbar__menu")).toBeHidden();
   await expect(mobileNav.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
 
-  await mobileNav.getByRole("button", { name: "Open navigation menu" }).click();
+  const menuButton = mobileNav.getByRole("button", { name: "Open navigation menu" });
+  await menuButton.click();
   const sidebar = page.locator("#site-sidebar");
+  await expect(sidebar).toHaveClass(/is-open/);
+  await expect(sidebar.getByText("Elsewhere", { exact: true })).toBeHidden();
+  await expect(menuButton).toBeHidden();
+
+  await sidebar.getByRole("button", { name: "Close menu" }).click();
+  await expect(sidebar).not.toHaveClass(/is-open/);
+  await expect(mobileNav.getByRole("button", { name: "Open navigation menu" })).toBeVisible();
+
+  await mobileNav.getByRole("button", { name: "Open navigation menu" }).click();
   await expect(sidebar).toHaveClass(/is-open/);
 
   await sidebar.getByRole("link", { name: "Home" }).click();
