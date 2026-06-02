@@ -1,15 +1,24 @@
-import { isIOSSafariBrowser, markBrowserEnvironment } from "../lib/browser-environment";
+import { markBrowserEnvironment, shouldIsolateSafariChrome } from "../lib/browser-environment";
 import { resyncBrowserChrome } from "../lib/safari-theme-color";
+
+let booted = false;
 
 function scheduleResync(delayMs: number): void {
   window.setTimeout(resyncBrowserChrome, delayMs);
 }
 
 function initSafariChromeBoot(): void {
+  if (booted) {
+    markBrowserEnvironment();
+    resyncBrowserChrome();
+    return;
+  }
+
+  booted = true;
   markBrowserEnvironment();
   resyncBrowserChrome();
 
-  if (!isIOSSafariBrowser()) {
+  if (!shouldIsolateSafariChrome()) {
     return;
   }
 
@@ -41,4 +50,6 @@ function initSafariChromeBoot(): void {
   });
 }
 
-initSafariChromeBoot();
+if (typeof window !== "undefined") {
+  initSafariChromeBoot();
+}

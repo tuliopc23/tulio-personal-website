@@ -1,4 +1,5 @@
 import {
+  HEAD_IOS_SAFARI_MARK_INIT,
   hasStableSafariChromeFlag,
   isIOSSafariBrowser,
   markBrowserEnvironment,
@@ -105,6 +106,20 @@ describe("browser-environment", () => {
     expect(isIOSSafariBrowser()).toBe(false);
     expect(hasStableSafariChromeFlag()).toBe(true);
     expect(shouldIsolateSafariChrome()).toBe(true);
+  });
+
+  test("HEAD_IOS_SAFARI_MARK_INIT stays aligned with isIOSSafariBrowser", () => {
+    mockNavigator({
+      userAgent:
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+      vendor: "Apple Computer, Inc.",
+      platform: "iPhone",
+      maxTouchPoints: 5,
+    });
+
+    new Function("root", HEAD_IOS_SAFARI_MARK_INIT)(document.documentElement);
+    expect(document.documentElement.dataset.iosSafari).toBe("true");
+    expect(isIOSSafariBrowser()).toBe(true);
   });
 
   test("markBrowserEnvironment sets data-ios-safari when isolation is active", () => {

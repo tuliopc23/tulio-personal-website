@@ -7,6 +7,7 @@
  * the new page.
  */
 
+import { shouldIsolateSafariChrome } from "../../lib/browser-environment";
 import { destroyLenis, initLenis } from "../lenis";
 import { cleanupScrollIndicators, initScrollIndicators } from "../scroll-indicators";
 import { cleanupGlassState, initGlassState } from "./glass-state";
@@ -25,14 +26,15 @@ import { cleanupTopbarTabSelect, initTopbarTabSelect } from "./topbar-tab-select
 
 function init(): void {
   const reduced = isReducedMotion();
+  const isolateSafariChrome = shouldIsolateSafariChrome();
   initLenis(reduced);
   initGlassState();
   initTopbarTabSelect();
-  if (!reduced) {
+  if (!reduced && !isolateSafariChrome) {
     initViewportScrollRefresh();
   }
 
-  if (reduced) {
+  if (reduced || isolateSafariChrome) {
     showAllReveals();
     initScrollIndicators();
     initCaseCarousel();
