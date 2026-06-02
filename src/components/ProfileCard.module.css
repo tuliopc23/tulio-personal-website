@@ -237,14 +237,15 @@
 }
 
 .profileCardSocialCard :global(.symbol--dock svg) {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   filter: drop-shadow(0 1px 2px rgb(0 0 0 / 18%));
 }
 
 .profileCardSocialCard :global(.symbol--dock[data-icon="briefcase"] svg) {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
+  stroke-width: 2.05;
 }
 
 .profileCardSocialCard span:last-child {
