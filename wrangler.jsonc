@@ -26,6 +26,19 @@
   ],
   "observability": {
     "enabled": true,
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+      "destinations": ["grafana-logs"],
+      "head_sampling_rate": 0.6,
+      "persist": true,
+    },
+    "traces": {
+      "enabled": true,
+      "destinations": ["grafana-traces"],
+      "head_sampling_rate": 0.05,
+      "persist": true,
+    },
   },
   "kv_namespaces": [
     {
