@@ -30,7 +30,7 @@ import styles from "./ReadingProgress.module.css";
         1
       );
 
-      progressBar.style.width = `${progress * 100}%`;
+      progressBar.style.transform = `scaleX(${progress})`;
     };
 
     // Update on scroll with throttling

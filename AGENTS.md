@@ -24,6 +24,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile.
 - Blog index (`/blog`) intentionally has no Topics chip filter UI; category archives remain at `/blog/category/[slug]`.
 - Keystatic images: use Astro’s `<Image />` with Keystatic image fields (not raw `<img>` or ad-hoc URLs).
+- `PRODUCT.md` at repo root documents brand register, audience, anti-references, and design principles for Impeccable-guided frontend work (`.cursor/skills/impeccable/`).
 
 ## Commands
 

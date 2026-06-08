@@ -120,6 +120,8 @@ export default function HeroPlayer() {
 
       if (frame < DURATION_FRAMES - 1) {
         raf = requestAnimationFrame(tick);
+      } else {
+        player.pause();
       }
     };
 
@@ -130,6 +132,25 @@ export default function HeroPlayer() {
       cancelAnimationFrame(raf);
     };
   }, [prefersReducedMotion]);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const player = playerRef.current;
+    if (!player) {
+      return;
+    }
+
+    const holdFinalFrame = () => {
+      player.seekTo(DURATION_FRAMES - 1);
+      player.pause();
+    };
+
+    player.addEventListener("ended", holdFinalFrame);
+    return () => player.removeEventListener("ended", holdFinalFrame);
+  }, [prefersReducedMotion, isMobile]);
 
   if (prefersReducedMotion) {
     return <StaticFallback />;

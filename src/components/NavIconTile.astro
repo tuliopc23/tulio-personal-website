@@ -1,0 +1,19 @@
+---
+/**
+ * Compact nav chrome icon tile (sidebar / drawer).
+ * Styles live in `src/styles/system/icon-tile.css` — paired with `IconTile.astro` (`.symbol` cards/dock).
+ */
+import PhosphorIcon from "./PhosphorIcon.astro";
+
+const {
+  tint = "blue",
+  icon,
+}: {
+  tint?: string;
+  icon: string;
+} = Astro.props;
+---
+
+<span class:list={["icon-tile", `icon-tile--${tint}`]} aria-hidden="true">
+  <PhosphorIcon name={icon} size={20} weight="regular" />
+</span>

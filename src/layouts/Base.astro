@@ -4,6 +4,7 @@ import Signature from "../components/Signature.astro";
 import ScrollToTop from "../components/ScrollToTop.astro";
 import MobileLiquidGlassNav from "../components/navigation/MobileLiquidGlassNav.tsx";
 import SiteSearchTrigger from "../components/navigation/SiteSearchTrigger.tsx";
+import NavIconTile from "../components/NavIconTile.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ThemeToggle from "../components/navigation/ThemeToggle.tsx";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
@@ -404,6 +405,7 @@ const sidebarSocialLinks = [
   >
     <div class="liquid-glass-reflector" aria-hidden="true"></div>
     <a href="#main" class="sr-only">Skip to content</a>
+    {heroPage && <a href="#top" class="sr-only sr-only--offset">Skip past hero</a>}
     <header class="topbar">
       <div class="topbar__inner">
         <div class="topbar__brandGroup">
@@ -461,7 +463,7 @@ const sidebarSocialLinks = [
         </nav>
         <div class="topbar__actions">
           <ThemeToggle client:only="react" />
-          <SiteSearchTrigger client:idle />
+          <SiteSearchTrigger client:only="react" />
         </div>
       </div>
     </header>
@@ -501,9 +503,7 @@ const sidebarSocialLinks = [
                       href={link.href}
                       aria-current={link.current ? "page" : undefined}
                     >
-                      <span class:list={["icon-tile", `icon-tile--${link.tint}`]} aria-hidden="true">
-                        <PhosphorIcon name={link.icon} size={20} weight="regular" />
-                      </span>
+                      <NavIconTile tint={link.tint} icon={link.icon} />
                       {link.label}
                     </a>
                   ))}
@@ -521,12 +521,7 @@ const sidebarSocialLinks = [
                         rel={link.external ? "noreferrer noopener" : undefined}
                         aria-current={link.current ? "page" : undefined}
                       >
-                        <span
-                          class:list={["icon-tile", link.tint && `icon-tile--${link.tint}`]}
-                          aria-hidden="true"
-                        >
-                          <PhosphorIcon name={link.icon} size={20} weight="regular" />
-                        </span>
+                        <NavIconTile tint={link.tint ?? "blue"} icon={link.icon} />
                         {link.label}
                       </a>
                     ))}
@@ -561,7 +556,7 @@ const sidebarSocialLinks = [
           <slot />
         </div>
         <Signature />
-        <footer class="footer">
+        <footer class="footer" role="contentinfo">
           <div class="footer__inner">
             <div class="footer__newsletter">
               <NewsletterSignup variant="compact" source="footer" />
@@ -580,10 +575,10 @@ const sidebarSocialLinks = [
             </div>
             <div class="footer__actions">
               <nav class="footer__links" aria-label="Footer links">
-                <a href="/projects/">Cases</a>
-                <a href="/blog/">Blog</a>
-                <a href="/about/">About</a>
-                <a href="mailto:contact@tuliocunha.dev">Email</a>
+                <a href="/projects/">View case studies</a>
+                <a href="/blog/">Read the blog</a>
+                <a href="/about/">About Tulio</a>
+                <a href="mailto:contact@tuliocunha.dev">Email Tulio</a>
               </nav>
             </div>
             <div class="footer__meta">

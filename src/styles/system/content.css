@@ -1813,7 +1813,7 @@ body[data-mobile-liquid-nav="true"] .article__ctaNewsletter {
   margin-bottom: 0;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .articleCompare {
     grid-template-columns: minmax(0, 1fr);
   }

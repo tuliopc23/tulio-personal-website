@@ -295,14 +295,7 @@ p {
   line-height: var(--lh-base); /* 1.65 - Apple HIG standard */
   letter-spacing: var(--ls-body); /* -0.010em - HIG precision */
   text-wrap: pretty;
-}
-
-[data-theme="dark"] p {
-  color: rgba(235, 235, 245, 0.9);
-}
-
-[data-theme="light"] p {
-  color: rgba(60, 60, 67, 0.9);
+  color: var(--text-primary);
 }
 
 p:last-child {

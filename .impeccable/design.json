@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-08T20:30:00.000Z",
+  "title": "Design System: Tulio Cunha — Personal Developer Site",
+  "extensions": {
+    "colorMeta": {
+      "bg-base": { "role": "neutral", "displayName": "Obsidian Base", "canonical": "#050505" },
+      "accent-primary": { "role": "primary", "displayName": "System Blue", "canonical": "#0d8aff" },
+      "surface": { "role": "neutral", "displayName": "Elevated Graphite", "canonical": "#161618" },
+      "text-primary": { "role": "neutral", "displayName": "Primary Text", "canonical": "#f5f5f7" }
+    },
+    "shadows": [
+      {
+        "name": "shadow-card",
+        "value": "var(--shadow-card)",
+        "purpose": "Default card elevation with inset highlight."
+      },
+      {
+        "name": "shadow-card-hover",
+        "value": "var(--shadow-card-hover)",
+        "purpose": "Interactive lift on hover/focus."
+      },
+      {
+        "name": "shadow-topbar",
+        "value": "var(--shadow-topbar)",
+        "purpose": "Shell chrome separation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-spring",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "purpose": "Card and tile hover transitions."
+      },
+      { "name": "duration-md", "value": "240ms", "purpose": "Standard UI state transitions." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  }
+}

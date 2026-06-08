@@ -74,13 +74,17 @@ export default function SiteSearchTrigger() {
         <button
           type="button"
           className="topbar__iconButton topbar__searchButton"
-          aria-label="Open search"
+          aria-label="Open site search. Keyboard shortcut: Command K."
+          aria-keyshortcuts="Meta+K Control+K"
           aria-expanded={open}
           aria-haspopup="dialog"
           data-site-search-trigger
           title="Search (Cmd/Ctrl + K)"
         >
           <NavPhosphorIcon name="magnifying-glass" className="topbar__searchIcon" />
+          <kbd className="topbar__searchKbd" aria-hidden="true">
+            ⌘K
+          </kbd>
         </button>
       </PopoverPrimitive.Trigger>
       <PopoverContent

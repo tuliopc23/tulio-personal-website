@@ -72,7 +72,7 @@ const _releaseYear = project.releaseDate ? formatter.format(new Date(project.rel
             <img
               src={optimizedImageUrl(project.coverImage!.url!, 960)}
               srcset={generateSrcset(project.coverImage!.url!, [480, 640, 800, 960, 1280])}
-              sizes="(max-width: 720px) calc(100vw - 40px), (max-width: 1180px) calc(50vw - 48px), 520px"
+              sizes="(max-width: 768px) calc(100vw - 40px), (max-width: 1280px) calc(50vw - 48px), 520px"
               alt={project.coverImage?.alt ?? project.title}
               class="projectCard__image"
               loading="lazy"

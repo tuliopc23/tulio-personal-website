@@ -1,5 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import PhosphorIcon from "../../components/PhosphorIcon.astro";
 
 export const prerender = true;
@@ -44,13 +45,24 @@ const copy =
 >
   <div class="pageBento pageBento--utility">
     <section class="container pageHero pageWidget" data-reveal data-reveal-type="scale">
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/", icon: "home" },
+          { label: "Newsletter", icon: "mail" },
+        ]}
+      />
       <div class="pageHero__copy">
         <span class:list={["pageHero__eyebrow", copy.tone === "success" ? "meta-chip--signal" : "meta-chip--accent"]}>
           <PhosphorIcon name={copy.tone === "success" ? "check-circle" : "warning"} size={14} weight="regular" />
           Newsletter
         </span>
         <h1 class="pageHero__title">{copy.title}</h1>
-        <p class="pageHero__lede">{copy.body}</p>
+        <p class="pageHero__lede">
+          {copy.body}
+          {copy.tone !== "success"
+            ? " You can also open site search with Command K from the top bar."
+            : ""}
+        </p>
         <div class="pageHero__meta" aria-label="Next steps">
           <a class="btn" href="/blog/">
             <PhosphorIcon name="notebook" size={16} weight="regular" />

@@ -41,6 +41,7 @@
   overflow-clip-margin: var(--section-quick-nav-bleed-block) var(--section-quick-nav-bleed-inline);
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
 }
 
 .list {

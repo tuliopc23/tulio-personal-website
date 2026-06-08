@@ -67,33 +67,59 @@ const structuredData = {
       <div class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}>
         <form class={styles.contactForm} id="contact-form" data-contact-form>
           <label class={styles.contactFormField}>
-            <span>Name</span>
-            <input name="name" type="text" required autocomplete="name" />
+            <span id="contact-name-label">Name</span>
+            <input
+              name="name"
+              type="text"
+              required
+              autocomplete="name"
+              aria-labelledby="contact-name-label"
+            />
           </label>
 
           <label class={styles.contactFormField}>
-            <span>Email</span>
-            <input name="email" type="email" required autocomplete="email" />
+            <span id="contact-email-label">Email</span>
+            <input
+              name="email"
+              type="email"
+              required
+              autocomplete="email"
+              aria-labelledby="contact-email-label"
+              aria-describedby="contact-email-hint"
+            />
+            <span id="contact-email-hint" class={styles.contactFormFieldHint}>
+              Used only to reply — never added to a list.
+            </span>
           </label>
 
           <label class={styles.contactFormField}>
-            <span>Subject</span>
+            <span id="contact-subject-label">Subject</span>
             <input
               name="subject"
               type="text"
               required
               placeholder="e.g. iOS app, web platform, backend migration"
+              aria-labelledby="contact-subject-label"
+              aria-describedby="contact-subject-hint"
             />
+            <span id="contact-subject-hint" class={styles.contactFormFieldHint}>
+              One line on the product or problem area.
+            </span>
           </label>
 
           <label class:list={[styles.contactFormField, styles.contactFormFieldFull]}>
-            <span>Message</span>
+            <span id="contact-message-label">Message</span>
             <textarea
               name="message"
               rows="7"
               required
               placeholder="What's the project, what broke (or hasn't been built yet), and what does the timeline look like?"
+              aria-labelledby="contact-message-label"
+              aria-describedby="contact-message-hint"
             ></textarea>
+            <span id="contact-message-hint" class={styles.contactFormFieldHint}>
+              Stack, constraints, and timeline help me respond with something useful.
+            </span>
           </label>
 
           <div class={styles.contactFormActions}>

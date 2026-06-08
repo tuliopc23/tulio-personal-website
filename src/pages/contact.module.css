@@ -17,10 +17,17 @@
   grid-column: 1 / -1;
 }
 
-.contactFormField span {
+.contactFormField > span:first-child {
   font-size: var(--fs-footnote);
   color: var(--text-secondary);
   font-weight: var(--fw-medium);
+}
+
+.contactFormFieldHint {
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+  line-height: 1.45;
+  text-wrap: pretty;
 }
 
 .contactFormField input,
@@ -66,9 +73,10 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2xs);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   font-size: var(--fs-footnote);
   line-height: 1.5;
+  text-wrap: pretty;
 }
 
 @media (max-width: 1024px) {

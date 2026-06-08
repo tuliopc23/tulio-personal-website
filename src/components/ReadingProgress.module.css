@@ -11,9 +11,11 @@
 
 .bar {
   height: 100%;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
   background: var(--blue);
-  transition: width 0.1s ease-out;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
