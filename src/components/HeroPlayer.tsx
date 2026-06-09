@@ -47,7 +47,7 @@ function StaticFallback() {
           position: "absolute",
           top: "3%",
           left: "50%",
-          transform: "translateX(-50%)",
+          transform: "translateX(calc(-50% + 1.25%))",
           width: "90%",
           height: "auto",
           filter: "var(--mac-drop-shadow)",

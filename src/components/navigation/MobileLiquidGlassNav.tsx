@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { shouldIsolateSafariChrome } from "../../lib/browser-environment";
+import { getScrollY, subscribeScroll } from "../../lib/scroll-subscribe";
 import { navigateBack } from "../../lib/navigation/go-back";
 import {
   setSiteSearchOpen,
@@ -139,32 +140,22 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
       return;
     }
 
-    let lastY = window.scrollY;
-    let ticking = false;
+    let lastY = getScrollY();
 
     const onScroll = () => {
-      if (ticking) {
-        return;
+      const y = getScrollY();
+      const delta = y - lastY;
+
+      if (Math.abs(delta) > 10 && y > 72) {
+        setChromeHidden(delta > 0);
+      } else if (delta < 0) {
+        setChromeHidden(false);
       }
 
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const delta = y - lastY;
-
-        if (Math.abs(delta) > 10 && y > 72) {
-          setChromeHidden(delta > 0);
-        } else if (delta < 0) {
-          setChromeHidden(false);
-        }
-
-        lastY = y;
-        ticking = false;
-      });
+      lastY = y;
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return subscribeScroll(onScroll);
   }, [shouldAnimateChrome, searchOpen]);
 
   const openSearch = useCallback(() => {

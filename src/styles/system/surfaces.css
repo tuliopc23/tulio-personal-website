@@ -3,8 +3,7 @@
   position: relative;
   width: 100vw;
   max-width: 100%;
-  margin-left: calc(-50vw + 50%);
-  margin-right: 0;
+  margin-inline: calc(50% - 50vw);
   height: 100vh;
   overflow: hidden;
   z-index: 0;
@@ -57,6 +56,7 @@
   );
   pointer-events: none;
   z-index: 3;
+  opacity: var(--hero-feather-opacity, 0.72);
 }
 
 @supports (animation-timeline: scroll()) {
@@ -69,7 +69,8 @@
     }
   }
 
-  .hero-remotion::after {
+  /* Lenis drives hero corridor via ScrollTrigger; CSS scroll-timeline duplicates work per tick. */
+  :root:not([data-lenis-active="true"]) .hero-remotion::after {
     animation: heroFeatherDeepen linear both;
     animation-timeline: scroll(nearest);
     animation-range: exit 0% exit 100%;

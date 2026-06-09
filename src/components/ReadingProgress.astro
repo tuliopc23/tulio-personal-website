@@ -8,6 +8,8 @@ import styles from "./ReadingProgress.module.css";
 </div>
 
 <script>
+  import { getScrollY, subscribeScroll } from "../lib/scroll-subscribe";
+
   const progressBar = document.querySelector("[data-reading-progress]");
 
   if (progressBar instanceof HTMLElement) {
@@ -21,7 +23,7 @@ import styles from "./ReadingProgress.module.css";
       const articleTop = articleBody.offsetTop;
       const articleHeight = articleBody.offsetHeight;
       const windowHeight = window.innerHeight;
-      const scrollTop = window.pageYOffset;
+      const scrollTop = getScrollY();
 
       const windowBottom = scrollTop + windowHeight;
 
@@ -33,19 +35,7 @@ import styles from "./ReadingProgress.module.css";
       progressBar.style.transform = `scaleX(${progress})`;
     };
 
-    // Update on scroll with throttling
-    let ticking = false;
-    const throttledUpdate = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateProgress();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", throttledUpdate);
-    updateProgress(); // Initial update
+    subscribeScroll(updateProgress);
+    updateProgress();
   }
 </script>

@@ -7,7 +7,7 @@
  * work.  Uses Motion for smooth spring interpolation.
  */
 
-import { getLenis } from "../lenis";
+import { subscribeScroll } from "../../lib/scroll-subscribe";
 import { animateDOM } from "./dom-animate";
 import { SPRING_SMOOTH, SPRING_SNAPPY } from "./springs";
 
@@ -22,7 +22,7 @@ type CardScrollState = {
 type DisposeFn = VoidFunction;
 
 let disposers: DisposeFn[] = [];
-let lenisScrollCleanup: DisposeFn | null = null;
+let scrollCleanup: DisposeFn | null = null;
 
 /* ── Helpers ────────────────────────────────────────────────── */
 
@@ -75,16 +75,13 @@ export function initParallaxTilt(): void {
     cardStates.set(card, { cachedRect: null });
   }
 
-  const lenis = getLenis();
-  if (lenis) {
-    const invalidateAllRects = (): void => {
-      for (const state of cardStates.values()) {
-        state.cachedRect = null;
-      }
-    };
-    lenis.on("scroll", invalidateAllRects);
-    lenisScrollCleanup = () => lenis.off("scroll", invalidateAllRects);
-  }
+  const invalidateAllRects = (): void => {
+    for (const state of cardStates.values()) {
+      state.cachedRect = null;
+    }
+  };
+
+  scrollCleanup = subscribeScroll(invalidateAllRects);
 
   for (const card of cards) {
     let trackingPointer = false;
@@ -132,8 +129,8 @@ export function initParallaxTilt(): void {
 }
 
 export function cleanupParallaxTilt(): void {
-  lenisScrollCleanup?.();
-  lenisScrollCleanup = null;
+  scrollCleanup?.();
+  scrollCleanup = null;
   for (const dispose of disposers) dispose();
   disposers = [];
 }

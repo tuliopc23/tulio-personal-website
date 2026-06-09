@@ -10,6 +10,8 @@ import styles from "./ScrollToTop.module.css";
 </button>
 
 <script>
+  import { getScrollY, scrollToY, subscribeScroll } from "../lib/scroll-subscribe";
+
   (() => {
     const win = window as Window & { __scrollToTopCleanups?: Array<() => void> };
 
@@ -46,7 +48,7 @@ import styles from "./ScrollToTop.module.css";
       }
 
       const updateScrollState = () => {
-        const scrollTop = window.pageYOffset;
+        const scrollTop = getScrollY();
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
 
@@ -54,22 +56,8 @@ import styles from "./ScrollToTop.module.css";
         progressBar.style.transform = `scaleY(${scrollPercent})`;
       };
 
-      let ticking = false;
-      const throttledUpdate = () => {
-        if (ticking) return;
-
-        ticking = true;
-        requestAnimationFrame(() => {
-          updateScrollState();
-          ticking = false;
-        });
-      };
-
       const handleClick = () => {
-        window.scrollTo({
-          top: 0,
-          behavior: scrollBehavior,
-        });
+        scrollToY(0, { behavior: scrollBehavior });
       };
 
       const handlePreferenceChange = () => {
@@ -79,13 +67,13 @@ import styles from "./ScrollToTop.module.css";
       };
 
       scrollButton.addEventListener('click', handleClick);
-      window.addEventListener('scroll', throttledUpdate, { passive: true });
+      const unsubscribeScroll = subscribeScroll(updateScrollState);
 
       prefersReduced.addEventListener('change', handlePreferenceChange);
 
       getCleanups().push(() => {
         scrollButton.removeEventListener('click', handleClick);
-        window.removeEventListener('scroll', throttledUpdate);
+        unsubscribeScroll();
         prefersReduced.removeEventListener('change', handlePreferenceChange);
       });
 

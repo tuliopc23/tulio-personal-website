@@ -1,23 +1,57 @@
 /**
  * Scroll-linked progress animations.
  *
- * Uses Motion's `scroll()` for declarative scroll-bound effects:
- * - Hero scroll indicator line animation
- * - Hero section parallax fade on scroll
- *
- * On narrow viewports the hero Remotion player skips transform/opacity scroll
- * binding to reduce main-thread work alongside Lenis and video.
+ * Uses GSAP ScrollTrigger (scrub) so hero corridor effects share Lenis'
+ * scroll lifecycle instead of running a separate Motion scroll timeline.
  */
 
-import { scroll } from "motion";
-import { animateDOM } from "./dom-animate";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { scheduleScrollTriggerRefresh } from "./scroll-trigger-refresh";
 
-type StopFn = VoidFunction;
+gsap.registerPlugin(ScrollTrigger);
 
-let cleanups: StopFn[] = [];
+type CleanupFn = VoidFunction;
+
+let cleanups: CleanupFn[] = [];
 
 function isNarrowViewport(): boolean {
   return typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
+}
+
+function rememberScrollTrigger(trigger: ScrollTrigger, extra?: CleanupFn): void {
+  cleanups.push(() => {
+    trigger.kill();
+    extra?.();
+  });
+}
+
+function scrubTween(
+  target: HTMLElement,
+  vars: gsap.TweenVars,
+  trigger: HTMLElement,
+  start: string,
+  end: string,
+): ScrollTrigger {
+  const tween = gsap.to(target, {
+    ...vars,
+    ease: "none",
+    scrollTrigger: {
+      trigger,
+      start,
+      end,
+      scrub: true,
+    },
+  });
+
+  const st = tween.scrollTrigger;
+  if (!st) {
+    tween.kill();
+    throw new Error("scroll-progress: ScrollTrigger did not attach");
+  }
+
+  rememberScrollTrigger(st, () => tween.kill());
+  return st;
 }
 
 /* ── Hero scroll indicator ──────────────────────────────────── */
@@ -30,53 +64,64 @@ function setupHeroScrollIndicator(): void {
   const scrollLine = document.querySelector<HTMLElement>(".hero-remotion__scrollLine");
   const scrollLabel = document.querySelector<HTMLElement>(".hero-remotion__scroll");
 
-  // Animate the scroll indicator line
   if (scrollLine) {
-    const stop = scroll(animateDOM(scrollLine, { scaleY: [0, 1], opacity: [1, 0] }), {
-      target: hero,
-      offset: ["start start", "end start"],
-    });
-    cleanups.push(stop);
-  }
-
-  // Fade out the entire scroll prompt as user scrolls
-  if (scrollLabel) {
-    const stop = scroll(
-      animateDOM(scrollLabel, {
-        opacity: [1, 0],
-        transform: ["translateY(0)", "translateY(-12px)"],
-      }),
-      { target: hero, offset: ["start start", "0.3 start"] },
+    gsap.set(scrollLine, { scaleY: 0, opacity: 1, transformOrigin: "top center" });
+    scrubTween(
+      scrollLine,
+      { scaleY: 1, opacity: 0 },
+      hero,
+      "start start",
+      "end start",
     );
-    cleanups.push(stop);
   }
 
-  // Parallax fade on the hero player (desktop only — mobile avoids extra scroll listeners on video)
+  if (scrollLabel) {
+    gsap.set(scrollLabel, { opacity: 1, y: 0 });
+    scrubTween(
+      scrollLabel,
+      { opacity: 0, y: -12 },
+      hero,
+      "start start",
+      "30% start",
+    );
+  }
+
   if (!narrow) {
     const player = hero.querySelector<HTMLElement>(".hero-remotion__player");
     if (player) {
-      const stop = scroll(
-        animateDOM(player, {
-          opacity: [1, 0.3],
-          transform: ["translateY(0)", "translateY(-40px) scale(0.97)"],
-        }),
-        { target: hero, offset: ["start start", "end start"] },
+      gsap.set(player, { opacity: 1, y: 0, scale: 1 });
+      scrubTween(
+        player,
+        { opacity: 0.3, y: -40, scale: 0.97 },
+        hero,
+        "start start",
+        "end start",
       );
-      cleanups.push(stop);
     }
   }
 
   const heroBridge = document.querySelector<HTMLElement>(".homepage-stage--hero-bridge");
   if (heroBridge) {
-    const stop = scroll(
-      animateDOM(heroBridge, {
-        opacity: [0.86, 1],
-        transform: ["translateY(10px)", "translateY(0)"],
-      }),
-      { target: hero, offset: ["0.55 start", "end start"] },
+    gsap.set(heroBridge, { opacity: 0.86, y: 10 });
+    scrubTween(
+      heroBridge,
+      { opacity: 1, y: 0 },
+      hero,
+      "55% start",
+      "end start",
     );
-    cleanups.push(stop);
   }
+
+  gsap.set(hero, { "--hero-feather-opacity": 0.72 });
+  scrubTween(
+    hero,
+    { "--hero-feather-opacity": 1 },
+    hero,
+    "start start",
+    "end start",
+  );
+
+  scheduleScrollTriggerRefresh("settled");
 }
 
 /* ── Public API ─────────────────────────────────────────────── */

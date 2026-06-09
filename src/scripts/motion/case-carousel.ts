@@ -42,7 +42,7 @@ function measureSlideLeft(index: number): number {
   if (!slide) return 0;
 
   const offset = slide.offsetLeft - track.offsetLeft;
-  if (Number.isFinite(offset) && offset > 0) {
+  if (Number.isFinite(offset)) {
     return clamp(offset, 0, measureTrackLimit());
   }
 
@@ -88,9 +88,18 @@ function goTo(index: number): void {
   if (!track || index < 0 || index >= slides.length) return;
   currentIndex = index;
   updateAria(index);
+  const left = measureSlideLeft(index);
   track.scrollTo({
-    left: measureSlideLeft(index),
-    behavior: isReducedMotion() ? "auto" : "smooth",
+    left,
+    behavior: "auto",
+  });
+  // scroll-snap can leave us a few px off after native scroll; align on next frame.
+  requestAnimationFrame(() => {
+    if (!track) return;
+    const aligned = measureSlideLeft(index);
+    if (Math.abs(track.scrollLeft - aligned) > 2) {
+      track.scrollLeft = aligned;
+    }
   });
 }
 
@@ -229,6 +238,34 @@ function onTrackClickCapture(event: Event): void {
   event.stopPropagation();
 }
 
+function hasHorizontalWheelIntent(event: WheelEvent): boolean {
+  const absX = Math.abs(event.deltaX);
+  const absY = Math.abs(event.deltaY);
+  return event.shiftKey || (absX >= DRAG_INTENT_THRESHOLD && absX > absY * 1.15);
+}
+
+function onTrackWheel(event: WheelEvent): void {
+  if (!track || isReducedMotion()) return;
+
+  const limit = measureTrackLimit();
+  if (limit <= 4 || !hasHorizontalWheelIntent(event)) return;
+
+  const delta =
+    Math.abs(event.deltaX) >= DRAG_INTENT_THRESHOLD && Math.abs(event.deltaX) > Math.abs(event.deltaY)
+      ? event.deltaX
+      : event.deltaY;
+  if (Math.abs(delta) < 0.5) return;
+
+  const atStart = track.scrollLeft <= 2;
+  const atEnd = track.scrollLeft >= limit - 2;
+  const wantsBackward = delta < 0;
+  const wantsForward = delta > 0;
+  if ((wantsBackward && atStart) || (wantsForward && atEnd)) return;
+
+  event.preventDefault();
+  track.scrollLeft = clamp(track.scrollLeft + delta, 0, limit);
+}
+
 export function initCaseCarousel(): void {
   cleanupCaseCarousel();
 
@@ -271,6 +308,7 @@ export function initCaseCarousel(): void {
   });
 
   track.addEventListener("scroll", onTrackScroll, { passive: true });
+  track.addEventListener("wheel", onTrackWheel, { passive: false });
   track.addEventListener("keydown", onTrackKeyDown);
   track.addEventListener("pointerdown", onPointerDown);
   track.addEventListener("pointermove", onPointerMove);
@@ -280,6 +318,7 @@ export function initCaseCarousel(): void {
   window.addEventListener("resize", onResize, { passive: true });
   cleanupFns.push(() => {
     track?.removeEventListener("scroll", onTrackScroll);
+    track?.removeEventListener("wheel", onTrackWheel);
     track?.removeEventListener("keydown", onTrackKeyDown);
     track?.removeEventListener("pointerdown", onPointerDown);
     track?.removeEventListener("pointermove", onPointerMove);

@@ -516,56 +516,58 @@ const sidebarSocialLinks = [
                 </div>
                 <p class="sidebar__meta">{sidebarMeta}</p>
               </div>
-              <nav class="sidebar__nav" role="navigation" aria-label="Sections">
-                <div class="sidebar__group sidebar__group--site">
-                  <div class="sidebar__groupLabel">Explore</div>
-                  {sidebarSiteLinks.map((link) => (
-                    <a
-                      class="sidebar__link"
-                      href={link.href}
-                      aria-current={link.current ? "page" : undefined}
-                    >
-                      <NavIconTile tint={link.tint} icon={link.icon} />
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-              </nav>
-              <div class="sidebar__footer">
-                <div class="sidebar__group sidebar__group--social">
-                  <div class="sidebar__groupLabel">Elsewhere</div>
-                  <div class="sidebar__socialGrid">
-                    {sidebarSocialLinks.map((link) => (
+              <div class="sidebar__body">
+                <nav class="sidebar__nav" role="navigation" aria-label="Sections">
+                  <div class="sidebar__group sidebar__group--site">
+                    <div class="sidebar__groupLabel">Explore</div>
+                    {sidebarSiteLinks.map((link) => (
                       <a
-                        class="sidebar__link sidebar__link--secondary"
+                        class="sidebar__link"
                         href={link.href}
-                        target={link.external ? "_blank" : undefined}
-                        rel={link.external ? "noreferrer noopener" : undefined}
                         aria-current={link.current ? "page" : undefined}
                       >
-                        <NavIconTile tint={link.tint ?? "blue"} icon={link.icon} />
+                        <NavIconTile tint={link.tint} icon={link.icon} />
                         {link.label}
                       </a>
                     ))}
                   </div>
-                </div>
-                <div class="sidebar__filter">
-                  <label class="sidebar__filterLabel" for="sidebarFilter">Quick jump</label>
-                  <div class="sidebar__filterField">
-                    <input
-                      id="sidebarFilter"
-                      type="search"
-                      placeholder="Jump to a page"
-                      aria-label="Jump to a page from the menu"
-                    />
-                    <kbd class="slash">/</kbd>
+                </nav>
+                <div class="sidebar__footer">
+                  <div class="sidebar__group sidebar__group--social">
+                    <div class="sidebar__groupLabel">Elsewhere</div>
+                    <div class="sidebar__socialGrid">
+                      {sidebarSocialLinks.map((link) => (
+                        <a
+                          class="sidebar__link sidebar__link--secondary"
+                          href={link.href}
+                          target={link.external ? "_blank" : undefined}
+                          rel={link.external ? "noreferrer noopener" : undefined}
+                          aria-current={link.current ? "page" : undefined}
+                        >
+                          <NavIconTile tint={link.tint ?? "blue"} icon={link.icon} />
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                  <span
-                    class="sr-only"
-                    data-sidebar-status
-                    aria-live="polite"
-                    role="status"
-                  />
+                  <div class="sidebar__filter">
+                    <label class="sidebar__filterLabel" for="sidebarFilter">Quick jump</label>
+                    <div class="sidebar__filterField">
+                      <input
+                        id="sidebarFilter"
+                        type="search"
+                        placeholder="Jump to a page"
+                        aria-label="Jump to a page from the menu"
+                      />
+                      <kbd class="slash">/</kbd>
+                    </div>
+                    <span
+                      class="sr-only"
+                      data-sidebar-status
+                      aria-live="polite"
+                      role="status"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

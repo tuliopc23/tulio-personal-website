@@ -4,6 +4,7 @@
  */
 
 import { scroll } from "motion";
+import { subscribeScroll } from "../../lib/scroll-subscribe";
 import { animateDOM } from "./dom-animate";
 import { isReducedMotion } from "./reduced-motion";
 
@@ -55,6 +56,7 @@ function setupProjectsCaseDepth(): void {
   };
 
   syncActiveSlide();
+  remember(subscribeScroll(syncActiveSlide));
   track.addEventListener("scroll", syncActiveSlide, { passive: true });
   remember(() => track.removeEventListener("scroll", syncActiveSlide));
 }

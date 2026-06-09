@@ -165,7 +165,7 @@
   flex: 0 0 100%;
   width: 100%;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
   box-sizing: border-box;
   transform: scale(var(--case-slide-scale, 1));
   opacity: var(--case-slide-opacity, 1);

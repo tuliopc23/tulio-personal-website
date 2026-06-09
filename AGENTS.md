@@ -10,7 +10,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Prefer commands compatible with fish shell syntax; avoid bashisms that may hang.
 - When implementing an attached Cursor plan, do not edit the plan file; use the plan’s existing todos and mark them in progress (do not recreate the todo list).
 - For React UI (mobile nav, search, dialogs), prefer shadcn or Base UI primitives styled with design tokens over bespoke one-off components.
-- For Impeccable `/distill` or eyebrow-label reductions, show concrete UI examples and get explicit approval before editing; uppercase section kickers may be intentional brand voice.
+- For Impeccable `/distill` or eyebrow-label reductions, show concrete UI examples and get explicit approval before new patterns; user approved removing redundant hero/page eyebrows that duplicate the heading. Uppercase section kickers elsewhere may still be intentional brand voice.
 
 ## Learned Workspace Facts
 
@@ -20,7 +20,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - `pnpm dev` uses `scripts/with-system-certs.mjs` for certificate handling.
 - Local agent skill caches under paths listed in `.gitignore` (for example `.agents/skills/`) are not versioned.
 - TypeScript is on **6.x** (`package.json`). Earlier guidance to stay on 5.9.x is outdated — some Astro packages still declare `peer typescript` as `^5`, but the pnpm `peerDependencyRules.allowedVersions` override handles this.
-- This Astro site is multi-page (no `<ViewTransitions />` / client router). Don’t rely on `astro:page-load` for first-load client initialization; keep a `DOMContentLoaded`/`document.readyState` fallback.
+- This Astro site is multi-page (no `<ViewTransitions />` / client router). Don’t rely on `astro:page-load` for first-load client initialization; keep a `DOMContentLoaded`/`document.readyState` fallback. Per-route Impeccable overdrive uses `src/scripts/motion/page-overdrive.ts` keyed off `data-page-route` on `<body>` in Base.astro; the home hero corridor stays in `scroll-progress.ts`.
 - Horizontal scroll rails/carousels use native overflow with `touch-action: pan-x pan-y` (or `pan-x pan-y pinch-zoom`) so vertical page scroll is not blocked on touch; lock to `pan-x` only while `[data-dragging="true"]` / `.is-dragging` during horizontal drags. Register rails in `scroll-indicators.ts` (`.articleGrid`, `.cardRail`, `[data-repo-rail]`, `[data-writing-rail]`, etc.) and `lenis.ts` (`data-lenis-prevent-horizontal`, `[data-case-track]`, etc.). Do not use `touch-action: pan-x` alone on idle rails — it traps vertical scroll. Avoid `data-lenis-prevent` on whole sliders and avoid Lenis `allowNestedScroll` for horizontal-only overflow — both trap vertical Lenis page scroll on desktop; use `virtualScroll` routing in `lenis.ts` instead.
 - Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile.
 - Blog index (`/blog`) intentionally has no Topics chip filter UI; category archives remain at `/blog/category/[slug]`.

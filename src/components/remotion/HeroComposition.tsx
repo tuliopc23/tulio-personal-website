@@ -41,14 +41,19 @@ const SCREEN = {
   height: 31.0,
 } as const;
 
-/* Desktop: Mac at 90% of 1920×1080 landscape composition — fills width. */
-const DESKTOP_MAC = { top: 3, width: 90 } as const;
+/* Desktop: Mac at 90% of 1920×1080 — slight optical shift right (asset transparent padding). */
+const DESKTOP_MAC = { top: 3, width: 90, centerShift: 1.25 } as const;
 
 /* Mobile: portrait 1080×1920 composition. The Mac must be massive to fill
    the screen height. At 220% width (3:2 → height ~76% of 1920), the Mac
    dominates vertically. Sides overflow and are clipped by composition bounds.
    The CRT screen + bezel remain fully visible and centered. */
 const MOBILE_MAC = { top: 5, width: 220 } as const;
+
+function macCenterTransform(mac: typeof DESKTOP_MAC | typeof MOBILE_MAC): string {
+  const shift = "centerShift" in mac ? mac.centerShift : 0;
+  return `translateX(calc(-50% + ${shift}%))`;
+}
 
 const HELLO_SCALE = 0.76;
 
@@ -102,7 +107,7 @@ function MacintoshLayer({ isMobile }: { isMobile: boolean }) {
           position: "absolute",
           top: `${mac.top}%`,
           left: "50%",
-          transform: "translateX(-50%)",
+          transform: macCenterTransform(mac),
           width: `${mac.width}%`,
           aspectRatio: "3 / 2",
           filter: "var(--mac-drop-shadow)",
@@ -179,7 +184,7 @@ function HelloDraw({ isMobile }: { isMobile: boolean }) {
           position: "absolute",
           top: `${mac.top}%`,
           left: "50%",
-          transform: "translateX(-50%)",
+          transform: macCenterTransform(mac),
           width: `${mac.width}%`,
           aspectRatio: "3 / 2",
           pointerEvents: "none",

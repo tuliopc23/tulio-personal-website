@@ -170,6 +170,45 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   will-change: transform, width, height;
 }
 
+/* Topbar segment: softer than generic liquid-segment (avoids harsh clipped rim streak) */
+.topbar__navIndicator.liquid-glass--segment {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.14), transparent 58%),
+    color-mix(in srgb, var(--topbar-bg-active) 88%, transparent);
+  border-color: color-mix(in srgb, var(--panel-border-strong) 72%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 8px 18px rgba(6, 14, 30, 0.1);
+}
+
+[data-theme="light"] .topbar__navIndicator.liquid-glass--segment {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.42), transparent 58%),
+    color-mix(in srgb, var(--topbar-bg-active) 94%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.05),
+    0 8px 16px rgba(15, 23, 42, 0.08);
+}
+
+@media (min-width: 1025px) {
+  /* Sliding indicator owns hover/active chrome — link pseudo-layers caused double rim streaks */
+  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:hover,
+  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:active {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:hover::after,
+  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:focus-visible::after {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+}
+
 :root[data-motion="reduced"] .topbar__navIndicator {
   transition: none;
 }
@@ -1048,13 +1087,24 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
     -webkit-overflow-scrolling: touch;
   }
 
-  .sidebar__nav {
-    flex: 0 1 auto;
+  .sidebar__body {
+    flex: 1 1 auto;
     min-height: 0;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+  }
+
+  .sidebar__nav {
+    flex: 0 0 auto;
+    overflow: visible;
     padding-inline: var(--space-sm);
+    padding-bottom: 0;
+  }
+
+  .sidebar__footer {
     padding-bottom: calc(var(--space-md) + max(var(--safe-area-bottom), 0px));
   }
 
@@ -1292,14 +1342,26 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
 
   .sidebar__title {
     max-width: none;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   .sidebar__meta {
     max-width: none;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .sidebar__body {
+    padding-bottom: 2px;
   }
 
   .sidebar__nav {
-    padding: 0 10px 8px;
+    padding: 0 10px 0;
     scrollbar-gutter: stable;
   }
 
@@ -1313,7 +1375,7 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
 
   .sidebar__footer {
     flex-shrink: 0;
-    margin-top: auto;
+    margin-top: 0;
     padding: 12px 12px 14px;
     border-top: 1px solid color-mix(in srgb, var(--panel-border) 80%, transparent);
     background: linear-gradient(
@@ -1323,23 +1385,31 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
     );
   }
 }
-.sidebar__nav {
+.sidebar__body {
+  flex: 1 1 auto;
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0 var(--space-xs) var(--space-sm) var(--space-xs);
-  flex: 1 1 auto;
   scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
 }
 
-.sidebar__nav::-webkit-scrollbar {
+.sidebar__body::-webkit-scrollbar {
   width: 6px;
 }
 
-.sidebar__nav::-webkit-scrollbar-thumb {
+.sidebar__body::-webkit-scrollbar-thumb {
   border-radius: 999px;
   background: color-mix(in srgb, var(--text-tertiary) 34%, transparent);
+}
+
+.sidebar__nav {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: visible;
+  padding: 0 var(--space-xs) var(--space-sm) var(--space-xs);
+  flex: 0 0 auto;
 }
 .sidebar__group {
   padding: var(--space-xxs) var(--space-xs);

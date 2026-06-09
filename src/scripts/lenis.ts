@@ -10,6 +10,7 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { setScrollEngine } from "../lib/scroll-subscribe";
 import {
   cancelPendingScrollTriggerRefresh,
   scheduleScrollTriggerRefresh,
@@ -26,6 +27,7 @@ const HORIZONTAL_GESTURE_RATIO = 1.15;
 let lenis: Lenis | null = null;
 let tickerCallback: ((time: number) => void) | null = null;
 let scrollCallback: (() => void) | null = null;
+let lagSmoothingApplied = false;
 
 function isHTMLElement(node: unknown): node is HTMLElement {
   return node instanceof HTMLElement;
@@ -73,9 +75,9 @@ export function initLenis(reducedMotion: boolean): void {
   const narrowViewport =
     typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches;
 
-  // Slightly higher lerp on narrow viewports for snappier wheel follow-through.
+  // Default Lenis lerp is 0.1; slightly higher on narrow viewports for wheel follow-through.
   // syncTouch stays off so touch uses native inertia; nested overflow scrollers stay native.
-  const lerp = narrowViewport ? 0.11 : 0.09;
+  const lerp = narrowViewport ? 0.105 : 0.1;
 
   lenis = new Lenis({
     lerp,
@@ -113,7 +115,12 @@ export function initLenis(reducedMotion: boolean): void {
     lenis?.raf(time * 1000);
   };
   gsap.ticker.add(tickerCallback);
-  // GSAP default lag smoothing (500ms / 33ms) — avoids lagSmoothing(0), which amplified jitter.
+  // Lenis + GSAP integration: disable lag smoothing so scroll scrubbing stays in sync.
+  gsap.ticker.lagSmoothing(0);
+  lagSmoothingApplied = true;
+
+  setScrollEngine(lenis);
+  document.documentElement.dataset.lenisActive = "true";
 
   scheduleScrollTriggerRefresh("immediate");
 }
@@ -130,6 +137,14 @@ export function destroyLenis(): void {
   if (lenis && scrollCallback) {
     lenis.off("scroll", scrollCallback);
     scrollCallback = null;
+  }
+
+  setScrollEngine(null);
+  delete document.documentElement.dataset.lenisActive;
+
+  if (lagSmoothingApplied) {
+    gsap.ticker.lagSmoothing(500, 33);
+    lagSmoothingApplied = false;
   }
 
   lenis?.destroy();

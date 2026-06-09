@@ -219,4 +219,29 @@ describe("case carousel", () => {
     expect(next.disabled).toBe(false);
     expect(progress.textContent).toBe("2 / 3");
   });
+
+  test("returns to the first slide after advancing to the last", async () => {
+    const { initCaseCarousel } = await loadModule();
+    const track = document.querySelector("[data-case-track]") as HTMLElement;
+    const slides = Array.from(document.querySelectorAll("[data-case-slide]")) as HTMLElement[];
+    const { getSlideOffset, getScrollLeft } = installHorizontalMetrics(track, slides);
+    const previous = document.querySelector("[data-case-prev]") as HTMLButtonElement;
+    const next = document.querySelector("[data-case-next]") as HTMLButtonElement;
+
+    initCaseCarousel();
+
+    next.click();
+    next.click();
+    expect(getScrollLeft()).toBe(getSlideOffset(2));
+
+    previous.click();
+    previous.click();
+    expect(getScrollLeft()).toBe(getSlideOffset(0));
+    expect(previous.disabled).toBe(true);
+    expect(
+      Array.from(document.querySelectorAll("[data-case-nav]")).map((pill) =>
+        pill.getAttribute("aria-pressed"),
+      ),
+    ).toEqual(["true", "false", "false"]);
+  });
 });

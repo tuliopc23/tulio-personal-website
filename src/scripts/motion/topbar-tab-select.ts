@@ -33,15 +33,17 @@ function isDesktop(): boolean {
   return mediaQuery?.matches ?? window.matchMedia(DESKTOP_MEDIA).matches;
 }
 
+const INDICATOR_INSET_Y = 2;
+
 function measureLink(link: HTMLElement, container: HTMLElement): IndicatorMetrics {
   const containerRect = container.getBoundingClientRect();
   const linkRect = link.getBoundingClientRect();
 
   return {
     x: linkRect.left - containerRect.left,
-    y: linkRect.top - containerRect.top,
+    y: linkRect.top - containerRect.top + INDICATOR_INSET_Y,
     width: linkRect.width,
-    height: linkRect.height,
+    height: Math.max(linkRect.height - INDICATOR_INSET_Y * 2, 0),
   };
 }
 
