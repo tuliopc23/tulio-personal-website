@@ -112,10 +112,6 @@ const _statusIcons: Record<string, string> = {
         ]}
       />
       <div class="pageHero__copy">
-        <span class="pageHero__eyebrow">
-          <PhosphorIcon name="briefcase" size={14} weight="regular" />
-          {content.heroEyebrow}
-        </span>
         <h1 class="pageHero__title">{content.heroTitle}</h1>
         <p class="pageHero__lede">{content.heroLede}</p>
         <div class="pageHero__meta" aria-label="Case studies overview">
@@ -160,10 +156,6 @@ const _statusIcons: Record<string, string> = {
             <!-- Editorial heading -->
             <header class="stage-intro stage-intro--single">
               <div class="stage-intro__copy">
-                <span class="stage-intro__eyebrow">
-                  <PhosphorIcon name={cs.icon} size={14} weight="regular" />
-                  {cs.eyebrow}
-                </span>
                 <h2 class="stage-intro__title">{cs.title}</h2>
                 <p class="caseSlide__headline">{cs.headline}</p>
                 <p class="stage-intro__caption">{cs.lede}</p>
@@ -267,13 +259,9 @@ const _statusIcons: Record<string, string> = {
     </section>
     ) : (
     <section class="container pageWidget" aria-label="Case studies empty state">
-      <header class="stage-intro stage-intro--single">
-        <div class="stage-intro__copy">
-          <span class="stage-intro__eyebrow">
-            <PhosphorIcon name="briefcase" size={14} weight="regular" />
-            {content.heroEyebrow}
-          </span>
-          <h2 class="stage-intro__title">{pageContent?.pageEmptyTitle ?? "Case studies are being prepared"}</h2>
+        <header class="stage-intro stage-intro--single">
+          <div class="stage-intro__copy">
+            <h2 class="stage-intro__title">{pageContent?.pageEmptyTitle ?? "Case studies are being prepared"}</h2>
           <p class="stage-intro__caption">
             {pageContent?.pageEmptyBody ?? "The project writeups are not published yet."}{" "}
             <a href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>.
@@ -288,10 +276,6 @@ const _statusIcons: Record<string, string> = {
       <section class="homepage-stage" aria-labelledby="projects-more-title">
         <header class="stage-intro stage-intro--single">
           <div class="stage-intro__copy">
-            <span class="stage-intro__eyebrow">
-              <PhosphorIcon name="rocket-launch" size={14} weight="regular" />
-              More work
-            </span>
             <h2 id="projects-more-title" class="stage-intro__title">Other projects and contributions.</h2>
             <p class="stage-intro__caption">Smaller builds, open source work, and experiments that shipped.</p>
           </div>

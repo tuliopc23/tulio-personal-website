@@ -58,4 +58,34 @@ describe("navigateBack", () => {
     expect(window.location.assign).toHaveBeenCalledTimes(1);
     vi.useRealTimers();
   });
+
+  it("falls back when history.back lands on about:blank", () => {
+    vi.useFakeTimers();
+    Object.defineProperty(window, "history", {
+      value: {
+        length: 3,
+        back: vi.fn(() => {
+          Object.defineProperty(window, "location", {
+            value: {
+              ...window.location,
+              protocol: "about:",
+              pathname: "blank",
+              search: "",
+              href: "about:blank",
+              origin: "null",
+              assign: window.location.assign,
+            },
+            configurable: true,
+          });
+        }),
+      },
+      configurable: true,
+    });
+
+    navigateBack("/");
+    vi.runAllTimers();
+
+    expect(window.location.assign).toHaveBeenCalledWith("/");
+    vi.useRealTimers();
+  });
 });

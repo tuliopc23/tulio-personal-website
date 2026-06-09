@@ -65,6 +65,18 @@ function setupHeroScrollIndicator(): void {
       cleanups.push(stop);
     }
   }
+
+  const heroBridge = document.querySelector<HTMLElement>(".homepage-stage--hero-bridge");
+  if (heroBridge) {
+    const stop = scroll(
+      animateDOM(heroBridge, {
+        opacity: [0.86, 1],
+        transform: ["translateY(10px)", "translateY(0)"],
+      }),
+      { target: hero, offset: ["0.55 start", "end start"] },
+    );
+    cleanups.push(stop);
+  }
 }
 
 /* ── Public API ─────────────────────────────────────────────── */

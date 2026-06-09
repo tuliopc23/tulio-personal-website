@@ -1,29 +1,118 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-06-08T20:30:00.000Z",
+  "generatedAt": "2026-06-09T19:00:00.000Z",
   "title": "Design System: Tulio Cunha — Personal Developer Site",
   "extensions": {
     "colorMeta": {
-      "bg-base": { "role": "neutral", "displayName": "Obsidian Base", "canonical": "#050505" },
-      "accent-primary": { "role": "primary", "displayName": "System Blue", "canonical": "#0d8aff" },
-      "surface": { "role": "neutral", "displayName": "Elevated Graphite", "canonical": "#161618" },
-      "text-primary": { "role": "neutral", "displayName": "Primary Text", "canonical": "#f5f5f7" }
+      "bg-base": {
+        "role": "neutral",
+        "displayName": "Obsidian Base",
+        "canonical": "#050505",
+        "tonalRamp": [
+          "#050505",
+          "#0a0a0b",
+          "#101115",
+          "#131317",
+          "#161618",
+          "#1d1d20",
+          "#232327",
+          "#2c2c2e"
+        ]
+      },
+      "accent-primary": {
+        "role": "primary",
+        "displayName": "System Blue",
+        "canonical": "#0d8aff",
+        "tonalRamp": [
+          "#001a33",
+          "#003366",
+          "#004d99",
+          "#0066cc",
+          "#0d8aff",
+          "#3da3ff",
+          "#6db8ff",
+          "#9dcdff"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Elevated Graphite",
+        "canonical": "#161618",
+        "tonalRamp": [
+          "#050505",
+          "#0a0a0b",
+          "#101115",
+          "#131317",
+          "#161618",
+          "#1d1d20",
+          "#232327",
+          "#2c2c2e"
+        ]
+      },
+      "surface-card": {
+        "role": "neutral",
+        "displayName": "Card Surface",
+        "canonical": "#1a1a1e",
+        "tonalRamp": [
+          "#0a0a0b",
+          "#101115",
+          "#131317",
+          "#161618",
+          "#1a1a1e",
+          "#1d1d20",
+          "#232327",
+          "#2c2c2e"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Primary Text",
+        "canonical": "#f5f5f7",
+        "tonalRamp": [
+          "#1d1d1f",
+          "#3a3a3c",
+          "#636366",
+          "#8e8e93",
+          "#aeaeb2",
+          "#c7c7cc",
+          "#d1d1d6",
+          "#f5f5f7"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero-adjacent titles, profile name." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles, hiring proof headers." },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Marketing ledes and card summaries, max ~72ch."
+      },
+      "reader": { "displayName": "Reader", "purpose": "Blog article long-form prose." },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Stack tags, constraint labels on hiring surfaces."
+      }
     },
     "shadows": [
       {
         "name": "shadow-card",
-        "value": "var(--shadow-card)",
+        "value": "0 2px 4px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.12), 0 20px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06)",
         "purpose": "Default card elevation with inset highlight."
       },
       {
         "name": "shadow-card-hover",
-        "value": "var(--shadow-card-hover)",
+        "value": "0 4px 8px rgba(0,0,0,0.1), 0 12px 24px rgba(0,0,0,0.16), 0 28px 56px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)",
         "purpose": "Interactive lift on hover/focus."
       },
       {
         "name": "shadow-topbar",
-        "value": "var(--shadow-topbar)",
+        "value": "0 2px 4px rgba(0,0,0,0.06), 0 8px 16px rgba(0,0,0,0.1), 0 16px 34px rgba(0,0,0,0.38), inset 0 -1px 0 rgba(255,255,255,0.05)",
         "purpose": "Shell chrome separation."
+      },
+      {
+        "name": "shadow-interactive",
+        "value": "0 2px 4px rgba(0,122,255,0.12), 0 6px 12px rgba(0,122,255,0.18), 0 10px 26px rgba(0,122,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2)",
+        "purpose": "Default button and control depth."
       }
     ],
     "motion": [
@@ -32,12 +121,124 @@
         "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
         "purpose": "Card and tile hover transitions."
       },
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        "purpose": "Button and control state transitions."
+      },
       { "name": "duration-md", "value": "240ms", "purpose": "Standard UI state transitions." }
     ],
     "breakpoints": [
       { "name": "md", "value": "768px" },
       { "name": "lg", "value": "1024px" },
       { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "High-intent CTA with system blue fill.",
+      "html": "<button class=\"ds-btn-primary\">Start a conversation</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border: none; border-radius: 999px; background: #0d8aff; color: #f5f5f7; font-family: \"SF Pro\", -apple-system, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; box-shadow: 0 2px 4px rgba(0,122,255,0.12), 0 6px 12px rgba(0,122,255,0.18), 0 10px 26px rgba(0,122,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2); transition: box-shadow 0.16s cubic-bezier(0.22,0.61,0.36,1), transform 0.16s cubic-bezier(0.22,0.61,0.36,1); } .ds-btn-primary:hover { box-shadow: 0 4px 8px rgba(0,122,255,0.16), 0 10px 20px rgba(0,122,255,0.24), 0 16px 32px rgba(0,122,255,0.35), inset 0 1px 0 rgba(255,255,255,0.24); transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,138,255,0.45), 0 4px 8px rgba(0,122,255,0.16); }"
+    },
+    {
+      "name": "Glass Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default marketing button with glass backing.",
+      "html": "<button class=\"ds-btn-glass\">View projects</button>",
+      "css": ".ds-btn-glass { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 22px; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; background: rgba(28,28,30,0.94); color: #f5f5f7; font-family: \"SF Pro\", -apple-system, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em; backdrop-filter: saturate(1.6) blur(18px); -webkit-backdrop-filter: saturate(1.6) blur(18px); box-shadow: 0 2px 4px rgba(0,122,255,0.12), 0 6px 12px rgba(0,122,255,0.18), 0 10px 26px rgba(0,122,255,0.25), inset 0 1px 0 rgba(255,255,255,0.2); cursor: pointer; transition: box-shadow 0.16s cubic-bezier(0.22,0.61,0.36,1), border-color 0.16s cubic-bezier(0.22,0.61,0.36,1); } .ds-btn-glass:hover { box-shadow: 0 4px 8px rgba(0,122,255,0.16), 0 10px 20px rgba(0,122,255,0.24), 0 16px 32px rgba(0,122,255,0.35), inset 0 1px 0 rgba(255,255,255,0.24); } .ds-btn-glass:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,138,255,0.45), 0 4px 8px rgba(0,122,255,0.16); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action with hairline border.",
+      "html": "<button class=\"ds-btn-ghost\">Read the blog</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; padding: 10px 22px; border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; background: transparent; color: #f5f5f7; font-family: \"SF Pro\", -apple-system, system-ui, sans-serif; font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background 0.16s ease, border-color 0.16s ease; } .ds-btn-ghost:hover { background: rgba(22,22,24,0.92); border-color: rgba(255,255,255,0.18); } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,138,255,0.45); }"
+    },
+    {
+      "name": "Card Surface",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "Default interactive content container.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card-title\">Project name</h3><p class=\"ds-card-body\">Constraint handled, outcome delivered.</p></article>",
+      "css": ".ds-card { background: #1a1a1e; border: 1px solid rgba(255,255,255,0.04); border-radius: 20px; padding: clamp(1.25rem, 3vw, 2rem); color: #f5f5f7; box-shadow: 0 2px 4px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.12), 0 20px 48px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06); transition: box-shadow 0.24s cubic-bezier(0.34,1.56,0.64,1), transform 0.24s cubic-bezier(0.34,1.56,0.64,1); } .ds-card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 12px 24px rgba(0,0,0,0.16), 0 28px 56px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); transform: translateY(-2px); } .ds-card-title { margin: 0 0 8px; font-size: 1.3125rem; font-weight: 600; line-height: 1.2; letter-spacing: -0.015em; } .ds-card-body { margin: 0; font-size: 1.0625rem; line-height: 1.65; color: rgba(220,232,255,0.76); max-width: 72ch; }"
+    },
+    {
+      "name": "Mobile Dock",
+      "kind": "nav",
+      "refersTo": "mobile-dock",
+      "description": "Liquid-glass bottom navigation at ≤1024px.",
+      "html": "<nav class=\"ds-mobile-dock\" aria-label=\"Primary\"><button class=\"ds-dock-item ds-dock-item--active\" aria-current=\"page\">Home</button><button class=\"ds-dock-item\">Projects</button><button class=\"ds-dock-item\">Blog</button></nav>",
+      "css": ".ds-mobile-dock { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 58px; padding: 6px 10px; border-radius: 999px; background: rgba(22,22,24,0.72); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: saturate(1.8) blur(24px); -webkit-backdrop-filter: saturate(1.8) blur(24px); box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 8px 16px rgba(0,0,0,0.12), 0 18px 42px rgba(0,0,0,0.42); } .ds-dock-item { flex: 1; min-height: 44px; border: none; border-radius: 999px; background: transparent; color: rgba(194,210,240,0.62); font-family: \"SF Pro\", -apple-system, system-ui, sans-serif; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: color 0.16s ease, background 0.16s ease; } .ds-dock-item--active { color: #f5f5f7; background: rgba(118,118,128,0.24); } .ds-dock-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,138,255,0.45); }"
+    },
+    {
+      "name": "Hiring Proof Block",
+      "kind": "custom",
+      "description": "Scannable proof surface for hiring visitors.",
+      "html": "<section class=\"ds-hire-proof\"><p class=\"ds-hire-eyebrow\">Available for senior IC roles</p><h2 class=\"ds-hire-title\">Full-stack and Apple-platform engineering</h2><p class=\"ds-hire-body\">Shipped native apps, design systems, and Cloudflare Workers infrastructure. Led accessibility and performance constraints on production surfaces.</p><a class=\"ds-hire-cta\" href=\"/contact\">Start a conversation</a></section>",
+      "css": ".ds-hire-proof { max-width: 72ch; padding: clamp(1.25rem, 3vw, 2rem); } .ds-hire-eyebrow { margin: 0 0 12px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(194,210,240,0.62); } .ds-hire-title { margin: 0 0 16px; font-size: clamp(1.625rem, 2.6vw + 0.92rem, 1.9375rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: #f5f5f7; } .ds-hire-body { margin: 0 0 24px; font-size: clamp(1.0625rem, 1vw + 0.95rem, 1.1875rem); line-height: 1.65; color: rgba(220,232,255,0.76); } .ds-hire-cta { display: inline-flex; padding: 10px 22px; border-radius: 999px; background: #0d8aff; color: #f5f5f7; font-weight: 600; text-decoration: none; font-size: 0.9375rem; } .ds-hire-cta:hover { opacity: 0.92; } .ds-hire-cta:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,138,255,0.45); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Native Workshop",
+    "overview": "A personal developer site that reads like macOS Tahoe documentation crossed with a premium indie Mac app: dark layered surfaces, precise SF Pro hierarchy, opinionated hierarchy, and depth that communicates engineering craft. Hiring surfaces should feel like instrument panels: proof-dense, scannable, and confident.",
+    "keyCharacteristics": [
+      "Dark-first with full light-mode parity via [data-theme=\"light\"]",
+      "Token-driven CSS in src/styles/tokens/",
+      "4-layer elevation shadows with inset highlights on cards",
+      "Liquid-glass mobile dock at ≤1024px; solid drawer sheet",
+      "Editorial blog surfaces use New York Reader for long-form",
+      "Hiring blocks favor structured proof over decorative badges"
+    ],
+    "rules": [
+      {
+        "name": "The Restraint Rule",
+        "body": "Accent blue appears on links, focus, and intentional highlights only. Surfaces stay neutral; color signals interaction.",
+        "section": "colors"
+      },
+      {
+        "name": "The Proof Surface Rule",
+        "body": "Hiring and project sections stay neutral-toned. Color highlights a CTA or active state, not the whole block.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measure Rule",
+        "body": "Marketing ledes cap at 62–72ch; blog prose uses reader measure tokens.",
+        "section": "typography"
+      },
+      {
+        "name": "The Eyebrow Sparingly Rule",
+        "body": "One deliberate kicker per major page region is voice; an eyebrow above every section is AI grammar.",
+        "section": "typography"
+      },
+      {
+        "name": "The Earned Depth Rule",
+        "body": "Shadows intensify on interaction; idle surfaces stay calm.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Single Glass Rule",
+        "body": "Liquid glass applies to mobile dock chrome only. Drawers, sheets, and search scrims use solid surfaces or a single scrim token.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use CSS custom properties from src/styles/tokens/ for all repeated values.",
+      "Do preserve reduced-motion paths and DOMContentLoaded fallbacks.",
+      "Do use touch-action: pan-x pan-y on idle horizontal rails.",
+      "Do keep liquid glass purposeful on mobile dock and selective chrome only.",
+      "Do lead hiring sections with shipped work, constraints, and outcomes."
+    ],
+    "donts": [
+      "Don't use cream/sand body backgrounds or SaaS hero-metric templates.",
+      "Don't add gradient text, side-stripe borders, or uppercase eyebrows on every section.",
+      "Don't use decorative glassmorphism without hierarchy purpose.",
+      "Don't stack blur on blur (dock glass + drawer glass).",
+      "Don't ship vague hiring copy without a linked proof artifact."
     ]
   }
 }

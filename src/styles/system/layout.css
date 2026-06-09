@@ -71,6 +71,13 @@ body[data-has-sidebar="false"] .topbar__brandGroup {
   padding: var(--space-md) clamp(10px, 1.8vw, 22px) var(--space-xl);
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content,
+  body[data-has-sidebar="false"] .content {
+    padding-inline: clamp(12px, 2vw, 22px);
+  }
+}
+
 @media (max-width: 768px) {
   .content,
   body[data-has-sidebar="false"] .content {

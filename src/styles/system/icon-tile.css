@@ -190,6 +190,22 @@ html[data-theme="light"] .icon-tile__media img[data-variant="dark"] {
     0 4px 12px rgba(31, 35, 53, 0.12);
 }
 
+:root[data-motion="reduced"] .icon-tile:hover,
+:root[data-motion="reduced"] .icon-tile:focus-visible,
+:root[data-motion="reduced"] .sidebar__link:hover .icon-tile,
+:root[data-motion="reduced"] .sidebar__link:focus-visible .icon-tile {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="normal"]) .icon-tile:hover,
+  :root:not([data-motion="normal"]) .icon-tile:focus-visible,
+  :root:not([data-motion="normal"]) .sidebar__link:hover .icon-tile,
+  :root:not([data-motion="normal"]) .sidebar__link:focus-visible .icon-tile {
+    animation: none;
+  }
+}
+
 /* Active press-down state */
 .icon-tile:active {
   transform: scale(var(--motion-scale-active)); /* 0.984 - press-down effect */

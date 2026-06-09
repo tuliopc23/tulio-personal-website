@@ -3,12 +3,7 @@
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "../../styles/tailwind-nav.css";
-import {
-  getSiteSearchOpen,
-  registerSiteSearchApi,
-  setSiteSearchOpen,
-  subscribeSiteSearch,
-} from "../../lib/navigation/site-search-store";
+import { setSiteSearchOpen, subscribeSiteSearch } from "../../lib/navigation/site-search-store";
 import type { SiteSearchRoute } from "../../lib/navigation/site-search-routes";
 import { filterSiteSearchRoutes } from "../../lib/navigation/site-search-routes";
 import { NavPhosphorIcon } from "./NavPhosphorIcon";
@@ -18,11 +13,31 @@ import { Popover, PopoverContent } from "../ui/popover";
 export default function SiteSearchTrigger() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [mobileNavActive, setMobileNavActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => subscribeSiteSearch(setOpen), []);
+
   useEffect(() => {
-    registerSiteSearchApi();
-    return subscribeSiteSearch(setOpen);
+    const media = window.matchMedia("(max-width: 1024px)");
+
+    const syncMobileNav = () => {
+      setMobileNavActive(document.body.dataset.mobileLiquidNav === "true" && media.matches);
+    };
+
+    syncMobileNav();
+    media.addEventListener("change", syncMobileNav);
+
+    const observer = new MutationObserver(syncMobileNav);
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-mobile-liquid-nav"],
+    });
+
+    return () => {
+      media.removeEventListener("change", syncMobileNav);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -35,19 +50,6 @@ export default function SiteSearchTrigger() {
       inputRef.current?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(id);
-  }, [open]);
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      const isShortcut = event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey);
-      if (isShortcut) {
-        event.preventDefault();
-        setSiteSearchOpen(!getSiteSearchOpen());
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
   const navigateTo = useCallback((route: SiteSearchRoute) => {
@@ -69,7 +71,14 @@ export default function SiteSearchTrigger() {
   );
 
   return (
-    <Popover open={open} onOpenChange={setSiteSearchOpen}>
+    <Popover
+      open={open && !mobileNavActive}
+      onOpenChange={(nextOpen) => {
+        if (!mobileNavActive) {
+          setSiteSearchOpen(nextOpen);
+        }
+      }}
+    >
       <PopoverPrimitive.Trigger asChild>
         <button
           type="button"

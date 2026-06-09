@@ -84,14 +84,28 @@ function assignFallback(fallback: string): void {
   window.location.assign(fallback);
 }
 
+function isNavigableSiteLocation(): boolean {
+  return window.location.protocol !== "about:";
+}
+
 function tryHistoryBack(onFallback: () => void): void {
   const startedAt = currentPath();
   let handled = false;
 
   const runFallbackOnce = () => {
-    if (handled || currentPath() !== startedAt) {
+    if (handled) {
       return;
     }
+
+    const path = currentPath();
+    if (path !== startedAt) {
+      if (!isNavigableSiteLocation()) {
+        handled = true;
+        onFallback();
+      }
+      return;
+    }
+
     handled = true;
     onFallback();
   };
@@ -111,6 +125,9 @@ function tryHistoryBack(onFallback: () => void): void {
   }, BACK_FALLBACK_MS);
 
   window.history.back();
+  requestAnimationFrame(() => {
+    runFallbackOnce();
+  });
 }
 
 /** Navigate to the previous in-site page with resilient fallbacks. */
@@ -120,6 +137,11 @@ export function navigateBack(fallback = "/"): void {
   }
 
   const runFallback = () => {
+    if (!isNavigableSiteLocation()) {
+      assignFallback(fallback);
+      return;
+    }
+
     const referrerPath = sameOriginReferrer();
     if (referrerPath) {
       assignFallback(referrerPath);
@@ -137,7 +159,7 @@ export function navigateBack(fallback = "/"): void {
 
   const navigation = window.navigation as { canGoBack?: boolean; back?: () => void } | undefined;
   if (navigation?.canGoBack && typeof navigation.back === "function") {
-    navigation.back();
+    tryHistoryBack(runFallback);
     return;
   }
 

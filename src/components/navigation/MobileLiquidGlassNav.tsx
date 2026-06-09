@@ -4,7 +4,11 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { shouldIsolateSafariChrome } from "../../lib/browser-environment";
 import { navigateBack } from "../../lib/navigation/go-back";
-import { setSiteSearchOpen, subscribeSiteSearch } from "../../lib/navigation/site-search-store";
+import {
+  setSiteSearchOpen,
+  subscribeSiteSearch,
+  getSiteSearchOpen,
+} from "../../lib/navigation/site-search-store";
 import "../../styles/tailwind-nav.css";
 import {
   getActivePrimaryNavId,
@@ -49,7 +53,9 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
   );
   const [chromeHidden, setChromeHidden] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(readPrefersReducedMotion);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(() =>
+    typeof document !== "undefined" ? getSiteSearchOpen() : false,
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchFabRef = useRef<HTMLButtonElement>(null);
@@ -246,7 +252,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
         >
           <motion.button
             type="button"
-            className="mobileLiquidNav__backBtn liquid-glass liquid-glass-chrome"
+            className="mobileLiquidNav__backBtn liquid-glass liquid-glass--chrome"
             initial={false}
             animate={innerChromeMotion}
             transition={chromeTransition}
@@ -285,7 +291,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
               onKeyDown={onSearchKeyDown}
             >
               <motion.div
-                className="siteSearchPanel__chrome liquid-glass liquid-glass-chrome"
+                className="siteSearchPanel__chrome liquid-glass"
                 layoutId="searchChrome"
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -302,6 +308,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
                     aria-expanded={trimmedSearchQuery.length > 0}
                     aria-controls={searchListId}
                     aria-autocomplete="list"
+                    onInput={(event) => setSearchQuery(event.currentTarget.value)}
                   />
                   <button
                     type="button"
@@ -327,7 +334,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
             <div className="mobileLiquidNav__dockRow">
               <button
                 type="button"
-                className="mobileLiquidNav__dockButton liquid-glass liquid-glass-chrome"
+                className="mobileLiquidNav__dockButton liquid-glass liquid-glass--chrome"
                 aria-label={drawerOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={drawerOpen}
                 aria-controls="site-sidebar"
@@ -340,10 +347,11 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
               <button
                 ref={searchFabRef}
                 type="button"
-                className="mobileLiquidNav__searchFab liquid-glass liquid-glass-chrome"
+                className="mobileLiquidNav__searchFab liquid-glass liquid-glass--chrome"
                 aria-label="Open search"
                 aria-expanded={searchOpen}
                 aria-controls={searchOpen ? searchListId : undefined}
+                data-search-open
                 onClick={openSearch}
               >
                 <NavPhosphorIcon name="magnifying-glass" className="mobileLiquidNav__icon" />

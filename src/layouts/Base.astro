@@ -94,6 +94,27 @@ const isBlogIndexRoute = normalizedPath === "/blog";
 const isBlogCategoryRoute = normalizedPath.startsWith("/blog/category");
 const isBlogRoute = isBlogIndexRoute || normalizedPath.startsWith("/blog/");
 const isArticleRoute = isBlogRoute && !isBlogIndexRoute && !isBlogCategoryRoute;
+const isBlogArchiveRoute =
+  isBlogCategoryRoute ||
+  normalizedPath.startsWith("/blog/topic/") ||
+  normalizedPath.startsWith("/blog/series/");
+const pageRoute = heroPage
+  ? "home"
+  : normalizedPath === "/about"
+    ? "about"
+    : normalizedPath === "/projects"
+      ? "projects"
+      : normalizedPath === "/contact"
+        ? "contact"
+        : isBlogIndexRoute
+          ? "blog-index"
+          : isArticleRoute
+            ? "blog-article"
+            : isBlogArchiveRoute
+              ? "blog-archive"
+              : normalizedPath === "/404" || normalizedPath.startsWith("/newsletter/")
+                ? "utility"
+                : "default";
 const hasMobileDrawer = mobileDrawer ?? sidebar;
 
 const globalNavLinkMeta = {
@@ -397,6 +418,7 @@ const sidebarSocialLinks = [
   </head>
     <body
     data-page-state="ready"
+    data-page-route={pageRoute}
     data-glass-state="rest"
     data-has-sidebar={sidebar ? "true" : "false"}
     data-has-mobile-drawer={hasMobileDrawer ? "true" : "false"}
@@ -468,7 +490,7 @@ const sidebarSocialLinks = [
       </div>
     </header>
 
-    <main class:list={["layout", !sidebar && "layout--noSidebar"]}>
+    <main id="main" tabindex="-1" class:list={["layout", !sidebar && "layout--noSidebar"]}>
       {
         hasMobileDrawer && (
           <aside
@@ -552,7 +574,7 @@ const sidebarSocialLinks = [
       }
 
       <section class="content">
-        <div id="main">
+        <div class="content__main">
           <slot />
         </div>
         <Signature />
@@ -594,7 +616,7 @@ const sidebarSocialLinks = [
 
     <ScrollToTop />
 
-    <MobileLiquidGlassNav client:idle pathname={normalizedPath} />
+    <MobileLiquidGlassNav client:load pathname={normalizedPath} />
 
     <script>
       // Bundled client entrypoint to avoid route-relative 404s on nested pages.

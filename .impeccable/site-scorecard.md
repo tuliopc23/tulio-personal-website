@@ -15,18 +15,18 @@
 
 ## Route matrix — honest scores (subagent pass)
 
-| Cluster               | Route(s)                                    | Nielsen | Audit | Enhance | Notes                          |
-| --------------------- | ------------------------------------------- | ------- | ----- | ------- | ------------------------------ |
-| Homepage              | `/`                                         | 32/40   | pass  | partial | h1 fixed post-audit            |
-| Shell                 | all                                         | 38/40   | pass  | pass    |                                |
-| About                 | `/about`                                    | 30/40   | pass  | partial | eyebrow density                |
-| Contact               | `/contact`                                  | 28/40   | pass  | **fail**| mailto feedback gap            |
-| Projects              | `/projects`                                 | 32/40   | pass  | partial |                                |
-| Blog index            | `/blog`                                     | 31/40   | pass  | partial |                                |
-| Blog reader           | `/blog/{slug}`                              | 33/40   | pass  | partial | section eyebrow proliferation  |
-| Taxonomy archives     | `/blog/category/*`, `/topic/*`, `/series/*` | 32/40   | pass  | pass    |                                |
-| 404                   | `/404`                                      | 37/40   | pass  | pass    |                                |
-| Newsletter subscribed | `/newsletter/subscribed`                    | 35/40   | pass  | pass    |                                |
+| Cluster               | Route(s)                                    | Nielsen | Audit | Enhance  | Notes                         |
+| --------------------- | ------------------------------------------- | ------- | ----- | -------- | ----------------------------- |
+| Homepage              | `/`                                         | 32/40   | pass  | partial  | h1 fixed post-audit           |
+| Shell                 | all                                         | 38/40   | pass  | pass     |                               |
+| About                 | `/about`                                    | 30/40   | pass  | partial  | eyebrow density               |
+| Contact               | `/contact`                                  | 28/40   | pass  | **fail** | mailto feedback gap           |
+| Projects              | `/projects`                                 | 32/40   | pass  | partial  |                               |
+| Blog index            | `/blog`                                     | 31/40   | pass  | partial  |                               |
+| Blog reader           | `/blog/{slug}`                              | 33/40   | pass  | partial  | section eyebrow proliferation |
+| Taxonomy archives     | `/blog/category/*`, `/topic/*`, `/series/*` | 32/40   | pass  | pass     |                               |
+| 404                   | `/404`                                      | 37/40   | pass  | pass     |                               |
+| Newsletter subscribed | `/newsletter/subscribed`                    | 35/40   | pass  | pass     |                               |
 
 **Site-wide Nielsen (weakest-link):** 24/40 · **Cluster average:** 32.5/40
 

@@ -2,7 +2,7 @@
 .hero-remotion {
   position: relative;
   width: 100vw;
-  max-width: none;
+  max-width: 100%;
   margin-left: calc(-50vw + 50%);
   margin-right: 0;
   height: 100vh;
@@ -57,6 +57,35 @@
   );
   pointer-events: none;
   z-index: 3;
+}
+
+@supports (animation-timeline: scroll()) {
+  @keyframes heroFeatherDeepen {
+    from {
+      opacity: 0.72;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .hero-remotion::after {
+    animation: heroFeatherDeepen linear both;
+    animation-timeline: scroll(nearest);
+    animation-range: exit 0% exit 100%;
+  }
+}
+
+:root[data-motion="reduced"] .hero-remotion::after,
+:root[data-motion="reduced"] .homepage-stage--hero-bridge {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="normal"]) .hero-remotion::after,
+  :root:not([data-motion="normal"]) .homepage-stage--hero-bridge {
+    animation: none !important;
+  }
 }
 
 /* On tablet, slightly reduce height */
@@ -245,9 +274,11 @@
   );
 }
 
+/* Mobile: scroll indicator above liquid dock */
 @media (max-width: 1024px) {
   body[data-mobile-liquid-nav="true"] .hero-remotion__scroll {
     bottom: calc(var(--mobile-nav-reserved-bottom) + var(--space-sm));
+    animation-delay: 1.5s;
   }
 }
 
@@ -273,14 +304,6 @@
 [data-motion="reduced"] .hero-remotion__scroll {
   animation: none;
   opacity: 0.5;
-}
-
-/* Mobile: always show scroll indicator since hero is full screen */
-@media (max-width: 768px) {
-  .hero-remotion__scroll {
-    bottom: clamp(32px, 6vh, 56px);
-    animation-delay: 1.5s;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -581,6 +604,14 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
     transform var(--motion-duration-sm) var(--motion-spring-out);
 }
 
+.chip-pill.motion-chip {
+  transition:
+    border-color var(--motion-duration-sm) var(--motion-ease-out),
+    background-color var(--motion-duration-sm) var(--motion-ease-out),
+    color var(--motion-duration-sm) var(--motion-ease-out),
+    box-shadow var(--motion-duration-sm) var(--motion-ease-out);
+}
+
 .chip-pill--interactive:hover,
 .chip-pill--interactive:focus-visible {
   color: var(--chip-color-hover, var(--text-primary));
@@ -849,16 +880,29 @@ body[data-hero-active="true"][data-glass-state="scrolled"] .topbar__menuLabel {
   box-shadow: 0 12px 22px rgba(0, 0, 0, 0.18);
 }
 
-.cta-pill:hover svg,
-.cta-pill:focus-visible svg {
+.cta-pill:not(.motion-cta-pill):hover svg,
+.cta-pill:not(.motion-cta-pill):focus-visible svg {
   opacity: 0.9;
   transform: translateX(4px);
 }
 
-.card:hover {
+.cta-pill.motion-cta-pill:hover svg,
+.cta-pill.motion-cta-pill:focus-visible svg {
+  opacity: 0.9;
+  transform: translate(var(--cta-arrow-x, 0px), var(--cta-arrow-y, 0px));
+}
+
+.card:not(.hover-elevate):hover {
   text-decoration: none;
   border-color: var(--surface-card-border-strong);
   transform: translateY(-4px) scale(var(--motion-scale-card));
+  box-shadow: var(--shadow-card-hover), var(--shadow-card-highlight);
+}
+
+.card.hover-elevate:hover,
+.card.hover-elevate:focus-visible {
+  text-decoration: none;
+  border-color: var(--surface-card-border-strong);
   box-shadow: var(--shadow-card-hover), var(--shadow-card-highlight);
 }
 

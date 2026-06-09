@@ -192,6 +192,10 @@
   --mobile-nav-reserved-bottom: calc(
     var(--mobile-nav-dock-height) + var(--mobile-nav-bottom-space) + 30px
   );
+
+  /* Modal / drawer scrims */
+  --backdrop-scrim: rgba(9, 12, 19, 0.48);
+  --search-backdrop-scrim: rgba(7, 12, 22, 0.42);
   --mobile-nav-chrome-total: var(--mobile-nav-dock-height);
   --mobile-nav-chrome-offset: var(--mobile-nav-bottom-space);
 }
@@ -206,6 +210,11 @@
   :root {
     --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));
   }
+}
+
+[data-theme="light"] {
+  --backdrop-scrim: rgba(15, 23, 42, 0.32);
+  --search-backdrop-scrim: rgba(15, 23, 42, 0.28);
 }
 
 [data-theme="dark"] {

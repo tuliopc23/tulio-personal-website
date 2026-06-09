@@ -4,7 +4,6 @@
   top: 0;
   z-index: 60;
   padding-top: calc(var(--space-xs) + max(var(--safe-area-top), 0px));
-  transition: padding-top var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 body[data-glass-state="scrolled"] .topbar {
@@ -312,6 +311,20 @@ body[data-glass-state="scrolled"] .topbar__navShell {
 }
 .topbar__navItem:nth-child(6) {
   animation-delay: 250ms;
+}
+
+:root[data-motion="reduced"] .topbar__navItem {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="normal"]) .topbar__navItem {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes navItemFadeIn {
@@ -816,9 +829,7 @@ body.is-search-open {
     display: none;
   }
 
-  body[data-mobile-liquid-nav="true"] .topbar__menu,
-  body[data-mobile-liquid-nav="true"] .sidebar,
-  body[data-mobile-liquid-nav="true"] .backdrop {
+  body[data-mobile-liquid-nav="true"] .topbar__menu {
     display: none !important;
   }
 
@@ -1047,10 +1058,6 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
     padding-bottom: calc(var(--space-md) + max(var(--safe-area-bottom), 0px));
   }
 
-  .sidebar__footer {
-    display: none;
-  }
-
   .sidebar__header {
     cursor: grab;
     touch-action: none;
@@ -1074,9 +1081,9 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
   .backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(9, 12, 19, 0.38);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--backdrop-scrim);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 45;
     opacity: 0;
     pointer-events: none;
@@ -1107,40 +1114,20 @@ body[data-has-mobile-drawer="true"][data-sidebar-state="open"].is-locked {
   background: rgba(255, 255, 255, 0.72);
 }
 
-/* Mobile menu enhanced background */
+/* Mobile drawer: solid elevated sheet (no fake blur on opaque fill) */
 @media (max-width: 1024px) {
-  [data-theme="dark"] .sidebar {
-    background:
-      linear-gradient(180deg, rgba(34, 38, 48, 0.84), rgba(20, 22, 28, 0.96)),
-      rgba(20, 22, 28, 0.94);
+  .sidebar {
+    background: var(--surface-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-color: var(--surface-card-border, var(--panel-border-strong));
   }
 
-  [data-theme="light"] .sidebar {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 246, 252, 0.98)),
-      rgba(246, 247, 251, 0.98);
+  body[data-glass-state="scrolled"] .sidebar {
+    background: var(--surface-card);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
-}
-/* Dark mode: enhanced glass on scroll */
-[data-theme="dark"] body[data-glass-state="scrolled"] .sidebar {
-  background: rgba(22, 22, 24, 0.86);
-  backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  border-right-color: var(--glass-border-strong);
-  box-shadow:
-    var(--shadow-sidebar),
-    inset -1px 0 0 rgba(255, 255, 255, 0.06);
-}
-
-/* Light mode: enhanced glass on scroll */
-[data-theme="light"] body[data-glass-state="scrolled"] .sidebar {
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  -webkit-backdrop-filter: saturate(var(--glass-saturation-active)) blur(var(--glass-blur-active));
-  border-right-color: var(--glass-border-strong);
-  box-shadow:
-    var(--shadow-sidebar),
-    inset -1px 0 0 rgba(255, 255, 255, 0.06);
 }
 
 @media (min-width: 1025px) {

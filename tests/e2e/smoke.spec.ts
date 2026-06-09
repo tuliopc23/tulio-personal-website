@@ -29,7 +29,7 @@ test("mobile liquid glass nav opens drawer and navigates", async ({ page }) => {
   await menuButton.click();
   const sidebar = page.locator("#site-sidebar");
   await expect(sidebar).toHaveClass(/is-open/);
-  await expect(sidebar.getByText("Elsewhere", { exact: true })).toBeHidden();
+  await expect(sidebar.getByText("Elsewhere", { exact: true })).toBeVisible();
   await expect(menuButton).toBeHidden();
 
   await sidebar.getByRole("button", { name: "Close menu" }).click();
@@ -49,16 +49,16 @@ test("mobile liquid glass nav opens drawer and navigates", async ({ page }) => {
 test("mobile search FAB opens dock search", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
+  await page.waitForFunction(() => typeof window.__siteSearch?.open === "function");
 
-  await page.getByRole("button", { name: "Open search" }).click();
-  await expect(page.locator(".siteSearchPanel--mobile")).toBeVisible();
+  const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
+  const searchPanel = page.locator(".siteSearchPanel--mobile");
+  await mobileNav.getByRole("button", { name: "Open search" }).click();
+  await expect(searchPanel).toBeVisible();
   await expect(page.getByText("The starting point")).toHaveCount(0);
-  await expect(page.getByText("Type to search pages…")).toBeVisible();
-
-  await page.getByRole("combobox").fill("blog");
-  await expect(page.getByRole("option", { name: "Blog" })).toBeVisible();
-  await page.getByRole("option", { name: "Blog" }).click();
-  await expect(page).toHaveURL(/\/blog\/?$/);
+  await expect(searchPanel.getByPlaceholder("Search pages…")).toBeVisible();
+  await searchPanel.getByRole("button", { name: "Close search" }).click();
+  await expect(searchPanel).toHaveCount(0);
 });
 
 test("case study carousel allows vertical page scroll on mobile", async ({ page }) => {
@@ -93,15 +93,20 @@ test("case study carousel allows vertical page scroll on desktop", async ({ page
 
 test("mobile Cmd+K opens dock search", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/blog/");
+  await page.goto("/");
+  await page.waitForFunction(() => typeof window.__siteSearch?.open === "function");
   await page.keyboard.press("Meta+k");
-  await expect(page.locator(".siteSearchPanel--mobile")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.locator(".siteSearchPanel--mobile")).toHaveCount(0);
+  const searchPanel = page.locator(".siteSearchPanel--mobile");
+  await expect(searchPanel).toBeVisible();
+  await searchPanel.locator("[cmdk-input]").pressSequentially("blog", { delay: 40 });
+  await expect(searchPanel.locator(".siteSearchItem__title", { hasText: "Blog" })).toBeVisible();
+  await searchPanel.locator(".siteSearchItem__title", { hasText: "Blog" }).click();
+  await expect(page).toHaveURL(/\/blog\/?$/);
 });
 
 test("mobile back from blog returns home", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
   await page.goto("/blog/");
   await page.getByRole("button", { name: "Go back" }).click();
   await expect(page).toHaveURL(/\/$/);
@@ -124,13 +129,14 @@ test("blog index newsletter is visible on mobile", async ({ page }) => {
 
 test("contact form opens a mailto draft", async ({ page }) => {
   await page.goto("/contact/");
-  await page.locator("input[name='name']").fill("Tulio");
-  await page.locator("input[name='email']").fill("hello@example.com");
-  await page.locator("input[name='subject']").fill("Need help");
-  await page.locator("textarea[name='message']").fill("Looking for implementation help.");
+  const form = page.locator("[data-contact-form]");
+  await form.locator("input[name='name']").fill("Tulio");
+  await form.locator("input[name='email']").fill("hello@example.com");
+  await form.locator("input[name='subject']").fill("Need help");
+  await form.locator("textarea[name='message']").fill("Looking for implementation help.");
 
-  await page.locator("[data-contact-form]").evaluate((form) => {
-    form.addEventListener(
+  await form.evaluate((contactForm) => {
+    contactForm.addEventListener(
       "submit",
       (event) => {
         event.preventDefault();
@@ -139,6 +145,6 @@ test("contact form opens a mailto draft", async ({ page }) => {
     );
   });
 
-  await page.locator("button[type='submit']").click();
-  await expect(page.locator("input[name='subject']")).toHaveValue("Need help");
+  await form.locator("button[type='submit']").click();
+  await expect(form.locator("input[name='subject']")).toHaveValue("Need help");
 });

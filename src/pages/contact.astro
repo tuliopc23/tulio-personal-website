@@ -38,10 +38,6 @@ const structuredData = {
       />
 
       <div class="pageHero__copy">
-        <span class="pageHero__eyebrow">
-          <PhosphorIcon name="mail" size={14} weight="regular" />
-          Contact
-        </span>
         <h1 class="pageHero__title">Tell me what you're building and where it's stuck.</h1>
         <p class="pageHero__lede">
           Native apps, web work, backend systems, tooling — or just a sharp technical question. This form opens an email draft so you can send it straight from your mail client.
@@ -57,14 +53,13 @@ const structuredData = {
 
     <section class="container pageWidget" data-reveal>
       <div class="pageWidget__header">
-        <span class="pageWidget__eyebrow">
-          <PhosphorIcon name="info" size={14} weight="regular" />
-          Contact
-        </span>
         <h2 class="pageWidget__title">A good first message</h2>
         <p class="pageWidget__caption">The stack, the problem, and a rough timeline. That's enough context to start a real conversation.</p>
       </div>
-      <div class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}>
+      <div
+        class:list={[styles.contactCard, "surface-panel", "surface-panel--nested"]}
+        data-contact-card
+      >
         <form class={styles.contactForm} id="contact-form" data-contact-form>
           <label class={styles.contactFormField}>
             <span id="contact-name-label">Name</span>
@@ -127,6 +122,13 @@ const structuredData = {
               <PhosphorIcon name="paper-plane-tilt" size={16} weight="regular" />
               <span>Open in mail</span>
             </button>
+            <p
+              class={styles.contactFormStatus}
+              data-contact-status
+              role="status"
+              aria-live="polite"
+              data-kind="idle"
+            />
             <p class={styles.contactFormHint}>
               <PhosphorIcon name="mail" size={14} weight="regular" />
               Opens your default mail client with a draft to {contactEmail}.
@@ -137,7 +139,7 @@ const structuredData = {
     </section>
   </div>
 
-  <script is:inline type="module">
+  <script>
     import "../scripts/contact-form";
   </script>
 </Base>

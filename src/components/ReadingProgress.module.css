@@ -15,7 +15,10 @@
   transform: scaleX(0);
   transform-origin: left center;
   background: var(--blue);
-  will-change: transform;
+  will-change: transform, opacity, filter;
+  transition:
+    opacity var(--motion-duration-sm) var(--motion-ease-out),
+    filter var(--motion-duration-sm) var(--motion-ease-out);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,29 +1,48 @@
 type SiteSearchListener = (open: boolean) => void;
 
-const listeners = new Set<SiteSearchListener>();
-let searchOpen = false;
+type SiteSearchStoreState = {
+  open: boolean;
+  listeners: Set<SiteSearchListener>;
+};
+
+const STORE = Symbol.for("tulio.site-search-store");
+
+function storeState(): SiteSearchStoreState {
+  const root = globalThis as typeof globalThis & {
+    [key: symbol]: SiteSearchStoreState | undefined;
+  };
+
+  if (!root[STORE]) {
+    root[STORE] = { open: false, listeners: new Set() };
+  }
+
+  return root[STORE];
+}
 
 export function getSiteSearchOpen(): boolean {
-  return searchOpen;
+  return storeState().open;
 }
 
 export function setSiteSearchOpen(open: boolean): void {
-  if (searchOpen === open) {
+  const state = storeState();
+  if (state.open === open) {
     return;
   }
-  searchOpen = open;
-  document.body.classList.toggle("is-search-open", open);
-  listeners.forEach((listener) => listener(searchOpen));
+
+  state.open = open;
+  document.body?.classList.toggle("is-search-open", open);
+  state.listeners.forEach((listener) => listener(state.open));
 }
 
 export function subscribeSiteSearch(listener: SiteSearchListener): () => void {
-  listeners.add(listener);
-  listener(searchOpen);
-  return () => listeners.delete(listener);
+  const state = storeState();
+  state.listeners.add(listener);
+  listener(state.open);
+  return () => state.listeners.delete(listener);
 }
 
 export function toggleSiteSearch(): void {
-  setSiteSearchOpen(!searchOpen);
+  setSiteSearchOpen(!getSiteSearchOpen());
 }
 
 declare global {

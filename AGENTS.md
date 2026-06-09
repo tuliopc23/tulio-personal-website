@@ -10,6 +10,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Prefer commands compatible with fish shell syntax; avoid bashisms that may hang.
 - When implementing an attached Cursor plan, do not edit the plan file; use the plan’s existing todos and mark them in progress (do not recreate the todo list).
 - For React UI (mobile nav, search, dialogs), prefer shadcn or Base UI primitives styled with design tokens over bespoke one-off components.
+- For Impeccable `/distill` or eyebrow-label reductions, show concrete UI examples and get explicit approval before editing; uppercase section kickers may be intentional brand voice.
 
 ## Learned Workspace Facts
 
@@ -24,7 +25,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile.
 - Blog index (`/blog`) intentionally has no Topics chip filter UI; category archives remain at `/blog/category/[slug]`.
 - Keystatic images: use Astro’s `<Image />` with Keystatic image fields (not raw `<img>` or ad-hoc URLs).
-- `PRODUCT.md` at repo root documents brand register, audience, anti-references, and design principles for Impeccable-guided frontend work (`.cursor/skills/impeccable/`).
+- `PRODUCT.md` and `DESIGN.md` at repo root document brand register and the visual system for Impeccable-guided frontend work (`.cursor/skills/impeccable/`).
 
 ## Commands
 

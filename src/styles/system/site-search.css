@@ -181,6 +181,31 @@
   border-radius: var(--radius-lg, 1.25rem);
 }
 
+@keyframes siteSearchEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.siteLiquidSearch__desktopPopover[data-state="open"] {
+  animation: siteSearchEnter var(--motion-duration-md) var(--motion-ease-out) both;
+}
+
+:root[data-motion="reduced"] .siteLiquidSearch__desktopPopover[data-state="open"] {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="normal"]) .siteLiquidSearch__desktopPopover[data-state="open"] {
+    animation: none;
+  }
+}
+
 /* Mobile: single glass panel (no stacked blocks) */
 .siteSearchPanel--mobile {
   width: 100%;

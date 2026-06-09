@@ -18,6 +18,7 @@ import { cleanupParallaxTilt, initParallaxTilt } from "./parallax-tilt";
 import { isReducedMotion, onReducedMotionChange } from "./reduced-motion";
 import { cleanupReveals, initReveals, showAllReveals } from "./reveals";
 import { cleanupCaseCarousel, initCaseCarousel } from "./case-carousel";
+import { cleanupPageOverdrive, initPageOverdrive } from "./page-overdrive";
 import { cleanupScrollProgress, initScrollProgress } from "./scroll-progress";
 import { cleanupViewportScrollRefresh, initViewportScrollRefresh } from "./scroll-trigger-refresh";
 import { cleanupTopbarTabSelect, initTopbarTabSelect } from "./topbar-tab-select";
@@ -46,6 +47,7 @@ function init(): void {
   initParallaxTilt();
   initMicrointeractions();
   initScrollProgress();
+  initPageOverdrive();
   initIslandReveals();
   initScrollIndicators();
   initCaseCarousel();
@@ -57,6 +59,7 @@ function cleanup(): void {
   cleanupScrollIndicators();
   cleanupIslandReveals();
   cleanupScrollProgress();
+  cleanupPageOverdrive();
   cleanupMicrointeractions();
   cleanupParallaxTilt();
   cleanupPageTransitions();

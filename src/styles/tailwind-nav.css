@@ -17,13 +17,14 @@
 }
 
 @utility liquid-glass-chrome {
+  /* Alias: prefer .liquid-glass.liquid-glass--chrome in new markup */
   position: relative;
   border-radius: 9999px;
-  border: 1px solid color-mix(in srgb, white 20%, transparent);
-  background: color-mix(in srgb, white 10%, transparent);
+  background: var(--liquid-surface-radial), var(--liquid-surface-fill);
+  border: 1px solid var(--liquid-surface-border);
   box-shadow: var(--liquid-surface-shadow);
-  backdrop-filter: saturate(150%) blur(8px);
-  -webkit-backdrop-filter: saturate(150%) blur(8px);
+  backdrop-filter: saturate(var(--liquid-surface-saturate)) blur(var(--liquid-surface-blur));
+  -webkit-backdrop-filter: saturate(var(--liquid-surface-saturate)) blur(var(--liquid-surface-blur));
 }
 
 @utility liquid-glass-segment {
@@ -36,6 +37,6 @@
 }
 
 [data-theme="dark"] .liquid-glass-chrome {
-  border-color: color-mix(in srgb, white 15%, transparent);
-  background: color-mix(in srgb, white 5%, transparent);
+  border-color: var(--liquid-surface-border);
+  background: var(--liquid-surface-radial), var(--liquid-surface-fill);
 }
