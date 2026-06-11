@@ -1574,6 +1574,14 @@ body[data-sidebar-visibility="hidden"] .sidebar__close {
   color: var(--muted);
 }
 
+.sidebar__dockHint {
+  display: none;
+  margin: 0;
+  font-size: var(--fs--1);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
 kbd.slash {
   display: inline-flex;
   align-items: center;
@@ -1590,6 +1598,14 @@ kbd.slash {
   .sidebar__header {
     padding-top: var(--space-sm);
     padding-bottom: var(--space-sm);
+  }
+
+  .sidebar__filterShortcut {
+    display: none;
+  }
+
+  .sidebar__dockHint {
+    display: block;
   }
 
   .sidebar__group {

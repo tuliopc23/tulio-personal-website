@@ -43,10 +43,13 @@ const structuredData = {
           Native apps, web work, backend systems, tooling — or just a sharp technical question. This form opens an email draft so you can send it straight from your mail client.
         </p>
         <div class="pageHero__meta" aria-label="Contact details">
-          <span class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}>
+          <a
+            class:list={["pageHero__metaItem", "meta-chip", "meta-chip--signal"]}
+            href={`mailto:${contactEmail}`}
+          >
             <PhosphorIcon name="mail" size={14} weight="regular" />
             {contactEmail}
-          </span>
+          </a>
         </div>
       </div>
     </section>

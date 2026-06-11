@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import ScrollHint from "../components/ScrollHint.astro";
 import PhosphorIcon from "../components/PhosphorIcon.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { getAllProjects } from "../lib/content/projects";
@@ -145,6 +146,15 @@ const _statusIcons: Record<string, string> = {
         ))}
       </nav>
 
+      <ScrollHint
+        target="[data-case-track]"
+        variant="all"
+        text="Scroll for more case studies"
+        storageKey="projects-case-track-v1"
+        ctaLabel="Scroll"
+        ctaIcon="arrow-right"
+      />
+
       <!-- Slides -->
       <div class="caseSlider__track" data-case-track data-case-rail>
         {caseStudies.map((cs, i) => (
@@ -152,6 +162,7 @@ const _statusIcons: Record<string, string> = {
             class="caseSlide"
             data-case-slide={cs.id}
             aria-hidden={i !== 0 ? "true" : "false"}
+            inert={i !== 0 ? true : undefined}
           >
             <!-- Editorial heading -->
             <header class="stage-intro stage-intro--single">

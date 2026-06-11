@@ -70,7 +70,7 @@ caseStudies:
       not an algorithm.
     role: Full Stack Developer
     status: live
-    href: ""
+    href: https://capital.com.vc
     stack:
       - React
       - PostgreSQL
@@ -91,7 +91,7 @@ caseStudies:
       frontend looks effortless; the infrastructure behind it is anything but.
     role: Full Stack Developer
     status: live
-    href: ""
+    href: https://nomadztrips.com
     stack:
       - Payload CMS
       - React

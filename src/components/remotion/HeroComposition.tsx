@@ -48,7 +48,7 @@ export const DESKTOP_MAC = { top: 3, width: 90, centerShift: 2.5 } as const;
    the screen height. At 220% width (3:2 → height ~76% of 1920), the Mac
    dominates vertically. Sides overflow and are clipped by composition bounds.
    The CRT screen + bezel remain fully visible and centered. */
-const MOBILE_MAC = { top: 5, width: 220 } as const;
+export const MOBILE_MAC = { top: 5, width: 220 } as const;
 
 export function macCenterTransform(mac: typeof DESKTOP_MAC | typeof MOBILE_MAC): string {
   const shift = "centerShift" in mac ? mac.centerShift : 0;

@@ -122,31 +122,40 @@ const _byYear = postEntries.reduce((acc, post) => {
   return acc;
 }, new Map<number, { year: number; count: number }>());
 const _archiveYears = Array.from(_byYear.values()).sort((a, b) => b.year - a.year);
-const _placeholders = pageContent?.placeholderCards?.length
-  ? pageContent.placeholderCards
-  : [
-      {
-        title: "Swift and Apple platforms",
-        summary:
-          "Native APIs, SwiftUI, platform quirks, and what the WWDC sessions conveniently skip over.",
-        href: "/blog/",
-        tags: ["Preview"],
-      },
-      {
-        title: "Backend and systems",
-        summary:
-          "Go, Rust, runtimes, infra — the layers nobody screenshots but everything crashes without.",
-        href: "/blog/",
-        tags: ["Preview"],
-      },
-      {
-        title: "Tooling and workflow",
-        summary:
-          "Terminal configs, CI pipelines, editor setups, and the small automations that quietly save hours.",
-        href: "/blog/",
-        tags: ["Preview"],
-      },
-    ];
+const _defaultPlaceholders = [
+  {
+    title: "Swift and Apple platforms",
+    summary:
+      "Native APIs, SwiftUI, platform quirks, and what the WWDC sessions conveniently skip over.",
+    href: "/blog/",
+    tags: ["Preview"],
+  },
+  {
+    title: "Backend and systems",
+    summary:
+      "Go, Rust, runtimes, infra — the layers nobody screenshots but everything crashes without.",
+    href: "/blog/",
+    tags: ["Preview"],
+  },
+  {
+    title: "Tooling and workflow",
+    summary:
+      "Terminal configs, CI pipelines, editor setups, and the small automations that quietly save hours.",
+    href: "/blog/",
+    tags: ["Preview"],
+  },
+] as const;
+
+/** Explicit CMS `placeholderCards: []` means none. Defaults only when the field is unset and the feed is thin. */
+const _placeholders =
+  pageContent?.placeholderCards != null
+    ? pageContent.placeholderCards
+    : postEntries.length < 3
+      ? [..._defaultPlaceholders]
+      : [];
+
+/** Never mix preview filler with a populated feed. */
+const _visiblePlaceholders = rest.length < 3 ? _placeholders : [];
 
 const _sectionHeaders = {
   archive: {
@@ -226,6 +235,7 @@ const _sectionHeaders = {
   {
     featured && rest.length > 0 && (
       <section
+        id="blog-latest"
         class="container blogSurface blogSurface--feed pageWidget"
         aria-labelledby="blog-latest-title"
         data-reveal
@@ -243,6 +253,7 @@ const _sectionHeaders = {
             <p class="stage-intro__caption">
               {_sectionHeaders.latest.lede}
             </p>
+            <p class="blogSurface__yearStatus" data-blog-year-status role="status" aria-live="polite" hidden></p>
           </div>
         </header>
         <div class="articleCarousel articleCarousel--feed">
@@ -259,6 +270,7 @@ const _sectionHeaders = {
                   .map((tag) => tag.toLowerCase().replace(/\s+/g, "-"))
                   .join(",")}
                 data-index={index}
+                data-year={new Date(post.publishedAt).getFullYear()}
               >
                 <ArticleCard
                   href={post.href}
@@ -281,7 +293,7 @@ const _sectionHeaders = {
                 />
               </li>
             ))}
-            {_placeholders.map((placeholder) => (
+            {_visiblePlaceholders.map((placeholder) => (
               <li class="articleGrid__item articleGrid__item--placeholder" aria-hidden="true">
                 <ArticleCard
                   href={placeholder.href}
@@ -355,9 +367,16 @@ const _sectionHeaders = {
       </header>
       <ul class="blogArchive__list" role="list" aria-label="Posts by year">
         {_archiveYears.map((item, index) => (
-          <li class="hover-elevate motion-surface-standard" data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1} data-parallax-card>
-            <span class="blogArchive__year">{item.year}</span>
-            <span class="blogArchive__count">{item.count} {item.count === 1 ? "entry" : "entries"}</span>
+          <li data-reveal data-reveal-group="blog-archive" data-reveal-order={index + 1}>
+            <a
+              class="blogArchive__link hover-elevate motion-surface-standard"
+              href={`/blog/?year=${item.year}#blog-latest`}
+              aria-label={`View ${item.count} ${item.count === 1 ? "post" : "posts"} from ${item.year}`}
+              data-parallax-card
+            >
+              <span class="blogArchive__year">{item.year}</span>
+              <span class="blogArchive__count">{item.count} {item.count === 1 ? "entry" : "entries"}</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -367,6 +386,8 @@ const _sectionHeaders = {
   <script is:inline>
     const list = document.querySelector("[data-article-list]");
     const loadMoreButton = document.querySelector("[data-blog-load-more]");
+    const yearStatus = document.querySelector("[data-blog-year-status]");
+    const yearFilter = new URLSearchParams(window.location.search).get("year");
 
     if (list) {
       const cards = Array.from(list.querySelectorAll("[data-article]"));
@@ -374,6 +395,30 @@ const _sectionHeaders = {
       let visibleLimit = initial;
 
       const applyVisibility = () => {
+        if (yearFilter) {
+          let matchCount = 0;
+          cards.forEach((card) => {
+            const matches = card.dataset.year === yearFilter;
+            card.hidden = !matches;
+            card.dataset.state = matches ? "visible" : "hidden";
+            if (matches) matchCount += 1;
+          });
+
+          if (yearStatus) {
+            yearStatus.hidden = false;
+            yearStatus.textContent =
+              matchCount > 0
+                ? `Showing ${matchCount} ${matchCount === 1 ? "post" : "posts"} from ${yearFilter}.`
+                : `No posts from ${yearFilter} in this list.`;
+          }
+
+          if (loadMoreButton) {
+            loadMoreButton.hidden = true;
+            loadMoreButton.disabled = true;
+          }
+          return;
+        }
+
         cards.forEach((card, index) => {
           const visible = index < visibleLimit;
           card.hidden = !visible;
@@ -396,6 +441,12 @@ const _sectionHeaders = {
     }
   </script>
   <style>
+    @media (min-width: 769px) {
+      .blogSurface--feed .articleGrid__item--placeholder {
+        display: none;
+      }
+    }
+
     @media (max-width: 768px) {
       .blogSurface--feed {
         gap: var(--space-sm);

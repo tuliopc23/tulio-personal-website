@@ -339,7 +339,7 @@ export default function MobileLiquidGlassNav({ pathname }: MobileLiquidGlassNavP
                 ref={searchFabRef}
                 type="button"
                 className="mobileLiquidNav__searchFab liquid-glass liquid-glass--chrome"
-                aria-label="Open search"
+                aria-label="Search every page"
                 aria-expanded={searchOpen}
                 aria-controls={searchOpen ? searchListId : undefined}
                 data-search-open

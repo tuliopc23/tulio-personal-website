@@ -70,7 +70,13 @@ function resolveNearestIndex(scrollLeft = track?.scrollLeft ?? 0): number {
 
 function updateAria(index: number): void {
   slides.forEach((slide, i) => {
-    slide.setAttribute("aria-hidden", i === index ? "false" : "true");
+    const isActive = i === index;
+    slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+    if (isActive) {
+      slide.removeAttribute("inert");
+    } else {
+      slide.setAttribute("inert", "");
+    }
   });
   pills.forEach((pill, i) => {
     pill.setAttribute("aria-pressed", i === index ? "true" : "false");

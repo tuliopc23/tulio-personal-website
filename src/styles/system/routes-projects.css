@@ -47,7 +47,7 @@
 }
 
 .caseSlider__mobileControls {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
@@ -460,6 +460,7 @@
   }
 
   .caseSlider__mobileControls {
+    display: flex;
     justify-self: center;
     max-width: 100%;
     padding: 4px;

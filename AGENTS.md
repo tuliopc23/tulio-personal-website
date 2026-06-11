@@ -10,7 +10,8 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - Prefer commands compatible with fish shell syntax; avoid bashisms that may hang.
 - When implementing an attached Cursor plan, do not edit the plan file; use the plan’s existing todos and mark them in progress (do not recreate the todo list).
 - For React UI (mobile nav, search, dialogs), prefer shadcn or Base UI primitives styled with design tokens over bespoke one-off components.
-- For Impeccable `/distill` or eyebrow-label reductions, show concrete UI examples and get explicit approval before new patterns; user approved removing redundant hero/page eyebrows that duplicate the heading. Uppercase section kickers elsewhere may still be intentional brand voice.
+- For Impeccable `/distill` or eyebrow-label reductions, show concrete UI examples and get explicit approval before new patterns; user approved distilling redundant eyebrows that duplicate page headings site-wide. Uppercase section kickers elsewhere may still be intentional brand voice.
+- When running Impeccable critique/polish passes, target verified **40/40** Nielsen scores on mobile and desktop before treating the pass as complete.
 
 ## Learned Workspace Facts
 
@@ -22,7 +23,9 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 - TypeScript is on **6.x** (`package.json`). Earlier guidance to stay on 5.9.x is outdated — some Astro packages still declare `peer typescript` as `^5`, but the pnpm `peerDependencyRules.allowedVersions` override handles this.
 - This Astro site is multi-page (no `<ViewTransitions />` / client router). Don’t rely on `astro:page-load` for first-load client initialization; keep a `DOMContentLoaded`/`document.readyState` fallback. Per-route Impeccable overdrive uses `src/scripts/motion/page-overdrive.ts` keyed off `data-page-route` on `<body>` in Base.astro; the home hero corridor stays in `scroll-progress.ts`.
 - Horizontal scroll rails/carousels use native overflow with `touch-action: pan-x pan-y` (or `pan-x pan-y pinch-zoom`) so vertical page scroll is not blocked on touch; lock to `pan-x` only while `[data-dragging="true"]` / `.is-dragging` during horizontal drags. Register rails in `scroll-indicators.ts` (`.articleGrid`, `.cardRail`, `[data-repo-rail]`, `[data-writing-rail]`, etc.) and `lenis.ts` (`data-lenis-prevent-horizontal`, `[data-case-track]`, etc.). Do not use `touch-action: pan-x` alone on idle rails — it traps vertical scroll. Avoid `data-lenis-prevent` on whole sliders and avoid Lenis `allowNestedScroll` for horizontal-only overflow — both trap vertical Lenis page scroll on desktop; use `virtualScroll` routing in `lenis.ts` instead.
-- Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile.
+- Mobile shell uses liquid-glass bottom nav and a simplified topbar at max-width **1024px** (`data-mobile-liquid-nav`); the theme toggle stays in the topbar on mobile. `HeroPlayer`/Remotion and reduced-motion fallbacks use the same breakpoint via `MOBILE_SHELL_MEDIA_QUERY` in `src/lib/navigation/shell-viewport.ts`.
+- Home (`/`) omits the desktop sidebar so the Remotion hero corridor stays full-bleed; drawer + liquid dock cover mobile nav.
+- Playwright e2e `webServer` runs `pnpm exec astro preview` directly (port **4331**); do not wrap preview in `with-system-certs.mjs` — it can hang Playwright startup.
 - Blog index (`/blog`) intentionally has no Topics chip filter UI; category archives remain at `/blog/category/[slug]`.
 - Keystatic images: use Astro’s `<Image />` with Keystatic image fields (not raw `<img>` or ad-hoc URLs).
 - `PRODUCT.md` and `DESIGN.md` at repo root document brand register and the visual system for Impeccable-guided frontend work (`.cursor/skills/impeccable/`).

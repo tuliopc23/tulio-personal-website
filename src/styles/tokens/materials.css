@@ -200,6 +200,15 @@
   --mobile-nav-chrome-offset: var(--mobile-nav-bottom-space);
 }
 
+@media (max-width: 1024px) and (max-height: 700px) {
+  :root {
+    /* Short phones (e.g. iPhone SE): extra clearance above the dock */
+    --mobile-nav-reserved-bottom: calc(
+      var(--mobile-nav-dock-height) + var(--mobile-nav-bottom-space) + 38px
+    );
+  }
+}
+
 @media (display-mode: standalone) {
   :root {
     --mobile-nav-bottom-space: max(14px, var(--safe-area-bottom));

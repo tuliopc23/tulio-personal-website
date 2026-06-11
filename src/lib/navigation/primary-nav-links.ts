@@ -1,5 +1,7 @@
 /** Shared primary site routes for topbar, drawer navigation, and search. */
 
+import { SITE_PRIMARY_ROUTES } from "./site-nav-routes";
+
 export type PrimaryNavId = "home" | "blog" | "cases" | "about";
 
 export type PrimaryNavLink = {
@@ -27,8 +29,8 @@ export const primaryNavLinks: readonly PrimaryNavLink[] = [
   },
   {
     id: "cases",
-    href: "/projects/",
-    label: "Cases",
+    href: SITE_PRIMARY_ROUTES.cases.href,
+    label: SITE_PRIMARY_ROUTES.cases.label,
     icon: "briefcase",
     match: (pathname) => pathname === "/projects" || pathname.startsWith("/projects/"),
   },

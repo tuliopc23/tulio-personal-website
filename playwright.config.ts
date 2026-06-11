@@ -10,11 +10,10 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command:
-      "node scripts/with-system-certs.mjs pnpm exec astro preview --host 127.0.0.1 --port 4331",
+    command: "pnpm exec astro preview --host 127.0.0.1 --port 4331",
     url: "http://127.0.0.1:4331",
-    reuseExistingServer: false,
-    timeout: 120000,
+    reuseExistingServer: !process.env.CI,
+    timeout: 180000,
   },
   projects: [
     {

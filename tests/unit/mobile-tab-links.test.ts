@@ -29,7 +29,12 @@ describe("primary-nav-links", () => {
       "/projects/",
       "/about/",
     ]);
-    expect(primaryNavLinks.map((link) => link.label)).toEqual(["Home", "Blog", "Cases", "About"]);
+    expect(primaryNavLinks.map((link) => link.label)).toEqual([
+      "Home",
+      "Blog",
+      "Case Studies",
+      "About",
+    ]);
   });
 
   it("matches blog and about subtrees only for those tabs", () => {

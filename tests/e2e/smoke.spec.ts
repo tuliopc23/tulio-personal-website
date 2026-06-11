@@ -53,7 +53,7 @@ test("mobile search FAB opens dock search", async ({ page }) => {
 
   const mobileNav = page.locator('nav[aria-label="Mobile navigation"]');
   const searchPanel = page.locator(".siteSearchPanel--mobile");
-  await mobileNav.getByRole("button", { name: "Open search" }).click();
+  await mobileNav.getByRole("button", { name: "Search every page" }).click();
   await expect(searchPanel).toBeVisible();
   await expect(page.getByText("The starting point")).toHaveCount(0);
   await expect(searchPanel.getByPlaceholder("Search pages…")).toBeVisible();
@@ -112,10 +112,10 @@ test("mobile back from blog returns home", async ({ page }) => {
   await expect(page).toHaveURL(/\/$/);
 });
 
-test("desktop topbar shows Cases nav and Cmd+K search", async ({ page }) => {
+test("desktop topbar shows Case Studies nav and Cmd+K search", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Cases" })).toBeVisible();
+  await expect(page.locator(".topbar__navLink", { hasText: "Case Studies" })).toBeVisible();
   await expect(page.locator("[data-topbar-tab-indicator]")).toBeVisible();
   await page.keyboard.press("Meta+k");
   await expect(page.locator(".siteLiquidSearch__desktopPopover")).toBeVisible();

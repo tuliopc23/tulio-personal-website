@@ -1,7 +1,13 @@
 /** @jsxImportSource react */
 import { Player, type PlayerRef } from "@remotion/player";
 import { useEffect, useRef, useState } from "react";
-import { DESKTOP_MAC, HeroComposition, macCenterTransform } from "./remotion/HeroComposition";
+import { MOBILE_SHELL_MEDIA_QUERY } from "../lib/navigation/shell-viewport";
+import {
+  DESKTOP_MAC,
+  HeroComposition,
+  MOBILE_MAC,
+  macCenterTransform,
+} from "./remotion/HeroComposition";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -11,7 +17,6 @@ const DESKTOP_WIDTH = 1920;
 const DESKTOP_HEIGHT = 1080;
 const MOBILE_WIDTH = 1080;
 const MOBILE_HEIGHT = 1920;
-const MOBILE_BREAKPOINT = 768;
 const FPS = 30;
 const DURATION_SECONDS = 7;
 const DURATION_FRAMES = FPS * DURATION_SECONDS;
@@ -30,7 +35,9 @@ function readReducedMotionPreference(): boolean {
 /*  Static Fallback (reduced motion / SSR placeholder)                 */
 /* ------------------------------------------------------------------ */
 
-function StaticFallback() {
+function StaticFallback({ isMobile }: { isMobile: boolean }) {
+  const mac = isMobile ? MOBILE_MAC : DESKTOP_MAC;
+
   return (
     <div
       style={{
@@ -45,10 +52,10 @@ function StaticFallback() {
         alt="Classic Macintosh computer displaying hello"
         style={{
           position: "absolute",
-          top: `${DESKTOP_MAC.top}%`,
+          top: `${mac.top}%`,
           left: "50%",
-          transform: macCenterTransform(DESKTOP_MAC),
-          width: `${DESKTOP_MAC.width}%`,
+          transform: macCenterTransform(mac),
+          width: `${mac.width}%`,
           height: "auto",
           filter: "var(--mac-drop-shadow)",
         }}
@@ -64,7 +71,9 @@ function StaticFallback() {
 export default function HeroPlayer() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(readReducedMotionPreference);
   const [isMobile, setIsMobile] = useState(
-    () => typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT,
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia(MOBILE_SHELL_MEDIA_QUERY).matches,
   );
   const playerRef = useRef<PlayerRef>(null);
 
@@ -78,7 +87,7 @@ export default function HeroPlayer() {
   }, []);
 
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const mq = window.matchMedia(MOBILE_SHELL_MEDIA_QUERY);
     setIsMobile(mq.matches);
     const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
     mq.addEventListener("change", handler);
@@ -153,7 +162,7 @@ export default function HeroPlayer() {
   }, [prefersReducedMotion, isMobile]);
 
   if (prefersReducedMotion) {
-    return <StaticFallback />;
+    return <StaticFallback isMobile={isMobile} />;
   }
 
   const compWidth = isMobile ? MOBILE_WIDTH : DESKTOP_WIDTH;
