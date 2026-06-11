@@ -88,8 +88,7 @@
   height: 100%;
 }
 
-.mobileLiquidNav__searchFab,
-.mobileLiquidNav__backBtn {
+.mobileLiquidNav__searchFab {
   width: 58px;
   height: 58px;
   border-radius: 999px;
@@ -103,7 +102,22 @@
 }
 
 .mobileLiquidNav__backBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   will-change: transform;
+}
+
+.mobileLiquidNav__backBtn .mobileLiquidNav__icon {
+  width: 16px;
+  height: 16px;
 }
 
 .mobileLiquidNav__searchFab:focus-visible,
@@ -206,10 +220,14 @@
     font-size: 0.88rem;
   }
 
-  .mobileLiquidNav__searchFab,
-  .mobileLiquidNav__backBtn {
+  .mobileLiquidNav__searchFab {
     width: 52px;
     height: 52px;
+  }
+
+  .mobileLiquidNav__backBtn .mobileLiquidNav__icon {
+    width: 15px;
+    height: 15px;
   }
 
   .mobileLiquidNav__icon {

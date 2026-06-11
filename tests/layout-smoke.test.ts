@@ -37,11 +37,11 @@ describe("shared layout smoke", () => {
   );
 
   test.skipIf(!existsSync(join(distClient, "contact", "index.html")))(
-    "contact page marks the sidebar link as current",
+    "contact page exposes the mailto sidebar link",
     () => {
       const html = readBuiltHtml("contact", "index.html");
       expect(html).toContain("Reach out. Email preferred.");
-      expect(html).toMatch(/<a[^>]*href="\/contact\/"[^>]*aria-current="page"/);
+      expect(html).toMatch(/<a[^>]*href="mailto:contact@tuliocunha\.dev"[^>]*>[\s\S]*?Contact/);
     },
   );
 

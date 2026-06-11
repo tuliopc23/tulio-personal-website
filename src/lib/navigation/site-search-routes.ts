@@ -1,3 +1,4 @@
+import { SITE_CONTACT_MAILTO_URL } from "../site-identity";
 import { SITE_PRIMARY_ROUTES } from "./site-nav-routes";
 
 export type SiteSearchRoute = {
@@ -31,6 +32,12 @@ export const siteSearchRoutes: readonly SiteSearchRoute[] = [
     href: SITE_PRIMARY_ROUTES.about.href,
     description: "How I think about software, craft, and platforms.",
     keywords: "profile bio background approach about",
+  },
+  {
+    title: "Contact",
+    href: SITE_CONTACT_MAILTO_URL,
+    description: "Email for project work, technical questions, or collaboration.",
+    keywords: "contact email reach out inquiry mail",
   },
 ] as const;
 
