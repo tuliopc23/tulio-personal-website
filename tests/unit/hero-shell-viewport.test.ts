@@ -24,6 +24,16 @@ describe("hero mobile viewport alignment", () => {
   });
 });
 
+describe("hero final-frame hold", () => {
+  test("ended handler pauses without re-seeking to avoid seekTo recursion", () => {
+    expect(heroPlayerSource).toMatch(/addEventListener\("ended"/);
+    expect(heroPlayerSource).toMatch(/moveToBeginningWhenEnded=\{false\}/);
+    expect(heroPlayerSource).not.toMatch(
+      /holdFinalFrame[\s\S]*seekTo\(DURATION_FRAMES - 1\)/,
+    );
+  });
+});
+
 describe("short phone dock clearance", () => {
   test("reserves extra bottom space on short mobile viewports", () => {
     expect(materialsCss).toMatch(

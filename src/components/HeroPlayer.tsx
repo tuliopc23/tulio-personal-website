@@ -153,7 +153,6 @@ export default function HeroPlayer() {
     }
 
     const holdFinalFrame = () => {
-      player.seekTo(DURATION_FRAMES - 1);
       player.pause();
     };
 
