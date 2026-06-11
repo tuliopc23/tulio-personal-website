@@ -42,7 +42,7 @@ const SCREEN = {
 } as const;
 
 /* Desktop: Mac at 90% of 1920×1080 — slight optical shift right (asset transparent padding). */
-const DESKTOP_MAC = { top: 3, width: 90, centerShift: 1.25 } as const;
+export const DESKTOP_MAC = { top: 3, width: 90, centerShift: 2.5 } as const;
 
 /* Mobile: portrait 1080×1920 composition. The Mac must be massive to fill
    the screen height. At 220% width (3:2 → height ~76% of 1920), the Mac
@@ -50,7 +50,7 @@ const DESKTOP_MAC = { top: 3, width: 90, centerShift: 1.25 } as const;
    The CRT screen + bezel remain fully visible and centered. */
 const MOBILE_MAC = { top: 5, width: 220 } as const;
 
-function macCenterTransform(mac: typeof DESKTOP_MAC | typeof MOBILE_MAC): string {
+export function macCenterTransform(mac: typeof DESKTOP_MAC | typeof MOBILE_MAC): string {
   const shift = "centerShift" in mac ? mac.centerShift : 0;
   return `translateX(calc(-50% + ${shift}%))`;
 }

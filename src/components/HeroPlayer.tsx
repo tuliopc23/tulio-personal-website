@@ -1,7 +1,7 @@
 /** @jsxImportSource react */
 import { Player, type PlayerRef } from "@remotion/player";
 import { useEffect, useRef, useState } from "react";
-import { HeroComposition } from "./remotion/HeroComposition";
+import { DESKTOP_MAC, HeroComposition, macCenterTransform } from "./remotion/HeroComposition";
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -45,10 +45,10 @@ function StaticFallback() {
         alt="Classic Macintosh computer displaying hello"
         style={{
           position: "absolute",
-          top: "3%",
+          top: `${DESKTOP_MAC.top}%`,
           left: "50%",
-          transform: "translateX(calc(-50% + 1.25%))",
-          width: "90%",
+          transform: macCenterTransform(DESKTOP_MAC),
+          width: `${DESKTOP_MAC.width}%`,
           height: "auto",
           filter: "var(--mac-drop-shadow)",
         }}
