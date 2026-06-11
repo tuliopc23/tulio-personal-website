@@ -261,6 +261,17 @@
   color: var(--text-secondary);
 }
 
+/* Keep header icons inline with the label — surface-title's 22ch cap wraps long
+   titles on narrow cards and parks the icon on the top-right of that box. */
+.widget-header .widget-sublabel.surface-title {
+  max-width: none;
+  width: 100%;
+}
+
+.widget-header .widget-sublabel.surface-title > [class*="phosphorIcon"] {
+  flex-shrink: 0;
+}
+
 .widget-caption {
   margin: 0;
   max-width: 42ch;
