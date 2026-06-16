@@ -257,7 +257,8 @@ function onTrackWheel(event: WheelEvent): void {
   if (limit <= 4 || !hasHorizontalWheelIntent(event)) return;
 
   const delta =
-    Math.abs(event.deltaX) >= DRAG_INTENT_THRESHOLD && Math.abs(event.deltaX) > Math.abs(event.deltaY)
+    Math.abs(event.deltaX) >= DRAG_INTENT_THRESHOLD &&
+    Math.abs(event.deltaX) > Math.abs(event.deltaY)
       ? event.deltaX
       : event.deltaY;
   if (Math.abs(delta) < 0.5) return;

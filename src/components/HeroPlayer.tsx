@@ -71,9 +71,7 @@ function StaticFallback({ isMobile }: { isMobile: boolean }) {
 export default function HeroPlayer() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(readReducedMotionPreference);
   const [isMobile, setIsMobile] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia(MOBILE_SHELL_MEDIA_QUERY).matches,
+    () => typeof window !== "undefined" && window.matchMedia(MOBILE_SHELL_MEDIA_QUERY).matches,
   );
   const playerRef = useRef<PlayerRef>(null);
 

@@ -1,10 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const heroPlayerSource = readFileSync(
-  join(process.cwd(), "src/components/HeroPlayer.tsx"),
-  "utf8",
-);
+const heroPlayerSource = readFileSync(join(process.cwd(), "src/components/HeroPlayer.tsx"), "utf8");
 const materialsCss = readFileSync(join(process.cwd(), "src/styles/tokens/materials.css"), "utf8");
 const shellViewportSource = readFileSync(
   join(process.cwd(), "src/lib/navigation/shell-viewport.ts"),
@@ -28,9 +25,7 @@ describe("hero final-frame hold", () => {
   test("ended handler pauses without re-seeking to avoid seekTo recursion", () => {
     expect(heroPlayerSource).toMatch(/addEventListener\("ended"/);
     expect(heroPlayerSource).toMatch(/moveToBeginningWhenEnded=\{false\}/);
-    expect(heroPlayerSource).not.toMatch(
-      /holdFinalFrame[\s\S]*seekTo\(DURATION_FRAMES - 1\)/,
-    );
+    expect(heroPlayerSource).not.toMatch(/holdFinalFrame[\s\S]*seekTo\(DURATION_FRAMES - 1\)/);
   });
 });
 

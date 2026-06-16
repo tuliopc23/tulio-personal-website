@@ -203,7 +203,8 @@ body[data-sidebar-state="open"] .topbar__menu svg {
   }
 
   .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:hover::after,
-  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden])) .topbar__navLink:focus-visible::after {
+  .topbar__navShell:has([data-topbar-tab-indicator]:not([hidden]))
+    .topbar__navLink:focus-visible::after {
     opacity: 0;
     transform: scaleX(0.2);
   }

@@ -66,60 +66,30 @@ function setupHeroScrollIndicator(): void {
 
   if (scrollLine) {
     gsap.set(scrollLine, { scaleY: 0, opacity: 1, transformOrigin: "top center" });
-    scrubTween(
-      scrollLine,
-      { scaleY: 1, opacity: 0 },
-      hero,
-      "start start",
-      "end start",
-    );
+    scrubTween(scrollLine, { scaleY: 1, opacity: 0 }, hero, "start start", "end start");
   }
 
   if (scrollLabel) {
     gsap.set(scrollLabel, { opacity: 1, y: 0 });
-    scrubTween(
-      scrollLabel,
-      { opacity: 0, y: -12 },
-      hero,
-      "start start",
-      "30% start",
-    );
+    scrubTween(scrollLabel, { opacity: 0, y: -12 }, hero, "start start", "30% start");
   }
 
   if (!narrow) {
     const player = hero.querySelector<HTMLElement>(".hero-remotion__player");
     if (player) {
       gsap.set(player, { opacity: 1, y: 0, scale: 1 });
-      scrubTween(
-        player,
-        { opacity: 0.3, y: -40, scale: 0.97 },
-        hero,
-        "start start",
-        "end start",
-      );
+      scrubTween(player, { opacity: 0.3, y: -40, scale: 0.97 }, hero, "start start", "end start");
     }
   }
 
   const heroBridge = document.querySelector<HTMLElement>(".homepage-stage--hero-bridge");
   if (heroBridge) {
     gsap.set(heroBridge, { opacity: 0.86, y: 10 });
-    scrubTween(
-      heroBridge,
-      { opacity: 1, y: 0 },
-      hero,
-      "55% start",
-      "end start",
-    );
+    scrubTween(heroBridge, { opacity: 1, y: 0 }, hero, "55% start", "end start");
   }
 
   gsap.set(hero, { "--hero-feather-opacity": 0.72 });
-  scrubTween(
-    hero,
-    { "--hero-feather-opacity": 1 },
-    hero,
-    "start start",
-    "end start",
-  );
+  scrubTween(hero, { "--hero-feather-opacity": 1 }, hero, "start start", "end start");
 
   scheduleScrollTriggerRefresh("settled");
 }

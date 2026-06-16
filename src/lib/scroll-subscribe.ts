@@ -81,7 +81,9 @@ export function scrollToY(
   options?: { immediate?: boolean; behavior?: ScrollBehavior },
 ): void {
   if (lenisInstance) {
-    lenisInstance.scrollTo(target, { immediate: options?.immediate ?? options?.behavior === "auto" });
+    lenisInstance.scrollTo(target, {
+      immediate: options?.immediate ?? options?.behavior === "auto",
+    });
     return;
   }
 

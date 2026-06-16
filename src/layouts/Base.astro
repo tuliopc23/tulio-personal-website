@@ -592,24 +592,36 @@ const sidebarSocialLinks = [
             <div class="footer__newsletter">
               <NewsletterSignup variant="compact" source="footer" />
             </div>
-            <div class="footer__about">
-              <p class="footer__eyebrow">Elsewhere</p>
-              <p class="footer__title">
-                <span class="footer__titleRow">
-                  Tulio Cunha
-                  <BrandLogo size={20} class="footer__icon" variant="bare" />
-                </span>
-              </p>
-              <p class="footer__copy">
-                Full stack developer. Native apps, web systems, backend services, and the glue between them.
-              </p>
-            </div>
-            <div class="footer__actions">
+            <div class="footer__body">
+              <div class="footer__about">
+                <p class="footer__eyebrow">Elsewhere</p>
+                <p class="footer__title">
+                  <span class="footer__titleRow">
+                    Tulio Cunha
+                    <BrandLogo size={20} class="footer__icon" variant="bare" />
+                  </span>
+                </p>
+                <p class="footer__copy">
+                  Full stack developer. Native apps, web systems, backend services, and the glue between them.
+                </p>
+              </div>
               <nav class="footer__links" aria-label="Footer links">
-                <a href="/projects/">View case studies</a>
-                <a href="/blog/">Read the blog</a>
-                <a href="/about/">About Tulio</a>
-                <a href={SITE_CONTACT_MAILTO_URL}>Email Tulio</a>
+                <a class="footer__link" href="/projects/">
+                  <PhosphorIcon name="briefcase" size={15} weight="regular" />
+                  <span>Case studies</span>
+                </a>
+                <a class="footer__link" href="/blog/">
+                  <PhosphorIcon name="article" size={15} weight="regular" />
+                  <span>Blog</span>
+                </a>
+                <a class="footer__link" href="/about/">
+                  <PhosphorIcon name="user" size={15} weight="regular" />
+                  <span>About</span>
+                </a>
+                <a class="footer__link" href={SITE_CONTACT_MAILTO_URL}>
+                  <PhosphorIcon name="envelope-simple" size={15} weight="regular" />
+                  <span>Email</span>
+                </a>
               </nav>
             </div>
             <div class="footer__meta">

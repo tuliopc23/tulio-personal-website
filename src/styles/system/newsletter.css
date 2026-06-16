@@ -92,7 +92,7 @@
 
 .newsletterSignup--compact {
   gap: var(--space-xs);
-  padding: clamp(12px, 2.5vw, 18px);
+  padding: clamp(8px, 1.5vw, 12px) 0;
 }
 
 .newsletterSignup--compact .newsletterSignup__title {
