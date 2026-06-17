@@ -2,7 +2,7 @@
 .hero-remotion {
   position: relative;
   width: 100vw;
-  max-width: 100%;
+  max-width: none;
   margin-inline: calc(50% - 50vw);
   height: 100vh;
   overflow: hidden;

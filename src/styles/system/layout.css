@@ -94,7 +94,7 @@ body[data-has-sidebar="false"] .content {
 }
 
 /* Hero breaks out of content constraints for full-bleed */
-.content > .hero-remotion {
+.content__main > .hero-remotion {
   max-width: none;
   margin-inline: calc(50% - 50vw);
 }

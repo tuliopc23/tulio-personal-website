@@ -3,6 +3,8 @@ import { join } from "node:path";
 
 const heroPlayerSource = readFileSync(join(process.cwd(), "src/components/HeroPlayer.tsx"), "utf8");
 const materialsCss = readFileSync(join(process.cwd(), "src/styles/tokens/materials.css"), "utf8");
+const surfacesCss = readFileSync(join(process.cwd(), "src/styles/system/surfaces.css"), "utf8");
+const layoutCss = readFileSync(join(process.cwd(), "src/styles/system/layout.css"), "utf8");
 const shellViewportSource = readFileSync(
   join(process.cwd(), "src/lib/navigation/shell-viewport.ts"),
   "utf8",
@@ -26,6 +28,19 @@ describe("hero final-frame hold", () => {
     expect(heroPlayerSource).toMatch(/addEventListener\("ended"/);
     expect(heroPlayerSource).toMatch(/moveToBeginningWhenEnded=\{false\}/);
     expect(heroPlayerSource).not.toMatch(/holdFinalFrame[\s\S]*seekTo\(DURATION_FRAMES - 1\)/);
+  });
+});
+
+describe("hero desktop full-bleed breakout", () => {
+  test("hero-remotion spans viewport without max-width cap", () => {
+    const heroRootRule = surfacesCss.match(/\.hero-remotion\s*\{[^}]*\}/)?.[0] ?? "";
+    expect(heroRootRule).toMatch(/max-width:\s*none/);
+    expect(heroRootRule).not.toMatch(/max-width:\s*100%/);
+  });
+
+  test("layout breakout rule targets content__main child", () => {
+    expect(layoutCss).toMatch(/\.content__main\s*>\s*\.hero-remotion/);
+    expect(layoutCss).not.toMatch(/\.content\s*>\s*\.hero-remotion/);
   });
 });
 
