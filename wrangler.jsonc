@@ -3,7 +3,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "tulio-personal-website",
-  "account_id": "e328c1497ae7e9a61aea8ca119af439d",
+  "account_id": "5d145cbfe0763e30463d78ee91715631",
   "compatibility_date": "2026-03-14",
   "compatibility_flags": ["nodejs_compat"],
   "main": "@astrojs/cloudflare/entrypoints/server",
@@ -18,12 +18,7 @@
   "images": {
     "binding": "IMAGES",
   },
-  "routes": [
-    {
-      "pattern": "tuliocunha.dev",
-      "custom_domain": true,
-    },
-  ],
+  "workers_dev": true,
   "observability": {
     "enabled": true,
     "logs": {
@@ -43,11 +38,11 @@
   "kv_namespaces": [
     {
       "binding": "CACHE",
-      "id": "1221f2bea79645358e6520d4dde58727",
+      "id": "f32c23fa6f0d4a53a4a70527d96607be",
     },
     {
       "binding": "NEWSLETTER",
-      "id": "837fdeb112f44eb981d53184d77916a7",
+      "id": "ed7d9551267045aaadfe24d20c8b13cb",
     },
   ],
 }
