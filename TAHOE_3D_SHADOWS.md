@@ -25,27 +25,29 @@ Your cards and brand icons now have **DRAMATIC 3D elevation** matching macOS Tah
 ### Phase 2: MASSIVE Opacity Increase
 
 **Cards - Resting State:**
-| Layer | Before | After | Change |
-|-------|--------|-------|--------|
-| Border ring | 0.08 | **0.12** | +50% |
-| Inset highlight | (none) | **0.08** | NEW! |
-| Contact | 0.16 | **0.22** | +37% |
-| Near | 0.14 | **0.20** | +43% |
-| Mid | 0.12 | **0.18** | +50% |
-| Far | 0.10 | **0.14** | +40% |
-| Ambient | 0.08 | **0.12** | +50% |
+
+| Layer           | Before | After    | Change |
+| --------------- | ------ | -------- | ------ |
+| Border ring     | 0.08   | **0.12** | +50%   |
+| Inset highlight | (none) | **0.08** | NEW!   |
+| Contact         | 0.16   | **0.22** | +37%   |
+| Near            | 0.14   | **0.20** | +43%   |
+| Mid             | 0.12   | **0.18** | +50%   |
+| Far             | 0.10   | **0.14** | +40%   |
+| Ambient         | 0.08   | **0.12** | +50%   |
 
 **Cards - Hover State (DRAMATIC!):**
-| Layer | Before | After | Change |
-|-------|--------|-------|--------|
-| Border ring | 0.12 | **0.16** | +33% |
-| Inset highlight | (none) | **0.12** | NEW! |
-| Contact | 0.20 | **0.28** | +40% 🔥 |
-| Near | 0.18 | **0.24** | +33% |
-| Mid | 0.16 | **0.22** | +37% |
-| Far | 0.14 | **0.18** | +29% |
-| Ambient | 0.10 | **0.14** | +40% |
-| Spread | 96px | **128px** | +33% 🔥 |
+
+| Layer           | Before | After     | Change  |
+| --------------- | ------ | --------- | ------- |
+| Border ring     | 0.12   | **0.16**  | +33%    |
+| Inset highlight | (none) | **0.12**  | NEW!    |
+| Contact         | 0.20   | **0.28**  | +40% 🔥 |
+| Near            | 0.18   | **0.24**  | +33%    |
+| Mid             | 0.16   | **0.22**  | +37%    |
+| Far             | 0.14   | **0.18**  | +29%    |
+| Ambient         | 0.10   | **0.14**  | +40%    |
+| Spread          | 96px   | **128px** | +33% 🔥 |
 
 ### Phase 3: Split Lighting for Brand Icons
 

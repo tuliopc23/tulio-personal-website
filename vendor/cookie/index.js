@@ -9,8 +9,7 @@ export function parse(str, options = {}) {
   }
 
   const obj = {};
-  const decode =
-    typeof options.decode === "function" ? options.decode : decodeURIComponent;
+  const decode = typeof options.decode === "function" ? options.decode : decodeURIComponent;
 
   const pairs = str.split(/; */);
   for (const pair of pairs) {
@@ -44,8 +43,7 @@ export function serialize(name, val, options = {}) {
     throw new TypeError("cookie.serialize: invalid name");
   }
 
-  const encode =
-    typeof options.encode === "function" ? options.encode : encodeCookieValue;
+  const encode = typeof options.encode === "function" ? options.encode : encodeCookieValue;
   const value = encode(String(val));
 
   if (!fieldContentRegExp.test(value)) {
@@ -56,8 +54,7 @@ export function serialize(name, val, options = {}) {
 
   if (options.maxAge != null) {
     const maxAge = Math.floor(Number(options.maxAge));
-    if (!Number.isFinite(maxAge))
-      throw new TypeError("cookie.serialize: invalid maxAge");
+    if (!Number.isFinite(maxAge)) throw new TypeError("cookie.serialize: invalid maxAge");
     str += `; Max-Age=${maxAge}`;
   }
 
@@ -74,12 +71,8 @@ export function serialize(name, val, options = {}) {
   }
 
   if (options.expires) {
-    const expires =
-      options.expires instanceof Date
-        ? options.expires
-        : new Date(options.expires);
-    if (Number.isNaN(expires.valueOf()))
-      throw new TypeError("cookie.serialize: invalid expires");
+    const expires = options.expires instanceof Date ? options.expires : new Date(options.expires);
+    if (Number.isNaN(expires.valueOf())) throw new TypeError("cookie.serialize: invalid expires");
     str += `; Expires=${expires.toUTCString()}`;
   }
 

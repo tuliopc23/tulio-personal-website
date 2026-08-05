@@ -107,10 +107,10 @@ series: ""
 ---
 
 <Lede>
-  You open a notes app on your MacBook. The list appears immediately. You edit a
-  sentence on the train, offline. Later, on your iPhone, the same note is
-  there—without a custom backend, without a loading spinner that waits on the
-  network, and without treating the phone as a thin client of a remote database.
+  You open a notes app on your MacBook. The list appears immediately. You edit a sentence on the
+  train, offline. Later, on your iPhone, the same note is there—without a custom backend, without a
+  loading spinner that waits on the network, and without treating the phone as a thin client of a
+  remote database.
 </Lede>
 
 That product shape is familiar. Getting there with a clean architecture is not.
@@ -162,8 +162,7 @@ Point-Free's [SQLiteData](https://github.com/pointfreeco/sqlite-data) is an impo
 That engine choice is the heart of the story.
 
 <PullQuote>
-  The interesting question in native persistence is no longer whether SQLite is
-  good. It is.
+  The interesting question in native persistence is no longer whether SQLite is good. It is.
 </PullQuote>
 
 <SectionDivider n="03" label="The engine identity" />
@@ -212,10 +211,9 @@ In short:
 > **BoutiqueDB** is the Swift framework that makes that engine usable in macOS and iOS apps.
 
 <Callout tone="important" title="Do not conflate the layers">
-  BoutiqueDB embeds Turso Database via the sdk-kit C ABI. It does not pretend to
-  be a drop-in libsqlite3 or GRDB replacement. That distinction is the reason it
-  can use CDC, `BEGIN CONCURRENT`, and custom index methods without fighting the
-  stock SQLite surface.
+  BoutiqueDB embeds Turso Database via the sdk-kit C ABI. It does not pretend to be a drop-in
+  libsqlite3 or GRDB replacement. That distinction is the reason it can use CDC, `BEGIN CONCURRENT`,
+  and custom index methods without fighting the stock SQLite surface.
 </Callout>
 
 ## Why not just put Turso under GRDB or SQLiteData?
@@ -377,9 +375,8 @@ Two design details matter:
 That is not marketing gloss. It is the framework choosing correctness over a prettier concurrency story.
 
 <KeyTakeaway>
-  CDC makes observation and sync tractable without SQLite change hooks. It also
-  means a change log that must be drained and a careful separation between CDC
-  capture and MVCC on the same connection.
+  CDC makes observation and sync tractable without SQLite change hooks. It also means a change log
+  that must be drained and a careful separation between CDC capture and MVCC on the same connection.
 </KeyTakeaway>
 
 <SectionDivider n="07" label="Concrete comparisons" />
@@ -390,16 +387,15 @@ That is not marketing gloss. It is the framework choosing correctness over a pre
 
 <Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
   <div slot="left">
-    Writes rows with a wrapper, then chooses an observation strategy: fetched
-    results controllers, manual `NotificationCenter` posts, GRDB
-    `ValueObservation`, SwiftData `@Query`, or “reload on `onAppear`.” Each
-    works, but the mechanism is often framework-specific and may not extend
+    Writes rows with a wrapper, then chooses an observation strategy: fetched results controllers,
+    manual `NotificationCenter` posts, GRDB `ValueObservation`, SwiftData `@Query`, or “reload on
+    `onAppear`.” Each works, but the mechanism is often framework-specific and may not extend
     cleanly to extensions or inbound sync.
   </div>
   <div slot="right">
-    Writes land in a local Turso database with CDC enabled. `@LiveQuery` listens
-    to generation/change events from `TursoStore`. The same change log can also
-    feed sync, so the UI does not need to know why a row changed.
+    Writes land in a local Turso database with CDC enabled. `@LiveQuery` listens to
+    generation/change events from `TursoStore`. The same change log can also feed sync, so the UI
+    does not need to know why a row changed.
   </div>
 </Compare>
 
@@ -407,39 +403,36 @@ That is not marketing gloss. It is the framework choosing correctness over a pre
 
 <Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
   <div slot="left">
-    Local SQLite is excellent on one device. Multi-device usually means rolling
-    your own API + auth + conflict protocol, adopting a BaaS and mapping objects
-    twice, or using CloudKit directly and building record mapping, zone
-    handling, and apply/drain logic yourself.
+    Local SQLite is excellent on one device. Multi-device usually means rolling your own API + auth
+    + conflict protocol, adopting a BaaS and mapping objects twice, or using CloudKit directly and
+    building record mapping, zone handling, and apply/drain logic yourself.
   </div>
   <div slot="right">
-    The local database remains primary. BoutiqueDB's CloudKit adapter drains CDC
-    into `CKSyncEngine` and applies remote records back locally. Conflict policy
-    is explicit (`serverWins`, `clientWins`, or field-based last-writer-wins).
-    Account changes preserve local rows and reset sync metadata.
+    The local database remains primary. BoutiqueDB's CloudKit adapter drains CDC into `CKSyncEngine`
+    and applies remote records back locally. Conflict policy is explicit (`serverWins`,
+    `clientWins`, or field-based last-writer-wins). Account changes preserve local rows and reset
+    sync metadata.
   </div>
 </Compare>
 
 <Callout tone="important" title="What this is not">
-  This is private CloudKit sync, currently documented as beta and
-  offline-tested. It is not Turso Cloud embedded replicas, and it is not yet a
-  claim of production-proven multi-device validation in every environment.
+  This is private CloudKit sync, currently documented as beta and offline-tested. It is not Turso
+  Cloud embedded replicas, and it is not yet a claim of production-proven multi-device validation in
+  every environment.
 </Callout>
 
 ### 3) Full-text search that lives next to your rows
 
 <Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
   <div slot="left">
-    You either use FTS5 and accept its ranking characteristics, or stand up an
-    external search index. External search means dual writes, lag, and another
-    failure domain.
+    You either use FTS5 and accept its ranking characteristics, or stand up an external search
+    index. External search means dual writes, lag, and another failure domain.
   </div>
   <div slot="right">
-    With the `index_method` feature enabled, Turso can create FTS indexes using
-    its Tantivy-powered path. BoutiqueDB exposes helpers such as `match`,
-    `score`, and `highlight`, plus optional `@FTSIndex` macro support.
-    Capability probes tell the app whether the running engine build supports the
-    feature.
+    With the `index_method` feature enabled, Turso can create FTS indexes using its Tantivy-powered
+    path. BoutiqueDB exposes helpers such as `match`, `score`, and `highlight`, plus optional
+    `@FTSIndex` macro support. Capability probes tell the app whether the running engine build
+    supports the feature.
   </div>
 </Compare>
 
@@ -447,15 +440,13 @@ That is not marketing gloss. It is the framework choosing correctness over a pre
 
 <Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
   <div slot="left">
-    Vector search usually means an extension, a separate vector database, or a
-    cloud API round trip. Packaging native extensions for every Apple slice is
-    its own project.
+    Vector search usually means an extension, a separate vector database, or a cloud API round trip.
+    Packaging native extensions for every Apple slice is its own project.
   </div>
   <div slot="right">
-    BoutiqueDB includes first-class `Vector32` / `Vector32Sparse` value types
-    and distance helpers (`vectorDistanceCos`, `vectorDistanceL2`, and others).
-    Vector index DDL is available when the engine reports support. Embeddings
-    can sit beside the documents they describe.
+    BoutiqueDB includes first-class `Vector32` / `Vector32Sparse` value types and distance helpers
+    (`vectorDistanceCos`, `vectorDistanceL2`, and others). Vector index DDL is available when the
+    engine reports support. Embeddings can sit beside the documents they describe.
   </div>
 </Compare>
 
@@ -463,14 +454,13 @@ That is not marketing gloss. It is the framework choosing correctness over a pre
 
 <Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
   <div slot="left">
-    App Groups can share a SQLite file, but multi-process writers demand careful
-    WAL/locking discipline and often custom coordination.
+    App Groups can share a SQLite file, but multi-process writers demand careful WAL/locking
+    discipline and often custom coordination.
   </div>
   <div slot="right">
-    BoutiqueDB can open with `multiProcess: true`, mapping to Turso's
-    `multiprocess_wal` experimental token. This is intended for App Group
-    scenarios. It is opt-in and still subject to upstream experimental
-    stability.
+    BoutiqueDB can open with `multiProcess: true`, mapping to Turso's `multiprocess_wal`
+    experimental token. This is intended for App Group scenarios. It is opt-in and still subject to
+    upstream experimental stability.
   </div>
 </Compare>
 

@@ -4,8 +4,12 @@ import { dirname, join } from "node:path";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const brandIconsPath = join(root, "src/components/brand-icons.ts");
-const logos = JSON.parse(readFileSync(join(root, "node_modules/@iconify-json/logos/icons.json"), "utf8"));
-const simpleIcons = JSON.parse(readFileSync(join(root, "node_modules/@iconify-json/simple-icons/icons.json"), "utf8"));
+const logos = JSON.parse(
+  readFileSync(join(root, "node_modules/@iconify-json/logos/icons.json"), "utf8"),
+);
+const simpleIcons = JSON.parse(
+  readFileSync(join(root, "node_modules/@iconify-json/simple-icons/icons.json"), "utf8"),
+);
 
 const source = readFileSync(brandIconsPath, "utf8");
 const identifiers = new Set(["simple-icons:sparkle"]);
