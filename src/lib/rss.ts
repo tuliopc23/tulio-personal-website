@@ -15,7 +15,7 @@ const FEED_TITLE = "Tulio Cunha — Blog";
 const FEED_DESCRIPTION =
   "Programming essays on Apple platforms, web development, backend systems, and developer tooling.";
 const FEED_LANGUAGE = "en-us";
-const CONTACT_EMAIL = "contact@tuliocunha.dev";
+const CONTACT_EMAIL = "tuliopinheiroc23@icloud.com";
 
 function escapeHtml(value: string) {
   return value

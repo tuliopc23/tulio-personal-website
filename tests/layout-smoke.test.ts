@@ -41,7 +41,7 @@ describe("shared layout smoke", () => {
     () => {
       const html = readBuiltHtml("contact", "index.html");
       expect(html).toContain("Reach out. Email preferred.");
-      expect(html).toMatch(/<a[^>]*href="mailto:contact@tuliocunha\.dev"[^>]*>[\s\S]*?Contact/);
+      expect(html).toMatch(/<a[^>]*href="mailto:tuliopinheiroc23@icloud\\.com"[^>]*>[\s\S]*?Contact/);
     },
   );
 

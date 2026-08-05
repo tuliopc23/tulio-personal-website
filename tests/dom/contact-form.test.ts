@@ -32,7 +32,7 @@ describe("contact form script", () => {
     form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
 
     expect(assignSpy).toHaveBeenCalledWith(
-      expect.stringContaining("mailto:contact@tuliocunha.dev?subject=Need%20help"),
+      expect.stringContaining("mailto:tuliopinheiroc23@icloud.com?subject=Need%20help"),
     );
     expect(assignSpy).toHaveBeenCalledWith(expect.stringContaining("Shipping%20an%20Astro%20site"));
     expect(status.dataset.kind).toBe("pending");
@@ -41,7 +41,7 @@ describe("contact form script", () => {
     vi.advanceTimersByTime(1800);
     expect(status.dataset.kind).toBe("fallback");
     expect(status.querySelector("[data-contact-copy]")).toBeTruthy();
-    expect(status.textContent).toContain("contact@tuliocunha.dev");
+    expect(status.textContent).toContain("tuliopinheiroc23@icloud.com");
   });
 
   test("copy button writes email to clipboard", async () => {
@@ -71,6 +71,6 @@ describe("contact form script", () => {
     copyButton.click();
 
     await Promise.resolve();
-    expect(writeText).toHaveBeenCalledWith("contact@tuliocunha.dev");
+    expect(writeText).toHaveBeenCalledWith("tuliopinheiroc23@icloud.com");
   });
 });

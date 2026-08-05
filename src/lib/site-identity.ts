@@ -2,7 +2,7 @@
  * Canonical public profile URLs — single source of truth for rel="me",
  * footer, profile card, JSON-LD sameAs, and structured data.
  */
-export const SITE_CONTACT_EMAIL = "contact@tuliocunha.dev";
+export const SITE_CONTACT_EMAIL = "tuliopinheiroc23@icloud.com";
 export const SITE_CONTACT_MAILTO_URL = `mailto:${SITE_CONTACT_EMAIL}`;
 
 export const SITE_GITHUB_PROFILE_URL = "https://github.com/tuliopc23";

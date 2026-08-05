@@ -1,4 +1,4 @@
-const CONTACT_EMAIL = "contact@tuliocunha.dev";
+const CONTACT_EMAIL = "tuliopinheiroc23@icloud.com";
 const FALLBACK_DELAY_MS = 1800;
 
 type ContactStatusKind = "idle" | "pending" | "fallback";
