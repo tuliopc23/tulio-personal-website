@@ -34,8 +34,11 @@ furtherReading:
     href: https://github.com/tuliopc23/BoutiqueDB-Swift
     note: Source code and in-repo docs.
   - title: BoutiqueDB documentation
+    href: https://boutiquedb.minflify.app
+    note: Public docs and guides.
+  - title: BoutiqueDB docs on GitHub
     href: https://github.com/tuliopc23/BoutiqueDB-Swift/tree/main/docs
-    note: Design notes and API docs.
+    note: Design notes and API docs in the repo.
   - title: Turso Database on GitHub
     href: https://github.com/tursodatabase/turso
     note: The Rust engine BoutiqueDB embeds.
@@ -82,6 +85,11 @@ sourceReferences:
     sourceType: repository
     author: pointfreeco
     capturedExcerpt: Type-safe SQL driver used by BoutiqueDB's StructuredQueriesTurso.
+  - title: BoutiqueDB documentation
+    url: https://boutiquedb.minflify.app
+    sourceType: documentation
+    author: tuliopc23
+    capturedExcerpt: Public docs and guides for the BoutiqueDB Swift framework.
 distributionPackage:
   newsletterBlurb: "BoutiqueDB is a new Swift framework that embeds the Turso Database engine for local-first macOS and iOS apps. It is built around CDC-backed live queries, structured queries, and an optional CloudKit private sync layer."
   shortSocialPost: "BoutiqueDB: a Swift local-first persistence framework built on the Turso Database engine, with CDC live queries and CloudKit sync."
@@ -584,12 +592,17 @@ BoutiqueDB is an answer to that question from the Apple side of the ecosystem: *
 
 If you are building a macOS or iOS app that should feel instant when offline, coherent when data changes, and continuous across devices without forcing every interaction through a network hop, it is a framework worth studying—and, if the boundaries match your product, worth dogfooding while it hardens.
 
-## Further reading
+<SectionDivider n="13" label="Assets and sources" />
 
-- [BoutiqueDB-Swift repository](https://github.com/tuliopc23/BoutiqueDB-Swift)
-- [BoutiqueDB documentation (in-repo `docs/`)](https://github.com/tuliopc23/BoutiqueDB-Swift/tree/main/docs)
-- [Turso Database (engine) on GitHub](https://github.com/tursodatabase/turso)
-- [libSQL documentation](https://docs.turso.tech/libsql)
-- [Turso embedded replicas](https://docs.turso.tech/features/embedded-replicas/introduction)
-- [Point-Free SQLiteData](https://github.com/pointfreeco/sqlite-data)
-- [swift-structured-queries](https://github.com/pointfreeco/swift-structured-queries)
+## Assets and sources
+
+The BoutiqueDB project is open source. The public documentation lives at [boutiquedb.minflify.app](https://boutiquedb.minflify.app), and the source code, design notes, and in-repo docs are on GitHub.
+
+- [BoutiqueDB-Swift repository](https://github.com/tuliopc23/BoutiqueDB-Swift) — source code, README, CHANGELOG, and in-repo design docs.
+- [BoutiqueDB documentation site](https://boutiquedb.minflify.app) — public docs and guides.
+- [BoutiqueDB documentation on GitHub](https://github.com/tuliopc23/BoutiqueDB-Swift/tree/main/docs) — source for the docs and design notes.
+- [Turso Database (engine) on GitHub](https://github.com/tursodatabase/turso) — the Rust engine BoutiqueDB embeds.
+- [libSQL documentation](https://docs.turso.tech/libsql) — context on libSQL versus Turso Database.
+- [Turso embedded replicas](https://docs.turso.tech/features/embedded-replicas/introduction) — future sync-relevant context.
+- [Point-Free SQLiteData](https://github.com/pointfreeco/sqlite-data) — ergonomic reference for a different engine stack.
+- [swift-structured-queries](https://github.com/pointfreeco/swift-structured-queries) — the query-library foundation used by BoutiqueDB.
