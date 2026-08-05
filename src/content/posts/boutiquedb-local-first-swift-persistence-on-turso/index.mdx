@@ -1,0 +1,605 @@
+---
+title: "BoutiqueDB: Local-First Swift Persistence on Turso"
+slug: boutiquedb-local-first-swift-persistence-on-turso
+publishedAt: 2026-08-04T00:00:00.000Z
+summary: "How a Swift framework turns Turso's engine capabilities into a coherent model for macOS and iOS apps."
+tags:
+  - Swift
+  - Turso
+  - SQLite
+  - Databases
+  - Local-first
+  - CloudKit
+  - iOS
+  - macOS
+featured: false
+coverVariant: cinematic
+categorySlugs:
+  - software-development
+topicSlugs: []
+seriesSlugs: []
+keyTakeaways:
+  - BoutiqueDB is a Swift framework for local-first Apple apps that embeds the Turso Database engine, not libSQL or stock SQLite.
+  - The stack uses CDC-backed live queries and an @MainActor container so the UI can observe real database change without polling.
+  - CloudKit private sync is the shipping sync adapter today; Turso Cloud embedded replicas are explicitly future work.
+  - Experimental Turso features—FTS, vector indexes, materialized views, encryption, multi-process WAL—are opt-in and runtime-probed.
+  - The goal is to keep the local database authoritative while making multi-device continuity, search, and on-device embeddings straightforward.
+pullQuotes:
+  - quote: |
+      SQLite is the compatibility baseline. libSQL is Turso's SQLite fork. Turso Database is the Rust engine BoutiqueDB embeds. BoutiqueDB is the Swift framework that makes that engine usable in macOS and iOS apps.
+    attribution: ""
+    sourceUrl: ""
+furtherReading:
+  - title: BoutiqueDB-Swift repository
+    href: https://github.com/tuliopc23/BoutiqueDB-Swift
+    note: Source code and in-repo docs.
+  - title: BoutiqueDB documentation
+    href: https://github.com/tuliopc23/BoutiqueDB-Swift/tree/main/docs
+    note: Design notes and API docs.
+  - title: Turso Database on GitHub
+    href: https://github.com/tursodatabase/turso
+    note: The Rust engine BoutiqueDB embeds.
+  - title: libSQL documentation
+    href: https://docs.turso.tech/libsql
+    note: Context on libSQL versus Turso Database.
+  - title: Turso embedded replicas
+    href: https://docs.turso.tech/features/embedded-replicas/introduction
+    note: Not yet wrapped for the Swift beta, but relevant context.
+  - title: Point-Free SQLiteData
+    href: https://github.com/pointfreeco/sqlite-data
+    note: Ergonomic reference for a different engine stack.
+  - title: swift-structured-queries
+    href: https://github.com/pointfreeco/swift-structured-queries
+    note: The query-library foundation used by BoutiqueDB's StructuredQueriesTurso.
+sourceReferences:
+  - title: BoutiqueDB-Swift repository
+    url: https://github.com/tuliopc23/BoutiqueDB-Swift
+    sourceType: repository
+    author: tuliopc23
+    capturedExcerpt: README, CHANGELOG, design docs, and public Swift sources for the framework.
+  - title: Turso Database
+    url: https://github.com/tursodatabase/turso
+    sourceType: repository
+    author: tursodatabase
+    capturedExcerpt: Open-source Rust engine with CDC, BEGIN CONCURRENT, vector support, and experimental indexing.
+  - title: libSQL documentation
+    url: https://docs.turso.tech/libsql
+    sourceType: documentation
+    author: Turso
+    capturedExcerpt: Describes libSQL as the SQLite fork and points engine work toward Turso Database.
+  - title: Turso embedded replicas
+    url: https://docs.turso.tech/features/embedded-replicas/introduction
+    sourceType: documentation
+    author: Turso
+    capturedExcerpt: Local reads from a replica file with remote primary writes; not the current CloudKit sync path.
+  - title: Point-Free SQLiteData
+    url: https://github.com/pointfreeco/sqlite-data
+    sourceType: repository
+    author: pointfreeco
+    capturedExcerpt: Reference for structured-query ergonomics and CloudKit-oriented sync thinking.
+  - title: swift-structured-queries
+    url: https://github.com/pointfreeco/swift-structured-queries
+    sourceType: repository
+    author: pointfreeco
+    capturedExcerpt: Type-safe SQL driver used by BoutiqueDB's StructuredQueriesTurso.
+distributionPackage:
+  newsletterBlurb: "BoutiqueDB is a new Swift framework that embeds the Turso Database engine for local-first macOS and iOS apps. It is built around CDC-backed live queries, structured queries, and an optional CloudKit private sync layer."
+  shortSocialPost: "BoutiqueDB: a Swift local-first persistence framework built on the Turso Database engine, with CDC live queries and CloudKit sync."
+  longSocialPost: "I wrote about BoutiqueDB, a Swift framework that turns the Turso Database engine into local-first persistence for macOS and iOS apps. It keeps the local store authoritative, feeds UI with CDC-backed live queries, and offers CloudKit private sync without a custom backend. The article also explains why this is not a drop-in GRDB or SQLiteData replacement, and what is ready today versus what remains experimental."
+  teaserQuote: "Local-first, multi-device, search-capable native apps with a single source of truth on the device."
+  ctaLabel: "Read the article"
+seoMetaTitle: "BoutiqueDB: Local-First Swift Persistence on Turso"
+seoMetaDescription: "BoutiqueDB is a beta Swift framework that embeds Turso Database for local-first macOS and iOS apps, adding structured queries, CDC-backed live observation, and optional CloudKit private sync without forcing a custom backend."
+seoCanonicalUrl: ""
+seoNoIndex: false
+seoJsonLd: ""
+authorName: Tulio Cunha
+authorSlug: tulio-cunha
+authorRole: ""
+heroImage: "@assets/images/posts/boutiquedb-local-first-swift-persistence-on-turso.webp"
+heroAlt: "Abstract hero image for the BoutiqueDB article."
+heroCaption: ""
+audience: Swift and iOS/macOS developers evaluating local persistence, sync, and embedded database engines.
+intent: Explain what BoutiqueDB is, why it is built on Turso Database, and where it fits in the Apple local-first persistence landscape.
+targetKeyword: BoutiqueDB
+evergreenStatus: beta-maturity
+series: ""
+---
+
+<Lede>
+  You open a notes app on your MacBook. The list appears immediately. You edit a
+  sentence on the train, offline. Later, on your iPhone, the same note is
+  there—without a custom backend, without a loading spinner that waits on the
+  network, and without treating the phone as a thin client of a remote database.
+</Lede>
+
+That product shape is familiar. Getting there with a clean architecture is not.
+
+For years, native Apple apps have had an excellent answer for the local half of the problem: SQLite. It is fast, durable, embeddable, and battle-tested. The harder part begins when the app also needs multi-device continuity, reactive UI that stays honest after background writes, and engine features that stock SQLite does not provide—full-text search that feels modern, on-device vector similarity, concurrent writers, or change streams that can feed both the UI and a sync layer.
+
+**BoutiqueDB** is a Swift framework built for that intersection. It is local-first persistence for iOS and macOS, powered by the **Turso Database** engine, with a SQLiteData-inspired developer experience, CDC-backed live queries, and optional CloudKit private sync.
+
+It is not “SQLite, but marketed differently.” It is a deliberate stack choice: Turso underneath, Swift-native APIs above, and a clear separation between what is ready today and what remains experimental or future work.
+
+<SectionDivider n="01" label="Why SQLite still matters" />
+
+## Why local SQLite still matters
+
+SQLite remains one of the best default choices for native applications. A database file in the app sandbox means:
+
+- launches that do not depend on connectivity
+- reads and writes at process-local speed
+- a single-file mental model that is easy to back up, inspect, and reason about
+- decades of operational knowledge across the industry
+
+Frameworks such as GRDB, SwiftData/Core Data, and Point-Free's SQLiteData have made that model increasingly ergonomic for Swift developers. For many apps, that is enough.
+
+The conventional SQLite-only architecture starts to feel constrained when product requirements expand in a few specific directions:
+
+1. **Multi-device continuity without owning a server.** You want the user's devices to converge, but you do not want to operate Postgres, design a REST API, and invent conflict rules from scratch.
+2. **Reactive UI that tracks real database change.** Lists and detail screens should refresh when data changes—whether the write came from the current view, a background task, an extension, or an inbound sync apply.
+3. **Search and AI-adjacent workloads inside the same store.** Full-text ranking and embedding similarity are no longer exotic. Shipping them as separate systems increases complexity.
+4. **Write contention under modern concurrency.** Apps increasingly write from multiple tasks. Classic single-writer patterns still work, but they force careful serialization and retry design.
+
+None of this makes SQLite “bad.” It means some apps outgrow a pure local-SQLite-plus-ad-hoc-sync design.
+
+<SectionDivider n="02" label="The idea" />
+
+## The idea behind BoutiqueDB
+
+BoutiqueDB exists because the desirable product architecture is clear, while the existing Swift tooling path was not.
+
+The target experience looks like this:
+
+- The **local database is authoritative** while the user is working.
+- The UI observes queries, not notification spaghetti.
+- Sync is opportunistic and attachable, not the center of the data model.
+- Models are ordinary Swift value types.
+- Advanced engine features are available when needed, without forcing every app to become a database specialist.
+
+Point-Free's [SQLiteData](https://github.com/pointfreeco/sqlite-data) is an important reference point for that ergonomics: structured queries, SwiftUI-friendly observation, and CloudKit-oriented sync thinking. BoutiqueDB deliberately aims at a similar developer experience—**without GRDB**, and on a different engine.
+
+That engine choice is the heart of the story.
+
+<PullQuote>
+  The interesting question in native persistence is no longer whether SQLite is
+  good. It is.
+</PullQuote>
+
+<SectionDivider n="03" label="The engine identity" />
+
+## SQLite, libSQL, Turso Database, BoutiqueDB
+
+These names are easy to blur. They are not the same thing.
+
+### SQLite
+
+The classic embedded database. In-process, serverless, ubiquitous. Excellent for local persistence. Limited built-in story for replication, modern FTS alternatives, native vector workloads, or first-class change-data-capture as an application integration surface.
+
+### libSQL
+
+A **production-ready fork of SQLite** maintained by Turso. It keeps SQLite compatibility while adding capabilities the upstream project has historically been hard to extend—such as server mode and features used by Turso Cloud, including [embedded replicas](https://docs.turso.tech/features/embedded-replicas/introduction). Official Turso documentation describes libSQL as the mature fork path, and points new engine-oriented work toward Turso Database.
+
+### Turso Database
+
+A **ground-up rewrite** of an in-process, SQLite-compatible SQL database, written in Rust. Turso's own materials describe it as reimplementing SQLite semantics with a modern architecture aimed at concurrent writes, async I/O, and high database density. The open-source engine highlights features such as:
+
+- SQLite-compatible SQL and file-oriented usage
+- `BEGIN CONCURRENT` with MVCC
+- change data capture (CDC)
+- vector support
+- experimental full-text search powered by Tantivy
+- experimental encryption, multi-process WAL, and incremental/materialized views
+
+BoutiqueDB's engine monorepo and package docs treat this Rust engine—not libSQL—as the runtime underneath the Swift framework.
+
+### BoutiqueDB
+
+A **Swift abstraction layer** for Apple platforms. It packages:
+
+- a multi-arch `TursoSDK.xcframework` built from Turso's official **sdk-kit** C ABI
+- connection and statement types (`TursoKit`)
+- a structured-query driver (`StructuredQueriesTurso`)
+- CDC observation (`TursoObservation`)
+- CloudKit sync (`TursoCKSync`)
+- a high-level `@MainActor` container, migrations, macros, and live-query wrappers (`BoutiqueDB`)
+
+In short:
+
+> **SQLite** is the compatibility baseline.  
+> **libSQL** is Turso's SQLite fork.  
+> **Turso Database** is the Rust engine BoutiqueDB embeds.  
+> **BoutiqueDB** is the Swift framework that makes that engine usable in macOS and iOS apps.
+
+<Callout tone="important" title="Do not conflate the layers">
+  BoutiqueDB embeds Turso Database via the sdk-kit C ABI. It does not pretend to
+  be a drop-in libsqlite3 or GRDB replacement. That distinction is the reason it
+  can use CDC, `BEGIN CONCURRENT`, and custom index methods without fighting the
+  stock SQLite surface.
+</Callout>
+
+## Why not just put Turso under GRDB or SQLiteData?
+
+This is the practical reason BoutiqueDB exists as its own framework.
+
+Many teams first ask whether Turso can be a drop-in replacement for `libsqlite3` under existing Swift stacks. For basic prepare/step/bind workloads, SQLite compatibility helps. For the Apple frameworks that depend on SQLite's richer C callback surface, it does not.
+
+BoutiqueDB's design notes and surrounding research converge on a hard constraint:
+
+- GRDB observation and SQLiteData-style fetch observation lean on SQLite change hooks.
+- CloudKit sync engines in that ecosystem also assume SQLite extension/UDF behaviors that Turso's compatibility path does not fully provide.
+- Turso's valuable features—CDC tables, MVCC concurrent transactions, custom index methods, materialized views—are engine-native, not “enable a pragma and keep your old stack unchanged.”
+
+So the honest options were:
+
+1. Stay on stock SQLite / GRDB / SQLiteData and forgo Turso-native capabilities.
+2. Build a Swift layer that speaks Turso's real integration surface.
+
+BoutiqueDB chooses (2). It binds the official **sdk-kit** API (`turso.h` / `libturso_sdk_kit`) rather than pretending the old sqlite3-compat path is enough. That decision unlocks open-time feature flags, cooperative async I/O, encryption configuration, and CDC-based observation—while accepting that this is a new framework, not a transparent engine swap.
+
+<SectionDivider n="04" label="Architecture" />
+
+## Architecture: a thin stack with sharp boundaries
+
+BoutiqueDB is intentionally layered.
+
+```text
+SwiftUI / @Observable models
+        │
+        ▼
+BoutiqueDB (@MainActor)
+   ├── DatabaseActor          ← serialized engine I/O
+   ├── TursoStore             ← CDC invalidation / AsyncStream
+   ├── migrations + schema
+   └── SyncAdapter            ← CloudKit today; other transports later
+        │
+        ▼
+TursoKit → CTursoSDK → libturso_sdk_kit (Turso Database)
+```
+
+### What each layer owns
+
+| Layer                      | Responsibility                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| **BoutiqueDB**             | App-facing container: `open`, `read` / `write`, live queries, migrations, sync façade |
+| **TursoKit**               | Database/connection/statement/value types over sdk-kit                                |
+| **StructuredQueriesTurso** | Point-Free `swift-structured-queries` driver, plus FTS/vector helpers                 |
+| **TursoObservation**       | `turso_cdc` listening and generation-based invalidation                               |
+| **TursoCKSync**            | CDC → CloudKit record mapping via `CKSyncEngine`                                      |
+| **BoutiqueDBMacros**       | `@BoutiqueTable`, `@FTSIndex`, `@VectorIndex`, `@MaterializedView`                    |
+
+The concurrency model is modern Swift rather than queue folklore:
+
+- `BoutiqueDB` is `@MainActor`, so SwiftUI can own it safely.
+- Disk and engine work run on a background `DatabaseActor`.
+- Apps pass **Sendable value types** through `read` and `write`.
+- Local commits can notify observers and optionally auto-drain sync.
+
+That is the framework's central promise: keep the UI thread simple, keep the engine isolated, and make change visible.
+
+<SectionDivider n="05" label="Developer experience" />
+
+## The developer experience
+
+A minimal path looks like this.
+
+### 1. Model with ordinary Swift structs
+
+```swift
+import StructuredQueries
+
+@Table
+struct Note: Sendable {
+  @Column(primaryKey: true) let id: UUID
+  var title: String
+  var body: String
+  var updatedAt: Date
+}
+```
+
+### 2. Open with an explicit configuration
+
+```swift
+import BoutiqueDB
+
+let db = try await BoutiqueDB.open(
+  BoutiqueDBConfiguration(
+    url: try BoutiqueDB.applicationSupportURL(),
+    concurrentWrites: true,
+    migrations: AppMigrations.plan
+  )
+)
+```
+
+Default open options use a curated Turso preset (`.tursoEnhanced`) that opts into useful engine features such as views, custom index methods, generated columns, vacuum, and `WITHOUT ROWID` support. Apps that want a minimal surface can pass empty open options instead.
+
+### 3. Read and write through actor-mediated APIs
+
+```swift
+try await db.write { conn in
+  try Note.insert {
+    Note(id: UUID(), title: "Hello", body: "", updatedAt: .now)
+  }.execute(conn.connection)
+}
+
+let notes = try await db.read { conn in
+  try Note.order { $0.updatedAt.desc() }.fetchAll(conn.connection)
+}
+```
+
+### 4. Observe with live queries
+
+```swift
+@ObservationIgnored
+@LiveQuery var notes: [Note]
+
+// in init:
+self._notes = LiveQuery(db) {
+  Note.order { $0.updatedAt.desc() }.asSelect()
+}
+```
+
+`@LiveQuery` and `@LiveQueryOne` subscribe to the database change stream and refresh query results. Local writes invalidate immediately; cross-connection changes are discovered through CDC listening.
+
+### 5. Attach CloudKit when multi-device continuity matters
+
+```swift
+let syncEngine = try BoutiqueDBSyncEngine(
+  db: db,
+  containerIdentifier: "iCloud.com.example.Notes",
+  syncedTables: [try SyncedTable(/* table metadata */)]
+)
+
+syncEngine.attach(to: db, automaticallyDrain: true)
+try await syncEngine.start()
+```
+
+This is private-database, per-user sync built on Apple's `CKSyncEngine`. It is not a generic backend replacement, and the current beta does not include CloudKit sharing or public-database modes.
+
+<SectionDivider n="06" label="Change flow" />
+
+## How change actually flows
+
+Understanding BoutiqueDB is easier if you follow one write through the system.
+
+1. The app calls `db.write { ... }`.
+2. The `DatabaseActor` runs the transaction against the Turso connection.
+3. With CDC enabled, Turso records the mutation in `turso_cdc`.
+4. BoutiqueDB notifies local observers (`TursoStore.invalidate()`), so live queries refresh without waiting for a poll tick.
+5. If a sync engine is attached with auto-drain, the CDC rows are mapped into outbound CloudKit operations.
+6. On other devices, inbound CloudKit changes are applied back into the local database, which again surfaces through observation.
+
+Two design details matter:
+
+- **Observation and sync both consume CDC, but they do not share the same cursor.** UI invalidation is not allowed to advance sync state by accident.
+- **CDC and MVCC are mutually exclusive on the same connection.** BoutiqueDB encodes that engine constraint in API behavior. When CDC is on—the common case for LiveQuery + CloudKit—`writeConcurrent` uses a busy-retry `BEGIN IMMEDIATE` path so changes remain captureable. True `BEGIN CONCURRENT` is available when CDC is disabled.
+
+That is not marketing gloss. It is the framework choosing correctness over a prettier concurrency story.
+
+<KeyTakeaway>
+  CDC makes observation and sync tractable without SQLite change hooks. It also
+  means a change log that must be drained and a careful separation between CDC
+  capture and MVCC on the same connection.
+</KeyTakeaway>
+
+<SectionDivider n="07" label="Concrete comparisons" />
+
+## Concrete comparisons
+
+### 1) Reactive lists in SwiftUI
+
+<Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
+  <div slot="left">
+    Writes rows with a wrapper, then chooses an observation strategy: fetched
+    results controllers, manual `NotificationCenter` posts, GRDB
+    `ValueObservation`, SwiftData `@Query`, or “reload on `onAppear`.” Each
+    works, but the mechanism is often framework-specific and may not extend
+    cleanly to extensions or inbound sync.
+  </div>
+  <div slot="right">
+    Writes land in a local Turso database with CDC enabled. `@LiveQuery` listens
+    to generation/change events from `TursoStore`. The same change log can also
+    feed sync, so the UI does not need to know why a row changed.
+  </div>
+</Compare>
+
+### 2) Multi-device continuity without a custom backend
+
+<Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
+  <div slot="left">
+    Local SQLite is excellent on one device. Multi-device usually means rolling
+    your own API + auth + conflict protocol, adopting a BaaS and mapping objects
+    twice, or using CloudKit directly and building record mapping, zone
+    handling, and apply/drain logic yourself.
+  </div>
+  <div slot="right">
+    The local database remains primary. BoutiqueDB's CloudKit adapter drains CDC
+    into `CKSyncEngine` and applies remote records back locally. Conflict policy
+    is explicit (`serverWins`, `clientWins`, or field-based last-writer-wins).
+    Account changes preserve local rows and reset sync metadata.
+  </div>
+</Compare>
+
+<Callout tone="important" title="What this is not">
+  This is private CloudKit sync, currently documented as beta and
+  offline-tested. It is not Turso Cloud embedded replicas, and it is not yet a
+  claim of production-proven multi-device validation in every environment.
+</Callout>
+
+### 3) Full-text search that lives next to your rows
+
+<Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
+  <div slot="left">
+    You either use FTS5 and accept its ranking characteristics, or stand up an
+    external search index. External search means dual writes, lag, and another
+    failure domain.
+  </div>
+  <div slot="right">
+    With the `index_method` feature enabled, Turso can create FTS indexes using
+    its Tantivy-powered path. BoutiqueDB exposes helpers such as `match`,
+    `score`, and `highlight`, plus optional `@FTSIndex` macro support.
+    Capability probes tell the app whether the running engine build supports the
+    feature.
+  </div>
+</Compare>
+
+### 4) On-device embeddings without a second database
+
+<Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
+  <div slot="left">
+    Vector search usually means an extension, a separate vector database, or a
+    cloud API round trip. Packaging native extensions for every Apple slice is
+    its own project.
+  </div>
+  <div slot="right">
+    BoutiqueDB includes first-class `Vector32` / `Vector32Sparse` value types
+    and distance helpers (`vectorDistanceCos`, `vectorDistanceL2`, and others).
+    Vector index DDL is available when the engine reports support. Embeddings
+    can sit beside the documents they describe.
+  </div>
+</Compare>
+
+### 5) Shared local data across app and extension
+
+<Compare leftTitle="Conventional SQLite" rightTitle="BoutiqueDB + Turso">
+  <div slot="left">
+    App Groups can share a SQLite file, but multi-process writers demand careful
+    WAL/locking discipline and often custom coordination.
+  </div>
+  <div slot="right">
+    BoutiqueDB can open with `multiProcess: true`, mapping to Turso's
+    `multiprocess_wal` experimental token. This is intended for App Group
+    scenarios. It is opt-in and still subject to upstream experimental
+    stability.
+  </div>
+</Compare>
+
+<SectionDivider n="08" label="What it adds" />
+
+## What BoutiqueDB adds beyond “just use Turso”
+
+Embedding a database engine is not a framework.
+
+BoutiqueDB's value is the opinionated Swift shape around the engine:
+
+- **One bootstrap configuration** (`BoutiqueDBConfiguration`) so tests, previews, and production do not silently diverge
+- **Append-only migrations** with transactional application and recorded identifiers
+- **Schema helpers and macros** for Turso-specific table/index/view DDL
+- **LiveQuery property wrappers** integrated with Observation/SwiftUI
+- **Capability probing** so missing experimental features fail clearly
+- **A sync façade** with attach/auto-drain, status streams, and a pluggable `SyncAdapter`
+- **SPI-oriented packaging**: multi-arch xcframework distribution without `unsafeFlags`
+
+The framework is explicit about philosophy:
+
+1. Local-first authority
+2. Type safety without hiding SQL entirely
+3. Explicit migrations and explicit engine flags
+
+That combination is aimed at developers who want control, not at hiding the database behind an opaque object graph.
+
+<SectionDivider n="09" label="Trade-offs" />
+
+## Trade-offs and current boundaries
+
+A credible framework announcement has to say what it is not.
+
+### Maturity
+
+BoutiqueDB is currently in **public beta** territory (package tags such as `0.3.0-beta.1`). Local CRUD, migrations, live queries, and packaging have substantial implementation and tests. CloudKit private sync is implemented and offline-tested, but physical multi-device production-container validation is still a host-app responsibility.
+
+### Not a Turso Cloud embedded-replica client (today)
+
+Turso Cloud's [embedded replicas](https://docs.turso.tech/features/embedded-replicas/introduction) are a powerful model: local reads from a replica file, remote primary writes, periodic sync. BoutiqueDB's current shipping sync path is **CloudKit private sync**, not a bundled Turso Cloud embedded-replica SDK.
+
+The codebase does anticipate a future remote adapter:
+
+- `SyncAdapter` is transport-agnostic
+- docs describe a future Turso Cloud adapter
+- the engine monorepo contains sync protocol machinery
+
+But the beta ships `CloudKitSyncAdapter` only. That distinction matters. Do not read “built on Turso” as “every Turso Cloud deployment mode is already wrapped for Swift.”
+
+### Experimental engine features are experimental
+
+FTS index methods, vector indexes, materialized views, encryption, and multi-process WAL depend on Turso experimental tokens and engine build capabilities. BoutiqueDB defaults to a useful preset, probes at runtime, and documents upstream instability risks. Encryption in particular should be paired with sober key management and backups; host apps still own Keychain and Data Protection strategy.
+
+### CDC has costs
+
+CDC makes observation and sync tractable without sqlite hooks. It also means:
+
+- a change log that must be drained
+- a constraint against casually mixing MVCC on the same capture connection
+- listener implementation details (cooperative polling for external mutations, immediate invalidation for local commits)
+
+### Compatibility is not universality
+
+BoutiqueDB databases are SQLite-compatible in the practical file/SQL sense the engine provides, but the framework is not a drop-in replacement for GRDB or SQLiteData codebases. If your app is deeply invested in those stacks and does not need Turso-native features, staying put can be the correct engineering decision.
+
+### Operational responsibilities remain yours
+
+CloudKit entitlements, push/background modes, container identifiers, schema promotion, privacy manifests, and user-facing account UX are host concerns. BoutiqueDB provides the persistence/sync machinery; it does not pretend to erase Apple platform integration work.
+
+<SectionDivider n="10" label="Who should use it" />
+
+## Who should use BoutiqueDB
+
+**Strong fit**
+
+- macOS/iOS apps that want local-first UX first, sync second
+- teams that like structured Swift queries and value-type models
+- products that may need on-device FTS or vector search in the same store
+- apps that want CloudKit private sync without building record mapping from zero
+- developers willing to work with a beta framework and read capability boundaries carefully
+
+**Weaker fit**
+
+- apps that only need simple local storage and already have a stable GRDB/SwiftData stack
+- teams that require production-proven multi-device sync on day one with no validation work
+- projects that specifically need Turso Cloud embedded replicas or branching workflows immediately in Swift
+- codebases that must remain on stock `libsqlite3` for organizational or tooling reasons
+
+BoutiqueDB is for a class of native apps that want the local database to feel like a product foundation—not a cache of a server model, and not a dead-end silo on one device.
+
+<SectionDivider n="11" label="What this makes possible" />
+
+## What this makes possible
+
+A macOS writer's tool can keep the entire working set local, update the outline view through live queries as background jobs import clippings, and still converge across a laptop and iPhone through private CloudKit when the network returns.
+
+An iOS field app can capture structured records offline, search them on device, and avoid designing a custom sync service before the product has users.
+
+A desktop research app can store documents and embeddings together, run similarity queries locally, and keep the UI coherent because observation is fed by the same change pipeline as persistence.
+
+None of these require abandoning SQL. None require pretending the network is always right. They require a stack that treats **local durability, change capture, Swift concurrency, and optional sync** as one design problem.
+
+That is the progression BoutiqueDB encodes:
+
+1. SQLite taught native apps that local databases are powerful.
+2. Modern product requirements stretched the conventional SQLite-only application model.
+3. Turso Database expanded the in-process design space with CDC, concurrent write modes, and richer indexing features.
+4. BoutiqueDB turns those capabilities into a Swift-native framework for Apple platforms.
+5. The resulting architecture makes local-first, multi-device, search-capable apps more straightforward to build carefully.
+6. The trade-offs remain real: beta maturity, experimental flags, and explicit non-goals around server ownership and unsupported sync modes.
+
+<SectionDivider n="12" label="Closing" />
+
+## Closing
+
+The interesting question in native persistence is no longer whether SQLite is good. It is.
+
+The interesting question is whether your app's source of truth can remain local while still participating in a broader device graph—and whether your Swift code can absorb engine capabilities without collapsing into binding glue and sync edge cases.
+
+BoutiqueDB is an answer to that question from the Apple side of the ecosystem: **Turso Database for the engine, structured Swift APIs for the application, CDC for observation, CloudKit for the first sync adapter, and a clear map of what is ready versus what is still forming.**
+
+If you are building a macOS or iOS app that should feel instant when offline, coherent when data changes, and continuous across devices without forcing every interaction through a network hop, it is a framework worth studying—and, if the boundaries match your product, worth dogfooding while it hardens.
+
+## Further reading
+
+- [BoutiqueDB-Swift repository](https://github.com/tuliopc23/BoutiqueDB-Swift)
+- [BoutiqueDB documentation (in-repo `docs/`)](https://github.com/tuliopc23/BoutiqueDB-Swift/tree/main/docs)
+- [Turso Database (engine) on GitHub](https://github.com/tursodatabase/turso)
+- [libSQL documentation](https://docs.turso.tech/libsql)
+- [Turso embedded replicas](https://docs.turso.tech/features/embedded-replicas/introduction)
+- [Point-Free SQLiteData](https://github.com/pointfreeco/sqlite-data)
+- [swift-structured-queries](https://github.com/pointfreeco/swift-structured-queries)
